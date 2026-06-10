@@ -170,7 +170,7 @@ def build_attio_values(row, company_record_id):
         elif field_type == 'currency':
             num = clean_number(val)
             if num is not None:
-                values[slug] = [{"value": num}]
+                values[slug] = [{"currency_value": num}]
         elif field_type == 'number':
             num = clean_number(val)
             if num is not None:
