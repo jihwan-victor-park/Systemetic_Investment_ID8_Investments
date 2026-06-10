@@ -169,6 +169,19 @@ def find_deal(company_name, series):
     data = resp.json().get("data", [])
     return data[0]["id"]["record_id"] if data else None
 
+def patch_deal_company(deal_record_id, company_record_id):
+    """Patch an existing deal to set associated_company if missing."""
+    requests.patch(
+        f"{ATTIO_API_BASE}/objects/deals/records/{deal_record_id}",
+        headers=attio_headers(),
+        json={"data": {"values": {
+            "associated_company": [{
+                "target_object": "companies",
+                "target_record_id": company_record_id,
+            }]
+        }}},
+    )
+
 def build_attio_values(row, company_record_id):
     """Build the Attio API values dict from a DataFrame row."""
     company_name = str(row.get('Companies', '')).strip()
@@ -213,7 +226,10 @@ def upsert_deal(row, company_record_id):
     company_name = str(row.get('Companies', '')).strip()
     series = str(row.get('Series', '')).strip()
 
-    if find_deal(company_name, series):
+    existing_id = find_deal(company_name, series)
+    if existing_id:
+        if company_record_id:
+            patch_deal_company(existing_id, company_record_id)
         return "skipped"
 
     values = build_attio_values(row, company_record_id)
