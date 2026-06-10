@@ -187,6 +187,7 @@ def build_attio_values(row, company_record_id):
     company_name = str(row.get('Companies', '')).strip()
     values = {
         "name": [{"value": company_name}],
+        "deal_stage": [{"status": "Watchlist"}],
     }
 
     for csv_col, (slug, field_type) in FIELD_MAP.items():
@@ -267,23 +268,29 @@ def process():
     for _, row in df.iterrows():
         website = str(row.get("Company Website", "") or "")
         company_name = str(row.get("Companies", "")).strip()
-        description = str(row.get("Description", "") or "")
+        description = str(row.get("Description", "") or "").strip()
+        if description.lower() in ('nan', 'none', ''):
+            description = ""
         company_id = find_or_create_company(company_name, website, description) if website and website != 'nan' else None
         status = upsert_deal(row.to_dict(), company_id)
 
         if isinstance(status, dict) and status.get("status") == "created":
             results["created"] += 1
+            def clean(val):
+                s = str(val or "").strip()
+                return "" if s.lower() in ("nan", "none") else s
+
             results["deals"].append({
                 "company":        company_name,
-                "series":         str(row.get("Series", "") or ""),
-                "deal_size":      str(row.get("Deal Size", "") or ""),
-                "post_valuation": str(row.get("Post Valuation", "") or ""),
+                "series":         clean(row.get("Series")),
+                "deal_size":      clean(row.get("Deal Size")),
+                "post_valuation": clean(row.get("Post Valuation")),
                 "description":    description,
-                "lead_investors": str(row.get("Lead/Sole Investors", "") or ""),
-                "new_investors":  str(row.get("New Investors", "") or ""),
-                "investors":      str(row.get("Investors", "") or ""),
-                "hq_location":    str(row.get("HQ Location", "") or ""),
-                "deal_date":      str(row.get("Deal Date", "") or ""),
+                "lead_investors": clean(row.get("Lead/Sole Investors")),
+                "new_investors":  clean(row.get("New Investors")),
+                "investors":      clean(row.get("Investors")),
+                "hq_location":    clean(row.get("HQ Location")),
+                "deal_date":      format_date(row.get("Deal Date")) or "",
                 "website":        website,
                 "record_id":      status.get("record_id", ""),
             })
