@@ -123,7 +123,7 @@ def find_or_create_company(company_name, domain, description=None):
         return None
     clean_domain = re.sub(r'^https?://', '', str(domain)).replace('www.', '').strip('/').lower()
 
-    # Try to find existing company
+    # Try to find existing company by domain
     resp = requests.post(
         f"{ATTIO_API_BASE}/objects/companies/records/query",
         headers=attio_headers(),
@@ -133,7 +133,7 @@ def find_or_create_company(company_name, domain, description=None):
     if data:
         return data[0]["id"]["record_id"]
 
-    # Not found — create it with name, domain, and description
+    # Not found — create with name, domain, and description
     company_values = {
         "name": [{"value": company_name}],
         "domains": [{"domain": clean_domain}],
@@ -146,8 +146,10 @@ def find_or_create_company(company_name, domain, description=None):
         headers=attio_headers(),
         json={"data": {"values": company_values}},
     )
-    created = resp.json().get("data", {})
-    return created.get("id", {}).get("record_id")
+    print(f"COMPANY CREATE {company_name}: {resp.status_code} {resp.text[:200]}")
+    if resp.status_code not in (200, 201):
+        return None
+    return resp.json().get("data", {}).get("id", {}).get("record_id")
 
 def find_deal(company_name, series):
     """Return existing deal record_id if this company+series already exists."""
@@ -248,7 +250,7 @@ def process():
     for _, row in df.iterrows():
         website = str(row.get("Company Website", "") or "")
         company_name = str(row.get("Companies", "")).strip()
-        description = row.get("Description", "")
+        description = str(row.get("Description", "") or "")
         company_id = find_or_create_company(company_name, website, description) if website and website != 'nan' else None
         status = upsert_deal(row.to_dict(), company_id)
 
