@@ -209,10 +209,13 @@ def upsert_deal(row, company_record_id):
 
 @app.route("/process", methods=["POST"])
 def process():
-    if "file" not in request.files:
-        return jsonify({"error": "No file. Send as multipart form field 'file'."}), 400
-
-    file_bytes = request.files["file"].read()
+    # Accept either multipart form upload OR raw binary body (n8n Binary File mode)
+    if "file" in request.files:
+        file_bytes = request.files["file"].read()
+    elif request.data:
+        file_bytes = request.data
+    else:
+        return jsonify({"error": "No file received."}), 400
 
     try:
         df = transform_excel(file_bytes)
