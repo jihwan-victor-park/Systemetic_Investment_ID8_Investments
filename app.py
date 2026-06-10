@@ -117,18 +117,37 @@ def transform_excel(file_bytes):
 
 # --- Attio API ----------------------------------------------------------------
 
-def find_company_by_domain(domain):
-    """Return Attio company record_id matched by domain, or None."""
-    if not domain:
+def find_or_create_company(company_name, domain, description=None):
+    """Find company by domain; create it if not found. Returns record_id or None."""
+    if not domain or domain == 'nan':
         return None
-    domain = re.sub(r'^https?://', '', str(domain)).replace('www.', '').strip('/').lower()
+    clean_domain = re.sub(r'^https?://', '', str(domain)).replace('www.', '').strip('/').lower()
+
+    # Try to find existing company
     resp = requests.post(
         f"{ATTIO_API_BASE}/objects/companies/records/query",
         headers=attio_headers(),
-        json={"filter": {"domains": {"domain": {"$eq": domain}}}, "limit": 1},
+        json={"filter": {"domains": {"domain": {"$eq": clean_domain}}}, "limit": 1},
     )
     data = resp.json().get("data", [])
-    return data[0]["id"]["record_id"] if data else None
+    if data:
+        return data[0]["id"]["record_id"]
+
+    # Not found — create it with name, domain, and description
+    company_values = {
+        "name": [{"value": company_name}],
+        "domains": [{"domain": clean_domain}],
+    }
+    if description and str(description).strip() and str(description).strip() != 'nan':
+        company_values["description"] = [{"value": str(description).strip()}]
+
+    resp = requests.post(
+        f"{ATTIO_API_BASE}/objects/companies/records",
+        headers=attio_headers(),
+        json={"data": {"values": company_values}},
+    )
+    created = resp.json().get("data", {})
+    return created.get("id", {}).get("record_id")
 
 def find_deal(company_name, series):
     """Return existing deal record_id if this company+series already exists."""
@@ -228,7 +247,9 @@ def process():
 
     for _, row in df.iterrows():
         website = str(row.get("Company Website", "") or "")
-        company_id = find_company_by_domain(website) if website and website != 'nan' else None
+        company_name = str(row.get("Companies", "")).strip()
+        description = row.get("Description", "")
+        company_id = find_or_create_company(company_name, website, description) if website and website != 'nan' else None
         status = upsert_deal(row.to_dict(), company_id)
 
         if status == "created":
