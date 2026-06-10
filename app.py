@@ -245,7 +245,7 @@ def process():
         print("TRANSFORM ERROR:", traceback.format_exc())
         return jsonify({"error": f"Transform failed: {str(e)}"}), 500
 
-    results = {"created": 0, "skipped": 0, "errors": []}
+    results = {"created": 0, "skipped": 0, "errors": [], "deals": []}
 
     for _, row in df.iterrows():
         website = str(row.get("Company Website", "") or "")
@@ -256,10 +256,23 @@ def process():
 
         if status == "created":
             results["created"] += 1
+            results["deals"].append({
+                "company":        company_name,
+                "series":         str(row.get("Series", "") or ""),
+                "deal_size":      str(row.get("Deal Size", "") or ""),
+                "post_valuation": str(row.get("Post Valuation", "") or ""),
+                "description":    description,
+                "lead_investors": str(row.get("Lead/Sole Investors", "") or ""),
+                "new_investors":  str(row.get("New Investors", "") or ""),
+                "investors":      str(row.get("Investors", "") or ""),
+                "hq_location":    str(row.get("HQ Location", "") or ""),
+                "deal_date":      str(row.get("Deal Date", "") or ""),
+                "website":        website,
+            })
         elif status == "skipped":
             results["skipped"] += 1
         else:
-            results["errors"].append({"deal": row.get("Companies"), "error": status})
+            results["errors"].append({"deal": company_name, "error": status})
 
     return jsonify({
         "status": "done",
