@@ -15,7 +15,7 @@ ATTIO_API_BASE = "https://api.attio.com/v2"
 
 DROP_COLS = [
     'Deal ID', 'Primary PitchBook Industry Code', 'View Company Online',
-    'EBITDA', 'Valuation/EBITDA', 'Net Income', 'Deal Type',
+    'EBITDA', 'Valuation/EBITDA', 'Net Income', 'Deal Type', 'Deal Owner',
 ]
 
 # Attio field mapping (CSV column -> API slug + type)
