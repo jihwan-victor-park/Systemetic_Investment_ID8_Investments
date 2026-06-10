@@ -223,7 +223,8 @@ def upsert_deal(row, company_record_id):
         json={"data": {"values": values}},
     )
     if resp.status_code in (200, 201):
-        return "created"
+        record_id = resp.json().get("data", {}).get("id", {}).get("record_id", "")
+        return {"status": "created", "record_id": record_id}
     return f"error:{resp.status_code}:{resp.text[:300]}"
 
 
@@ -254,7 +255,7 @@ def process():
         company_id = find_or_create_company(company_name, website, description) if website and website != 'nan' else None
         status = upsert_deal(row.to_dict(), company_id)
 
-        if status == "created":
+        if isinstance(status, dict) and status.get("status") == "created":
             results["created"] += 1
             results["deals"].append({
                 "company":        company_name,
@@ -268,6 +269,7 @@ def process():
                 "hq_location":    str(row.get("HQ Location", "") or ""),
                 "deal_date":      str(row.get("Deal Date", "") or ""),
                 "website":        website,
+                "record_id":      status.get("record_id", ""),
             })
         elif status == "skipped":
             results["skipped"] += 1
