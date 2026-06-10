@@ -1,6 +1,7 @@
 import os
 import re
 import io
+import traceback
 import requests
 import pandas as pd
 import openpyxl
@@ -220,6 +221,7 @@ def process():
     try:
         df = transform_excel(file_bytes)
     except Exception as e:
+        print("TRANSFORM ERROR:", traceback.format_exc())
         return jsonify({"error": f"Transform failed: {str(e)}"}), 500
 
     results = {"created": 0, "skipped": 0, "errors": []}
