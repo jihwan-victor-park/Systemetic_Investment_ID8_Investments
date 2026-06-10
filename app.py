@@ -101,6 +101,7 @@ def transform_excel(file_bytes):
         raise ValueError("Could not find header row with 'Companies' column")
 
     df = pd.read_excel(io.BytesIO(file_bytes), header=header_row)
+    df.columns = df.columns.str.strip()
     df = df.dropna(subset=['Companies'])
     df = df.drop(columns=[c for c in DROP_COLS if c in df.columns])
 
@@ -187,7 +188,7 @@ def build_attio_values(row, company_record_id):
     company_name = str(row.get('Companies', '')).strip()
     values = {
         "name": [{"value": company_name}],
-        "deal_stage": [{"status": "Watchlist"}],
+        "stage": [{"status": {"option": "Watchlist"}}],
     }
 
     for csv_col, (slug, field_type) in FIELD_MAP.items():
