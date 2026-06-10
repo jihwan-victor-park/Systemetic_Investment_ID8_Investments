@@ -23,7 +23,7 @@ FIELD_MAP = {
     'Series':              ('series',           'select'),
     'Description':         ('description',      'text'),
     'Lead/Sole Investors': ('lead_investors',    'text'),
-    'New Investors':       ('new_investors',     'text'),
+    'New Investors':       ('new_investors_7',   'text'),
     'Deal Size':           ('deal_size',         'currency'),
     'Post Valuation':      ('post_valuation',    'currency'),
     'Revenue':             ('revenue',           'currency'),
