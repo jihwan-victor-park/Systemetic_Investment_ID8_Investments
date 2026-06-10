@@ -297,6 +297,7 @@ def process():
         "created": results["created"],
         "skipped": results["skipped"],
         "errors": results["errors"],
+        "deals": results["deals"],
     })
 
 @app.route("/health", methods=["GET"])
