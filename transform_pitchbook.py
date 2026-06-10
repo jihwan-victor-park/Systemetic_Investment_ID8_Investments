@@ -248,3 +248,4 @@ if __name__ == "__main__":
         print(f"   Auto-detected: {os.path.basename(input_file)}")
 
     transform(input_file, output_file)
+
