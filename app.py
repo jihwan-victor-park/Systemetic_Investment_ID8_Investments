@@ -322,6 +322,79 @@ def process_watchlist():
         return jsonify({"error": f"Transform failed: {str(e)}"}), 500
     return jsonify({"status": "done", **results})
 
+@app.route("/process-jesse", methods=["POST"])
+def process_jesse():
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "No JSON received."}), 400
+
+    def clean(val):
+        s = str(val or "").strip()
+        return "" if s.lower() in ("nan", "none") else s
+
+    company_name = clean(data.get("Company", ""))
+    if not company_name:
+        return jsonify({"error": "Company name is required."}), 400
+
+    series = clean(data.get("Round", ""))
+    if not series:
+        return jsonify({"error": "Round is required."}), 400
+
+    website     = clean(data.get("Company Website", ""))
+    description = clean(data.get("Description", ""))
+
+    row = {
+        "Companies":           company_name,
+        "Company Website":     website,
+        "Description":         description,
+        "Series":              series,
+        "Deal Size":           data.get("Deal Size"),
+        "Post Valuation":      data.get("Post Valuation"),
+        "Revenue":             data.get("Revenue"),
+        "Deal Date":           data.get("Date"),
+        "Lead/Sole Investors": clean(data.get("Lead Investor", "")),
+        "New Investors":       clean(data.get("New Investors", "")),
+    }
+
+    company_id = find_or_create_company(company_name, website, description) if website else None
+    status = upsert_deal(row, company_id, stage="Watchlist", source="Jesse")
+
+    # Patch Round Live (Access) separately — it's a select on the deal record
+    if isinstance(status, dict) and status.get("status") == "created" and data.get("Access") is True:
+        requests.patch(
+            f"{ATTIO_API_BASE}/objects/deals/records/{status['record_id']}",
+            headers=attio_headers(),
+            json={"data": {"values": {"round_live": [{"option": "Round Live"}]}}},
+        )
+
+    if isinstance(status, dict) and status.get("status") == "created":
+        return jsonify({
+            "status": "done",
+            "created": 1,
+            "skipped": 0,
+            "errors": [],
+            "deals": [{
+                "company":        company_name,
+                "series":         series,
+                "deal_size":      clean(str(data.get("Deal Size", ""))),
+                "post_valuation": clean(str(data.get("Post Valuation", ""))),
+                "description":    description,
+                "lead_investors": clean(data.get("Lead Investor", "")),
+                "new_investors":  clean(data.get("New Investors", "")),
+                "investors":      "",
+                "hq_location":    "",
+                "deal_date":      format_date(data.get("Date")) or "",
+                "website":        website,
+                "record_id":      status.get("record_id", ""),
+            }],
+        })
+    elif status == "skipped":
+        return jsonify({"status": "done", "created": 0, "skipped": 1, "errors": [], "deals": []})
+    else:
+        return jsonify({"status": "done", "created": 0, "skipped": 0,
+                        "errors": [{"deal": company_name, "error": status}], "deals": []})
+
+
 @app.route("/health", methods=["GET"])
 def health():
     return jsonify({"status": "ok"})
