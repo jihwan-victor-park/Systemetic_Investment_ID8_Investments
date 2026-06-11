@@ -189,7 +189,7 @@ def build_attio_values(row, company_record_id, stage="Watchlist", source=None):
         "stage": [{"status": stage}],
     }
     if source:
-        values["source"] = [{"option": source}]
+        values["source"] = [{"value": source}]
 
     for csv_col, (slug, field_type) in FIELD_MAP.items():
         val = row.get(csv_col)
