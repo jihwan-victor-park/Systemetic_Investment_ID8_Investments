@@ -7,17 +7,17 @@ import pandas as pd
 import openpyxl
 from flask import Flask, request, jsonify
 from datetime import datetime
- 
+
 app = Flask(__name__)
- 
+
 ATTIO_API_KEY  = os.environ.get("ATTIO_API_KEY", "")
 ATTIO_API_BASE = "https://api.attio.com/v2"
- 
+
 DROP_COLS = [
     'Deal ID', 'Primary PitchBook Industry Code', 'View Company Online',
     'EBITDA', 'Valuation/EBITDA', 'Net Income', 'Deal Type', 'Deal Owner',
 ]
- 
+
 # Attio field mapping (CSV column -> API slug + type)
 FIELD_MAP = {
     'Series':              ('series',           'select'),
@@ -32,16 +32,16 @@ FIELD_MAP = {
     'Investors':           ('investors',         'text'),
     'HQ Location':         ('location',          'text'),
 }
- 
- 
+
+
 # --- Helpers ------------------------------------------------------------------
- 
+
 def attio_headers():
     return {
         "Authorization": f"Bearer {ATTIO_API_KEY}",
         "Content-Type": "application/json",
     }
- 
+
 def clean_number(val):
     if val is None or (isinstance(val, float) and pd.isna(val)):
         return None
@@ -49,7 +49,7 @@ def clean_number(val):
         return float(str(val).replace(',', '').replace('$', '').strip())
     except:
         return None
- 
+
 def format_date(val):
     if val is None or (isinstance(val, float) and pd.isna(val)):
         return None
@@ -59,7 +59,7 @@ def format_date(val):
         return pd.to_datetime(str(val)).strftime("%Y-%m-%d")
     except:
         return None
- 
+
 def extract_hyperlinks(file_bytes, header_row_0idx, col_name):
     """Extract =HYPERLINK() formula display values from an Excel column."""
     wb = openpyxl.load_workbook(io.BytesIO(file_bytes), data_only=False)
@@ -88,10 +88,10 @@ def extract_hyperlinks(file_bytes, header_row_0idx, col_name):
         elif val:
             result[xl_row - data_start] = str(val)
     return result
- 
- 
+
+
 # --- Transform ----------------------------------------------------------------
- 
+
 def transform_excel(file_bytes):
     xl = pd.read_excel(io.BytesIO(file_bytes), header=None)
     header_row = next(
@@ -99,12 +99,12 @@ def transform_excel(file_bytes):
     )
     if header_row is None:
         raise ValueError("Could not find header row with 'Companies' column")
- 
+
     df = pd.read_excel(io.BytesIO(file_bytes), header=header_row)
     df.columns = df.columns.str.strip()
     df = df.dropna(subset=['Companies'])
     df = df.drop(columns=[c for c in DROP_COLS if c in df.columns])
- 
+
     if 'Company Website' in df.columns:
         hyperlinks = extract_hyperlinks(file_bytes, header_row, 'Company Website')
         if hyperlinks:
@@ -112,18 +112,18 @@ def transform_excel(file_bytes):
             for pos, url in hyperlinks.items():
                 if pos < len(df):
                     df.iloc[pos, df.columns.get_loc('Company Website')] = url
- 
+
     return df
- 
- 
+
+
 # --- Attio API ----------------------------------------------------------------
- 
+
 def find_or_create_company(company_name, domain, description=None):
     """Find company by domain; create it if not found. Returns record_id or None."""
     if not domain or domain == 'nan':
         return None
     clean_domain = re.sub(r'^https?://', '', str(domain)).replace('www.', '').strip('/').lower()
- 
+
     resp = requests.post(
         f"{ATTIO_API_BASE}/objects/companies/records/query",
         headers=attio_headers(),
@@ -132,14 +132,14 @@ def find_or_create_company(company_name, domain, description=None):
     data = resp.json().get("data", [])
     if data:
         return data[0]["id"]["record_id"]
- 
+
     company_values = {
         "name": [{"value": company_name}],
         "domains": [{"domain": clean_domain}],
     }
     if description and str(description).strip() and str(description).strip() != 'nan':
         company_values["description"] = [{"value": str(description).strip()}]
- 
+
     resp = requests.post(
         f"{ATTIO_API_BASE}/objects/companies/records",
         headers=attio_headers(),
@@ -149,7 +149,7 @@ def find_or_create_company(company_name, domain, description=None):
     if resp.status_code not in (200, 201):
         return None
     return resp.json().get("data", {}).get("id", {}).get("record_id")
- 
+
 def find_deal(company_name, series):
     """Return existing deal record_id if this company+series already exists."""
     resp = requests.post(
@@ -167,7 +167,7 @@ def find_deal(company_name, series):
     )
     data = resp.json().get("data", [])
     return data[0]["id"]["record_id"] if data else None
- 
+
 def patch_deal_company(deal_record_id, company_record_id):
     """Patch an existing deal to set associated_company if missing."""
     requests.patch(
@@ -180,15 +180,15 @@ def patch_deal_company(deal_record_id, company_record_id):
             }]
         }}},
     )
- 
-def build_attio_values(row, company_record_id):
+
+def build_attio_values(row, company_record_id, stage="Watchlist"):
     """Build the Attio API values dict from a DataFrame row."""
     company_name = str(row.get('Companies', '')).strip()
     values = {
         "name": [{"value": company_name}],
-        "stage": [{"status": "Watchlist"}],
+        "stage": [{"status": stage}],
     }
- 
+
     for csv_col, (slug, field_type) in FIELD_MAP.items():
         val = row.get(csv_col)
         if val is None or (isinstance(val, float) and pd.isna(val)):
@@ -196,7 +196,7 @@ def build_attio_values(row, company_record_id):
         val_str = str(val).strip()
         if not val_str or val_str == 'nan':
             continue
- 
+
         if field_type == 'text':
             values[slug] = [{"value": val_str}]
         elif field_type == 'select':
@@ -213,26 +213,26 @@ def build_attio_values(row, company_record_id):
             date_str = format_date(val)
             if date_str:
                 values[slug] = [{"value": date_str}]
- 
+
     if company_record_id:
         values["associated_company"] = [{
             "target_object": "companies",
             "target_record_id": company_record_id,
         }]
- 
+
     return values
- 
-def upsert_deal(row, company_record_id):
+
+def upsert_deal(row, company_record_id, stage="Watchlist"):
     company_name = str(row.get('Companies', '')).strip()
     series = str(row.get('Series', '')).strip()
- 
+
     existing_id = find_deal(company_name, series)
     if existing_id:
         if company_record_id:
             patch_deal_company(existing_id, company_record_id)
         return "skipped"
- 
-    values = build_attio_values(row, company_record_id)
+
+    values = build_attio_values(row, company_record_id, stage)
     resp = requests.post(
         f"{ATTIO_API_BASE}/objects/deals/records",
         headers=attio_headers(),
@@ -242,42 +242,27 @@ def upsert_deal(row, company_record_id):
         record_id = resp.json().get("data", {}).get("id", {}).get("record_id", "")
         return {"status": "created", "record_id": record_id}
     return f"error:{resp.status_code}:{resp.text[:300]}"
- 
- 
-# --- Routes ------------------------------------------------------------------
- 
-@app.route("/process", methods=["POST"])
-def process():
-    if "file" in request.files:
-        file_bytes = request.files["file"].read()
-    elif request.data:
-        file_bytes = request.data
-    else:
-        return jsonify({"error": "No file received."}), 400
- 
-    try:
-        df = transform_excel(file_bytes)
-    except Exception as e:
-        print("TRANSFORM ERROR:", traceback.format_exc())
-        return jsonify({"error": f"Transform failed: {str(e)}"}), 500
- 
+
+
+# --- Shared pipeline logic ----------------------------------------------------
+
+def run_pipeline(file_bytes, stage):
+    df = transform_excel(file_bytes)
     results = {"created": 0, "skipped": 0, "errors": [], "deals": []}
- 
+
+    def clean(val):
+        s = str(val or "").strip()
+        return "" if s.lower() in ("nan", "none") else s
+
     for _, row in df.iterrows():
         website = str(row.get("Company Website", "") or "")
         company_name = str(row.get("Companies", "")).strip()
-        description = str(row.get("Description", "") or "").strip()
-        if description.lower() in ('nan', 'none', ''):
-            description = ""
+        description = clean(row.get("Description", ""))
         company_id = find_or_create_company(company_name, website, description) if website and website != 'nan' else None
-        status = upsert_deal(row.to_dict(), company_id)
- 
+        status = upsert_deal(row.to_dict(), company_id, stage)
+
         if isinstance(status, dict) and status.get("status") == "created":
             results["created"] += 1
-            def clean(val):
-                s = str(val or "").strip()
-                return "" if s.lower() in ("nan", "none") else s
- 
             results["deals"].append({
                 "company":        company_name,
                 "series":         clean(row.get("Series")),
@@ -296,19 +281,49 @@ def process():
             results["skipped"] += 1
         else:
             results["errors"].append({"deal": company_name, "error": status})
- 
-    return jsonify({
-        "status": "done",
-        "created": results["created"],
-        "skipped": results["skipped"],
-        "errors": results["errors"],
-        "deals": results["deals"],
-    })
- 
+
+    return results
+
+
+def _read_file_bytes():
+    if "file" in request.files:
+        return request.files["file"].read(), None
+    if request.data:
+        return request.data, None
+    return None, (jsonify({"error": "No file received."}), 400)
+
+
+# --- Routes ------------------------------------------------------------------
+
+@app.route("/process", methods=["POST"])
+def process():
+    file_bytes, err = _read_file_bytes()
+    if err:
+        return err
+    try:
+        results = run_pipeline(file_bytes, stage="Qualified")
+    except Exception as e:
+        print("TRANSFORM ERROR:", traceback.format_exc())
+        return jsonify({"error": f"Transform failed: {str(e)}"}), 500
+    return jsonify({"status": "done", **results})
+
+
+@app.route("/process-watchlist", methods=["POST"])
+def process_watchlist():
+    file_bytes, err = _read_file_bytes()
+    if err:
+        return err
+    try:
+        results = run_pipeline(file_bytes, stage="Watchlist")
+    except Exception as e:
+        print("TRANSFORM ERROR:", traceback.format_exc())
+        return jsonify({"error": f"Transform failed: {str(e)}"}), 500
+    return jsonify({"status": "done", **results})
+
 @app.route("/health", methods=["GET"])
 def health():
     return jsonify({"status": "ok"})
- 
+
 @app.route("/debug/attributes", methods=["GET"])
 def debug_attributes():
     """List all Deals object attribute slugs — use to verify field names match."""
@@ -317,8 +332,8 @@ def debug_attributes():
         return jsonify({"error": resp.text}), resp.status_code
     attrs = resp.json().get("data", {}).get("attributes", [])
     return jsonify([{"slug": a["api_slug"], "name": a["title"], "type": a["type"]} for a in attrs])
- 
- 
+
+
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))
     app.run(host="0.0.0.0", port=port)
