@@ -181,13 +181,15 @@ def patch_deal_company(deal_record_id, company_record_id):
         }}},
     )
 
-def build_attio_values(row, company_record_id, stage="Watchlist"):
+def build_attio_values(row, company_record_id, stage="Watchlist", source=None):
     """Build the Attio API values dict from a DataFrame row."""
     company_name = str(row.get('Companies', '')).strip()
     values = {
         "name": [{"value": company_name}],
         "stage": [{"status": stage}],
     }
+    if source:
+        values["source"] = [{"option": source}]
 
     for csv_col, (slug, field_type) in FIELD_MAP.items():
         val = row.get(csv_col)
@@ -222,7 +224,7 @@ def build_attio_values(row, company_record_id, stage="Watchlist"):
 
     return values
 
-def upsert_deal(row, company_record_id, stage="Watchlist"):
+def upsert_deal(row, company_record_id, stage="Watchlist", source=None):
     company_name = str(row.get('Companies', '')).strip()
     series = str(row.get('Series', '')).strip()
 
@@ -232,7 +234,7 @@ def upsert_deal(row, company_record_id, stage="Watchlist"):
             patch_deal_company(existing_id, company_record_id)
         return "skipped"
 
-    values = build_attio_values(row, company_record_id, stage)
+    values = build_attio_values(row, company_record_id, stage, source)
     resp = requests.post(
         f"{ATTIO_API_BASE}/objects/deals/records",
         headers=attio_headers(),
@@ -246,7 +248,7 @@ def upsert_deal(row, company_record_id, stage="Watchlist"):
 
 # --- Shared pipeline logic ----------------------------------------------------
 
-def run_pipeline(file_bytes, stage):
+def run_pipeline(file_bytes, stage, source=None):
     df = transform_excel(file_bytes)
     results = {"created": 0, "skipped": 0, "errors": [], "deals": []}
 
@@ -259,7 +261,7 @@ def run_pipeline(file_bytes, stage):
         company_name = str(row.get("Companies", "")).strip()
         description = clean(row.get("Description", ""))
         company_id = find_or_create_company(company_name, website, description) if website and website != 'nan' else None
-        status = upsert_deal(row.to_dict(), company_id, stage)
+        status = upsert_deal(row.to_dict(), company_id, stage, source)
 
         if isinstance(status, dict) and status.get("status") == "created":
             results["created"] += 1
@@ -301,7 +303,7 @@ def process():
     if err:
         return err
     try:
-        results = run_pipeline(file_bytes, stage="Qualified")
+        results = run_pipeline(file_bytes, stage="Qualified", source="PitchBook")
     except Exception as e:
         print("TRANSFORM ERROR:", traceback.format_exc())
         return jsonify({"error": f"Transform failed: {str(e)}"}), 500
@@ -314,7 +316,7 @@ def process_watchlist():
     if err:
         return err
     try:
-        results = run_pipeline(file_bytes, stage="Watchlist")
+        results = run_pipeline(file_bytes, stage="Watchlist", source="PitchBook")
     except Exception as e:
         print("TRANSFORM ERROR:", traceback.format_exc())
         return jsonify({"error": f"Transform failed: {str(e)}"}), 500
