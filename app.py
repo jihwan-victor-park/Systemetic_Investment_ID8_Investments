@@ -303,7 +303,7 @@ def process():
     if err:
         return err
     try:
-        results = run_pipeline(file_bytes, stage="Qualified", source="PitchBook")
+        results = run_pipeline(file_bytes, stage="Qualified", source="ID8 Investments")
     except Exception as e:
         print("TRANSFORM ERROR:", traceback.format_exc())
         return jsonify({"error": f"Transform failed: {str(e)}"}), 500
@@ -316,7 +316,7 @@ def process_watchlist():
     if err:
         return err
     try:
-        results = run_pipeline(file_bytes, stage="Watchlist", source="PitchBook")
+        results = run_pipeline(file_bytes, stage="Watchlist", source="ID8 Investments")
     except Exception as e:
         print("TRANSFORM ERROR:", traceback.format_exc())
         return jsonify({"error": f"Transform failed: {str(e)}"}), 500
