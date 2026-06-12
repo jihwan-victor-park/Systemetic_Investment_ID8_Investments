@@ -5,7 +5,7 @@ import traceback
 import requests
 import pandas as pd
 import openpyxl
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file, send_file
 from datetime import datetime
 
 app = Flask(__name__)
@@ -393,6 +393,21 @@ def process_jesse():
     else:
         return jsonify({"status": "done", "created": 0, "skipped": 0,
                         "errors": [{"deal": company_name, "error": status}], "deals": []})
+
+
+@app.route("/logo", methods=["GET"])
+def logo():
+    """Serve the ID8 logo for email headers."""
+    path = os.path.join(os.path.dirname(__file__), "logo.png")
+    if not os.path.exists(path):
+        return jsonify({"error": "logo.png not found"}), 404
+    return send_file(path, mimetype="image/png")
+
+
+@app.route("/logo", methods=["GET"])
+def logo():
+    """Serve the ID8 logo for email headers."""
+    return send_file(os.path.join(os.path.dirname(__file__), "logo.png"), mimetype="image/png")
 
 
 @app.route("/health", methods=["GET"])
