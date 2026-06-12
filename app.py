@@ -404,12 +404,6 @@ def logo():
     return send_file(path, mimetype="image/png")
 
 
-@app.route("/logo", methods=["GET"])
-def logo():
-    """Serve the ID8 logo for email headers."""
-    return send_file(os.path.join(os.path.dirname(__file__), "logo.png"), mimetype="image/png")
-
-
 @app.route("/health", methods=["GET"])
 def health():
     return jsonify({"status": "ok"})
