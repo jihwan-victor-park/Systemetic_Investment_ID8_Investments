@@ -1,8 +1,3 @@
-import os
-import re
-import io
-import traceback
-import requests
 import pandas as pd
 import openpyxl
 from flask import Flask, request, jsonify, send_file, send_file
@@ -49,6 +44,25 @@ def clean_number(val):
         return float(str(val).replace(',', '').replace('$', '').strip())
     except:
         return None
+
+# PitchBook (and Jesse) money values arrive expressed in $millions:
+#   400 -> $400,000,000   |   44000 -> $44,000,000,000   |   1163.11 -> $1,163,110,000
+# Currency fields are scaled by this factor before being stored in Attio.
+MILLION = 1_000_000
+
+def _trim(x):
+    """Format a float with up to 2 decimals, dropping trailing zeros (1.50 -> '1.5', 400.00 -> '400')."""
+    return f"{x:.2f}".rstrip("0").rstrip(".")
+
+def fmt_money_millions(val):
+    """Format a value expressed in $millions as a readable string for the email.
+    400 -> '$400M', 2000 -> '$2B', 1163.11 -> '$1.16B', 35 -> '$35M'."""
+    num = clean_number(val)
+    if num is None:
+        return ""
+    if num >= 1000:
+        return f"${_trim(num / 1000)}B"
+    return f"${_trim(num)}M"
 
 def format_date(val):
     if val is None or (isinstance(val, float) and pd.isna(val)):
@@ -117,6 +131,44 @@ def transform_excel(file_bytes):
 
 
 # --- Attio API ----------------------------------------------------------------
+
+_select_option_cache = {}  # (object_slug, attribute_slug) -> set of existing option titles
+
+def ensure_select_option(object_slug, attribute_slug, option_title):
+    """Make sure a select option exists on an Attio attribute; create it if missing.
+
+    Attio rejects a write referencing an unknown select option, so when PitchBook
+    sends e.g. 'Series A2' (not yet in the picklist) we create the option first.
+    """
+    if not option_title:
+        return
+    key = (object_slug, attribute_slug)
+    titles = _select_option_cache.get(key)
+    if titles is None:
+        resp = requests.get(
+            f"{ATTIO_API_BASE}/objects/{object_slug}/attributes/{attribute_slug}/options",
+            headers=attio_headers(),
+        )
+        titles = set()
+        if resp.status_code == 200:
+            for opt in resp.json().get("data", []):
+                t = opt.get("title")
+                if t:
+                    titles.add(t)
+        _select_option_cache[key] = titles
+
+    if option_title in titles:
+        return
+
+    resp = requests.post(
+        f"{ATTIO_API_BASE}/objects/{object_slug}/attributes/{attribute_slug}/options",
+        headers=attio_headers(),
+        json={"data": {"title": option_title}},
+    )
+    print(f"OPTION CREATE {object_slug}.{attribute_slug} '{option_title}': "
+          f"{resp.status_code} {resp.text[:200]}")
+    if resp.status_code in (200, 201):
+        titles.add(option_title)
 
 def find_or_create_company(company_name, domain, description=None):
     """Find company by domain; create it if not found. Returns record_id or None."""
@@ -202,11 +254,13 @@ def build_attio_values(row, company_record_id, stage="Watchlist", source=None):
         if field_type == 'text':
             values[slug] = [{"value": val_str}]
         elif field_type == 'select':
+            ensure_select_option('deals', slug, val_str)
             values[slug] = [{"option": val_str}]
         elif field_type == 'currency':
+            # Source value is in $millions -> store the real amount in Attio.
             num = clean_number(val)
             if num is not None:
-                values[slug] = [{"currency_value": num}]
+                values[slug] = [{"currency_value": num * MILLION}]
         elif field_type == 'number':
             num = clean_number(val)
             if num is not None:
@@ -268,8 +322,8 @@ def run_pipeline(file_bytes, stage, source=None):
             results["deals"].append({
                 "company":        company_name,
                 "series":         clean(row.get("Series")),
-                "deal_size":      clean(row.get("Deal Size")),
-                "post_valuation": clean(row.get("Post Valuation")),
+                "deal_size":      fmt_money_millions(row.get("Deal Size")),
+                "post_valuation": fmt_money_millions(row.get("Post Valuation")),
                 "description":    description,
                 "lead_investors": clean(row.get("Lead/Sole Investors")),
                 "new_investors":  clean(row.get("New Investors")),
@@ -376,8 +430,8 @@ def process_jesse():
             "deals": [{
                 "company":        company_name,
                 "series":         series,
-                "deal_size":      clean(str(data.get("Deal Size", ""))),
-                "post_valuation": clean(str(data.get("Post Valuation", ""))),
+                "deal_size":      fmt_money_millions(data.get("Deal Size")),
+                "post_valuation": fmt_money_millions(data.get("Post Valuation")),
                 "description":    description,
                 "lead_investors": clean(data.get("Lead Investor", "")),
                 "new_investors":  clean(data.get("New Investors", "")),
