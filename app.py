@@ -41,8 +41,7 @@ FIELD_MAP = {
 INVESTOR_REF_MAP = {
     'Lead/Sole Investors': 'lead_investors_8',
     'New Investors':       'new_investors_5',
-    # 'Investors' (all): no record-reference attribute created yet — add its slug here
-    # once it exists in Attio to also link the full investor list.
+    'Investors':           'investors_5',   # full list incl. follow-on investors
 }
 
 # Top 10 VC workflow: select attribute (Yes/No) stamped on those deals, and the
