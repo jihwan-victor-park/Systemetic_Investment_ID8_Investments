@@ -45,6 +45,11 @@ INVESTOR_REF_MAP = {
     # once it exists in Attio to also link the full investor list.
 }
 
+# Top 10 VC workflow: select attribute (Yes/No) stamped on those deals, and the
+# stage new deals default to (must exist as a status on the Deal stage field).
+TOP10_VC_SLUG = 'top_10_vc'
+RADAR_STAGE   = 'Radar'
+
 
 # --- Helpers ------------------------------------------------------------------
 
@@ -386,7 +391,7 @@ def patch_deal_company(deal_record_id, company_record_id):
         }}},
     )
 
-def build_attio_values(row, company_record_id, stage="Watchlist", source=None):
+def build_attio_values(row, company_record_id, stage="Watchlist", source=None, top10=False):
     """Build the Attio API values dict from a DataFrame row."""
     company_name = str(row.get('Companies', '')).strip()
     values = {
@@ -395,6 +400,9 @@ def build_attio_values(row, company_record_id, stage="Watchlist", source=None):
     }
     if source:
         values["source"] = [{"value": source}]
+    if top10:
+        ensure_select_option('deals', TOP10_VC_SLUG, 'Yes')
+        values[TOP10_VC_SLUG] = [{"option": "Yes"}]
 
     for csv_col, (slug, field_type) in FIELD_MAP.items():
         val = row.get(csv_col)
@@ -434,17 +442,32 @@ def build_attio_values(row, company_record_id, stage="Watchlist", source=None):
 
     return values
 
-def upsert_deal(row, company_record_id, stage="Watchlist", source=None):
+def upsert_deal(row, company_record_id, stage="Watchlist", source=None, top10=False):
     company_name = str(row.get('Companies', '')).strip()
     series = str(row.get('Series', '')).strip()
 
     existing_id = find_deal(company_name, series)
     if existing_id:
+        # Existing deal: never change its stage. For the Top 10 VC flow, stamp the
+        # flag and (re)link investors; otherwise just backfill the associated company.
+        patch_vals = {}
+        if top10:
+            ensure_select_option('deals', TOP10_VC_SLUG, 'Yes')
+            patch_vals[TOP10_VC_SLUG] = [{"option": "Yes"}]
+            patch_vals.update(resolve_investor_links(row, get_company_index()))
         if company_record_id:
-            patch_deal_company(existing_id, company_record_id)
+            patch_vals["associated_company"] = [{
+                "target_object": "companies", "target_record_id": company_record_id,
+            }]
+        if patch_vals:
+            requests.patch(
+                f"{ATTIO_API_BASE}/objects/deals/records/{existing_id}",
+                headers=attio_headers(),
+                json={"data": {"values": patch_vals}},
+            )
         return "skipped"
 
-    values = build_attio_values(row, company_record_id, stage, source)
+    values = build_attio_values(row, company_record_id, stage, source, top10)
     resp = requests.post(
         f"{ATTIO_API_BASE}/objects/deals/records",
         headers=attio_headers(),
@@ -458,7 +481,7 @@ def upsert_deal(row, company_record_id, stage="Watchlist", source=None):
 
 # --- Shared pipeline logic ----------------------------------------------------
 
-def run_pipeline(file_bytes, stage, source=None):
+def run_pipeline(file_bytes, stage, source=None, top10=False):
     df = transform_excel(file_bytes)
     get_company_index(refresh=True)   # fresh Companies snapshot for investor matching
     results = {"created": 0, "skipped": 0, "errors": [], "deals": []}
@@ -472,7 +495,7 @@ def run_pipeline(file_bytes, stage, source=None):
         company_name = str(row.get("Companies", "")).strip()
         description = clean(row.get("Description", ""))
         company_id = find_or_create_company(company_name, website, description) if website and website != 'nan' else None
-        status = upsert_deal(row.to_dict(), company_id, stage, source)
+        status = upsert_deal(row.to_dict(), company_id, stage, source, top10)
 
         if isinstance(status, dict) and status.get("status") == "created":
             results["created"] += 1
@@ -529,6 +552,20 @@ def process_watchlist():
         return err
     try:
         results = run_pipeline(file_bytes, stage="Watchlist", source="ID8 Investments")
+    except Exception as e:
+        print("TRANSFORM ERROR:", traceback.format_exc())
+        return jsonify({"error": f"Transform failed: {str(e)}"}), 500
+    return jsonify({"status": "done", **results})
+
+@app.route("/process-top10", methods=["POST"])
+def process_top10():
+    """Top 10 VC weekly flow: tag deals Top 10 VC = Yes; new deals default to the
+    Radar stage; existing deals keep their stage (only flag + investor links updated)."""
+    file_bytes, err = _read_file_bytes()
+    if err:
+        return err
+    try:
+        results = run_pipeline(file_bytes, stage=RADAR_STAGE, source="ID8 Investments", top10=True)
     except Exception as e:
         print("TRANSFORM ERROR:", traceback.format_exc())
         return jsonify({"error": f"Transform failed: {str(e)}"}), 500
