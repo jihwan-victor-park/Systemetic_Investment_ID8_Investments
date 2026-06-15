@@ -1,6 +1,7 @@
 import os
 import re
 import io
+import unicodedata
 import traceback
 import requests
 import pandas as pd
@@ -31,6 +32,17 @@ FIELD_MAP = {
     'Deal Date':           ('deal_date',         'date'),
     'Investors':           ('investors',         'text'),
     'HQ Location':         ('location',          'text'),
+}
+
+# Investor text column -> record-reference slug on the Deals object.
+# These link each matched VC firm to its Companies record (clickable on the deal).
+# CONFIRM these slugs against GET /debug/attributes after creating the attributes
+# in the Attio UI (Record reference -> Companies, allow multiple values).
+INVESTOR_REF_MAP = {
+    'Lead/Sole Investors': 'lead_investors_8',
+    'New Investors':       'new_investors_5',
+    # 'Investors' (all): no record-reference attribute created yet — add its slug here
+    # once it exists in Attio to also link the full investor list.
 }
 
 
@@ -78,6 +90,75 @@ def format_date(val):
         return pd.to_datetime(str(val)).strftime("%Y-%m-%d")
     except:
         return None
+
+# --- Investor parsing / matching ----------------------------------------------
+
+_LEGAL_SUFFIXES = {
+    'inc', 'incorporated', 'llc', 'llp', 'ltd', 'limited', 'lp',
+    'corp', 'corporation', 'plc', 'gmbh', 'ag', 'sa',
+}
+
+def normalize_company_name(name):
+    """Build a loose match key for a company/VC name.
+    'Nokia (HEL: NOKIA)' -> 'nokia'; "Ontario Teachers' Pension Plan" ->
+    'ontario teachers pension plan'; 'Accel Inc.' -> 'accel'."""
+    if not name:
+        return ""
+    s = str(name).lower()
+    s = ''.join(c for c in unicodedata.normalize('NFKD', s)
+                if not unicodedata.combining(c))   # fold accents: é -> e
+    s = re.sub(r'\([^)]*\)', ' ', s)        # drop all parenthetical groups
+    s = s.replace('&', ' and ')
+    s = re.sub(r'[^a-z0-9 ]', ' ', s)       # strip punctuation/apostrophes/accents
+    tokens = [t for t in s.split() if t and t not in _LEGAL_SUFFIXES]
+    if tokens and tokens[0] == 'the':
+        tokens = tokens[1:]
+    return ' '.join(tokens)
+
+def _clean_domain(domain):
+    """Reduce a raw URL/domain to a bare host: 'www.tesi.fi/en' -> 'tesi.fi'."""
+    if not domain:
+        return ""
+    d = re.sub(r'^https?://', '', str(domain).strip(), flags=re.IGNORECASE)
+    d = d.replace('www.', '').strip().strip('/').lower()
+    d = d.split('/')[0]                     # drop any path
+    return d
+
+def parse_investors(raw):
+    """Split an investor cell into firm names, stripping glued '(Partner)' names.
+    'GIC Private(Yong Cheen Choo), ICONIQ Growth' -> ['GIC Private', 'ICONIQ Growth'].
+    Keeps spaced parentheticals that are part of the name ('Insight Partners (New York)')."""
+    if raw is None or (isinstance(raw, float) and pd.isna(raw)):
+        return []
+    s = str(raw).strip()
+    if not s or s.lower() in ('nan', 'none'):
+        return []
+    s = re.sub(r'(?<=\S)\([^)]*\)', '', s)  # remove parens glued on with no leading space
+    return [p.strip() for p in s.split(',') if p.strip()]
+
+def parse_investor_websites(cell):
+    """Parse PitchBook's 'Investors Websites' cell into {normalized_name -> domain}.
+    'General Atlantic (www.generalatlantic.com), Nokia (HEL: NOKIA) (www.nokia.com)'
+    -> {'general atlantic': 'generalatlantic.com', 'nokia': 'nokia.com'}."""
+    out = {}
+    if cell is None or (isinstance(cell, float) and pd.isna(cell)):
+        return out
+    s = str(cell).strip()
+    if not s or s.lower() in ('nan', 'none'):
+        return out
+    for item in s.split(','):
+        item = item.strip()
+        if not item:
+            continue
+        # the trailing (...) is the domain; everything before it is the name
+        m = re.match(r'^(.*)\s+\(([^)]*)\)\s*$', item)
+        if not m:
+            continue
+        name, domain = m.group(1).strip(), _clean_domain(m.group(2))
+        key = normalize_company_name(name)
+        if key and domain:
+            out.setdefault(key, domain)
+    return out
 
 def extract_hyperlinks(file_bytes, header_row_0idx, col_name):
     """Extract =HYPERLINK() formula display values from an Excel column."""
@@ -174,6 +255,73 @@ def ensure_select_option(object_slug, attribute_slug, option_title):
           f"{resp.status_code} {resp.text[:200]}")
     if resp.status_code in (200, 201):
         titles.add(option_title)
+
+_company_index = None  # {"by_name": {normalized_name: id}, "by_domain": {domain: id}}
+
+def get_company_index(refresh=False):
+    """Build {normalized_name -> id} and {domain -> id} maps over all Companies.
+
+    Used for link-only investor matching — we never create from here. Cached for the
+    process; pass refresh=True at the start of a run to pick up newly-created companies.
+    """
+    global _company_index
+    if _company_index is not None and not refresh:
+        return _company_index
+
+    by_name, by_domain = {}, {}
+    offset, limit = 0, 500
+    while True:
+        resp = requests.post(
+            f"{ATTIO_API_BASE}/objects/companies/records/query",
+            headers=attio_headers(),
+            json={"limit": limit, "offset": offset},
+        )
+        if resp.status_code != 200:
+            print(f"COMPANY INDEX query failed: {resp.status_code} {resp.text[:200]}")
+            break
+        batch = resp.json().get("data", [])
+        for rec in batch:
+            rid = rec["id"]["record_id"]
+            vals = rec.get("values", {})
+            for nm in vals.get("name", []):
+                key = normalize_company_name(nm.get("value"))
+                if key:
+                    by_name.setdefault(key, rid)
+            for dm in vals.get("domains", []):
+                d = _clean_domain(dm.get("domain"))
+                if d:
+                    by_domain.setdefault(d, rid)
+        if len(batch) < limit:
+            break
+        offset += limit
+
+    _company_index = {"by_name": by_name, "by_domain": by_domain}
+    print(f"COMPANY INDEX built: {len(by_name)} names, {len(by_domain)} domains")
+    return _company_index
+
+def resolve_investor_links(row, index):
+    """Resolve the Lead/New/Investors text columns to record-reference values.
+
+    Matches each investor to an existing Companies record by domain first (from the
+    'Investors Websites' column) then by normalized name. Link-only: unmatched names
+    are skipped. Returns {ref_slug: [{target_object, target_record_id}, ...]}.
+    """
+    name_to_domain = parse_investor_websites(row.get('Investors Websites'))
+    by_name, by_domain = index["by_name"], index["by_domain"]
+
+    out = {}
+    for csv_col, ref_slug in INVESTOR_REF_MAP.items():
+        ids = []
+        for nm in parse_investors(row.get(csv_col)):
+            key = normalize_company_name(nm)
+            rid = by_domain.get(name_to_domain.get(key, '')) or by_name.get(key)
+            if rid and rid not in ids:
+                ids.append(rid)
+        if ids:
+            out[ref_slug] = [
+                {"target_object": "companies", "target_record_id": rid} for rid in ids
+            ]
+    return out
 
 def find_or_create_company(company_name, domain, description=None):
     """Find company by domain; create it if not found. Returns record_id or None."""
@@ -275,6 +423,9 @@ def build_attio_values(row, company_record_id, stage="Watchlist", source=None):
             if date_str:
                 values[slug] = [{"value": date_str}]
 
+    # Link investor firms to their Companies records (clickable on the deal).
+    values.update(resolve_investor_links(row, get_company_index()))
+
     if company_record_id:
         values["associated_company"] = [{
             "target_object": "companies",
@@ -309,6 +460,7 @@ def upsert_deal(row, company_record_id, stage="Watchlist", source=None):
 
 def run_pipeline(file_bytes, stage, source=None):
     df = transform_excel(file_bytes)
+    get_company_index(refresh=True)   # fresh Companies snapshot for investor matching
     results = {"created": 0, "skipped": 0, "errors": [], "deals": []}
 
     def clean(val):
@@ -329,6 +481,7 @@ def run_pipeline(file_bytes, stage, source=None):
                 "series":         clean(row.get("Series")),
                 "deal_size":      fmt_money_millions(row.get("Deal Size")),
                 "post_valuation": fmt_money_millions(row.get("Post Valuation")),
+                "revenue":        fmt_money_millions(row.get("Revenue")),
                 "description":    description,
                 "lead_investors": clean(row.get("Lead/Sole Investors")),
                 "new_investors":  clean(row.get("New Investors")),
@@ -437,6 +590,7 @@ def process_jesse():
                 "series":         series,
                 "deal_size":      fmt_money_millions(data.get("Deal Size")),
                 "post_valuation": fmt_money_millions(data.get("Post Valuation")),
+                "revenue":        fmt_money_millions(data.get("Revenue")),
                 "description":    description,
                 "lead_investors": clean(data.get("Lead Investor", "")),
                 "new_investors":  clean(data.get("New Investors", "")),
@@ -475,6 +629,59 @@ def debug_attributes():
         return jsonify({"error": resp.text}), resp.status_code
     attrs = resp.json().get("data", {}).get("attributes", [])
     return jsonify([{"slug": a["api_slug"], "name": a["title"], "type": a["type"]} for a in attrs])
+
+
+@app.route("/backfill-investors", methods=["POST"])
+def backfill_investors():
+    """One-time pass: link investors on deals already in Attio.
+
+    Reads each deal's stored investor *text* fields, matches names to Companies
+    (by normalized name — no domains stored on existing deals), and PATCHes the
+    record-reference attributes. Link-only; nothing is created.
+    """
+    index = get_company_index(refresh=True)
+    # CSV column -> (text slug to read, reference slug to write)
+    cols = {c: (FIELD_MAP[c][0], INVESTOR_REF_MAP[c]) for c in INVESTOR_REF_MAP}
+
+    scanned = updated = links = 0
+    errors = []
+    offset, limit = 0, 500
+    while True:
+        resp = requests.post(
+            f"{ATTIO_API_BASE}/objects/deals/records/query",
+            headers=attio_headers(),
+            json={"limit": limit, "offset": offset},
+        )
+        if resp.status_code != 200:
+            return jsonify({"error": resp.text}), resp.status_code
+        batch = resp.json().get("data", [])
+        for rec in batch:
+            scanned += 1
+            rid = rec["id"]["record_id"]
+            vals = rec.get("values", {})
+            row = {}
+            for csv_col, (text_slug, _ref) in cols.items():
+                tv = vals.get(text_slug, [])
+                row[csv_col] = tv[0].get("value") if tv else ""
+            ref_values = resolve_investor_links(row, index)
+            if not ref_values:
+                continue
+            r = requests.patch(
+                f"{ATTIO_API_BASE}/objects/deals/records/{rid}",
+                headers=attio_headers(),
+                json={"data": {"values": ref_values}},
+            )
+            if r.status_code in (200, 201):
+                updated += 1
+                links += sum(len(v) for v in ref_values.values())
+            else:
+                errors.append({"deal": rid, "error": f"{r.status_code}:{r.text[:200]}"})
+        if len(batch) < limit:
+            break
+        offset += limit
+
+    return jsonify({"status": "done", "scanned": scanned, "updated": updated,
+                    "links": links, "errors": errors})
 
 
 if __name__ == "__main__":
