@@ -46,8 +46,11 @@ INVESTOR_REF_MAP = {
 
 # Top 10 VC workflow: select attribute (Yes/No) stamped on those deals, and the
 # stage new deals default to (must exist as a status on the Deal stage field).
-TOP10_VC_SLUG = 'top_10_vc'
-RADAR_STAGE   = 'Radar'
+# The slug is resolved at runtime by the attribute TITLE (below) so a slug mismatch
+# can't silently break the write; TOP10_VC_SLUG is just the fallback.
+TOP10_VC_TITLE = 'Top 10 VC'
+TOP10_VC_SLUG  = 'top_10_vc'
+RADAR_STAGE    = 'Radar'
 
 
 # --- Helpers ------------------------------------------------------------------
@@ -221,6 +224,25 @@ def transform_excel(file_bytes):
 
 
 # --- Attio API ----------------------------------------------------------------
+
+_attr_slug_cache = {}  # (object_slug, title_lower) -> api_slug
+
+def deal_attr_slug(title, default=None):
+    """Resolve a Deals attribute's api_slug by its TITLE (robust to slug drift).
+    Falls back to `default` if the lookup fails or no title matches."""
+    key = ("deals", title.strip().lower())
+    if key in _attr_slug_cache:
+        return _attr_slug_cache[key]
+    slug = default
+    resp = requests.get(f"{ATTIO_API_BASE}/objects/deals/attributes", headers=attio_headers())
+    if resp.status_code == 200:
+        for a in resp.json().get("data", []):
+            if str(a.get("title", "")).strip().lower() == title.strip().lower():
+                slug = a.get("api_slug") or default
+                break
+    print(f"ATTR SLUG '{title}' -> {slug}")
+    _attr_slug_cache[key] = slug
+    return slug
 
 _select_option_cache = {}  # (object_slug, attribute_slug) -> set of existing option titles
 
@@ -400,8 +422,9 @@ def build_attio_values(row, company_record_id, stage="Watchlist", source=None, t
     if source:
         values["source"] = [{"value": source}]
     if top10:
-        ensure_select_option('deals', TOP10_VC_SLUG, 'Yes')
-        values[TOP10_VC_SLUG] = "Yes"   # single-select: write the option title as a string
+        slug = deal_attr_slug(TOP10_VC_TITLE, TOP10_VC_SLUG)
+        ensure_select_option('deals', slug, 'Yes')
+        values[slug] = "Yes"   # single-select: write the option title as a string
 
     for csv_col, (slug, field_type) in FIELD_MAP.items():
         val = row.get(csv_col)
@@ -451,19 +474,22 @@ def upsert_deal(row, company_record_id, stage="Watchlist", source=None, top10=Fa
         # flag and (re)link investors; otherwise just backfill the associated company.
         patch_vals = {}
         if top10:
-            ensure_select_option('deals', TOP10_VC_SLUG, 'Yes')
-            patch_vals[TOP10_VC_SLUG] = "Yes"
+            slug = deal_attr_slug(TOP10_VC_TITLE, TOP10_VC_SLUG)
+            ensure_select_option('deals', slug, 'Yes')
+            patch_vals[slug] = "Yes"
             patch_vals.update(resolve_investor_links(row, get_company_index()))
         if company_record_id:
             patch_vals["associated_company"] = [{
                 "target_object": "companies", "target_record_id": company_record_id,
             }]
         if patch_vals:
-            requests.patch(
+            pr = requests.patch(
                 f"{ATTIO_API_BASE}/objects/deals/records/{existing_id}",
                 headers=attio_headers(),
                 json={"data": {"values": patch_vals}},
             )
+            print(f"DEAL PATCH {company_name} top10={top10} keys={list(patch_vals)}: "
+                  f"{pr.status_code} {pr.text[:200]}")
         return "skipped"
 
     values = build_attio_values(row, company_record_id, stage, source, top10)
@@ -472,6 +498,8 @@ def upsert_deal(row, company_record_id, stage="Watchlist", source=None, top10=Fa
         headers=attio_headers(),
         json={"data": {"values": values}},
     )
+    print(f"DEAL CREATE {company_name} top10={top10} top_10_vc={values.get(TOP10_VC_SLUG)!r}: "
+          f"{resp.status_code} {resp.text[:200]}")
     if resp.status_code in (200, 201):
         record_id = resp.json().get("data", {}).get("id", {}).get("record_id", "")
         return {"status": "created", "record_id": record_id}
