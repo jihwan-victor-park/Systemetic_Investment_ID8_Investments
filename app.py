@@ -401,7 +401,7 @@ def build_attio_values(row, company_record_id, stage="Watchlist", source=None, t
         values["source"] = [{"value": source}]
     if top10:
         ensure_select_option('deals', TOP10_VC_SLUG, 'Yes')
-        values[TOP10_VC_SLUG] = [{"option": "Yes"}]
+        values[TOP10_VC_SLUG] = "Yes"   # single-select: write the option title as a string
 
     for csv_col, (slug, field_type) in FIELD_MAP.items():
         val = row.get(csv_col)
@@ -415,7 +415,7 @@ def build_attio_values(row, company_record_id, stage="Watchlist", source=None, t
             values[slug] = [{"value": val_str}]
         elif field_type == 'select':
             ensure_select_option('deals', slug, val_str)
-            values[slug] = [{"option": val_str}]
+            values[slug] = val_str   # single-select: option title as a string
         elif field_type == 'currency':
             # Source value is in $millions -> store the real amount in Attio.
             num = clean_number(val)
@@ -452,7 +452,7 @@ def upsert_deal(row, company_record_id, stage="Watchlist", source=None, top10=Fa
         patch_vals = {}
         if top10:
             ensure_select_option('deals', TOP10_VC_SLUG, 'Yes')
-            patch_vals[TOP10_VC_SLUG] = [{"option": "Yes"}]
+            patch_vals[TOP10_VC_SLUG] = "Yes"
             patch_vals.update(resolve_investor_links(row, get_company_index()))
         if company_record_id:
             patch_vals["associated_company"] = [{
@@ -612,7 +612,7 @@ def process_jesse():
         requests.patch(
             f"{ATTIO_API_BASE}/objects/deals/records/{status['record_id']}",
             headers=attio_headers(),
-            json={"data": {"values": {"round_live": [{"option": "Round Live"}]}}},
+            json={"data": {"values": {"round_live": "Round Live"}}},
         )
 
     if isinstance(status, dict) and status.get("status") == "created":
