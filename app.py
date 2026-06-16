@@ -605,7 +605,7 @@ def process_jesse():
     }
 
     company_id = find_or_create_company(company_name, website, description) if website else None
-    status = upsert_deal(row, company_id, stage="Watchlist", source="Jesse")
+    status = upsert_deal(row, company_id, stage="Watchlist", source="Jesse Bloom")
 
     # Patch Round Live (Access) separately — it's a select on the deal record
     if isinstance(status, dict) and status.get("status") == "created" and data.get("Access") is True:
@@ -668,7 +668,7 @@ def debug_attributes():
 
 
 @app.route("/backfill-investors", methods=["POST"])
-def backfill_investors():
+def backfill_investors(): 
     """One-time pass: link investors on deals already in Attio.
 
     Reads each deal's stored investor *text* fields, matches names to Companies
