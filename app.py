@@ -1,6 +1,7 @@
 import os
 import re
 import io
+import threading
 import traceback
 import requests
 import pandas as pd
@@ -8,11 +9,44 @@ import openpyxl
 from flask import Flask, request, jsonify, send_file, send_file, make_response
 from datetime import datetime
 
-from outreach.campaign      import start_campaign, get_run, approve_contacts
-from outreach.dashboard_html import render as render_dashboard
-from outreach.attio_sync    import start_sync, get_sync_status
+# Standalone weekly Attio → Apollo sync (single flat file, no outreach/ package)
+from attio_apollo_sync import run as _run_attio_apollo_sync
 
 app = Flask(__name__)
+
+# In-memory status for the weekly sync (survives until the process restarts)
+_sync_state = {"status": "idle", "started_at": None, "finished_at": None, "error": None}
+_sync_lock  = threading.Lock()
+
+
+def _sync_thread():
+    try:
+        _run_attio_apollo_sync()
+        with _sync_lock:
+            _sync_state.update({"status": "complete",
+                                "finished_at": datetime.utcnow().isoformat(),
+                                "error": None})
+    except BaseException as exc:  # catches SystemExit from missing env vars too
+        with _sync_lock:
+            _sync_state.update({"status": "error",
+                                "finished_at": datetime.utcnow().isoformat(),
+                                "error": str(exc)})
+
+
+def start_sync():
+    with _sync_lock:
+        if _sync_state["status"] == "running":
+            return False, "Sync already running"
+        _sync_state.update({"status": "running",
+                            "started_at": datetime.utcnow().isoformat(),
+                            "finished_at": None, "error": None})
+    threading.Thread(target=_sync_thread, daemon=True).start()
+    return True, "Sync started"
+
+
+def get_sync_status():
+    with _sync_lock:
+        return dict(_sync_state)
 
 ATTIO_API_KEY  = os.environ.get("ATTIO_API_KEY", "")
 ATTIO_API_BASE = "https://api.attio.com/v2"
@@ -498,81 +532,6 @@ def debug_attributes():
         return jsonify({"error": resp.text}), resp.status_code
     attrs = resp.json().get("data", {}).get("attributes", [])
     return jsonify([{"slug": a["api_slug"], "name": a["title"], "type": a["type"]} for a in attrs])
-
-
-# ── Outreach routes ───────────────────────────────────────────────────────────
-
-@app.route("/outreach/run", methods=["POST"])
-def outreach_run():
-    """
-    Start the outreach pipeline in a background thread.
-    N8N calls this, gets run_id back immediately, then polls /outreach/status/<run_id>.
-
-    Optional JSON body: { "max_contacts": 100, "min_score": 6 }
-    """
-    body        = request.get_json(silent=True) or {}
-    max_contacts = int(body.get("max_contacts", 100))
-    min_score    = int(body.get("min_score", 6))
-
-    run_id = start_campaign(max_contacts=max_contacts, min_score=min_score)
-    base   = request.host_url.rstrip("/")
-    return jsonify({
-        "run_id":        run_id,
-        "status":        "started",
-        "dashboard_url": f"{base}/outreach/dashboard",
-        "status_url":    f"{base}/outreach/status/{run_id}",
-        "message":       f"Pipeline started. Poll status_url until status=complete (~3 min).",
-    })
-
-
-@app.route("/outreach/status/<run_id>", methods=["GET"])
-def outreach_status(run_id):
-    """Poll this until status == 'complete' or 'error'."""
-    run = get_run(run_id)
-    if not run:
-        return jsonify({"error": "run not found"}), 404
-    base = request.host_url.rstrip("/")
-    return jsonify({
-        "run_id":        run["run_id"],
-        "status":        run["status"],
-        "stats":         run.get("stats", {}),
-        "error":         run.get("error"),
-        "dashboard_url": f"{base}/outreach/dashboard",
-        "log_tail":      run["log"][-5:],
-    })
-
-
-@app.route("/outreach/dashboard", methods=["GET"])
-def outreach_dashboard():
-    """Approval dashboard — human reviews and approves contacts before they're enrolled."""
-    run_id = request.args.get("run_id")
-    run    = get_run(run_id)
-    html   = render_dashboard(run)
-    resp   = make_response(html)
-    resp.headers["Content-Type"] = "text/html; charset=utf-8"
-    return resp
-
-
-@app.route("/outreach/approve", methods=["POST"])
-def outreach_approve():
-    """
-    Approve selected contacts: creates them in Apollo + enrolls in sequence.
-    Body: { "run_id": "...", "emails": ["a@b.com", ...], "openers": {"a@b.com": "new text"} }
-    """
-    body    = request.get_json(silent=True) or {}
-    run_id  = body.get("run_id")
-    emails  = body.get("emails", [])
-    openers = body.get("openers", {})
-
-    if not run_id or not emails:
-        return jsonify({"error": "run_id and emails are required"}), 400
-
-    enrolled, errors = approve_contacts(run_id, emails, openers)
-    return jsonify({
-        "enrolled": enrolled,
-        "errors":   errors,
-        "message":  f"{enrolled} contacts enrolled in Apollo sequence.",
-    })
 
 
 if __name__ == "__main__":
