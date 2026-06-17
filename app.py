@@ -1,18 +1,22 @@
 import os
 import re
 import io
-import unicodedata
 import traceback
 import requests
 import pandas as pd
 import openpyxl
-from flask import Flask, request, jsonify, send_file, send_file
+from flask import Flask, request, jsonify, send_file, send_file, make_response
 from datetime import datetime
+
+from outreach.campaign      import start_campaign, get_run, approve_contacts
+from outreach.dashboard_html import render as render_dashboard
+from outreach.attio_sync    import start_sync, get_sync_status
 
 app = Flask(__name__)
 
 ATTIO_API_KEY  = os.environ.get("ATTIO_API_KEY", "")
 ATTIO_API_BASE = "https://api.attio.com/v2"
+CRON_SECRET    = os.environ.get("CRON_SECRET", "")
 
 DROP_COLS = [
     'Deal ID', 'Primary PitchBook Industry Code', 'View Company Online',
@@ -34,26 +38,14 @@ FIELD_MAP = {
     'HQ Location':         ('location',          'text'),
 }
 
-# Investor text column -> record-reference slug on the Deals object.
-# These link each matched VC firm to its Companies record (clickable on the deal).
-# CONFIRM these slugs against GET /debug/attributes after creating the attributes
-# in the Attio UI (Record reference -> Companies, allow multiple values).
-INVESTOR_REF_MAP = {
-    'Lead/Sole Investors': 'lead_investors_8',
-    'New Investors':       'new_investors_5',
-    'Investors':           'investors_5',   # full list incl. follow-on investors
-}
-
-# Top 10 VC workflow: select attribute (Yes/No) stamped on those deals, and the
-# stage new deals default to (must exist as a status on the Deal stage field).
-# The slug is resolved at runtime by the attribute TITLE (below) so a slug mismatch
-# can't silently break the write; TOP10_VC_SLUG is just the fallback.
-TOP10_VC_TITLE = 'Top 10 VC'
-TOP10_VC_SLUG  = 'top_10_vc'
-RADAR_STAGE    = 'Radar'
-
 
 # --- Helpers ------------------------------------------------------------------
+
+def _has_new_investors(row: dict) -> bool:
+    """True when the New Investors field is populated for this deal."""
+    val = str(row.get("New Investors", "") or "").strip()
+    return bool(val and val.lower() not in ("nan", "none", ""))
+
 
 def attio_headers():
     return {
@@ -69,25 +61,6 @@ def clean_number(val):
     except:
         return None
 
-# PitchBook (and Jesse) money values arrive expressed in $millions:
-#   400 -> $400,000,000   |   44000 -> $44,000,000,000   |   1163.11 -> $1,163,110,000
-# Currency fields are scaled by this factor before being stored in Attio.
-MILLION = 1_000_000
-
-def _trim(x):
-    """Format a float with up to 2 decimals, dropping trailing zeros (1.50 -> '1.5', 400.00 -> '400')."""
-    return f"{x:.2f}".rstrip("0").rstrip(".")
-
-def fmt_money_millions(val):
-    """Format a value expressed in $millions as a readable string for the email.
-    400 -> '$400M', 2000 -> '$2B', 1163.11 -> '$1.16B', 35 -> '$35M'."""
-    num = clean_number(val)
-    if num is None:
-        return ""
-    if num >= 1000:
-        return f"${_trim(num / 1000)}B"
-    return f"${_trim(num)}M"
-
 def format_date(val):
     if val is None or (isinstance(val, float) and pd.isna(val)):
         return None
@@ -97,75 +70,6 @@ def format_date(val):
         return pd.to_datetime(str(val)).strftime("%Y-%m-%d")
     except:
         return None
-
-# --- Investor parsing / matching ----------------------------------------------
-
-_LEGAL_SUFFIXES = {
-    'inc', 'incorporated', 'llc', 'llp', 'ltd', 'limited', 'lp',
-    'corp', 'corporation', 'plc', 'gmbh', 'ag', 'sa',
-}
-
-def normalize_company_name(name):
-    """Build a loose match key for a company/VC name.
-    'Nokia (HEL: NOKIA)' -> 'nokia'; "Ontario Teachers' Pension Plan" ->
-    'ontario teachers pension plan'; 'Accel Inc.' -> 'accel'."""
-    if not name:
-        return ""
-    s = str(name).lower()
-    s = ''.join(c for c in unicodedata.normalize('NFKD', s)
-                if not unicodedata.combining(c))   # fold accents: é -> e
-    s = re.sub(r'\([^)]*\)', ' ', s)        # drop all parenthetical groups
-    s = s.replace('&', ' and ')
-    s = re.sub(r'[^a-z0-9 ]', ' ', s)       # strip punctuation/apostrophes/accents
-    tokens = [t for t in s.split() if t and t not in _LEGAL_SUFFIXES]
-    if tokens and tokens[0] == 'the':
-        tokens = tokens[1:]
-    return ' '.join(tokens)
-
-def _clean_domain(domain):
-    """Reduce a raw URL/domain to a bare host: 'www.tesi.fi/en' -> 'tesi.fi'."""
-    if not domain:
-        return ""
-    d = re.sub(r'^https?://', '', str(domain).strip(), flags=re.IGNORECASE)
-    d = d.replace('www.', '').strip().strip('/').lower()
-    d = d.split('/')[0]                     # drop any path
-    return d
-
-def parse_investors(raw):
-    """Split an investor cell into firm names, stripping glued '(Partner)' names.
-    'GIC Private(Yong Cheen Choo), ICONIQ Growth' -> ['GIC Private', 'ICONIQ Growth'].
-    Keeps spaced parentheticals that are part of the name ('Insight Partners (New York)')."""
-    if raw is None or (isinstance(raw, float) and pd.isna(raw)):
-        return []
-    s = str(raw).strip()
-    if not s or s.lower() in ('nan', 'none'):
-        return []
-    s = re.sub(r'(?<=\S)\([^)]*\)', '', s)  # remove parens glued on with no leading space
-    return [p.strip() for p in s.split(',') if p.strip()]
-
-def parse_investor_websites(cell):
-    """Parse PitchBook's 'Investors Websites' cell into {normalized_name -> domain}.
-    'General Atlantic (www.generalatlantic.com), Nokia (HEL: NOKIA) (www.nokia.com)'
-    -> {'general atlantic': 'generalatlantic.com', 'nokia': 'nokia.com'}."""
-    out = {}
-    if cell is None or (isinstance(cell, float) and pd.isna(cell)):
-        return out
-    s = str(cell).strip()
-    if not s or s.lower() in ('nan', 'none'):
-        return out
-    for item in s.split(','):
-        item = item.strip()
-        if not item:
-            continue
-        # the trailing (...) is the domain; everything before it is the name
-        m = re.match(r'^(.*)\s+\(([^)]*)\)\s*$', item)
-        if not m:
-            continue
-        name, domain = m.group(1).strip(), _clean_domain(m.group(2))
-        key = normalize_company_name(name)
-        if key and domain:
-            out.setdefault(key, domain)
-    return out
 
 def extract_hyperlinks(file_bytes, header_row_0idx, col_name):
     """Extract =HYPERLINK() formula display values from an Excel column."""
@@ -224,130 +128,6 @@ def transform_excel(file_bytes):
 
 
 # --- Attio API ----------------------------------------------------------------
-
-_attr_slug_cache = {}  # (object_slug, title_lower) -> api_slug
-
-def deal_attr_slug(title, default=None):
-    """Resolve a Deals attribute's api_slug by its TITLE (robust to slug drift).
-    Falls back to `default` if the lookup fails or no title matches."""
-    key = ("deals", title.strip().lower())
-    if key in _attr_slug_cache:
-        return _attr_slug_cache[key]
-    slug = default
-    resp = requests.get(f"{ATTIO_API_BASE}/objects/deals/attributes", headers=attio_headers())
-    if resp.status_code == 200:
-        for a in resp.json().get("data", []):
-            if str(a.get("title", "")).strip().lower() == title.strip().lower():
-                slug = a.get("api_slug") or default
-                break
-    print(f"ATTR SLUG '{title}' -> {slug}")
-    _attr_slug_cache[key] = slug
-    return slug
-
-_select_option_cache = {}  # (object_slug, attribute_slug) -> set of existing option titles
-
-def ensure_select_option(object_slug, attribute_slug, option_title):
-    """Make sure a select option exists on an Attio attribute; create it if missing.
-
-    Attio rejects a write referencing an unknown select option, so when PitchBook
-    sends e.g. 'Series A2' (not yet in the picklist) we create the option first.
-    """
-    if not option_title:
-        return
-    key = (object_slug, attribute_slug)
-    titles = _select_option_cache.get(key)
-    if titles is None:
-        resp = requests.get(
-            f"{ATTIO_API_BASE}/objects/{object_slug}/attributes/{attribute_slug}/options",
-            headers=attio_headers(),
-        )
-        titles = set()
-        if resp.status_code == 200:
-            for opt in resp.json().get("data", []):
-                t = opt.get("title")
-                if t:
-                    titles.add(t)
-        _select_option_cache[key] = titles
-
-    if option_title in titles:
-        return
-
-    resp = requests.post(
-        f"{ATTIO_API_BASE}/objects/{object_slug}/attributes/{attribute_slug}/options",
-        headers=attio_headers(),
-        json={"data": {"title": option_title}},
-    )
-    print(f"OPTION CREATE {object_slug}.{attribute_slug} '{option_title}': "
-          f"{resp.status_code} {resp.text[:200]}")
-    if resp.status_code in (200, 201):
-        titles.add(option_title)
-
-_company_index = None  # {"by_name": {normalized_name: id}, "by_domain": {domain: id}}
-
-def get_company_index(refresh=False):
-    """Build {normalized_name -> id} and {domain -> id} maps over all Companies.
-
-    Used for link-only investor matching — we never create from here. Cached for the
-    process; pass refresh=True at the start of a run to pick up newly-created companies.
-    """
-    global _company_index
-    if _company_index is not None and not refresh:
-        return _company_index
-
-    by_name, by_domain = {}, {}
-    offset, limit = 0, 500
-    while True:
-        resp = requests.post(
-            f"{ATTIO_API_BASE}/objects/companies/records/query",
-            headers=attio_headers(),
-            json={"limit": limit, "offset": offset},
-        )
-        if resp.status_code != 200:
-            print(f"COMPANY INDEX query failed: {resp.status_code} {resp.text[:200]}")
-            break
-        batch = resp.json().get("data", [])
-        for rec in batch:
-            rid = rec["id"]["record_id"]
-            vals = rec.get("values", {})
-            for nm in vals.get("name", []):
-                key = normalize_company_name(nm.get("value"))
-                if key:
-                    by_name.setdefault(key, rid)
-            for dm in vals.get("domains", []):
-                d = _clean_domain(dm.get("domain"))
-                if d:
-                    by_domain.setdefault(d, rid)
-        if len(batch) < limit:
-            break
-        offset += limit
-
-    _company_index = {"by_name": by_name, "by_domain": by_domain}
-    print(f"COMPANY INDEX built: {len(by_name)} names, {len(by_domain)} domains")
-    return _company_index
-
-def resolve_investor_links(row, index):
-    """Resolve the Lead/New/Investors text columns to record-reference values.
-
-    Matches each investor to an existing Companies record by domain first (from the
-    'Investors Websites' column) then by normalized name. Link-only: unmatched names
-    are skipped. Returns {ref_slug: [{target_object, target_record_id}, ...]}.
-    """
-    name_to_domain = parse_investor_websites(row.get('Investors Websites'))
-    by_name, by_domain = index["by_name"], index["by_domain"]
-
-    out = {}
-    for csv_col, ref_slug in INVESTOR_REF_MAP.items():
-        ids = []
-        for nm in parse_investors(row.get(csv_col)):
-            key = normalize_company_name(nm)
-            rid = by_domain.get(name_to_domain.get(key, '')) or by_name.get(key)
-            if rid and rid not in ids:
-                ids.append(rid)
-        if ids:
-            out[ref_slug] = [
-                {"target_object": "companies", "target_record_id": rid} for rid in ids
-            ]
-    return out
 
 def find_or_create_company(company_name, domain, description=None):
     """Find company by domain; create it if not found. Returns record_id or None."""
@@ -412,7 +192,7 @@ def patch_deal_company(deal_record_id, company_record_id):
         }}},
     )
 
-def build_attio_values(row, company_record_id, stage="Watchlist", source=None, top10=False):
+def build_attio_values(row, company_record_id, stage="Watchlist", source=None):
     """Build the Attio API values dict from a DataFrame row."""
     company_name = str(row.get('Companies', '')).strip()
     values = {
@@ -421,10 +201,6 @@ def build_attio_values(row, company_record_id, stage="Watchlist", source=None, t
     }
     if source:
         values["source"] = [{"value": source}]
-    if top10:
-        slug = deal_attr_slug(TOP10_VC_TITLE, TOP10_VC_SLUG)
-        ensure_select_option('deals', slug, 'Yes')
-        values[slug] = "Yes"   # single-select: write the option title as a string
 
     for csv_col, (slug, field_type) in FIELD_MAP.items():
         val = row.get(csv_col)
@@ -437,13 +213,11 @@ def build_attio_values(row, company_record_id, stage="Watchlist", source=None, t
         if field_type == 'text':
             values[slug] = [{"value": val_str}]
         elif field_type == 'select':
-            ensure_select_option('deals', slug, val_str)
-            values[slug] = val_str   # single-select: option title as a string
+            values[slug] = [{"option": val_str}]
         elif field_type == 'currency':
-            # Source value is in $millions -> store the real amount in Attio.
             num = clean_number(val)
             if num is not None:
-                values[slug] = [{"currency_value": num * MILLION}]
+                values[slug] = [{"currency_value": num}]
         elif field_type == 'number':
             num = clean_number(val)
             if num is not None:
@@ -453,9 +227,6 @@ def build_attio_values(row, company_record_id, stage="Watchlist", source=None, t
             if date_str:
                 values[slug] = [{"value": date_str}]
 
-    # Link investor firms to their Companies records (clickable on the deal).
-    values.update(resolve_investor_links(row, get_company_index()))
-
     if company_record_id:
         values["associated_company"] = [{
             "target_object": "companies",
@@ -464,42 +235,22 @@ def build_attio_values(row, company_record_id, stage="Watchlist", source=None, t
 
     return values
 
-def upsert_deal(row, company_record_id, stage="Watchlist", source=None, top10=False):
+def upsert_deal(row, company_record_id, stage="Watchlist", source=None):
     company_name = str(row.get('Companies', '')).strip()
     series = str(row.get('Series', '')).strip()
 
     existing_id = find_deal(company_name, series)
     if existing_id:
-        # Existing deal: never change its stage. For the Top 10 VC flow, stamp the
-        # flag and (re)link investors; otherwise just backfill the associated company.
-        patch_vals = {}
-        if top10:
-            slug = deal_attr_slug(TOP10_VC_TITLE, TOP10_VC_SLUG)
-            ensure_select_option('deals', slug, 'Yes')
-            patch_vals[slug] = "Yes"
-            patch_vals.update(resolve_investor_links(row, get_company_index()))
         if company_record_id:
-            patch_vals["associated_company"] = [{
-                "target_object": "companies", "target_record_id": company_record_id,
-            }]
-        if patch_vals:
-            pr = requests.patch(
-                f"{ATTIO_API_BASE}/objects/deals/records/{existing_id}",
-                headers=attio_headers(),
-                json={"data": {"values": patch_vals}},
-            )
-            print(f"DEAL PATCH {company_name} top10={top10} keys={list(patch_vals)}: "
-                  f"{pr.status_code} {pr.text[:200]}")
+            patch_deal_company(existing_id, company_record_id)
         return "skipped"
 
-    values = build_attio_values(row, company_record_id, stage, source, top10)
+    values = build_attio_values(row, company_record_id, stage, source)
     resp = requests.post(
         f"{ATTIO_API_BASE}/objects/deals/records",
         headers=attio_headers(),
         json={"data": {"values": values}},
     )
-    print(f"DEAL CREATE {company_name} top10={top10} top_10_vc={values.get(TOP10_VC_SLUG)!r}: "
-          f"{resp.status_code} {resp.text[:200]}")
     if resp.status_code in (200, 201):
         record_id = resp.json().get("data", {}).get("id", {}).get("record_id", "")
         return {"status": "created", "record_id": record_id}
@@ -508,9 +259,8 @@ def upsert_deal(row, company_record_id, stage="Watchlist", source=None, top10=Fa
 
 # --- Shared pipeline logic ----------------------------------------------------
 
-def run_pipeline(file_bytes, stage, source=None, top10=False):
+def run_pipeline(file_bytes, stage, source=None):
     df = transform_excel(file_bytes)
-    get_company_index(refresh=True)   # fresh Companies snapshot for investor matching
     results = {"created": 0, "skipped": 0, "errors": [], "deals": []}
 
     def clean(val):
@@ -522,16 +272,16 @@ def run_pipeline(file_bytes, stage, source=None, top10=False):
         company_name = str(row.get("Companies", "")).strip()
         description = clean(row.get("Description", ""))
         company_id = find_or_create_company(company_name, website, description) if website and website != 'nan' else None
-        status = upsert_deal(row.to_dict(), company_id, stage, source, top10)
+        effective_stage = "Radar" if _has_new_investors(row.to_dict()) else stage
+        status = upsert_deal(row.to_dict(), company_id, effective_stage, source)
 
         if isinstance(status, dict) and status.get("status") == "created":
             results["created"] += 1
             results["deals"].append({
                 "company":        company_name,
                 "series":         clean(row.get("Series")),
-                "deal_size":      fmt_money_millions(row.get("Deal Size")),
-                "post_valuation": fmt_money_millions(row.get("Post Valuation")),
-                "revenue":        fmt_money_millions(row.get("Revenue")),
+                "deal_size":      clean(row.get("Deal Size")),
+                "post_valuation": clean(row.get("Post Valuation")),
                 "description":    description,
                 "lead_investors": clean(row.get("Lead/Sole Investors")),
                 "new_investors":  clean(row.get("New Investors")),
@@ -584,20 +334,6 @@ def process_watchlist():
         return jsonify({"error": f"Transform failed: {str(e)}"}), 500
     return jsonify({"status": "done", **results})
 
-@app.route("/process-top10", methods=["POST"])
-def process_top10():
-    """Top 10 VC weekly flow: tag deals Top 10 VC = Yes; new deals default to the
-    Radar stage; existing deals keep their stage (only flag + investor links updated)."""
-    file_bytes, err = _read_file_bytes()
-    if err:
-        return err
-    try:
-        results = run_pipeline(file_bytes, stage=RADAR_STAGE, source="ID8 Investments", top10=True)
-    except Exception as e:
-        print("TRANSFORM ERROR:", traceback.format_exc())
-        return jsonify({"error": f"Transform failed: {str(e)}"}), 500
-    return jsonify({"status": "done", **results})
-
 @app.route("/process-jesse", methods=["POST"])
 def process_jesse():
     data = request.get_json()
@@ -633,14 +369,14 @@ def process_jesse():
     }
 
     company_id = find_or_create_company(company_name, website, description) if website else None
-    status = upsert_deal(row, company_id, stage="Watchlist", source="Jesse Bloom")
+    status = upsert_deal(row, company_id, stage="Watchlist", source="Jesse")
 
     # Patch Round Live (Access) separately — it's a select on the deal record
     if isinstance(status, dict) and status.get("status") == "created" and data.get("Access") is True:
         requests.patch(
             f"{ATTIO_API_BASE}/objects/deals/records/{status['record_id']}",
             headers=attio_headers(),
-            json={"data": {"values": {"round_live": "Round Live"}}},
+            json={"data": {"values": {"round_live": [{"option": "Round Live"}]}}},
         )
 
     if isinstance(status, dict) and status.get("status") == "created":
@@ -652,9 +388,8 @@ def process_jesse():
             "deals": [{
                 "company":        company_name,
                 "series":         series,
-                "deal_size":      fmt_money_millions(data.get("Deal Size")),
-                "post_valuation": fmt_money_millions(data.get("Post Valuation")),
-                "revenue":        fmt_money_millions(data.get("Revenue")),
+                "deal_size":      clean(str(data.get("Deal Size", ""))),
+                "post_valuation": clean(str(data.get("Post Valuation", ""))),
                 "description":    description,
                 "lead_investors": clean(data.get("Lead Investor", "")),
                 "new_investors":  clean(data.get("New Investors", "")),
@@ -672,6 +407,57 @@ def process_jesse():
                         "errors": [{"deal": company_name, "error": status}], "deals": []})
 
 
+@app.route("/fix-radar-stages", methods=["POST"])
+def fix_radar_stages():
+    """
+    One-time fix: finds all Qualified deals whose New Investors or Lead Investors
+    contain a top-tier VC, and moves them to Radar — only if currently Qualified.
+    """
+    fixed, skipped, errors = [], [], []
+    offset = 0
+    limit  = 100
+
+    while True:
+        resp = requests.post(
+            f"{ATTIO_API_BASE}/objects/deals/records/query",
+            headers=attio_headers(),
+            json={"filter": {"stage": {"$eq": "Qualified"}}, "limit": limit, "offset": offset},
+        )
+        if resp.status_code != 200:
+            return jsonify({"error": f"Attio query failed: {resp.text[:300]}"}), 500
+
+        batch = resp.json().get("data", [])
+        if not batch:
+            break
+
+        for record in batch:
+            vals   = record.get("values", {})
+            rid    = record["id"]["record_id"]
+            name   = (vals.get("name") or [{}])[0].get("value", rid)
+            new_inv = str((vals.get("new_investors_7") or [{}])[0].get("value", "") or "").strip()
+
+            if not new_inv or new_inv.lower() in ("nan", "none", ""):
+                skipped.append(name)
+                continue
+
+            patch = requests.patch(
+                f"{ATTIO_API_BASE}/objects/deals/records/{rid}",
+                headers=attio_headers(),
+                json={"data": {"values": {"stage": [{"status": "Radar"}]}}},
+            )
+            if patch.status_code in (200, 201):
+                fixed.append(name)
+            else:
+                errors.append({"deal": name, "error": patch.text[:200]})
+
+        if len(batch) < limit:
+            break
+        offset += limit
+
+    return jsonify({"fixed": fixed, "fixed_count": len(fixed),
+                    "skipped_count": len(skipped), "errors": errors})
+
+
 @app.route("/logo", methods=["GET"])
 def logo():
     """Serve the ID8 logo for email headers."""
@@ -679,6 +465,25 @@ def logo():
     if not os.path.exists(path):
         return jsonify({"error": "logo.png not found"}), 404
     return send_file(path, mimetype="image/png")
+
+
+@app.route("/cron/weekly-sync", methods=["POST"])
+def cron_weekly_sync():
+    """
+    Trigger the weekly Attio → Apollo sync.
+    Protect with X-Cron-Secret header (set CRON_SECRET env var).
+    Safe to call via an external scheduler (cron-job.org, Render cron, etc.).
+    """
+    if CRON_SECRET and request.headers.get("X-Cron-Secret") != CRON_SECRET:
+        return jsonify({"error": "unauthorized"}), 401
+    started, msg = start_sync()
+    return jsonify({"started": started, "message": msg})
+
+
+@app.route("/cron/sync-status", methods=["GET"])
+def cron_sync_status():
+    """Poll the status of the most recent weekly sync."""
+    return jsonify(get_sync_status())
 
 
 @app.route("/health", methods=["GET"])
@@ -695,57 +500,79 @@ def debug_attributes():
     return jsonify([{"slug": a["api_slug"], "name": a["title"], "type": a["type"]} for a in attrs])
 
 
-@app.route("/backfill-investors", methods=["POST"])
-def backfill_investors(): 
-    """One-time pass: link investors on deals already in Attio.
+# ── Outreach routes ───────────────────────────────────────────────────────────
 
-    Reads each deal's stored investor *text* fields, matches names to Companies
-    (by normalized name — no domains stored on existing deals), and PATCHes the
-    record-reference attributes. Link-only; nothing is created.
+@app.route("/outreach/run", methods=["POST"])
+def outreach_run():
     """
-    index = get_company_index(refresh=True)
-    # CSV column -> (text slug to read, reference slug to write)
-    cols = {c: (FIELD_MAP[c][0], INVESTOR_REF_MAP[c]) for c in INVESTOR_REF_MAP}
+    Start the outreach pipeline in a background thread.
+    N8N calls this, gets run_id back immediately, then polls /outreach/status/<run_id>.
 
-    scanned = updated = links = 0
-    errors = []
-    offset, limit = 0, 500
-    while True:
-        resp = requests.post(
-            f"{ATTIO_API_BASE}/objects/deals/records/query",
-            headers=attio_headers(),
-            json={"limit": limit, "offset": offset},
-        )
-        if resp.status_code != 200:
-            return jsonify({"error": resp.text}), resp.status_code
-        batch = resp.json().get("data", [])
-        for rec in batch:
-            scanned += 1
-            rid = rec["id"]["record_id"]
-            vals = rec.get("values", {})
-            row = {}
-            for csv_col, (text_slug, _ref) in cols.items():
-                tv = vals.get(text_slug, [])
-                row[csv_col] = tv[0].get("value") if tv else ""
-            ref_values = resolve_investor_links(row, index)
-            if not ref_values:
-                continue
-            r = requests.patch(
-                f"{ATTIO_API_BASE}/objects/deals/records/{rid}",
-                headers=attio_headers(),
-                json={"data": {"values": ref_values}},
-            )
-            if r.status_code in (200, 201):
-                updated += 1
-                links += sum(len(v) for v in ref_values.values())
-            else:
-                errors.append({"deal": rid, "error": f"{r.status_code}:{r.text[:200]}"})
-        if len(batch) < limit:
-            break
-        offset += limit
+    Optional JSON body: { "max_contacts": 100, "min_score": 6 }
+    """
+    body        = request.get_json(silent=True) or {}
+    max_contacts = int(body.get("max_contacts", 100))
+    min_score    = int(body.get("min_score", 6))
 
-    return jsonify({"status": "done", "scanned": scanned, "updated": updated,
-                    "links": links, "errors": errors})
+    run_id = start_campaign(max_contacts=max_contacts, min_score=min_score)
+    base   = request.host_url.rstrip("/")
+    return jsonify({
+        "run_id":        run_id,
+        "status":        "started",
+        "dashboard_url": f"{base}/outreach/dashboard",
+        "status_url":    f"{base}/outreach/status/{run_id}",
+        "message":       f"Pipeline started. Poll status_url until status=complete (~3 min).",
+    })
+
+
+@app.route("/outreach/status/<run_id>", methods=["GET"])
+def outreach_status(run_id):
+    """Poll this until status == 'complete' or 'error'."""
+    run = get_run(run_id)
+    if not run:
+        return jsonify({"error": "run not found"}), 404
+    base = request.host_url.rstrip("/")
+    return jsonify({
+        "run_id":        run["run_id"],
+        "status":        run["status"],
+        "stats":         run.get("stats", {}),
+        "error":         run.get("error"),
+        "dashboard_url": f"{base}/outreach/dashboard",
+        "log_tail":      run["log"][-5:],
+    })
+
+
+@app.route("/outreach/dashboard", methods=["GET"])
+def outreach_dashboard():
+    """Approval dashboard — human reviews and approves contacts before they're enrolled."""
+    run_id = request.args.get("run_id")
+    run    = get_run(run_id)
+    html   = render_dashboard(run)
+    resp   = make_response(html)
+    resp.headers["Content-Type"] = "text/html; charset=utf-8"
+    return resp
+
+
+@app.route("/outreach/approve", methods=["POST"])
+def outreach_approve():
+    """
+    Approve selected contacts: creates them in Apollo + enrolls in sequence.
+    Body: { "run_id": "...", "emails": ["a@b.com", ...], "openers": {"a@b.com": "new text"} }
+    """
+    body    = request.get_json(silent=True) or {}
+    run_id  = body.get("run_id")
+    emails  = body.get("emails", [])
+    openers = body.get("openers", {})
+
+    if not run_id or not emails:
+        return jsonify({"error": "run_id and emails are required"}), 400
+
+    enrolled, errors = approve_contacts(run_id, emails, openers)
+    return jsonify({
+        "enrolled": enrolled,
+        "errors":   errors,
+        "message":  f"{enrolled} contacts enrolled in Apollo sequence.",
+    })
 
 
 if __name__ == "__main__":
