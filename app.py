@@ -6,18 +6,13 @@ import traceback
 import requests
 import pandas as pd
 import openpyxl
-from flask import Flask, request, jsonify, send_file, send_file, make_response
+from flask import Flask, request, jsonify, send_file, send_file
 from datetime import datetime
-
-from outreach.campaign      import start_campaign, get_run, approve_contacts
-from outreach.dashboard_html import render as render_dashboard
-from outreach.attio_sync    import start_sync, get_sync_status
 
 app = Flask(__name__)
 
 ATTIO_API_KEY  = os.environ.get("ATTIO_API_KEY", "")
 ATTIO_API_BASE = "https://api.attio.com/v2"
-CRON_SECRET    = os.environ.get("CRON_SECRET", "")
 
 DROP_COLS = [
     'Deal ID', 'Primary PitchBook Industry Code', 'View Company Online',
@@ -802,100 +797,6 @@ def fix_radar_stages():
 
     return jsonify({"fixed": fixed, "fixed_count": len(fixed),
                     "skipped_count": len(skipped), "errors": errors})
-
-
-@app.route("/cron/weekly-sync", methods=["POST"])
-def cron_weekly_sync():
-    """
-    Trigger the weekly Attio → Apollo sync.
-    Protect with X-Cron-Secret header (set CRON_SECRET env var).
-    Safe to call via an external scheduler (cron-job.org, Render cron, etc.).
-    """
-    if CRON_SECRET and request.headers.get("X-Cron-Secret") != CRON_SECRET:
-        return jsonify({"error": "unauthorized"}), 401
-    started, msg = start_sync()
-    return jsonify({"started": started, "message": msg})
-
-
-@app.route("/cron/sync-status", methods=["GET"])
-def cron_sync_status():
-    """Poll the status of the most recent weekly sync."""
-    return jsonify(get_sync_status())
-
-
-# ── Outreach routes ───────────────────────────────────────────────────────────
-
-@app.route("/outreach/run", methods=["POST"])
-def outreach_run():
-    """
-    Start the outreach pipeline in a background thread.
-    N8N calls this, gets run_id back immediately, then polls /outreach/status/<run_id>.
-
-    Optional JSON body: { "max_contacts": 100, "min_score": 6 }
-    """
-    body        = request.get_json(silent=True) or {}
-    max_contacts = int(body.get("max_contacts", 100))
-    min_score    = int(body.get("min_score", 6))
-
-    run_id = start_campaign(max_contacts=max_contacts, min_score=min_score)
-    base   = request.host_url.rstrip("/")
-    return jsonify({
-        "run_id":        run_id,
-        "status":        "started",
-        "dashboard_url": f"{base}/outreach/dashboard",
-        "status_url":    f"{base}/outreach/status/{run_id}",
-        "message":       f"Pipeline started. Poll status_url until status=complete (~3 min).",
-    })
-
-
-@app.route("/outreach/status/<run_id>", methods=["GET"])
-def outreach_status(run_id):
-    """Poll this until status == 'complete' or 'error'."""
-    run = get_run(run_id)
-    if not run:
-        return jsonify({"error": "run not found"}), 404
-    base = request.host_url.rstrip("/")
-    return jsonify({
-        "run_id":        run["run_id"],
-        "status":        run["status"],
-        "stats":         run.get("stats", {}),
-        "error":         run.get("error"),
-        "dashboard_url": f"{base}/outreach/dashboard",
-        "log_tail":      run["log"][-5:],
-    })
-
-
-@app.route("/outreach/dashboard", methods=["GET"])
-def outreach_dashboard():
-    """Approval dashboard — human reviews and approves contacts before they're enrolled."""
-    run_id = request.args.get("run_id")
-    run    = get_run(run_id)
-    html   = render_dashboard(run)
-    resp   = make_response(html)
-    resp.headers["Content-Type"] = "text/html; charset=utf-8"
-    return resp
-
-
-@app.route("/outreach/approve", methods=["POST"])
-def outreach_approve():
-    """
-    Approve selected contacts: creates them in Apollo + enrolls in sequence.
-    Body: { "run_id": "...", "emails": ["a@b.com", ...], "openers": {"a@b.com": "new text"} }
-    """
-    body    = request.get_json(silent=True) or {}
-    run_id  = body.get("run_id")
-    emails  = body.get("emails", [])
-    openers = body.get("openers", {})
-
-    if not run_id or not emails:
-        return jsonify({"error": "run_id and emails are required"}), 400
-
-    enrolled, errors = approve_contacts(run_id, emails, openers)
-    return jsonify({
-        "enrolled": enrolled,
-        "errors":   errors,
-        "message":  f"{enrolled} contacts enrolled in Apollo sequence.",
-    })
 
 
 if __name__ == "__main__":
