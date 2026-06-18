@@ -329,8 +329,10 @@ def resolve_investor_links(row, index):
     """Resolve the Lead/New/Investors text columns to record-reference values.
 
     Matches each investor to an existing Companies record by domain first (from the
-    'Investors Websites' column) then by normalized name. Link-only: unmatched names
-    are skipped. Returns {ref_slug: [{target_object, target_record_id}, ...]}.
+    'Investors Websites' column) then by normalized name. When an investor isn't found
+    but the export gives its website, create the Companies record and link it. Investors
+    with no match and no website are skipped (can't create without a domain).
+    Returns {ref_slug: [{target_object, target_record_id}, ...]}.
     """
     name_to_domain = parse_investor_websites(row.get('Investors Websites'))
     by_name, by_domain = index["by_name"], index["by_domain"]
@@ -340,7 +342,15 @@ def resolve_investor_links(row, index):
         ids = []
         for nm in parse_investors(row.get(csv_col)):
             key = normalize_company_name(nm)
-            rid = by_domain.get(name_to_domain.get(key, '')) or by_name.get(key)
+            domain = name_to_domain.get(key, '')
+            rid = by_domain.get(domain) or by_name.get(key)
+            if not rid and domain:
+                # Not in Attio yet, but the export gave its website -> create + cache
+                # so repeats (across columns/rows) reuse the same record.
+                rid = find_or_create_company(nm, domain)
+                if rid:
+                    by_domain[domain] = rid
+                    by_name.setdefault(key, rid)
             if rid and rid not in ids:
                 ids.append(rid)
         if ids:
@@ -470,14 +480,16 @@ def upsert_deal(row, company_record_id, stage="Watchlist", source=None, top10=Fa
 
     existing_id = find_deal(company_name, series)
     if existing_id:
-        # Existing deal: never change its stage. For the Top 10 VC flow, stamp the
-        # flag and (re)link investors; otherwise just backfill the associated company.
+        # Existing deal: never change its stage. Always refresh investor links
+        # (creating missing VCs when the export gives their website) and backfill the
+        # associated company; the Top 10 VC flow also stamps its flag. These updates
+        # never enter the email feed — only newly-created deals are returned as "created".
         patch_vals = {}
         if top10:
             slug = deal_attr_slug(TOP10_VC_TITLE, TOP10_VC_SLUG)
             ensure_select_option('deals', slug, 'Yes')
             patch_vals[slug] = "Yes"
-            patch_vals.update(resolve_investor_links(row, get_company_index()))
+        patch_vals.update(resolve_investor_links(row, get_company_index()))
         if company_record_id:
             patch_vals["associated_company"] = [{
                 "target_object": "companies", "target_record_id": company_record_id,
