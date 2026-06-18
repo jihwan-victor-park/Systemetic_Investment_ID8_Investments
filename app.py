@@ -760,6 +760,60 @@ def backfill_investors():
                     "links": links, "errors": errors})
 
 
+@app.route("/update-investors", methods=["POST"])
+def update_investors():
+    """Backfill investor links on EXISTING deals from an uploaded PitchBook export.
+
+    Update-only: matches each row's deal by name+series and PATCHes its investor
+    references; if the deal isn't found it is SKIPPED — never created (no duplicate
+    deals). Missing investor *Companies* are still created when the export gives their
+    website (resolve_investor_links). Sends no email; nothing here is a 'created' deal.
+    """
+    file_bytes, err = _read_file_bytes()
+    if err:
+        return err
+    try:
+        df = transform_excel(file_bytes)
+    except Exception as e:
+        print("TRANSFORM ERROR:", traceback.format_exc())
+        return jsonify({"error": f"Transform failed: {str(e)}"}), 500
+
+    get_company_index(refresh=True)
+    updated = unchanged = not_found = links = 0
+    missing, errors = [], []
+
+    for _, row in df.iterrows():
+        rowd = row.to_dict()
+        company_name = str(rowd.get("Companies", "")).strip()
+        series = str(rowd.get("Series", "")).strip()
+
+        existing_id = find_deal(company_name, series)
+        if not existing_id:
+            not_found += 1
+            missing.append(f"{company_name} ({series})")
+            continue
+
+        ref_values = resolve_investor_links(rowd, get_company_index())
+        if not ref_values:
+            unchanged += 1
+            continue
+
+        r = requests.patch(
+            f"{ATTIO_API_BASE}/objects/deals/records/{existing_id}",
+            headers=attio_headers(),
+            json={"data": {"values": ref_values}},
+        )
+        if r.status_code in (200, 201):
+            updated += 1
+            links += sum(len(v) for v in ref_values.values())
+        else:
+            errors.append({"deal": company_name, "error": f"{r.status_code}:{r.text[:200]}"})
+
+    return jsonify({"status": "done", "updated": updated, "unchanged": unchanged,
+                    "not_found": not_found, "links": links,
+                    "missing": missing, "errors": errors})
+
+
 @app.route("/fix-radar-stages", methods=["POST"])
 def fix_radar_stages():
     """
