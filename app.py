@@ -3,6 +3,7 @@ import re
 import io
 import unicodedata
 import traceback
+import threading
 import requests
 import pandas as pd
 import openpyxl
@@ -474,9 +475,17 @@ def build_attio_values(row, company_record_id, stage="Watchlist", source=None, t
 
     return values
 
+def determine_stage(series, default_stage):
+    """If series is A or earlier, move to Radar; otherwise use the provided stage."""
+    early_series = {'Seed', 'Pre-Seed', 'Pre-A', 'Series A'}
+    if series.strip() in early_series:
+        return 'Radar'
+    return default_stage
+
 def upsert_deal(row, company_record_id, stage="Watchlist", source=None, top10=False):
     company_name = str(row.get('Companies', '')).strip()
     series = str(row.get('Series', '')).strip()
+    stage = determine_stage(series, stage)
 
     existing_id = find_deal(company_name, series)
     if existing_id:
@@ -760,6 +769,69 @@ def backfill_investors():
                     "links": links, "errors": errors})
 
 
+_update_state = {"status": "idle"}
+_update_lock = threading.Lock()
+
+
+def _run_update_investors(file_bytes):
+    """Backfill worker — runs in a background thread (the full pass over a large export
+    plus the Companies index build exceeds the 30s gunicorn worker timeout, so it can't
+    run inline). Progress is published to _update_state for /update-investors/status."""
+    try:
+        df = transform_excel(file_bytes)
+    except Exception as e:
+        print("TRANSFORM ERROR:", traceback.format_exc())
+        with _update_lock:
+            _update_state.update({"status": "error", "error": f"Transform failed: {e}"})
+        return
+
+    total = len(df)
+    with _update_lock:
+        _update_state.update({"status": "running", "total": total, "processed": 0,
+                              "updated": 0, "unchanged": 0, "not_found": 0, "links": 0,
+                              "missing": [], "errors": [], "error": None})
+
+    get_company_index(refresh=True)
+    index = get_company_index()
+    updated = unchanged = not_found = links = 0
+    missing, errors = [], []
+
+    for i, (_, row) in enumerate(df.iterrows()):
+        rowd = row.to_dict()
+        company_name = str(rowd.get("Companies", "")).strip()
+        series = str(rowd.get("Series", "")).strip()
+        try:
+            existing_id = find_deal(company_name, series)
+            if not existing_id:
+                not_found += 1
+                missing.append(f"{company_name} ({series})")
+            else:
+                ref_values = resolve_investor_links(rowd, index)
+                if not ref_values:
+                    unchanged += 1
+                else:
+                    r = requests.patch(
+                        f"{ATTIO_API_BASE}/objects/deals/records/{existing_id}",
+                        headers=attio_headers(),
+                        json={"data": {"values": ref_values}},
+                    )
+                    if r.status_code in (200, 201):
+                        updated += 1
+                        links += sum(len(v) for v in ref_values.values())
+                    else:
+                        errors.append({"deal": company_name, "error": f"{r.status_code}:{r.text[:200]}"})
+        except Exception as e:
+            errors.append({"deal": company_name, "error": str(e)[:200]})
+
+        with _update_lock:
+            _update_state.update({"processed": i + 1, "updated": updated, "unchanged": unchanged,
+                                  "not_found": not_found, "links": links,
+                                  "missing": missing, "errors": errors})
+
+    with _update_lock:
+        _update_state["status"] = "complete"
+
+
 @app.route("/update-investors", methods=["POST"])
 def update_investors():
     """Backfill investor links on EXISTING deals from an uploaded PitchBook export.
@@ -767,51 +839,26 @@ def update_investors():
     Update-only: matches each row's deal by name+series and PATCHes its investor
     references; if the deal isn't found it is SKIPPED — never created (no duplicate
     deals). Missing investor *Companies* are still created when the export gives their
-    website (resolve_investor_links). Sends no email; nothing here is a 'created' deal.
+    website. Sends no email; nothing here is a 'created' deal.
+
+    Runs in the background and returns immediately — poll GET /update-investors/status.
     """
     file_bytes, err = _read_file_bytes()
     if err:
         return err
-    try:
-        df = transform_excel(file_bytes)
-    except Exception as e:
-        print("TRANSFORM ERROR:", traceback.format_exc())
-        return jsonify({"error": f"Transform failed: {str(e)}"}), 500
+    with _update_lock:
+        if _update_state.get("status") == "running":
+            return jsonify({"error": "already running", "state": dict(_update_state)}), 409
+        _update_state.clear()
+        _update_state.update({"status": "running"})
+    threading.Thread(target=_run_update_investors, args=(file_bytes,), daemon=True).start()
+    return jsonify({"status": "started", "poll": "/update-investors/status"})
 
-    get_company_index(refresh=True)
-    updated = unchanged = not_found = links = 0
-    missing, errors = [], []
 
-    for _, row in df.iterrows():
-        rowd = row.to_dict()
-        company_name = str(rowd.get("Companies", "")).strip()
-        series = str(rowd.get("Series", "")).strip()
-
-        existing_id = find_deal(company_name, series)
-        if not existing_id:
-            not_found += 1
-            missing.append(f"{company_name} ({series})")
-            continue
-
-        ref_values = resolve_investor_links(rowd, get_company_index())
-        if not ref_values:
-            unchanged += 1
-            continue
-
-        r = requests.patch(
-            f"{ATTIO_API_BASE}/objects/deals/records/{existing_id}",
-            headers=attio_headers(),
-            json={"data": {"values": ref_values}},
-        )
-        if r.status_code in (200, 201):
-            updated += 1
-            links += sum(len(v) for v in ref_values.values())
-        else:
-            errors.append({"deal": company_name, "error": f"{r.status_code}:{r.text[:200]}"})
-
-    return jsonify({"status": "done", "updated": updated, "unchanged": unchanged,
-                    "not_found": not_found, "links": links,
-                    "missing": missing, "errors": errors})
+@app.route("/update-investors/status", methods=["GET"])
+def update_investors_status():
+    with _update_lock:
+        return jsonify(dict(_update_state))
 
 
 @app.route("/fix-radar-stages", methods=["POST"])
