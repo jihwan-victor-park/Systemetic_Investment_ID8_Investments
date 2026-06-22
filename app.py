@@ -1,6 +1,7 @@
 import os
 import re
 import io
+import time
 import unicodedata
 import traceback
 import threading
@@ -9,6 +10,8 @@ import pandas as pd
 import openpyxl
 from flask import Flask, request, jsonify, send_file, send_file
 from datetime import datetime
+
+import attio_apollo_sync as apollo_sync
 
 app = Flask(__name__)
 
@@ -48,9 +51,7 @@ INVESTOR_REF_MAP = {
 # Top 10 VC workflow: select attribute (Yes/No) stamped on those deals, and the
 # stage new deals default to (must exist as a status on the Deal stage field).
 # The slug is resolved at runtime by the attribute TITLE (below) so a slug mismatch
-# can't silently break the write; TOP10_VC_SLUG is just the fallback.
 TOP10_VC_TITLE = 'Top 10 VC'
-TOP10_VC_SLUG  = 'top_10_vc'
 RADAR_STAGE    = 'Radar'
 
 
@@ -432,11 +433,6 @@ def build_attio_values(row, company_record_id, stage="Watchlist", source=None, t
     }
     if source:
         values["source"] = [{"value": source}]
-    if top10:
-        slug = deal_attr_slug(TOP10_VC_TITLE, TOP10_VC_SLUG)
-        ensure_select_option('deals', slug, 'Yes')
-        values[slug] = "Yes"   # single-select: write the option title as a string
-
     for csv_col, (slug, field_type) in FIELD_MAP.items():
         val = row.get(csv_col)
         if val is None or (isinstance(val, float) and pd.isna(val)):
@@ -494,10 +490,6 @@ def upsert_deal(row, company_record_id, stage="Watchlist", source=None, top10=Fa
         # associated company; the Top 10 VC flow also stamps its flag. These updates
         # never enter the email feed — only newly-created deals are returned as "created".
         patch_vals = {}
-        if top10:
-            slug = deal_attr_slug(TOP10_VC_TITLE, TOP10_VC_SLUG)
-            ensure_select_option('deals', slug, 'Yes')
-            patch_vals[slug] = "Yes"
         patch_vals.update(resolve_investor_links(row, get_company_index()))
         if company_record_id:
             patch_vals["associated_company"] = [{
@@ -519,7 +511,7 @@ def upsert_deal(row, company_record_id, stage="Watchlist", source=None, top10=Fa
         headers=attio_headers(),
         json={"data": {"values": values}},
     )
-    print(f"DEAL CREATE {company_name} top10={top10} top_10_vc={values.get(TOP10_VC_SLUG)!r}: "
+    print(f"DEAL CREATE {company_name} top10={top10}: "
           f"{resp.status_code} {resp.text[:200]}")
     if resp.status_code in (200, 201):
         record_id = resp.json().get("data", {}).get("id", {}).get("record_id", "")
@@ -580,44 +572,47 @@ def _read_file_bytes():
 
 # --- Routes ------------------------------------------------------------------
 
-@app.route("/process", methods=["POST"])
-def process():
+def _start_pipeline(stage, source, top10=False, wait_secs=115):
     file_bytes, err = _read_file_bytes()
     if err:
         return err
-    try:
-        results = run_pipeline(file_bytes, stage="Qualified", source="ID8 Investments")
-    except Exception as e:
-        print("TRANSFORM ERROR:", traceback.format_exc())
-        return jsonify({"error": f"Transform failed: {str(e)}"}), 500
-    return jsonify({"status": "done", **results})
+    with _pipeline_lock:
+        if _pipeline_state.get("status") == "running":
+            return jsonify({"error": "already running", "state": dict(_pipeline_state)}), 409
+        _pipeline_state.clear()
+        _pipeline_state.update({"status": "running"})
+    t = threading.Thread(target=_run_pipeline_bg, args=(file_bytes, stage, source, top10), daemon=True)
+    t.start()
+    t.join(timeout=wait_secs)
+    with _pipeline_lock:
+        state = dict(_pipeline_state)
+    if state.get("status") in ("complete", "error"):
+        return jsonify(state)
+    # Still running — return async handle so caller can poll
+    return jsonify({"status": "started", "poll": "/process/status"})
+
+
+@app.route("/process", methods=["POST"])
+def process():
+    return _start_pipeline(stage="Qualified", source="ID8 Investments")
 
 
 @app.route("/process-watchlist", methods=["POST"])
 def process_watchlist():
-    file_bytes, err = _read_file_bytes()
-    if err:
-        return err
-    try:
-        results = run_pipeline(file_bytes, stage="Watchlist", source="ID8 Investments")
-    except Exception as e:
-        print("TRANSFORM ERROR:", traceback.format_exc())
-        return jsonify({"error": f"Transform failed: {str(e)}"}), 500
-    return jsonify({"status": "done", **results})
+    return _start_pipeline(stage="Watchlist", source="ID8 Investments")
+
 
 @app.route("/process-top10", methods=["POST"])
 def process_top10():
     """Top 10 VC weekly flow: tag deals Top 10 VC = Yes; new deals default to the
     Radar stage; existing deals keep their stage (only flag + investor links updated)."""
-    file_bytes, err = _read_file_bytes()
-    if err:
-        return err
-    try:
-        results = run_pipeline(file_bytes, stage=RADAR_STAGE, source="ID8 Investments", top10=True)
-    except Exception as e:
-        print("TRANSFORM ERROR:", traceback.format_exc())
-        return jsonify({"error": f"Transform failed: {str(e)}"}), 500
-    return jsonify({"status": "done", **results})
+    return _start_pipeline(stage=RADAR_STAGE, source="ID8 Investments", top10=True)
+
+
+@app.route("/process/status", methods=["GET"])
+def process_status():
+    with _pipeline_lock:
+        return jsonify(dict(_pipeline_state))
 
 @app.route("/process-jesse", methods=["POST"])
 def process_jesse():
@@ -772,6 +767,25 @@ def backfill_investors():
 _update_state = {"status": "idle"}
 _update_lock = threading.Lock()
 
+_pipeline_state = {"status": "idle"}
+_pipeline_lock = threading.Lock()
+
+
+def _run_pipeline_bg(file_bytes, stage, source, top10):
+    """Background worker for /process, /process-watchlist, /process-top10."""
+    with _pipeline_lock:
+        _pipeline_state.update({"status": "running", "created": 0, "skipped": 0,
+                                 "errors": [], "deals": [], "error": None})
+    try:
+        results = run_pipeline(file_bytes, stage=stage, source=source, top10=top10)
+    except Exception as e:
+        print("PIPELINE ERROR:", traceback.format_exc())
+        with _pipeline_lock:
+            _pipeline_state.update({"status": "error", "error": str(e)})
+        return
+    with _pipeline_lock:
+        _pipeline_state.update({"status": "complete", **results})
+
 
 def _run_update_investors(file_bytes):
     """Backfill worker — runs in a background thread (the full pass over a large export
@@ -910,6 +924,76 @@ def fix_radar_stages():
 
     return jsonify({"fixed": fixed, "fixed_count": len(fixed),
                     "skipped_count": len(skipped), "errors": errors})
+
+
+_apollo_state = {"status": "idle"}
+_apollo_lock  = threading.Lock()
+
+
+def _run_sync_apollo():
+    """Background worker: mirror all Attio People into Apollo and park them in the
+    dormant holding sequence so Apollo flags them as already-sequenced in new
+    prospecting searches. Idempotent — safe to run weekly (see attio_apollo_sync)."""
+    try:
+        people = apollo_sync.pull_attio_people()
+    except Exception as e:
+        print("APOLLO SYNC pull error:", traceback.format_exc())
+        with _apollo_lock:
+            _apollo_state.update({"status": "error", "error": f"Attio pull failed: {e}"})
+        return
+
+    contacts   = [apollo_sync.extract_contact(r) for r in people]
+    with_email = [c for c in contacts if c.get("email")]
+    total = len(with_email)
+    with _apollo_lock:
+        _apollo_state.update({"status": "running", "pulled": len(people), "with_email": total,
+                              "no_email": len(contacts) - total, "processed": 0, "upserted": 0,
+                              "failed": 0, "enrolled": 0, "errors": [], "error": None})
+
+    apollo_ids, failed = [], 0
+    for i, c in enumerate(with_email):
+        aid = apollo_sync.create_apollo_contact(c)
+        if aid:
+            apollo_ids.append(aid)
+        else:
+            failed += 1
+        time.sleep(0.12)  # stay under Apollo rate limits
+        if (i + 1) % 10 == 0 or (i + 1) == total:
+            with _apollo_lock:
+                _apollo_state.update({"processed": i + 1, "upserted": len(apollo_ids), "failed": failed})
+
+    enrolled, errs = apollo_sync.enroll_in_holding_sequence(apollo_ids)
+    with _apollo_lock:
+        _apollo_state.update({"status": "complete", "processed": total, "upserted": len(apollo_ids),
+                              "failed": failed, "enrolled": enrolled, "errors": errs})
+
+
+@app.route("/sync-apollo", methods=["POST"])
+def sync_apollo():
+    """Mirror Attio People → Apollo and enroll them in the holding sequence.
+
+    Runs in the background (the full People pull + per-contact upsert exceeds the
+    gunicorn worker timeout) and returns immediately — poll GET /sync-apollo/status.
+    Requires APOLLO_API_KEY (a MASTER key — add_contact_ids 403s otherwise) and
+    APOLLO_HOLDING_SEQUENCE_ID (a dormant sequence with no active email steps).
+    """
+    missing = [v for v in ("ATTIO_API_KEY", "APOLLO_API_KEY", "APOLLO_HOLDING_SEQUENCE_ID")
+               if not os.environ.get(v)]
+    if missing:
+        return jsonify({"error": f"missing env vars: {', '.join(missing)}"}), 400
+    with _apollo_lock:
+        if _apollo_state.get("status") == "running":
+            return jsonify({"error": "already running", "state": dict(_apollo_state)}), 409
+        _apollo_state.clear()
+        _apollo_state.update({"status": "running"})
+    threading.Thread(target=_run_sync_apollo, daemon=True).start()
+    return jsonify({"status": "started", "poll": "/sync-apollo/status"})
+
+
+@app.route("/sync-apollo/status", methods=["GET"])
+def sync_apollo_status():
+    with _apollo_lock:
+        return jsonify(dict(_apollo_state))
 
 
 if __name__ == "__main__":
