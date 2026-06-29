@@ -21,6 +21,7 @@ import attio_apollo_sync as apollo_sync
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from deal_intelligence import _secrets  # noqa: F401 — loads GCP secrets into os.environ
 from deal_intelligence import pipeline as di_pipeline
+from deal_intelligence import schemas as di_schemas
 
 app = Flask(__name__)
 
@@ -781,7 +782,13 @@ _pipeline_lock = threading.Lock()
 
 
 def _run_pipeline_bg(file_bytes, stage, source, top10):
-    """Background worker for /process, /process-watchlist, /process-top10."""
+    """Background worker for /process, /process-watchlist, /process-top10.
+
+    After ingesting deals into Attio, runs Stage 1 deal intelligence screening
+    on every newly created deal (if PERPLEXITY_API_KEY is available). Fit scores,
+    gate status, rationale, and hub_url are merged back onto each deal dict so
+    the n8n email node can render them inline.
+    """
     with _pipeline_lock:
         _pipeline_state.update({"status": "running", "created": 0, "skipped": 0,
                                  "errors": [], "deals": [], "error": None})
@@ -792,6 +799,50 @@ def _run_pipeline_bg(file_bytes, stage, source, top10):
         with _pipeline_lock:
             _pipeline_state.update({"status": "error", "error": str(e)})
         return
+
+    # ── Stage 1 screening ────────────────────────────────────────────────────
+    new_deals = results.get("deals", [])
+    if new_deals and os.environ.get("PERPLEXITY_API_KEY"):
+        try:
+            di_inputs = [
+                di_schemas.DealInput(
+                    record_id=d["record_id"] or f"proc-{i}",
+                    name=d["company"],
+                    domain=d.get("website") or None,
+                    round=d.get("series") or None,
+                    hq=d.get("hq_location") or None,
+                    lead_investors=d.get("lead_investors") or None,
+                )
+                for i, d in enumerate(new_deals)
+            ]
+            screen_result = asyncio.run(di_pipeline.screen(di_inputs, dry_run=False, publish=False))
+            # index fit results by record_id and merge back onto deal dicts
+            fit_map  = {f.record_id: f for f in screen_result.get("fits", [])}
+            stage1_map = {s["name"]: s for s in screen_result.get("stage1", [])}
+            for d in new_deals:
+                rid = d.get("record_id", "")
+                f = fit_map.get(rid)
+                s1 = stage1_map.get(d["company"])
+                if f:
+                    d["fit_score"]      = round(f.fit_score, 1)
+                    d["fit_gate"]       = f.gate
+                    d["fit_tier"]       = f.quality_tier
+                    d["fit_rationale"]  = f.rationale
+                    d["fit_confidence"] = f.confidence
+                    d["hub_url"]        = (s1 or {}).get("hub_url", "")
+                    d["fit_params"]     = [
+                        {"key": p.key, "score": p.score, "evidence": p.evidence}
+                        for p in f.params
+                    ]
+            results["email_html"]  = screen_result.get("email_html", "")
+            results["email_text"]  = screen_result.get("email_text", "")
+            results["screened"]    = screen_result.get("screened", 0)
+            results["gated"]       = screen_result.get("gated", 0)
+            results["borderline"]  = screen_result.get("borderline", 0)
+        except Exception as e:
+            print("SCREENING ERROR:", traceback.format_exc())
+            results["screening_error"] = str(e)
+
     with _pipeline_lock:
         _pipeline_state.update({"status": "complete", **results})
 

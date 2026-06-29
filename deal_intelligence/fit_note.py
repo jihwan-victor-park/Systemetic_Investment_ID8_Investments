@@ -15,18 +15,23 @@ import re
 from datetime import date
 
 from docx import Document
-from docx.shared import Pt, RGBColor, Inches
+from docx.shared import Pt, RGBColor, Inches, Cm
 from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docx.enum.table import WD_ALIGN_VERTICAL
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 
-from . import rubric
+from . import rubric, config
 from .schemas import DealFit, DealInput
 
 C_CHARCOAL = RGBColor(0x1A, 0x1A, 0x1A)
 C_GREY = RGBColor(0x82, 0x82, 0x82)
 C_SOFT = RGBColor(0x3C, 0x3C, 0x3C)
+C_WHITE = RGBColor(0xFF, 0xFF, 0xFF)
+C_ROW_ALT = RGBColor(0xF5, 0xF5, 0xF5)
 HAIR_HEX = "E4DFD5"
+DARK_HEX = "1A1A1A"
+ALT_HEX = "F5F5F5"
 FONT_HEAD = "Roboto Serif"
 FONT_BODY = "Sora"
 
@@ -34,7 +39,8 @@ _REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 _LOGO = os.path.join(_REPO_ROOT, "design", "assets", "id8_charcoal.png")
 
 PARAM_LABELS = {p["key"]: p["label"] for p in rubric.PARAMS}
-TIER_LABEL = {"very_high": "Very High Quality", "high": "High Quality", "below_threshold": "Below Threshold"}
+TIER_LABEL = {"very_high": "Very High Quality", "high": "High Quality",
+              "borderline": "Borderline — review", "below_threshold": "Below Threshold"}
 
 _SCREENS_START = "<!-- SCREENS:START -->"
 _SCREENS_END = "<!-- SCREENS:END -->"
@@ -51,6 +57,13 @@ def company_id(deal: DealInput) -> str:
 
 def slugify(name: str) -> str:
     return re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")
+
+
+def hub_url(deal: DealInput, base: str = None) -> str:
+    """The deployed-hub research page for this company. Predictable from the slug,
+    so it can be written onto the Attio deal even before the page is published."""
+    base = (base or config.HUB_BASE_URL).rstrip("/")
+    return f"{base}/docs/research/companies/{company_id(deal)}"
 
 
 def normalize_domain(domain: str) -> str:
@@ -87,22 +100,42 @@ def _md_runs(paragraph, text, size=10.5, color=C_CHARCOAL):
             _run(paragraph, part, size=size, color=color)
 
 
-def _cell_bottom_border(cell, color=HAIR_HEX, size=4):
+def _cell_borders(cell, color=HAIR_HEX, size=4, sides=("bottom",)):
     tcPr = cell._tc.get_or_add_tcPr()
     borders = OxmlElement("w:tcBorders")
-    for side in ("top", "left", "right"):
+    for side in ("top", "left", "right", "bottom"):
         el = OxmlElement(f"w:{side}")
-        el.set(qn("w:val"), "nil")
+        if side in sides:
+            el.set(qn("w:val"), "single")
+            el.set(qn("w:sz"), str(size))
+            el.set(qn("w:color"), color)
+        else:
+            el.set(qn("w:val"), "nil")
         borders.append(el)
-    bottom = OxmlElement("w:bottom")
-    bottom.set(qn("w:val"), "single")
-    bottom.set(qn("w:sz"), str(size))
-    bottom.set(qn("w:color"), color)
-    borders.append(bottom)
     tcPr.append(borders)
 
 
-def _hairline_under(paragraph, color="1A1A1A", size=6):
+def _cell_shading(cell, fill_hex: str):
+    tcPr = cell._tc.get_or_add_tcPr()
+    shd = OxmlElement("w:shd")
+    shd.set(qn("w:val"), "clear")
+    shd.set(qn("w:color"), "auto")
+    shd.set(qn("w:fill"), fill_hex)
+    tcPr.append(shd)
+
+
+def _cell_padding(cell, top=40, bottom=40, left=60, right=60):
+    tcPr = cell._tc.get_or_add_tcPr()
+    mar = OxmlElement("w:tcMar")
+    for side, val in (("top", top), ("bottom", bottom), ("left", left), ("right", right)):
+        el = OxmlElement(f"w:{side}")
+        el.set(qn("w:w"), str(val))
+        el.set(qn("w:type"), "dxa")
+        mar.append(el)
+    tcPr.append(mar)
+
+
+def _hairline_under(paragraph, color=DARK_HEX, size=6):
     pPr = paragraph._p.get_or_add_pPr()
     pBdr = OxmlElement("w:pBdr")
     bottom = OxmlElement("w:bottom")
@@ -114,73 +147,152 @@ def _hairline_under(paragraph, color="1A1A1A", size=6):
     pPr.append(pBdr)
 
 
+def _add_page_number(paragraph):
+    """Insert 'Page N of M' into an existing paragraph."""
+    paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    _run(paragraph, "Page ", size=8.5, color=C_GREY)
+    fld = OxmlElement("w:fldChar")
+    fld.set(qn("w:fldCharType"), "begin")
+    paragraph._p.append(fld)
+    instr = OxmlElement("w:instrText")
+    instr.set(qn("xml:space"), "preserve")
+    instr.text = " PAGE "
+    paragraph._p.append(instr)
+    fld2 = OxmlElement("w:fldChar")
+    fld2.set(qn("w:fldCharType"), "end")
+    paragraph._p.append(fld2)
+    _run(paragraph, " of ", size=8.5, color=C_GREY)
+    fld3 = OxmlElement("w:fldChar")
+    fld3.set(qn("w:fldCharType"), "begin")
+    paragraph._p.append(fld3)
+    instr2 = OxmlElement("w:instrText")
+    instr2.set(qn("xml:space"), "preserve")
+    instr2.text = " NUMPAGES "
+    paragraph._p.append(instr2)
+    fld4 = OxmlElement("w:fldChar")
+    fld4.set(qn("w:fldCharType"), "end")
+    paragraph._p.append(fld4)
+
+
 def build_docx(fit: DealFit, deal: DealInput, output_path: str):
     doc = Document()
     section = doc.sections[0]
-    section.top_margin = section.bottom_margin = Inches(0.75)
-    section.left_margin = section.right_margin = Inches(0.9)
+    section.top_margin = section.bottom_margin = Inches(1.0)
+    section.left_margin = section.right_margin = Inches(1.0)
 
     normal = doc.styles["Normal"]
     normal.font.name = FONT_BODY
     normal.font.size = Pt(10.5)
 
-    title_p = doc.add_paragraph()
-    _run(title_p, deal.name, font=FONT_HEAD, size=24, bold=True)
+    # ── Page number in footer ──
+    footer_p = section.footer.paragraphs[0]
+    _add_page_number(footer_p)
 
+    # ── Header: logo left, label right ──
+    header = section.header
+    hdr_table = header.add_table(rows=1, cols=2, width=Inches(6.5))
+    hdr_table.autofit = False
+    hdr_table.columns[0].width = Inches(1.0)
+    hdr_table.columns[1].width = Inches(5.5)
+    logo_cell, label_cell = hdr_table.rows[0].cells
+    if os.path.exists(_LOGO):
+        logo_cell.paragraphs[0].add_run().add_picture(_LOGO, width=Inches(0.65))
+    label_p = label_cell.paragraphs[0]
+    label_p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+    _run(label_p, "DEAL SCREEN  ·  ID8 INVESTMENTS  ·  CONFIDENTIAL",
+         size=8.0, color=C_GREY, all_caps=True)
+    label_p.paragraph_format.space_before = Pt(4)
+    for cell in (logo_cell, label_cell):
+        _cell_borders(cell, sides=("bottom",), color=DARK_HEX, size=4)
+
+    # ── Company title ──
+    title_p = doc.add_paragraph()
+    title_p.paragraph_format.space_before = Pt(4)
+    title_p.paragraph_format.space_after = Pt(2)
+    _run(title_p, deal.name, font=FONT_HEAD, size=22, bold=True)
+
+    # ── Sub-line: domain · round · HQ · lead investors ──
     domain = normalize_domain(deal.domain)
     sub_parts = _context_bits(deal)
     if domain:
         sub_parts = [domain] + sub_parts
     if sub_parts:
         sub_p = doc.add_paragraph()
-        sub_p.paragraph_format.space_after = Pt(4)
-        _run(sub_p, "   ·   ".join(sub_parts), size=11, color=C_GREY)
+        sub_p.paragraph_format.space_after = Pt(2)
+        _run(sub_p, "   ·   ".join(sub_parts), size=10.5, color=C_GREY)
 
-    hr_p = doc.add_paragraph()
-    hr_p.paragraph_format.space_after = Pt(16)
-    _hairline_under(hr_p)
+    # ── Screened date label ──
+    date_p = doc.add_paragraph()
+    date_p.paragraph_format.space_after = Pt(10)
+    _run(date_p, f"Screened {date.today().isoformat()}",
+         size=9.0, color=C_GREY)
 
+    # ── Section heading: FIT ASSESSMENT ──
+    sec_p = doc.add_paragraph()
+    sec_p.paragraph_format.space_after = Pt(6)
+    _run(sec_p, "FIT ASSESSMENT", font=FONT_HEAD, size=14, bold=True)
+    _hairline_under(sec_p)
+
+    # ── Score + gate badge ──
     score_p = doc.add_paragraph()
-    score_p.paragraph_format.space_after = Pt(10)
-    _run(score_p, f"Fit score {fit.fit_score:.1f} / 4.0", font=FONT_HEAD, size=15, bold=True)
+    score_p.paragraph_format.space_before = Pt(6)
+    score_p.paragraph_format.space_after = Pt(12)
+    _run(score_p, f"{fit.fit_score:.1f} / 4.0", font=FONT_HEAD, size=16, bold=True)
     tier = TIER_LABEL.get(fit.quality_tier, fit.quality_tier)
-    gate_text = f"   —   CLEARS GATE  ·  {tier.upper()}" if fit.gate else "   —   BELOW THRESHOLD"
+    if fit.gate:
+        gate_text = f"   —   CLEARS GATE  ·  {tier.upper()}"
+    elif fit.quality_tier == "borderline":
+        gate_text = "   —   BORDERLINE — REVIEW"
+    else:
+        gate_text = "   —   BELOW THRESHOLD"
     _run(score_p, gate_text, size=10.5, color=C_GREY)
 
+    # ── Rubric table: dark header, alternating rows ──
+    col_widths = [Inches(1.85), Inches(0.55), Inches(4.1)]
     table = doc.add_table(rows=1, cols=3)
     table.autofit = False
-    widths = [Inches(1.9), Inches(0.6), Inches(4.4)]
-    headers = table.rows[0].cells
-    for i, label in enumerate(["Dimension", "Score", "Evidence"]):
-        headers[i].width = widths[i]
-        _run(headers[i].paragraphs[0], label, size=8.5, bold=True, all_caps=True, color=C_CHARCOAL)
-        _cell_bottom_border(headers[i], color="1A1A1A", size=8)
 
-    for param in fit.params:
+    # Header row
+    hrow = table.rows[0].cells
+    for i, (label, w) in enumerate(zip(["Dimension", "Score", "Evidence"], col_widths)):
+        hrow[i].width = w
+        _cell_shading(hrow[i], DARK_HEX)
+        _cell_padding(hrow[i])
+        p = hrow[i].paragraphs[0]
+        _run(p, label, size=9.0, bold=True, color=C_WHITE, all_caps=True)
+
+    # Data rows
+    for idx, param in enumerate(fit.params):
         row = table.add_row().cells
-        for c, w in zip(row, widths):
+        fill = ALT_HEX if idx % 2 == 0 else "FFFFFF"
+        for i, (c, w) in enumerate(zip(row, col_widths)):
             c.width = w
+            _cell_shading(c, fill)
+            _cell_padding(c)
+            _cell_borders(c, color=HAIR_HEX, size=4, sides=("bottom",))
         _run(row[0].paragraphs[0], PARAM_LABELS.get(param.key, param.key), size=9.5)
-        _run(row[1].paragraphs[0], f"{param.score:.0f}", size=9.5)
-        _md_runs(row[2].paragraphs[0], param.evidence, size=9, color=C_SOFT)
-        for c in row:
-            _cell_bottom_border(c)
+        score_run = row[1].paragraphs[0]
+        _run(score_run, f"{param.score:.0f}", size=9.5, bold=True)
+        _run(score_run, " / 4", size=8.5, color=C_GREY)
+        _md_runs(row[2].paragraphs[0], param.evidence, size=9.0, color=C_SOFT)
 
-    doc.add_paragraph().paragraph_format.space_after = Pt(4)
+    # ── Section heading: RATIONALE ──
+    doc.add_paragraph().paragraph_format.space_after = Pt(8)
+    rat_sec = doc.add_paragraph()
+    rat_sec.paragraph_format.space_after = Pt(6)
+    _run(rat_sec, "RATIONALE", font=FONT_HEAD, size=12, bold=True)
+    _hairline_under(rat_sec)
 
-    rat_head = doc.add_paragraph()
-    _run(rat_head, "RATIONALE", size=8.5, bold=True, color=C_GREY, all_caps=True)
     rat_p = doc.add_paragraph()
     rat_p.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
-    rat_p.paragraph_format.space_after = Pt(18)
+    rat_p.paragraph_format.space_before = Pt(6)
+    rat_p.paragraph_format.space_after = Pt(6)
     _md_runs(rat_p, fit.rationale, size=10.5)
 
-    foot_p = doc.add_paragraph()
-    _run(foot_p, f"Confidence: {fit.confidence}   ·   Screened {date.today().isoformat()}   ·   "
-                 f"ID8 Investments — Confidential", size=8.5, color=C_GREY)
-
-    if os.path.exists(_LOGO):
-        doc.add_picture(_LOGO, width=Inches(0.8))
+    # ── Confidence + footer note ──
+    conf_p = doc.add_paragraph()
+    conf_p.paragraph_format.space_before = Pt(4)
+    _run(conf_p, f"Confidence: {fit.confidence}", size=9.0, color=C_GREY)
 
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     doc.save(output_path)
@@ -190,12 +302,14 @@ def build_docx(fit: DealFit, deal: DealInput, output_path: str):
 # ── Markdown (Docusaurus) ─────────────────────────────────────────────────────
 def _screen_block(fit: DealFit, deal: DealInput) -> str:
     tier = TIER_LABEL.get(fit.quality_tier, fit.quality_tier)
-    gate_text = f"clears gate ({tier})" if fit.gate else "below gate threshold"
-    head = f"## Screen — {date.today().isoformat()}"
-    if deal.round:
-        head += f" · {deal.round}"
+    if fit.gate:
+        gate_text = f"clears gate ({tier})"
+    elif fit.quality_tier == "borderline":
+        gate_text = "borderline — review"
+    else:
+        gate_text = "below gate threshold"
     lines = [
-        head,
+        _screen_heading(deal),
         "",
         f"**Fit score: {fit.fit_score:.1f} / 4.0 — {gate_text}**",
         "",
@@ -208,6 +322,27 @@ def _screen_block(fit: DealFit, deal: DealInput) -> str:
     lines += ["", "**Rationale**", "", fit.rationale, "",
               f"*Confidence: {fit.confidence}*", "", "---", ""]
     return "\n".join(lines)
+
+
+def _screen_heading(deal: DealInput) -> str:
+    head = f"## Screen — {date.today().isoformat()}"
+    if deal.round:
+        head += f" · {deal.round}"
+    return head
+
+
+def _upsert_screen(existing: str, fit: DealFit, deal: DealInput) -> str:
+    """Insert the new screen at the top of the history, replacing any existing
+    screen with the same heading (same day + round) so a same-day re-run refreshes
+    rather than duplicates. A later round keeps its own dated entry."""
+    pre, rest = existing.split(_SCREENS_START, 1)
+    mid, post = rest.split(_SCREENS_END, 1)
+    new_heading = _screen_heading(deal)
+    # split the history into individual screen blocks
+    blocks = re.split(r"(?=^## Screen )", mid, flags=re.MULTILINE)
+    kept = [b for b in blocks if b.strip() and not b.startswith(new_heading)]
+    body = "\n" + _screen_block(fit, deal) + "".join(kept)
+    return pre + _SCREENS_START + body + _SCREENS_END + post
 
 
 def _new_page(fit: DealFit, deal: DealInput, slug: str, docx_href: str) -> str:
@@ -246,9 +381,8 @@ def write_company_screen(fit: DealFit, deal: DealInput, hub_root: str, docx_root
     if updated:
         with open(md_path, "r", encoding="utf-8") as f:
             existing = f.read()
-        if _SCREENS_START in existing:
-            block = "\n" + _screen_block(fit, deal)
-            content = existing.replace(_SCREENS_START, _SCREENS_START + block, 1)
+        if _SCREENS_START in existing and _SCREENS_END in existing:
+            content = _upsert_screen(existing, fit, deal)
         else:  # legacy/hand-edited page without markers — fall back to a fresh page
             content = _new_page(fit, deal, slug, docx_href)
     else:
