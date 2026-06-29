@@ -33,7 +33,10 @@ def _build_prompt(deal: DealInput) -> str:
 
 
 async def score_deal(deal: DealInput) -> DealFit:
-    raw, _citations = await research.perplexity_async(_build_prompt(deal), model=config.STAGE1_RESEARCH_MODEL)
+    # temperature 0: scoring should be as repeatable as possible so a boundary
+    # deal does not flip across the gate between runs (web-search variance remains).
+    raw, _citations = await research.perplexity_async(
+        _build_prompt(deal), model=config.STAGE1_RESEARCH_MODEL, temperature=0)
     parsed = research.extract_json(raw) or {}
     param_scores = {}
     params = []
@@ -50,6 +53,8 @@ async def score_deal(deal: DealInput) -> DealFit:
         tier = "very_high"
     elif fit_score >= config.FIT_THRESHOLD:
         tier = "high"
+    elif fit_score >= config.BORDERLINE_THRESHOLD:
+        tier = "borderline"
     else:
         tier = "below_threshold"
     return DealFit(

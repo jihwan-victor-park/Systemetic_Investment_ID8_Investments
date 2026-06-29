@@ -31,13 +31,18 @@ def _extract_json(text: str):
 
 
 # ── Perplexity ───────────────────────────────────────────────────────────────
-def perplexity(prompt: str, model: str = None, timeout: int = 90) -> tuple:
+def perplexity(prompt: str, model: str = None, timeout: int = 90, temperature: float = None) -> tuple:
     """Returns (content, citations) - citations is the list of source URLs
-    Perplexity grounded its answer in, straight off the API response."""
+    Perplexity grounded its answer in, straight off the API response.
+
+    temperature: pass 0 for scoring (cuts run-to-run wobble that can flip a
+    boundary deal across the gate); leave None to use the API default."""
     if not config.PERPLEXITY_API_KEY:
         raise RuntimeError("PERPLEXITY_API_KEY not set")
     payload = {"model": model or config.STAGE1_RESEARCH_MODEL,
                "messages": [{"role": "user", "content": prompt}]}
+    if temperature is not None:
+        payload["temperature"] = temperature
     headers = {"Authorization": f"Bearer {config.PERPLEXITY_API_KEY}",
                "Content-Type": "application/json"}
     r = requests.post(config.PERPLEXITY_URL, json=payload, headers=headers, timeout=timeout)
@@ -48,9 +53,9 @@ def perplexity(prompt: str, model: str = None, timeout: int = 90) -> tuple:
     return content, citations
 
 
-async def perplexity_async(prompt: str, model: str = None, timeout: int = 90) -> tuple:
+async def perplexity_async(prompt: str, model: str = None, timeout: int = 90, temperature: float = None) -> tuple:
     loop = asyncio.get_event_loop()
-    return await loop.run_in_executor(None, lambda: perplexity(prompt, model, timeout))
+    return await loop.run_in_executor(None, lambda: perplexity(prompt, model, timeout, temperature))
 
 
 # ── Anthropic (Claude) ───────────────────────────────────────────────────────

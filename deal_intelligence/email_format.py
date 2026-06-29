@@ -12,13 +12,15 @@ from . import rubric
 from .schemas import DealFit
 
 PARAM_LABELS = {p["key"]: p["label"] for p in rubric.PARAMS}
-TIER_LABEL = {"very_high": "Very High Quality", "high": "High Quality", "below_threshold": "Below Threshold"}
+TIER_LABEL = {"very_high": "Very High Quality", "high": "High Quality",
+              "borderline": "Borderline — review", "below_threshold": "Below Threshold"}
 
 CHARCOAL = "#1A1A1A"
 GREY = "#828282"
 SOFT = "#3C3C3C"
 HAIR = "#E4DFD5"
 PASS_BG = "#EAF3DE"
+BORDERLINE_BG = "#FBF0D9"
 FAIL_BG = "#F5F5F5"
 BODY_FONT = "'Sora', 'Helvetica Neue', Arial, sans-serif"
 
@@ -29,9 +31,14 @@ def _esc(text) -> str:
     return re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", s)
 
 
-def _deal_card(fit: DealFit) -> str:
+def _deal_card(fit: DealFit, hub_url: str = None) -> str:
     tier = TIER_LABEL.get(fit.quality_tier, fit.quality_tier)
-    badge_bg, badge_txt = (PASS_BG, f"CLEARS GATE · {tier}") if fit.gate else (FAIL_BG, "BELOW THRESHOLD")
+    if fit.gate:
+        badge_bg, badge_txt = PASS_BG, f"CLEARS GATE · {tier}"
+    elif fit.quality_tier == "borderline":
+        badge_bg, badge_txt = BORDERLINE_BG, "BORDERLINE · REVIEW"
+    else:
+        badge_bg, badge_txt = FAIL_BG, "BELOW THRESHOLD"
 
     rows = ""
     for p in fit.params:
@@ -62,22 +69,31 @@ def _deal_card(fit: DealFit) -> str:
         f'</tr>{rows}</table>'
         f'<div style="font-size:13px;color:{CHARCOAL};line-height:1.5;">'
         f'<span style="font-weight:600;">Rationale.</span> {_esc(fit.rationale)}</div>'
-        f'<div style="margin-top:6px;font-size:11px;color:{GREY};">Confidence: {_esc(fit.confidence)}</div>'
+        f'<div style="margin-top:6px;font-size:11px;color:{GREY};">'
+        f'Confidence: {_esc(fit.confidence)}'
+        + (f' · <a href="{_esc(hub_url)}" style="color:{CHARCOAL};">Full research →</a>' if hub_url else '')
+        + f'</div>'
         f'</div>'
     )
 
 
-def email_html(fits: list, title: str = "Deal Intelligence — Stage 1 Screen") -> str:
+def email_html(fits: list, title: str = "Deal Intelligence — Stage 1 Screen", hub_urls: dict = None) -> str:
     """Full HTML block for the body of the deal-intake email. `fits` sorted by
-    score, highest first; gated deals are visually flagged."""
+    score, highest first; gated deals are flagged, borderline deals flagged amber.
+    hub_urls: optional {record_id: url} to render a 'Full research →' link per deal."""
+    hub_urls = hub_urls or {}
     fits = sorted(fits, key=lambda f: f.fit_score, reverse=True)
     gated = sum(1 for f in fits if f.gate)
-    cards = "".join(_deal_card(f) for f in fits)
+    borderline = sum(1 for f in fits if not f.gate and f.quality_tier == "borderline")
+    cards = "".join(_deal_card(f, hub_urls.get(f.record_id)) for f in fits)
+    summary = f"{len(fits)} screened · {gated} cleared the gate"
+    if borderline:
+        summary += f" · {borderline} borderline"
     return (
         f'<div style="font-family:{BODY_FONT};max-width:680px;color:{CHARCOAL};">'
         f'<div style="font-size:20px;font-weight:700;border-bottom:2px solid {CHARCOAL};padding-bottom:6px;margin-bottom:4px;">{_esc(title)}</div>'
         f'<div style="font-size:12px;color:{GREY};margin-bottom:18px;">'
-        f'{len(fits)} screened · {gated} cleared the gate · {date.today().isoformat()}</div>'
+        f'{summary} · {date.today().isoformat()}</div>'
         f'{cards}'
         f'<div style="margin-top:8px;padding-top:8px;border-top:1px solid {HAIR};font-size:11px;color:{GREY};">'
         f'ID8 Investments · Confidential · Scored against the ID8 fit rubric (1–4 per dimension).</div>'

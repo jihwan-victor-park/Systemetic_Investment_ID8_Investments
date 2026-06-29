@@ -62,8 +62,8 @@ def _patch(record_id: str, attio_values: dict):
     requests.patch(url, json={"data": {"values": attio_values}}, headers=_headers(), timeout=60).raise_for_status()
 
 
-def write_fit(fit: DealFit):
-    """Write the stage-1 score, gate, and rationale back onto the deal."""
+def write_fit(fit: DealFit, hub_url: str = None):
+    """Write the stage-1 score, gate, rationale, and hub research link onto the deal."""
     w = config.WRITE_SLUGS
     values = {}
     if w["fit_score"]:
@@ -72,6 +72,8 @@ def write_fit(fit: DealFit):
         values[w["fit_gate"]] = "Yes" if fit.gate else "No"   # single-select: plain string
     if w["fit_rationale"]:
         values[w["fit_rationale"]] = [{"value": fit.rationale[:2000]}]
+    if w["hub_url"] and hub_url:
+        values[w["hub_url"]] = [{"value": hub_url}]
     _patch(fit.record_id, values)
 
 
