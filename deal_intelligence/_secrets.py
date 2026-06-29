@@ -16,6 +16,7 @@ _SECRETS = {
     "ATTIO_API_KEY":       f"{_GCP_PROJECT}/secrets/ATTIO_API_KEY",
     "PERPLEXITY_API_KEY":  f"{_GCP_PROJECT}/secrets/PERPLEXITY_API_KEY",
     "APOLLO_API_KEY":      f"{_GCP_PROJECT}/secrets/APOLLO_API_KEY",
+    "GH_TOKEN":            f"{_GCP_PROJECT}/secrets/GH_TOKEN",
 }
 
 

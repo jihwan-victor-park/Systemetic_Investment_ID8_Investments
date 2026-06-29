@@ -582,23 +582,19 @@ def _read_file_bytes():
 
 # --- Routes ------------------------------------------------------------------
 
-def _start_pipeline(stage, source, top10=False, wait_secs=115):
+def _start_pipeline(stage, source, top10=False):
     file_bytes, err = _read_file_bytes()
     if err:
         return err
     with _pipeline_lock:
-        if _pipeline_state.get("status") == "running":
+        if _pipeline_state.get("status") in ("running", "screening"):
             return jsonify({"error": "already running", "state": dict(_pipeline_state)}), 409
         _pipeline_state.clear()
         _pipeline_state.update({"status": "running"})
-    t = threading.Thread(target=_run_pipeline_bg, args=(file_bytes, stage, source, top10), daemon=True)
-    t.start()
-    t.join(timeout=wait_secs)
-    with _pipeline_lock:
-        state = dict(_pipeline_state)
-    if state.get("status") in ("complete", "error"):
-        return jsonify(state)
-    # Still running — return async handle so caller can poll
+    # Run entirely in background — n8n polls /process/status.
+    # Phase 1 (Attio ingestion) sets status="screening" quickly (~10-30s).
+    # Phase 2 (Perplexity scoring) sets status="complete" when done (~60-120s more).
+    threading.Thread(target=_run_pipeline_bg, args=(file_bytes, stage, source, top10), daemon=True).start()
     return jsonify({"status": "started", "poll": "/process/status"})
 
 
@@ -784,10 +780,12 @@ _pipeline_lock = threading.Lock()
 def _run_pipeline_bg(file_bytes, stage, source, top10):
     """Background worker for /process, /process-watchlist, /process-top10.
 
-    After ingesting deals into Attio, runs Stage 1 deal intelligence screening
-    on every newly created deal (if PERPLEXITY_API_KEY is available). Fit scores,
-    gate status, rationale, and hub_url are merged back onto each deal dict so
-    the n8n email node can render them inline.
+    Phase 1 (fast): ingest deals into Attio → state becomes "screening".
+    Phase 2 (slow): Perplexity Stage 1 scoring → state becomes "complete".
+
+    n8n should poll /process/status until status == "complete" to get fit scores.
+    If PERPLEXITY_API_KEY is absent, phase 2 is skipped and status goes straight
+    to "complete" with no fit fields.
     """
     with _pipeline_lock:
         _pipeline_state.update({"status": "running", "created": 0, "skipped": 0,
@@ -800,13 +798,19 @@ def _run_pipeline_bg(file_bytes, stage, source, top10):
             _pipeline_state.update({"status": "error", "error": str(e)})
         return
 
+    # Publish Attio-ingestion results immediately so a short-polling caller can
+    # already render the deal list while screening is in progress.
+    with _pipeline_lock:
+        _pipeline_state.update({"status": "screening", **results})
+
     # ── Stage 1 screening ────────────────────────────────────────────────────
     new_deals = results.get("deals", [])
+    publish = bool(os.environ.get("GH_TOKEN"))  # push hub pages only when token present
     if new_deals and os.environ.get("PERPLEXITY_API_KEY"):
         try:
             di_inputs = [
                 di_schemas.DealInput(
-                    record_id=d["record_id"] or f"proc-{i}",
+                    record_id=d["record_id"] if d.get("record_id") else f"proc-{i}",
                     name=d["company"],
                     domain=d.get("website") or None,
                     round=d.get("series") or None,
@@ -815,25 +819,31 @@ def _run_pipeline_bg(file_bytes, stage, source, top10):
                 )
                 for i, d in enumerate(new_deals)
             ]
-            screen_result = asyncio.run(di_pipeline.screen(di_inputs, dry_run=False, publish=False))
-            # index fit results by record_id and merge back onto deal dicts
-            fit_map  = {f.record_id: f for f in screen_result.get("fits", [])}
-            stage1_map = {s["name"]: s for s in screen_result.get("stage1", [])}
-            for d in new_deals:
-                rid = d.get("record_id", "")
-                f = fit_map.get(rid)
-                s1 = stage1_map.get(d["company"])
-                if f:
-                    d["fit_score"]      = round(f.fit_score, 1)
-                    d["fit_gate"]       = f.gate
-                    d["fit_tier"]       = f.quality_tier
-                    d["fit_rationale"]  = f.rationale
-                    d["fit_confidence"] = f.confidence
-                    d["hub_url"]        = (s1 or {}).get("hub_url", "")
-                    d["fit_params"]     = [
-                        {"key": p.key, "score": p.score, "evidence": p.evidence}
-                        for p in f.params
-                    ]
+            # Use a synthetic record_id lookup key that matches what DealInput got.
+            rid_map = {
+                (d["record_id"] if d.get("record_id") else f"proc-{i}"): d
+                for i, d in enumerate(new_deals)
+            }
+            screen_result = asyncio.run(
+                di_pipeline.screen(di_inputs, dry_run=False, publish=publish)
+            )
+            fit_list  = screen_result.get("fits", [])
+            stage1_list = screen_result.get("stage1", [])
+            hub_by_rid = {s["name"]: s.get("hub_url", "") for s in stage1_list}
+            for f in fit_list:
+                d = rid_map.get(f.record_id)
+                if not d:
+                    continue
+                d["fit_score"]      = round(f.fit_score, 1)
+                d["fit_gate"]       = f.gate
+                d["fit_tier"]       = f.quality_tier
+                d["fit_rationale"]  = f.rationale
+                d["fit_confidence"] = f.confidence
+                d["hub_url"]        = hub_by_rid.get(f.name, "")
+                d["fit_params"]     = [
+                    {"key": p.key, "score": p.score, "evidence": p.evidence}
+                    for p in f.params
+                ]
             results["email_html"]  = screen_result.get("email_html", "")
             results["email_text"]  = screen_result.get("email_text", "")
             results["screened"]    = screen_result.get("screened", 0)

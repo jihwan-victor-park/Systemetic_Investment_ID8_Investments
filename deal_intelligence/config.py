@@ -17,6 +17,12 @@ ATTIO_API_KEY = os.getenv("ATTIO_API_KEY")
 PERPLEXITY_API_KEY = os.getenv("PERPLEXITY_API_KEY")
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
 
+# ── GitHub hub push (Cloud Run) ───────────────────────────────────────────────
+# GH_TOKEN: fine-grained PAT with Contents: Read & Write on GH_REPO.
+# Create at github.com/settings/tokens → Fine-grained → repo: id8-intelligence.
+# Store in Secret Manager: gcloud secrets create GH_TOKEN --data-file=-
+GH_REPO = os.getenv("GH_REPO", "ocachin/id8-intelligence")
+
 # ── Endpoints ────────────────────────────────────────────────────────────────
 PERPLEXITY_URL = "https://api.perplexity.ai/chat/completions"
 ANTHROPIC_URL = "https://api.anthropic.com/v1/messages"

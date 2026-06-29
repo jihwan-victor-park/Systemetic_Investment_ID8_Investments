@@ -299,6 +299,19 @@ def build_docx(fit: DealFit, deal: DealInput, output_path: str):
     return output_path
 
 
+def build_docx_bytes(fit: DealFit, deal: DealInput) -> bytes:
+    """Same as build_docx but returns the .docx as bytes (no disk write).
+    Used by hub_push when running on Cloud Run."""
+    import tempfile
+    with tempfile.NamedTemporaryFile(suffix=".docx", delete=False) as tmp:
+        tmp_path = tmp.name
+    build_docx(fit, deal, tmp_path)
+    with open(tmp_path, "rb") as f:
+        data = f.read()
+    os.unlink(tmp_path)
+    return data
+
+
 # ── Markdown (Docusaurus) ─────────────────────────────────────────────────────
 def _screen_block(fit: DealFit, deal: DealInput) -> str:
     tier = TIER_LABEL.get(fit.quality_tier, fit.quality_tier)
@@ -363,6 +376,17 @@ def _new_page(fit: DealFit, deal: DealInput, slug: str, docx_href: str) -> str:
     meta.append(f"[Download latest screen (Word) →]({docx_href})")
     header += [" · ".join(meta), "", _SCREENS_START, "", _screen_block(fit, deal), _SCREENS_END, ""]
     return "\n".join(header)
+
+
+def _build_screen_content(fit: DealFit, deal: DealInput, slug: str, docx_path: str) -> str:
+    """Return the markdown string for a company screen without touching disk.
+    Used by the GitHub API push path (Cloud Run)."""
+    docx_href = f"/research/companies/{slug}.docx"
+    existing_content = None
+    # On Cloud Run there is no local file; caller supplies None implicitly.
+    if existing_content is not None and _SCREENS_START in existing_content:
+        return _upsert_screen(existing_content, fit, deal)
+    return _new_page(fit, deal, slug, docx_href)
 
 
 def write_company_screen(fit: DealFit, deal: DealInput, hub_root: str, docx_root: str) -> dict:
