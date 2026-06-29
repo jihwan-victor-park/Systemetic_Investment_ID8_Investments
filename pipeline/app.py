@@ -602,14 +602,16 @@ def _start_pipeline(stage, source, top10=False):
     t = threading.Thread(target=_run_pipeline_bg, args=(file_bytes, stage, source, top10), daemon=True)
     t.start()
 
-    # Wait up to 100s for Attio ingestion (status → "screening" or "complete").
-    # Perplexity screening continues in the background; poll /process/status
-    # until status == "complete" to get fit scores.
-    deadline = time.time() + 100
+    # Block until the whole pipeline (ingest + Perplexity screening) finishes, so
+    # the single n8n HTTP node gets deals + fit scores + email_html in one response.
+    # gunicorn --timeout is 300s; we stop polling a touch before that. If a large
+    # upload doesn't finish in time, we return the partial state and the caller can
+    # poll /process/status for the rest.
+    deadline = time.time() + 280
     while time.time() < deadline:
         with _pipeline_lock:
             s = _pipeline_state.get("status")
-        if s in ("screening", "complete", "error"):
+        if s in ("complete", "error"):
             break
         time.sleep(1)
 
@@ -619,8 +621,8 @@ def _start_pipeline(stage, source, top10=False):
     if state.get("status") == "error":
         return jsonify(state), 500
 
-    # Always return deals in the response body so n8n doesn't need to poll
-    # just to get the deal list. Fit scores arrive later via /process/status.
+    # status is "complete" (full result) or "screening" (timed out — deals present,
+    # scores still landing; poll /process/status for the finished version).
     return jsonify({**state, "poll": "/process/status"})
 
 
