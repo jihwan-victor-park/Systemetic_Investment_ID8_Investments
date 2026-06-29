@@ -864,6 +864,7 @@ def _run_pipeline_bg(file_bytes, stage, source, top10):
                 d["fit_rationale"]  = f.rationale
                 d["fit_confidence"] = f.confidence
                 d["hub_url"]        = hub_by_rid.get(f.name, "")
+                d["fit_citations"]  = f.citations
                 d["fit_params"]     = [
                     {"key": p.key, "score": p.score, "evidence": p.evidence}
                     for p in f.params

@@ -33,6 +33,7 @@ class DealFit:
     confidence: str = "medium"             # high | medium | low
     gate: bool = False                     # passed the threshold -> deep research
     quality_tier: str = "below_threshold"  # very_high | high | below_threshold
+    citations: list = field(default_factory=list)  # source URLs Perplexity grounded on; [1]->index 0
 
     def to_dict(self):
         d = asdict(self)

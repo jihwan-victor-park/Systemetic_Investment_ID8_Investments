@@ -313,6 +313,20 @@ def build_docx_bytes(fit: DealFit, deal: DealInput) -> bytes:
 
 
 # ── Markdown (Docusaurus) ─────────────────────────────────────────────────────
+def _linkify_md(text: str, citations: list) -> str:
+    """Turn Perplexity's [1][2] source markers into markdown links to the cited
+    URLs. Markers with no matching citation are dropped rather than left dangling."""
+    citations = citations or []
+
+    def repl(m):
+        n = int(m.group(1))
+        if 1 <= n <= len(citations):
+            return f"[[{n}]]({citations[n - 1]})"
+        return ""
+
+    return re.sub(r"\[(\d+)\]", repl, str(text or ""))
+
+
 def _screen_block(fit: DealFit, deal: DealInput) -> str:
     tier = TIER_LABEL.get(fit.quality_tier, fit.quality_tier)
     if fit.gate:
@@ -321,6 +335,7 @@ def _screen_block(fit: DealFit, deal: DealInput) -> str:
         gate_text = "borderline — review"
     else:
         gate_text = "below gate threshold"
+    cites = fit.citations
     lines = [
         _screen_heading(deal),
         "",
@@ -330,10 +345,15 @@ def _screen_block(fit: DealFit, deal: DealInput) -> str:
         "| --- | --- | --- |",
     ]
     for param in fit.params:
-        ev = param.evidence.replace("|", "/").replace("\n", " ")
+        ev = _linkify_md(param.evidence.replace("|", "/").replace("\n", " "), cites)
         lines.append(f"| {PARAM_LABELS.get(param.key, param.key)} | {param.score:.0f} / 4 | {ev} |")
-    lines += ["", "**Rationale**", "", fit.rationale, "",
-              f"*Confidence: {fit.confidence}*", "", "---", ""]
+    lines += ["", "**Rationale**", "", _linkify_md(fit.rationale, cites), "",
+              f"*Confidence: {fit.confidence}*", ""]
+    if cites:
+        lines += ["**Sources**", ""]
+        lines += [f"{i}. <{url}>" for i, url in enumerate(cites, 1)]
+        lines += [""]
+    lines += ["---", ""]
     return "\n".join(lines)
 
 
