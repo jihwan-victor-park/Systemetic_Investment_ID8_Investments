@@ -351,7 +351,8 @@ def _screen_block(fit: DealFit, deal: DealInput) -> str:
               f"*Confidence: {fit.confidence}*", ""]
     if cites:
         lines += ["**Sources**", ""]
-        lines += [f"{i}. <{url}>" for i, url in enumerate(cites, 1)]
+        # Markdown link syntax — MDX rejects bare <url> autolinks.
+        lines += [f"{i}. [{url}]({url})" for i, url in enumerate(cites, 1)]
         lines += [""]
     lines += ["---", ""]
     return "\n".join(lines)
