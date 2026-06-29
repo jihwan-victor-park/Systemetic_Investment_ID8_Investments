@@ -562,17 +562,13 @@ def run_pipeline(file_bytes, stage, source=None, top10=False):
             "website":        website,
         }
         if isinstance(status, dict) and status.get("status") == "created":
+            # Only brand-new deals (not already in Attio) get screened + emailed.
             results["created"] += 1
             deal_row["record_id"] = status.get("record_id", "")
-            deal_row["is_new"] = True
             results["deals"].append(deal_row)
         elif status == "skipped":
-            # Include existing deals so screening + email still run on the full upload.
+            # Already in Attio — investor links refreshed, but not re-researched.
             results["skipped"] += 1
-            existing_id = find_deal(company_name, clean(row.get("Series")))
-            deal_row["record_id"] = existing_id or ""
-            deal_row["is_new"] = False
-            results["deals"].append(deal_row)
         else:
             results["errors"].append({"deal": company_name, "error": status})
 
