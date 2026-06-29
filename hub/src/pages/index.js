@@ -10,7 +10,7 @@ const SYSTEMS = [
   { num: '02', title: 'Apollo Reach Out', to: '/docs/projects/apollo-reach-out',
     desc: 'Builds clean family office and RIA lists, enriches them, then loads outbound sequences.', status: 'Live' },
   { num: '03', title: 'Deal Intelligence', to: '/docs/projects/intelligence',
-    desc: 'AI agents score every qualified deal against our rubric and deep-research the best.', status: 'In build' },
+    desc: 'AI agents score every qualified deal against our rubric and deep-research the best.', status: 'Live' },
 ];
 
 export default function Home() {

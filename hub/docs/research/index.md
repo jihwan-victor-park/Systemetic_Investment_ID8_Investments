@@ -7,6 +7,16 @@ description: The knowledge base behind the systems.
 
 Deal research and the knowledge base behind the systems. Each entry links to the source deck.
 
+## Deal screens
+
+Stage 1 fit screens produced by [Deal Intelligence](/docs/projects/intelligence) — one page per company, scored against the ID8 rubric with a dated screen history.
+
+| Company | Latest screen | Report |
+| --- | --- | --- |
+| Assort Health | 2026-06-29 · Series B | [View screen →](/docs/research/companies/assorthealth) |
+| Ollin | 2026-06-29 · Series B | [View screen →](/docs/research/companies/ollin) |
+| Warp | 2026-06-29 · Series B | [View screen →](/docs/research/companies/warp) |
+
 ## Deal research
 
 | Company | Thesis | Stage | Deck |

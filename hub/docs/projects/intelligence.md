@@ -28,7 +28,7 @@ Deals over the threshold get the full treatment: parallel research on the compan
 
 It runs on ID8's own deal flow and rubric. Every deal that moves through the pipeline makes the next pass sharper. That is the edge: not a data feed anyone can buy, but a scoring and research engine tuned to how ID8 actually invests.
 
-Each company gets one page under **Research → Companies**, keyed by a stable id and its website, holding a dated screen history — so when a company comes back at a later round, the new screen is appended to the same page rather than scattered across one-off entries.
+Each company gets one page under **[Research → Companies](/docs/research/)**, keyed by a stable id and its website, holding a dated screen history — so when a company comes back at a later round, the new screen is appended to the same page rather than scattered across one-off entries. Live screens: [Assort Health](/docs/research/companies/assorthealth), [Ollin](/docs/research/companies/ollin), [Warp](/docs/research/companies/warp).
 
 :::note
 The rubric and the agent prompts live in `deal_intelligence/prompts/`. The external name for this capability is still being decided.
@@ -36,4 +36,4 @@ The rubric and the agent prompts live in `deal_intelligence/prompts/`. The exter
 
 ## Status
 
-In build. The agent layer and the two-stage pipeline are scaffolded. Live once the rubric and prompts are finalized and the Attio write-back fields exist.
+Live. Stage 1 runs on every new deal from the intake pipeline — scoring against the rubric, publishing a per-company screen under Research, and rendering the rating into the deal-intake email. Stage 2 deep research fires for deals that clear the gate. Remaining: the Attio write-back fields, so scores also land on the deal record.
