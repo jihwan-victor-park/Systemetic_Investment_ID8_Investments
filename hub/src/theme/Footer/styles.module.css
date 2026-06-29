@@ -1,0 +1,123 @@
+.footer {
+  background: var(--id8-ink);
+  color: var(--id8-paper);
+  padding: 5.5rem 0 3.2rem;
+}
+
+.inner {
+  max-width: var(--ifm-container-width, 1140px);
+  margin: 0 auto;
+  padding: 0 var(--ifm-spacing-horizontal, 1rem);
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--id8-paper);
+  font-family: 'Roboto Serif', Georgia, serif;
+  font-size: 1rem;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+}
+
+.brand:hover {
+  color: var(--id8-paper);
+  text-decoration: none;
+  opacity: 0.85;
+}
+
+.logo {
+  height: 36px;
+  width: auto;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 2.4rem;
+  flex-wrap: wrap;
+}
+
+.navLink {
+  color: var(--id8-paper);
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 500;
+  text-decoration: none;
+  opacity: 0.75;
+  transition: opacity 0.15s ease;
+}
+
+.navLink:hover {
+  color: var(--id8-paper);
+  opacity: 1;
+  text-decoration: none;
+}
+
+.contact {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+  gap: 0.5rem;
+  padding: 5rem 0 4rem;
+}
+
+.contactLabel {
+  font-family: 'Roboto Serif', Georgia, serif;
+  font-style: italic;
+  font-size: 1.1rem;
+  opacity: 0.7;
+}
+
+.email {
+  color: var(--id8-paper);
+  font-family: 'Roboto Serif', Georgia, serif;
+  font-size: 1.8rem;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+}
+
+.email:hover {
+  color: var(--id8-paper);
+  opacity: 0.8;
+}
+
+.bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.copyright {
+  font-size: 0.85rem;
+  opacity: 0.6;
+}
+
+.social {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 6px;
+  background: var(--id8-paper);
+  color: var(--id8-ink);
+  transition: opacity 0.15s ease;
+}
+
+.social:hover {
+  color: var(--id8-ink);
+  opacity: 0.85;
+}

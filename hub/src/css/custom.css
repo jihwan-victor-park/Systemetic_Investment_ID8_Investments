@@ -1,0 +1,110 @@
+/* ID8 "Latent Order" — Docusaurus theme */
+
+@font-face { font-family: 'Sora'; font-weight: 300; src: url('/fonts/Sora-Light.ttf') format('truetype'); font-display: swap; }
+@font-face { font-family: 'Sora'; font-weight: 400; src: url('/fonts/Sora-Regular.ttf') format('truetype'); font-display: swap; }
+@font-face { font-family: 'Sora'; font-weight: 500; src: url('/fonts/Sora-Medium.ttf') format('truetype'); font-display: swap; }
+@font-face { font-family: 'Sora'; font-weight: 600; src: url('/fonts/Sora-SemiBold.ttf') format('truetype'); font-display: swap; }
+@font-face { font-family: 'Roboto Serif'; font-weight: 300; src: url('/fonts/RobotoSerif-Light.ttf') format('truetype'); font-display: swap; }
+@font-face { font-family: 'Roboto Serif'; font-weight: 400; src: url('/fonts/RobotoSerif-Regular.ttf') format('truetype'); font-display: swap; }
+@font-face { font-family: 'Roboto Serif'; font-weight: 500; src: url('/fonts/RobotoSerif-Medium.ttf') format('truetype'); font-display: swap; }
+@font-face { font-family: 'Roboto Serif'; font-weight: 300; font-style: italic; src: url('/fonts/RobotoSerif-LightItalic.ttf') format('truetype'); font-display: swap; }
+
+:root {
+  --id8-paper: #FBFAF7;
+  --id8-ink: #1A1A1A;
+  --id8-grey: #828282;
+  --id8-soft: #3C3C3C;
+  --id8-hair: #E4DFD5;
+
+  --ifm-color-primary: #1A1A1A;
+  --ifm-color-primary-dark: #000000;
+  --ifm-color-primary-darker: #000000;
+  --ifm-color-primary-darkest: #000000;
+  --ifm-color-primary-light: #3C3C3C;
+  --ifm-color-primary-lighter: #555555;
+  --ifm-color-primary-lightest: #828282;
+
+  --ifm-container-width: 1240px;
+  --ifm-container-width-xl: 1400px;
+
+  --ifm-background-color: var(--id8-paper);
+  --ifm-background-surface-color: var(--id8-paper);
+  --ifm-font-family-base: 'Sora', system-ui, sans-serif;
+  --ifm-heading-font-family: 'Roboto Serif', Georgia, serif;
+  --ifm-font-size-base: 16px;
+  --ifm-line-height-base: 1.6;
+  --ifm-heading-font-weight: 500;
+  --ifm-navbar-background-color: var(--id8-paper);
+  --ifm-navbar-shadow: none;
+  --ifm-navbar-height: 64px;
+  --ifm-footer-background-color: var(--id8-paper);
+  --ifm-toc-border-color: var(--id8-hair);
+  --ifm-table-border-color: var(--id8-hair);
+  --ifm-table-stripe-background: transparent;
+  --ifm-table-head-background: transparent;
+  --ifm-link-color: var(--id8-ink);
+  --ifm-menu-color: var(--id8-soft);
+  --ifm-menu-color-active: var(--id8-ink);
+  --ifm-code-font-size: 90%;
+  --docusaurus-highlighted-code-line-bg: rgba(0,0,0,0.05);
+}
+
+html[data-theme='dark'] {
+  --id8-paper: #1A1A1A;
+  --id8-ink: #FBFAF7;
+  --id8-hair: #333029;
+  --ifm-color-primary: #FBFAF7;
+  --ifm-background-color: #1A1A1A;
+  --ifm-background-surface-color: #1A1A1A;
+  --ifm-navbar-background-color: #1A1A1A;
+  --ifm-footer-background-color: #1A1A1A;
+  --ifm-link-color: #FBFAF7;
+  --ifm-menu-color: #B9B4AA;
+  --ifm-menu-color-active: #FBFAF7;
+}
+
+/* Headings: serif, tight, with a quiet weight */
+h1, h2, h3, h4 { font-family: 'Roboto Serif', Georgia, serif; letter-spacing: -0.01em; color: var(--id8-ink); }
+.markdown h1:first-child { font-size: 2.3rem; font-weight: 500; margin-bottom: 0.4rem; }
+.markdown h2 { font-size: 1.4rem; font-weight: 500; margin-top: 2rem; padding-bottom: 0.3rem; border-bottom: 1px solid var(--id8-hair); }
+.markdown h3 { font-size: 1.08rem; font-weight: 600; font-family: 'Sora', sans-serif; margin-top: 1.3rem; }
+.markdown > p, .markdown li { color: var(--id8-soft); }
+
+/* Navbar: hairline rule, letterspaced links */
+.navbar { border-bottom: 1px solid var(--id8-ink); }
+.navbar__item, .navbar__link { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 500; }
+/* Logo: small and vertically centered against the links */
+.navbar__brand { align-items: center; }
+.navbar__logo { height: 15px; display: flex; align-items: center; margin-right: 0.6rem; }
+.navbar__logo img { height: 15px; width: auto; }
+
+/* Tables: no fills, no vertical lines, small-caps header over one rule, tight padding */
+.markdown table { display: table; width: 100%; border-collapse: collapse; border: none; margin: 1.2rem 0; }
+.markdown table thead { background: transparent; }
+.markdown table th {
+  text-align: left; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.72rem; font-weight: 600;
+  font-family: 'Sora', sans-serif; color: var(--id8-ink); border: none; border-bottom: 1.5px solid var(--id8-ink);
+  padding: 4px 18px 6px 0;
+}
+.markdown table td { border: none; border-bottom: 1px solid var(--id8-hair); padding: 8px 18px 8px 0; font-size: 0.9rem; color: var(--id8-soft); }
+.markdown table tr { background: transparent !important; }
+.markdown table td:first-child { color: var(--id8-ink); }
+
+/* Notes / admonitions: borderless, just a left rule */
+.theme-admonition { background: transparent; border: none; border-left: 2px solid var(--id8-ink); border-radius: 0; box-shadow: none; padding: 0.3rem 0 0.3rem 1rem; }
+.theme-admonition .admonition-heading h5 { text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.7rem; color: var(--id8-ink); }
+
+/* Code: quiet, hairline, no heavy box */
+.markdown pre, code { font-family: 'Roboto Mono', Consolas, monospace; }
+.markdown div[class*='codeBlockContainer'] { box-shadow: none; border: 1px solid var(--id8-hair); border-radius: 2px; }
+code { background: rgba(0,0,0,0.04); border: none; border-radius: 2px; padding: 1px 5px; }
+
+/* Sidebar + TOC */
+.menu__link { font-size: 0.85rem; border-radius: 0; }
+.menu__link--active { border-left: 2px solid var(--id8-ink); }
+.table-of-contents { font-size: 0.78rem; border-left: 1px solid var(--id8-hair); }
+
+hr { border: none; border-top: 1px solid var(--id8-hair); }
+
+/* Investor view: hide the internal tabs (Capabilities, Systems, Research, Admin) */
+body.investor-view .nav-internal { display: none !important; }

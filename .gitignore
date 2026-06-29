@@ -1,0 +1,35 @@
+# OS / editor
+.DS_Store
+*.swp
+
+# Local tooling
+.claude/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+.env.*
+
+# Node / Docusaurus
+node_modules/
+hub/build/
+hub/.docusaurus/
+
+# Generated design intermediates (regenerate with the build scripts)
+design/canvas.html
+design/cover_*.html
+
+# Deal intelligence output (memos)
+deal_intelligence/output/
+
+# Local-only data, never commit (real investor data, personal files)
+/Budget_NY_JunJul2026.xlsx
+/attio_jesses_deals.csv
+/closing_investors_combined.csv
+/closing_investors_failed.csv
+pipeline/attio_import/*.csv
+pipeline/Documents/*.xlsx
+pipeline/Documents/*.xls

@@ -1,0 +1,686 @@
+{
+  "name": "ID8 PB-Attio",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "pitchbook-drop",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [-144, -16],
+      "id": "a73052d0-f309-4e98-85bd-b4acbc556f6f",
+      "name": "Webhook: PitchBook Drop",
+      "webhookId": "pitchbook-drop"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.body.fileId }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [80, -16],
+      "id": "28d34bca-74ef-4c78-9e02-85118326e1c9",
+      "name": "Download file",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "rANIwMSbXfjpM6y2",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://id8-137750788450.us-east4.run.app/process",
+        "sendBody": true,
+        "contentType": "binaryData",
+        "inputDataFieldName": "data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [304, -16],
+      "id": "0a3716a4-1974-47b7-95c6-a95e028db833",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "jsCode": "const deals = $input.first().json.deals || [];\nconst date = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });\nif (deals.length === 0) return [{ json: { skip: true } }];\n\nconst clean = v => (v && v !== 'nan' && v !== 'none') ? String(v).trim() : '';\nconst money = v => clean(v) || '—';\n\nconst dealBlocks = deals.map(d => `\n  <tr><td style=\"padding:0 0 40px 0;\">\n    <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">\n      <tr>\n        <td>\n          <a href=\"https://app.attio.com/i-d-8-investments/deals/${d.record_id}\" style=\"text-decoration:none;color:#111;\">\n            <h2 style=\"margin:0 0 3px 0;font-size:21px;font-weight:700;letter-spacing:-0.02em;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;\">${clean(d.company)}</h2>\n          </a>\n          ${clean(d.website) ? `<p style=\"margin:0 0 12px 0;font-size:13px;\"><a href=\"https://${clean(d.website)}\" style=\"color:#0066cc;text-decoration:underline;\">${clean(d.website)}</a></p>` : ''}\n        </td>\n        <td align=\"right\" style=\"vertical-align:top;padding-top:4px;\">\n          <span style=\"font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#666;background:#ededeb;padding:4px 10px;border-radius:4px;\">${clean(d.series)}</span>\n        </td>\n      </tr>\n    </table>\n    ${clean(d.description) ? `<p style=\"margin:0 0 16px 0;font-size:14px;line-height:1.7;color:#444;\">${clean(d.description)}</p>` : ''}\n    <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"margin-bottom:14px;\">\n      <tr>\n        <td style=\"width:33%;padding-right:12px;\">\n          <p style=\"margin:0 0 2px 0;font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;\">Deal Size</p>\n          <p style=\"margin:0;font-size:16px;font-weight:700;color:#111;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;\">${money(d.deal_size)}</p>\n        </td>\n        <td style=\"width:33%;padding-right:12px;\">\n          <p style=\"margin:0 0 2px 0;font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;\">Post Valuation</p>\n          <p style=\"margin:0;font-size:16px;font-weight:700;color:#111;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;\">${money(d.post_valuation)}</p>\n        </td>\n        <td style=\"width:33%;\">\n          <p style=\"margin:0 0 2px 0;font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;\">Date</p>\n          <p style=\"margin:0;font-size:16px;font-weight:700;color:#111;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;\">${clean(d.deal_date) || '—'}</p>\n        </td>\n      </tr>\n    </table>\n    <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"margin-bottom:14px;\">\n      <tr>\n        <td style=\"width:33%;padding-right:12px;vertical-align:top;\">\n          <p style=\"margin:0 0 2px 0;font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;\">Location</p>\n          <p style=\"margin:0;font-size:13px;color:#444;\">${clean(d.hq_location) || '—'}</p>\n        </td>\n        <td style=\"width:33%;padding-right:12px;vertical-align:top;\">\n          <p style=\"margin:0 0 2px 0;font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;\">Lead Investors</p>\n          <p style=\"margin:0;font-size:13px;color:#444;\">${clean(d.lead_investors) || '—'}</p>\n        </td>\n        <td style=\"width:33%;vertical-align:top;\">\n          <p style=\"margin:0 0 2px 0;font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;\">New Investors</p>\n          <p style=\"margin:0;font-size:13px;color:#444;\">${clean(d.new_investors) || '—'}</p>\n        </td>\n      </tr>\n    </table>\n    <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">\n      <tr>\n        <td style=\"vertical-align:top;\">\n          <p style=\"margin:0 0 2px 0;font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;\">All Investors</p>\n          <p style=\"margin:0;font-size:13px;color:#444;\">${clean(d.investors) || '—'}</p>\n        </td>\n      </tr>\n    </table>\n  </td></tr>\n  <tr><td style=\"padding:0 0 40px 0;\"><div style=\"height:1px;background:#e4e4e2;\"></div></td></tr>\n`).join('');\n\nconst html = `<!DOCTYPE html>\n<html>\n<body style=\"margin:0;padding:0;background:#fafafa;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;\">\n<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"background:#fafafa;padding:48px 0;\">\n  <tr><td align=\"center\">\n    <table width=\"600\" cellpadding=\"0\" cellspacing=\"0\" style=\"max-width:600px;width:100%;\">\n      <tr><td style=\"padding:0 0 8px 0;\">\n        <img src=\"https://id8-137750788450.us-east4.run.app/logo\" alt=\"ID8 Investments\" height=\"22\" style=\"display:block;margin:0 0 20px 0;\">\n        <h1 style=\"margin:0 0 6px 0;font-size:30px;font-weight:700;color:#111;letter-spacing:-0.03em;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;\">Weekly Deal Flow</h1>\n        <p style=\"margin:0 0 32px 0;font-size:14px;color:#888;\">${date} &nbsp;·&nbsp; ${deals.length} new deal(s) added to Attio</p>\n        <div style=\"height:1px;background:#e4e4e2;margin-bottom:40px;\"></div>\n      </td></tr>\n      ${dealBlocks}\n      <tr><td style=\"padding:8px 0 0 0;\">\n        <p style=\"margin:0;font-size:12px;color:#b0b0b0;\">ID8 Investments LLC | 169 Hudson Street, New York, NY</p>\n      </td></tr>\n    </table>\n  </td></tr>\n</table>\n</body>\n</html>`;\n\nreturn [{ json: { html, subject: `PitchBook Deal Flow — ${date} (${deals.length} new)` } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [528, -16],
+      "id": "104b7aee-328e-4415-b708-6b74e6e73136",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "sendTo": "oscar@id8investments.com, isabella@id8investments.com",
+        "subject": "={{ $('Code in JavaScript').item.json.subject }}",
+        "message": "={{ $('Code in JavaScript').item.json.html }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [976, -16],
+      "id": "49bc1afd-9e78-433e-b70d-ecfe0447d743",
+      "name": "Send a message",
+      "webhookId": "94c77357-b918-4af5-91d1-cfa46316dee7",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "DFH7sFDIWB75plbj",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "a223348d-4817-4b9c-9d3e-8102c62f4185",
+              "leftValue": "={{ $json.skip }}",
+              "rightValue": "true",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [752, -16],
+      "id": "2d497451-2efe-4550-90bc-e73c8166d383",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "watchlist-drop",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [-144, 208],
+      "id": "e76477e5-eb44-449a-ab73-229771d4960e",
+      "name": "Webhook: Watchlist Drop",
+      "webhookId": "watchlist-drop"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.body.fileId }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [80, 208],
+      "id": "53ad3976-966a-4a70-814f-093abebe420b",
+      "name": "Download file1",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "rANIwMSbXfjpM6y2",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://id8-137750788450.us-east4.run.app/process-watchlist",
+        "sendBody": true,
+        "contentType": "binaryData",
+        "inputDataFieldName": "data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [304, 208],
+      "id": "5c8bd1c4-cfa8-486a-9503-8008a57b52b8",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "jsCode": "const deals = $input.first().json.deals || [];\nconst date = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });\nif (deals.length === 0) return [{ json: { skip: true } }];\n\nconst clean = v => (v && v !== 'nan' && v !== 'none') ? String(v).trim() : '';\nconst money = v => clean(v) || '—';\n\nconst dealBlocks = deals.map(d => `\n  <tr><td style=\"padding:0 0 40px 0;\">\n    <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">\n      <tr>\n        <td>\n          <a href=\"https://app.attio.com/i-d-8-investments/deals/${d.record_id}\" style=\"text-decoration:none;color:#111;\">\n            <h2 style=\"margin:0 0 3px 0;font-size:21px;font-weight:700;letter-spacing:-0.02em;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;\">${clean(d.company)}</h2>\n          </a>\n          ${clean(d.website) ? `<p style=\"margin:0 0 12px 0;font-size:13px;\"><a href=\"https://${clean(d.website)}\" style=\"color:#0066cc;text-decoration:underline;\">${clean(d.website)}</a></p>` : ''}\n        </td>\n        <td align=\"right\" style=\"vertical-align:top;padding-top:4px;\">\n          <span style=\"font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#666;background:#ededeb;padding:4px 10px;border-radius:4px;\">${clean(d.series)}</span>\n        </td>\n      </tr>\n    </table>\n    ${clean(d.description) ? `<p style=\"margin:0 0 16px 0;font-size:14px;line-height:1.7;color:#444;\">${clean(d.description)}</p>` : ''}\n    <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"margin-bottom:14px;\">\n      <tr>\n        <td style=\"width:33%;padding-right:12px;\">\n          <p style=\"margin:0 0 2px 0;font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;\">Deal Size</p>\n          <p style=\"margin:0;font-size:16px;font-weight:700;color:#111;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;\">${money(d.deal_size)}</p>\n        </td>\n        <td style=\"width:33%;padding-right:12px;\">\n          <p style=\"margin:0 0 2px 0;font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;\">Post Valuation</p>\n          <p style=\"margin:0;font-size:16px;font-weight:700;color:#111;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;\">${money(d.post_valuation)}</p>\n        </td>\n        <td style=\"width:33%;\">\n          <p style=\"margin:0 0 2px 0;font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;\">Date</p>\n          <p style=\"margin:0;font-size:16px;font-weight:700;color:#111;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;\">${clean(d.deal_date) || '—'}</p>\n        </td>\n      </tr>\n    </table>\n    <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"margin-bottom:14px;\">\n      <tr>\n        <td style=\"width:33%;padding-right:12px;vertical-align:top;\">\n          <p style=\"margin:0 0 2px 0;font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;\">Location</p>\n          <p style=\"margin:0;font-size:13px;color:#444;\">${clean(d.hq_location) || '—'}</p>\n        </td>\n        <td style=\"width:33%;padding-right:12px;vertical-align:top;\">\n          <p style=\"margin:0 0 2px 0;font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;\">Lead Investors</p>\n          <p style=\"margin:0;font-size:13px;color:#444;\">${clean(d.lead_investors) || '—'}</p>\n        </td>\n        <td style=\"width:33%;vertical-align:top;\">\n          <p style=\"margin:0 0 2px 0;font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;\">New Investors</p>\n          <p style=\"margin:0;font-size:13px;color:#444;\">${clean(d.new_investors) || '—'}</p>\n        </td>\n      </tr>\n    </table>\n    <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">\n      <tr>\n        <td style=\"vertical-align:top;\">\n          <p style=\"margin:0 0 2px 0;font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;\">All Investors</p>\n          <p style=\"margin:0;font-size:13px;color:#444;\">${clean(d.investors) || '—'}</p>\n        </td>\n      </tr>\n    </table>\n  </td></tr>\n  <tr><td style=\"padding:0 0 40px 0;\"><div style=\"height:1px;background:#e4e4e2;\"></div></td></tr>\n`).join('');\n\nconst html = `<!DOCTYPE html>\n<html>\n<body style=\"margin:0;padding:0;background:#fafafa;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;\">\n<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"background:#fafafa;padding:48px 0;\">\n  <tr><td align=\"center\">\n    <table width=\"600\" cellpadding=\"0\" cellspacing=\"0\" style=\"max-width:600px;width:100%;\">\n      <tr><td style=\"padding:0 0 8px 0;\">\n        <img src=\"https://id8-137750788450.us-east4.run.app/logo\" alt=\"ID8 Investments\" height=\"22\" style=\"display:block;margin:0 0 20px 0;\">\n        <h1 style=\"margin:0 0 6px 0;font-size:30px;font-weight:700;color:#111;letter-spacing:-0.03em;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;\">Watchlist Update</h1>\n        <p style=\"margin:0 0 32px 0;font-size:14px;color:#888;\">${date} &nbsp;·&nbsp; ${deals.length} deal(s) added to Watchlist</p>\n        <div style=\"height:1px;background:#e4e4e2;margin-bottom:40px;\"></div>\n      </td></tr>\n      ${dealBlocks}\n      <tr><td style=\"padding:8px 0 0 0;\">\n        <p style=\"margin:0;font-size:12px;color:#b0b0b0;\">ID8 Investments LLC | 169 Hudson Street, New York, NY</p>\n      </td></tr>\n    </table>\n  </td></tr>\n</table>\n</body>\n</html>`;\n\nreturn [{ json: { html, subject: `Watchlist Update — ${date} (${deals.length} added)` } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [528, 208],
+      "id": "dbce67b2-cb87-4606-a575-afc2d8024136",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "a223348d-4817-4b9c-9d3e-8102c62f4185",
+              "leftValue": "={{ $json.skip }}",
+              "rightValue": "true",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [752, 208],
+      "id": "554300a7-fdb3-44f1-a020-e347e86e54b4",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "sendTo": "oscar@id8investments.com, isabella@id8investments.com",
+        "subject": "={{ $('Code in JavaScript1').item.json.subject }}",
+        "message": "={{ $('Code in JavaScript1').item.json.html }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [976, 208],
+      "id": "978be63f-6622-4fba-b47f-9779bde0acff",
+      "name": "Send a message1",
+      "webhookId": "94c77357-b918-4af5-91d1-cfa46316dee7",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "DFH7sFDIWB75plbj",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "jesse-deals",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [-144, 528],
+      "id": "18dc4c3a-6543-4bcf-9b38-14adf8f22be1",
+      "name": "Webhook: Jesse Deals",
+      "webhookId": "jesse-deals"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "d0e7165d-e633-470e-b585-c19653ffd5ce",
+              "leftValue": "={{ $json[\"Ready\"] }}",
+              "rightValue": "true",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "cadc7ed3-274f-4973-a2e3-9232210fff8c",
+              "leftValue": "={{ $json[\"Company\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "af25330b-a5df-4d20-aec8-7f2b16955928",
+              "leftValue": "={{ $json[\"Round\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "04ad3ffd-c1f5-4710-98ed-f037e6c8fab7",
+              "leftValue": "={{ $json[\"Company Website\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [304, 528],
+      "id": "7acd3e1b-b4d8-4be9-85ef-7bdc29521131",
+      "name": "If2"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1-ebci81-Y-31fI7wQKHXymCfOcPYlXuEm7p8s0ziiXA",
+          "mode": "list",
+          "cachedResultName": "ID8_Deal_Pipeline ",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-ebci81-Y-31fI7wQKHXymCfOcPYlXuEm7p8s0ziiXA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 848698303,
+          "mode": "list",
+          "cachedResultName": "Jesse's Deals",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-ebci81-Y-31fI7wQKHXymCfOcPYlXuEm7p8s0ziiXA/edit#gid=848698303"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "row_number": 0
+          },
+          "matchingColumns": ["row_number"],
+          "schema": [
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [528, 432],
+      "id": "28e6d949-cb84-41b1-9121-318ece7f9549",
+      "name": "Update row in sheet",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "SPeHNex536fIJHTJ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://id8-137750788450.us-east4.run.app/process-jesse",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            { "name": "Company",          "value": "=\t{{ $json[\"Company\"] }}" },
+            { "name": "Company Website",  "value": "=\t{{ $json[\"Company Website\"] }}" },
+            { "name": "Description",      "value": "=\t{{ $json[\"Description\"] }}" },
+            { "name": "Round",            "value": "=\t{{ $json[\"Round\"] }}" },
+            { "name": "Deal Size",        "value": "={{ $json[\"Deal Size\"] }}" },
+            { "name": "Post Valuation",   "value": "={{ $json[\"Post Valuation\"] }}" },
+            { "name": "Revenue",          "value": "=\t{{ $json[\"Revenue\"] }}" },
+            { "name": "Date",             "value": "=\t{{ $json[\"Date\"] }}" },
+            { "name": "Lead Investor",    "value": "={{ $json[\"Lead Investor\"] }}" },
+            { "name": "New Investors",    "value": "=\t{{ $json[\"New Investors\"] }}" },
+            { "name": "Access",           "value": "=\t{{ $json[\"Access\"] }}" }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [528, 624],
+      "id": "128277fe-5db7-4685-b276-aa7a2a295885",
+      "name": "HTTP Request2"
+    },
+    {
+      "parameters": {
+        "jsCode": "const deals = $input.all().flatMap(i => i.json.deals || []);\nconst date = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });\nif (deals.length === 0) return [{ json: { skip: true } }];\n\nconst clean = v => (v && v !== 'nan' && v !== 'none') ? String(v).trim() : '';\nconst money = v => clean(v) || '—';\n\nconst dealBlocks = deals.map(d => `\n  <tr><td style=\"padding:0 0 40px 0;\">\n    <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">\n      <tr>\n        <td>\n          <a href=\"https://app.attio.com/i-d-8-investments/deals/${d.record_id}\" style=\"text-decoration:none;color:#111;\">\n            <h2 style=\"margin:0 0 3px 0;font-size:21px;font-weight:700;letter-spacing:-0.02em;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;\">${clean(d.company)}</h2>\n          </a>\n          ${clean(d.website) ? `<p style=\"margin:0 0 12px 0;font-size:13px;\"><a href=\"https://${clean(d.website)}\" style=\"color:#0066cc;text-decoration:underline;\">${clean(d.website)}</a></p>` : ''}\n        </td>\n        <td align=\"right\" style=\"vertical-align:top;padding-top:4px;\">\n          <span style=\"font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#666;background:#ededeb;padding:4px 10px;border-radius:4px;\">${clean(d.series)}</span>\n        </td>\n      </tr>\n    </table>\n    ${clean(d.description) ? `<p style=\"margin:0 0 16px 0;font-size:14px;line-height:1.7;color:#444;\">${clean(d.description)}</p>` : ''}\n    <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"margin-bottom:14px;\">\n      <tr>\n        <td style=\"width:33%;padding-right:12px;\">\n          <p style=\"margin:0 0 2px 0;font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;\">Deal Size</p>\n          <p style=\"margin:0;font-size:16px;font-weight:700;color:#111;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;\">${money(d.deal_size)}</p>\n        </td>\n        <td style=\"width:33%;padding-right:12px;\">\n          <p style=\"margin:0 0 2px 0;font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;\">Post Valuation</p>\n          <p style=\"margin:0;font-size:16px;font-weight:700;color:#111;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;\">${money(d.post_valuation)}</p>\n        </td>\n        <td style=\"width:33%;\">\n          <p style=\"margin:0 0 2px 0;font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;\">Date</p>\n          <p style=\"margin:0;font-size:16px;font-weight:700;color:#111;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;\">${clean(d.deal_date) || '—'}</p>\n        </td>\n      </tr>\n    </table>\n    <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"margin-bottom:14px;\">\n      <tr>\n        <td style=\"width:33%;padding-right:12px;vertical-align:top;\">\n          <p style=\"margin:0 0 2px 0;font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;\">Location</p>\n          <p style=\"margin:0;font-size:13px;color:#444;\">${clean(d.hq_location) || '—'}</p>\n        </td>\n        <td style=\"width:33%;padding-right:12px;vertical-align:top;\">\n          <p style=\"margin:0 0 2px 0;font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;\">Lead Investor</p>\n          <p style=\"margin:0;font-size:13px;color:#444;\">${clean(d.lead_investors) || '—'}</p>\n        </td>\n        <td style=\"width:33%;vertical-align:top;\">\n          <p style=\"margin:0 0 2px 0;font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;\">New Investors</p>\n          <p style=\"margin:0;font-size:13px;color:#444;\">${clean(d.new_investors) || '—'}</p>\n        </td>\n      </tr>\n    </table>\n    <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">\n      <tr>\n        <td style=\"vertical-align:top;\">\n          <p style=\"margin:0 0 2px 0;font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;\">All Investors</p>\n          <p style=\"margin:0;font-size:13px;color:#444;\">${clean(d.investors) || '—'}</p>\n        </td>\n      </tr>\n    </table>\n  </td></tr>\n  <tr><td style=\"padding:0 0 40px 0;\"><div style=\"height:1px;background:#e4e4e2;\"></div></td></tr>\n`).join('');\n\nconst html = `<!DOCTYPE html>\n<html>\n<body style=\"margin:0;padding:0;background:#fafafa;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;\">\n<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"background:#fafafa;padding:48px 0;\">\n  <tr><td align=\"center\">\n    <table width=\"600\" cellpadding=\"0\" cellspacing=\"0\" style=\"max-width:600px;width:100%;\">\n      <tr><td style=\"padding:0 0 8px 0;\">\n        <img src=\"https://id8-137750788450.us-east4.run.app/logo\" alt=\"ID8 Investments\" height=\"22\" style=\"display:block;margin:0 0 20px 0;\">\n        <h1 style=\"margin:0 0 6px 0;font-size:30px;font-weight:700;color:#111;letter-spacing:-0.03em;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;\">Jesse Deal Submission</h1>\n        <p style=\"margin:0 0 32px 0;font-size:14px;color:#888;\">${date} &nbsp;·&nbsp; ${deals.length} deal(s) added from Jesse</p>\n        <div style=\"height:1px;background:#e4e4e2;margin-bottom:40px;\"></div>\n      </td></tr>\n      ${dealBlocks}\n      <tr><td style=\"padding:8px 0 0 0;\">\n        <p style=\"margin:0;font-size:12px;color:#b0b0b0;\">ID8 Investments LLC | 169 Hudson Street, New York, NY</p>\n      </td></tr>\n    </table>\n  </td></tr>\n</table>\n</body>\n</html>`;\n\nreturn [{ json: { html, subject: `Jesse Deal — ${date} (${deals.length} added)` } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [752, 624],
+      "id": "a822816f-a393-4bd3-b106-a3a5f8962aa6",
+      "name": "Code in JavaScript2"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "0c731530-2941-40a3-8428-6a1aacf8e77f",
+              "leftValue": "={{ $json[\"skip\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "false",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [976, 624],
+      "id": "eb97586e-faa1-4d62-8bce-ba734f5c4c4c",
+      "name": "If3"
+    },
+    {
+      "parameters": {
+        "sendTo": "oscar@id8investments.com, isabella@id8investments.com",
+        "subject": "={{ $('Code in JavaScript2').item.json.subject }}",
+        "message": "={{ $('Code in JavaScript2').item.json.html }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [1200, 624],
+      "id": "8043ee5d-75f1-48e1-b08c-43b3ad75d4db",
+      "name": "Send a message2",
+      "webhookId": "94c77357-b918-4af5-91d1-cfa46316dee7",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "DFH7sFDIWB75plbj",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1-ebci81-Y-31fI7wQKHXymCfOcPYlXuEm7p8s0ziiXA",
+          "mode": "list",
+          "cachedResultName": "ID8_Deal_Pipeline ",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-ebci81-Y-31fI7wQKHXymCfOcPYlXuEm7p8s0ziiXA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 848698303,
+          "mode": "list",
+          "cachedResultName": "Jesse's Deals",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-ebci81-Y-31fI7wQKHXymCfOcPYlXuEm7p8s0ziiXA/edit#gid=848698303"
+        },
+        "filtersUI": { "values": [] },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [80, 528],
+      "id": "ff5162bb-7df9-48f8-8209-5c6be0765874",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "SPeHNex536fIJHTJ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "top10-drop",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [-144, 848],
+      "id": "db3a15fa-36da-4c2a-89de-16aea5ce81be",
+      "name": "Webhook: Top 10 VCs Drop",
+      "webhookId": "top10-drop"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.body.fileId }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [80, 848],
+      "id": "62a91e03-594a-4cb5-8a0c-0158acee7cc6",
+      "name": "Download file2",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "rANIwMSbXfjpM6y2",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://id8-137750788450.us-east4.run.app/process-top10",
+        "sendBody": true,
+        "contentType": "binaryData",
+        "inputDataFieldName": "data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [304, 848],
+      "id": "784db2cc-a394-4ee3-ac89-26b2a8d83a97",
+      "name": "HTTP Request3"
+    },
+    {
+      "parameters": {
+        "jsCode": "const deals = $input.first().json.deals || [];\nconst date = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });\nif (deals.length === 0) return [{ json: { skip: true } }];\n\nconst clean = v => (v && v !== 'nan' && v !== 'none') ? String(v).trim() : '';\nconst money = v => clean(v) || '—';\n\nconst dealBlocks = deals.map(d => `\n  <tr><td style=\"padding:0 0 40px 0;\">\n    <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">\n      <tr>\n        <td>\n          <a href=\"https://app.attio.com/i-d-8-investments/deals/${d.record_id}\" style=\"text-decoration:none;color:#111;\">\n            <h2 style=\"margin:0 0 3px 0;font-size:21px;font-weight:700;letter-spacing:-0.02em;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;\">${clean(d.company)}</h2>\n          </a>\n          ${clean(d.website) ? `<p style=\"margin:0 0 12px 0;font-size:13px;\"><a href=\"https://${clean(d.website)}\" style=\"color:#0066cc;text-decoration:underline;\">${clean(d.website)}</a></p>` : ''}\n        </td>\n        <td align=\"right\" style=\"vertical-align:top;padding-top:4px;\">\n          <span style=\"font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#666;background:#ededeb;padding:4px 10px;border-radius:4px;\">${clean(d.series)}</span>\n        </td>\n      </tr>\n    </table>\n    ${clean(d.description) ? `<p style=\"margin:0 0 16px 0;font-size:14px;line-height:1.7;color:#444;\">${clean(d.description)}</p>` : ''}\n    <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"margin-bottom:14px;\">\n      <tr>\n        <td style=\"width:33%;padding-right:12px;\">\n          <p style=\"margin:0 0 2px 0;font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;\">Deal Size</p>\n          <p style=\"margin:0;font-size:16px;font-weight:700;color:#111;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;\">${money(d.deal_size)}</p>\n        </td>\n        <td style=\"width:33%;padding-right:12px;\">\n          <p style=\"margin:0 0 2px 0;font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;\">Post Valuation</p>\n          <p style=\"margin:0;font-size:16px;font-weight:700;color:#111;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;\">${money(d.post_valuation)}</p>\n        </td>\n        <td style=\"width:33%;\">\n          <p style=\"margin:0 0 2px 0;font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;\">Date</p>\n          <p style=\"margin:0;font-size:16px;font-weight:700;color:#111;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;\">${clean(d.deal_date) || '—'}</p>\n        </td>\n      </tr>\n    </table>\n    <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"margin-bottom:14px;\">\n      <tr>\n        <td style=\"width:33%;padding-right:12px;vertical-align:top;\">\n          <p style=\"margin:0 0 2px 0;font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;\">Location</p>\n          <p style=\"margin:0;font-size:13px;color:#444;\">${clean(d.hq_location) || '—'}</p>\n        </td>\n        <td style=\"width:33%;padding-right:12px;vertical-align:top;\">\n          <p style=\"margin:0 0 2px 0;font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;\">Lead Investors</p>\n          <p style=\"margin:0;font-size:13px;color:#444;\">${clean(d.lead_investors) || '—'}</p>\n        </td>\n        <td style=\"width:33%;vertical-align:top;\">\n          <p style=\"margin:0 0 2px 0;font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;\">New Investors</p>\n          <p style=\"margin:0;font-size:13px;color:#444;\">${clean(d.new_investors) || '—'}</p>\n        </td>\n      </tr>\n    </table>\n    <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">\n      <tr>\n        <td style=\"vertical-align:top;\">\n          <p style=\"margin:0 0 2px 0;font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;\">All Investors</p>\n          <p style=\"margin:0;font-size:13px;color:#444;\">${clean(d.investors) || '—'}</p>\n        </td>\n      </tr>\n    </table>\n  </td></tr>\n  <tr><td style=\"padding:0 0 40px 0;\"><div style=\"height:1px;background:#e4e4e2;\"></div></td></tr>\n`).join('');\n\nconst html = `<!DOCTYPE html>\n<html>\n<body style=\"margin:0;padding:0;background:#fafafa;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;\">\n<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"background:#fafafa;padding:48px 0;\">\n  <tr><td align=\"center\">\n    <table width=\"600\" cellpadding=\"0\" cellspacing=\"0\" style=\"max-width:600px;width:100%;\">\n      <tr><td style=\"padding:0 0 8px 0;\">\n        <img src=\"https://id8-137750788450.us-east4.run.app/logo\" alt=\"ID8 Investments\" height=\"22\" style=\"display:block;margin:0 0 20px 0;\">\n        <h1 style=\"margin:0 0 6px 0;font-size:30px;font-weight:700;color:#111;letter-spacing:-0.03em;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;\">Top 10 VC Radar</h1>\n        <p style=\"margin:0 0 32px 0;font-size:14px;color:#888;\">${date} &nbsp;·&nbsp; ${deals.length} new deal(s) on the radar from top 10 VCs</p>\n        <div style=\"height:1px;background:#e4e4e2;margin-bottom:40px;\"></div>\n      </td></tr>\n      ${dealBlocks}\n      <tr><td style=\"padding:8px 0 0 0;\">\n        <p style=\"margin:0;font-size:12px;color:#b0b0b0;\">ID8 Investments LLC | 169 Hudson Street, New York, NY</p>\n      </td></tr>\n    </table>\n  </td></tr>\n</table>\n</body>\n</html>`;\n\nreturn [{ json: { html, subject: `Top 10 VC Radar — ${date} (${deals.length} new)` } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [528, 848],
+      "id": "4847cd8c-2927-4a64-a37d-70496580f16f",
+      "name": "Code in JavaScript3"
+    },
+    {
+      "parameters": {
+        "sendTo": "oscar@id8investments.com, isabella@id8investments.com",
+        "subject": "={{ $('Code in JavaScript3').item.json.subject }}",
+        "message": "={{ $('Code in JavaScript3').item.json.html }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [976, 848],
+      "id": "8a204212-e71c-4d2b-907a-a3ebfc58b2b1",
+      "name": "Send a message3",
+      "webhookId": "94c77357-b918-4af5-91d1-cfa46316dee7",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "DFH7sFDIWB75plbj",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "a223348d-4817-4b9c-9d3e-8102c62f4185",
+              "leftValue": "={{ $json.skip }}",
+              "rightValue": "true",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [752, 848],
+      "id": "e509c27f-1e36-4c7f-8f5e-509ecbc1142f",
+      "name": "If4"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook: PitchBook Drop": {
+      "main": [[{ "node": "Download file", "type": "main", "index": 0 }]]
+    },
+    "Download file": {
+      "main": [[{ "node": "HTTP Request", "type": "main", "index": 0 }]]
+    },
+    "HTTP Request": {
+      "main": [[{ "node": "Code in JavaScript", "type": "main", "index": 0 }]]
+    },
+    "Code in JavaScript": {
+      "main": [[{ "node": "If", "type": "main", "index": 0 }]]
+    },
+    "If": {
+      "main": [[{ "node": "Send a message", "type": "main", "index": 0 }]]
+    },
+    "Webhook: Watchlist Drop": {
+      "main": [[{ "node": "Download file1", "type": "main", "index": 0 }]]
+    },
+    "Download file1": {
+      "main": [[{ "node": "HTTP Request1", "type": "main", "index": 0 }]]
+    },
+    "HTTP Request1": {
+      "main": [[{ "node": "Code in JavaScript1", "type": "main", "index": 0 }]]
+    },
+    "Code in JavaScript1": {
+      "main": [[{ "node": "If1", "type": "main", "index": 0 }]]
+    },
+    "If1": {
+      "main": [[{ "node": "Send a message1", "type": "main", "index": 0 }]]
+    },
+    "Webhook: Jesse Deals": {
+      "main": [[{ "node": "Get row(s) in sheet", "type": "main", "index": 0 }]]
+    },
+    "Get row(s) in sheet": {
+      "main": [[{ "node": "If2", "type": "main", "index": 0 }]]
+    },
+    "If2": {
+      "main": [
+        [
+          { "node": "Update row in sheet", "type": "main", "index": 0 },
+          { "node": "HTTP Request2", "type": "main", "index": 0 }
+        ],
+        []
+      ]
+    },
+    "Update row in sheet": {
+      "main": [[]]
+    },
+    "HTTP Request2": {
+      "main": [[{ "node": "Code in JavaScript2", "type": "main", "index": 0 }]]
+    },
+    "Code in JavaScript2": {
+      "main": [[{ "node": "If3", "type": "main", "index": 0 }]]
+    },
+    "If3": {
+      "main": [[{ "node": "Send a message2", "type": "main", "index": 0 }]]
+    },
+    "Webhook: Top 10 VCs Drop": {
+      "main": [[{ "node": "Download file2", "type": "main", "index": 0 }]]
+    },
+    "Download file2": {
+      "main": [[{ "node": "HTTP Request3", "type": "main", "index": 0 }]]
+    },
+    "HTTP Request3": {
+      "main": [[{ "node": "Code in JavaScript3", "type": "main", "index": 0 }]]
+    },
+    "Code in JavaScript3": {
+      "main": [[{ "node": "If4", "type": "main", "index": 0 }]]
+    },
+    "If4": {
+      "main": [[{ "node": "Send a message3", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "a4f7e5ad-0715-4856-9222-205ec2404f63",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "578c0f928c1180b7f68cbed0f55855a9da0b9c0f3635b827efc111fbda9fa681"
+  },
+  "nodeGroups": [],
+  "id": "R5kK6fNbCosclZJ8",
+  "tags": []
+}

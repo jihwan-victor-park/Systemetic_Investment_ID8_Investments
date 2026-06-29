@@ -1,0 +1,7 @@
+.wrap { width: 100%; max-width: 1192px; margin: 0 auto; }
+.wrap svg { display: block; width: 100%; height: auto; }
+.tick { stroke: var(--id8-hair); stroke-width: 1; }
+.link { stroke: var(--id8-ink); stroke-width: 1; }
+.node { fill: var(--id8-paper); stroke: var(--id8-ink); stroke-width: 1.3; transition: fill 0.3s ease; }
+.lit { fill: var(--id8-ink); }
+.ring { fill: none; stroke: var(--id8-ink); }
