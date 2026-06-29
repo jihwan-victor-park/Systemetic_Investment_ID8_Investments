@@ -13,21 +13,34 @@ website: ollin.bio
 
 ## Screen — 2026-06-29 · Series B
 
-**Fit score: 2.0 / 4.0 — below gate threshold**
+**Fit score: 2.2 / 4.0 — below gate threshold**
 
 | Dimension | Score | Evidence |
 | --- | --- | --- |
-| Lead / Round Dynamics | 3 / 4 | Series B round, oversubscribed $330M, co-led by ARCH Venture Partners and TCGX, with participation from T. Rowe Price, Blackstone, RA Capital, Monograph and others, forming a top-tier syndicate.[1][3][4][6] |
-| AI Score | 1 / 4 | Ollin Biosciences is a clinical-stage biotech focused on retinal/vision-threatening eye diseases and development of drug candidate OLN324; no evidence of AI-based products or core AI technology in its value proposition.[1][3][4][5] |
-| Fundamentals | 1 / 4 | Company is described as a clinical-stage biotech preparing global Phase 3 trials of OLN324; no disclosures of revenue, growth, unit economics (NDR, LTV/CAC), or burn, and as a typical pre-commercial biotech it is unlikely to have material revenue.[1][3][5][6] |
-| Return Potential | 3 / 4 | Oversubscribed $330M Series B with multiple top-tier public crossover and biotech investors backing late-stage (Phase 3) development of a potential competitor to Roche’s Vabysmo in DME and wet AMD, indicating >3x return potential but with substantial clinical and regulatory risk of capital loss typical of biotech.[1][3][4][6] |
-| Terms | 2 / 4 | Public information only notes the round size, stage, and lead investors; there is no visibility into SPV economics, carry/fees, time horizon, or data access for ID8, so terms cannot be assessed and must be conservatively scored low.[1][3][6] |
+| Lead / Round Dynamics | 2 / 4 | The round is Series B and co-led by ARCH Venture Partners and TCGX, with reporting that TCGX is a new investor while ARCH is a founding/inside investor, so this is not a clean new-money-only lead and fits the near-top-tier new-money/co-lead band rather than the top anchor. [[3]](https://ollin.bio/press-releases/ollin-biosciences-announces-oversubscribed-330-million-series-b-financing-to-advance-global-phase-3-development-of-oln324-in-dme-and-wet-amd-studies-commencing-in-second-half-of-2026/)[[4]](https://ca.finance.yahoo.com/news/ollin-biosciences-announces-oversubscribed-330-110000599.html)[[5]](https://www.prnewswire.com/news-releases/innovents-partner-ollin-biosciences-announces-oversubscribed-330-million-series-b-financing-to-advance-global-phase-3-development-of-ibi324-oln324-in-dme-and-wet-amd-studies-commencing-in-second-half-of-2026-302809651.html) |
+| AI Score | 1 / 4 | Ollin Biosciences is described as a clinical-stage ophthalmology/biotech company advancing therapies for vision-threatening diseases; no evidence found that AI is part of the product or core value proposition. [[2]](https://www.statnews.com/2026/06/24/ophthalmology-biotech-ollin-biosciences/)[[3]](https://ollin.bio/press-releases/ollin-biosciences-announces-oversubscribed-330-million-series-b-financing-to-advance-global-phase-3-development-of-oln324-in-dme-and-wet-amd-studies-commencing-in-second-half-of-2026/)[[6]](https://www.thepharmaletter.com/biotech-news/ollin-bio-lands-330-million-series-b-to-fund-late-stage-retinal-disease-studies) |
+| Fundamentals | 2 / 4 | The company disclosed a $330 million Series B to advance global Phase 3 development, which signals strong financing support, but the results do not provide revenue, growth, NDR, LTV/CAC, or burn metrics needed to reach the higher rubric bars. [[3]](https://ollin.bio/press-releases/ollin-biosciences-announces-oversubscribed-330-million-series-b-financing-to-advance-global-phase-3-development-of-oln324-in-dme-and-wet-amd-studies-commencing-in-second-half-of-2026/)[[4]](https://ca.finance.yahoo.com/news/ollin-biosciences-announces-oversubscribed-330-110000599.html)[[8]](https://wmbdradio.com/2026/06/24/ollin-raises-330-million-to-fund-late-stage-eye-disease-drug-trials/) |
+| Return Potential | 3 / 4 | This is a large, oversubscribed Series B for a clinical-stage biotech with late-stage ophthalmology assets, which supports meaningful upside if the program succeeds, but the public evidence does not justify assuming the >7x / low-loss profile needed for a 4. [[2]](https://www.statnews.com/2026/06/24/ophthalmology-biotech-ollin-biosciences/)[[3]](https://ollin.bio/press-releases/ollin-biosciences-announces-oversubscribed-330-million-series-b-financing-to-advance-global-phase-3-development-of-oln324-in-dme-and-wet-amd-studies-commencing-in-second-half-of-2026/)[[6]](https://www.thepharmaletter.com/biotech-news/ollin-bio-lands-330-million-series-b-to-fund-late-stage-retinal-disease-studies) |
+| Terms | 3 / 4 | No evidence found of punitive fees, SPV layering, or unusually short time horizon; the round was a standard primary Series B financing, and no adverse terms were reported in the available sources. [[3]](https://ollin.bio/press-releases/ollin-biosciences-announces-oversubscribed-330-million-series-b-financing-to-advance-global-phase-3-development-of-oln324-in-dme-and-wet-amd-studies-commencing-in-second-half-of-2026/)[[4]](https://ca.finance.yahoo.com/news/ollin-biosciences-announces-oversubscribed-330-110000599.html)[[8]](https://wmbdradio.com/2026/06/24/ollin-raises-330-million-to-fund-late-stage-eye-disease-drug-trials/) |
 
 **Rationale**
 
-The deal is in scope on stage (Series B) and geography (Austin, TX, USA) and features a large, oversubscribed round co-led by top-tier crossover/venture investors with a strong syndicate, aligning directionally with ID8’s preference for Tier 1-led Series B rounds.[1][3][4] However, ARCH appears to be a founding/inside investor co-leading alongside new-money TCGX, and the company is a non-AI, pre-commercial biotech with limited visible operating fundamentals, so it only partially aligns with the core thesis of new-money Tier 1 leads into growth-stage businesses with clearer economic traction.[3][4] Overall fit is driven by strong round dynamics and perceived return potential, but lack of AI, opaque fundamentals, and unknown SPV terms constrain the score.
+Ollin is in-scope on both gate checks: it is a Series B and is headquartered in Austin, Texas. The deal aligns with ID8's thesis on round quality because ARCH and TCGX are top-tier investors and TCGX is the new-money co-lead, but it does not perfectly match the strongest version of the thesis because ARCH is an existing/founding investor rather than a purely first-time lead. 
 
 *Confidence: medium*
+
+**Sources**
+
+1. <https://www.linkedin.com/posts/startup-researcher-na_biotech-funding-ophthalmology-activity-7475910065783279616-KgsR>
+2. <https://www.statnews.com/2026/06/24/ophthalmology-biotech-ollin-biosciences/>
+3. <https://ollin.bio/press-releases/ollin-biosciences-announces-oversubscribed-330-million-series-b-financing-to-advance-global-phase-3-development-of-oln324-in-dme-and-wet-amd-studies-commencing-in-second-half-of-2026/>
+4. <https://ca.finance.yahoo.com/news/ollin-biosciences-announces-oversubscribed-330-110000599.html>
+5. <https://www.prnewswire.com/news-releases/innovents-partner-ollin-biosciences-announces-oversubscribed-330-million-series-b-financing-to-advance-global-phase-3-development-of-ibi324-oln324-in-dme-and-wet-amd-studies-commencing-in-second-half-of-2026-302809651.html>
+6. <https://www.thepharmaletter.com/biotech-news/ollin-bio-lands-330-million-series-b-to-fund-late-stage-retinal-disease-studies>
+7. <https://startupintros.com/orgs/ollin-biosciences>
+8. <https://wmbdradio.com/2026/06/24/ollin-raises-330-million-to-fund-late-stage-eye-disease-drug-trials/>
+9. <https://www.facebook.com/61584786533913/posts/-330m-series-b-raisedollin-biosciences-announces-a-330-million-series-b-to-accel/122132945841159551/>
+10. <https://www.instagram.com/p/DaAYCwDoMjr/>
 
 ---
 
