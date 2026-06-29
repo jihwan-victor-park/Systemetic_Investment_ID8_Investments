@@ -547,25 +547,32 @@ def run_pipeline(file_bytes, stage, source=None, top10=False):
         company_id = find_or_create_company(company_name, website, description) if website and website != 'nan' else None
         status = upsert_deal(row.to_dict(), company_id, stage, source, top10)
 
+        deal_row = {
+            "company":        company_name,
+            "series":         clean(row.get("Series")),
+            "deal_size":      fmt_money_millions(row.get("Deal Size")),
+            "post_valuation": fmt_money_millions(row.get("Post Valuation")),
+            "revenue":        fmt_money_millions(row.get("Revenue")),
+            "description":    description,
+            "lead_investors": clean(row.get("Lead/Sole Investors")),
+            "new_investors":  clean(row.get("New Investors")),
+            "investors":      clean(row.get("Investors")),
+            "hq_location":    clean(row.get("HQ Location")),
+            "deal_date":      format_date(row.get("Deal Date")) or "",
+            "website":        website,
+        }
         if isinstance(status, dict) and status.get("status") == "created":
             results["created"] += 1
-            results["deals"].append({
-                "company":        company_name,
-                "series":         clean(row.get("Series")),
-                "deal_size":      fmt_money_millions(row.get("Deal Size")),
-                "post_valuation": fmt_money_millions(row.get("Post Valuation")),
-                "revenue":        fmt_money_millions(row.get("Revenue")),
-                "description":    description,
-                "lead_investors": clean(row.get("Lead/Sole Investors")),
-                "new_investors":  clean(row.get("New Investors")),
-                "investors":      clean(row.get("Investors")),
-                "hq_location":    clean(row.get("HQ Location")),
-                "deal_date":      format_date(row.get("Deal Date")) or "",
-                "website":        website,
-                "record_id":      status.get("record_id", ""),
-            })
+            deal_row["record_id"] = status.get("record_id", "")
+            deal_row["is_new"] = True
+            results["deals"].append(deal_row)
         elif status == "skipped":
+            # Include existing deals so screening + email still run on the full upload.
             results["skipped"] += 1
+            existing_id = find_deal(company_name, clean(row.get("Series")))
+            deal_row["record_id"] = existing_id or ""
+            deal_row["is_new"] = False
+            results["deals"].append(deal_row)
         else:
             results["errors"].append({"deal": company_name, "error": status})
 
@@ -591,11 +598,30 @@ def _start_pipeline(stage, source, top10=False):
             return jsonify({"error": "already running", "state": dict(_pipeline_state)}), 409
         _pipeline_state.clear()
         _pipeline_state.update({"status": "running"})
-    # Run entirely in background — n8n polls /process/status.
-    # Phase 1 (Attio ingestion) sets status="screening" quickly (~10-30s).
-    # Phase 2 (Perplexity scoring) sets status="complete" when done (~60-120s more).
-    threading.Thread(target=_run_pipeline_bg, args=(file_bytes, stage, source, top10), daemon=True).start()
-    return jsonify({"status": "started", "poll": "/process/status"})
+
+    t = threading.Thread(target=_run_pipeline_bg, args=(file_bytes, stage, source, top10), daemon=True)
+    t.start()
+
+    # Wait up to 100s for Attio ingestion (status → "screening" or "complete").
+    # Perplexity screening continues in the background; poll /process/status
+    # until status == "complete" to get fit scores.
+    deadline = time.time() + 100
+    while time.time() < deadline:
+        with _pipeline_lock:
+            s = _pipeline_state.get("status")
+        if s in ("screening", "complete", "error"):
+            break
+        time.sleep(1)
+
+    with _pipeline_lock:
+        state = dict(_pipeline_state)
+
+    if state.get("status") == "error":
+        return jsonify(state), 500
+
+    # Always return deals in the response body so n8n doesn't need to poll
+    # just to get the deal list. Fit scores arrive later via /process/status.
+    return jsonify({**state, "poll": "/process/status"})
 
 
 @app.route("/process", methods=["POST"])
