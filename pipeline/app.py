@@ -19,6 +19,7 @@ import attio_apollo_sync as apollo_sync
 # gunicorn's --chdir pipeline only puts pipeline/ on sys.path, so add the
 # parent explicitly rather than depending on how the process was launched.
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from deal_intelligence import _secrets  # noqa: F401 — loads GCP secrets into os.environ
 from deal_intelligence import pipeline as di_pipeline
 
 app = Flask(__name__)
@@ -1055,6 +1056,45 @@ def screen_deals():
 def screen_deals_status():
     with _screen_deals_lock:
         return jsonify(dict(_screen_deals_state))
+
+
+@app.route("/screen", methods=["POST"])
+def screen():
+    """Score a SPECIFIC batch of deals (the intake batch from /process), not the
+    whole Qualified pool. n8n posts the deals it just added; this scores them via
+    Perplexity, writes fit score / gate / rationale / hub link back to Attio, and
+    returns email_html for the intake email. Synchronous — returns when done.
+
+    Body:
+      {
+        "deals": [
+          {"record_id": "...", "name": "Acme (SF, CA; AI X)", "round": "Series B",
+           "lead_investors": "Accel", "hq": "San Francisco, CA", "domain": "acme.com"}
+        ],
+        "dry_run": false   // optional; true skips the Attio write-back
+      }
+    record_id is needed for write-back; omit it to just score (e.g. a dry preview).
+    """
+    if not os.environ.get("PERPLEXITY_API_KEY"):
+        return jsonify({"error": "missing env var: PERPLEXITY_API_KEY"}), 400
+    body = request.get_json(silent=True) or {}
+    raw_deals = body.get("deals") or []
+    if not raw_deals:
+        return jsonify({"error": "body must include a non-empty 'deals' array"}), 400
+
+    fields = ("record_id", "name", "domain", "round", "lead_investors", "hq")
+    deals = []
+    for i, d in enumerate(raw_deals):
+        if not d.get("name"):
+            return jsonify({"error": f"deals[{i}] is missing 'name'"}), 400
+        deals.append(di_schemas.DealInput(
+            record_id=d.get("record_id") or f"batch-{i}",
+            **{k: d.get(k) for k in fields if k != "record_id"}))
+
+    dry_run = bool(body.get("dry_run", False))
+    result = asyncio.run(di_pipeline.screen(deals, dry_run=dry_run, publish=False))
+    result.pop("fits", None)  # dataclasses aren't JSON-serializable
+    return jsonify(result)
 
 
 if __name__ == "__main__":

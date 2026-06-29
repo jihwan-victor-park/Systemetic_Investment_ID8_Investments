@@ -6,7 +6,11 @@ confirmed against the live Attio Deals object before the write-back is enabled.
 import os
 from dotenv import load_dotenv
 
+# Load .env first so local secrets are in os.environ before _secrets runs.
 load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
+
+# Populate any still-missing keys from GCP Secret Manager (Cloud Run).
+from deal_intelligence import _secrets  # noqa: F401, E402
 
 # ── Secrets ──────────────────────────────────────────────────────────────────
 ATTIO_API_KEY = os.getenv("ATTIO_API_KEY")
@@ -32,6 +36,10 @@ SCORE_MODEL = os.getenv("DI_SCORE_MODEL", "claude-haiku-4-5-20251001")  # rubric
 # THRESHOLD is the rubric's second tier, surfaced in the stage-1 rationale.
 FIT_THRESHOLD = float(os.getenv("DI_FIT_THRESHOLD", "3.0"))
 VERY_HIGH_QUALITY_THRESHOLD = float(os.getenv("DI_VERY_HIGH_QUALITY_THRESHOLD", "3.3"))
+# Deals in [BORDERLINE_THRESHOLD, FIT_THRESHOLD) sit right at the bar. Per-call
+# Perplexity web-research variance (~±0.2-0.4) makes a hard cutoff coin-flip these,
+# so they are flagged "borderline — review" rather than silently passed or dropped.
+BORDERLINE_THRESHOLD = float(os.getenv("DI_BORDERLINE_THRESHOLD", "2.7"))
 
 # ── Concurrency ──────────────────────────────────────────────────────────────
 STAGE1_PARALLEL = int(os.getenv("DI_STAGE1_PARALLEL", "6"))
@@ -56,6 +64,7 @@ WRITE_SLUGS = {
     "fit_score": os.getenv("DI_SLUG_FIT_SCORE"),           # number, 1-4     TODO create in Attio
     "fit_gate": os.getenv("DI_SLUG_FIT_GATE"),             # select Yes/No   TODO
     "fit_rationale": os.getenv("DI_SLUG_FIT_RATIONALE"),   # text            TODO
+    "hub_url": os.getenv("DI_SLUG_HUB_URL"),               # text/url — link to the hub research page  TODO
     "memo_url": os.getenv("DI_SLUG_MEMO_URL"),             # text/url        TODO
     "final_score": os.getenv("DI_SLUG_FINAL_SCORE"),       # number          TODO
 }
@@ -66,3 +75,6 @@ MEMO_DIR = os.getenv("DI_MEMO_DIR", "deal_intelligence/output/memos")
 # Where stage-1 company pages (.md) and their downloadable .docx land in the hub.
 HUB_COMPANIES_DIR = os.getenv("DI_HUB_COMPANIES_DIR", "hub/docs/research/companies")
 HUB_DOCX_DIR = os.getenv("DI_HUB_DOCX_DIR", "hub/static/research/companies")
+# Public base URL of the deployed hub, used to compose the per-company research
+# link written onto the Attio deal. The page path is /docs/research/companies/<slug>.
+HUB_BASE_URL = os.getenv("DI_HUB_BASE_URL", "https://intel.id8investments.com")
