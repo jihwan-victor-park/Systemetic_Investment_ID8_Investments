@@ -878,6 +878,25 @@ def _run_pipeline_bg(file_bytes, stage, source, top10):
             print("SCREENING ERROR:", traceback.format_exc())
             results["screening_error"] = str(e)
 
+        # Screening just pushed new company pages to GitHub. The hub is a static
+        # Docusaurus site on Firebase, so those pages go live only after a rebuild
+        # + firebase deploy — kick that off here so the workflow doesn't have to.
+        # Fire-and-forget: the email goes out as soon as /process returns, and the
+        # build (npm build + deploy) lands a minute or so later, so a freshly added
+        # deal's "Full research" link may be briefly stale on the very first email.
+        # Guarded on `publish`: without GH_TOKEN no pages were pushed, so there is
+        # nothing new to redeploy.
+        if publish:
+            try:
+                build_id, err = _start_hub_build()
+                if err:
+                    print(f"HUB BUILD trigger failed: {err}")
+                else:
+                    results["hub_build_id"] = build_id
+                    print(f"HUB BUILD triggered: {build_id}")
+            except Exception:
+                print("HUB BUILD trigger error:", traceback.format_exc())
+
     with _pipeline_lock:
         _pipeline_state.update({"status": "complete", **results})
 
@@ -1226,22 +1245,35 @@ def _hub_build_config():
     }
 
 
-@app.route("/publish-hub", methods=["POST"])
-def publish_hub():
-    """Kick off a Cloud Build that rebuilds + deploys the hub. Returns a build id;
-    poll /publish-hub/status?id=<id> until status is SUCCESS before sending email."""
-    try:
-        token = _metadata_token()
-    except Exception as e:
-        return jsonify({"error": f"no metadata token (not on Cloud Run?): {e}"}), 500
+def _start_hub_build():
+    """Kick off the Cloud Build that rebuilds + deploys the hub.
+
+    Returns (build_id, error). Shared by the /publish-hub route and the
+    auto-trigger at the end of a screening run — screening pushes new company
+    pages to GitHub, but the live Firebase site is a static build, so it only
+    reflects them after a rebuild + firebase deploy.
+    """
+    token = _metadata_token()
     r = requests.post(
         f"{_CLOUD_BUILD_API}/projects/{_GCP_PROJECT_ID}/builds",
         headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
         json=_hub_build_config(), timeout=30)
     if r.status_code not in (200, 201):
-        return jsonify({"error": "could not start build", "detail": r.text[:600]}), 502
-    op = r.json()
-    build_id = op.get("metadata", {}).get("build", {}).get("id") or ""
+        return None, r.text[:600]
+    build_id = r.json().get("metadata", {}).get("build", {}).get("id") or ""
+    return build_id, None
+
+
+@app.route("/publish-hub", methods=["POST"])
+def publish_hub():
+    """Kick off a Cloud Build that rebuilds + deploys the hub. Returns a build id;
+    poll /publish-hub/status?id=<id> until status is SUCCESS before sending email."""
+    try:
+        build_id, err = _start_hub_build()
+    except Exception as e:
+        return jsonify({"error": f"no metadata token (not on Cloud Run?): {e}"}), 500
+    if err:
+        return jsonify({"error": "could not start build", "detail": err}), 502
     return jsonify({"status": "building", "build_id": build_id})
 
 
