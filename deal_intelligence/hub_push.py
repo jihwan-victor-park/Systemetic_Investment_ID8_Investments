@@ -19,7 +19,9 @@ _BRANCH = os.getenv("GH_BRANCH", "main")
 
 
 def _headers():
-    token = os.getenv("GH_TOKEN", "")
+    # .strip(): the secret may carry a trailing newline (echo vs printf), which
+    # makes the Authorization header invalid and GitHub rejects every request.
+    token = os.getenv("GH_TOKEN", "").strip()
     return {
         "Authorization": f"Bearer {token}",
         "Accept": "application/vnd.github+json",
