@@ -7,7 +7,7 @@ const config = {
   tagline: 'Ambitious ideas, made legible.',
   favicon: 'img/logo_charcoal.png',
 
-  url: 'https://hub-137750788450.us-east4.run.app',
+  url: 'https://molten-crowbar-498920-q8.web.app',
   baseUrl: '/',
   organizationName: 'id8investments',
   projectName: 'id8-cloud-intelligence',
