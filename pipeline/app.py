@@ -1183,6 +1183,82 @@ def screen():
     return jsonify(result)
 
 
+# ── Hub publish (rebuild + deploy the Firebase site) ──────────────────────────
+# The hub is a static Docusaurus site, so new screen pages only appear after a
+# rebuild + firebase deploy. This backend is Python (no Node), so the build runs
+# in Cloud Build. n8n calls POST /publish-hub after screening, polls
+# /publish-hub/status until SUCCESS, THEN sends the email — so the "Full research"
+# links are already live when the email goes out.
+_CLOUD_BUILD_API = "https://cloudbuild.googleapis.com/v1"
+_GCP_PROJECT_ID = os.environ.get("GCP_PROJECT_ID", "molten-crowbar-498920-q8")
+_GCP_PROJECT_NUM = os.environ.get("GCP_PROJECT_NUM", "137750788450")
+_GH_REPO = os.environ.get("GH_REPO", "ocachin/id8-intelligence")
+
+
+def _metadata_token():
+    """Access token for the Cloud Run service account, from the metadata server."""
+    r = requests.get(
+        "http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token",
+        headers={"Metadata-Flavor": "Google"}, timeout=5)
+    r.raise_for_status()
+    return r.json()["access_token"]
+
+
+def _hub_build_config():
+    """Inline Cloud Build: clone (via GH_TOKEN secret) -> npm build -> firebase deploy."""
+    clone = (f"git clone https://x-access-token:$$GH_TOKEN@github.com/{_GH_REPO}.git repo")
+    deploy = (f"npx -y firebase-tools@latest deploy --only hosting "
+              f"--project {_GCP_PROJECT_ID} --non-interactive")
+    return {
+        "steps": [
+            {"name": "gcr.io/cloud-builders/git", "entrypoint": "bash",
+             "args": ["-c", clone], "secretEnv": ["GH_TOKEN"]},
+            {"name": "node:20", "dir": "repo/hub", "entrypoint": "bash",
+             "args": ["-c", "npm ci && npm run build"]},
+            {"name": "node:20", "dir": "repo/hub", "entrypoint": "bash",
+             "args": ["-c", deploy]},
+        ],
+        "availableSecrets": {"secretManager": [
+            {"versionName": f"projects/{_GCP_PROJECT_NUM}/secrets/GH_TOKEN/versions/latest",
+             "env": "GH_TOKEN"},
+        ]},
+        "timeout": "900s",
+    }
+
+
+@app.route("/publish-hub", methods=["POST"])
+def publish_hub():
+    """Kick off a Cloud Build that rebuilds + deploys the hub. Returns a build id;
+    poll /publish-hub/status?id=<id> until status is SUCCESS before sending email."""
+    try:
+        token = _metadata_token()
+    except Exception as e:
+        return jsonify({"error": f"no metadata token (not on Cloud Run?): {e}"}), 500
+    r = requests.post(
+        f"{_CLOUD_BUILD_API}/projects/{_GCP_PROJECT_ID}/builds",
+        headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
+        json=_hub_build_config(), timeout=30)
+    if r.status_code not in (200, 201):
+        return jsonify({"error": "could not start build", "detail": r.text[:600]}), 502
+    op = r.json()
+    build_id = op.get("metadata", {}).get("build", {}).get("id") or ""
+    return jsonify({"status": "building", "build_id": build_id})
+
+
+@app.route("/publish-hub/status", methods=["GET"])
+def publish_hub_status():
+    build_id = request.args.get("id", "")
+    if not build_id:
+        return jsonify({"error": "missing id"}), 400
+    token = _metadata_token()
+    r = requests.get(
+        f"{_CLOUD_BUILD_API}/projects/{_GCP_PROJECT_ID}/builds/{build_id}",
+        headers={"Authorization": f"Bearer {token}"}, timeout=15)
+    data = r.json()
+    # Cloud Build status: QUEUED, WORKING, SUCCESS, FAILURE, TIMEOUT, CANCELLED
+    return jsonify({"status": data.get("status"), "log_url": data.get("logUrl")})
+
+
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))
     app.run(host="0.0.0.0", port=port)
