@@ -7,10 +7,10 @@ const config = {
   tagline: 'Ambitious ideas, made legible.',
   favicon: 'img/logo_charcoal.png',
 
-  url: 'https://intel.id8investments.com',
-  baseUrl: '/',
-  organizationName: 'id8investments',
-  projectName: 'id8-cloud-intelligence',
+  url: 'https://ocachin.github.io',
+  baseUrl: '/id8-intelligence/',
+  organizationName: 'ocachin',
+  projectName: 'id8-intelligence',
   onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
 
