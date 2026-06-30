@@ -1,0 +1,135 @@
+/* ID8 "Latent Order" — ported from the Docusaurus theme to a standalone Next app. */
+
+@font-face { font-family: 'Sora'; font-weight: 300; src: url('/fonts/Sora-Light.ttf') format('truetype'); font-display: swap; }
+@font-face { font-family: 'Sora'; font-weight: 400; src: url('/fonts/Sora-Regular.ttf') format('truetype'); font-display: swap; }
+@font-face { font-family: 'Sora'; font-weight: 500; src: url('/fonts/Sora-Medium.ttf') format('truetype'); font-display: swap; }
+@font-face { font-family: 'Sora'; font-weight: 600; src: url('/fonts/Sora-SemiBold.ttf') format('truetype'); font-display: swap; }
+@font-face { font-family: 'Roboto Serif'; font-weight: 300; src: url('/fonts/RobotoSerif-Light.ttf') format('truetype'); font-display: swap; }
+@font-face { font-family: 'Roboto Serif'; font-weight: 400; src: url('/fonts/RobotoSerif-Regular.ttf') format('truetype'); font-display: swap; }
+@font-face { font-family: 'Roboto Serif'; font-weight: 500; src: url('/fonts/RobotoSerif-Medium.ttf') format('truetype'); font-display: swap; }
+@font-face { font-family: 'Roboto Serif'; font-weight: 300; font-style: italic; src: url('/fonts/RobotoSerif-LightItalic.ttf') format('truetype'); font-display: swap; }
+
+:root {
+  --id8-paper: #FBFAF7;
+  --id8-ink: #1A1A1A;
+  --id8-grey: #828282;
+  --id8-soft: #3C3C3C;
+  --id8-hair: #E4DFD5;
+  --id8-row-alt: #F5F5F5;
+  --container: 1240px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--id8-paper);
+  color: var(--id8-ink);
+  font-family: 'Sora', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--id8-ink); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+h1, h2, h3, h4 {
+  font-family: 'Roboto Serif', Georgia, serif;
+  letter-spacing: -0.01em;
+  color: var(--id8-ink);
+  font-weight: 500;
+}
+
+.container { max-width: var(--container); margin: 0 auto; padding: 0 32px; }
+.prose { max-width: 820px; }
+
+/* ── Navbar ─────────────────────────────────────────────────────────────── */
+.navbar {
+  border-bottom: 1px solid var(--id8-ink);
+  background: var(--id8-paper);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.navbar__inner {
+  max-width: var(--container);
+  margin: 0 auto;
+  height: 64px;
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+.navbar__logo { height: 15px; width: auto; display: block; }
+.navbar__links { display: flex; align-items: center; gap: 24px; }
+.navbar__spacer { flex: 1; }
+.navbar__link {
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 500;
+  color: var(--id8-soft);
+}
+.navbar__link:hover, .navbar__link--active { color: var(--id8-ink); text-decoration: none; }
+.navbar__link--active { border-bottom: 2px solid var(--id8-ink); padding-bottom: 2px; }
+
+/* ── Footer ─────────────────────────────────────────────────────────────── */
+.footer {
+  border-top: 1px solid var(--id8-hair);
+  margin-top: 80px;
+  padding: 28px 0;
+  color: var(--id8-grey);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+}
+
+/* ── Document/prose content ─────────────────────────────────────────────── */
+.prose h1 { font-size: 2.3rem; font-weight: 500; margin: 0 0 0.4rem; }
+.prose h2 {
+  font-size: 1.4rem; font-weight: 500; margin: 2rem 0 0.8rem;
+  padding-bottom: 0.3rem; border-bottom: 1px solid var(--id8-hair);
+}
+.prose h3 { font-size: 1.08rem; font-weight: 600; font-family: 'Sora', sans-serif; margin: 1.3rem 0 0.5rem; }
+.prose p, .prose li { color: var(--id8-soft); }
+.prose a { text-decoration: underline; text-underline-offset: 2px; }
+
+/* ── Hairline tables (rubric + content) ─────────────────────────────────── */
+.htable { width: 100%; border-collapse: collapse; border: none; margin: 1.2rem 0; }
+.htable thead { background: transparent; }
+.htable th {
+  text-align: left; text-transform: uppercase; letter-spacing: 0.08em;
+  font-size: 0.72rem; font-weight: 600; font-family: 'Sora', sans-serif;
+  color: var(--id8-ink); border: none; border-bottom: 1.5px solid var(--id8-ink);
+  padding: 4px 18px 6px 0;
+}
+.htable td {
+  border: none; border-bottom: 1px solid var(--id8-hair);
+  padding: 8px 18px 8px 0; font-size: 0.9rem; color: var(--id8-soft);
+  vertical-align: top;
+}
+.htable td:first-child { color: var(--id8-ink); }
+
+hr { border: none; border-top: 1px solid var(--id8-hair); margin: 2rem 0; }
+
+/* Note / admonition (ported from Docusaurus :::note — borderless, left rule) */
+.prose blockquote {
+  margin: 1rem 0; padding: 0.3rem 0 0.3rem 1rem;
+  border-left: 2px solid var(--id8-ink); color: var(--id8-soft);
+}
+.prose blockquote p { margin: 0; }
+
+/* ── Fit score badge ────────────────────────────────────────────────────── */
+.badge {
+  display: inline-block; font-size: 0.68rem; text-transform: uppercase;
+  letter-spacing: 0.1em; font-weight: 600; padding: 3px 9px; border: 1px solid var(--id8-ink);
+}
+.badge--gate { background: var(--id8-ink); color: var(--id8-paper); }
+.badge--borderline { border-color: var(--id8-grey); color: var(--id8-soft); }
+.badge--below { border-color: var(--id8-hair); color: var(--id8-grey); }
+
+.kicker {
+  text-transform: uppercase; letter-spacing: 0.18em; font-size: 0.72rem;
+  color: var(--id8-grey); font-weight: 500;
+}

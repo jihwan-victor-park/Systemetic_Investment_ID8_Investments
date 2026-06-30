@@ -1,0 +1,31 @@
+.page { width: 100%; max-width: 1240px; margin: 0 auto; padding: 4rem 1.5rem 5rem; }
+.kicker { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.22em; color: var(--id8-grey); margin-bottom: 1rem; }
+.headline {
+  font-family: 'Roboto Serif', Georgia, serif; font-weight: 300; font-size: 3.6rem;
+  line-height: 1.05; letter-spacing: -0.02em; color: var(--id8-ink); margin: 0 0 1.2rem;
+}
+.headline em { font-style: italic; }
+.lede { font-size: 1.05rem; color: var(--id8-soft); max-width: 38rem; line-height: 1.6; }
+.field { margin: 2.5rem 0 1.5rem; width: 100%; }
+.field svg { display: block; width: 100%; height: auto; }
+.rule { border: none; border-top: 1px solid var(--id8-ink); margin: 0; }
+.sectionLabel { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--id8-grey); margin: 2.2rem 0 1.2rem; }
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid var(--id8-hair); }
+.card {
+  padding: 1.6rem 1.4rem 1.8rem 0; border-bottom: 1px solid var(--id8-hair);
+  border-right: 1px solid var(--id8-hair); text-decoration: none; transition: background 0.15s ease;
+}
+.card:not(:first-child) { padding-left: 1.4rem; }
+.card:hover { background: rgba(0,0,0,0.02); text-decoration: none; }
+.card:nth-child(3n) { border-right: none; }
+.cardNum { font-size: 0.72rem; letter-spacing: 0.14em; color: var(--id8-grey); }
+.cardTitle { font-family: 'Roboto Serif', Georgia, serif; font-weight: 500; font-size: 1.3rem; color: var(--id8-ink); margin: 0.5rem 0; }
+.cardDesc { font-size: 0.9rem; color: var(--id8-soft); line-height: 1.55; }
+.cardStatus { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--id8-grey); margin-top: 0.9rem; }
+
+@media (max-width: 768px) {
+  .headline { font-size: 2.4rem; }
+  .grid { grid-template-columns: 1fr; }
+  .card, .card:not(:first-child) { padding-left: 0; }
+  .card:nth-child(3n) { border-right: 1px solid var(--id8-hair); }
+}

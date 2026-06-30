@@ -1,0 +1,39 @@
+.wrap { width: 100%; max-width: 1192px; margin: 0 auto; }
+.wrap svg { display: block; width: 100%; height: auto; }
+
+.dot {
+  fill: var(--id8-ink);
+  --sx: 20px;
+  animation-name: flow;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform, opacity;
+}
+@keyframes flow {
+  0%   { transform: translate(var(--sx), var(--sy)); opacity: 0; }
+  14%  { opacity: var(--mid); }
+  82%  { opacity: var(--mid); }
+  100% { transform: translate(var(--ex), var(--ey)); opacity: 0; }
+}
+
+.arrive { animation-name: flowArrive; }
+@keyframes flowArrive {
+  0%   { transform: translate(var(--sx), var(--sy)); opacity: 0; }
+  10%  { opacity: 0.95; }
+  86%  { transform: translate(var(--ex), var(--ey)); opacity: 0.95; }
+  93%  { transform: translate(var(--ex), var(--ey)); opacity: 1; }
+  100% { transform: translate(var(--ex), var(--ey)); opacity: 0; }
+}
+
+.ring { fill: none; stroke: var(--id8-ink); animation: pulse 3.2s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { opacity: 0.30; } 50% { opacity: 0.08; } }
+
+.gate { stroke: var(--id8-hair); stroke-width: 1; }
+.label { fill: var(--id8-ink); font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 1.4px; text-transform: uppercase; }
+.sub { fill: var(--id8-grey); font-family: 'Sora', sans-serif; font-size: 11px; }
+.hub { fill: var(--id8-ink); }
+
+@media (prefers-reduced-motion: reduce) {
+  .dot, .ring { animation: none; }
+  .dot { opacity: 0.5; }
+}
