@@ -2,9 +2,19 @@
 # Thin wrapper over the official image so we can pin a version and push to
 # Artifact Registry (Cloud Run deploys from your project's registry).
 #
-# Pick a pinned version — do NOT use :latest in production.
+# Pulls from OUR OWN Artifact Registry mirror, not docker.n8n.io directly —
+# Cloud Build's shared builder IP pool hits docker.n8n.io's anonymous-pull rate
+# limit constantly. Mirror a new version once (see MIGRATION_PLAN.md / repo
+# history) with:
+#   docker pull docker.n8n.io/n8nio/n8n:<version>
+#   gcloud auth configure-docker us-east4-docker.pkg.dev --quiet
+#   docker tag docker.n8n.io/n8nio/n8n:<version> \
+#     us-east4-docker.pkg.dev/molten-crowbar-498920-q8/n8n/n8n-upstream:<version>
+#   docker push us-east4-docker.pkg.dev/molten-crowbar-498920-q8/n8n/n8n-upstream:<version>
+# then update the tag below to match.
+#
 # Check current stable at https://github.com/n8n-io/n8n/releases
-FROM docker.n8n.io/n8nio/n8n:1.123.62
+FROM us-east4-docker.pkg.dev/molten-crowbar-498920-q8/n8n/n8n-upstream:1.123.62
 
 # n8n listens on 5678. We tell Cloud Run to route to this port at deploy time
 # (gcloud run deploy --port 5678). Setting N8N_PORT here keeps them aligned.
