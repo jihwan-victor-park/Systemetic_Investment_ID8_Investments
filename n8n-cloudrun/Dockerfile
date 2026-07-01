@@ -4,7 +4,7 @@
 #
 # Pick a pinned version — do NOT use :latest in production.
 # Check current stable at https://github.com/n8n-io/n8n/releases
-FROM docker.n8n.io/n8nio/n8n:1.108.2
+FROM docker.n8n.io/n8nio/n8n:1.123.62
 
 # n8n listens on 5678. We tell Cloud Run to route to this port at deploy time
 # (gcloud run deploy --port 5678). Setting N8N_PORT here keeps them aligned.

@@ -22,7 +22,7 @@ PROJECT_ID="molten-crowbar-498920-q8"   # GCP project (same as your Flask app)
 REGION="us-east4"                        # match your existing Cloud Run service
 SERVICE="n8n"
 AR_REPO="n8n"                            # Artifact Registry repo name
-IMAGE_TAG="1.108.2"                      # keep in sync with the Dockerfile FROM tag
+IMAGE_TAG="1.123.62"                     # keep in sync with the Dockerfile FROM tag
 
 SQL_INSTANCE="n8n-db"
 SQL_TIER="db-custom-1-3840"              # 1 vCPU / 3.75GB — smallest comfortable tier
@@ -132,7 +132,7 @@ deploy () {
     --max-instances=1 \
     --timeout=3600 \
     --add-cloudsql-instances="$CONNECTION_NAME" \
-    --set-env-vars="^@@^N8N_PORT=5678@@N8N_PROTOCOL=https@@N8N_HOST=${webhook_url#https://}@@N8N_EDITOR_BASE_URL=${webhook_url}@@WEBHOOK_URL=${webhook_url}@@GENERIC_TIMEZONE=America/New_York@@N8N_RUNNERS_ENABLED=true@@N8N_DIAGNOSTICS_ENABLED=false@@DB_TYPE=postgresdb@@DB_POSTGRESDB_HOST=/cloudsql/${CONNECTION_NAME}@@DB_POSTGRESDB_DATABASE=${SQL_DB_NAME}@@DB_POSTGRESDB_USER=${SQL_DB_USER}" \
+    --set-env-vars="^@@^N8N_PORT=5678@@N8N_PROTOCOL=https@@N8N_HOST=${webhook_url#https://}@@N8N_EDITOR_BASE_URL=${webhook_url}@@WEBHOOK_URL=${webhook_url}@@GENERIC_TIMEZONE=America/New_York@@N8N_RUNNERS_ENABLED=false@@N8N_DIAGNOSTICS_ENABLED=false@@DB_TYPE=postgresdb@@DB_POSTGRESDB_HOST=/cloudsql/${CONNECTION_NAME}@@DB_POSTGRESDB_DATABASE=${SQL_DB_NAME}@@DB_POSTGRESDB_USER=${SQL_DB_USER}" \
     --set-secrets="N8N_ENCRYPTION_KEY=n8n-encryption-key:latest,DB_POSTGRESDB_PASSWORD=n8n-db-password:latest"
 }
 
