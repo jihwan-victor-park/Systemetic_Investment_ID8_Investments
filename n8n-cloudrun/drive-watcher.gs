@@ -16,7 +16,7 @@
 
 // ── CONFIG ────────────────────────────────────────────────────────────────────
 
-const N8N_BASE = 'https://YOUR-N8N-URL.run.app'; // <-- set once after deploy
+const N8N_BASE = 'https://n8n-bkq2vtg6qq-uk.a.run.app'; // set for the live n8n service
 
 const FOLDER_WATCHERS = [
   {
