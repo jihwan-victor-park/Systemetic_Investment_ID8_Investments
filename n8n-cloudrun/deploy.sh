@@ -80,11 +80,11 @@ else
   gcloud sql users create "$SQL_DB_USER" --instance="$SQL_INSTANCE" --password="$DB_PASSWORD"
 fi
 
-IMAGE="${REGION}-docker.pkg.dev/${PROJECT_ID}/${AR_REPO}/n8n:${IMAGE_TAG}"
-
-echo "==> Building & pushing image with Cloud Build"
-gcloud builds submit --config=cloudbuild.yaml --substitutions=_IMAGE="$IMAGE" .
-
+# Update Secret Manager IMMEDIATELY after the real DB password changes — not
+# after the build. A failed build (rate limits, registry hiccups, etc.) used
+# to abort the script here via `set -e` before this ran, leaving the real
+# Cloud SQL password and Secret Manager permanently out of sync, causing
+# n8n's next cold start to fail with "password authentication failed".
 echo "==> Storing secrets in Secret Manager"
 upsert_secret () {
   local name="$1" val="$2"
@@ -96,6 +96,11 @@ upsert_secret () {
 }
 upsert_secret n8n-encryption-key "$N8N_ENCRYPTION_KEY"
 upsert_secret n8n-db-password    "$DB_PASSWORD"
+
+IMAGE="${REGION}-docker.pkg.dev/${PROJECT_ID}/${AR_REPO}/n8n:${IMAGE_TAG}"
+
+echo "==> Building & pushing image with Cloud Build"
+gcloud builds submit --config=cloudbuild.yaml --substitutions=_IMAGE="$IMAGE" .
 
 PROJECT_NUMBER=$(gcloud projects describe "$PROJECT_ID" --format="value(projectNumber)")
 RUNTIME_SA="${PROJECT_NUMBER}-compute@developer.gserviceaccount.com"
