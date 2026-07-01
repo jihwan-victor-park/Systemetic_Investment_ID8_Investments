@@ -57,6 +57,7 @@ echo "==> Creating Cloud SQL Postgres instance (if missing) — this takes 5-10 
 if ! gcloud sql instances describe "$SQL_INSTANCE" >/dev/null 2>&1; then
   gcloud sql instances create "$SQL_INSTANCE" \
     --database-version=POSTGRES_16 \
+    --edition=ENTERPRISE \
     --tier="$SQL_TIER" \
     --region="$REGION" \
     --storage-size=10GB \
