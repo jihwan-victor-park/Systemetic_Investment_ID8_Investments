@@ -22,7 +22,7 @@ PROJECT_ID="molten-crowbar-498920-q8"   # GCP project (same as your Flask app)
 REGION="us-east4"                        # match your existing Cloud Run service
 SERVICE="n8n"
 AR_REPO="n8n"                            # Artifact Registry repo name
-IMAGE_TAG="1.123.62"                     # keep in sync with the Dockerfile FROM tag
+IMAGE_TAG="1.108.2"                      # keep in sync with the Dockerfile FROM tag
 
 SQL_INSTANCE="n8n-db"
 SQL_TIER="db-custom-1-3840"              # 1 vCPU / 3.75GB — smallest comfortable tier
