@@ -14,10 +14,11 @@ FROM docker.io/n8nio/n8n:2.28.4
 
 # Install python3 for n8n's internal Python task runner. Switch to root only
 # for the install (matching the base image's non-root runtime posture
-# otherwise); detect apk vs apt-get since the base OS isn't guaranteed.
+# otherwise). Confirmed via n8n's own Dockerfile source that this is Alpine
+# (node:24-alpine) — using apk's full path since this image's default PATH
+# doesn't include /sbin (plain `apk`/`command -v apk` both fail to resolve it).
 USER root
-RUN (command -v apk >/dev/null 2>&1 && apk add --no-cache python3) || \
-    (apt-get update && apt-get install -y --no-install-recommends python3 && rm -rf /var/lib/apt/lists/*)
+RUN /sbin/apk add --no-cache python3
 USER node
 
 # n8n listens on 5678. We tell Cloud Run to route to this port at deploy time
