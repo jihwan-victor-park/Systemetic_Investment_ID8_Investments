@@ -121,6 +121,12 @@ echo "==> Deploying to Cloud Run"
 #   --min-instances=0  : scale to zero — n8n only runs when a webhook fires (~weekly).
 #   --max-instances=1  : n8n regular mode requires a single instance.
 #   --add-cloudsql-instances: mounts the Cloud SQL Unix socket at /cloudsql/<connection-name>.
+#   --no-cpu-throttling: without this, CPU is throttled except while actively
+#     handling a request — n8n 2.x's DB connection-monitor/ping background work
+#     during boot was getting CPU-starved by that throttling, causing spurious
+#     "Database ping failed" / "Connection terminated" errors on every cold
+#     start (never an issue on 1.x, which doesn't have this background
+#     monitor). Costs a bit more per request; worth it for a stable boot.
 #
 # WEBHOOK_URL must be the public URL. Deploy once with a placeholder, capture the real
 # URL, then re-deploy with it set so webhook paths and any OAuth callbacks resolve correctly.
@@ -138,8 +144,9 @@ deploy () {
     --min-instances=0 \
     --max-instances=1 \
     --timeout=3600 \
+    --no-cpu-throttling \
     --add-cloudsql-instances="$CONNECTION_NAME" \
-    --set-env-vars="^@@^N8N_PORT=5678@@N8N_PROTOCOL=https@@N8N_HOST=${webhook_url#https://}@@N8N_EDITOR_BASE_URL=${webhook_url}@@WEBHOOK_URL=${webhook_url}@@GENERIC_TIMEZONE=America/New_York@@N8N_RUNNERS_ENABLED=false@@N8N_DIAGNOSTICS_ENABLED=false@@N8N_ENDPOINT_HEALTH=health@@DB_TYPE=postgresdb@@DB_POSTGRESDB_HOST=/cloudsql/${CONNECTION_NAME}@@DB_POSTGRESDB_DATABASE=${SQL_DB_NAME}@@DB_POSTGRESDB_USER=${SQL_DB_USER}" \
+    --set-env-vars="^@@^N8N_PORT=5678@@N8N_PROTOCOL=https@@N8N_HOST=${webhook_url#https://}@@N8N_EDITOR_BASE_URL=${webhook_url}@@WEBHOOK_URL=${webhook_url}@@GENERIC_TIMEZONE=America/New_York@@N8N_RUNNERS_ENABLED=false@@N8N_DIAGNOSTICS_ENABLED=false@@N8N_ENDPOINT_HEALTH=health@@N8N_RUNNERS_GRANT_TOKEN_TTL=120000@@DB_TYPE=postgresdb@@DB_POSTGRESDB_HOST=/cloudsql/${CONNECTION_NAME}@@DB_POSTGRESDB_DATABASE=${SQL_DB_NAME}@@DB_POSTGRESDB_USER=${SQL_DB_USER}" \
     --set-secrets="N8N_ENCRYPTION_KEY=n8n-encryption-key:latest,DB_POSTGRESDB_PASSWORD=n8n-db-password:latest"
 }
 
