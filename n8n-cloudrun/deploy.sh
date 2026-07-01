@@ -40,12 +40,14 @@ N8N_ENCRYPTION_KEY="${N8N_ENCRYPTION_KEY:-$(openssl rand -hex 24)}"
 gcloud config set project "$PROJECT_ID"
 
 echo "==> Enabling required APIs"
-gcloud services enable \
-  run.googleapis.com \
-  sqladmin.googleapis.com \
-  artifactregistry.googleapis.com \
-  secretmanager.googleapis.com \
-  cloudbuild.googleapis.com
+REQUIRED_APIS="run.googleapis.com sqladmin.googleapis.com artifactregistry.googleapis.com secretmanager.googleapis.com cloudbuild.googleapis.com"
+ALREADY_ENABLED=$(gcloud services list --enabled --format="value(config.name)" \
+  --filter="$(echo $REQUIRED_APIS | sed 's/ / OR name:/g;s/^/name:/')" 2>/dev/null | wc -l | tr -d ' ')
+if [ "$ALREADY_ENABLED" -eq 5 ]; then
+  echo "All required APIs already enabled — skipping (avoids the serviceusage.googleapis.com mutate-request quota)."
+else
+  gcloud services enable $REQUIRED_APIS
+fi
 
 echo "==> Creating Artifact Registry repo (if missing)"
 gcloud artifacts repositories describe "$AR_REPO" --location="$REGION" >/dev/null 2>&1 || \
