@@ -83,7 +83,7 @@ fi
 IMAGE="${REGION}-docker.pkg.dev/${PROJECT_ID}/${AR_REPO}/n8n:${IMAGE_TAG}"
 
 echo "==> Building & pushing image with Cloud Build"
-gcloud builds submit --tag "$IMAGE" .
+gcloud builds submit --config=cloudbuild.yaml --substitutions=_IMAGE="$IMAGE" .
 
 echo "==> Storing secrets in Secret Manager"
 upsert_secret () {

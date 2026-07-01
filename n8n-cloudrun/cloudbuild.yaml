@@ -1,0 +1,15 @@
+# Kaniko instead of Cloud Build's classic Docker builder.
+#
+# The classic builder ("gcr.io/cloud-builders/gcb-internal") failed to unpack
+# newer n8n images with "invalid tar header" — every layer downloaded and
+# checksummed fine, so it's a builder/image-format incompatibility, not a
+# network issue. Kaniko is a separate, daemon-less image builder that handles
+# modern OCI layer formats more robustly, and pushes directly (no separate
+# `images:` push step needed).
+steps:
+  - name: 'gcr.io/kaniko-project/executor:latest'
+    args:
+      - --dockerfile=Dockerfile
+      - --context=dir:///workspace/
+      - --destination=${_IMAGE}
+      - --cache=true
