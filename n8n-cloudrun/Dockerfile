@@ -18,7 +18,10 @@
 # a plain Alpine stage (which does have apk), then copy that self-contained
 # tree over — safe because both stages share the same Alpine 3.24 base/ABI.
 FROM alpine:3.24 AS pybuild
-RUN apk add --no-cache --initdb --root /pyroot python3
+RUN apk add --no-cache --initdb --root /pyroot \
+    --repository https://dl-cdn.alpinelinux.org/alpine/v3.24/main \
+    --repository https://dl-cdn.alpinelinux.org/alpine/v3.24/community \
+    python3
 
 FROM docker.io/n8nio/n8n:2.28.4
 USER root
