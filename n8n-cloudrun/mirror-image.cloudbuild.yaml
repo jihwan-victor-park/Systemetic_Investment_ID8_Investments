@@ -1,0 +1,16 @@
+# One-off: mirror the n8n base image from docker.n8n.io into our own Artifact
+# Registry, run inside Cloud Build (not locally) — Cloud Build's network can
+# reach both registries; Oscar's Cloud Shell session cannot push to Artifact
+# Registry directly (connection refused, likely the same org network
+# restriction behind the "Regional Access Boundary" warnings seen all day).
+#
+# crane copies image manifests/blobs directly between registries without
+# unpacking them into a runnable filesystem, so it can't hit the tar-format
+# issue that affected the classic Docker builder either.
+#
+# Run once per version bump:
+#   gcloud builds submit --config=mirror-image.cloudbuild.yaml --no-source \
+#     --substitutions=_SRC=docker.n8n.io/n8nio/n8n:1.123.62,_DST=us-east4-docker.pkg.dev/molten-crowbar-498920-q8/n8n/n8n-upstream:1.123.62
+steps:
+  - name: 'gcr.io/go-containerregistry/crane:latest'
+    args: ['copy', '${_SRC}', '${_DST}']
