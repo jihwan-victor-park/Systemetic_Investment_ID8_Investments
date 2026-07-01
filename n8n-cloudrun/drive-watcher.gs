@@ -5,18 +5,31 @@
  * on Google's servers. POSTs to n8n Webhook nodes only when something new
  * actually appears, so Cloud Run n8n can scale to zero between events.
  *
- * SETUP
- *  1. script.google.com → New project → paste this file.
- *  2. Fill in the four webhookUrl values below (from your n8n Webhook nodes).
- *  3. Run installTriggers() once and approve the permission prompts.
- *  4. Done — checkFolders() fires every 5 min; jesseTrigger() fires on sheet edits.
+ * n8n's Cloud Run service is IAM-restricted (org network policy blocks public
+ * access), so every call needs a valid Cloud Run identity token. This script
+ * mints one itself by impersonating a dedicated service account — see
+ * N8N_INVOKER_SA below and the one-time GCP setup in the repo's chat history /
+ * README. No key file is stored anywhere; impersonation uses your own Google
+ * identity (ScriptApp.getOAuthToken()), which is why appsscript.json needs the
+ * cloud-platform OAuth scope added.
  *
- * To update webhook URLs later, just edit here and re-run installTriggers().
+ * SETUP
+ *  1. script.google.com → New project → paste this file as Code.gs.
+ *  2. Also replace the manifest (View → Show manifest file) with this repo's
+ *     appsscript.json, so the cloud-platform scope is granted.
+ *  3. Confirm N8N_BASE and N8N_INVOKER_SA below match your deployment.
+ *  4. Run installTriggers() once and approve the permission prompts.
+ *  5. Done — checkFolders() fires every 5 min; jesseTrigger() fires on sheet edits.
  */
 
 // ── CONFIG ────────────────────────────────────────────────────────────────────
 
 const N8N_BASE = 'https://n8n-bkq2vtg6qq-uk.a.run.app'; // set for the live n8n service
+
+// Service account this script impersonates to mint a Cloud Run identity token.
+// Must already have roles/run.invoker on the n8n service, and your own account
+// must have roles/iam.serviceAccountTokenCreator on this service account.
+const N8N_INVOKER_SA = 'n8n-invoker@molten-crowbar-498920-q8.iam.gserviceaccount.com';
 
 const FOLDER_WATCHERS = [
   {
@@ -64,7 +77,7 @@ function checkFolders() {
 
       if (!seen.has(id)) {
         if (!firstRun) {
-          notifyN8n(w.name, N8N_BASE + w.webhookPath, {
+          notifyN8n(w.name, w.webhookPath, {
             fileId:      id,
             fileName:    f.getName(),
             mimeType:    f.getMimeType(),
@@ -88,15 +101,43 @@ function checkFolders() {
  * Sends a lightweight signal to n8n; the workflow reads the sheet rows itself.
  */
 function jesseTrigger() {
-  notifyN8n('Jesse\'s Deals', N8N_BASE + JESSE_WEBHOOK, { source: 'sheet-change' });
+  notifyN8n('Jesse\'s Deals', JESSE_WEBHOOK, { source: 'sheet-change' });
+}
+
+// ── AUTH ──────────────────────────────────────────────────────────────────────
+
+/**
+ * Mints a Cloud Run identity token for N8N_BASE by impersonating
+ * N8N_INVOKER_SA via the IAM Credentials API, using this script's own Google
+ * identity (ScriptApp.getOAuthToken()) to authenticate the impersonation call.
+ * Fetched fresh per notifyN8n() call — cheap, and avoids any caching/expiry
+ * bookkeeping across separate trigger invocations.
+ */
+function getIdTokenForN8n_() {
+  const url = 'https://iamcredentials.googleapis.com/v1/projects/-/serviceAccounts/'
+    + N8N_INVOKER_SA + ':generateIdToken';
+  const res = UrlFetchApp.fetch(url, {
+    method: 'post',
+    contentType: 'application/json',
+    headers: { Authorization: 'Bearer ' + ScriptApp.getOAuthToken() },
+    payload: JSON.stringify({ audience: N8N_BASE, includeEmail: true }),
+    muteHttpExceptions: true,
+  });
+  if (res.getResponseCode() !== 200) {
+    throw new Error('Failed to mint Cloud Run identity token (' + res.getResponseCode() + '): ' + res.getContentText());
+  }
+  return JSON.parse(res.getContentText()).token;
 }
 
 // ── SHARED HELPERS ─────────────────────────────────────────────────────────────
 
-function notifyN8n(name, url, payload) {
+function notifyN8n(name, webhookPath, payload) {
+  const url = N8N_BASE.replace(/\/+$/, '') + webhookPath;
+  const idToken = getIdTokenForN8n_();
   const options = {
     method:           'post',
     contentType:      'application/json',
+    headers:          { Authorization: 'Bearer ' + idToken },
     payload:          JSON.stringify(payload),
     muteHttpExceptions: true,
   };
