@@ -13,6 +13,10 @@ Stage 1 fit screens produced by [Deal Intelligence](/docs/projects/intelligence)
 
 | Company | Latest screen | Report |
 | --- | --- | --- |
+| Higharc | 2026-07-06 · Series C | [View screen →](/docs/research/companies/higharc) |
+| Beeline Medicines | 2026-07-06 · Series A | [View screen →](/docs/research/companies/beelinemedicines) |
+| PieTech | 2026-07-06 · Series A | [View screen →](/docs/research/companies/getpie) |
+| Pocket | 2026-07-06 · Seed | [View screen →](/docs/research/companies/heypocket) |
 | Assort Health | 2026-06-29 · Series B | [View screen →](/docs/research/companies/assorthealth) |
 | Ollin | 2026-06-29 · Series B | [View screen →](/docs/research/companies/ollin) |
 | Warp | 2026-06-29 · Series B | [View screen →](/docs/research/companies/warp) |
