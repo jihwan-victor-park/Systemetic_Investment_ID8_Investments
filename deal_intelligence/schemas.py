@@ -30,10 +30,17 @@ class DealFit:
     fit_score: float                       # weighted average, 1-4 scale
     params: list = field(default_factory=list)   # list[ParamScore]
     rationale: str = ""
-    confidence: str = "medium"             # high | medium | low
+    confidence: str = "medium"             # high | medium | low -- Diligence Confidence: how much of the
+                                            # score rests on verified vs. public-only/estimated data, not a
+                                            # restatement of fit_score (see prompts/rubric.md)
     gate: bool = False                     # passed the threshold -> deep research
-    quality_tier: str = "below_threshold"  # very_high | high | below_threshold
+    quality_tier: str = "pass"             # strong_go | go_ic | more_diligence | pass | watch_list
     citations: list = field(default_factory=list)  # source URLs Perplexity grounded on; [1]->index 0
+    raw_score: float = 0.0                 # unweighted mean of params, 1-4 scale -- shown alongside
+                                            # fit_score so the AI Score/Terms weighting-down is visible
+    hard_auto_pass: bool = False           # a confirmed (not data-missing) disqualifying condition fired;
+                                            # forces quality_tier to "pass" and gate to False regardless of fit_score
+    hard_auto_pass_reason: str = ""        # which condition triggered it; empty when hard_auto_pass is False
 
     def to_dict(self):
         d = asdict(self)

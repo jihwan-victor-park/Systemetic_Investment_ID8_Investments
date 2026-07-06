@@ -859,21 +859,25 @@ def _run_pipeline_bg(file_bytes, stage, source, top10):
                 if not d:
                     continue
                 d["fit_score"]      = round(f.fit_score, 1)
+                d["fit_raw_score"]  = round(f.raw_score, 1)
                 d["fit_gate"]       = f.gate
                 d["fit_tier"]       = f.quality_tier
                 d["fit_rationale"]  = f.rationale
                 d["fit_confidence"] = f.confidence
+                d["fit_hard_auto_pass"]        = f.hard_auto_pass
+                d["fit_hard_auto_pass_reason"] = f.hard_auto_pass_reason
                 d["hub_url"]        = hub_by_rid.get(f.name, "")
                 d["fit_citations"]  = f.citations
                 d["fit_params"]     = [
                     {"key": p.key, "score": p.score, "evidence": p.evidence}
                     for p in f.params
                 ]
-            results["email_html"]  = screen_result.get("email_html", "")
-            results["email_text"]  = screen_result.get("email_text", "")
-            results["screened"]    = screen_result.get("screened", 0)
-            results["gated"]       = screen_result.get("gated", 0)
-            results["borderline"]  = screen_result.get("borderline", 0)
+            results["email_html"]     = screen_result.get("email_html", "")
+            results["email_text"]     = screen_result.get("email_text", "")
+            results["screened"]       = screen_result.get("screened", 0)
+            results["gated"]          = screen_result.get("gated", 0)
+            results["more_diligence"] = screen_result.get("more_diligence", 0)
+            results["watch_list"]     = screen_result.get("watch_list", 0)
         except Exception as e:
             print("SCREENING ERROR:", traceback.format_exc())
             results["screening_error"] = str(e)

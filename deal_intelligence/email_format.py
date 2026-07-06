@@ -12,15 +12,16 @@ from . import rubric
 from .schemas import DealFit
 
 PARAM_LABELS = {p["key"]: p["label"] for p in rubric.PARAMS}
-TIER_LABEL = {"very_high": "Very High Quality", "high": "High Quality",
-              "borderline": "Borderline — review", "below_threshold": "Below Threshold"}
+TIER_LABEL = {"strong_go": "Strong Go", "go_ic": "Go / IC Review",
+              "more_diligence": "More Diligence", "pass": "Pass", "watch_list": "Watch List"}
 
 CHARCOAL = "#1A1A1A"
 GREY = "#828282"
 SOFT = "#3C3C3C"
 HAIR = "#E4DFD5"
 PASS_BG = "#EAF3DE"
-BORDERLINE_BG = "#FBF0D9"
+MORE_DILIGENCE_BG = "#FBF0D9"
+WATCH_LIST_BG = "#E8EEF5"
 FAIL_BG = "#F5F5F5"
 BODY_FONT = "'Sora', 'Helvetica Neue', Arial, sans-serif"
 
@@ -31,14 +32,29 @@ def _esc(text) -> str:
     return re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", s)
 
 
-def _deal_card(fit: DealFit, hub_url: str = None) -> str:
+def _badge(fit: DealFit) -> tuple:
+    """(background color, badge text). hard_auto_pass and watch_list are
+    reported by the model, not derived from fit_score, and take precedence
+    over the threshold bands (see stage1_fit.py)."""
+    if fit.hard_auto_pass:
+        return FAIL_BG, "HARD AUTO-PASS"
+    if fit.quality_tier == "watch_list":
+        return WATCH_LIST_BG, "WATCH LIST"
     tier = TIER_LABEL.get(fit.quality_tier, fit.quality_tier)
     if fit.gate:
-        badge_bg, badge_txt = PASS_BG, f"CLEARS GATE · {tier}"
-    elif fit.quality_tier == "borderline":
-        badge_bg, badge_txt = BORDERLINE_BG, "BORDERLINE · REVIEW"
-    else:
-        badge_bg, badge_txt = FAIL_BG, "BELOW THRESHOLD"
+        return PASS_BG, f"CLEARS GATE · {tier.upper()}"
+    if fit.quality_tier == "more_diligence":
+        return MORE_DILIGENCE_BG, "MORE DILIGENCE"
+    return FAIL_BG, "PASS"
+
+
+def _deal_card(fit: DealFit, hub_url: str = None) -> str:
+    badge_bg, badge_txt = _badge(fit)
+    hard_pass_line = (
+        f'<div style="margin:2px 0 8px 0;font-size:12px;color:{SOFT};">'
+        f'<span style="font-weight:600;">Hard auto-pass.</span> {_esc(fit.hard_auto_pass_reason)}</div>'
+        if fit.hard_auto_pass and fit.hard_auto_pass_reason else ''
+    )
 
     rows = ""
     for p in fit.params:
@@ -58,9 +74,11 @@ def _deal_card(fit: DealFit, hub_url: str = None) -> str:
         f'<div style="font-size:17px;font-weight:700;color:{CHARCOAL};">{_esc(fit.name)}</div>'
         f'<div style="margin:6px 0 10px 0;">'
         f'<span style="font-size:15px;font-weight:700;color:{CHARCOAL};">Fit score {fit.fit_score:.1f} / 4.0</span>'
+        f'<span style="font-size:12px;font-weight:400;color:{GREY};margin-left:6px;">(raw {fit.raw_score:.1f})</span>'
         f'<span style="display:inline-block;margin-left:10px;padding:2px 8px;background:{badge_bg};'
         f'border-radius:3px;font-size:11px;letter-spacing:0.5px;color:{CHARCOAL};">{_esc(badge_txt)}</span>'
         f'</div>'
+        f'{hard_pass_line}'
         f'<table cellpadding="0" cellspacing="0" style="width:100%;border-collapse:collapse;margin:0 0 10px 0;">'
         f'<tr>'
         f'<th align="left" style="padding:0 10px 4px 0;border-bottom:2px solid {CHARCOAL};font-size:10px;letter-spacing:1px;color:{CHARCOAL};text-transform:uppercase;">Dimension</th>'
@@ -84,11 +102,14 @@ def email_html(fits: list, title: str = "Deal Intelligence — Stage 1 Screen", 
     hub_urls = hub_urls or {}
     fits = sorted(fits, key=lambda f: f.fit_score, reverse=True)
     gated = sum(1 for f in fits if f.gate)
-    borderline = sum(1 for f in fits if not f.gate and f.quality_tier == "borderline")
+    more_diligence = sum(1 for f in fits if f.quality_tier == "more_diligence")
+    watch_list = sum(1 for f in fits if f.quality_tier == "watch_list")
     cards = "".join(_deal_card(f, hub_urls.get(f.record_id)) for f in fits)
     summary = f"{len(fits)} screened · {gated} cleared the gate"
-    if borderline:
-        summary += f" · {borderline} borderline"
+    if more_diligence:
+        summary += f" · {more_diligence} more diligence"
+    if watch_list:
+        summary += f" · {watch_list} watch list"
     return (
         f'<div style="font-family:{BODY_FONT};max-width:680px;color:{CHARCOAL};">'
         f'<div style="font-size:20px;font-weight:700;border-bottom:2px solid {CHARCOAL};padding-bottom:6px;margin-bottom:4px;">{_esc(title)}</div>'
@@ -106,8 +127,10 @@ def email_text(fits: list) -> str:
     fits = sorted(fits, key=lambda f: f.fit_score, reverse=True)
     out = []
     for f in fits:
-        gate = f"CLEARS GATE ({TIER_LABEL.get(f.quality_tier, f.quality_tier)})" if f.gate else "below threshold"
-        out.append(f"{f.name} — fit {f.fit_score:.1f}/4.0 [{gate}]")
+        _, badge_txt = _badge(f)
+        out.append(f"{f.name} — fit {f.fit_score:.1f}/4.0 (raw {f.raw_score:.1f}) [{badge_txt}]")
+        if f.hard_auto_pass and f.hard_auto_pass_reason:
+            out.append(f"  Hard auto-pass: {f.hard_auto_pass_reason}")
         for p in f.params:
             out.append(f"  - {PARAM_LABELS.get(p.key, p.key)}: {p.score:.0f}/4")
         out.append(f"  Rationale: {f.rationale}")

@@ -37,15 +37,19 @@ SYNTH_MODEL = os.getenv("DI_SYNTH_MODEL", "claude-opus-4-8")        # memo synth
 SCORE_MODEL = os.getenv("DI_SCORE_MODEL", "claude-haiku-4-5-20251001")  # rubric scoring
 
 # ── Gate ─────────────────────────────────────────────────────────────────────
-# fit_score is the rubric's weighted average, 1-4 scale. Deals at or above
-# FIT_THRESHOLD (High Quality) go to deep research + memo. VERY_HIGH_QUALITY_
-# THRESHOLD is the rubric's second tier, surfaced in the stage-1 rationale.
+# fit_score is the rubric's weighted average, 1-4 scale. v2.1 decision bands
+# (see prompts/rubric.md): >= STRONG_GO_THRESHOLD is "Strong Go"; >= FIT_THRESHOLD
+# (the deep-research gate, "Go / IC Review") through STRONG_GO_THRESHOLD is
+# "Go / IC Review"; >= MORE_DILIGENCE_THRESHOLD through FIT_THRESHOLD is
+# "More Diligence"; below that is "Pass". A hard_auto_pass or watch_list flag
+# from stage1_fit overrides these bands entirely (see stage1_fit.py).
+#
+# Renamed from VERY_HIGH_QUALITY_THRESHOLD / BORDERLINE_THRESHOLD when the rubric
+# went from 4 tiers to 5 (v2.1) -- if either old env var is set anywhere outside
+# this repo (Cloud Run, n8n), it will silently stop applying; use the new names.
 FIT_THRESHOLD = float(os.getenv("DI_FIT_THRESHOLD", "3.0"))
-VERY_HIGH_QUALITY_THRESHOLD = float(os.getenv("DI_VERY_HIGH_QUALITY_THRESHOLD", "3.3"))
-# Deals in [BORDERLINE_THRESHOLD, FIT_THRESHOLD) sit right at the bar. Per-call
-# Perplexity web-research variance (~±0.2-0.4) makes a hard cutoff coin-flip these,
-# so they are flagged "borderline — review" rather than silently passed or dropped.
-BORDERLINE_THRESHOLD = float(os.getenv("DI_BORDERLINE_THRESHOLD", "2.7"))
+STRONG_GO_THRESHOLD = float(os.getenv("DI_STRONG_GO_THRESHOLD", "3.5"))
+MORE_DILIGENCE_THRESHOLD = float(os.getenv("DI_MORE_DILIGENCE_THRESHOLD", "2.5"))
 
 # ── Concurrency ──────────────────────────────────────────────────────────────
 STAGE1_PARALLEL = int(os.getenv("DI_STAGE1_PARALLEL", "6"))

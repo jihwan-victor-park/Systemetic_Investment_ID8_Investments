@@ -39,8 +39,25 @@ _REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 _LOGO = os.path.join(_REPO_ROOT, "design", "assets", "id8_charcoal.png")
 
 PARAM_LABELS = {p["key"]: p["label"] for p in rubric.PARAMS}
-TIER_LABEL = {"very_high": "Very High Quality", "high": "High Quality",
-              "borderline": "Borderline — review", "below_threshold": "Below Threshold"}
+TIER_LABEL = {"strong_go": "Strong Go", "go_ic": "Go / IC Review",
+              "more_diligence": "More Diligence", "pass": "Pass", "watch_list": "Watch List"}
+
+
+def _badge_text(fit: DealFit) -> str:
+    """Short status text for the fit-score badge, in title case -- callers
+    apply .upper() (docx) or .lower() (markdown/email prose) as needed.
+    hard_auto_pass and watch_list are reported by the model, not derived from
+    fit_score, and take precedence over the threshold bands (see stage1_fit.py)."""
+    if fit.hard_auto_pass:
+        return "Pass — Hard Auto-Pass"
+    if fit.quality_tier == "watch_list":
+        return "Watch List — Outside Mandate (Stage)"
+    tier = TIER_LABEL.get(fit.quality_tier, fit.quality_tier)
+    if fit.gate:
+        return f"Clears Gate · {tier}"
+    if fit.quality_tier == "more_diligence":
+        return "More Diligence"
+    return "Pass"
 
 _SCREENS_START = "<!-- SCREENS:START -->"
 _SCREENS_END = "<!-- SCREENS:END -->"
@@ -236,16 +253,15 @@ def build_docx(fit: DealFit, deal: DealInput, output_path: str):
     # ── Score + gate badge ──
     score_p = doc.add_paragraph()
     score_p.paragraph_format.space_before = Pt(6)
-    score_p.paragraph_format.space_after = Pt(12)
+    score_p.paragraph_format.space_after = Pt(2) if (fit.hard_auto_pass and fit.hard_auto_pass_reason) else Pt(12)
     _run(score_p, f"{fit.fit_score:.1f} / 4.0", font=FONT_HEAD, size=16, bold=True)
-    tier = TIER_LABEL.get(fit.quality_tier, fit.quality_tier)
-    if fit.gate:
-        gate_text = f"   —   CLEARS GATE  ·  {tier.upper()}"
-    elif fit.quality_tier == "borderline":
-        gate_text = "   —   BORDERLINE — REVIEW"
-    else:
-        gate_text = "   —   BELOW THRESHOLD"
-    _run(score_p, gate_text, size=10.5, color=C_GREY)
+    _run(score_p, f"   (raw {fit.raw_score:.1f})", size=10.5, color=C_GREY)
+    _run(score_p, f"   —   {_badge_text(fit).upper()}", size=10.5, color=C_GREY)
+
+    if fit.hard_auto_pass and fit.hard_auto_pass_reason:
+        reason_p = doc.add_paragraph()
+        reason_p.paragraph_format.space_after = Pt(12)
+        _run(reason_p, f"Hard auto-pass: {fit.hard_auto_pass_reason}", size=9.5, color=C_SOFT)
 
     # ── Rubric table: dark header, alternating rows ──
     col_widths = [Inches(1.85), Inches(0.55), Inches(4.1)]
@@ -328,19 +344,16 @@ def _linkify_md(text: str, citations: list) -> str:
 
 
 def _screen_block(fit: DealFit, deal: DealInput) -> str:
-    tier = TIER_LABEL.get(fit.quality_tier, fit.quality_tier)
-    if fit.gate:
-        gate_text = f"clears gate ({tier})"
-    elif fit.quality_tier == "borderline":
-        gate_text = "borderline — review"
-    else:
-        gate_text = "below gate threshold"
     cites = fit.citations
     lines = [
         _screen_heading(deal),
         "",
-        f"**Fit score: {fit.fit_score:.1f} / 4.0 — {gate_text}**",
+        f"**Fit score: {fit.fit_score:.1f} / 4.0** (raw {fit.raw_score:.1f}) — {_badge_text(fit).lower()}",
         "",
+    ]
+    if fit.hard_auto_pass and fit.hard_auto_pass_reason:
+        lines += [f"*Hard auto-pass: {_linkify_md(fit.hard_auto_pass_reason, cites)}*", ""]
+    lines += [
         "| Dimension | Score | Evidence |",
         "| --- | --- | --- |",
     ]

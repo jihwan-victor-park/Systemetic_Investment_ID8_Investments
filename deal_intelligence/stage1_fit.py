@@ -1,7 +1,7 @@
 """Stage 1: preliminary fit. Cheap, runs on every qualified deal.
 
 One research-and-score call per deal against the rubric. Produces a weighted
-0-100 fit score and a gate flag. No memo here.
+1-4 fit score and a gate flag. No memo here.
 """
 import asyncio
 import os
@@ -32,6 +32,37 @@ def _build_prompt(deal: DealInput) -> str:
     return template.format(rubric=rubric.rubric_text(), deal=_deal_context(deal), params=param_keys)
 
 
+def _truthy(v) -> bool:
+    """Defensive bool coercion -- Perplexity is a text model producing JSON, not
+    a strict function-calling API, so hard_auto_pass/watch_list occasionally
+    come back as "true"/"yes" strings rather than real JSON booleans."""
+    if isinstance(v, bool):
+        return v
+    if isinstance(v, (int, float)):
+        return bool(v)
+    return str(v).strip().lower() in ("true", "yes", "y", "1")
+
+
+def _tier(fit_score: float, hard_auto_pass: bool, watch_list: bool) -> tuple:
+    """Returns (quality_tier, gate). hard_auto_pass and watch_list are mutually-
+    overriding flags from the model, not derived from fit_score -- a single
+    dimension mis-scored to 1 should never silently auto-kill a deal on its own;
+    only an explicit, reasoned hard_auto_pass does. hard_auto_pass wins over
+    watch_list: a deal that's disqualified outright (no AI, bad terms, etc.) is
+    a Pass, not a "come back at Series B" Watch List, regardless of stage."""
+    if hard_auto_pass:
+        return "pass", False
+    if watch_list:
+        return "watch_list", False
+    if fit_score >= config.STRONG_GO_THRESHOLD:
+        return "strong_go", True
+    if fit_score >= config.FIT_THRESHOLD:
+        return "go_ic", True
+    if fit_score >= config.MORE_DILIGENCE_THRESHOLD:
+        return "more_diligence", False
+    return "pass", False
+
+
 async def score_deal(deal: DealInput) -> DealFit:
     # temperature 0: scoring should be as repeatable as possible so a boundary
     # deal does not flip across the gate between runs (web-search variance remains).
@@ -49,18 +80,16 @@ async def score_deal(deal: DealInput) -> DealFit:
         param_scores[key] = sc
         params.append(ParamScore(key=key, score=sc, weight=weight_by_key[key], evidence=item.get("evidence", "")))
     fit_score = rubric.weighted_score(param_scores)
-    if fit_score >= config.VERY_HIGH_QUALITY_THRESHOLD:
-        tier = "very_high"
-    elif fit_score >= config.FIT_THRESHOLD:
-        tier = "high"
-    elif fit_score >= config.BORDERLINE_THRESHOLD:
-        tier = "borderline"
-    else:
-        tier = "below_threshold"
+    raw_avg = rubric.raw_score(param_scores)
+    hard_auto_pass = _truthy(parsed.get("hard_auto_pass", False))
+    hard_auto_pass_reason = parsed.get("hard_auto_pass_reason", "") or ""
+    watch_list = _truthy(parsed.get("watch_list", False))
+    tier, gate = _tier(fit_score, hard_auto_pass, watch_list)
     return DealFit(
-        record_id=deal.record_id, name=deal.name, fit_score=fit_score, params=params,
+        record_id=deal.record_id, name=deal.name, fit_score=fit_score, raw_score=raw_avg, params=params,
         rationale=parsed.get("rationale", ""), confidence=parsed.get("confidence", "medium"),
-        gate=fit_score >= config.FIT_THRESHOLD, quality_tier=tier, citations=citations,
+        gate=gate, quality_tier=tier, citations=citations,
+        hard_auto_pass=hard_auto_pass, hard_auto_pass_reason=hard_auto_pass_reason,
     )
 
 

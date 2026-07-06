@@ -67,9 +67,12 @@ async def screen(deals: list, dry_run: bool = False, publish: bool = False) -> d
     return {
         "screened": len(fits),
         "gated": sum(1 for f in fits if f.gate),
-        "borderline": sum(1 for f in fits if not f.gate and f.quality_tier == "borderline"),
-        "stage1": [{"name": f.name, "fit_score": f.fit_score, "gate": f.gate,
-                    "tier": f.quality_tier, "hub_url": hub_urls.get(f.record_id)} for f in fits],
+        "more_diligence": sum(1 for f in fits if f.quality_tier == "more_diligence"),
+        "watch_list": sum(1 for f in fits if f.quality_tier == "watch_list"),
+        "hard_auto_pass": sum(1 for f in fits if f.hard_auto_pass),
+        "stage1": [{"name": f.name, "fit_score": f.fit_score, "raw_score": f.raw_score, "gate": f.gate,
+                    "tier": f.quality_tier, "hard_auto_pass": f.hard_auto_pass,
+                    "hub_url": hub_urls.get(f.record_id)} for f in fits],
         "fits": fits,  # in-process callers use this; the HTTP layer drops it
         "email_html": email_format.email_html(fits, hub_urls=hub_urls),
         "email_text": email_format.email_text(fits),

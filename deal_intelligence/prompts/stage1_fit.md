@@ -6,42 +6,70 @@ a qualified deal. Research the company briefly and score it against the rubric.
 
 ## Stage and geography gate
 
-Two hard requirements, both must hold. Check both before scoring:
+Two checks. They are handled differently — do not conflate them.
 
-1. **Stage.** The round being raised is Series B or later (including growth/
-   late-stage rounds). Pre-seed, Seed, and Series A are out of scope.
-2. **Geography.** The company is headquartered in a developed market — North
-   America or Europe. Other geographies are out of scope.
+1. **Geography.** The company must be headquartered in North America or
+   Europe. This is a firm scope boundary, not a timing issue — a company
+   outside these regions is not coming back into scope later. If it fails:
+   skip detailed research. Score every parameter 1, set `"hard_auto_pass"` to
+   `true` with `"hard_auto_pass_reason"` stating the HQ location and that it
+   is outside the NA/Europe mandate, `"watch_list"` to `false`, confidence
+   `"high"`, and say so plainly in the rationale. Then go straight to Output.
 
-If either fails, the deal is out of scope regardless of how strong the company
-is: score every parameter 1, set confidence to "high", and say plainly in the
-rationale which check failed (stage, geography, or both). Only score normally
-against the rubric below if both checks pass.
+2. **Stage.** The round being raised is Series B or later (including growth/
+   late-stage rounds). Pre-seed, Seed, and Series A are out of mandate *for
+   now* — but a strong early-stage company is worth remembering for when it
+   raises a Series B. So if this check fails, still research and score the
+   deal normally against the full rubric below (real evidence, real 1-4
+   scores per dimension) — do not shortcut to all-1s. Set `"watch_list"` to
+   `true` in the output and say in the rationale that this deal is out of
+   mandate on stage alone and is being filed for re-evaluation at Series B+,
+   not being judged as weak on its merits.
+
+If geography passes, proceed to score normally with `"hard_auto_pass"` left
+to whatever the rubric's own hard-auto-pass conditions below determine (most
+deals: `false`), and `"watch_list"` set per the stage check above.
 
 ## ID8's thesis
 
 ID8 Growth Opportunities Fund I invests $1.5-3.5M per deal, alongside the lead,
-in select Series B/C/D rounds. The core screen, validated by ID8's own
-backtesting against the broader Series B/C/D universe:
+in select Series B/C/D rounds, with an AI-focused mandate. The core screen,
+validated by ID8's own backtesting against the broader Series B/C/D universe:
 
-- The round is led or co-led by a Tier 1 investor.
-- That Tier 1 investor is joining the cap table as lead/co-lead for the FIRST
-  time — "new money," not an existing relationship extending its position.
-  This is the single strongest predictor of returns in ID8's own data
-  (new-money Tier 1-led Series Bs: 14.3x average MOIC vs. 6.4x for the Series B
-  universe as a whole; the same gap holds at Series C and D).
+- The round is led or co-led by a Tier 1 (or Domain-Strategic) investor.
+- That investor is joining the cap table as lead/co-lead for the FIRST time —
+  "new money," not an existing relationship extending its position. This is
+  the single strongest predictor of returns in ID8's own data (new-money
+  Tier 1-led Series Bs: 14.3x average MOIC vs. 6.4x for the Series B universe
+  as a whole; the same gap holds at Series C and D).
+- The company's moat is genuinely AI-driven — not AI as a feature a
+  foundational-model update could absorb. No meaningful AI component is a
+  hard auto-pass regardless of how good everything else looks (see rubric).
+- The team can execute — Founder / Team Quality is scored as its own
+  dimension, independent of the product metrics.
 
-Your rationale must name explicitly whether the deal aligns or breaks with this
-thesis — especially whether the lead is genuinely new-money Tier 1 or an
-existing/inside investor — not just restate the rubric scores.
+Your rationale must name explicitly whether the deal aligns or breaks with
+this thesis — especially whether the lead is genuinely new-money Tier 1 (or a
+qualifying Domain-Strategic lead) vs. an existing/inside investor, and whether
+AI is genuinely structural to the business — not just restate the rubric
+scores.
+
+## Data availability is not a verdict
+
+Private, later-stage companies routinely do not publish revenue, NDR, burn,
+or LTV/CAC. That is normal and does not by itself mean the company is weak —
+it means the score rests on thinner evidence. The rubric below tells you
+exactly which dimensions land on a 2 (not a 1) when data is missing rather
+than confirmed-bad, and the `"confidence"` field exists precisely to carry
+that distinction forward: a 3.1 built on solid press coverage is not the same
+claim as a 3.1 built on almost nothing, even though the number looks
+identical. Never let missing data silently default to the worst score, and
+never fabricate a number to fill the gap — write `[NOT PUBLIC]` or
+`[unverified]` in the evidence instead.
 
 ## Rubric
 
 {rubric}
-
-## Deal
-
-{deal}
 
 ## Output
 
@@ -50,9 +78,12 @@ Return only JSON, no prose:
 {{
   "params": [{{"key": "<param key>", "score": 1, "evidence": "1-2 sentences + source or 'none found'"}}],
   "rationale": "2-3 sentences: the overall read, plus explicit thesis alignment/misalignment per above",
-  "confidence": "high | medium | low"
+  "confidence": "high | medium | low  -- Diligence Confidence per the rubric: how much of the score rests on verified vs. public-only/estimated data, not a restatement of the numeric score",
+  "hard_auto_pass": true | false,
+  "hard_auto_pass_reason": "which condition fired, quoting the rubric's hard-auto-pass list -- empty string if false",
+  "watch_list": true | false
 }}
 
 Score every parameter in this list: {params}, each from 1 to 4 per the rubric's
-anchors. Be skeptical. No evidence means a low score. Never fabricate a number
-or a source.
+anchors. Be skeptical. No evidence means the data-missing anchor (usually 2),
+not a guess in either direction. Never fabricate a number or a source.
