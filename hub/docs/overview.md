@@ -15,11 +15,11 @@ A growth-stage co-invest fund wins on three things: a clean pipeline, sharp outb
 
 | System | What it does | Status |
 | --- | --- | --- |
-| PitchBook → Attio Pipeline | Pulls deal, company, and investor data into Attio and keeps the investor graph accurate. | Live |
-| Apollo Reach Out | Builds clean family office and RIA lists, scores them, and loads outbound sequences. | Live |
-| Deal Intelligence | AI agents score every qualified deal against our rubric and deep-research the best ones. | Live |
-| Investment Memo Generator | 16-agent workflow that writes a complete formatted investment memo from raw deal data. | Live |
-| Documentation System | Latent Order design system for building and publishing ID8 operating guides. | Live |
+| PitchBook → Attio Pipeline | Pulls deal, company, and investor data into Attio and keeps the investor graph accurate. | <span class="status-pill status-live">Live</span> |
+| Apollo Reach Out | Builds clean family office and RIA lists, scores them, and loads outbound sequences. | <span class="status-pill status-live">Live</span> |
+| Deal Intelligence | AI agents score every qualified deal against our rubric and deep-research the best ones. | <span class="status-pill status-live">Live</span> |
+| Investment Memo Generator | 16-agent workflow that writes a complete formatted investment memo from raw deal data. | <span class="status-pill status-live">Live</span> |
+| Documentation System | Latent Order design system for building and publishing ID8 operating guides. | <span class="status-pill status-live">Live</span> |
 
 ## Why it holds together
 

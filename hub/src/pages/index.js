@@ -32,7 +32,7 @@ export default function Home() {
               <div className={styles.cardNum}>{p.num}</div>
               <div className={styles.cardTitle}>{p.title}</div>
               <div className={styles.cardDesc}>{p.desc}</div>
-              <div className={styles.cardStatus}>{p.status}</div>
+              <div className={styles.cardStatus} data-status={p.status}>{p.status}</div>
             </Link>
           ))}
         </div>

@@ -113,7 +113,7 @@ export default function MarketMap() {
         </div>
         <div className={styles.seg}>
           {['all', 'fresh', 'aging', 'stale'].map((f) => (
-            <button key={f} className={frFilter === f ? styles.on : ''} onClick={() => setFrFilter(f)}>
+            <button key={f} data-fr={f} className={frFilter === f ? styles.on : ''} onClick={() => setFrFilter(f)}>
               {f === 'all' ? 'All' : FRESH_LABEL[f]}
             </button>
           ))}

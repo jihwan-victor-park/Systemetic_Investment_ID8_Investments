@@ -11,7 +11,7 @@
   padding: 0.45rem 0 0.45rem 1.3rem; border-radius: 0;
 }
 .search input::placeholder { color: var(--id8-grey); }
-.search input:focus { outline: none; border-bottom: 1.5px solid var(--id8-ink); }
+.search input:focus { outline: none; border-bottom: 1.5px solid var(--id8-accent); }
 .search svg { position: absolute; left: 0; top: 50%; transform: translateY(-50%); pointer-events: none; }
 
 .seg { display: flex; border: 1px solid var(--id8-hair); border-radius: 2px; overflow: hidden; flex-shrink: 0; }
@@ -22,6 +22,9 @@
 }
 .seg button + button { border-left: 1px solid var(--id8-hair); }
 .seg .on { background: var(--id8-ink); color: var(--id8-paper); }
+.seg button[data-fr="fresh"].on { background: var(--id8-fresh); }
+.seg button[data-fr="aging"].on { background: var(--id8-aging); }
+.seg button[data-fr="stale"].on { background: var(--id8-stale); }
 
 .pills { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.6rem; }
 .pill {
@@ -43,7 +46,7 @@
   font-size: 0.66rem; font-weight: 700; letter-spacing: 0.05em;
   color: var(--id8-paper); background: var(--id8-ink); padding: 2px 6px; border-radius: 2px; align-self: center;
 }
-.code.firm { background: transparent; color: var(--id8-ink); border: 1px solid var(--id8-ink); padding: 1px 5px; }
+.code.firm { background: transparent; color: var(--id8-accent); border: 1px solid var(--id8-accent); padding: 1px 5px; }
 .secTitle { font-family: 'Roboto Serif', Georgia, serif; font-size: 1.05rem; font-weight: 500; color: var(--id8-ink); }
 .secCount { font-size: 0.68rem; color: var(--id8-grey); margin-left: auto; letter-spacing: 0.03em; white-space: nowrap; }
 
@@ -59,12 +62,13 @@
 .cardTitle { font-family: 'Roboto Serif', Georgia, serif; font-size: 0.98rem; font-weight: 500; line-height: 1.32; color: var(--id8-ink); flex: 1; }
 .note {
   display: inline-block; font-size: 0.6rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
-  color: var(--id8-soft); border: 1px solid var(--id8-hair); padding: 1px 6px; border-radius: 2px; margin-top: 0.5rem; align-self: flex-start;
+  color: var(--id8-accent); background: var(--id8-accent-bg); padding: 1px 6px; border-radius: 2px; margin-top: 0.5rem; align-self: flex-start;
 }
 .cardFoot { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-top: 0.7rem; }
 .domain { font-size: 0.68rem; color: var(--id8-grey); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .arrow { color: var(--id8-grey); flex-shrink: 0; transition: transform 0.15s ease, color 0.15s ease; }
-.card:hover .arrow { color: var(--id8-ink); transform: translate(2px, -2px); }
+.card:hover .arrow { color: var(--id8-accent); transform: translate(2px, -2px); }
+.card:hover .domain { color: var(--id8-soft); }
 
 .empty { font-size: 0.85rem; color: var(--id8-grey); padding: 3rem 0; text-align: center; }
 

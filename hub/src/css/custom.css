@@ -16,6 +16,13 @@
   --id8-soft: #3C3C3C;
   --id8-hair: #E4DFD5;
 
+  /* Sharp accent + status colors — used for links, active states, and freshness/status reads only. Never a background or card fill. */
+  --id8-accent: #2B45D0;
+  --id8-accent-bg: #F0F2FC;
+  --id8-fresh: #2E7D32;
+  --id8-aging: #B4791F;
+  --id8-stale: #B4302B;
+
   --ifm-color-primary: #1A1A1A;
   --ifm-color-primary-dark: #000000;
   --ifm-color-primary-darker: #000000;
@@ -42,25 +49,32 @@
   --ifm-table-border-color: var(--id8-hair);
   --ifm-table-stripe-background: transparent;
   --ifm-table-head-background: transparent;
-  --ifm-link-color: var(--id8-ink);
+  --ifm-link-color: var(--id8-accent);
   --ifm-menu-color: var(--id8-soft);
-  --ifm-menu-color-active: var(--id8-ink);
+  --ifm-menu-color-active: var(--id8-accent);
   --ifm-code-font-size: 90%;
-  --docusaurus-highlighted-code-line-bg: rgba(0,0,0,0.05);
+  --docusaurus-highlighted-code-line-bg: var(--id8-accent-bg);
 }
 
 html[data-theme='dark'] {
   --id8-paper: #1A1A1A;
   --id8-ink: #FBFAF7;
   --id8-hair: #333029;
+
+  --id8-accent: #7C93FF;
+  --id8-accent-bg: rgba(124, 147, 255, 0.14);
+  --id8-fresh: #5FB365;
+  --id8-aging: #D9A441;
+  --id8-stale: #D9615C;
+
   --ifm-color-primary: #FBFAF7;
   --ifm-background-color: #1A1A1A;
   --ifm-background-surface-color: #1A1A1A;
   --ifm-navbar-background-color: #1A1A1A;
   --ifm-footer-background-color: #1A1A1A;
-  --ifm-link-color: #FBFAF7;
+  --ifm-link-color: var(--id8-accent);
   --ifm-menu-color: #B9B4AA;
-  --ifm-menu-color-active: #FBFAF7;
+  --ifm-menu-color-active: var(--id8-accent);
 }
 
 /* Headings: serif, tight, with a quiet weight */
@@ -70,9 +84,14 @@ h1, h2, h3, h4 { font-family: 'Roboto Serif', Georgia, serif; letter-spacing: -0
 .markdown h3 { font-size: 1.08rem; font-weight: 600; font-family: 'Sora', sans-serif; margin-top: 1.3rem; }
 .markdown > p, .markdown li { color: var(--id8-soft); }
 
-/* Navbar: hairline rule, letterspaced links */
+/* Inline links: accent, not ink-on-ink — the one place color should carry meaning in body text */
+.markdown a, .theme-doc-markdown a { color: var(--id8-accent); text-underline-offset: 2px; }
+.markdown a:hover, .theme-doc-markdown a:hover { text-decoration: underline; }
+
+/* Navbar: hairline rule, letterspaced links; current section picked out in accent */
 .navbar { border-bottom: 1px solid var(--id8-ink); }
 .navbar__item, .navbar__link { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 500; }
+.navbar__link--active { color: var(--id8-accent) !important; }
 /* Logo: small and vertically centered against the links */
 .navbar__brand { align-items: center; }
 .navbar__logo { height: 15px; display: flex; align-items: center; margin-right: 0.6rem; }
@@ -89,20 +108,44 @@ h1, h2, h3, h4 { font-family: 'Roboto Serif', Georgia, serif; letter-spacing: -0
 .markdown table td { border: none; border-bottom: 1px solid var(--id8-hair); padding: 8px 18px 8px 0; font-size: 0.9rem; color: var(--id8-soft); }
 .markdown table tr { background: transparent !important; }
 .markdown table td:first-child { color: var(--id8-ink); }
+.markdown table td a { font-weight: 600; }
 
-/* Notes / admonitions: borderless, just a left rule */
+/* Notes / admonitions: borderless, just a left rule — colored per type so a warning reads differently from a note */
 .theme-admonition { background: transparent; border: none; border-left: 2px solid var(--id8-ink); border-radius: 0; box-shadow: none; padding: 0.3rem 0 0.3rem 1rem; }
-.theme-admonition .admonition-heading h5 { text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.7rem; color: var(--id8-ink); }
+.theme-admonition > div:first-child { text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.7rem; color: var(--id8-ink); }
+.theme-admonition-note, .theme-admonition-info { border-left-color: var(--id8-accent); }
+.theme-admonition-note > div:first-child, .theme-admonition-info > div:first-child { color: var(--id8-accent); }
+.theme-admonition-tip { border-left-color: var(--id8-fresh); }
+.theme-admonition-tip > div:first-child { color: var(--id8-fresh); }
+.theme-admonition-caution { border-left-color: var(--id8-aging); }
+.theme-admonition-caution > div:first-child { color: var(--id8-aging); }
+.theme-admonition-danger { border-left-color: var(--id8-stale); }
+.theme-admonition-danger > div:first-child { color: var(--id8-stale); }
+
+/* Status pills — used for freshness reads (market maps) and system status (Live/Beta) */
+.badge {
+  display: inline-block; font-family: 'Sora', sans-serif; font-size: 0.62rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.06em; padding: 2px 7px; border-radius: 2px; line-height: 1.5;
+}
+.badge--gate { color: var(--id8-fresh); background: color-mix(in srgb, var(--id8-fresh) 12%, transparent); }
+.badge--borderline { color: var(--id8-aging); background: color-mix(in srgb, var(--id8-aging) 12%, transparent); }
+.badge--below { color: var(--id8-stale); background: color-mix(in srgb, var(--id8-stale) 12%, transparent); }
+
+.status-pill { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 600; }
+.status-pill::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 5px; }
+.status-live { color: var(--id8-fresh); }
+.status-live::before { background: var(--id8-fresh); }
 
 /* Code: quiet, hairline, no heavy box */
 .markdown pre, code { font-family: 'Roboto Mono', Consolas, monospace; }
 .markdown div[class*='codeBlockContainer'] { box-shadow: none; border: 1px solid var(--id8-hair); border-radius: 2px; }
 code { background: rgba(0,0,0,0.04); border: none; border-radius: 2px; padding: 1px 5px; }
 
-/* Sidebar + TOC */
+/* Sidebar + TOC: current position picked out in accent, not just a same-color rule */
 .menu__link { font-size: 0.85rem; border-radius: 0; }
-.menu__link--active { border-left: 2px solid var(--id8-ink); }
+.menu__link--active { border-left: 2px solid var(--id8-accent); }
 .table-of-contents { font-size: 0.78rem; border-left: 1px solid var(--id8-hair); }
+.table-of-contents__link--active, .table-of-contents__link--active code { color: var(--id8-accent); }
 
 hr { border: none; border-top: 1px solid var(--id8-hair); }
 
