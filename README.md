@@ -13,6 +13,7 @@ monorepo with a few independent parts.
 | `hub/` | The Docusaurus site. The internal docs hub and the investor-facing view. |
 | `design/` | Generators for the branded guides and the canvas art, plus brand assets and the design philosophy. |
 | `n8n-cloudrun/` | n8n orchestration on Cloud Run: workflows, deploy script, migration plan. |
+| `cc-attio-sync/` | Standalone Cloud Run webhook: Attio list membership → Constant Contact list sync. |
 | `docs/` | Planning and strategy. The build plan and the LP screening guides. |
 
 ## Running each part
