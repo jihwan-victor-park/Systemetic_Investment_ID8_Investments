@@ -28,6 +28,15 @@ Stage 1 fit screens produced by [Deal Intelligence](/docs/projects/intelligence)
 | Lila Sciences | Autonomous AI science factories for scientific discovery. Comps and a bull, base, bear at the ~$8.5B rumored mark. | Series B rumored, Jun 2026, Cambridge MA | [PPTX →](pathname:///research/Lila_Sciences_Deal_Summary_draft.pptx) |
 | Gimlet Labs | Multi-silicon inference cloud for agentic AI. Comps and scenario valuations on the $208M Series A post. | Series A closed, Mar 2026, San Francisco | [PPTX →](pathname:///research/Gimlet_Labs_Deal_Draft.pptx) |
 
+## Market maps
+
+A directory of external VC market maps and industry landscape reports, browsable by category and by firm with a freshness read on each one.
+
+| What | Description | Link |
+| --- | --- | --- |
+| Market Map Directory | Restyled into the Latent Order system — search, category/firm grouping, freshness filter. | [View →](pathname:///research/market-map-directory.html) |
+| Market Map Directory (original) | The source directory as received, unstyled, kept for comparison. | [View →](pathname:///research/market-map-original.html) |
+
 ## How to add a document
 
 1. Put the file in `hub/static/research/`.

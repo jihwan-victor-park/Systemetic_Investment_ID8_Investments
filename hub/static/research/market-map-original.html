@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ID8 · Market Map Index</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1A1A1A; --paper:#FFFFFF; --surface:#F7F6F3;
+  --line:#E4E3DE; --line2:#D8D7D1; --gray:#828282; --gray2:#A4A39E;
+  --accent:#2B45D0; --accent-bg:#F0F2FC;
+  --fresh:#2E7D32; --aging:#B4791F; --stale:#B4302B;
+  --sans:Arial,"Helvetica Neue",Helvetica,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--sans);background:var(--surface);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.4;}
+a{color:inherit;text-decoration:none;}
+
+header{position:sticky;top:0;z-index:50;background:var(--ink);color:var(--paper);border-bottom:1px solid #000;}
+.head-inner{max-width:1220px;margin:0 auto;padding:16px 28px 15px;}
+.brandrow{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.brand{display:flex;align-items:center;gap:11px;}
+.brand .name{font-size:16px;font-weight:700;letter-spacing:.2px;}
+.logo-img{height:23px;width:auto;display:block;}
+.eyebrow{font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:3px;color:var(--gray2);text-transform:uppercase;}
+h1{font-weight:700;font-size:clamp(26px,4.2vw,38px);letter-spacing:-.5px;line-height:1.02;margin-top:13px;}
+.meta{font-family:var(--mono);font-size:11.5px;color:var(--gray2);margin-top:9px;letter-spacing:.4px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.meta .dot{opacity:.4;}
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:11px;}
+.leg{font-family:var(--mono);font-size:10px;letter-spacing:.5px;color:var(--gray2);display:flex;align-items:center;gap:5px;text-transform:uppercase;}
+.leg i{width:8px;height:8px;border-radius:50%;display:inline-block;}
+.leg.f i{background:#5FB365;} .leg.a i{background:#D9A441;} .leg.s i{background:#D9615C;} .leg.u i{background:#8C8C8C;}
+
+.controls{position:sticky;top:0;z-index:40;background:rgba(247,246,243,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+.controls-inner{max-width:1220px;margin:0 auto;padding:12px 28px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.search{flex:1;min-width:200px;position:relative;display:flex;align-items:center;}
+.search svg{position:absolute;left:13px;pointer-events:none;}
+.search input{width:100%;font-family:var(--mono);font-size:13px;color:var(--ink);background:var(--paper);border:1px solid var(--line2);border-radius:2px;padding:10px 12px 10px 36px;outline:none;letter-spacing:.3px;transition:border-color .15s,box-shadow .15s;}
+.search input::placeholder{color:var(--gray2);}
+.search input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-bg);}
+.seg{display:flex;border:1px solid var(--line2);border-radius:2px;overflow:hidden;background:var(--paper);}
+.seg button{font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:1px;text-transform:uppercase;padding:9px 13px;background:transparent;border:none;color:var(--gray);cursor:pointer;transition:background .15s,color .15s;white-space:nowrap;}
+.seg button+button{border-left:1px solid var(--line2);}
+.seg button.on{background:var(--ink);color:var(--paper);}
+.seg.fresh button.on{background:var(--fresh);}
+.seg.aging button.on{background:var(--aging);}
+.seg.stale button.on{background:var(--stale);}
+
+.pills{max-width:1220px;margin:0 auto;padding:13px 28px 2px;display:flex;gap:7px;flex-wrap:wrap;}
+.pill{font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.6px;color:var(--gray);background:var(--paper);border:1px solid var(--line);padding:6px 10px;border-radius:2px;cursor:pointer;transition:all .14s;white-space:nowrap;}
+.pill:hover{border-color:var(--ink);color:var(--ink);}
+.pill b{color:var(--ink);font-weight:700;margin-right:6px;}
+.pill .ct{color:var(--gray2);margin-left:5px;}
+
+main{max-width:1220px;margin:0 auto;padding:20px 28px 80px;}
+.section{margin-top:34px;scroll-margin-top:150px;}
+.section:first-child{margin-top:16px;}
+.sec-head{display:flex;align-items:baseline;gap:13px;padding-bottom:11px;margin-bottom:16px;border-bottom:1px solid var(--line2);}
+.code{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:1px;color:var(--paper);background:var(--ink);padding:3px 7px;border-radius:2px;align-self:center;}
+.code.firm{background:transparent;color:var(--accent);border:1px solid var(--accent);padding:2px 6px;}
+.sec-title{font-size:19px;font-weight:700;letter-spacing:-.2px;}
+.sec-count{font-family:var(--mono);font-size:11px;color:var(--gray2);margin-left:auto;letter-spacing:.5px;}
+
+.tier-wrap{scroll-margin-top:150px;}
+.tier-head{display:flex;align-items:center;gap:12px;margin:40px 0 6px;}
+.tier-head:first-child{margin-top:14px;}
+.tier-head .tier-name{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink);white-space:nowrap;}
+.tier-head .tier-rule{flex:1;height:1px;background:var(--ink);opacity:.85;}
+.tier-head .tier-ct{font-family:var(--mono);font-size:10.5px;color:var(--gray2);letter-spacing:.5px;}
+.tier-sub{font-family:var(--sans);font-size:12.5px;color:var(--gray);letter-spacing:0;margin:2px 0 16px;line-height:1.45;max-width:680px;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(272px,1fr));gap:12px;}
+.usage{font-family:var(--sans);font-size:12.5px;color:#C9C8C4;margin-top:12px;line-height:1.5;max-width:760px;}
+.usage b{color:var(--paper);font-weight:700;}
+.card{position:relative;display:flex;flex-direction:column;background:var(--paper);border:1px solid var(--line);border-radius:3px;padding:15px 17px 13px;min-height:124px;transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease;}
+.card:hover{transform:translateY(-2px);border-color:var(--ink);box-shadow:0 6px 18px -10px rgba(26,26,26,.4);}
+.card:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+.card .top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:7px;}
+.card .firm{font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:1.3px;text-transform:uppercase;color:var(--gray);}
+.card .date{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.3px;display:flex;align-items:center;gap:5px;white-space:nowrap;}
+.card .date i{width:7px;height:7px;border-radius:50%;display:inline-block;flex-shrink:0;}
+.d-fresh{color:var(--fresh);} .d-fresh i{background:var(--fresh);}
+.d-aging{color:var(--aging);} .d-aging i{background:var(--aging);}
+.d-stale{color:var(--stale);} .d-stale i{background:var(--stale);}
+.d-undated{color:var(--gray2);} .d-undated i{background:var(--gray2);}
+.card .maptitle{font-size:16px;font-weight:700;line-height:1.28;letter-spacing:-.15px;color:var(--ink);flex:1;}
+.card .note{display:inline-block;font-family:var(--mono);font-size:9.5px;font-weight:500;letter-spacing:.4px;color:var(--accent);background:var(--accent-bg);padding:2px 6px;border-radius:2px;margin-top:8px;align-self:flex-start;}
+.card .foot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:11px;}
+.card .domain{font-family:var(--mono);font-size:10.5px;color:var(--gray2);letter-spacing:.2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.card .arrow{color:var(--gray2);flex-shrink:0;transition:transform .16s ease,color .16s ease;}
+.card:hover .arrow{color:var(--accent);transform:translate(2px,-2px);}
+.card:hover .domain{color:var(--gray);}
+.empty{font-family:var(--mono);font-size:13px;color:var(--gray);padding:60px 0;text-align:center;letter-spacing:.4px;display:none;}
+
+footer{border-top:1px solid var(--line);max-width:1220px;margin:0 auto;padding:22px 28px 40px;font-family:var(--mono);font-size:10.5px;color:var(--gray2);letter-spacing:.5px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+
+@media (max-width:560px){
+  .head-inner,.controls-inner,.pills,main,footer{padding-left:18px;padding-right:18px;}
+  .sec-count{display:none;}
+}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;}.card:hover{transform:none;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="head-inner">
+    <div class="brandrow">
+      <div class="brand">
+        <img class="logo-img" src="data:image/png;base64,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" alt="ID8 Investments">
+      </div>
+      <span class="eyebrow">Market Map Index</span>
+    </div>
+    <h1>Market Map Directory</h1>
+    <div class="meta">
+      <span id="totalcount"></span><span class="dot">·</span>
+      <span id="catcount"></span><span class="dot">·</span>
+      <span id="firmcount"></span><span class="dot">·</span>
+      <span>Freshness as of Jul 2026</span>
+    </div>
+    <div class="legend">
+      <span class="leg f"><i></i>Fresh · under 6 mo</span>
+      <span class="leg a"><i></i>Aging · 6–12 mo</span>
+      <span class="leg s"><i></i>Stale · over 12 mo</span>
+      <span class="leg u"><i></i>Undated</span>
+    </div>
+  </div>
+</header>
+
+<div class="controls">
+  <div class="controls-inner">
+    <div class="search">
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
+        <circle cx="7" cy="7" r="5" stroke="#A4A39E" stroke-width="1.5"/>
+        <line x1="11" y1="11" x2="14.5" y2="14.5" stroke="#A4A39E" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <input id="search" type="text" placeholder="Search firm, category, or map…" autocomplete="off" spellcheck="false">
+    </div>
+    <div class="seg" id="grpSeg">
+      <button data-grp="cat" class="on">By category</button>
+      <button data-grp="firm">By firm</button>
+    </div>
+    <div class="seg" id="freshSeg">
+      <button data-fr="all" class="on">All</button>
+      <button data-fr="fresh">Fresh</button>
+      <button data-fr="aging">Aging</button>
+      <button data-fr="stale">Stale</button>
+    </div>
+  </div>
+</div>
+
+<nav class="pills" id="pills" aria-label="Jump to section"></nav>
+
+<main>
+  <div id="board"></div>
+  <div class="empty" id="empty">No maps match those filters.</div>
+</main>
+
+<footer>
+  <span>ID8 Investments · Internal research directory · For informational purposes only</span>
+  <span>Expanded &amp; dated Jul 2026</span>
+</footer>
+
+<script>
+const DATA = [
+  // Defense Tech
+  {firm:"Bessemer", title:"Defense Tech Roadmap: Five Frontiers for 2026", cat:"Defense Tech", url:"https://www.bvp.com/atlas/defense-tech-roadmap-five-frontiers-for-2026", ym:202601, date:"Jan 2026", note:"Refreshed"},
+  {firm:"Emerging Defense", title:"Defense Tech Market Map", cat:"Defense Tech", url:"https://emergingdefense.xyz/market-map-v2", ym:202511, date:"Nov 2025"},
+  {firm:"Hartmann Capital", title:"Defense Tech", cat:"Defense Tech", url:"https://vcmaps.com/maps/defense-tech", ym:null, date:"Undated"},
+  {firm:"Andreessen Horowitz", title:"Space", cat:"Defense Tech", url:"https://a16z.com/space-a-market-map/", ym:null, date:"Undated"},
+
+  // Fintech
+  {firm:"CB Insights", title:"The Fraud Prevention Market Map for the AI Era", cat:"Fintech", url:"https://www.cbinsights.com/research/report/the-fraud-prevention-market-map-for-the-ai-era/", ym:202606, date:"Jun 2026"},
+  {firm:"Insight Partners", title:"Supercharging Financial Advisors: AI in Wealth Management", cat:"Fintech", url:"https://www.insightpartners.com/ideas/ai-wealth-management/", ym:202603, date:"Mar 2026"},
+  {firm:"Insight Partners", title:"AI in Financial Services Is Here", cat:"Fintech", url:"https://www.insightpartners.com/ideas/ai-in-financial-services/", ym:202512, date:"Dec 2025"},
+  {firm:"Sapphire Ventures", title:"Finance AI: Reinventing the Modern Finance Stack", cat:"Fintech", url:"https://sapphireventures.com/blog/from-spreadsheet-analysts-to-ai-agents-reinventing-the-modern-finance-stack/", ym:202511, date:"Nov 2025"},
+  {firm:"QED Investors", title:"Finance's Back Office Upgrade Cycle", cat:"Fintech", url:"https://www.qedinvestors.com/blog/finances-back-office-is-entering-its-biggest-upgrade-cycle-in-decades", ym:202510, date:"Oct 2025"},
+  {firm:"Mandalore Partners", title:"Fintech Venture Map 2025", cat:"Fintech", url:"https://www.mandalorepartners.com/research/mandalore-fintech-venture-map-2025", ym:202506, date:"2025"},
+  {firm:"Norwest", title:"Reimagining the CFO Software Stack", cat:"Fintech", url:"https://www.nvp.com/blog/market-map-reimagining-cfo-software-stack/", ym:202504, date:"Apr 2025"},
+  {firm:"Hartmann Capital", title:"Agentic Payments & AI Financial Infrastructure", cat:"Fintech", url:"https://vcmaps.com/maps/agentic-payments", ym:null, date:"Undated"},
+  {firm:"Contrary Research", title:"Fintech Infrastructure (Living Landscape)", cat:"Fintech", url:"https://research.contrary.com/report/living-landscape-fintech-infrastructure", ym:null, date:"Undated"},
+
+  // Cybersecurity
+  {firm:"Cloud Security Alliance", title:"Agentic AI Security Innovator Market Map", cat:"Cybersecurity", url:"https://cloudsecurityalliance.org/artifacts/csa-innovator-market-map", ym:202606, date:"Jun 2026"},
+  {firm:"Menlo Ventures", title:"Agents for Security: The Tipping Point for Offensive AI", cat:"Cybersecurity", url:"https://menlovc.com/perspective/agents-for-security-the-tipping-point-for-offensive-ai/", ym:202603, date:"Mar 2026"},
+  {firm:"Menlo Ventures", title:"Rethinking Security for the Age of Autonomy", cat:"Cybersecurity", url:"https://menlovc.com/perspective/agents-for-security-and-the-opportunity-to-disrupt-securitys-giants/", ym:202511, date:"Nov 2025", note:"Refreshed"},
+  {firm:"Sapphire Ventures", title:"State of Cybersecurity: Growth, Risk, and Resilience", cat:"Cybersecurity", url:"https://sapphireventures.com/blog/state-of-cybersecurity-growth-risk-and-resilience/", ym:202508, date:"Aug 2025"},
+  {firm:"Hartmann Capital", title:"AI Cybersecurity", cat:"Cybersecurity", url:"https://vcmaps.com/maps/ai-cybersecurity", ym:null, date:"Undated"},
+  {firm:"Bessemer", title:"Data Privacy Engineering", cat:"Cybersecurity", url:"https://www.bvp.com/atlas/how-data-privacy-engineering-will-prevent-future-data-oil-spills", ym:null, date:"Undated"},
+
+  // Healthcare
+  {firm:"Menlo Ventures", title:"Vertical AI (Healthcare): Software Finally Gets to Work", cat:"Healthcare", url:"https://menlovc.com/perspective/software-finally-gets-to-work-the-opportunity-in-vertical-ai/", ym:202604, date:"Apr 2026"},
+  {firm:"Menlo Ventures", title:"2025: The State of AI in Healthcare", cat:"Healthcare", url:"https://menlovc.com/perspective/2025-the-state-of-ai-in-healthcare/", ym:202510, date:"Oct 2025"},
+  {firm:"Sapphire Ventures", title:"The AI Healthcare Stack", cat:"Healthcare", url:"https://sapphireventures.com/blog/ai-healthcare-stack-data-automation-10x-provider-2025/", ym:202509, date:"Sep 2025"},
+  {firm:"Felicis", title:"Healthcare's Trillion-Dollar Admin Problem", cat:"Healthcare", url:"https://www.felicis.com/insight/healthcare-ai-admin", ym:202507, date:"Jul 2025"},
+  {firm:"Hartmann Capital", title:"Brain Computer Interface", cat:"Healthcare", url:"https://vcmaps.com/maps/brain-computer-interface", ym:null, date:"Undated"},
+  {firm:"Menlo Ventures", title:"Health Benefits Tech Market Map", cat:"Healthcare", url:"https://menlovc.com/wp-content/uploads/2023/01/benefits_tech_market_map-042121.pdf", ym:202104, date:"Apr 2021"},
+
+  // Legal
+  {firm:"Legaltech Hub", title:"GenAI in Legal: Interactive Solutions Map", cat:"Legal", url:"https://www.legaltechnologyhub.com/", ym:202606, date:"Jun 2026"},
+  {firm:"The LegalTech Fund", title:"Early Stage Transactional Market Map", cat:"Legal", url:"https://www.legaltech.com/post/early-stage-transactional-market-map", ym:202603, date:"Mar 2026"},
+  {firm:"Hartmann Capital", title:"Legal AI", cat:"Legal", url:"https://vcmaps.com/maps/ai-legal-tech", ym:null, date:"Undated"},
+  {firm:"Battery Ventures", title:"Legal AI: The New Code of Law", cat:"Legal", url:"https://www.battery.com/blog/the-new-code-of-law/", ym:null, date:"Undated"},
+
+  // Developer Tools
+  {firm:"Andreessen Horowitz", title:"A Deep Dive Into MCP and the Future of AI Tooling", cat:"Developer Tools", url:"https://a16z.com/a-deep-dive-into-mcp-and-the-future-of-ai-tooling/", ym:202603, date:"Mar 2026"},
+  {firm:"CB Insights", title:"The AI Software Development Market Map", cat:"Developer Tools", url:"https://www.cbinsights.com/research/ai-software-development-market-map/", ym:202510, date:"Oct 2025"},
+  {firm:"Andreessen Horowitz", title:"The Trillion Dollar AI Software Development Stack", cat:"Developer Tools", url:"https://a16z.com/the-trillion-dollar-ai-software-development-stack/", ym:202510, date:"Oct 2025"},
+  {firm:"Bessemer", title:"Roadmap: Developer Tooling for Software 3.0", cat:"Developer Tools", url:"https://www.bvp.com/atlas/roadmap-developer-tooling-for-software-3-0", ym:202508, date:"Aug 2025"},
+  {firm:"Hartmann Capital", title:"AI DevTools", cat:"Developer Tools", url:"https://vcmaps.com/maps/ai-devtools", ym:null, date:"Undated"},
+
+  // Cross-Industry Apps (horizontal: consumer, productivity, general enterprise)
+  {firm:"Andreessen Horowitz", title:"The Top 100 Gen AI Consumer Apps (6th Ed.)", cat:"Cross-Industry Apps", url:"https://a16z.com/100-gen-ai-apps-6/", ym:202603, date:"Mar 2026"},
+  {firm:"Sapphire Ventures", title:"AI and the End of the Productivity Bundle", cat:"Cross-Industry Apps", url:"https://sapphireventures.com/blog/ai-and-the-end-of-the-productivity-bundle/", ym:202602, date:"Feb 2026"},
+  {firm:"Menlo Ventures", title:"Departmental AI (State of Enterprise AI 2025)", cat:"Cross-Industry Apps", url:"https://menlovc.com/wp-content/uploads/2025/12/menlo_ventures_enterprise_ai_report-2025-123125.pdf", ym:202512, date:"Dec 2025"},
+  {firm:"Andreessen Horowitz", title:"The AI Application Spending Report", cat:"Cross-Industry Apps", url:"https://a16z.com/the-ai-application-spending-report-where-startup-dollars-really-go/", ym:202510, date:"Oct 2025"},
+  {firm:"Lightspeed", title:"AI Enterprise Market Map: Cutting Through the Hype", cat:"Cross-Industry Apps", url:"https://lsvp.com/stories/ai-enterprise-market-map-cutting-through-the-hype/", ym:202505, date:"May 2025"},
+  {firm:"Sequoia", title:"Generative AI: Act Two", cat:"Cross-Industry Apps", url:"https://sequoiacap.com/article/generative-ai-act-two/", ym:202309, date:"Sep 2023"},
+  {firm:"Andreessen Horowitz", title:"AI x Productivity Tools", cat:"Cross-Industry Apps", url:"https://venturemarketmaps.com/m/2-a16z-ai-x-productivity-tools", ym:null, date:"Undated"},
+  {firm:"Hartmann Capital", title:"Computer Vision", cat:"Cross-Industry Apps", url:"https://vcmaps.com/maps/computer-vision", ym:null, date:"Undated"},
+
+  // AI Agents
+  {firm:"Bessemer", title:"Agentic Commerce: The Rise of the Delegated Buyer", cat:"AI Agents", url:"https://www.bvp.com/atlas/agentic-commerce-the-rise-of-the-delegated-buyer", ym:202605, date:"May 2026"},
+  {firm:"Norwest", title:"From Click to Command: The Shift to Agentic Payments", cat:"AI Agents", url:"https://www.norwest.com/blog/agentic-payments/", ym:202604, date:"Apr 2026"},
+  {firm:"Insight Partners", title:"IAM in the Age of AI Agents", cat:"AI Agents", url:"https://www.insightpartners.com/ideas/iam-ai-agents/", ym:202603, date:"Mar 2026"},
+  {firm:"Andreessen Horowitz", title:"Your Data Agents Need Context", cat:"AI Agents", url:"https://www.a16z.news/p/your-data-agents-need-context", ym:202603, date:"Mar 2026"},
+  {firm:"Generational", title:"AI Agent App & Infrastructure Market Map", cat:"AI Agents", url:"https://datawrapper.dwcdn.net/s94df/4/", ym:202601, date:"Jan 2026"},
+  {firm:"CB Insights", title:"The AI Agent Market Map", cat:"AI Agents", url:"https://www.cbinsights.com/research/ai-agent-market-map-2025/", ym:202511, date:"Nov 2025"},
+
+  // AI Infrastructure
+  {firm:"Bessemer", title:"AI Infrastructure Roadmap: Five Frontiers for 2026", cat:"AI Infrastructure", url:"https://www.bvp.com/atlas/ai-infrastructure-roadmap-five-frontiers-for-2026", ym:202603, date:"Mar 2026"},
+  {firm:"Andreessen Horowitz", title:"Why We Need Continual Learning", cat:"AI Infrastructure", url:"https://www.a16z.news/p/why-we-need-continual-learning", ym:202604, date:"Apr 2026"},
+  {firm:"Foundation Capital", title:"Context Graphs: AI's Trillion-Dollar Opportunity", cat:"AI Infrastructure", url:"https://foundationcapital.com/context-graphs-ais-trillion-dollar-opportunity/", ym:202512, date:"Dec 2025"},
+  {firm:"Headline", title:"The Duality of Infrastructure Software Investing", cat:"AI Infrastructure", url:"https://headline.com/blog-latest/article-latest/the-duality-of-infrastructure-software-investing-i", ym:202503, date:"Mar 2025"},
+  {firm:"Bessemer", title:"Roadmap: AI Infrastructure", cat:"AI Infrastructure", url:"https://www.bvp.com/atlas/roadmap-ai-infrastructure", ym:null, date:"Undated"},
+  {firm:"Hartmann Capital", title:"AI Infrastructure", cat:"AI Infrastructure", url:"https://vcmaps.com/maps/ai-infrastructure", ym:null, date:"Undated"},
+  {firm:"Madrona", title:"The Rise of AI Agent Infrastructure", cat:"AI Infrastructure", url:"https://www.madrona.com/the-rise-of-ai-agent-infrastructure/", ym:null, date:"Undated"},
+
+  // AI Compute & Data Centers
+  {firm:"Bessemer", title:"Roadmap: The AI Data Center Stack", cat:"AI Compute & Data Centers", url:"https://www.bvp.com/atlas/roadmap-the-ai-data-center-stack", ym:202605, date:"May 2026"},
+  {firm:"Redpoint", title:"The InfraRed Report 2026", cat:"AI Compute & Data Centers", url:"https://www.redpoint.com/reports/the-infrared-report-2026/", ym:202605, date:"May 2026"},
+  {firm:"Scale Venture Partners", title:"The Big Data Center Squeeze", cat:"AI Compute & Data Centers", url:"https://www.scalevp.com/blog/the-big-data-center-squeeze-getting-more-compute-from-existing-infrastructure", ym:202603, date:"Mar 2026"},
+  {firm:"Activant Capital", title:"AI Infrastructure: Compute — Sizing the Market", cat:"AI Compute & Data Centers", url:"https://activantcapital.com/research/ai-infra-compute", ym:202601, date:"Jan 2026"},
+  {firm:"CB Insights", title:"The Data Center Value Chain Market Map", cat:"AI Compute & Data Centers", url:"https://www.cbinsights.com/research/report/data-center-value-chain-market-map/", ym:202512, date:"Dec 2025"},
+  {firm:"SemiAnalysis", title:"ClusterMAX 2.0: GPU Cloud Rating System", cat:"AI Compute & Data Centers", url:"https://newsletter.semianalysis.com/p/clustermax-20-the-industry-standard", ym:202511, date:"Nov 2025"},
+
+  // Semiconductors & Photonics
+  {firm:"New Market Pitch", title:"Semiconductor Startup Funding Landscape 2025–2026", cat:"Semiconductors & Photonics", url:"https://newmarketpitch.com/blogs/news/semiconductor-funding-analysis", ym:202606, date:"Jun 2026"},
+  {firm:"Semiconductor Engineering", title:"Startup Funding: Chips, Photonics & Agentic EDA (Q1 2026)", cat:"Semiconductors & Photonics", url:"https://semiengineering.com/startup-funding-q1-2026/", ym:202605, date:"May 2026"},
+
+  // Energy AI
+  {firm:"Benhamou Global Ventures", title:"The State of the Energy Management Market", cat:"Energy AI", url:"https://benhamouglobalventures.com/energy-management-market/", ym:202512, date:"Dec 2025"},
+  {firm:"Axeleo Capital", title:"AI & Energy", cat:"Energy AI", url:"https://www.axc.vc/blog-posts/energy-ai", ym:202511, date:"Nov 2025"},
+
+  // Robotics & Physical AI
+  {firm:"Bessemer", title:"Bessemer Predicts: Robotics and Physical AI", cat:"Robotics & Physical AI", url:"https://www.bvp.com/atlas/bessemer-predicts-robotics-and-physical-ai", ym:202604, date:"Apr 2026"},
+  {firm:"Bessemer", title:"50 Startups Transforming Industries With Physical AI", cat:"Robotics & Physical AI", url:"https://www.bvp.com/atlas/50-startups-transforming-industries-with-physical-ai", ym:202603, date:"Mar 2026"},
+  {firm:"FOV Ventures", title:"FOV Robotics Market Map 2026 (Europe)", cat:"Robotics & Physical AI", url:"https://viewpoints.fov.ventures/p/fov-robotics-market-map-2026", ym:202603, date:"Mar 2026"},
+  {firm:"CB Insights", title:"The Physical AI Models Market Map", cat:"Robotics & Physical AI", url:"https://www.cbinsights.com/research/the-physical-ai-models-market-map/", ym:202601, date:"Jan 2026"},
+  {firm:"Insight Partners", title:"The State of the Robotics Ecosystem", cat:"Robotics & Physical AI", url:"https://www.insightpartners.com/ideas/the-state-of-the-robotics-ecosystem/", ym:202510, date:"Oct 2025"},
+  {firm:"Atlantic Vantage Point", title:"The Global Robotics Race", cat:"Robotics & Physical AI", url:"https://avpcap.com/the-global-robotics-race-and-how-robots-actually-work/", ym:202510, date:"Oct 2025"},
+  {firm:"Morgan Stanley", title:"The Humanoid 100: Mapping the Value Chain", cat:"Robotics & Physical AI", url:"https://advisor.morganstanley.com/john.howard/documents/field/j/jo/john-howard/The_Humanoid_100_-_Mapping_the_Humanoid_Robot_Value_Chain.pdf", ym:202502, date:"Feb 2025"},
+
+  // Voice AI
+  {firm:"Madrona", title:"Voice Is Going Vertical", cat:"Voice AI", url:"https://www.madrona.com/voice-is-going-vertical-how-verticalized-voice-ai-is-becoming-the-next-killer-app/", ym:202506, date:"Jun 2025"},
+  {firm:"Sierra Ventures", title:"Transforming Voice: 150+ Voice AI Companies", cat:"Voice AI", url:"https://www.sierraventures.com/content/voice-ai-market-map", ym:202508, date:"Aug 2025"},
+  {firm:"NFX", title:"Voice AI Is Working: Where It Wins First", cat:"Voice AI", url:"https://www.nfx.com/post/voice-ai-is-working", ym:202505, date:"May 2025"},
+  {firm:"Andreessen Horowitz", title:"AI Voice Agents: 2025 Update", cat:"Voice AI", url:"https://a16z.com/ai-voice-agents-2025-update/", ym:202501, date:"Jan 2025"},
+  {firm:"Lightspeed", title:"The Future of Voice AI", cat:"Voice AI", url:"https://lsvp.com/stories/the-future-of-voice-our-thoughts-on-how-it-will-transform-conversational-ai/", ym:null, date:"Undated"},
+
+  // Content Generation
+  {firm:"Machine Cinema", title:"AI Creative Market Map: Tools of the New Craft", cat:"Content Generation", url:"https://text.machinecinema.ai/p/ai-creative-market-map-the-tools", ym:202605, date:"May 2026"},
+  {firm:"Andreessen Horowitz", title:"There Is No God Tier Video Model", cat:"Content Generation", url:"https://a16z.substack.com/p/there-is-no-god-tier-video-model", ym:202510, date:"Oct 2025"},
+  {firm:"Andreessen Horowitz", title:"Content Generation & Editing", cat:"Content Generation", url:"https://venturemarketmaps.com/m/22-a16z-ai-content-generation-content-editing", ym:null, date:"Undated"},
+  {firm:"Hartmann Capital", title:"AI Video Generation", cat:"Content Generation", url:"https://vcmaps.com/maps/ai-video-generation", ym:null, date:"Undated"},
+  {firm:"Hartmann Capital", title:"AI Image Generation", cat:"Content Generation", url:"https://vcmaps.com/maps/ai-image-generation", ym:null, date:"Undated"},
+];
+
+const CAT_CODE = {
+  "AI Agents":"AG","Cross-Industry Apps":"XA","AI Compute & Data Centers":"CP","AI Infrastructure":"AI",
+  "Content Generation":"CG","Cybersecurity":"CY","Defense Tech":"DF","Developer Tools":"DV",
+  "Energy AI":"EN","Fintech":"FT","Healthcare":"HC",
+  "Legal":"LG","Robotics & Physical AI":"RB","Semiconductors & Photonics":"SP","Voice AI":"VO"
+};
+const TIERS = [
+  {name:"Big-Picture Maps", sub:"Whole-market overviews and top-company lists. Start here for the lay of the land.", cats:["Landscapes & Top Lists"]},
+  {name:"Picks & Shovels", sub:"The AI tech stack that sells into every industry, regardless of who wins the app layer.", cats:["AI Infrastructure","AI Compute & Data Centers","Semiconductors & Photonics","AI Agents","Developer Tools","Cross-Industry Apps","Content Generation","Voice AI","Cybersecurity","Energy AI"]},
+  {name:"By Industry", sub:"Maps focused on a single sector.", cats:["Defense Tech","Robotics & Physical AI","Fintech","Healthcare","Legal"]},
+];
+function fresh(ym){
+  if(ym==null) return "undated";
+  if(ym>=202601) return "fresh";
+  if(ym>=202507) return "aging";
+  return "stale";
+}
+function firmCode(f){const p=f.split(/\s+/);return p.length===1?f.slice(0,2).toUpperCase():(p[0][0]+p[1][0]).toUpperCase();}
+function domain(u){try{return new URL(u).hostname.replace(/^www\./,"");}catch(e){return "";}}
+
+const board=document.getElementById("board");
+const pillsEl=document.getElementById("pills");
+const emptyEl=document.getElementById("empty");
+const searchEl=document.getElementById("search");
+let mode="cat", frFilter="all", q="";
+
+const ARROW='<svg class="arrow" width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5.5M12 4V10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+function cardHTML(d){
+  const fr=fresh(d.ym);
+  const note = d.note ? `<span class="note">${d.note}</span>` : "";
+  const sub = mode==="cat" ? d.firm : d.cat;
+  return `<a class="card" href="${d.url}" target="_blank" rel="noopener">
+    <div class="top"><span class="firm">${sub}</span><span class="date d-${fr}"><i></i>${d.date}</span></div>
+    <div class="maptitle">${d.title}</div>
+    ${note}
+    <div class="foot"><span class="domain">${domain(d.url)}</span>${ARROW}</div>
+  </a>`;
+}
+function groupKey(d){return mode==="cat"?d.cat:d.firm;}
+
+function sortItems(items){
+  return items.slice().sort((a,b)=>{
+    const av=a.ym||0, bv=b.ym||0;
+    if(av!==bv) return bv-av;
+    return a.firm.localeCompare(b.firm);
+  });
+}
+function catBlock(name,items){
+  const it=sortItems(items);
+  return `<section class="section" id="sec-${name.replace(/\W+/g,'-')}">
+    <div class="sec-head"><span class="code">${CAT_CODE[name]||""}</span><span class="sec-title">${name}</span>
+      <span class="sec-count">${it.length} ${it.length===1?'map':'maps'}</span></div>
+    <div class="grid">${it.map(cardHTML).join("")}</div></section>`;
+}
+function firmBlock(name,items){
+  const it=sortItems(items);
+  return `<section class="section" id="sec-${name.replace(/\W+/g,'-')}">
+    <div class="sec-head"><span class="code firm">${firmCode(name)}</span><span class="sec-title">${name}</span>
+      <span class="sec-count">${it.length} ${it.length===1?'map':'maps'}</span></div>
+    <div class="grid">${it.map(cardHTML).join("")}</div></section>`;
+}
+
+function render(){
+  const rows=DATA.filter(d=>{
+    if(frFilter!=="all" && fresh(d.ym)!==frFilter) return false;
+    if(q && !(d.firm+" "+d.title+" "+d.cat+" "+domain(d.url)).toLowerCase().includes(q)) return false;
+    return true;
+  });
+  const byCat={};
+  rows.forEach(d=>{(byCat[d.cat]=byCat[d.cat]||[]).push(d);});
+
+  if(mode==="firm"){
+    pillsEl.style.display="none";
+    const byFirm={};
+    rows.forEach(d=>{(byFirm[d.firm]=byFirm[d.firm]||[]).push(d);});
+    const keys=Object.keys(byFirm).sort((a,b)=>a.localeCompare(b));
+    board.innerHTML=keys.map(k=>firmBlock(k,byFirm[k])).join("");
+  } else if(mode==="layer"){
+    pillsEl.style.display="flex";
+    pillsEl.innerHTML=TIERS.filter(t=>t.cats.some(c=>byCat[c])).map(t=>{
+      const n=t.cats.reduce((s,c)=>s+(byCat[c]?byCat[c].length:0),0);
+      return `<span class="pill" data-t="${t.name}"><b>›</b>${t.name}<span class="ct">${n}</span></span>`;
+    }).join("");
+    board.innerHTML=TIERS.map(t=>{
+      const cats=t.cats.filter(c=>byCat[c]).sort((a,b)=>a.localeCompare(b));
+      if(!cats.length) return "";
+      const n=cats.reduce((s,c)=>s+byCat[c].length,0);
+      const blocks=cats.map(c=>catBlock(c,byCat[c])).join("");
+      return `<div class="tier-wrap" id="tier-${t.name.replace(/\W+/g,'-')}">
+        <div class="tier-head"><span class="tier-name">${t.name}</span><span class="tier-rule"></span><span class="tier-ct">${n} maps</span></div>
+        ${t.sub?`<p class="tier-sub">${t.sub}</p>`:''}
+        ${blocks}</div>`;
+    }).join("");
+  } else {
+    const keys=Object.keys(byCat).sort((a,b)=>a.localeCompare(b));
+    pillsEl.style.display="flex";
+    pillsEl.innerHTML=keys.map(k=>`<span class="pill" data-k="${k}"><b>${CAT_CODE[k]||""}</b>${k}<span class="ct">${byCat[k].length}</span></span>`).join("");
+    board.innerHTML=keys.map(k=>catBlock(k,byCat[k])).join("");
+  }
+
+  emptyEl.style.display=rows.length?"none":"block";
+  pillsEl.querySelectorAll(".pill").forEach(p=>p.addEventListener("click",()=>{
+    const key=p.dataset.k ? ("sec-"+p.dataset.k.replace(/\W+/g,'-')) : ("tier-"+p.dataset.t.replace(/\W+/g,'-'));
+    const el=document.getElementById(key);
+    if(el) el.scrollIntoView({behavior:"smooth",block:"start"});
+  }));
+}
+
+document.getElementById("totalcount").textContent=DATA.length+" maps";
+document.getElementById("catcount").textContent=new Set(DATA.map(d=>d.cat)).size+" categories";
+document.getElementById("firmcount").textContent=new Set(DATA.map(d=>d.firm)).size+" sources";
+
+searchEl.addEventListener("input",e=>{q=e.target.value.trim().toLowerCase();render();});
+document.getElementById("grpSeg").addEventListener("click",e=>{
+  const b=e.target.closest("button"); if(!b) return;
+  mode=b.dataset.grp;
+  [...e.currentTarget.children].forEach(x=>x.classList.toggle("on",x===b));
+  render();
+});
+const fseg=document.getElementById("freshSeg");
+fseg.addEventListener("click",e=>{
+  const b=e.target.closest("button"); if(!b) return;
+  frFilter=b.dataset.fr;
+  [...fseg.children].forEach(x=>x.classList.toggle("on",x===b));
+  fseg.className="seg"+(frFilter!=="all"?" "+frFilter:"");
+  render();
+});
+
+render();
+</script>
+</body>
+</html>

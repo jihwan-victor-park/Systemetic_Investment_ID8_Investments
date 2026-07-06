@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Market Map Directory · ID8 Investments</title>
+<style>
+@font-face { font-family: 'Sora'; font-weight: 400; src: url('/fonts/Sora-Regular.ttf') format('truetype'); font-display: swap; }
+@font-face { font-family: 'Sora'; font-weight: 500; src: url('/fonts/Sora-Medium.ttf') format('truetype'); font-display: swap; }
+@font-face { font-family: 'Sora'; font-weight: 600; src: url('/fonts/Sora-SemiBold.ttf') format('truetype'); font-display: swap; }
+@font-face { font-family: 'Roboto Serif'; font-weight: 500; src: url('/fonts/RobotoSerif-Medium.ttf') format('truetype'); font-display: swap; }
+
+:root{
+  --id8-paper:#FBFAF7; --id8-ink:#1A1A1A; --id8-grey:#828282; --id8-soft:#3C3C3C; --id8-hair:#E4DFD5;
+  --sans:'Sora',system-ui,sans-serif; --serif:'Roboto Serif',Georgia,serif;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;background:var(--id8-paper);color:var(--id8-ink);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+a{color:inherit;text-decoration:none;}
+h1{font-family:var(--serif);font-weight:500;letter-spacing:-0.01em;}
+
+header{border-bottom:1px solid var(--id8-ink);}
+.head-inner{max-width:1240px;margin:0 auto;padding:2rem 2rem 1.5rem;}
+.eyebrow{font-size:0.72rem;text-transform:uppercase;letter-spacing:0.18em;color:var(--id8-grey);font-weight:500;}
+h1{font-size:2.1rem;margin:0.5rem 0 0.8rem;}
+.lede{color:var(--id8-soft);max-width:640px;margin:0 0 1rem;}
+.stats{font-size:0.72rem;color:var(--id8-grey);letter-spacing:0.02em;}
+.stats span+span::before{content:"·";margin:0 0.5rem;opacity:0.5;}
+
+main{max-width:1240px;margin:0 auto;padding:1.5rem 2rem 4rem;}
+
+.controls{display:flex;flex-wrap:wrap;align-items:center;gap:0.9rem;margin:1.4rem 0 1rem;}
+.search{position:relative;flex:1;min-width:200px;}
+.search svg{position:absolute;left:0;top:50%;transform:translateY(-50%);pointer-events:none;}
+.search input{width:100%;font-family:var(--sans);font-size:0.85rem;color:var(--id8-ink);background:transparent;border:none;border-bottom:1px solid var(--id8-hair);padding:0.45rem 0 0.45rem 1.3rem;outline:none;}
+.search input::placeholder{color:var(--id8-grey);}
+.search input:focus{border-bottom:1.5px solid var(--id8-ink);}
+
+.seg{display:flex;border:1px solid var(--id8-hair);border-radius:2px;overflow:hidden;flex-shrink:0;}
+.seg button{font-family:var(--sans);font-size:0.66rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;padding:0.5rem 0.8rem;background:transparent;border:none;color:var(--id8-grey);cursor:pointer;white-space:nowrap;}
+.seg button+button{border-left:1px solid var(--id8-hair);}
+.seg button.on{background:var(--id8-ink);color:var(--id8-paper);}
+
+.pills{display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:1.6rem;}
+.pill{font-family:var(--sans);font-size:0.66rem;font-weight:500;letter-spacing:0.05em;color:var(--id8-soft);background:transparent;border:1px solid var(--id8-hair);border-radius:2px;padding:0.32rem 0.6rem;cursor:pointer;}
+.pill:hover{border-color:var(--id8-ink);color:var(--id8-ink);}
+.pill b{color:var(--id8-ink);font-weight:700;margin-right:0.35rem;}
+.pill i{font-style:normal;color:var(--id8-grey);margin-left:0.35rem;}
+
+.section{margin-top:2.2rem;scroll-margin-top:24px;}
+.section:first-of-type{margin-top:0;}
+.sec-head{display:flex;align-items:baseline;gap:0.7rem;padding-bottom:0.6rem;margin-bottom:0.9rem;border-bottom:1px solid var(--id8-ink);}
+.code{font-family:var(--sans);font-size:0.66rem;font-weight:700;letter-spacing:0.05em;color:var(--id8-paper);background:var(--id8-ink);padding:2px 6px;border-radius:2px;align-self:center;}
+.code.firm{background:transparent;color:var(--id8-ink);border:1px solid var(--id8-ink);padding:1px 5px;}
+.sec-title{font-family:var(--serif);font-size:1.05rem;font-weight:500;}
+.sec-count{font-size:0.68rem;color:var(--id8-grey);margin-left:auto;white-space:nowrap;}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(258px,1fr));gap:1px;background:var(--id8-hair);border:1px solid var(--id8-hair);}
+.card{position:relative;display:flex;flex-direction:column;background:var(--id8-paper);padding:1rem 1.1rem 0.9rem;min-height:118px;text-decoration:none;}
+.card:hover{background:#F5F5F3;}
+.card .top{display:flex;align-items:center;justify-content:space-between;gap:0.5rem;margin-bottom:0.4rem;}
+.card .sub{font-size:0.66rem;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:var(--id8-grey);}
+.badge{display:inline-block;font-size:0.6rem;text-transform:uppercase;letter-spacing:0.1em;font-weight:600;padding:1px 6px;border:1px solid var(--id8-ink);}
+.badge--gate{background:var(--id8-ink);color:var(--id8-paper);}
+.badge--borderline{border-color:var(--id8-grey);color:var(--id8-soft);}
+.badge--below{border-color:var(--id8-hair);color:var(--id8-grey);}
+.card .title{font-family:var(--serif);font-size:0.98rem;font-weight:500;line-height:1.32;color:var(--id8-ink);flex:1;}
+.card .note{display:inline-block;font-size:0.6rem;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;color:var(--id8-soft);border:1px solid var(--id8-hair);padding:1px 6px;border-radius:2px;margin-top:0.5rem;align-self:flex-start;}
+.card .foot{display:flex;align-items:center;justify-content:space-between;gap:0.5rem;margin-top:0.7rem;}
+.card .domain{font-size:0.68rem;color:var(--id8-grey);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.card .arrow{color:var(--id8-grey);flex-shrink:0;}
+.card:hover .arrow{color:var(--id8-ink);}
+.empty{font-size:0.85rem;color:var(--id8-grey);padding:3rem 0;text-align:center;}
+
+footer{border-top:1px solid var(--id8-hair);max-width:1240px;margin:0 auto;padding:1.4rem 2rem 2.5rem;font-size:0.72rem;color:var(--id8-grey);display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;}
+
+@media (max-width:560px){ .controls{flex-direction:column;align-items:stretch;} }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="head-inner">
+    <span class="eyebrow">ID8 Investments · Research</span>
+    <h1>Market Map Directory</h1>
+    <p class="lede">A directory of market maps and landscape reports published by VC firms and research shops — organized by category and by firm, with a freshness read on each one.</p>
+    <div class="stats">
+      <span id="totalcount"></span><span></span>
+      <span id="catcount"></span><span></span>
+      <span id="firmcount"></span><span></span>
+      <span>Freshness as of Jul 2026</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="controls">
+    <div class="search">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="none">
+        <circle cx="7" cy="7" r="5" stroke="#828282" stroke-width="1.5"/>
+        <line x1="11" y1="11" x2="14.5" y2="14.5" stroke="#828282" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <input id="search" type="text" placeholder="Search firm, category, or map…" autocomplete="off" spellcheck="false">
+    </div>
+    <div class="seg" id="grpSeg">
+      <button data-grp="cat" class="on">By category</button>
+      <button data-grp="firm">By firm</button>
+    </div>
+    <div class="seg" id="freshSeg">
+      <button data-fr="all" class="on">All</button>
+      <button data-fr="fresh">Fresh</button>
+      <button data-fr="aging">Aging</button>
+      <button data-fr="stale">Stale</button>
+    </div>
+  </div>
+
+  <nav class="pills" id="pills"></nav>
+  <div id="board"></div>
+  <div class="empty" id="empty">No maps match those filters.</div>
+</main>
+
+<footer>
+  <span>ID8 Investments · Internal research directory · For informational purposes only</span>
+  <span><a href="/research/market-map-original.html">View original, unstyled directory →</a></span>
+</footer>
+
+<script>
+const DATA = [
+  {firm:"Bessemer", title:"Defense Tech Roadmap: Five Frontiers for 2026", cat:"Defense Tech", url:"https://www.bvp.com/atlas/defense-tech-roadmap-five-frontiers-for-2026", ym:202601, date:"Jan 2026", note:"Refreshed"},
+  {firm:"Emerging Defense", title:"Defense Tech Market Map", cat:"Defense Tech", url:"https://emergingdefense.xyz/market-map-v2", ym:202511, date:"Nov 2025"},
+  {firm:"Hartmann Capital", title:"Defense Tech", cat:"Defense Tech", url:"https://vcmaps.com/maps/defense-tech", ym:null, date:"Undated"},
+  {firm:"Andreessen Horowitz", title:"Space", cat:"Defense Tech", url:"https://a16z.com/space-a-market-map/", ym:null, date:"Undated"},
+
+  {firm:"CB Insights", title:"The Fraud Prevention Market Map for the AI Era", cat:"Fintech", url:"https://www.cbinsights.com/research/report/the-fraud-prevention-market-map-for-the-ai-era/", ym:202606, date:"Jun 2026"},
+  {firm:"Insight Partners", title:"Supercharging Financial Advisors: AI in Wealth Management", cat:"Fintech", url:"https://www.insightpartners.com/ideas/ai-wealth-management/", ym:202603, date:"Mar 2026"},
+  {firm:"Insight Partners", title:"AI in Financial Services Is Here", cat:"Fintech", url:"https://www.insightpartners.com/ideas/ai-in-financial-services/", ym:202512, date:"Dec 2025"},
+  {firm:"Sapphire Ventures", title:"Finance AI: Reinventing the Modern Finance Stack", cat:"Fintech", url:"https://sapphireventures.com/blog/from-spreadsheet-analysts-to-ai-agents-reinventing-the-modern-finance-stack/", ym:202511, date:"Nov 2025"},
+  {firm:"QED Investors", title:"Finance's Back Office Upgrade Cycle", cat:"Fintech", url:"https://www.qedinvestors.com/blog/finances-back-office-is-entering-its-biggest-upgrade-cycle-in-decades", ym:202510, date:"Oct 2025"},
+  {firm:"Mandalore Partners", title:"Fintech Venture Map 2025", cat:"Fintech", url:"https://www.mandalorepartners.com/research/mandalore-fintech-venture-map-2025", ym:202506, date:"2025"},
+  {firm:"Norwest", title:"Reimagining the CFO Software Stack", cat:"Fintech", url:"https://www.nvp.com/blog/market-map-reimagining-cfo-software-stack/", ym:202504, date:"Apr 2025"},
+  {firm:"Hartmann Capital", title:"Agentic Payments & AI Financial Infrastructure", cat:"Fintech", url:"https://vcmaps.com/maps/agentic-payments", ym:null, date:"Undated"},
+  {firm:"Contrary Research", title:"Fintech Infrastructure (Living Landscape)", cat:"Fintech", url:"https://research.contrary.com/report/living-landscape-fintech-infrastructure", ym:null, date:"Undated"},
+
+  {firm:"Cloud Security Alliance", title:"Agentic AI Security Innovator Market Map", cat:"Cybersecurity", url:"https://cloudsecurityalliance.org/artifacts/csa-innovator-market-map", ym:202606, date:"Jun 2026"},
+  {firm:"Menlo Ventures", title:"Agents for Security: The Tipping Point for Offensive AI", cat:"Cybersecurity", url:"https://menlovc.com/perspective/agents-for-security-the-tipping-point-for-offensive-ai/", ym:202603, date:"Mar 2026"},
+  {firm:"Menlo Ventures", title:"Rethinking Security for the Age of Autonomy", cat:"Cybersecurity", url:"https://menlovc.com/perspective/agents-for-security-and-the-opportunity-to-disrupt-securitys-giants/", ym:202511, date:"Nov 2025", note:"Refreshed"},
+  {firm:"Sapphire Ventures", title:"State of Cybersecurity: Growth, Risk, and Resilience", cat:"Cybersecurity", url:"https://sapphireventures.com/blog/state-of-cybersecurity-growth-risk-and-resilience/", ym:202508, date:"Aug 2025"},
+  {firm:"Hartmann Capital", title:"AI Cybersecurity", cat:"Cybersecurity", url:"https://vcmaps.com/maps/ai-cybersecurity", ym:null, date:"Undated"},
+  {firm:"Bessemer", title:"Data Privacy Engineering", cat:"Cybersecurity", url:"https://www.bvp.com/atlas/how-data-privacy-engineering-will-prevent-future-data-oil-spills", ym:null, date:"Undated"},
+
+  {firm:"Menlo Ventures", title:"Vertical AI (Healthcare): Software Finally Gets to Work", cat:"Healthcare", url:"https://menlovc.com/perspective/software-finally-gets-to-work-the-opportunity-in-vertical-ai/", ym:202604, date:"Apr 2026"},
+  {firm:"Menlo Ventures", title:"2025: The State of AI in Healthcare", cat:"Healthcare", url:"https://menlovc.com/perspective/2025-the-state-of-ai-in-healthcare/", ym:202510, date:"Oct 2025"},
+  {firm:"Sapphire Ventures", title:"The AI Healthcare Stack", cat:"Healthcare", url:"https://sapphireventures.com/blog/ai-healthcare-stack-data-automation-10x-provider-2025/", ym:202509, date:"Sep 2025"},
+  {firm:"Felicis", title:"Healthcare's Trillion-Dollar Admin Problem", cat:"Healthcare", url:"https://www.felicis.com/insight/healthcare-ai-admin", ym:202507, date:"Jul 2025"},
+  {firm:"Hartmann Capital", title:"Brain Computer Interface", cat:"Healthcare", url:"https://vcmaps.com/maps/brain-computer-interface", ym:null, date:"Undated"},
+  {firm:"Menlo Ventures", title:"Health Benefits Tech Market Map", cat:"Healthcare", url:"https://menlovc.com/wp-content/uploads/2023/01/benefits_tech_market_map-042121.pdf", ym:202104, date:"Apr 2021"},
+
+  {firm:"Legaltech Hub", title:"GenAI in Legal: Interactive Solutions Map", cat:"Legal", url:"https://www.legaltechnologyhub.com/", ym:202606, date:"Jun 2026"},
+  {firm:"The LegalTech Fund", title:"Early Stage Transactional Market Map", cat:"Legal", url:"https://www.legaltech.com/post/early-stage-transactional-market-map", ym:202603, date:"Mar 2026"},
+  {firm:"Hartmann Capital", title:"Legal AI", cat:"Legal", url:"https://vcmaps.com/maps/ai-legal-tech", ym:null, date:"Undated"},
+  {firm:"Battery Ventures", title:"Legal AI: The New Code of Law", cat:"Legal", url:"https://www.battery.com/blog/the-new-code-of-law/", ym:null, date:"Undated"},
+
+  {firm:"Andreessen Horowitz", title:"A Deep Dive Into MCP and the Future of AI Tooling", cat:"Developer Tools", url:"https://a16z.com/a-deep-dive-into-mcp-and-the-future-of-ai-tooling/", ym:202603, date:"Mar 2026"},
+  {firm:"CB Insights", title:"The AI Software Development Market Map", cat:"Developer Tools", url:"https://www.cbinsights.com/research/ai-software-development-market-map/", ym:202510, date:"Oct 2025"},
+  {firm:"Andreessen Horowitz", title:"The Trillion Dollar AI Software Development Stack", cat:"Developer Tools", url:"https://a16z.com/the-trillion-dollar-ai-software-development-stack/", ym:202510, date:"Oct 2025"},
+  {firm:"Bessemer", title:"Roadmap: Developer Tooling for Software 3.0", cat:"Developer Tools", url:"https://www.bvp.com/atlas/roadmap-developer-tooling-for-software-3-0", ym:202508, date:"Aug 2025"},
+  {firm:"Hartmann Capital", title:"AI DevTools", cat:"Developer Tools", url:"https://vcmaps.com/maps/ai-devtools", ym:null, date:"Undated"},
+
+  {firm:"Andreessen Horowitz", title:"The Top 100 Gen AI Consumer Apps (6th Ed.)", cat:"Cross-Industry Apps", url:"https://a16z.com/100-gen-ai-apps-6/", ym:202603, date:"Mar 2026"},
+  {firm:"Sapphire Ventures", title:"AI and the End of the Productivity Bundle", cat:"Cross-Industry Apps", url:"https://sapphireventures.com/blog/ai-and-the-end-of-the-productivity-bundle/", ym:202602, date:"Feb 2026"},
+  {firm:"Menlo Ventures", title:"Departmental AI (State of Enterprise AI 2025)", cat:"Cross-Industry Apps", url:"https://menlovc.com/wp-content/uploads/2025/12/menlo_ventures_enterprise_ai_report-2025-123125.pdf", ym:202512, date:"Dec 2025"},
+  {firm:"Andreessen Horowitz", title:"The AI Application Spending Report", cat:"Cross-Industry Apps", url:"https://a16z.com/the-ai-application-spending-report-where-startup-dollars-really-go/", ym:202510, date:"Oct 2025"},
+  {firm:"Lightspeed", title:"AI Enterprise Market Map: Cutting Through the Hype", cat:"Cross-Industry Apps", url:"https://lsvp.com/stories/ai-enterprise-market-map-cutting-through-the-hype/", ym:202505, date:"May 2025"},
+  {firm:"Sequoia", title:"Generative AI: Act Two", cat:"Cross-Industry Apps", url:"https://sequoiacap.com/article/generative-ai-act-two/", ym:202309, date:"Sep 2023"},
+  {firm:"Andreessen Horowitz", title:"AI x Productivity Tools", cat:"Cross-Industry Apps", url:"https://venturemarketmaps.com/m/2-a16z-ai-x-productivity-tools", ym:null, date:"Undated"},
+  {firm:"Hartmann Capital", title:"Computer Vision", cat:"Cross-Industry Apps", url:"https://vcmaps.com/maps/computer-vision", ym:null, date:"Undated"},
+
+  {firm:"Bessemer", title:"Agentic Commerce: The Rise of the Delegated Buyer", cat:"AI Agents", url:"https://www.bvp.com/atlas/agentic-commerce-the-rise-of-the-delegated-buyer", ym:202605, date:"May 2026"},
+  {firm:"Norwest", title:"From Click to Command: The Shift to Agentic Payments", cat:"AI Agents", url:"https://www.norwest.com/blog/agentic-payments/", ym:202604, date:"Apr 2026"},
+  {firm:"Insight Partners", title:"IAM in the Age of AI Agents", cat:"AI Agents", url:"https://www.insightpartners.com/ideas/iam-ai-agents/", ym:202603, date:"Mar 2026"},
+  {firm:"Andreessen Horowitz", title:"Your Data Agents Need Context", cat:"AI Agents", url:"https://www.a16z.news/p/your-data-agents-need-context", ym:202603, date:"Mar 2026"},
+  {firm:"Generational", title:"AI Agent App & Infrastructure Market Map", cat:"AI Agents", url:"https://datawrapper.dwcdn.net/s94df/4/", ym:202601, date:"Jan 2026"},
+  {firm:"CB Insights", title:"The AI Agent Market Map", cat:"AI Agents", url:"https://www.cbinsights.com/research/ai-agent-market-map-2025/", ym:202511, date:"Nov 2025"},
+
+  {firm:"Bessemer", title:"AI Infrastructure Roadmap: Five Frontiers for 2026", cat:"AI Infrastructure", url:"https://www.bvp.com/atlas/ai-infrastructure-roadmap-five-frontiers-for-2026", ym:202603, date:"Mar 2026"},
+  {firm:"Andreessen Horowitz", title:"Why We Need Continual Learning", cat:"AI Infrastructure", url:"https://www.a16z.news/p/why-we-need-continual-learning", ym:202604, date:"Apr 2026"},
+  {firm:"Foundation Capital", title:"Context Graphs: AI's Trillion-Dollar Opportunity", cat:"AI Infrastructure", url:"https://foundationcapital.com/context-graphs-ais-trillion-dollar-opportunity/", ym:202512, date:"Dec 2025"},
+  {firm:"Headline", title:"The Duality of Infrastructure Software Investing", cat:"AI Infrastructure", url:"https://headline.com/blog-latest/article-latest/the-duality-of-infrastructure-software-investing-i", ym:202503, date:"Mar 2025"},
+  {firm:"Bessemer", title:"Roadmap: AI Infrastructure", cat:"AI Infrastructure", url:"https://www.bvp.com/atlas/roadmap-ai-infrastructure", ym:null, date:"Undated"},
+  {firm:"Hartmann Capital", title:"AI Infrastructure", cat:"AI Infrastructure", url:"https://vcmaps.com/maps/ai-infrastructure", ym:null, date:"Undated"},
+  {firm:"Madrona", title:"The Rise of AI Agent Infrastructure", cat:"AI Infrastructure", url:"https://www.madrona.com/the-rise-of-ai-agent-infrastructure/", ym:null, date:"Undated"},
+
+  {firm:"Bessemer", title:"Roadmap: The AI Data Center Stack", cat:"AI Compute & Data Centers", url:"https://www.bvp.com/atlas/roadmap-the-ai-data-center-stack", ym:202605, date:"May 2026"},
+  {firm:"Redpoint", title:"The InfraRed Report 2026", cat:"AI Compute & Data Centers", url:"https://www.redpoint.com/reports/the-infrared-report-2026/", ym:202605, date:"May 2026"},
+  {firm:"Scale Venture Partners", title:"The Big Data Center Squeeze", cat:"AI Compute & Data Centers", url:"https://www.scalevp.com/blog/the-big-data-center-squeeze-getting-more-compute-from-existing-infrastructure", ym:202603, date:"Mar 2026"},
+  {firm:"Activant Capital", title:"AI Infrastructure: Compute — Sizing the Market", cat:"AI Compute & Data Centers", url:"https://activantcapital.com/research/ai-infra-compute", ym:202601, date:"Jan 2026"},
+  {firm:"CB Insights", title:"The Data Center Value Chain Market Map", cat:"AI Compute & Data Centers", url:"https://www.cbinsights.com/research/report/data-center-value-chain-market-map/", ym:202512, date:"Dec 2025"},
+  {firm:"SemiAnalysis", title:"ClusterMAX 2.0: GPU Cloud Rating System", cat:"AI Compute & Data Centers", url:"https://newsletter.semianalysis.com/p/clustermax-20-the-industry-standard", ym:202511, date:"Nov 2025"},
+
+  {firm:"New Market Pitch", title:"Semiconductor Startup Funding Landscape 2025–2026", cat:"Semiconductors & Photonics", url:"https://newmarketpitch.com/blogs/news/semiconductor-funding-analysis", ym:202606, date:"Jun 2026"},
+  {firm:"Semiconductor Engineering", title:"Startup Funding: Chips, Photonics & Agentic EDA (Q1 2026)", cat:"Semiconductors & Photonics", url:"https://semiengineering.com/startup-funding-q1-2026/", ym:202605, date:"May 2026"},
+
+  {firm:"Benhamou Global Ventures", title:"The State of the Energy Management Market", cat:"Energy AI", url:"https://benhamouglobalventures.com/energy-management-market/", ym:202512, date:"Dec 2025"},
+  {firm:"Axeleo Capital", title:"AI & Energy", cat:"Energy AI", url:"https://www.axc.vc/blog-posts/energy-ai", ym:202511, date:"Nov 2025"},
+
+  {firm:"Bessemer", title:"Bessemer Predicts: Robotics and Physical AI", cat:"Robotics & Physical AI", url:"https://www.bvp.com/atlas/bessemer-predicts-robotics-and-physical-ai", ym:202604, date:"Apr 2026"},
+  {firm:"Bessemer", title:"50 Startups Transforming Industries With Physical AI", cat:"Robotics & Physical AI", url:"https://www.bvp.com/atlas/50-startups-transforming-industries-with-physical-ai", ym:202603, date:"Mar 2026"},
+  {firm:"FOV Ventures", title:"FOV Robotics Market Map 2026 (Europe)", cat:"Robotics & Physical AI", url:"https://viewpoints.fov.ventures/p/fov-robotics-market-map-2026", ym:202603, date:"Mar 2026"},
+  {firm:"CB Insights", title:"The Physical AI Models Market Map", cat:"Robotics & Physical AI", url:"https://www.cbinsights.com/research/the-physical-ai-models-market-map/", ym:202601, date:"Jan 2026"},
+  {firm:"Insight Partners", title:"The State of the Robotics Ecosystem", cat:"Robotics & Physical AI", url:"https://www.insightpartners.com/ideas/the-state-of-the-robotics-ecosystem/", ym:202510, date:"Oct 2025"},
+  {firm:"Atlantic Vantage Point", title:"The Global Robotics Race", cat:"Robotics & Physical AI", url:"https://avpcap.com/the-global-robotics-race-and-how-robots-actually-work/", ym:202510, date:"Oct 2025"},
+  {firm:"Morgan Stanley", title:"The Humanoid 100: Mapping the Value Chain", cat:"Robotics & Physical AI", url:"https://advisor.morganstanley.com/john.howard/documents/field/j/jo/john-howard/The_Humanoid_100_-_Mapping_the_Humanoid_Robot_Value_Chain.pdf", ym:202502, date:"Feb 2025"},
+
+  {firm:"Madrona", title:"Voice Is Going Vertical", cat:"Voice AI", url:"https://www.madrona.com/voice-is-going-vertical-how-verticalized-voice-ai-is-becoming-the-next-killer-app/", ym:202506, date:"Jun 2025"},
+  {firm:"Sierra Ventures", title:"Transforming Voice: 150+ Voice AI Companies", cat:"Voice AI", url:"https://www.sierraventures.com/content/voice-ai-market-map", ym:202508, date:"Aug 2025"},
+  {firm:"NFX", title:"Voice AI Is Working: Where It Wins First", cat:"Voice AI", url:"https://www.nfx.com/post/voice-ai-is-working", ym:202505, date:"May 2025"},
+  {firm:"Andreessen Horowitz", title:"AI Voice Agents: 2025 Update", cat:"Voice AI", url:"https://a16z.com/ai-voice-agents-2025-update/", ym:202501, date:"Jan 2025"},
+  {firm:"Lightspeed", title:"The Future of Voice AI", cat:"Voice AI", url:"https://lsvp.com/stories/the-future-of-voice-our-thoughts-on-how-it-will-transform-conversational-ai/", ym:null, date:"Undated"},
+
+  {firm:"Machine Cinema", title:"AI Creative Market Map: Tools of the New Craft", cat:"Content Generation", url:"https://text.machinecinema.ai/p/ai-creative-market-map-the-tools", ym:202605, date:"May 2026"},
+  {firm:"Andreessen Horowitz", title:"There Is No God Tier Video Model", cat:"Content Generation", url:"https://a16z.substack.com/p/there-is-no-god-tier-video-model", ym:202510, date:"Oct 2025"},
+  {firm:"Andreessen Horowitz", title:"Content Generation & Editing", cat:"Content Generation", url:"https://venturemarketmaps.com/m/22-a16z-ai-content-generation-content-editing", ym:null, date:"Undated"},
+  {firm:"Hartmann Capital", title:"AI Video Generation", cat:"Content Generation", url:"https://vcmaps.com/maps/ai-video-generation", ym:null, date:"Undated"},
+  {firm:"Hartmann Capital", title:"AI Image Generation", cat:"Content Generation", url:"https://vcmaps.com/maps/ai-image-generation", ym:null, date:"Undated"},
+];
+
+const CAT_CODE = {
+  "AI Agents":"AG","Cross-Industry Apps":"XA","AI Compute & Data Centers":"CP","AI Infrastructure":"AI",
+  "Content Generation":"CG","Cybersecurity":"CY","Defense Tech":"DF","Developer Tools":"DV",
+  "Energy AI":"EN","Fintech":"FT","Healthcare":"HC",
+  "Legal":"LG","Robotics & Physical AI":"RB","Semiconductors & Photonics":"SP","Voice AI":"VO"
+};
+function fresh(ym){ if(ym==null) return "undated"; if(ym>=202601) return "fresh"; if(ym>=202507) return "aging"; return "stale"; }
+const FRESH_LABEL = {fresh:"Fresh", aging:"Aging", stale:"Stale", undated:"Undated"};
+const FRESH_BADGE = {fresh:"badge--gate", aging:"badge--borderline", stale:"badge--below", undated:"badge--below"};
+function firmCode(f){const p=f.split(/\s+/);return p.length===1?f.slice(0,2).toUpperCase():(p[0][0]+p[1][0]).toUpperCase();}
+function domain(u){try{return new URL(u).hostname.replace(/^www\./,"");}catch(e){return "";}}
+
+const board=document.getElementById("board");
+const pillsEl=document.getElementById("pills");
+const emptyEl=document.getElementById("empty");
+const searchEl=document.getElementById("search");
+let mode="cat", frFilter="all", q="";
+
+const ARROW='<svg class="arrow" width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5.5M12 4V10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+function cardHTML(d){
+  const fr=fresh(d.ym);
+  const note = d.note ? `<span class="note">${d.note}</span>` : "";
+  const sub = mode==="cat" ? d.firm : d.cat;
+  return `<a class="card" href="${d.url}" target="_blank" rel="noopener">
+    <div class="top"><span class="sub">${sub}</span><span class="badge ${FRESH_BADGE[fr]}">${FRESH_LABEL[fr]}</span></div>
+    <div class="title">${d.title}</div>
+    ${note}
+    <div class="foot"><span class="domain">${domain(d.url)}</span>${ARROW}</div>
+  </a>`;
+}
+function groupKey(d){return mode==="cat"?d.cat:d.firm;}
+function sortItems(items){
+  return items.slice().sort((a,b)=>{
+    const av=a.ym||0, bv=b.ym||0;
+    if(av!==bv) return bv-av;
+    return a.firm.localeCompare(b.firm);
+  });
+}
+function block(name,items,isFirm){
+  const it=sortItems(items);
+  const code = isFirm ? firmCode(name) : (CAT_CODE[name]||"");
+  return `<section class="section" id="sec-${name.replace(/\W+/g,'-')}">
+    <div class="sec-head"><span class="code${isFirm?' firm':''}">${code}</span><span class="sec-title">${name}</span>
+      <span class="sec-count">${it.length} ${it.length===1?'map':'maps'}</span></div>
+    <div class="grid">${it.map(cardHTML).join("")}</div></section>`;
+}
+
+function render(){
+  const rows=DATA.filter(d=>{
+    if(frFilter!=="all" && fresh(d.ym)!==frFilter) return false;
+    if(q && !(d.firm+" "+d.title+" "+d.cat+" "+domain(d.url)).toLowerCase().includes(q)) return false;
+    return true;
+  });
+  const byKey={};
+  rows.forEach(d=>{const k=groupKey(d);(byKey[k]=byKey[k]||[]).push(d);});
+  const keys=Object.keys(byKey).sort((a,b)=>a.localeCompare(b));
+
+  if(mode==="firm"){
+    pillsEl.style.display="none";
+  } else {
+    pillsEl.style.display="flex";
+    pillsEl.innerHTML=keys.map(k=>`<span class="pill" data-k="${k}"><b>${CAT_CODE[k]||""}</b>${k}<span class="i">${byKey[k].length}</span></span>`).join("");
+  }
+  board.innerHTML=keys.map(k=>block(k,byKey[k], mode==="firm")).join("");
+
+  emptyEl.style.display=rows.length?"none":"block";
+  pillsEl.querySelectorAll(".pill").forEach(p=>p.addEventListener("click",()=>{
+    const el=document.getElementById("sec-"+p.dataset.k.replace(/\W+/g,'-'));
+    if(el) el.scrollIntoView({behavior:"smooth",block:"start"});
+  }));
+}
+
+document.getElementById("totalcount").textContent=DATA.length+" maps";
+document.getElementById("catcount").textContent=new Set(DATA.map(d=>d.cat)).size+" categories";
+document.getElementById("firmcount").textContent=new Set(DATA.map(d=>d.firm)).size+" sources";
+
+searchEl.addEventListener("input",e=>{q=e.target.value.trim().toLowerCase();render();});
+document.getElementById("grpSeg").addEventListener("click",e=>{
+  const b=e.target.closest("button"); if(!b) return;
+  mode=b.dataset.grp;
+  [...e.currentTarget.children].forEach(x=>x.classList.toggle("on",x===b));
+  render();
+});
+document.getElementById("freshSeg").addEventListener("click",e=>{
+  const b=e.target.closest("button"); if(!b) return;
+  frFilter=b.dataset.fr;
+  [...e.currentTarget.children].forEach(x=>x.classList.toggle("on",x===b));
+  render();
+});
+
+render();
+</script>
+</body>
+</html>
