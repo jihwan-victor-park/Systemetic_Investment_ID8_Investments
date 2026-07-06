@@ -34,7 +34,7 @@ A directory of external VC market maps and industry landscape reports, browsable
 
 | What | Description | Link |
 | --- | --- | --- |
-| Market Map Directory | Restyled into the Latent Order system — search, category/firm grouping, freshness filter. | [View →](pathname:///research/market-map-directory.html) |
+| Market Map Directory | Restyled into the Latent Order system — search, category/firm grouping, freshness filter. | [View →](/docs/research/market-map) |
 | Market Map Directory (original) | The source directory as received, unstyled, kept for comparison. | [View →](pathname:///research/market-map-original.html) |
 
 ## How to add a document
