@@ -34,7 +34,7 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
-      colorMode: { defaultMode: 'light', respectPrefersColorScheme: true },
+      colorMode: { defaultMode: 'light', respectPrefersColorScheme: false, disableSwitch: true },
       navbar: {
         logo: {
           alt: 'ID8 Investments',
