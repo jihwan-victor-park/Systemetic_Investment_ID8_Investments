@@ -1,12 +1,18 @@
 #!/usr/bin/env bash
 #
 # Deploy self-hosted n8n to Google Cloud Run, backed by Cloud SQL Postgres.
-# Workflow triggers are webhooks (fired by the free Apps Script watcher in
-# drive-watcher.gs), so Cloud Run scales to zero between events.
+# Workflow triggers are native Google Drive Trigger / Sheets nodes inside n8n
+# (polling), which requires the instance to stay warm — Cloud Run cannot run
+# a background timer while scaled to zero. Previously this used webhooks
+# fired by an external Apps Script watcher (drive-watcher.gs) so Cloud Run
+# could scale to zero; that approach was dropped after repeated IAM
+# token / webhook-path drift issues. drive-watcher.gs is no longer used.
 #
-# Estimated cost: ~$25-35/mo (Cloud SQL db-custom-1-3840, the smallest tier
-# that runs n8n comfortably) + pennies of Cloud Run (scale-to-zero, only
-# billed while actually processing a drop).
+# Estimated cost: ~$25-35/mo (Cloud SQL db-custom-1-3840) + ~$60-70/mo for
+# Cloud Run kept always-on (min-instances=1, --no-cpu-throttling — required
+# so the Drive Trigger's background poll isn't CPU-starved between requests).
+# Total ~$90-100/mo. Check the GCP pricing calculator / actual billing for
+# a precise number; this is a rough estimate.
 #
 # Prereqs:
 #   - gcloud CLI installed and authenticated (gcloud auth login)
@@ -117,19 +123,24 @@ gcloud projects add-iam-policy-binding "$PROJECT_ID" \
   --role="roles/cloudsql.client" >/dev/null
 
 echo "==> Deploying to Cloud Run"
-# Cost-saving flags:
-#   --min-instances=0  : scale to zero — n8n only runs when a webhook fires (~weekly).
+# Flags:
+#   --min-instances=1  : always warm — required for n8n's native Drive/Sheets
+#     Trigger nodes to poll on their own schedule. (Was 0/scale-to-zero back
+#     when triggers were external webhooks; no longer applies.)
 #   --max-instances=1  : n8n regular mode requires a single instance.
 #   --add-cloudsql-instances: mounts the Cloud SQL Unix socket at /cloudsql/<connection-name>.
 #   --no-cpu-throttling: without this, CPU is throttled except while actively
-#     handling a request — n8n 2.x's DB connection-monitor/ping background work
-#     during boot was getting CPU-starved by that throttling, causing spurious
-#     "Database ping failed" / "Connection terminated" errors on every cold
-#     start (never an issue on 1.x, which doesn't have this background
-#     monitor). Costs a bit more per request; worth it for a stable boot.
+#     handling a request. Originally added because n8n 2.x's DB
+#     connection-monitor/ping background work during boot was getting
+#     CPU-starved, causing spurious "Database ping failed" errors. Now also
+#     required so the Drive/Sheets Trigger polling loop isn't starved between
+#     requests. Costs meaningfully more since the instance is always on
+#     (see cost estimate above); worth it for reliability.
 #
-# WEBHOOK_URL must be the public URL. Deploy once with a placeholder, capture the real
-# URL, then re-deploy with it set so webhook paths and any OAuth callbacks resolve correctly.
+# WEBHOOK_URL is still set for n8n's internal callback/editor URLs (OAuth
+# redirects, editor base URL) even though nothing external POSTs to it anymore.
+# Deploy once with a placeholder, capture the real URL, then re-deploy with it
+# set so those URLs resolve correctly.
 
 deploy () {
   local webhook_url="$1"
@@ -141,7 +152,7 @@ deploy () {
     --port=5678 \
     --cpu=1 \
     --memory=1Gi \
-    --min-instances=0 \
+    --min-instances=1 \
     --max-instances=1 \
     --timeout=3600 \
     --no-cpu-throttling \
@@ -165,22 +176,23 @@ cat <<EOF
    DB_PASSWORD         = $DB_PASSWORD
    (both also stored in Secret Manager)
 
- Estimated cost: ~\$25-35/mo
-   - Cloud SQL: $SQL_TIER, always-on (this is the real cost driver)
-   - Cloud Run: min=0, scale-to-zero — pennies, only billed while processing a drop
+ Estimated cost: ~\$90-100/mo (rough — verify against actual billing)
+   - Cloud SQL: $SQL_TIER, always-on
+   - Cloud Run: min=1, always warm, --no-cpu-throttling — the new cost driver
+     now that triggers are native polling nodes instead of webhooks
    - Artifact Registry + Secret Manager: negligible
 
  NEXT STEPS:
- 1. Open $URL and create your owner account.
+ 1. Open $URL and create your owner account (skip if already provisioned).
  2. Google Cloud Console → APIs & Services → Credentials → create/edit your
     OAuth client for Drive/Gmail/Sheets → add Authorized redirect URI:
       ${URL}/rest/oauth2-credential/callback
  3. Re-authenticate Google Drive, Gmail, and Google Sheets credentials inside n8n.
- 4. Import n8n-cloudrun/ID8_PB-Attio_webhook.json into n8n.
- 5. Reattach the re-authorized credentials to the flagged nodes.
- 6. Activate the workflow — copy the 4 Production webhook URLs
-    (pitchbook-drop, watchlist-drop, top10-drop, jesse-deals).
- 7. Paste ${URL} into drive-watcher.gs as N8N_BASE, deploy it at
-    script.google.com, run installTriggers() once.
+ 4. In the "ID8 PB-Attio" workflow, confirm each Google Drive Trigger node's
+    folder ID and poll interval, and fix any flagged (red-warning) nodes —
+    usually a stale credential.
+ 5. Activate the workflow and confirm runs show up in the Executions tab.
+ 6. drive-watcher.gs / Apps Script is no longer needed — safe to delete its
+    triggers (or the whole script project) once step 5 is confirmed working.
 ────────────────────────────────────────────────────────────
 EOF
