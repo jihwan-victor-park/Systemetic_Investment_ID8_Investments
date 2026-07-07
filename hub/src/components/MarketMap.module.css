@@ -1,5 +1,14 @@
 .board { margin: 1.2rem 0 2rem; }
 
+.tabs { display: flex; gap: 1.6rem; border-bottom: 1px solid var(--id8-hair); margin-bottom: 1.2rem; }
+.tabs button {
+  font-size: 0.74rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em;
+  background: transparent; border: none; border-bottom: 2px solid transparent; color: var(--id8-grey);
+  padding: 0 0 0.6rem; cursor: pointer; margin-bottom: -1px; transition: color 0.15s, border-color 0.15s;
+}
+.tabs button:hover { color: var(--id8-ink); }
+.tabs .on { color: var(--id8-accent); border-bottom-color: var(--id8-accent); }
+
 .stats { font-size: 0.72rem; color: var(--id8-grey); letter-spacing: 0.02em; margin-bottom: 1.1rem; }
 .stats span + span::before { content: "·"; margin: 0 0.5rem; opacity: 0.5; }
 
@@ -59,6 +68,13 @@
 .card:hover { background: var(--id8-row-alt, #F5F5F3); text-decoration: none; }
 .cardTop { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.4rem; }
 .cardSub { font-size: 0.66rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--id8-grey); }
+.date { display: inline-flex; align-items: center; gap: 6px; font-size: 0.66rem; font-weight: 600; letter-spacing: 0.02em; white-space: nowrap; flex-shrink: 0; color: var(--id8-ink); }
+.dot { width: 8px; height: 8px; border-radius: 2px; display: inline-block; flex-shrink: 0; }
+.d-fresh .dot { background: var(--id8-fresh-dot); }
+.d-aging .dot { background: var(--id8-aging-dot); }
+.d-stale .dot { background: var(--id8-stale-dot); }
+.d-undated { color: var(--id8-grey); }
+.d-undated .dot { background: var(--id8-grey); }
 .cardTitle { font-family: 'Roboto Serif', Georgia, serif; font-size: 0.98rem; font-weight: 500; line-height: 1.32; color: var(--id8-ink); flex: 1; }
 .note {
   display: inline-block; font-size: 0.6rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
@@ -72,7 +88,42 @@
 
 .empty { font-size: 0.85rem; color: var(--id8-grey); padding: 3rem 0; text-align: center; }
 
+/* Add-new tab: same hairline-input language as the admin idea board */
+.addWrap { margin-top: 0.2rem; }
+.addForm { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.9rem 1.6rem; align-items: start; margin-bottom: 1.8rem; }
+.addFull { grid-column: 1 / -1; }
+.addLabel { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--id8-grey); margin-bottom: 0.3rem; }
+.addInput {
+  width: 100%; font-family: 'Sora', sans-serif; font-size: 0.9rem; color: var(--id8-ink);
+  background: transparent; border: none; border-bottom: 1px solid var(--id8-hair); padding: 0.4rem 0; border-radius: 0;
+}
+.addInput::placeholder { color: var(--id8-grey); }
+.addInput:focus { outline: none; border-bottom: 1.5px solid var(--id8-accent); }
+.addActions { display: flex; gap: 1.4rem; align-items: center; margin-top: 0.2rem; }
+.addBtn {
+  font-family: 'Sora', sans-serif; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 600;
+  color: var(--id8-paper); background: var(--id8-ink); border: none; padding: 0.5rem 1.1rem; cursor: pointer; border-radius: 2px;
+}
+.addBtn:hover { opacity: 0.85; }
+.copyBtn {
+  font-family: 'Sora', sans-serif; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 600;
+  color: var(--id8-accent); background: transparent; border: none; border-bottom: 1px solid var(--id8-accent); padding-bottom: 2px; cursor: pointer;
+}
+.copyBtn:hover { opacity: 0.6; }
+
+.pendingHead { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--id8-grey); padding-bottom: 0.6rem; margin-bottom: 0.9rem; border-bottom: 1px solid var(--id8-ink); }
+.pendingCard { position: relative; }
+.pendingDel {
+  position: absolute; top: 0.5rem; right: 0.6rem; z-index: 1; background: none; border: none;
+  color: var(--id8-grey); cursor: pointer; font-size: 1rem; line-height: 1; padding: 2px 4px;
+}
+.pendingDel:hover { color: var(--id8-stale); }
+
+.hint { font-size: 0.75rem; color: var(--id8-grey); margin-top: 0.8rem; }
+.hint code { font-size: 0.9em; }
+
 @media (max-width: 560px) {
   .controls { flex-direction: column; align-items: stretch; }
   .seg { align-self: flex-start; }
+  .addForm { grid-template-columns: 1fr; }
 }

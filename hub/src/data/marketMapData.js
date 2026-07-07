@@ -122,10 +122,25 @@ export const CAT_CODE = {
   "Legal": "LG", "Robotics & Physical AI": "RB", "Semiconductors & Photonics": "SP", "Voice AI": "VO",
 };
 
-export function freshness(ym) {
+function ymNow() {
+  const d = new Date();
+  return d.getFullYear() * 100 + (d.getMonth() + 1);
+}
+
+// Months between a published ym and a reference ym (defaults to the real current month) —
+// checked against the clock every call, so "fresh" keeps rolling forward instead of going
+// stale itself once the hardcoded cutoffs are in the past.
+function monthsAgo(ym, ref) {
+  const y1 = Math.floor(ym / 100), m1 = ym % 100;
+  const y2 = Math.floor(ref / 100), m2 = ref % 100;
+  return (y2 - y1) * 12 + (m2 - m1);
+}
+
+export function freshness(ym, ref = ymNow()) {
   if (ym == null) return "undated";
-  if (ym >= 202601) return "fresh";
-  if (ym >= 202507) return "aging";
+  const age = monthsAgo(ym, ref);
+  if (age <= 6) return "fresh";
+  if (age <= 12) return "aging";
   return "stale";
 }
 
@@ -136,4 +151,24 @@ export function firmCode(f) {
 
 export function domainOf(u) {
   try { return new URL(u).hostname.replace(/^www\./, ""); } catch (e) { return ""; }
+}
+
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+// Turns a "2026-07" <input type="month"> value into the { ym, date } pair the data rows use.
+export function ymFromMonthInput(value) {
+  const [y, m] = value.split("-").map(Number);
+  return { ym: y * 100 + m, date: `${MONTHS[m - 1]} ${y}` };
+}
+
+export function firmsList() {
+  return [...new Set(MARKET_MAPS.map((m) => m.firm))].sort((a, b) => a.localeCompare(b));
+}
+
+// If this domain already appears in the directory, suggest the firm that published it.
+export function firmForDomain(url) {
+  const domain = domainOf(url);
+  if (!domain) return "";
+  const hit = MARKET_MAPS.find((m) => domainOf(m.url) === domain);
+  return hit ? hit.firm : "";
 }

@@ -64,9 +64,9 @@
 }
 .cardDesc { font-size: 0.9rem; color: var(--id8-soft); line-height: 1.55; }
 .cardStatus { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--id8-grey); margin-top: 0.9rem; }
-.cardStatus::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 5px; background: var(--id8-grey); }
-.cardStatus[data-status="Live"] { color: var(--id8-fresh); }
-.cardStatus[data-status="Live"]::before { background: var(--id8-fresh); }
+.cardStatus::before { content: ''; display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 6px; background: var(--id8-grey); }
+.cardStatus[data-status="Live"] { color: var(--id8-ink); }
+.cardStatus[data-status="Live"]::before { background: var(--id8-fresh-dot); }
 
 @media (max-width: 768px) {
   .headline { font-size: 2.4rem; }

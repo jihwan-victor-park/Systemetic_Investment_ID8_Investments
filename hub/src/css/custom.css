@@ -17,11 +17,15 @@
   --id8-hair: #E4DFD5;
 
   /* Sharp accent + status colors — used for links, active states, and freshness/status reads only. Never a background or card fill. */
-  --id8-accent: #2B45D0;
-  --id8-accent-bg: #F0F2FC;
-  --id8-fresh: #2E7D32;
-  --id8-aging: #B4791F;
-  --id8-stale: #B4302B;
+  --id8-accent: #112ED4;
+  --id8-accent-bg: #E4E9FC;
+  --id8-fresh: #009E49;
+  --id8-aging: #A67C00;
+  --id8-stale: #F2000F;
+  /* Full-saturation versions for small decorative swatches (status dots) — legible text needs the toned versions above, but a dot is pure color. */
+  --id8-fresh-dot: #00D95C;
+  --id8-aging-dot: #FFC400;
+  --id8-stale-dot: #FF1A1A;
 
   --ifm-color-primary: #1A1A1A;
   --ifm-color-primary-dark: #000000;
@@ -61,11 +65,14 @@ html[data-theme='dark'] {
   --id8-ink: #FBFAF7;
   --id8-hair: #333029;
 
-  --id8-accent: #7C93FF;
-  --id8-accent-bg: rgba(124, 147, 255, 0.14);
-  --id8-fresh: #5FB365;
-  --id8-aging: #D9A441;
-  --id8-stale: #D9615C;
+  --id8-accent: #8FA0FF;
+  --id8-accent-bg: rgba(143, 160, 255, 0.18);
+  --id8-fresh: #2ED66F;
+  --id8-aging: #FFCC33;
+  --id8-stale: #FF5C4D;
+  --id8-fresh-dot: #3CF086;
+  --id8-aging-dot: #FFDD55;
+  --id8-stale-dot: #FF6B5C;
 
   --ifm-color-primary: #FBFAF7;
   --ifm-background-color: #1A1A1A;
@@ -127,14 +134,13 @@ h1, h2, h3, h4 { font-family: 'Roboto Serif', Georgia, serif; letter-spacing: -0
   display: inline-block; font-family: 'Sora', sans-serif; font-size: 0.62rem; font-weight: 700;
   text-transform: uppercase; letter-spacing: 0.06em; padding: 2px 7px; border-radius: 2px; line-height: 1.5;
 }
-.badge--gate { color: var(--id8-fresh); background: color-mix(in srgb, var(--id8-fresh) 12%, transparent); }
-.badge--borderline { color: var(--id8-aging); background: color-mix(in srgb, var(--id8-aging) 12%, transparent); }
-.badge--below { color: var(--id8-stale); background: color-mix(in srgb, var(--id8-stale) 12%, transparent); }
+.badge--gate { color: var(--id8-fresh); background: color-mix(in srgb, var(--id8-fresh) 16%, transparent); }
+.badge--borderline { color: var(--id8-aging); background: color-mix(in srgb, var(--id8-aging) 16%, transparent); }
+.badge--below { color: var(--id8-stale); background: color-mix(in srgb, var(--id8-stale) 16%, transparent); }
 
-.status-pill { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 600; }
-.status-pill::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 5px; }
-.status-live { color: var(--id8-fresh); }
-.status-live::before { background: var(--id8-fresh); }
+.status-pill { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 600; color: var(--id8-ink); }
+.status-pill::before { content: ''; display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 6px; }
+.status-live::before { background: var(--id8-fresh-dot); }
 
 /* Code: quiet, hairline, no heavy box */
 .markdown pre, code { font-family: 'Roboto Mono', Consolas, monospace; }
