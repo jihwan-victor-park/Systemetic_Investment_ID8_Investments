@@ -8,8 +8,6 @@
 }
 
 .inner {
-  max-width: var(--ifm-container-width-xl);
-  margin: 0 auto;
   height: 100%;
   padding: 0 1.5rem;
   display: flex;

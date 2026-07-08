@@ -1,9 +1,7 @@
 .layout {
-  max-width: var(--ifm-container-width-xl);
-  margin: 0 auto;
   padding: 0 1.5rem;
   display: grid;
-  grid-template-columns: 240px minmax(0, 1fr) 220px;
+  grid-template-columns: 240px minmax(0, 750px) 240px;
   gap: 2.5rem;
   align-items: start;
 }
