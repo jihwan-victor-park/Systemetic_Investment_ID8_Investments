@@ -17,16 +17,46 @@
 }
 
 .category {
-  margin-bottom: 1.4rem;
+  margin-bottom: 0.2rem;
 }
 
-.categoryLabel {
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  color: var(--id8-grey);
-  font-weight: 600;
+.categoryRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem;
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
   padding: 0.4rem 0.6rem;
+  border-radius: 4px;
+}
+.categoryRow:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.categoryLink,
+.categoryLabelText {
+  flex: 1;
+  color: var(--id8-ink);
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-decoration: none;
+}
+.categoryLink:hover {
+  text-decoration: none;
+}
+
+.chevronBtn {
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px;
 }
 
 .chevron {
@@ -39,22 +69,8 @@
   transform: rotate(90deg);
 }
 
-.categoryLabelButton {
-  composes: categoryLabel;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font: inherit;
-  text-align: left;
-}
-
 .categoryItems {
-  margin-left: 0.4rem;
-  border-left: 1px solid var(--id8-hair);
+  margin-left: 0.9rem;
 }
 
 .main {
@@ -63,11 +79,12 @@
 }
 
 .breadcrumbs {
-  font-size: 0.78rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: 0.85rem;
   color: var(--id8-grey);
   margin-bottom: 1.2rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
 }
 
 .homeLink {
@@ -88,6 +105,14 @@
 
 .crumbSep {
   margin: 0 0.5rem;
+}
+
+.crumbCurrent {
+  background: var(--id8-hair);
+  color: var(--id8-soft);
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 0.8rem;
 }
 
 .toc {

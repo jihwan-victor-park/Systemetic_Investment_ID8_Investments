@@ -7,7 +7,7 @@ import { getSidebarTree, getBreadcrumbs, containsPath } from '@/data/sidebarConf
 import styles from './DocsShell.module.css';
 
 function SidebarItem({ item, pathname }) {
-  const [open, setOpen] = useState(() => containsPath(item, pathname));
+  const [open, setOpen] = useState(() => !item.collapsed || containsPath(item, pathname));
 
   useEffect(() => {
     if (containsPath(item, pathname)) setOpen(true);
@@ -23,39 +23,39 @@ function SidebarItem({ item, pathname }) {
     );
   }
 
-  // category
-  if (item.collapsed) {
-    return (
-      <div className={styles.category}>
-        <button type="button" className={styles.categoryLabelButton} onClick={() => setOpen((v) => !v)}>
-          <span>{item.label}</span>
-          <span className={styles.chevron} data-open={open}>›</span>
-        </button>
-        {open && (
-          <div className={styles.categoryItems}>
-            {item.items.map((child) => (
-              <SidebarItem key={child.href || child.label} item={child} pathname={pathname} />
-            ))}
-          </div>
-        )}
-      </div>
-    );
-  }
-
+  // category — every category is collapsible with a chevron; `collapsed`
+  // only controls the initial open state (Projects/Research start open,
+  // Companies starts closed), matching how Docusaurus actually renders them.
+  const chevron = (
+    <span className={styles.chevron} data-open={open} aria-hidden="true">›</span>
+  );
   return (
     <div className={styles.category}>
       {item.href ? (
-        <Link href={item.href} className={styles.categoryLabel}>
-          {item.label}
-        </Link>
+        <div className={styles.categoryRow}>
+          <Link href={item.href} className={styles.categoryLink}>{item.label}</Link>
+          <button
+            type="button"
+            className={styles.chevronBtn}
+            onClick={() => setOpen((v) => !v)}
+            aria-label={open ? 'Collapse' : 'Expand'}
+          >
+            {chevron}
+          </button>
+        </div>
       ) : (
-        <div className={styles.categoryLabel}>{item.label}</div>
+        <button type="button" className={styles.categoryRow} onClick={() => setOpen((v) => !v)}>
+          <span className={styles.categoryLabelText}>{item.label}</span>
+          {chevron}
+        </button>
       )}
-      <div className={styles.categoryItems}>
-        {item.items.map((child) => (
-          <SidebarItem key={child.href || child.label} item={child} pathname={pathname} />
-        ))}
-      </div>
+      {open && (
+        <div className={styles.categoryItems}>
+          {item.items.map((child) => (
+            <SidebarItem key={child.href || child.label} item={child} pathname={pathname} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -100,12 +100,19 @@ export default function DocsShell({ companies = [], children }) {
         {breadcrumbs.length > 0 && (
           <div className={styles.breadcrumbs}>
             <Link href="/" className={styles.homeLink} aria-label="Home">⌂</Link>
-            {breadcrumbs.map((b) => (
-              <span key={b.href || b.label}>
-                <span className={styles.crumbSep}>›</span>
-                {b.href ? <Link href={b.href}>{b.label}</Link> : <span>{b.label}</span>}
-              </span>
-            ))}
+            {breadcrumbs.map((b, i) => {
+              const isLast = i === breadcrumbs.length - 1;
+              return (
+                <span key={b.href || b.label}>
+                  <span className={styles.crumbSep}>›</span>
+                  {isLast ? (
+                    <span className={styles.crumbCurrent}>{b.label}</span>
+                  ) : (
+                    <Link href={b.href}>{b.label}</Link>
+                  )}
+                </span>
+              );
+            })}
           </div>
         )}
         <div className="markdown" ref={contentRef}>

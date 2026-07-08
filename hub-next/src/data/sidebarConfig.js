@@ -28,7 +28,7 @@ export function getSidebarTree(companies = []) {
           collapsed: true,
           items: companies.map((c) => ({ type: 'doc', href: `/docs/research/companies/${c.slug}`, label: c.name })),
         },
-        { type: 'doc', href: '/docs/research/market-map', label: 'Market Map' },
+        { type: 'doc', href: '/docs/research/market-map', label: 'Market Map Directory' },
       ],
     },
     { type: 'doc', href: '/docs/admin', label: 'Admin' },
