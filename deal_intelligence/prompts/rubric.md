@@ -25,14 +25,27 @@ A score of 1 must mean the anchor is *confirmed* true — not "we couldn't find
 a number." Several anchors below are written specifically so that missing or
 undisclosed data lands on a 2, not a 1:
 
-- Revenue, NDR, burn, or LTV/CAC not publicly disclosed → **Fundamentals: 2
-  max**, not 1. Write `[NOT PUBLIC]` in the evidence, never estimate. This is
-  the common, expected case for a later-stage private company that simply
-  doesn't publish metrics — it is not the same fact pattern as a company
-  that discloses genuinely weak numbers (sub-$5M ARR, sub-40% growth), which
-  *is* a real 1. The distinction is disclosure, not existence: a pre-revenue
-  or pre-commercial company (nothing to disclose) is a genuine weak score,
-  not a data-availability gap.
+- Revenue, NDR, burn, or LTV/CAC not publicly disclosed → work the research
+  harder before conceding the gap. First, search press/funding coverage and
+  Crunchbase/PitchBook-style estimates thoroughly. Second, check founder/exec
+  podcast appearances, conference talks, and interviews for informally-stated
+  metrics. Third, if a real number still isn't findable, triangulate an
+  `[ESTIMATED]` range: carry forward the revenue multiple implied by a prior
+  disclosed round (revenue at that round's valuation) to the current
+  valuation, cross-checked against a second estimate from comp-set revenue
+  multiples applied to the current valuation. Report both when they diverge
+  rather than forcing one number. An `[ESTIMATED]` figure scores 2, 3, or 4 on
+  its own merits — never 1, a 1 is reserved for a *confirmed* bad number —
+  and caps Diligence Confidence at MEDIUM, never HIGH. Only write
+  `[NOT PUBLIC]` and land on a flat 2 as the last resort, when no prior-round
+  data or usable comps exist at all; even then, let moat/defensibility,
+  business model quality, and press-evidenced impact/scale (enterprise logos,
+  market penetration, analyst characterization of traction) inform the score
+  rather than just excusing a default 2. This is not the same fact pattern as
+  a company that discloses genuinely weak numbers (sub-$5M ARR, sub-40%
+  growth), which *is* a real 1. The distinction is disclosure, not existence:
+  a pre-revenue or pre-commercial company (nothing to disclose, nothing to
+  estimate from) is a genuine weak score, not a data-availability gap.
 - Founder background unverifiable (thin press, no LinkedIn signal) →
   **Founder / Team Quality: 2 max**, flag `[unverified]`.
 - Non-Tier-1 lead at Series B+ → **Lead / Round Dynamics: 2** — a real, known
@@ -98,16 +111,23 @@ investors/advisors · founder presence in press, conferences, technical
 writing · co-founder dynamics.
 
 **Fundamentals (20%)** — moat strength and competitive positioning ·
-valuation vs. revenue and margins · sector disruption risk. Revenue multiple
-vs. comp set is mandatory in every screen; write `[NOT PUBLIC]` if
-unavailable, never estimate.
+valuation vs. revenue and margins · sector disruption risk. A revenue
+multiple vs. comp set is mandatory in every screen: search hard for a real
+disclosed number first; if none exists, triangulate an `[ESTIMATED]` range
+(prior-round multiple carried forward, cross-checked against comp-set
+multiples applied to the current valuation) per the estimation method above.
+Only fall back to `[NOT PUBLIC]` when estimation genuinely isn't possible.
 
 | Score | Anchor |
 | --- | --- |
 | 4 | $50M+ ARR, 100%+ YoY growth, NDR >130%, LTV/CAC >5x, burn <20% of revenue. Strong defensible moat, sector not at acute disruption risk. |
 | 3 | $25M+ ARR, >70% growth, NDR >110%, LTV/CAC >3x, burn <50% of revenue. Moat real but moderate. Valuation defensible vs. public comps. |
-| 2 | Early traction, some positive signals, most metrics below threshold — OR NDR/burn/LTV:CAC/revenue simply not public (see "missing data" above). Either way, flag Diligence Confidence LOW when this 2 reflects a data gap rather than weak metrics. |
-| 1 | **(hard auto-pass)** *Confirmed* sub-$5M ARR, sub-40% growth, NDR <100%, LTV/CAC <2x, burn >100% of revenue — not merely undisclosed. Pre-revenue/pre-commercial companies with nothing to disclose also land here; that is a real gap, not a data-availability one. |
+| 2 | Early traction, some positive signals, most metrics below threshold — OR an `[ESTIMATED]` range lands below the $25M/70%-growth bar — OR no real number or usable estimate exists at all (`[NOT PUBLIC]`, last resort). Flag Diligence Confidence LOW when this 2 reflects a data gap with no usable estimate, MEDIUM when it reflects a genuine `[ESTIMATED]` figure. |
+| 1 | **(hard auto-pass)** *Confirmed* sub-$5M ARR, sub-40% growth, NDR <100%, LTV/CAC <2x, burn >100% of revenue — not merely undisclosed, and never reached via an `[ESTIMATED]` figure alone. Pre-revenue/pre-commercial companies with nothing to disclose also land here; that is a real gap, not a data-availability one. |
+
+An `[ESTIMATED]` figure can land any of scores 2-4 depending on where it
+falls against these anchors — it is never itself a 1, and it caps Diligence
+Confidence at MEDIUM (see "Missing data is not the same as bad data" above).
 
 **Return Potential (20%)** — no valuation caps. Score on realistic MOIC/IRR
 given entry price, growth rate, dilution, and exit path. Ask what the

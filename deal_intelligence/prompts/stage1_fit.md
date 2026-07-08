@@ -58,14 +58,40 @@ scores.
 
 Private, later-stage companies routinely do not publish revenue, NDR, burn,
 or LTV/CAC. That is normal and does not by itself mean the company is weak —
-it means the score rests on thinner evidence. The rubric below tells you
-exactly which dimensions land on a 2 (not a 1) when data is missing rather
-than confirmed-bad, and the `"confidence"` field exists precisely to carry
-that distinction forward: a 3.1 built on solid press coverage is not the same
-claim as a 3.1 built on almost nothing, even though the number looks
-identical. Never let missing data silently default to the worst score, and
-never fabricate a number to fill the gap — write `[NOT PUBLIC]` or
-`[unverified]` in the evidence instead.
+it means the score rests on thinner evidence, and it means you have to work
+*harder* before conceding the gap, not less.
+
+For Fundamentals specifically: do not skip straight to `[NOT PUBLIC]`.
+1. Search press/funding coverage and Crunchbase/PitchBook-style estimates
+   thoroughly.
+2. Check founder/exec podcast appearances, conference talks, and interviews
+   for informally-stated metrics.
+3. If a real number still isn't findable, triangulate an `[ESTIMATED]` range:
+   carry forward the revenue multiple implied by a prior disclosed round (at
+   that round's valuation) to the current valuation, cross-checked against a
+   second estimate from comp-set revenue multiples applied to the current
+   valuation. Report both when they diverge rather than forcing one number.
+
+A labeled `[ESTIMATED]` figure scores like a real number (2, 3, or 4 — never
+1) but caps Diligence Confidence at MEDIUM, never HIGH, and can never by
+itself trigger the Fundamentals hard-auto-pass — that still requires a
+*confirmed* disclosure of weak numbers. Only write `[NOT PUBLIC]` and land on
+a flat 2 when no prior-round data or usable comps exist at all — and even
+then, let moat/defensibility, business model quality, and press-evidenced
+impact/scale (enterprise logos, market penetration, analyst characterization
+of traction) inform the score rather than just excusing a default 2.
+
+The same "search harder before conceding" standard applies to Founder / Team
+Quality: exhaust LinkedIn history, past-company outcomes, press, and
+conference/podcast appearances before landing on `[unverified]` — that flag
+is for when the trail genuinely runs out, not a default for a quick look.
+
+The `"confidence"` field exists precisely to carry the distinction between a
+verified number, a disciplined estimate, and genuine data absence forward: a
+3.1 built on solid press coverage is not the same claim as a 3.1 built on
+almost nothing, even though the number looks identical. Never fabricate a
+number without labeling it `[ESTIMATED]` and showing the triangulation math,
+and never let missing data silently default to the worst score.
 
 ## Rubric
 
