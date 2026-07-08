@@ -79,6 +79,17 @@ async def score_deal(deal: DealInput) -> DealFit:
         sc = float(item.get("score", 0) or 0)
         param_scores[key] = sc
         params.append(ParamScore(key=key, score=sc, weight=weight_by_key[key], evidence=item.get("evidence", "")))
+    if not params:
+        # Either Perplexity's response didn't parse as JSON at all, or it parsed
+        # but had no "params" array we could read -- either way we got no real
+        # rubric scores. Raising here (instead of scoring an empty dict) is what
+        # lets run()'s guard below tell "scoring broke" apart from "we scored it
+        # and it's genuinely weak": a real score can never hit fit_score 0.0,
+        # since the rubric floor is 1 per dimension.
+        raise ValueError(
+            f"no usable rubric params in Perplexity response for {deal.name!r} "
+            f"(raw response, first 500 chars): {raw[:500]!r}"
+        )
     fit_score = rubric.weighted_score(param_scores)
     raw_avg = rubric.raw_score(param_scores)
     hard_auto_pass = _truthy(parsed.get("hard_auto_pass", False))
@@ -94,7 +105,9 @@ async def score_deal(deal: DealInput) -> DealFit:
 
 
 async def run(deals: list) -> list:
-    """Score all deals with bounded concurrency. Failures become low-confidence zeros."""
+    """Score all deals with bounded concurrency. Failures get quality_tier="error"
+    (never the default "pass") so a broken scoring run can't be mistaken for a
+    real screening decision downstream (Attio, hub pages, email)."""
     sem = asyncio.Semaphore(config.STAGE1_PARALLEL)
 
     async def guarded(d):
@@ -103,6 +116,7 @@ async def run(deals: list) -> list:
                 return await score_deal(d)
             except Exception as e:  # keep the batch alive
                 return DealFit(record_id=d.record_id, name=d.name, fit_score=0.0,
-                               rationale=f"scoring failed: {e}", confidence="low", gate=False)
+                               rationale=f"scoring failed: {e}", confidence="low", gate=False,
+                               quality_tier="error")
 
     return await asyncio.gather(*[guarded(d) for d in deals])

@@ -3,9 +3,9 @@ synthesis and scoring. Both via plain HTTP so there is no SDK dependency."""
 import asyncio
 import json
 import re
-import requests
 
 from . import config
+from .net import session
 
 
 def _extract_json(text: str):
@@ -45,7 +45,7 @@ def perplexity(prompt: str, model: str = None, timeout: int = 90, temperature: f
         payload["temperature"] = temperature
     headers = {"Authorization": f"Bearer {config.PERPLEXITY_API_KEY}",
                "Content-Type": "application/json"}
-    r = requests.post(config.PERPLEXITY_URL, json=payload, headers=headers, timeout=timeout)
+    r = session.post(config.PERPLEXITY_URL, json=payload, headers=headers, timeout=timeout)
     r.raise_for_status()
     data = r.json()
     content = data["choices"][0]["message"]["content"]
@@ -66,7 +66,7 @@ def claude(system: str, prompt: str, model: str = None, max_tokens: int = 4000, 
                "system": system, "messages": [{"role": "user", "content": prompt}]}
     headers = {"x-api-key": config.ANTHROPIC_API_KEY,
                "anthropic-version": "2023-06-01", "Content-Type": "application/json"}
-    r = requests.post(config.ANTHROPIC_URL, json=payload, headers=headers, timeout=timeout)
+    r = session.post(config.ANTHROPIC_URL, json=payload, headers=headers, timeout=timeout)
     r.raise_for_status()
     parts = r.json().get("content", [])
     return "".join(p.get("text", "") for p in parts if p.get("type") == "text")

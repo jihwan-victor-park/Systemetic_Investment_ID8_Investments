@@ -13,7 +13,8 @@ from .schemas import DealFit
 
 PARAM_LABELS = {p["key"]: p["label"] for p in rubric.PARAMS}
 TIER_LABEL = {"strong_go": "Strong Go", "go_ic": "Go / IC Review",
-              "more_diligence": "More Diligence", "pass": "Pass", "watch_list": "Watch List"}
+              "more_diligence": "More Diligence", "pass": "Pass", "watch_list": "Watch List",
+              "error": "Scoring Failed"}
 
 CHARCOAL = "#1A1A1A"
 GREY = "#828282"
@@ -23,6 +24,7 @@ PASS_BG = "#EAF3DE"
 MORE_DILIGENCE_BG = "#FBF0D9"
 WATCH_LIST_BG = "#E8EEF5"
 FAIL_BG = "#F5F5F5"
+ERROR_BG = "#F5DCDC"
 BODY_FONT = "'Sora', 'Helvetica Neue', Arial, sans-serif"
 
 
@@ -35,7 +37,11 @@ def _esc(text) -> str:
 def _badge(fit: DealFit) -> tuple:
     """(background color, badge text). hard_auto_pass and watch_list are
     reported by the model, not derived from fit_score, and take precedence
-    over the threshold bands (see stage1_fit.py)."""
+    over the threshold bands (see stage1_fit.py). quality_tier == "error"
+    means scoring itself broke (see stage1_fit.run) -- checked first so a
+    broken run is never rendered as a real Pass."""
+    if fit.quality_tier == "error":
+        return ERROR_BG, "SCORING FAILED — NOT SCREENED"
     if fit.hard_auto_pass:
         return FAIL_BG, "HARD AUTO-PASS"
     if fit.quality_tier == "watch_list":

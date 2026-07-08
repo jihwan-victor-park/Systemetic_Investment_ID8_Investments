@@ -9,10 +9,9 @@ the PUT doesn't conflict; if it's new it's created. The .docx is base64-encoded
 in the PUT body — GitHub accepts binary blobs this way up to ~50 MB.
 """
 import base64
-import io
 import os
 
-import requests
+from .net import session
 
 _API = "https://api.github.com"
 _BRANCH = os.getenv("GH_BRANCH", "main")
@@ -31,8 +30,8 @@ def _headers():
 
 def _get_sha(repo: str, path: str) -> str | None:
     """Return the blob SHA of an existing file, or None if it doesn't exist."""
-    r = requests.get(f"{_API}/repos/{repo}/contents/{path}",
-                     headers=_headers(), params={"ref": _BRANCH}, timeout=15)
+    r = session.get(f"{_API}/repos/{repo}/contents/{path}",
+                    headers=_headers(), params={"ref": _BRANCH}, timeout=15)
     if r.status_code == 200:
         return r.json().get("sha")
     return None
@@ -46,8 +45,8 @@ def _put_file(repo: str, path: str, content_bytes: bytes, message: str, sha: str
     }
     if sha:
         body["sha"] = sha
-    r = requests.put(f"{_API}/repos/{repo}/contents/{path}",
-                     headers=_headers(), json=body, timeout=30)
+    r = session.put(f"{_API}/repos/{repo}/contents/{path}",
+                    headers=_headers(), json=body, timeout=30)
     r.raise_for_status()
     return r.json()
 

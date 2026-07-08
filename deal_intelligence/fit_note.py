@@ -40,14 +40,19 @@ _LOGO = os.path.join(_REPO_ROOT, "design", "assets", "id8_charcoal.png")
 
 PARAM_LABELS = {p["key"]: p["label"] for p in rubric.PARAMS}
 TIER_LABEL = {"strong_go": "Strong Go", "go_ic": "Go / IC Review",
-              "more_diligence": "More Diligence", "pass": "Pass", "watch_list": "Watch List"}
+              "more_diligence": "More Diligence", "pass": "Pass", "watch_list": "Watch List",
+              "error": "Scoring Failed"}
 
 
 def _badge_text(fit: DealFit) -> str:
     """Short status text for the fit-score badge, in title case -- callers
     apply .upper() (docx) or .lower() (markdown/email prose) as needed.
     hard_auto_pass and watch_list are reported by the model, not derived from
-    fit_score, and take precedence over the threshold bands (see stage1_fit.py)."""
+    fit_score, and take precedence over the threshold bands (see stage1_fit.py).
+    quality_tier == "error" means scoring itself broke (see stage1_fit.run) --
+    checked first so a broken run is never rendered as a real Pass."""
+    if fit.quality_tier == "error":
+        return "Scoring Failed — Not Screened"
     if fit.hard_auto_pass:
         return "Pass — Hard Auto-Pass"
     if fit.quality_tier == "watch_list":

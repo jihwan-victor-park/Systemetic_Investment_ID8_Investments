@@ -5,9 +5,8 @@ Write-back uses Attio's write value formats (see project memory): number is
 skipped for any field whose slug is not configured, so this is safe to run before
 the Attio fields exist.
 """
-import requests
-
 from . import config
+from .net import session
 from .schemas import DealInput, DealFit, DealMemo
 
 
@@ -36,7 +35,7 @@ def get_qualified_deals(limit: int = 500) -> list:
         raise RuntimeError("ATTIO_API_KEY not set")
     url = f"{config.ATTIO_BASE}/objects/{config.DEALS_OBJECT}/records/query"
     body = {"filter": {config.STAGE_SLUG: config.QUALIFIED_VALUE}, "limit": limit}
-    r = requests.post(url, json=body, headers=_headers(), timeout=60)
+    r = session.post(url, json=body, headers=_headers(), timeout=60)
     r.raise_for_status()
     deals = []
     for rec in r.json().get("data", []):
@@ -59,7 +58,7 @@ def _patch(record_id: str, attio_values: dict):
     if not attio_values:
         return
     url = f"{config.ATTIO_BASE}/objects/{config.DEALS_OBJECT}/records/{record_id}"
-    requests.patch(url, json={"data": {"values": attio_values}}, headers=_headers(), timeout=60).raise_for_status()
+    session.patch(url, json={"data": {"values": attio_values}}, headers=_headers(), timeout=60).raise_for_status()
 
 
 def write_fit(fit: DealFit, hub_url: str = None):

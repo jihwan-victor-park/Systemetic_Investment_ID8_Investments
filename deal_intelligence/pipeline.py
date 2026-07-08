@@ -70,6 +70,7 @@ async def screen(deals: list, dry_run: bool = False, publish: bool = False) -> d
         "more_diligence": sum(1 for f in fits if f.quality_tier == "more_diligence"),
         "watch_list": sum(1 for f in fits if f.quality_tier == "watch_list"),
         "hard_auto_pass": sum(1 for f in fits if f.hard_auto_pass),
+        "errors": sum(1 for f in fits if f.quality_tier == "error"),
         "stage1": [{"name": f.name, "fit_score": f.fit_score, "raw_score": f.raw_score, "gate": f.gate,
                     "tier": f.quality_tier, "hard_auto_pass": f.hard_auto_pass,
                     "hub_url": hub_urls.get(f.record_id)} for f in fits],
