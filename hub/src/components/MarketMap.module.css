@@ -59,13 +59,17 @@
 .secTitle { font-family: 'Roboto Serif', Georgia, serif; font-size: 1.05rem; font-weight: 500; color: var(--id8-ink); }
 .secCount { font-size: 0.68rem; color: var(--id8-grey); margin-left: auto; letter-spacing: 0.03em; white-space: nowrap; }
 
-.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
 .card {
-  position: relative; display: flex; flex-direction: column; background: var(--id8-paper);
-  border: 1px solid var(--id8-hair); padding: 1rem 1.1rem 0.9rem; min-height: 118px;
-  text-decoration: none; transition: background 0.15s ease;
+  position: relative; display: flex; flex-direction: column; background: var(--id8-card);
+  border: 1px solid var(--id8-hair); border-radius: 3px; padding: 1rem 1.1rem 0.9rem; min-height: 118px;
+  text-decoration: none; box-shadow: var(--id8-shadow);
+  transition: box-shadow 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
 }
-.card:hover { background: var(--id8-row-alt, #F5F5F3); text-decoration: none; }
+.card:hover {
+  text-decoration: none; border-color: var(--id8-grey); box-shadow: var(--id8-shadow-hover);
+  transform: translateY(-1px);
+}
 .cardTop { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.4rem; }
 .cardSub { font-size: 0.66rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--id8-grey); }
 .date { display: inline-flex; align-items: center; gap: 6px; font-size: 0.66rem; font-weight: 600; letter-spacing: 0.02em; white-space: nowrap; flex-shrink: 0; color: var(--id8-ink); }

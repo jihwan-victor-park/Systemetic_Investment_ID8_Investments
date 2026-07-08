@@ -15,6 +15,9 @@
   --id8-grey: #828282;
   --id8-soft: #3C3C3C;
   --id8-hair: #E4DFD5;
+  --id8-card: #FFFFFF;
+  --id8-shadow: 0 1px 2px rgba(26, 26, 26, 0.04), 0 6px 16px rgba(26, 26, 26, 0.05);
+  --id8-shadow-hover: 0 2px 4px rgba(26, 26, 26, 0.05), 0 10px 22px rgba(26, 26, 26, 0.08);
 
   /* Sharp accent + status colors — used for links, active states, and freshness/status reads only. Never a background or card fill. */
   --id8-accent: #112ED4;
