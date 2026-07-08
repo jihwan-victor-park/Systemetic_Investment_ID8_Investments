@@ -107,8 +107,10 @@ export default function DocsShell({ companies = [], children }) {
                   <span className={styles.crumbSep}>›</span>
                   {isLast ? (
                     <span className={styles.crumbCurrent}>{b.label}</span>
-                  ) : (
+                  ) : b.href ? (
                     <Link href={b.href}>{b.label}</Link>
+                  ) : (
+                    <span>{b.label}</span>
                   )}
                 </span>
               );

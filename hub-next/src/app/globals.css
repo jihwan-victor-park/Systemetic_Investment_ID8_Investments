@@ -68,6 +68,9 @@ html, body {
   font-size: var(--ifm-font-size-base);
   line-height: var(--ifm-line-height-base);
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 a { color: var(--ifm-link-color); }
@@ -76,9 +79,28 @@ a { color: var(--ifm-link-color); }
 h1, h2, h3, h4 { font-family: var(--ifm-heading-font-family); letter-spacing: -0.01em; color: var(--id8-ink); }
 
 .markdown h1:first-child { font-size: 2.3rem; font-weight: 500; margin-bottom: 0.4rem; }
-.markdown h2 { font-size: 1.4rem; font-weight: 500; margin-top: 2rem; padding-bottom: 0.3rem; border-bottom: 1px solid var(--id8-hair); }
-.markdown h3 { font-size: 1.08rem; font-weight: 600; font-family: 'Sora', sans-serif; margin-top: 1.3rem; }
+.markdown h2 { font-size: 1.4rem; font-weight: 500; margin-top: 2rem; margin-bottom: 0.9rem; padding-bottom: 0.3rem; border-bottom: 1px solid var(--id8-hair); }
+.markdown h3 { font-size: 1.08rem; font-weight: 600; font-family: 'Sora', sans-serif; margin-top: 1.6rem; margin-bottom: 0.6rem; }
+.markdown h4 { font-size: 0.95rem; font-weight: 600; font-family: 'Sora', sans-serif; margin-top: 1.3rem; margin-bottom: 0.5rem; }
 .markdown > p, .markdown li { color: var(--id8-soft); }
+
+/* Base prose rhythm — Docusaurus gets this for free from Infima's reset;
+   porting it explicitly since nothing else here provides it. */
+.markdown p { margin: 0 0 1rem; }
+.markdown ul, .markdown ol { margin: 0 0 1rem; padding-left: 1.4rem; }
+.markdown li { margin-bottom: 0.4rem; line-height: 1.6; }
+.markdown li:last-child { margin-bottom: 0; }
+.markdown li > ul, .markdown li > ol { margin-top: 0.4rem; margin-bottom: 0.4rem; }
+.markdown li::marker { color: var(--id8-grey); }
+.markdown img { max-width: 100%; height: auto; }
+.markdown strong { font-weight: 600; color: var(--id8-ink); }
+.markdown blockquote {
+  margin: 1rem 0;
+  padding: 0 0 0 1rem;
+  border-left: 2px solid var(--id8-hair);
+  color: var(--id8-grey);
+}
+.markdown blockquote > :last-child { margin-bottom: 0; }
 
 .markdown a { color: var(--id8-accent); text-underline-offset: 2px; }
 .markdown a:hover { text-decoration: underline; }

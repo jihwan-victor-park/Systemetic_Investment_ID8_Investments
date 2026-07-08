@@ -8,6 +8,16 @@ export const metadata = { title: 'Research', description: 'The knowledge base be
 
 export const dynamic = 'force-dynamic';
 
+// research/index.md hand-authors this table with shorter labels than the
+// company docs' own frontmatter titles (which carry a PitchBook category
+// suffix, e.g. "Pocket (Business/Productivity Software)") — the sidebar and
+// the company page's own H1 show the full title; only this table doesn't.
+const COMPANY_SHORT_NAME = {
+  heypocket: 'Pocket',
+  warp: 'Warp',
+  getpie: 'PieTech',
+};
+
 export default async function ResearchIndexPage() {
   const [companies, decks] = await Promise.all([listCompanies(), listDealResearchDecks()]);
   const sortedCompanies = [...companies].sort((a, b) => {
@@ -31,7 +41,7 @@ export default async function ResearchIndexPage() {
         <tbody>
           {sortedCompanies.map((c) => (
             <tr key={c.slug}>
-              <td>{c.name}</td>
+              <td>{COMPANY_SHORT_NAME[c.slug] || c.name}</td>
               <td>
                 {c.latestScreen ? `${c.latestScreen.date.slice(0, 10)}${c.latestScreen.roundStage ? ` · ${c.latestScreen.roundStage}` : ''}` : '—'}
               </td>
