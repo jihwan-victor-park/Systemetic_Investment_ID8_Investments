@@ -30,31 +30,50 @@ function SidebarItem({ item, pathname }) {
     <span className={styles.chevron} data-open={open} aria-hidden="true">›</span>
   );
   const isActiveBranch = containsPath(item, pathname);
+
+  // The accent rail should stop right after the item leading to the current
+  // page, not run the full length of the list — split children into the
+  // "on the way there" portion (rail) and everything after it (plain).
+  const activeIdx = item.items.findIndex((child) => containsPath(child, pathname));
+  const railItems = activeIdx >= 0 ? item.items.slice(0, activeIdx + 1) : item.items;
+  const restItems = activeIdx >= 0 ? item.items.slice(activeIdx + 1) : [];
+
   return (
-    <div className={styles.category} data-active-branch={isActiveBranch}>
-      {item.href ? (
-        <div className={styles.categoryRow}>
-          <Link href={item.href} className={styles.categoryLink}>{item.label}</Link>
-          <button
-            type="button"
-            className={styles.chevronBtn}
-            onClick={() => setOpen((v) => !v)}
-            aria-label={open ? 'Collapse' : 'Expand'}
-          >
+    <div className={styles.category}>
+      <div className={styles.rail} data-active={isActiveBranch}>
+        {item.href ? (
+          <div className={styles.categoryRow}>
+            <Link href={item.href} className={styles.categoryLink}>{item.label}</Link>
+            <button
+              type="button"
+              className={styles.chevronBtn}
+              onClick={() => setOpen((v) => !v)}
+              aria-label={open ? 'Collapse' : 'Expand'}
+            >
+              {chevron}
+            </button>
+          </div>
+        ) : (
+          <button type="button" className={styles.categoryRow} onClick={() => setOpen((v) => !v)}>
+            <span className={styles.categoryLabelText}>{item.label}</span>
             {chevron}
           </button>
+        )}
+        <div className={styles.categoryItemsWrapper} data-open={open}>
+          <div className={styles.categoryItemsInner}>
+            {railItems.map((child) => (
+              <SidebarItem key={child.href || child.label} item={child} pathname={pathname} />
+            ))}
+          </div>
         </div>
-      ) : (
-        <button type="button" className={styles.categoryRow} onClick={() => setOpen((v) => !v)}>
-          <span className={styles.categoryLabelText}>{item.label}</span>
-          {chevron}
-        </button>
-      )}
-      {open && (
-        <div className={styles.categoryItems}>
-          {item.items.map((child) => (
-            <SidebarItem key={child.href || child.label} item={child} pathname={pathname} />
-          ))}
+      </div>
+      {restItems.length > 0 && (
+        <div className={styles.categoryItemsWrapper} data-open={open}>
+          <div className={styles.categoryItemsInner}>
+            {restItems.map((child) => (
+              <SidebarItem key={child.href || child.label} item={child} pathname={pathname} />
+            ))}
+          </div>
         </div>
       )}
     </div>

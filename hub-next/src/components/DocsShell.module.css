@@ -34,13 +34,20 @@
 
 .category {
   margin-bottom: 0.2rem;
-  border-left: 2px solid transparent;
 }
-.category[data-active-branch="true"] {
+
+/* Wraps the category's own row plus only the children on the path to the
+   current page — so the accent rule ends right after the highlighted item
+   instead of running the full length of the list. */
+.rail {
+  border-left: 2px solid transparent;
+  transition: border-color 0.15s ease;
+}
+.rail[data-active="true"] {
   border-left-color: var(--id8-accent);
 }
-.category[data-active-branch="true"] > .categoryRow .categoryLink,
-.category[data-active-branch="true"] > .categoryRow .categoryLabelText {
+.rail[data-active="true"] > .categoryRow .categoryLink,
+.rail[data-active="true"] > .categoryRow .categoryLabelText {
   color: var(--id8-accent);
 }
 
@@ -91,13 +98,27 @@
   display: inline-block;
   font-size: 0.9rem;
   color: var(--id8-grey);
-  transition: transform 0.15s ease;
+  transition: transform 0.2s ease;
 }
 .chevron[data-open="true"] {
   transform: rotate(90deg);
 }
 
-.categoryItems {
+/* Animates height between 0 and content-height without measuring anything
+   in JS — the grid-template-rows 0fr/1fr trick. Docusaurus's own sidebar
+   categories expand/collapse smoothly instead of snapping open. */
+.categoryItemsWrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.2s ease;
+}
+.categoryItemsWrapper[data-open="true"] {
+  grid-template-rows: 1fr;
+}
+
+.categoryItemsInner {
+  overflow: hidden;
+  min-height: 0;
   margin-left: 0.9rem;
 }
 
