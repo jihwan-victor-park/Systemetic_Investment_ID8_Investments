@@ -36,6 +36,16 @@ const SESSION_COOKIE = '__session';
 const SESSION_MAX_AGE_MS = 5 * 24 * 60 * 60 * 1000; // 5 days
 const PUBLIC_ROUTE = '/investors';
 
+// The Firebase Web API key is not a secret (Firebase's own security model
+// assumes it's public), but it still shouldn't sit in a committed file --
+// keeping it as a Cloud Run env var means rotating it never touches git.
+const FIREBASE_WEB_API_KEY = process.env.FIREBASE_WEB_API_KEY;
+if (!FIREBASE_WEB_API_KEY) {
+  throw new Error('Refusing to start: FIREBASE_WEB_API_KEY env var is not set.');
+}
+const LOGIN_HTML = fs.readFileSync(path.join(__dirname, 'login.html'), 'utf8')
+  .replace('__FIREBASE_WEB_API_KEY__', FIREBASE_WEB_API_KEY);
+
 function publicAssetPathsFromPage(htmlRelPath) {
   const html = fs.readFileSync(path.join(BUILD_DIR, htmlRelPath), 'utf8');
   const paths = new Set();
@@ -125,7 +135,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.get('/login', (req, res) => {
-  res.sendFile(path.join(__dirname, 'login.html'));
+  res.type('html').send(LOGIN_HTML);
 });
 
 app.post('/sessionLogin', async (req, res) => {

@@ -44,12 +44,10 @@
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
   <script>
-    // TODO(oscar): replace with the values from Firebase Console ->
-    // Project settings -> General -> Your apps -> Web app (add one if none
-    // exists yet). apiKey is not a secret -- it's meant to be public;
-    // security comes from the domain check the server does on every request.
+    // apiKey is injected server-side from the FIREBASE_WEB_API_KEY env var
+    // (see server/index.js) so it never has to live in this file or in git.
     const firebaseConfig = {
-      apiKey: 'TODO_FIREBASE_WEB_API_KEY',
+      apiKey: '__FIREBASE_WEB_API_KEY__',
       authDomain: 'molten-crowbar-498920-q8.firebaseapp.com',
       projectId: 'molten-crowbar-498920-q8',
     };

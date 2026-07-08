@@ -19,9 +19,17 @@ through the "shared" assets directory.
    Hosting domain should already be listed once you deploy; if not, add it.
 3. **Project settings → General → Your apps** — add a **Web app** if one
    doesn't exist yet. Copy its `apiKey` (this is not secret, it's meant to be
-   public — the actual access control happens server-side).
-4. Paste that `apiKey` (and confirm `authDomain`/`projectId`) into
-   `server/login.html`, replacing `TODO_FIREBASE_WEB_API_KEY`.
+   public — the actual access control happens server-side) and confirm
+   `authDomain`/`projectId` in `server/login.html` match your project.
+4. Set it as an env var on the Cloud Run service (one-time, or whenever it's
+   rotated) rather than committing it to the file:
+   ```bash
+   gcloud run services update id8-cloud-intelligence \
+     --region=us-central1 \
+     --update-env-vars=FIREBASE_WEB_API_KEY=<the apiKey>
+   ```
+   `server/index.js` reads `FIREBASE_WEB_API_KEY` at startup and refuses to
+   boot if it's unset — `login.html` never has the real key baked into it.
 
 ## Grant Firebase Hosting permission to call the private Cloud Run service
 
