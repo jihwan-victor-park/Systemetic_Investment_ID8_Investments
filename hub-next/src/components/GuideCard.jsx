@@ -1,5 +1,4 @@
-import Image from "next/image";
-import styles from "./GuideCard.module.css";
+import styles from './GuideCard.module.css';
 
 // A designed artifact card: cover thumbnail + the formatted, downloadable edition.
 export default function GuideCard({ title, meta, cover, docx, pdf }) {
@@ -7,7 +6,7 @@ export default function GuideCard({ title, meta, cover, docx, pdf }) {
     <div className={styles.card}>
       <div className={styles.coverWrap}>
         <a href={pdf || docx} target="_blank" rel="noopener noreferrer">
-          <Image className={styles.cover} src={cover} alt={`${title} cover`} width={420} height={544} />
+          <img className={styles.cover} src={cover} alt={`${title} cover`} />
         </a>
       </div>
       <div className={styles.body}>

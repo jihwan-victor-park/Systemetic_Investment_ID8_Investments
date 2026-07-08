@@ -1,27 +1,28 @@
+# --- deps -------------------------------------------------------------------
 FROM node:20-slim AS deps
 WORKDIR /app
 COPY package.json package-lock.json* ./
-RUN npm install
+RUN npm install --omit=dev
 
-FROM node:20-slim AS builder
+# --- build --------------------------------------------------------------------
+FROM node:20-slim AS build
 WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
+COPY package.json package-lock.json* ./
+RUN npm install
 COPY . .
-# Build-time placeholders — NextAuth needs these set to construct routes during
-# `next build`, but no real auth happens until the container runs with real envs.
-ENV AUTH_SECRET=build-placeholder
 ENV NEXT_TELEMETRY_DISABLED=1
 RUN npm run build
 
+# --- runner -------------------------------------------------------------------
 FROM node:20-slim AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV PORT=8080
 
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/.next/standalone ./
-COPY --from=builder /app/.next/static ./.next/static
+COPY --from=build /app/.next/standalone ./
+COPY --from=build /app/.next/static ./.next/static
+COPY --from=build /app/public ./public
 
 EXPOSE 8080
 CMD ["node", "server.js"]

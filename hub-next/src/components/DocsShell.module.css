@@ -1,0 +1,122 @@
+.layout {
+  max-width: var(--ifm-container-width-xl);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr) 220px;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+.sidebar {
+  position: sticky;
+  top: calc(var(--ifm-navbar-height) + 2rem);
+  padding: 2.5rem 0;
+  max-height: calc(100vh - var(--ifm-navbar-height) - 2rem);
+  overflow-y: auto;
+}
+
+.category {
+  margin-bottom: 1.4rem;
+}
+
+.categoryLabel {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--id8-grey);
+  font-weight: 600;
+  padding: 0.4rem 0.6rem;
+}
+
+.chevron {
+  display: inline-block;
+  font-size: 0.9rem;
+  color: var(--id8-grey);
+  transition: transform 0.15s ease;
+}
+.chevron[data-open="true"] {
+  transform: rotate(90deg);
+}
+
+.categoryLabelButton {
+  composes: categoryLabel;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+}
+
+.categoryItems {
+  margin-left: 0.4rem;
+  border-left: 1px solid var(--id8-hair);
+}
+
+.main {
+  padding: 2.5rem 0 5rem;
+  min-width: 0;
+}
+
+.breadcrumbs {
+  font-size: 0.78rem;
+  color: var(--id8-grey);
+  margin-bottom: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.homeLink {
+  text-decoration: none;
+  color: var(--id8-grey);
+  font-size: 0.9rem;
+}
+
+.breadcrumbs a {
+  color: var(--id8-grey);
+  text-decoration: none;
+}
+
+.breadcrumbs a:hover {
+  color: var(--id8-ink);
+  text-decoration: underline;
+}
+
+.crumbSep {
+  margin: 0 0.5rem;
+}
+
+.toc {
+  position: sticky;
+  top: calc(var(--ifm-navbar-height) + 2rem);
+  padding: 2.5rem 0 2.5rem 1rem;
+}
+
+.tocTitle {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--id8-grey);
+  font-weight: 600;
+  margin-bottom: 0.6rem;
+}
+
+.tocList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+@media (max-width: 996px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+  .sidebar,
+  .toc {
+    display: none;
+  }
+}

@@ -1,47 +1,44 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import Image from "next/image";
-import { usePathname } from "next/navigation";
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import styles from './Navbar.module.css';
 
-const INTERNAL = [
-  { href: "/docs/overview", label: "AI Capabilities" },
-  { href: "/docs/projects/pitchbook-attio", label: "Systems", match: "/docs/projects" },
-  { href: "/docs/research", label: "Research" },
-  { href: "/docs/admin", label: "Admin" },
+const INTERNAL_LINKS = [
+  { href: '/docs/overview', label: 'AI Capabilities' },
+  { href: '/docs/projects/pitchbook-attio', label: 'Systems' },
+  { href: '/docs/research', label: 'Research' },
+  { href: '/docs/admin', label: 'Admin' },
 ];
 
 export default function Navbar() {
-  const pathname = usePathname() || "";
-  // The public investor view hides the internal tabs (mirrors the old hub).
-  const investorView = pathname.startsWith("/investors");
-
-  const isActive = (item) =>
-    pathname === item.href || (item.match && pathname.startsWith(item.match)) ||
-    (item.href !== "/docs/overview" && pathname.startsWith(item.href));
+  const pathname = usePathname();
+  const isInvestorView = pathname === '/investors';
 
   return (
-    <nav className="navbar">
-      <div className="navbar__inner">
-        <Link href="/" aria-label="ID8 Investments">
-          <Image className="navbar__logo" src="/img/logo_charcoal.png" alt="ID8" width={60} height={15} priority />
-        </Link>
-        {!investorView && (
-          <div className="navbar__links">
-            {INTERNAL.map((item) => (
+    <header className={styles.navbar}>
+      <div className={styles.inner}>
+        <div className={styles.left}>
+          <Link href="/" className={styles.brand}>
+            <img src="/img/logo_charcoal.png" alt="ID8 Investments" className={styles.logo} />
+          </Link>
+          {!isInvestorView &&
+            INTERNAL_LINKS.map((l) => (
               <Link
-                key={item.href}
-                href={item.href}
-                className={`navbar__link${isActive(item) ? " navbar__link--active" : ""}`}
+                key={l.href}
+                href={l.href}
+                className={`${styles.link} ${pathname.startsWith(l.href) ? styles.linkActive : ''}`}
               >
-                {item.label}
+                {l.label}
               </Link>
             ))}
-          </div>
-        )}
-        <div className="navbar__spacer" />
-        <Link href="/investors" className="navbar__link">Investor View</Link>
+        </div>
+        <div className={styles.right}>
+          <Link href="/investors" className={`${styles.link} ${isInvestorView ? styles.linkActive : ''}`}>
+            Investor View
+          </Link>
+        </div>
       </div>
-    </nav>
+    </header>
   );
 }

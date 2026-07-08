@@ -1,8 +1,7 @@
-import styles from "./QualityFunnel.module.css";
+import styles from './QualityFunnel.module.css';
 
 // Animated quality funnel: the market streams in, AI filters it at each gate,
-// and only a few hubs remain. Static dot positions (seeded), CSS drives motion,
-// so this is safe as a server component — no client JS needed.
+// and only a few hubs remain. Shows how sourcing quality is assured.
 function mulberry32(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
 
 const W = 1000, H = 340, CY = 158;
@@ -21,6 +20,7 @@ function genDots(seed) {
   for (let i = 0; i < 40; i++) {
     const sy = 26 + rng() * 286;
     const t = rng();
+    // most filtered early; a rare few (tier 4) travel all the way and arrive
     const tier = t < 0.5 ? 1 : t < 0.78 ? 2 : t < 0.92 ? 3 : 4;
     if (tier === 4) {
       const ey = [CY - 42, CY, CY + 42][Math.floor(rng() * 3)];

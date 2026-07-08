@@ -1,4 +1,7 @@
-/* ID8 "Latent Order" — ported from the Docusaurus theme to a standalone Next app. */
+/* ID8 "Latent Order" — ported 1:1 from hub/src/css/custom.css (Docusaurus).
+   Class names that used to be Infima's (.navbar, .menu__link, .table-of-contents,
+   .theme-admonition, .badge, .status-pill) are kept identical on purpose so the
+   values below stay a faithful copy rather than a re-derivation. */
 
 @font-face { font-family: 'Sora'; font-weight: 300; src: url('/fonts/Sora-Light.ttf') format('truetype'); font-display: swap; }
 @font-face { font-family: 'Sora'; font-weight: 400; src: url('/fonts/Sora-Regular.ttf') format('truetype'); font-display: swap; }
@@ -8,6 +11,11 @@
 @font-face { font-family: 'Roboto Serif'; font-weight: 400; src: url('/fonts/RobotoSerif-Regular.ttf') format('truetype'); font-display: swap; }
 @font-face { font-family: 'Roboto Serif'; font-weight: 500; src: url('/fonts/RobotoSerif-Medium.ttf') format('truetype'); font-display: swap; }
 @font-face { font-family: 'Roboto Serif'; font-weight: 300; font-style: italic; src: url('/fonts/RobotoSerif-LightItalic.ttf') format('truetype'); font-display: swap; }
+/* Note: there is deliberately no 400-weight italic face registered, even
+   though RobotoSerif-Italic.ttf exists in /public/fonts — the source site
+   never wired it up, so Footer .contactLabel / RubricCards .detailNum render
+   browser-synthesized italic on the Regular face. Matching that quirk, not
+   "fixing" it, is the point. */
 
 :root {
   --id8-paper: #FBFAF7;
@@ -15,121 +23,118 @@
   --id8-grey: #828282;
   --id8-soft: #3C3C3C;
   --id8-hair: #E4DFD5;
-  --id8-row-alt: #F5F5F5;
-  --container: 1240px;
+  --id8-card: #FFFFFF;
+  --id8-shadow: 0 1px 2px rgba(26, 26, 26, 0.04), 0 6px 16px rgba(26, 26, 26, 0.05);
+  --id8-shadow-hover: 0 2px 4px rgba(26, 26, 26, 0.05), 0 10px 22px rgba(26, 26, 26, 0.08);
+
+  --id8-accent: #112ED4;
+  --id8-accent-bg: #E4E9FC;
+  --id8-fresh: #009E49;
+  --id8-aging: #A67C00;
+  --id8-stale: #F2000F;
+  --id8-fresh-dot: #00D95C;
+  --id8-aging-dot: #FFC400;
+  --id8-stale-dot: #FF1A1A;
+
+  --ifm-color-primary: #1A1A1A;
+  --ifm-container-width: 1240px;
+  --ifm-container-width-xl: 1400px;
+
+  --ifm-background-color: var(--id8-paper);
+  --ifm-font-family-base: 'Sora', system-ui, sans-serif;
+  --ifm-heading-font-family: 'Roboto Serif', Georgia, serif;
+  --ifm-font-size-base: 16px;
+  --ifm-line-height-base: 1.6;
+  --ifm-heading-font-weight: 500;
+  --ifm-navbar-background-color: var(--id8-paper);
+  --ifm-navbar-height: 64px;
+  --ifm-footer-background-color: var(--id8-paper);
+  --ifm-toc-border-color: var(--id8-hair);
+  --ifm-table-border-color: var(--id8-hair);
+  --ifm-link-color: var(--id8-accent);
+  --ifm-menu-color: var(--id8-soft);
+  --ifm-menu-color-active: var(--id8-accent);
+  --ifm-code-font-size: 90%;
 }
 
 * { box-sizing: border-box; }
 
 html, body {
-  margin: 0;
   padding: 0;
-  background: var(--id8-paper);
+  margin: 0;
+  background: var(--ifm-background-color);
   color: var(--id8-ink);
-  font-family: 'Sora', system-ui, sans-serif;
-  font-size: 16px;
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
+  font-family: var(--ifm-font-family-base);
+  font-size: var(--ifm-font-size-base);
+  line-height: var(--ifm-line-height-base);
+  overflow-x: hidden;
 }
 
-a { color: var(--id8-ink); text-decoration: none; }
-a:hover { text-decoration: underline; }
+a { color: var(--ifm-link-color); }
 
-h1, h2, h3, h4 {
-  font-family: 'Roboto Serif', Georgia, serif;
-  letter-spacing: -0.01em;
-  color: var(--id8-ink);
-  font-weight: 500;
-}
+/* Headings: serif, tight, with a quiet weight */
+h1, h2, h3, h4 { font-family: var(--ifm-heading-font-family); letter-spacing: -0.01em; color: var(--id8-ink); }
 
-.container { max-width: var(--container); margin: 0 auto; padding: 0 32px; }
-.prose { max-width: 820px; }
+.markdown h1:first-child { font-size: 2.3rem; font-weight: 500; margin-bottom: 0.4rem; }
+.markdown h2 { font-size: 1.4rem; font-weight: 500; margin-top: 2rem; padding-bottom: 0.3rem; border-bottom: 1px solid var(--id8-hair); }
+.markdown h3 { font-size: 1.08rem; font-weight: 600; font-family: 'Sora', sans-serif; margin-top: 1.3rem; }
+.markdown > p, .markdown li { color: var(--id8-soft); }
 
-/* ── Navbar ─────────────────────────────────────────────────────────────── */
-.navbar {
-  border-bottom: 1px solid var(--id8-ink);
-  background: var(--id8-paper);
-  position: sticky;
-  top: 0;
-  z-index: 50;
-}
-.navbar__inner {
-  max-width: var(--container);
-  margin: 0 auto;
-  height: 64px;
-  padding: 0 32px;
-  display: flex;
-  align-items: center;
-  gap: 28px;
-}
-.navbar__logo { height: 15px; width: auto; display: block; }
-.navbar__links { display: flex; align-items: center; gap: 24px; }
-.navbar__spacer { flex: 1; }
-.navbar__link {
-  font-size: 0.74rem;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-weight: 500;
-  color: var(--id8-soft);
-}
-.navbar__link:hover, .navbar__link--active { color: var(--id8-ink); text-decoration: none; }
-.navbar__link--active { border-bottom: 2px solid var(--id8-ink); padding-bottom: 2px; }
+.markdown a { color: var(--id8-accent); text-underline-offset: 2px; }
+.markdown a:hover { text-decoration: underline; }
 
-/* ── Footer ─────────────────────────────────────────────────────────────── */
-.footer {
-  border-top: 1px solid var(--id8-hair);
-  margin-top: 80px;
-  padding: 28px 0;
-  color: var(--id8-grey);
-  font-size: 0.78rem;
-  letter-spacing: 0.04em;
-}
-
-/* ── Document/prose content ─────────────────────────────────────────────── */
-.prose h1 { font-size: 2.3rem; font-weight: 500; margin: 0 0 0.4rem; }
-.prose h2 {
-  font-size: 1.4rem; font-weight: 500; margin: 2rem 0 0.8rem;
-  padding-bottom: 0.3rem; border-bottom: 1px solid var(--id8-hair);
-}
-.prose h3 { font-size: 1.08rem; font-weight: 600; font-family: 'Sora', sans-serif; margin: 1.3rem 0 0.5rem; }
-.prose p, .prose li { color: var(--id8-soft); }
-.prose a { text-decoration: underline; text-underline-offset: 2px; }
-
-/* ── Hairline tables (rubric + content) ─────────────────────────────────── */
-.htable { width: 100%; border-collapse: collapse; border: none; margin: 1.2rem 0; }
-.htable thead { background: transparent; }
-.htable th {
-  text-align: left; text-transform: uppercase; letter-spacing: 0.08em;
-  font-size: 0.72rem; font-weight: 600; font-family: 'Sora', sans-serif;
-  color: var(--id8-ink); border: none; border-bottom: 1.5px solid var(--id8-ink);
+/* Tables: no fills, no vertical lines, small-caps header over one rule, tight padding */
+.markdown table { display: table; width: 100%; border-collapse: collapse; border: none; margin: 1.2rem 0; }
+.markdown table thead { background: transparent; }
+.markdown table th {
+  text-align: left; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.72rem; font-weight: 600;
+  font-family: 'Sora', sans-serif; color: var(--id8-ink); border: none; border-bottom: 1.5px solid var(--id8-ink);
   padding: 4px 18px 6px 0;
 }
-.htable td {
-  border: none; border-bottom: 1px solid var(--id8-hair);
-  padding: 8px 18px 8px 0; font-size: 0.9rem; color: var(--id8-soft);
-  vertical-align: top;
-}
-.htable td:first-child { color: var(--id8-ink); }
+.markdown table td { border: none; border-bottom: 1px solid var(--id8-hair); padding: 8px 18px 8px 0; font-size: 0.9rem; color: var(--id8-soft); }
+.markdown table tr { background: transparent !important; }
+.markdown table td:first-child { color: var(--id8-ink); }
+.markdown table td a { font-weight: 600; }
 
-hr { border: none; border-top: 1px solid var(--id8-hair); margin: 2rem 0; }
+/* Notes / admonitions: borderless, just a left rule */
+.theme-admonition { background: transparent; border: none; border-left: 2px solid var(--id8-ink); border-radius: 0; box-shadow: none; padding: 0.3rem 0 0.3rem 1rem; margin: 1rem 0; }
+.theme-admonition > .theme-admonition-heading { text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.7rem; color: var(--id8-ink); margin-bottom: 0.3rem; }
+.theme-admonition-note, .theme-admonition-info { border-left-color: var(--id8-accent); }
+.theme-admonition-note > .theme-admonition-heading, .theme-admonition-info > .theme-admonition-heading { color: var(--id8-accent); }
+.theme-admonition-tip { border-left-color: var(--id8-fresh); }
+.theme-admonition-tip > .theme-admonition-heading { color: var(--id8-fresh); }
+.theme-admonition-caution { border-left-color: var(--id8-aging); }
+.theme-admonition-caution > .theme-admonition-heading { color: var(--id8-aging); }
+.theme-admonition-danger { border-left-color: var(--id8-stale); }
+.theme-admonition-danger > .theme-admonition-heading { color: var(--id8-stale); }
 
-/* Note / admonition (ported from Docusaurus :::note — borderless, left rule) */
-.prose blockquote {
-  margin: 1rem 0; padding: 0.3rem 0 0.3rem 1rem;
-  border-left: 2px solid var(--id8-ink); color: var(--id8-soft);
-}
-.prose blockquote p { margin: 0; }
-
-/* ── Fit score badge ────────────────────────────────────────────────────── */
+/* Status pills — used for freshness reads (market maps) and system status (Live/Beta) */
 .badge {
-  display: inline-block; font-size: 0.68rem; text-transform: uppercase;
-  letter-spacing: 0.1em; font-weight: 600; padding: 3px 9px; border: 1px solid var(--id8-ink);
+  display: inline-block; font-family: 'Sora', sans-serif; font-size: 0.62rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.06em; padding: 2px 7px; border-radius: 2px; line-height: 1.5;
 }
-.badge--gate { background: var(--id8-ink); color: var(--id8-paper); }
-.badge--borderline { border-color: var(--id8-grey); color: var(--id8-soft); }
-.badge--below { border-color: var(--id8-hair); color: var(--id8-grey); }
+.badge--gate { color: var(--id8-fresh); background: color-mix(in srgb, var(--id8-fresh) 16%, transparent); }
+.badge--borderline { color: var(--id8-aging); background: color-mix(in srgb, var(--id8-aging) 16%, transparent); }
+.badge--below { color: var(--id8-stale); background: color-mix(in srgb, var(--id8-stale) 16%, transparent); }
 
-.kicker {
-  text-transform: uppercase; letter-spacing: 0.18em; font-size: 0.72rem;
-  color: var(--id8-grey); font-weight: 500;
-}
+.status-pill { display: inline-flex; align-items: center; white-space: nowrap; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 600; color: var(--id8-ink); }
+.status-pill::before { content: ''; display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 6px; }
+.status-live::before { background: var(--id8-fresh-dot); }
+
+/* Code: quiet, hairline, no heavy box */
+.markdown pre, code { font-family: 'Roboto Mono', Consolas, monospace; }
+.markdown pre { border: 1px solid var(--id8-hair); border-radius: 2px; padding: 1rem; overflow-x: auto; background: rgba(0,0,0,0.02); }
+code { background: rgba(0,0,0,0.04); border: none; border-radius: 2px; padding: 1px 5px; }
+.markdown pre code { background: none; padding: 0; }
+
+/* Sidebar + TOC: current position picked out in accent, not just a same-color rule */
+.menu__link { display: block; font-size: 0.85rem; color: var(--ifm-menu-color); text-decoration: none; padding: 0.4rem 0.6rem; border-radius: 4px; }
+.menu__link:hover { color: var(--id8-ink); text-decoration: none; background: rgba(0, 0, 0, 0.04); }
+.menu__link--active { color: var(--ifm-menu-color-active); background: rgba(0, 0, 0, 0.05); border-left: 2px solid var(--id8-accent); font-weight: 500; }
+
+.table-of-contents { font-size: 0.78rem; border-left: 1px solid var(--id8-hair); }
+.table-of-contents__link { display: block; color: var(--id8-soft); text-decoration: none; padding: 0.25rem 0 0.25rem 0.9rem; }
+.table-of-contents__link:hover { color: var(--id8-ink); text-decoration: none; }
+.table-of-contents__link--active { color: var(--id8-accent); }
+
+hr { border: none; border-top: 1px solid var(--id8-hair); }

@@ -1,9 +1,9 @@
-import QualityFunnel from "@/components/QualityFunnel";
-import ConnectGraph from "@/components/ConnectGraph";
-import RubricCards from "@/components/RubricCards";
-import styles from "./page.module.css";
+import QualityFunnel from '@/components/QualityFunnel';
+import ConnectGraph from '@/components/ConnectGraph';
+import RubricCards from '@/components/RubricCards';
+import styles from './page.module.css';
 
-export const metadata = { title: "For Investors" };
+export const metadata = { title: 'For Investors', description: 'How ID8 uses AI to source and pick deals' };
 
 export default function Investors() {
   return (

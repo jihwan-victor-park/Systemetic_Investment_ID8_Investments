@@ -1,61 +1,64 @@
-import { InlineMarkdown, BlockMarkdown } from "@/components/Markdown";
+import { H2 } from '@/components/Prose';
+import InlineMarkdown from '@/components/InlineMarkdown';
 
-function badge(screen) {
-  if (screen.gate) {
-    return { cls: "badge badge--gate", text: `Clears gate · ${screen.tier_label || ""}`.trim() };
-  }
-  if (screen.quality_tier === "borderline") {
-    return { cls: "badge badge--borderline", text: "Borderline — review" };
-  }
-  return { cls: "badge badge--below", text: "Below threshold" };
-}
-
-/** One dated Stage-1 screen: score, rubric table, rationale, sources. */
+// Renders one company screen using the exact template every hub/docs/research/
+// companies/*.md file shares: a dated H2, a bold fit-score-and-verdict line,
+// a dimension-scoring table, a Rationale paragraph, a Confidence line, and a
+// numbered Sources list.
 export default function ScreenView({ screen }) {
-  const b = badge(screen);
+  const heading = `Screen — ${screen.date}${screen.roundStage ? ` · ${screen.roundStage}` : ''}`;
   return (
-    <section style={{ marginTop: "2.5rem" }}>
-      <h2 style={{ borderBottom: "1px solid var(--id8-hair)", paddingBottom: "0.3rem" }}>
-        Screen — {screen.date}{screen.round ? ` · ${screen.round}` : ""}
-      </h2>
+    <div>
+      <H2>{heading}</H2>
+      <p>
+        <strong>
+          Fit score: {screen.fitScore != null ? screen.fitScore.toFixed(1) : '—'} / 4.0
+          {screen.rawScore != null && ` (raw ${screen.rawScore.toFixed(1)})`}
+        </strong>
+        {screen.verdict && ` — ${screen.verdict}`}
+      </p>
+      {screen.hardAutoPassNote && <p><em>{screen.hardAutoPassNote}</em></p>}
 
-      <div style={{ display: "flex", alignItems: "baseline", gap: "1rem", margin: "0.9rem 0 1.2rem", flexWrap: "wrap" }}>
-        <span style={{ fontFamily: "'Roboto Serif', serif", fontSize: "1.7rem", fontWeight: 500 }}>
-          {Number(screen.fit_score).toFixed(1)} / 4.0
-        </span>
-        <span className={b.cls}>{b.text}</span>
-      </div>
-
-      <table className="htable">
+      <table>
         <thead>
-          <tr><th>Dimension</th><th>Score</th><th>Evidence</th></tr>
+          <tr>
+            <th>Dimension</th>
+            <th>Score</th>
+            <th>Evidence</th>
+          </tr>
         </thead>
         <tbody>
-          {(screen.params || []).map((p) => (
-            <tr key={p.key}>
-              <td style={{ whiteSpace: "nowrap" }}>{p.label || p.key}</td>
-              <td><strong>{Number(p.score).toFixed(0)}</strong>{" "}
-                <span style={{ color: "var(--id8-grey)" }}>/ 4</span></td>
-              <td><InlineMarkdown>{p.evidence}</InlineMarkdown></td>
+          {screen.dimensions.map((d) => (
+            <tr key={d.name}>
+              <td>{d.name}</td>
+              <td>{d.score}</td>
+              <td><InlineMarkdown text={d.evidence} /></td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      <h3>Rationale</h3>
-      <div className="prose"><BlockMarkdown>{screen.rationale}</BlockMarkdown></div>
-      <p style={{ color: "var(--id8-grey)", fontSize: "0.85rem" }}>Confidence: {screen.confidence}</p>
+      <p>
+        <strong>Rationale</strong>
+        <br />
+        <InlineMarkdown text={screen.rationale} />
+      </p>
 
-      {Array.isArray(screen.citations) && screen.citations.length > 0 && (
+      {screen.confidence && <p><em>Confidence: {screen.confidence}</em></p>}
+
+      {screen.sources?.length > 0 && (
         <>
-          <h3>Sources</h3>
-          <ol style={{ color: "var(--id8-soft)", fontSize: "0.82rem", lineHeight: 1.7 }}>
-            {screen.citations.map((url, i) => (
-              <li key={i}><a href={url} target="_blank" rel="noreferrer">{url}</a></li>
+          <p><strong>Sources</strong></p>
+          <ol>
+            {screen.sources.map((s) => (
+              <li key={s.number}>
+                <a href={s.url} target="_blank" rel="noopener noreferrer">{s.url}</a>
+              </li>
             ))}
           </ol>
         </>
       )}
-    </section>
+      <hr />
+    </div>
   );
 }

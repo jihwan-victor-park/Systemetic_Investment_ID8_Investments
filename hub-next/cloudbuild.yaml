@@ -1,0 +1,29 @@
+# Build the dynamic hub image, push to Artifact Registry, deploy to Cloud Run.
+# --allow-unauthenticated: no auth layer yet (see middleware.js) — this is a
+# testing deploy, not the final public config. Revisit once auth is added back.
+# Substitutions: _REGION, _REPO, _SERVICE. Set these in the trigger or pass with --substitutions.
+steps:
+  - name: gcr.io/cloud-builders/docker
+    args: ['build', '-t', '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_SERVICE}:$SHORT_SHA', '.']
+  - name: gcr.io/cloud-builders/docker
+    args: ['push', '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_SERVICE}:$SHORT_SHA']
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: gcloud
+    args:
+      - run
+      - deploy
+      - ${_SERVICE}
+      - --image=${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_SERVICE}:$SHORT_SHA
+      - --region=${_REGION}
+      - --platform=managed
+      - --allow-unauthenticated
+      - --port=8080
+      - --set-env-vars=GCP_PROJECT_ID=$PROJECT_ID
+images:
+  - '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_SERVICE}:$SHORT_SHA'
+substitutions:
+  _REGION: us-central1
+  _REPO: id8-hub
+  _SERVICE: id8-hub-next
+options:
+  logging: CLOUD_LOGGING_ONLY

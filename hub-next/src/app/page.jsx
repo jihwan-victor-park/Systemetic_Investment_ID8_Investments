@@ -1,15 +1,17 @@
-import Link from "next/link";
-import SignalField from "@/components/SignalField";
-import styles from "./page.module.css";
+import Link from 'next/link';
+import SignalField from '@/components/SignalField';
+import styles from './page.module.css';
 
 const SYSTEMS = [
-  { num: "01", title: "PitchBook → Attio Pipeline", to: "/docs/projects/pitchbook-attio",
-    desc: "Syncs deal, company, and investor data into Attio, with reliable investor linking.", status: "Live" },
-  { num: "02", title: "Apollo Reach Out", to: "/docs/projects/apollo-reach-out",
-    desc: "Builds clean family office and RIA lists, enriches them, then loads outbound sequences.", status: "Live" },
-  { num: "03", title: "Deal Intelligence", to: "/docs/projects/intelligence",
-    desc: "AI agents score every qualified deal against our rubric and deep-research the best.", status: "Live" },
+  { num: '01', title: 'PitchBook → Attio Pipeline', to: '/docs/projects/pitchbook-attio',
+    desc: 'Syncs deal, company, and investor data into Attio, with reliable investor linking.', status: 'Live' },
+  { num: '02', title: 'Apollo Reach Out', to: '/docs/projects/apollo-reach-out',
+    desc: 'Builds clean family office and RIA lists, enriches them, then loads outbound sequences.', status: 'Live' },
+  { num: '03', title: 'Deal Intelligence', to: '/docs/projects/intelligence',
+    desc: 'AI agents score every qualified deal against our rubric and deep-research the best.', status: 'Live' },
 ];
+
+export const metadata = { title: 'AI Intelligence', description: 'ID8 Investments AI and automation hub' };
 
 export default function Home() {
   return (
@@ -29,7 +31,7 @@ export default function Home() {
             <div className={styles.cardNum}>{p.num}</div>
             <div className={styles.cardTitle}>{p.title}</div>
             <div className={styles.cardDesc}>{p.desc}</div>
-            <div className={styles.cardStatus}>{p.status}</div>
+            <div className={styles.cardStatus} data-status={p.status}>{p.status}</div>
           </Link>
         ))}
       </div>

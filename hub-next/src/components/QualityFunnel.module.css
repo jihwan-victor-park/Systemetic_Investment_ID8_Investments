@@ -16,6 +16,7 @@
   100% { transform: translate(var(--ex), var(--ey)); opacity: 0; }
 }
 
+/* the rare one that travels the whole funnel and lands on the conviction hub */
 .arrive { animation-name: flowArrive; }
 @keyframes flowArrive {
   0%   { transform: translate(var(--sx), var(--sy)); opacity: 0; }

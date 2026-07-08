@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { useEffect, useMemo, useRef } from "react";
-import styles from "./ConnectGraph.module.css";
+import { useEffect, useMemo, useRef } from 'react';
+import styles from './ConnectGraph.module.css';
 
 // "We connect the dots." Nodes appear, lines draw in, and the most-connected
-// nodes light up black. Loops seamlessly. Needs rAF + refs, so client-only.
+// nodes light up black (like the hero). Loops seamlessly.
 function mulberry32(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
 function hashStr(s) { let h = 2166136261 >>> 0; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
 
@@ -32,18 +32,19 @@ function generate(seed) {
   return { nodes, edges, hubs };
 }
 
-export default function ConnectGraph({ seed = "connect" }) {
+export default function ConnectGraph({ seed = 'connect' }) {
   const G = useMemo(() => generate(seed), [seed]);
   const nodeEl = useRef([]); const edgeEl = useRef([]); const ringEl = useRef([]);
-  const PAPER = useRef("#FBFAF7"); const INK = useRef("#1A1A1A");
+  const PAPER = useRef('#FBFAF7'); const INK = useRef('#1A1A1A');
 
   useEffect(() => {
     const cs = getComputedStyle(document.documentElement);
-    PAPER.current = cs.getPropertyValue("--id8-paper").trim() || "#FBFAF7";
-    INK.current = cs.getPropertyValue("--id8-ink").trim() || "#1A1A1A";
-    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      G.edges.forEach((_, k) => { const el = edgeEl.current[k]; if (el) { el.setAttribute("x2", G.nodes[G.edges[k][1]].x); el.setAttribute("y2", G.nodes[G.edges[k][1]].y); el.setAttribute("opacity", "0.8"); } });
-      G.nodes.forEach((n, i) => { const el = nodeEl.current[i]; if (el) { el.setAttribute("opacity", "1"); el.setAttribute("fill", G.hubs.includes(i) ? INK.current : PAPER.current); } });
+    PAPER.current = cs.getPropertyValue('--id8-paper').trim() || '#FBFAF7';
+    INK.current = cs.getPropertyValue('--id8-ink').trim() || '#1A1A1A';
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      // static: show the finished graph
+      G.edges.forEach((_, k) => { const el = edgeEl.current[k]; if (el) { el.setAttribute('x2', G.nodes[G.edges[k][1]].x); el.setAttribute('y2', G.nodes[G.edges[k][1]].y); el.setAttribute('opacity', '0.8'); } });
+      G.nodes.forEach((n, i) => { const el = nodeEl.current[i]; if (el) { el.setAttribute('opacity', '1'); el.setAttribute('fill', G.hubs.includes(i) ? INK.current : PAPER.current); } });
       return;
     }
     const D = 9; let t0 = 0, raf;
@@ -58,9 +59,9 @@ export default function ConnectGraph({ seed = "connect" }) {
         const appear = (i / G.nodes.length) * 0.10;
         const op = clamp((tau - appear) / 0.06, 0, 1) * tail;
         const lit = G.hubs.includes(i) && tau > 0.55;
-        el.setAttribute("opacity", op.toFixed(3));
-        el.setAttribute("r", G.hubs.includes(i) ? 5.5 : 4);
-        el.setAttribute("fill", lit ? INK.current : PAPER.current);
+        el.setAttribute('opacity', op.toFixed(3));
+        el.setAttribute('r', G.hubs.includes(i) ? 5.5 : 4);
+        el.setAttribute('fill', lit ? INK.current : PAPER.current);
       });
 
       G.edges.forEach(([a, b], k) => {
@@ -68,9 +69,9 @@ export default function ConnectGraph({ seed = "connect" }) {
         const start = 0.16 + (k / E) * 0.30;
         const p = clamp((tau - start) / 0.10, 0, 1);
         const A = G.nodes[a], B = G.nodes[b];
-        el.setAttribute("x2", (A.x + (B.x - A.x) * p).toFixed(1));
-        el.setAttribute("y2", (A.y + (B.y - A.y) * p).toFixed(1));
-        el.setAttribute("opacity", (p > 0 ? 0.82 * tail : 0).toFixed(3));
+        el.setAttribute('x2', (A.x + (B.x - A.x) * p).toFixed(1));
+        el.setAttribute('y2', (A.y + (B.y - A.y) * p).toFixed(1));
+        el.setAttribute('opacity', (p > 0 ? 0.82 * tail : 0).toFixed(3));
       });
 
       G.hubs.forEach((hi, h) => {
@@ -78,9 +79,9 @@ export default function ConnectGraph({ seed = "connect" }) {
         const k = clamp((tau - 0.55) / 0.20, 0, 1);
         [0, 1].forEach(r => {
           const el = ringEl.current[h * 2 + r]; if (!el) return;
-          el.setAttribute("cx", n.x); el.setAttribute("cy", n.y);
-          el.setAttribute("r", (10 + r * 10 + k * 14).toFixed(1));
-          el.setAttribute("opacity", (0.32 * (1 - k) * tail).toFixed(3));
+          el.setAttribute('cx', n.x); el.setAttribute('cy', n.y);
+          el.setAttribute('r', (10 + r * 10 + k * 14).toFixed(1));
+          el.setAttribute('opacity', (0.32 * (1 - k) * tail).toFixed(3));
         });
       });
       raf = requestAnimationFrame(loop);
