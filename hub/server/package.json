@@ -1,0 +1,14 @@
+{
+  "name": "id8-hub-server",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "express": "^4.19.2",
+    "firebase-admin": "^12.6.0"
+  }
+}

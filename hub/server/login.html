@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Sign in — ID8 Intelligence</title>
+<style>
+  :root { color-scheme: light dark; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    font-family: 'Sora', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #f7f6f3; color: #1a1a1a;
+  }
+  @media (prefers-color-scheme: dark) {
+    body { background: #141414; color: #f2f1ee; }
+  }
+  .card { max-width: 360px; padding: 48px 40px; text-align: center; }
+  .kicker { font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; opacity: .5; margin-bottom: 18px; }
+  h1 { font-size: 1.15rem; font-weight: 600; letter-spacing: .01em; margin: 0 0 8px; }
+  p { font-size: .88rem; opacity: .65; margin: 0 0 28px; line-height: 1.5; }
+  button {
+    appearance: none; border: 1px solid currentColor; background: transparent; color: inherit;
+    padding: 11px 22px; font-size: .88rem; font-family: inherit; border-radius: 2px; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 10px; transition: opacity .15s ease;
+  }
+  button:hover { opacity: .7; }
+  button:disabled { opacity: .4; cursor: default; }
+  #error { color: #b3261e; font-size: .8rem; margin-top: 18px; min-height: 1.2em; }
+  #status { font-size: .8rem; opacity: .55; margin-top: 18px; min-height: 1.2em; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="kicker">ID8 Investments</div>
+    <h1>Sign in to continue</h1>
+    <p>This area is restricted to ID8 Investments team accounts.</p>
+    <button id="signin" type="button">Sign in with Google</button>
+    <div id="error"></div>
+    <div id="status"></div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+  <script>
+    // TODO(oscar): replace with the values from Firebase Console ->
+    // Project settings -> General -> Your apps -> Web app (add one if none
+    // exists yet). apiKey is not a secret -- it's meant to be public;
+    // security comes from the domain check the server does on every request.
+    const firebaseConfig = {
+      apiKey: 'TODO_FIREBASE_WEB_API_KEY',
+      authDomain: 'molten-crowbar-498920-q8.firebaseapp.com',
+      projectId: 'molten-crowbar-498920-q8',
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    // Same-origin relative paths only -- an unvalidated redirect param would
+    // otherwise let an attacker-crafted /login?redirect=https://evil.com link
+    // bounce a real, freshly-authenticated ID8 user off-site.
+    function safeRedirectTarget(target) {
+      if (typeof target === 'string' && /^\/(?!\/)/.test(target) && !target.includes('://')) {
+        return target;
+      }
+      return '/';
+    }
+
+    const params = new URLSearchParams(location.search);
+    const redirectTarget = safeRedirectTarget(params.get('redirect'));
+    if (params.get('error') === 'not-id8-account') {
+      document.getElementById('error').textContent =
+        'Access is limited to ID8 Investments team accounts.';
+    }
+
+    const signinBtn = document.getElementById('signin');
+    const errorEl = document.getElementById('error');
+    const statusEl = document.getElementById('status');
+
+    signinBtn.addEventListener('click', async () => {
+      errorEl.textContent = '';
+      statusEl.textContent = 'Signing in…';
+      signinBtn.disabled = true;
+      const provider = new firebase.auth.GoogleAuthProvider();
+      provider.setCustomParameters({ hd: 'id8investments.com' });
+      try {
+        const result = await firebase.auth().signInWithPopup(provider);
+        const idToken = await result.user.getIdToken();
+        const res = await fetch('/sessionLogin', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ idToken }),
+        });
+        if (!res.ok) {
+          const body = await res.json().catch(() => ({}));
+          throw new Error(body.error === 'not-id8-account' ? 'not-id8-account' : 'sign-in-failed');
+        }
+        statusEl.textContent = 'Redirecting…';
+        location.href = redirectTarget;
+      } catch (err) {
+        console.error(err);
+        statusEl.textContent = '';
+        errorEl.textContent = err.message === 'not-id8-account'
+          ? 'Access is limited to ID8 Investments team accounts.'
+          : 'Sign-in failed. Please try again.';
+        try { await firebase.auth().signOut(); } catch (_) {}
+      } finally {
+        signinBtn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>

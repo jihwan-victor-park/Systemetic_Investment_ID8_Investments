@@ -24,29 +24,33 @@ hub/
     research/index.md
     admin/index.md
   src/pages/index.js             custom home with signal-field hero
+  src/pages/investors.js         the one PUBLIC page — no sign-in required
   src/components/SignalField.js
   src/css/custom.css             the design language
   static/img, static/fonts
+  server/                        Express gate + static server (see AUTH_SETUP.md)
 ```
 
 ## Adding a project
 
 Add a markdown file under `docs/projects/`, then register it in `sidebars.js` and add a card in `src/pages/index.js`.
 
-## Deploy (Cloud Run + IAP)
+## Deploy (Cloud Run behind a Google sign-in gate, fronted by Firebase Hosting)
 
-The site is private. Deploy behind Cloud Run with IAP scoped to the `@id8investments.com` Workspace domain.
+Everything is private except `/investors`. The site is served by a small
+Express server (`server/`) on Cloud Run — not plain static Hosting — because
+that's where the sign-in check happens; see `AUTH_SETUP.md` for why and for
+full one-time setup + deploy steps. Condensed:
 
 ```bash
 # one-time: Artifact Registry repo
 gcloud artifacts repositories create id8-hub --repository-format=docker --location=us-central1
 
-# build + deploy (private)
+# build + deploy the gated Cloud Run service (private)
 gcloud builds submit --config cloudbuild.yaml .
 
-# put IAP in front and grant the org
-# (Console: Cloud Run service > Security > IAP, then grant
-#  domain:id8investments.com the IAP-secured Web App User role)
+# point Firebase Hosting's rewrite at it (see firebase.json)
+firebase deploy --only hosting --project molten-crowbar-498920-q8
 ```
 
 ## Weekly rebuild ("alive")
