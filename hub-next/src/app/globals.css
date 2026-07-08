@@ -120,7 +120,7 @@ h1, h2, h3, h4 { font-family: var(--ifm-heading-font-family); letter-spacing: -0
 
 /* Notes / admonitions: borderless, just a left rule */
 .theme-admonition { background: transparent; border: none; border-left: 2px solid var(--id8-ink); border-radius: 0; box-shadow: none; padding: 0.3rem 0 0.3rem 1rem; margin: 1rem 0; }
-.theme-admonition > .theme-admonition-heading { text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.7rem; color: var(--id8-ink); margin-bottom: 0.3rem; }
+.theme-admonition > .theme-admonition-heading { display: flex; align-items: center; gap: 0.35rem; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.7rem; font-weight: 600; color: var(--id8-ink); margin-bottom: 0.3rem; }
 .theme-admonition-note, .theme-admonition-info { border-left-color: var(--id8-accent); }
 .theme-admonition-note > .theme-admonition-heading, .theme-admonition-info > .theme-admonition-heading { color: var(--id8-accent); }
 .theme-admonition-tip { border-left-color: var(--id8-fresh); }

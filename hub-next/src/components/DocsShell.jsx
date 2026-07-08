@@ -29,8 +29,9 @@ function SidebarItem({ item, pathname }) {
   const chevron = (
     <span className={styles.chevron} data-open={open} aria-hidden="true">›</span>
   );
+  const isActiveBranch = containsPath(item, pathname);
   return (
-    <div className={styles.category}>
+    <div className={styles.category} data-active-branch={isActiveBranch}>
       {item.href ? (
         <div className={styles.categoryRow}>
           <Link href={item.href} className={styles.categoryLink}>{item.label}</Link>
