@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
-import { getSidebarTree, getBreadcrumbs, containsPath } from '@/data/sidebarConfig';
+import { getSidebarTree, getBreadcrumbs, containsPath, getPrevNext } from '@/data/sidebarConfig';
 import styles from './DocsShell.module.css';
 
 function SidebarItem({ item, pathname }) {
@@ -64,6 +64,7 @@ export default function DocsShell({ companies = [], children }) {
   const pathname = usePathname();
   const tree = getSidebarTree(companies);
   const breadcrumbs = getBreadcrumbs(pathname, tree);
+  const { prev, next } = getPrevNext(pathname, tree);
   const contentRef = useRef(null);
   const [toc, setToc] = useState([]);
   const [activeId, setActiveId] = useState(null);
@@ -96,49 +97,73 @@ export default function DocsShell({ companies = [], children }) {
         </nav>
       </aside>
 
-      <main className={styles.main}>
-        {breadcrumbs.length > 0 && (
-          <div className={styles.breadcrumbs}>
-            <Link href="/" className={styles.homeLink} aria-label="Home">⌂</Link>
-            {breadcrumbs.map((b, i) => {
-              const isLast = i === breadcrumbs.length - 1;
-              return (
-                <span key={b.href || b.label}>
-                  <span className={styles.crumbSep}>›</span>
-                  {isLast ? (
-                    <span className={styles.crumbCurrent}>{b.label}</span>
-                  ) : b.href ? (
-                    <Link href={b.href}>{b.label}</Link>
-                  ) : (
-                    <span>{b.label}</span>
-                  )}
-                </span>
-              );
-            })}
-          </div>
-        )}
-        <div className="markdown" ref={contentRef}>
-          {children}
-        </div>
-      </main>
+      {/* Docusaurus centers the content+TOC container within the space to the
+          right of the fixed-width sidebar — it isn't packed flush against the
+          sidebar, and it isn't centered on the full viewport either. */}
+      <div className={styles.contentArea}>
+        <div className={styles.contentInner}>
+          <main className={styles.main}>
+            {breadcrumbs.length > 0 && (
+              <div className={styles.breadcrumbs}>
+                <Link href="/" className={styles.homeLink} aria-label="Home">⌂</Link>
+                {breadcrumbs.map((b, i) => {
+                  const isLast = i === breadcrumbs.length - 1;
+                  return (
+                    <span key={b.href || b.label}>
+                      <span className={styles.crumbSep}>›</span>
+                      {isLast ? (
+                        <span className={styles.crumbCurrent}>{b.label}</span>
+                      ) : b.href ? (
+                        <Link href={b.href}>{b.label}</Link>
+                      ) : (
+                        <span>{b.label}</span>
+                      )}
+                    </span>
+                  );
+                })}
+              </div>
+            )}
+            <div className="markdown" ref={contentRef}>
+              {children}
+            </div>
 
-      {toc.length > 0 && (
-        <aside className={styles.toc}>
-          <div className={styles.tocTitle}>On this page</div>
-          <ul className={`table-of-contents ${styles.tocList}`}>
-            {toc.map((t) => (
-              <li key={t.id} style={{ marginLeft: t.level === 3 ? '0.8rem' : 0 }}>
-                <a
-                  href={`#${t.id}`}
-                  className={`table-of-contents__link ${activeId === t.id ? 'table-of-contents__link--active' : ''}`}
-                >
-                  {t.text}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </aside>
-      )}
+            {(prev || next) && (
+              <div className={styles.pagination}>
+                {prev ? (
+                  <Link href={prev.href} className={styles.paginationLink} data-dir="prev">
+                    <span className={styles.paginationLabel}>Previous</span>
+                    <span className={styles.paginationTitle}>« {prev.label}</span>
+                  </Link>
+                ) : <span />}
+                {next && (
+                  <Link href={next.href} className={styles.paginationLink} data-dir="next">
+                    <span className={styles.paginationLabel}>Next</span>
+                    <span className={styles.paginationTitle}>{next.label} »</span>
+                  </Link>
+                )}
+              </div>
+            )}
+          </main>
+
+          {toc.length > 0 && (
+            <aside className={styles.toc}>
+              <div className={styles.tocTitle}>On this page</div>
+              <ul className={`table-of-contents ${styles.tocList}`}>
+                {toc.map((t) => (
+                  <li key={t.id} style={{ marginLeft: t.level === 3 ? '0.8rem' : 0 }}>
+                    <a
+                      href={`#${t.id}`}
+                      className={`table-of-contents__link ${activeId === t.id ? 'table-of-contents__link--active' : ''}`}
+                    >
+                      {t.text}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </aside>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

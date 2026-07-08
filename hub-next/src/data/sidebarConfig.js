@@ -59,3 +59,25 @@ export function containsPath(node, pathname) {
   if (!node.items) return false;
   return node.items.some((child) => containsPath(child, pathname));
 }
+
+// Flattens the tree into the same linear doc order Docusaurus uses to
+// generate its Previous/Next pagination — depth-first, including a
+// category's own link (e.g. "Research") at the point it's encountered.
+export function flattenDocs(tree) {
+  const out = [];
+  function walk(nodes) {
+    for (const node of nodes) {
+      if (node.href) out.push({ href: node.href, label: node.label });
+      if (node.items) walk(node.items);
+    }
+  }
+  walk(tree);
+  return out;
+}
+
+export function getPrevNext(pathname, tree) {
+  const flat = flattenDocs(tree);
+  const i = flat.findIndex((d) => d.href === pathname);
+  if (i === -1) return { prev: null, next: null };
+  return { prev: flat[i - 1] || null, next: flat[i + 1] || null };
+}

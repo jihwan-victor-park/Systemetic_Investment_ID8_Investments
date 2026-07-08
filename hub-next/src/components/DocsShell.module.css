@@ -1,17 +1,35 @@
 .layout {
-  padding: 0 1.5rem;
-  display: grid;
-  grid-template-columns: 240px minmax(0, 750px) 240px;
-  gap: 2.5rem;
-  align-items: start;
+  display: flex;
+  align-items: flex-start;
 }
 
 .sidebar {
   position: sticky;
-  top: calc(var(--ifm-navbar-height) + 2rem);
-  padding: 2.5rem 0;
-  max-height: calc(100vh - var(--ifm-navbar-height) - 2rem);
+  top: var(--ifm-navbar-height);
+  flex: 0 0 300px;
+  width: 300px;
+  padding: 1rem 0.5rem 1.5rem 1rem;
+  max-height: calc(100vh - var(--ifm-navbar-height));
   overflow-y: auto;
+}
+
+/* Docusaurus centers a max-width container in the space to the right of the
+   sidebar — not flush against the sidebar, not centered on the full viewport. */
+.contentArea {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.contentInner {
+  width: 100%;
+  max-width: var(--ifm-container-width-xl);
+  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+  gap: 2.5rem;
+  align-items: start;
 }
 
 .category {
@@ -72,7 +90,7 @@
 }
 
 .main {
-  padding: 2.5rem 0 5rem;
+  padding: 1.5rem 0 4rem;
   min-width: 0;
 }
 
@@ -113,10 +131,48 @@
   font-size: 0.8rem;
 }
 
+.pagination {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 3rem;
+}
+
+.paginationLink {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  border: 1px solid var(--id8-hair);
+  border-radius: 6px;
+  padding: 0.9rem 1.1rem;
+  text-decoration: none;
+}
+.paginationLink:hover {
+  border-color: var(--id8-grey);
+  text-decoration: none;
+}
+.paginationLink[data-dir="next"] {
+  grid-column: 2;
+  align-items: flex-end;
+  text-align: right;
+}
+
+.paginationLabel {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--id8-grey);
+}
+
+.paginationTitle {
+  font-weight: 600;
+  color: var(--id8-accent);
+}
+
 .toc {
   position: sticky;
-  top: calc(var(--ifm-navbar-height) + 2rem);
-  padding: 2.5rem 0 2.5rem 1rem;
+  top: calc(var(--ifm-navbar-height) + 1rem);
+  padding: 1.5rem 0 1.5rem 0;
 }
 
 .tocTitle {
@@ -135,11 +191,12 @@
 }
 
 @media (max-width: 996px) {
-  .layout {
-    grid-template-columns: 1fr;
-  }
   .sidebar,
   .toc {
     display: none;
+  }
+  .contentInner {
+    grid-template-columns: 1fr;
+    padding: 0 1.5rem;
   }
 }
