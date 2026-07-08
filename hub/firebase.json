@@ -1,15 +1,6 @@
 {
   "hosting": {
-    "public": "hosting-placeholder",
-    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
-    "rewrites": [
-      {
-        "source": "/**",
-        "run": {
-          "serviceId": "id8-cloud-intelligence",
-          "region": "us-central1"
-        }
-      }
-    ]
+    "public": "build",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
   }
 }
