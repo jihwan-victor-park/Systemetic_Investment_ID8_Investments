@@ -12,6 +12,7 @@ Prints a skeleton mapping; rename the keys to whatever you'll send from Attio.
 """
 import json
 import os
+import subprocess
 import sys
 
 import requests
@@ -26,9 +27,8 @@ if not (cid and secret and refresh):
     sys.exit("Set CC_CLIENT_ID, CC_CLIENT_SECRET, and CC_REFRESH_TOKEN first.")
 
 # Note: this uses (and thus rotates) the refresh token. CC returns a NEW one
-# below — if you've already deployed the service, run this BEFORE pointing the
-# service at the token, or just re-grab a token afterward. For a first run
-# (pre-deploy) this is fine.
+# below, which this script writes straight back to Secret Manager (see the
+# gcloud call further down) — so it's safe to run any time, deployed or not.
 r = requests.post(
     TOKEN,
     data={"grant_type": "refresh_token", "refresh_token": refresh},
@@ -62,6 +62,15 @@ print("\nCC_LIST_MAP skeleton (rename keys to what Attio will send):\n")
 print("  " + json.dumps(mapping))
 
 if new_refresh and new_refresh != refresh:
-    print("\n⚠️  This call rotated your refresh token. The NEW one is:\n")
-    print(f"   {new_refresh}\n")
-    print("Use this new value as CC_REFRESH_TOKEN going forward.")
+    print("\nThis call rotated your refresh token — persisting the new one to "
+          "Secret Manager (CC_REFRESH_TOKEN)...")
+    try:
+        subprocess.run(
+            ["gcloud", "secrets", "versions", "add", "CC_REFRESH_TOKEN", "--data-file=-"],
+            input=new_refresh.encode("utf-8"), check=True,
+        )
+        print("Done — CC_REFRESH_TOKEN in Secret Manager is up to date.")
+    except Exception as e:  # noqa: BLE001 — fall back to a manual instruction
+        print(f"Could not persist automatically ({e}). Store it by hand:\n")
+        print(f"   echo -n '{new_refresh}' | gcloud secrets versions add "
+              "CC_REFRESH_TOKEN --data-file=-")

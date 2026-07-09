@@ -48,9 +48,9 @@ services: `id8-investments` (project `137750788450`), `us-east4`.
    export CC_CLIENT_ID=... CC_CLIENT_SECRET=... CC_REFRESH_TOKEN=...  # same as above
    python list_cc_lists.py
    ```
-   ⚠️ This call rotates the refresh token. It prints the new one — if you've
-   already run `setup_secrets.sh`, ignore it (the deployed service will pick
-   up its own rotation once live); if not, just use the newest value.
+   This call rotates the refresh token; the script writes the new one straight
+   back to the `CC_REFRESH_TOKEN` secret via `gcloud`, so it's safe to run
+   before or after `setup_secrets.sh` / deploying.
 
 **5. Edit `CC_LIST_MAP` in [deploy.sh](deploy.sh)** with the real mapping
    from step 4 — keyed by whatever string the Attio automation will send as
