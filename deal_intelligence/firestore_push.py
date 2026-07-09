@@ -1,0 +1,95 @@
+"""Push stage-1 screening results directly into Firestore, for hub-next (the
+dynamic Next.js hub) to read live. No rebuild required, unlike the GitHub
+Contents API path in hub_push.py that feeds the old static Docusaurus hub.
+
+Schema mirrors exactly what hub-next/src/lib/companies.js reads:
+    companies/{slug}                      -> {name, website}
+    companies/{slug}/screens/{YYYY-MM-DD} -> {date, roundStage, fitScore,
+        rawScore, verdict, hardAutoPassNote, dimensions, rationale,
+        confidence, sources, docxPath}
+
+Text fields (rationale, dimension evidence, hardAutoPassNote) use the same
+"[[n]](url)" / "**bold**" mini-markdown that hub-next's InlineMarkdown
+component parses -- reuse fit_note's helpers rather than re-deriving the format.
+
+The .docx itself is not stored in Firestore (not a blob store) -- it goes to
+Cloud Storage at gs://<DI_DOCX_BUCKET>/research/companies/<slug>.docx, and
+docxPath points at hub-next's /api/research/companies/<slug>/docx route, which
+streams it from that bucket.
+"""
+from datetime import date
+
+from google.cloud import firestore, storage
+
+from . import config
+from .fit_note import PARAM_LABELS, _badge_text, _linkify_md, normalize_domain
+from .schemas import DealFit, DealInput
+
+_db = None
+_gcs_client = None
+
+
+def _firestore():
+    global _db
+    if _db is None:
+        _db = firestore.Client(project=config.GCP_PROJECT_ID)
+    return _db
+
+
+def _gcs():
+    global _gcs_client
+    if _gcs_client is None:
+        _gcs_client = storage.Client(project=config.GCP_PROJECT_ID)
+    return _gcs_client
+
+
+def _upload_docx(slug: str, docx_bytes: bytes) -> str | None:
+    """Upload to GCS; return the hub-next docx route path, or None if
+    DI_DOCX_BUCKET isn't configured (the Firestore write still happens --
+    that screen just has no download link until the bucket is set up)."""
+    if not config.DI_DOCX_BUCKET:
+        return None
+    blob = _gcs().bucket(config.DI_DOCX_BUCKET).blob(f"research/companies/{slug}.docx")
+    blob.upload_from_string(
+        docx_bytes,
+        content_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    )
+    return f"/api/research/companies/{slug}/docx"
+
+
+def push_company_screen_firestore(fit: DealFit, deal: DealInput, slug: str, docx_bytes: bytes) -> dict:
+    """Upsert the company doc and today's dated screen. Screen doc id is the
+    ISO date, so a same-day re-run overwrites rather than duplicates --
+    matching hub_push's same-day-replace rule for the markdown page."""
+    company_ref = _firestore().collection("companies").document(slug)
+    company_ref.set({"name": deal.name, "website": normalize_domain(deal.domain) or None}, merge=True)
+
+    docx_path = _upload_docx(slug, docx_bytes)
+    cites = fit.citations
+    screen_id = date.today().isoformat()
+    screen_doc = {
+        "date": screen_id,
+        "roundStage": deal.round,
+        "fitScore": fit.fit_score,
+        "rawScore": fit.raw_score,
+        "verdict": _badge_text(fit).lower(),
+        "hardAutoPassNote": (
+            f"Hard auto-pass: {_linkify_md(fit.hard_auto_pass_reason, cites)}"
+            if (fit.hard_auto_pass and fit.hard_auto_pass_reason) else None
+        ),
+        "dimensions": [
+            {
+                "name": PARAM_LABELS.get(p.key, p.key),
+                "score": p.score,
+                "evidence": _linkify_md(p.evidence.replace("|", "/").replace("\n", " "), cites),
+            }
+            for p in fit.params
+        ],
+        "rationale": _linkify_md(fit.rationale, cites),
+        "confidence": fit.confidence,
+        "sources": [{"number": i, "url": url} for i, url in enumerate(cites, 1)],
+    }
+    if docx_path:
+        screen_doc["docxPath"] = docx_path
+    company_ref.collection("screens").document(screen_id).set(screen_doc, merge=True)
+    return {"slug": slug, "screen_id": screen_id, "docx_uploaded": docx_path is not None}

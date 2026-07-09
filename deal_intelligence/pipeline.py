@@ -12,7 +12,7 @@ import asyncio
 import json
 import os
 
-from . import config, attio_io, stage1_fit, stage2_research, rubric, fit_note, email_format, hub_push
+from . import config, attio_io, stage1_fit, stage2_research, rubric, fit_note, email_format, hub_push, firestore_push
 
 
 async def screen(deals: list, dry_run: bool = False, publish: bool = False) -> dict:
@@ -46,10 +46,10 @@ async def screen(deals: list, dry_run: bool = False, publish: bool = False) -> d
             slug = fit_note.company_id(d)
             md_path   = f"{config.HUB_COMPANIES_DIR}/{slug}.md"
             docx_path = f"{config.HUB_DOCX_DIR}/{slug}.docx"
+            docx_bytes = fit_note.build_docx_bytes(f, d)
             if gh_token:
                 # Cloud Run: build content in memory, push via GitHub API.
                 screen_out = fit_note._build_screen_content(f, d, slug, docx_path)
-                docx_bytes = fit_note.build_docx_bytes(f, d)
                 try:
                     hub_push.push_company_screen(
                         slug=slug,
@@ -63,6 +63,12 @@ async def screen(deals: list, dry_run: bool = False, publish: bool = False) -> d
             else:
                 # Local / CI: write directly to disk and commit via git.
                 fit_note.write_company_screen(f, d, config.HUB_COMPANIES_DIR, config.HUB_DOCX_DIR)
+            # hub-next (Firestore + Cloud Storage) -- independent of the old
+            # hub's git-commit path above; dynamic, no rebuild required.
+            try:
+                firestore_push.push_company_screen_firestore(f, d, slug, docx_bytes)
+            except Exception as exc:
+                print(f"[firestore_push] {slug}: {exc}")
 
     return {
         "screened": len(fits),

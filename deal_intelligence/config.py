@@ -88,3 +88,12 @@ HUB_DOCX_DIR = os.getenv("DI_HUB_DOCX_DIR", "hub/static/research/companies")
 # Public base URL of the deployed hub, used to compose the per-company research
 # link written onto the Attio deal. The page path is /docs/research/companies/<slug>.
 HUB_BASE_URL = os.getenv("DI_HUB_BASE_URL", "https://intel.id8investments.com")
+
+# ── hub-next (Firestore + Cloud Storage) ──────────────────────────────────────
+# Same GCP project as everything else here. The Cloud Run service account
+# running this pipeline needs roles/datastore.user (Firestore) and, once
+# DI_DOCX_BUCKET is set, roles/storage.objectAdmin scoped to that bucket.
+GCP_PROJECT_ID = os.getenv("GCP_PROJECT_ID", "molten-crowbar-498920-q8")
+# Bucket for per-screen .docx files hub-next's docx route reads from. Unset =
+# Firestore write still happens, just no docx uploaded/linked for that screen.
+DI_DOCX_BUCKET = os.getenv("DI_DOCX_BUCKET")

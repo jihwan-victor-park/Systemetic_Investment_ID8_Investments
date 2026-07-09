@@ -22,7 +22,7 @@ export default async function CompanyScreenPage({ params }) {
       <p>
         <a href={`https://${company.website}`} target="_blank" rel="noopener noreferrer">{company.website}</a>
         {' · '}
-        <a href={`/research/companies/${company.slug}.docx`}>Download latest screen (Word) →</a>
+        <a href={company.screens[0]?.docxPath || `/research/companies/${company.slug}.docx`}>Download latest screen (Word) →</a>
       </p>
       {company.screens.map((screen) => (
         <ScreenView key={screen.id} screen={screen} />
