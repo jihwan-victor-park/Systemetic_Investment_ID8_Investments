@@ -223,13 +223,64 @@
   padding: 0;
 }
 
+.sidebarToggle {
+  display: none;
+}
+
+.sidebarBackdrop {
+  display: none;
+}
+
 @media (max-width: 996px) {
-  .sidebar,
   .toc {
     display: none;
   }
   .contentInner {
     grid-template-columns: 1fr;
     padding: 0 1.5rem;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 200;
+    width: 82vw;
+    max-width: 320px;
+    max-height: none;
+    background: var(--id8-paper);
+    padding: 1.2rem 1rem 1.5rem;
+    transform: translateX(-100%);
+    transition: transform 0.2s ease;
+    box-shadow: var(--id8-shadow-hover);
+  }
+  .sidebar[data-open="true"] {
+    transform: translateX(0);
+  }
+
+  .sidebarBackdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(26, 26, 26, 0.35);
+    z-index: 150;
+  }
+
+  .sidebarToggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    color: var(--id8-ink);
+    background: var(--id8-card);
+    border: 1px solid var(--id8-hair);
+    border-radius: 0;
+    padding: 0.5rem 0.8rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
   }
 }

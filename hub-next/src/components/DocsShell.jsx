@@ -88,6 +88,9 @@ export default function DocsShell({ companies = [], children }) {
   const contentRef = useRef(null);
   const [toc, setToc] = useState([]);
   const [activeId, setActiveId] = useState(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  useEffect(() => setSidebarOpen(false), [pathname]);
 
   useEffect(() => {
     const container = contentRef.current;
@@ -109,13 +112,20 @@ export default function DocsShell({ companies = [], children }) {
 
   return (
     <div className={styles.layout}>
-      <aside className={styles.sidebar}>
+      <aside className={styles.sidebar} data-open={sidebarOpen}>
         <nav>
           {tree.map((item) => (
             <SidebarItem key={item.href || item.label} item={item} pathname={pathname} />
           ))}
         </nav>
       </aside>
+      {sidebarOpen && (
+        <div
+          className={styles.sidebarBackdrop}
+          onClick={() => setSidebarOpen(false)}
+          aria-hidden="true"
+        />
+      )}
 
       {/* Docusaurus centers the content+TOC container within the space to the
           right of the fixed-width sidebar — it isn't packed flush against the
@@ -123,6 +133,13 @@ export default function DocsShell({ companies = [], children }) {
       <div className={styles.contentArea}>
         <div className={styles.contentInner}>
           <main className={styles.main}>
+            <button
+              type="button"
+              className={styles.sidebarToggle}
+              onClick={() => setSidebarOpen((v) => !v)}
+            >
+              ☰ Browse
+            </button>
             {breadcrumbs.length > 0 && (
               <div className={styles.breadcrumbs}>
                 <Link href="/" className={styles.homeLink} aria-label="Home">⌂</Link>

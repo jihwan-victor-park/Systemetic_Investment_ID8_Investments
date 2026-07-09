@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import styles from './Navbar.module.css';
 
 const INTERNAL_LINKS = [
@@ -14,6 +15,14 @@ const INTERNAL_LINKS = [
 export default function Navbar() {
   const pathname = usePathname();
   const isInvestorView = pathname === '/investors';
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => setMenuOpen(false), [pathname]);
+
+  const links = [
+    ...(!isInvestorView ? INTERNAL_LINKS : []),
+    { href: '/investors', label: 'Investor View' },
+  ];
 
   return (
     <header className={styles.navbar}>
@@ -38,7 +47,31 @@ export default function Navbar() {
             Investor View
           </Link>
         </div>
+        <button
+          type="button"
+          className={styles.hamburger}
+          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen((v) => !v)}
+        >
+          <span data-open={menuOpen} />
+          <span data-open={menuOpen} />
+          <span data-open={menuOpen} />
+        </button>
       </div>
+      {menuOpen && (
+        <div className={styles.mobileMenu}>
+          {links.map((l) => (
+            <Link
+              key={l.href}
+              href={l.href}
+              className={`${styles.mobileLink} ${pathname.startsWith(l.href) ? styles.linkActive : ''}`}
+            >
+              {l.label}
+            </Link>
+          ))}
+        </div>
+      )}
     </header>
   );
 }
