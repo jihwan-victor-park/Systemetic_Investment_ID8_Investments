@@ -28,7 +28,7 @@ gcloud run deploy "$SERVICE" \
   --region="$REGION" \
   --allow-unauthenticated \
   --max-instances=1 \
-  --set-env-vars="CC_LIST_MAP=$CC_LIST_MAP" \
+  --set-env-vars="^@^CC_LIST_MAP=$CC_LIST_MAP" \
   --set-secrets="CC_CLIENT_ID=CC_CLIENT_ID:latest,CC_CLIENT_SECRET=CC_CLIENT_SECRET:latest,CC_REFRESH_TOKEN=CC_REFRESH_TOKEN:latest,WEBHOOK_SECRET=WEBHOOK_SECRET:latest"
 
 echo
