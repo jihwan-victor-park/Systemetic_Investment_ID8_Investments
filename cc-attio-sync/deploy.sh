@@ -7,7 +7,7 @@
 # See README.md for the full one-time setup order.
 set -euo pipefail
 
-PROJECT="${PROJECT:-137750788450}"
+PROJECT="${PROJECT:-molten-crowbar-498920-q8}"   # gcloud run deploy requires the project ID, not the number
 REGION="${REGION:-us-east4}"   # same project/region as the rest of this repo's Cloud Run services
 SERVICE="cc-attio-sync"
 
