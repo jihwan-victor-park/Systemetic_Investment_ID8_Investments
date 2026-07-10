@@ -14,6 +14,7 @@ from flask import Flask, request, jsonify, send_file, send_file
 from datetime import datetime
 
 import attio_apollo_sync as apollo_sync
+from google.cloud import firestore as gcp_firestore
 
 # deal_intelligence/ lives at the repo root, a sibling of this pipeline/ dir —
 # gunicorn's --chdir pipeline only puts pipeline/ on sys.path, so add the
@@ -22,11 +23,38 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from deal_intelligence import _secrets  # noqa: F401 — loads GCP secrets into os.environ
 from deal_intelligence import pipeline as di_pipeline
 from deal_intelligence import schemas as di_schemas
+from deal_intelligence import config as di_config
 
 app = Flask(__name__)
 
 ATTIO_API_KEY  = os.environ.get("ATTIO_API_KEY", "")
 ATTIO_API_BASE = "https://api.attio.com/v2"
+
+# Jesse's Deals no longer writes to Attio (see /process-jesse) — this Firestore
+# collection is the "have we already told the team about this company" record
+# instead. Keyed by normalize_company_name() so it's insensitive to "Inc."/case/
+# punctuation drift between sheet entries.
+JESSE_SEEN_COLLECTION = "jesse_companies_seen"
+_jesse_db = None
+
+def _jesse_firestore():
+    global _jesse_db
+    if _jesse_db is None:
+        _jesse_db = gcp_firestore.Client(project=di_config.GCP_PROJECT_ID)
+    return _jesse_db
+
+def _jesse_company_is_new(company_name):
+    """True the first time this company is seen; marks it seen either way.
+    Firestore, not Attio or n8n static data, is the source of truth here —
+    both were unreliable (Attio has nothing to check against once we stopped
+    writing to it; n8n's static data can reset on workflow edits/reactivation
+    and doesn't persist during editor test runs)."""
+    doc_ref = _jesse_firestore().collection(JESSE_SEEN_COLLECTION) \
+        .document(normalize_company_name(company_name))
+    is_new = not doc_ref.get().exists
+    if is_new:
+        doc_ref.set({"company": company_name, "first_seen": gcp_firestore.SERVER_TIMESTAMP})
+    return is_new
 
 DROP_COLS = [
     'Deal ID', 'Primary PitchBook Industry Code', 'View Company Online',
@@ -646,6 +674,12 @@ def process_status():
 
 @app.route("/process-jesse", methods=["POST"])
 def process_jesse():
+    """Validate + format a row from Jesse's Deals sheet. Writes nothing to Attio —
+    n8n accumulates these into a once-a-day digest instead of a live CRM sync
+    (Jesse's rows are rarely complete when marked Ready, so pushing them into
+    Attio immediately created sparse, half-filled deal records). "is_new" comes
+    from Firestore (see _jesse_company_is_new), which is the system of record
+    for "already told the team about this" now that Attio isn't in the loop."""
     data = request.get_json()
     if not data:
         return jsonify({"error": "No JSON received."}), 400
@@ -658,64 +692,49 @@ def process_jesse():
     if not company_name:
         return jsonify({"error": "Company name is required."}), 400
 
-    series = clean(data.get("Round", ""))
-    if not series:
-        return jsonify({"error": "Round is required."}), 400
+    is_new = _jesse_company_is_new(company_name)
 
-    website     = clean(data.get("Company Website", ""))
-    description = clean(data.get("Description", ""))
+    return jsonify({
+        "company":         company_name,
+        "website":         clean(data.get("Company Website", "")),
+        "series":          clean(data.get("Round", "")),
+        "is_new":          is_new,
+        "description":     clean(data.get("Description", "")),
+        "deal_size":       fmt_money_millions(data.get("Deal Size")),
+        "post_valuation":  fmt_money_millions(data.get("Post Valuation")),
+        "revenue":         fmt_money_millions(data.get("Revenue")),
+        "deal_date":       format_date(data.get("Date")) or "",
+        "lead_investors":  clean(data.get("Lead Investor", "")),
+        "new_investors":   clean(data.get("New Investors", "")),
+    })
 
-    row = {
-        "Companies":           company_name,
-        "Company Website":     website,
-        "Description":         description,
-        "Series":              series,
-        "Deal Size":           data.get("Deal Size"),
-        "Post Valuation":      data.get("Post Valuation"),
-        "Revenue":             data.get("Revenue"),
-        "Deal Date":           data.get("Date"),
-        "Lead/Sole Investors": clean(data.get("Lead Investor", "")),
-        "New Investors":       clean(data.get("New Investors", "")),
-    }
 
-    company_id = find_or_create_company(company_name, website, description) if website else None
-    status = upsert_deal(row, company_id, stage="Pipeline", source="Jesse Bloom")
+@app.route("/process-jesse/seed", methods=["POST"])
+def process_jesse_seed():
+    """One-off backfill: mark every company already sitting in the Jesses Deals
+    tab as 'seen' in Firestore, so the daily digest only reports genuinely new
+    submissions going forward — not the entire existing sheet on day one.
+    Upload the raw ID8_Deal_Pipeline workbook (the 'Jesses Deals' tab, header
+    on the 2nd row). Safe to re-run; re-seeding an existing company is a no-op
+    other than refreshing its first_seen timestamp."""
+    file_bytes, err = _read_file_bytes()
+    if err:
+        return err
 
-    # Patch Round Live (Access) separately — it's a select on the deal record
-    if isinstance(status, dict) and status.get("status") == "created" and data.get("Access") is True:
-        requests.patch(
-            f"{ATTIO_API_BASE}/objects/deals/records/{status['record_id']}",
-            headers=attio_headers(),
-            json={"data": {"values": {"round_live": "Round Live"}}},
+    df = pd.read_excel(io.BytesIO(file_bytes), sheet_name="Jesses Deals", header=1)
+    companies = set()
+    for val in df.get("Company", []):
+        name = str(val or "").strip()
+        if name and name.lower() != "nan":
+            companies.add(name)
+
+    db = _jesse_firestore()
+    for name in companies:
+        db.collection(JESSE_SEEN_COLLECTION).document(normalize_company_name(name)).set(
+            {"company": name, "first_seen": gcp_firestore.SERVER_TIMESTAMP}
         )
 
-    if isinstance(status, dict) and status.get("status") == "created":
-        return jsonify({
-            "status": "done",
-            "created": 1,
-            "skipped": 0,
-            "errors": [],
-            "deals": [{
-                "company":        company_name,
-                "series":         series,
-                "deal_size":      fmt_money_millions(data.get("Deal Size")),
-                "post_valuation": fmt_money_millions(data.get("Post Valuation")),
-                "revenue":        fmt_money_millions(data.get("Revenue")),
-                "description":    description,
-                "lead_investors": clean(data.get("Lead Investor", "")),
-                "new_investors":  clean(data.get("New Investors", "")),
-                "investors":      "",
-                "hq_location":    "",
-                "deal_date":      format_date(data.get("Date")) or "",
-                "website":        website,
-                "record_id":      status.get("record_id", ""),
-            }],
-        })
-    elif status == "skipped":
-        return jsonify({"status": "done", "created": 0, "skipped": 1, "errors": [], "deals": []})
-    else:
-        return jsonify({"status": "done", "created": 0, "skipped": 0,
-                        "errors": [{"deal": company_name, "error": status}], "deals": []})
+    return jsonify({"status": "done", "seeded": len(companies), "companies": sorted(companies)})
 
 
 @app.route("/logo", methods=["GET"])
