@@ -33,6 +33,8 @@ import requests
 from flask import Flask, request
 from google.cloud import firestore
 
+import reconcile
+
 app = Flask(__name__)
 
 _GCP_PROJECT = "projects/137750788450"
@@ -207,6 +209,43 @@ def attio_delete_webhook():
 
     _log_sync(email, None, contact_id, ok=True, action="delete")
     return {"ok": True, "email": email, "deleted": True, "contact_id": contact_id}, 200
+
+
+@app.post("/reconcile")
+def reconcile_endpoint():
+    """Attio has no "removed from list" trigger, so this is pull-based: called
+    on a schedule (Cloud Scheduler), not by an Attio automation. Defaults to
+    dry_run so a first run only reports who it WOULD remove -- pass
+    {"dry_run": false} once you've reviewed that output and trust it."""
+    if os.environ.get("WEBHOOK_SECRET") and \
+       request.headers.get("X-Webhook-Secret") != os.environ["WEBHOOK_SECRET"]:
+        return {"error": "unauthorized"}, 401
+
+    body = request.get_json(silent=True) or {}
+    dry_run = body.get("dry_run", True)
+
+    attio_list_map = json.loads(os.environ.get("ATTIO_LIST_MAP", "{}"))
+    cc_map = _list_map()
+    access_token = _access()
+
+    results = []
+    for attio_list_id, cc_key in attio_list_map.items():
+        cc_list_id = cc_map.get(cc_key)
+        if not cc_list_id:
+            results.append({"attio_list_id": attio_list_id, "error": f"no CC list mapped for '{cc_key}'"})
+            continue
+        try:
+            result = reconcile.reconcile_one_list(CC_API, access_token, attio_list_id, cc_list_id, dry_run)
+        except Exception as e:  # noqa: BLE001 — one bad list shouldn't kill the batch
+            result = {"attio_list_id": attio_list_id, "cc_list_id": cc_list_id, "error": str(e)}
+        results.append(result)
+        for email in result.get("removed") or result.get("would_remove") or []:
+            _log_sync(email, cc_key, cc_list_id, ok=True,
+                      detail="dry_run" if dry_run else None, action="remove_from_list")
+        for err in result.get("errors", []):
+            _log_sync(err["email"], cc_key, cc_list_id, ok=False, detail=err["error"], action="remove_from_list")
+
+    return {"ok": True, "dry_run": dry_run, "results": results}, 200
 
 
 if __name__ == "__main__":

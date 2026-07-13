@@ -102,21 +102,73 @@ curl -s "$URL/health"
 # -> {"ok": true, "lists": ["newsletter", ...]}
 ```
 
+## Reconciling removals (Attio has no "removed from list" trigger)
+
+Attio's automations can fire on **record added to list**, **list entry
+updated**, or a manual **list entry command** — there is no trigger for
+"record removed from a list" (confirmed directly against Attio's own
+docs/support), so a removal can't be webhook-driven the way an add is.
+`/reconcile` closes that gap by pulling instead of waiting to be pushed to:
+called on a schedule, it re-reads each configured Attio List's current
+membership and removes anyone from the matching Constant Contact list who's
+no longer in it. It never deletes the CC contact or touches their other list
+memberships — only the one list membership that fell out of sync.
+
+**Setup:**
+1. `export ATTIO_API_KEY=...` (same key `deal_intelligence`/`pipeline` already
+   use) then `python list_attio_lists.py` to get each Attio List's `list_id`.
+   The key needs `list_entry:read` and `list_configuration:read` scopes —
+   add them on the key in Attio's workspace settings if this 403s (nothing
+   List-related has used this key before now).
+2. Fill in `ATTIO_LIST_MAP` in `deploy.sh` — `{"<attio_list_id>": "<key already in CC_LIST_MAP>", ...}`.
+3. Deploy, then wire up a Cloud Scheduler job to call it (daily is reasonable
+   for list hygiene — this isn't time-sensitive like the add webhook):
+   ```bash
+   gcloud scheduler jobs create http cc-attio-reconcile \
+     --schedule="0 13 * * *" --uri="<service-url>/reconcile" \
+     --http-method=POST --headers="X-Webhook-Secret=<WEBHOOK_SECRET>,Content-Type=application/json" \
+     --message-body='{"dry_run": false}' \
+     --oidc-service-account-email="<runtime-service-account>" --location=us-east4
+   ```
+   Point it straight at the Cloud Run URL, not the API Gateway one — Cloud
+   Scheduler authenticates with its own OIDC token, so it needs
+   `roles/run.invoker` on `cc-attio-sync` directly (grant that to whatever
+   service account runs the job), and there's no need to route this
+   particular call through the Gateway.
+
+**Run it manually first, in dry-run** (the default — pass nothing, or
+`{"dry_run": true}`):
+```bash
+curl -s -X POST "$URL/reconcile" -H "X-Webhook-Secret: $SECRET" \
+  -H "Content-Type: application/json" -d '{}'
+# -> {"ok": true, "dry_run": true, "results": [{"would_remove": [...], ...}]}
+```
+Read `would_remove` carefully before ever passing `{"dry_run": false}`. The
+Constant Contact removal logic (`reconcile.py`) is built from best available
+knowledge of CC's v3 API rather than freshly re-verified docs — it always
+GETs the contact fresh and only mutates `list_memberships` on that exact
+object (never reconstructs a request body from scratch, so a wrong
+assumption fails loudly rather than corrupting other fields), but test it
+dry-run, then live on one low-stakes list with a disposable test contact,
+before trusting it against a real list.
+
 ## Audit log
 
-Every sync/delete attempt that reaches the Constant Contact API call —
-success or CC rejecting it — is written to Firestore, collection
+Every sync/delete/removal attempt that reaches the Constant Contact API call
+— success or CC rejecting it — is written to Firestore, collection
 `cc_sync_log` (same GCP project/database `deal_intelligence`/hub-next already
-use, see `deal_intelligence/firestore_push.py`): `action` (`"add"` or
-`"delete"`), `email`, `list_key`, `cc_list_id`, `ok`, `detail` (error text if
-`ok` is false), `timestamp` (server-side, so it's not subject to app clock
+use, see `deal_intelligence/firestore_push.py`): `action` (`"add"`,
+`"delete"`, or `"remove_from_list"`), `email`, `list_key`, `cc_list_id`, `ok`,
+`detail` (error text if `ok` is false, or `"dry_run"` for a dry-run
+would-remove), `timestamp` (server-side, so it's not subject to app clock
 skew). Query it from the Firestore console, or `gcloud firestore` / any
 Firestore client, filtered on `email`, `list_key`, or `action`.
 
 The Cloud Run service account needs `roles/datastore.user` for this to work
 (same role `deal_intelligence`'s pipeline already needs for the same reason —
 see its `config.py`). A logging failure never fails the webhook response;
-the actual CC sync has already happened by the time this write is attempted.
+the actual CC operation has already happened by the time this write is
+attempted.
 
 ## Notes
 

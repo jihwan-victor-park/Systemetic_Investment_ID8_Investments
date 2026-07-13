@@ -22,14 +22,19 @@ if [[ "$CC_LIST_MAP" == *"REPLACE_WITH_CC_LIST_UUID"* ]]; then
   exit 1
 fi
 
+# Attio list_id -> CC_LIST_MAP key, for /reconcile (see README "Reconciling
+# removals"). Get list_ids by running `python list_attio_lists.py`. Empty by
+# default -- /reconcile is a no-op until you fill this in.
+ATTIO_LIST_MAP="${ATTIO_LIST_MAP:-{\}}"
+
 gcloud run deploy "$SERVICE" \
   --source . \
   --project="$PROJECT" \
   --region="$REGION" \
   --allow-unauthenticated \
   --max-instances=1 \
-  --set-env-vars="^@^CC_LIST_MAP=$CC_LIST_MAP" \
-  --set-secrets="CC_CLIENT_ID=CC_CLIENT_ID:latest,CC_CLIENT_SECRET=CC_CLIENT_SECRET:latest,CC_REFRESH_TOKEN=CC_REFRESH_TOKEN:latest,WEBHOOK_SECRET=WEBHOOK_SECRET:latest"
+  --set-env-vars="^@^CC_LIST_MAP=$CC_LIST_MAP@ATTIO_LIST_MAP=$ATTIO_LIST_MAP" \
+  --set-secrets="CC_CLIENT_ID=CC_CLIENT_ID:latest,CC_CLIENT_SECRET=CC_CLIENT_SECRET:latest,CC_REFRESH_TOKEN=CC_REFRESH_TOKEN:latest,WEBHOOK_SECRET=WEBHOOK_SECRET:latest,ATTIO_API_KEY=ATTIO_API_KEY:latest"
 
 echo
 echo "Webhook URL:  $(gcloud run services describe "$SERVICE" --region="$REGION" --project="$PROJECT" --format='value(status.url)')/attio-webhook"
