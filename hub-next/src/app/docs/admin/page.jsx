@@ -1,6 +1,7 @@
 import { H2 } from '@/components/Prose';
 import IdeaBoard from '@/components/IdeaBoard';
 import AccessRequests from '@/components/AccessRequests';
+import TopVCsAdmin from '@/components/TopVCsAdmin';
 
 export const metadata = { title: 'Admin', description: 'Capture ideas and suggestions, plus working notes.' };
 
@@ -13,6 +14,10 @@ export default function AdminPage() {
       <H2>Investor access requests</H2>
       <p>Anyone who signs in from outside id8investments.com lands here for approval before they can reach the investor research view.</p>
       <AccessRequests />
+
+      <H2>Top VCs</H2>
+      <p>Manually curated tier/sector list — shows on the <a href="/docs/top-vcs">Top VCs</a> tab. Internal only, not shown to investors.</p>
+      <TopVCsAdmin />
 
       <H2>Capture</H2>
       <IdeaBoard />

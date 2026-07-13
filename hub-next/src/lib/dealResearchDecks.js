@@ -1,5 +1,5 @@
 import 'server-only';
-import { db } from './firestore';
+import { db, isoDate } from './firestore';
 
 export async function listDealResearchDecks() {
   const snap = await db().collection('dealResearchDecks').orderBy('companyName').get();
@@ -7,4 +7,18 @@ export async function listDealResearchDecks() {
     const d = doc.data();
     return { id: doc.id, companyName: d.companyName, thesis: d.thesis, stage: d.stage, deckPath: d.deckPath };
   });
+}
+
+export async function getDealResearchDeck(id) {
+  const doc = await db().collection('dealResearchDecks').doc(id).get();
+  if (!doc.exists) return null;
+  const d = doc.data();
+  return {
+    id: doc.id,
+    companyName: d.companyName,
+    thesis: d.thesis,
+    stage: d.stage,
+    deckPath: d.deckPath,
+    createdAt: isoDate(d.createdAt),
+  };
 }

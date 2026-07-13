@@ -1,70 +1,17 @@
 import Link from 'next/link';
 import { H2 } from '@/components/Prose';
 import { Note } from '@/components/Admonition';
-import { listCompanies } from '@/lib/companies';
-import { listDealResearchDecks } from '@/lib/dealResearchDecks';
 
-export const metadata = { title: 'Research', description: 'The knowledge base behind the systems.' };
-
-export const dynamic = 'force-dynamic';
-
-// research/index.md hand-authors this table with shorter labels than the
-// company docs' own frontmatter titles (which carry a PitchBook category
-// suffix, e.g. "Pocket (Business/Productivity Software)") — the sidebar and
-// the company page's own H1 show the full title; only this table doesn't.
-const COMPANY_SHORT_NAME = {
-  heypocket: 'Pocket',
-  warp: 'Warp',
-  getpie: 'PieTech',
-};
+export const metadata = { title: 'Research', description: 'Market maps and the knowledge base behind the systems.' };
 
 export default async function ResearchIndexPage() {
-  const [companies, decks] = await Promise.all([listCompanies(), listDealResearchDecks()]);
-  const sortedCompanies = [...companies].sort((a, b) => {
-    const ad = a.latestScreen?.date || '';
-    const bd = b.latestScreen?.date || '';
-    return bd.localeCompare(ad);
-  });
-
   return (
     <>
       <h1>Research</h1>
-      <p>Deal research and the knowledge base behind the systems. Each entry links to the source deck.</p>
-
-      <H2>Deal screens</H2>
       <p>
-        Stage 1 fit screens produced by <Link href="/docs/projects/intelligence">Deal Intelligence</Link> — one
-        page per company, scored against the ID8 rubric with a dated screen history.
+        Market maps and reference material. Deal-specific research lives under{' '}
+        <Link href="/docs/deals">Deal Summaries</Link> and <Link href="/docs/qualified-deals">Qualified Deals</Link> now.
       </p>
-      <table>
-        <thead><tr><th>Company</th><th>Latest screen</th><th>Report</th></tr></thead>
-        <tbody>
-          {sortedCompanies.map((c) => (
-            <tr key={c.slug}>
-              <td>{COMPANY_SHORT_NAME[c.slug] || c.name}</td>
-              <td>
-                {c.latestScreen ? `${c.latestScreen.date.slice(0, 10)}${c.latestScreen.roundStage ? ` · ${c.latestScreen.roundStage}` : ''}` : '—'}
-              </td>
-              <td><Link href={`/docs/research/companies/${c.slug}`}>View screen →</Link></td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      <H2>Deal research</H2>
-      <table>
-        <thead><tr><th>Company</th><th>Thesis</th><th>Stage</th><th>Deck</th></tr></thead>
-        <tbody>
-          {decks.map((d) => (
-            <tr key={d.id}>
-              <td>{d.companyName}</td>
-              <td>{d.thesis}</td>
-              <td>{d.stage}</td>
-              <td><a href={d.deckPath}>PPTX →</a></td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
 
       <H2>Market maps</H2>
       <p>A directory of external VC market maps and industry landscape reports, browsable by category and by firm with a freshness read on each one.</p>

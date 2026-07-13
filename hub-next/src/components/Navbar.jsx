@@ -7,9 +7,12 @@ import SignOutButton from './SignOutButton';
 import styles from './Navbar.module.css';
 
 const INTERNAL_LINKS = [
+  { href: '/docs/deals', label: 'Deal Summaries' },
+  { href: '/docs/qualified-deals', label: 'Qualified Deals' },
+  { href: '/docs/top-vcs', label: 'Top VCs' },
+  { href: '/docs/research', label: 'Research' },
   { href: '/docs/overview', label: 'AI Capabilities' },
   { href: '/docs/projects/pitchbook-attio', label: 'Systems' },
-  { href: '/docs/research', label: 'Research' },
   { href: '/docs/admin', label: 'Admin' },
 ];
 

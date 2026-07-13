@@ -80,9 +80,9 @@ function SidebarItem({ item, pathname }) {
   );
 }
 
-export default function DocsShell({ companies = [], children }) {
+export default function DocsShell({ companies = [], deals = [], children }) {
   const pathname = usePathname();
-  const tree = getSidebarTree(companies);
+  const tree = getSidebarTree(companies, deals);
   const breadcrumbs = getBreadcrumbs(pathname, tree);
   const { prev, next } = getPrevNext(pathname, tree);
   const contentRef = useRef(null);

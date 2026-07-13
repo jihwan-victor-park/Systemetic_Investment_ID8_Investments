@@ -2,9 +2,10 @@ import Link from 'next/link';
 import styles from './Footer.module.css';
 
 const LINKS = [
+  { to: '/docs/deals', label: 'Deal Summaries' },
+  { to: '/docs/qualified-deals', label: 'Qualified Deals' },
+  { to: '/docs/top-vcs', label: 'Top VCs' },
   { to: '/docs/overview', label: 'Capabilities' },
-  { to: '/docs/projects/pitchbook-attio', label: 'Systems' },
-  { to: '/docs/research', label: 'Research' },
   { to: '/docs/admin', label: 'Admin' },
 ];
 
