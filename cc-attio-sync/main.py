@@ -31,6 +31,7 @@ import time
 
 import requests
 from flask import Flask, request
+from google.cloud import firestore
 
 app = Flask(__name__)
 
@@ -44,6 +45,33 @@ _lock = threading.Lock()
 _access_token = None
 _access_expiry = 0.0
 _refresh_token = os.getenv("CC_REFRESH_TOKEN", "")
+
+# Audit log of sync attempts, in the same Firestore project/database hub-next
+# and deal_intelligence already read/write (see deal_intelligence/firestore_push.py).
+_db = None
+
+
+def _firestore():
+    global _db
+    if _db is None:
+        _db = firestore.Client(project="molten-crowbar-498920-q8")
+    return _db
+
+
+def _log_sync(email, list_key, cc_list_id, ok, detail=None):
+    """Best-effort audit write to Firestore -- a logging failure must never
+    fail the webhook response, since the actual CC sync already happened."""
+    try:
+        _firestore().collection("cc_sync_log").add({
+            "email": email,
+            "list_key": list_key,
+            "cc_list_id": cc_list_id,
+            "ok": ok,
+            "detail": detail,
+            "timestamp": firestore.SERVER_TIMESTAMP,
+        })
+    except Exception as e:  # noqa: BLE001 — log and keep serving
+        app.logger.error("could not write cc_sync_log entry: %s", e)
 
 
 def _secret_name(key):
@@ -131,8 +159,10 @@ def attio_webhook():
     )
     if r.status_code >= 300:
         app.logger.error("CC error %s: %s", r.status_code, r.text)
+        _log_sync(email, list_key, cc_list_id, ok=False, detail=f"{r.status_code}: {r.text}")
         return {"error": "constant contact rejected the request",
                 "status": r.status_code, "detail": r.text}, 502
+    _log_sync(email, list_key, cc_list_id, ok=True)
     return {"ok": True, "email": email, "cc_list_id": cc_list_id}, 200
 
 

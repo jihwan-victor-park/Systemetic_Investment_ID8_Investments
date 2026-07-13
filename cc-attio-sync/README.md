@@ -86,6 +86,21 @@ curl -s "$URL/health"
 # -> {"ok": true, "lists": ["newsletter", ...]}
 ```
 
+## Audit log
+
+Every sync attempt that reaches the Constant Contact API call — success or CC
+rejecting it — is written to Firestore, collection `cc_sync_log` (same GCP
+project/database `deal_intelligence`/hub-next already use, see
+`deal_intelligence/firestore_push.py`): `email`, `list_key`, `cc_list_id`,
+`ok`, `detail` (error text if `ok` is false), `timestamp` (server-side, so
+it's not subject to app clock skew). Query it from the Firestore console, or
+`gcloud firestore` / any Firestore client, filtered on `email` or `list_key`.
+
+The Cloud Run service account needs `roles/datastore.user` for this to work
+(same role `deal_intelligence`'s pipeline already needs for the same reason —
+see its `config.py`). A logging failure never fails the webhook response;
+the actual CC sync has already happened by the time this write is attempted.
+
 ## Notes
 
 - **`--max-instances 1` is deliberate.** CC rotates the refresh token on every
