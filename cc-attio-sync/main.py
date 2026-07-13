@@ -58,11 +58,12 @@ def _firestore():
     return _db
 
 
-def _log_sync(email, list_key, cc_list_id, ok, detail=None):
+def _log_sync(email, list_key, cc_list_id, ok, detail=None, action="add"):
     """Best-effort audit write to Firestore -- a logging failure must never
-    fail the webhook response, since the actual CC sync already happened."""
+    fail the webhook response, since the actual CC operation already happened."""
     try:
         _firestore().collection("cc_sync_log").add({
+            "action": action,
             "email": email,
             "list_key": list_key,
             "cc_list_id": cc_list_id,
@@ -164,6 +165,48 @@ def attio_webhook():
                 "status": r.status_code, "detail": r.text}, 502
     _log_sync(email, list_key, cc_list_id, ok=True)
     return {"ok": True, "email": email, "cc_list_id": cc_list_id}, 200
+
+
+@app.post("/attio-delete-webhook")
+def attio_delete_webhook():
+    """Attio "record deleted" -> permanently delete the matching Constant
+    Contact contact (all list memberships, not just one). This is CC's
+    GDPR-style delete -- irreversible, unlike an unsubscribe."""
+    if os.environ.get("WEBHOOK_SECRET") and \
+       request.headers.get("X-Webhook-Secret") != os.environ["WEBHOOK_SECRET"]:
+        return {"error": "unauthorized"}, 401
+
+    body = request.get_json(silent=True) or {}
+    email = (body.get("email") or "").strip()
+    if not email:
+        return {"error": "missing email"}, 400
+
+    headers = {"Authorization": f"Bearer {_access()}"}
+
+    lookup = requests.get(f"{CC_API}/contacts", params={"email": email}, headers=headers, timeout=30)
+    if lookup.status_code >= 300:
+        app.logger.error("CC lookup error %s: %s", lookup.status_code, lookup.text)
+        _log_sync(email, None, None, ok=False, detail=f"lookup {lookup.status_code}: {lookup.text}", action="delete")
+        return {"error": "constant contact lookup failed",
+                "status": lookup.status_code, "detail": lookup.text}, 502
+
+    contacts = lookup.json().get("contacts", [])
+    if not contacts:
+        # Nothing to delete is success, not an error -- keeps this idempotent
+        # if Attio fires the trigger more than once for the same deletion.
+        _log_sync(email, None, None, ok=True, detail="no matching CC contact", action="delete")
+        return {"ok": True, "email": email, "deleted": False}, 200
+
+    contact_id = contacts[0]["contact_id"]
+    r = requests.delete(f"{CC_API}/contacts/{contact_id}", headers=headers, timeout=30)
+    if r.status_code >= 300:
+        app.logger.error("CC delete error %s: %s", r.status_code, r.text)
+        _log_sync(email, None, contact_id, ok=False, detail=f"{r.status_code}: {r.text}", action="delete")
+        return {"error": "constant contact rejected the delete",
+                "status": r.status_code, "detail": r.text}, 502
+
+    _log_sync(email, None, contact_id, ok=True, action="delete")
+    return {"ok": True, "email": email, "deleted": True, "contact_id": contact_id}, 200
 
 
 if __name__ == "__main__":

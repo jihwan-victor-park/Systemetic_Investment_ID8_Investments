@@ -61,7 +61,7 @@ services: `id8-investments` (project `137750788450`), `us-east4`.
    ./deploy.sh        # prints the webhook URL
    ```
 
-**7. Build the Attio automation** (one per list, or one keyed by list):
+**7. Build the Attio automation(s)** (one per list, or one keyed by list):
    - Trigger: **Record enters list** → your target list.
    - Action: **Send webhook** (HTTP request) → `https://<service-url>/attio-webhook`
    - Header: `X-Webhook-Secret: <the WEBHOOK_SECRET from step 3>`
@@ -74,6 +74,17 @@ services: `id8-investments` (project `137750788450`), `us-east4`.
      ```
      (`list` must match a key in `CC_LIST_MAP`.)
 
+**8. (Optional) Build the delete automation**, one, not per-list:
+   - Trigger: **Record deleted**.
+   - Action: **Send webhook** → `https://<service-url>/attio-delete-webhook`
+   - Header: same `X-Webhook-Secret`.
+   - JSON body: `{ "email": "{{ record.email_addresses.0 }}" }`
+   - **This permanently deletes the Constant Contact contact** (CC's
+     GDPR-style delete — removes them from every CC list, not just the ones
+     this integration manages, and it's irreversible). If you only want them
+     off *this* automation's list rather than gone from CC entirely, don't
+     wire this up — ask for a "remove from list" variant instead.
+
 ## Test
 
 ```bash
@@ -82,19 +93,25 @@ curl -s -X POST "$URL/attio-webhook" \
   -d '{"email":"you@example.com","list":"newsletter"}'
 # -> {"ok": true, ...}  and the contact appears in that CC list
 
+curl -s -X POST "$URL/attio-delete-webhook" \
+  -H "X-Webhook-Secret: $SECRET" -H "Content-Type: application/json" \
+  -d '{"email":"you@example.com"}'
+# -> {"ok": true, "deleted": true, ...}  and the contact is gone from CC entirely
+
 curl -s "$URL/health"
 # -> {"ok": true, "lists": ["newsletter", ...]}
 ```
 
 ## Audit log
 
-Every sync attempt that reaches the Constant Contact API call — success or CC
-rejecting it — is written to Firestore, collection `cc_sync_log` (same GCP
-project/database `deal_intelligence`/hub-next already use, see
-`deal_intelligence/firestore_push.py`): `email`, `list_key`, `cc_list_id`,
-`ok`, `detail` (error text if `ok` is false), `timestamp` (server-side, so
-it's not subject to app clock skew). Query it from the Firestore console, or
-`gcloud firestore` / any Firestore client, filtered on `email` or `list_key`.
+Every sync/delete attempt that reaches the Constant Contact API call —
+success or CC rejecting it — is written to Firestore, collection
+`cc_sync_log` (same GCP project/database `deal_intelligence`/hub-next already
+use, see `deal_intelligence/firestore_push.py`): `action` (`"add"` or
+`"delete"`), `email`, `list_key`, `cc_list_id`, `ok`, `detail` (error text if
+`ok` is false), `timestamp` (server-side, so it's not subject to app clock
+skew). Query it from the Firestore console, or `gcloud firestore` / any
+Firestore client, filtered on `email`, `list_key`, or `action`.
 
 The Cloud Run service account needs `roles/datastore.user` for this to work
 (same role `deal_intelligence`'s pipeline already needs for the same reason —
