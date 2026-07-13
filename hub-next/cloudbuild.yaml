@@ -1,7 +1,13 @@
 # Build the dynamic hub image, push to Artifact Registry, deploy to Cloud Run.
-# --allow-unauthenticated: no auth layer yet (see middleware.js) — this is a
-# testing deploy, not the final public config. Revisit once auth is added back.
-# Substitutions: _REGION, _REPO, _SERVICE. Set these in the trigger or pass with --substitutions.
+# --allow-unauthenticated is intentional even with auth wired up: the gate is
+# app-level (NextAuth + src/middleware.js), not Cloud Run IAM/IAP -- Cloud Run
+# itself stays open so the app can serve its own sign-in page, and everything
+# past that is gated by role (internal / investor / pending) in-app.
+# AUTH_SECRET and AUTH_GOOGLE_SECRET come from Secret Manager, never plaintext
+# here -- see docs/HUB_NEXT_ACCESS_REQUESTS.md-adjacent setup notes for how
+# those secrets + the IAM bindings to read them were created.
+# Substitutions: _REGION, _REPO, _SERVICE, _AUTH_GOOGLE_ID. Set these in the
+# trigger or pass with --substitutions.
 steps:
   - name: gcr.io/cloud-builders/docker
     args: ['build', '-t', '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_SERVICE}:$BUILD_ID', '.']
@@ -18,12 +24,14 @@ steps:
       - --platform=managed
       - --allow-unauthenticated
       - --port=8080
-      - --set-env-vars=GCP_PROJECT_ID=$PROJECT_ID
+      - --set-env-vars=GCP_PROJECT_ID=$PROJECT_ID,ALLOWED_HD=id8investments.com,AUTH_GOOGLE_ID=${_AUTH_GOOGLE_ID}
+      - --set-secrets=AUTH_SECRET=hub-next-auth-secret:latest,AUTH_GOOGLE_SECRET=hub-next-google-secret:latest
 images:
   - '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_SERVICE}:$BUILD_ID'
 substitutions:
   _REGION: us-central1
   _REPO: id8-hub
   _SERVICE: id8-hub-next
+  _AUTH_GOOGLE_ID: 137750788450-6j5ddgckliuthns31koton0cug6h162p.apps.googleusercontent.com
 options:
   logging: CLOUD_LOGGING_ONLY
