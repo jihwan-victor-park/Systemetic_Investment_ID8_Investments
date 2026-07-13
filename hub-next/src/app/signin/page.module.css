@@ -1,0 +1,54 @@
+.page {
+  min-height: calc(100vh - 64px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.5rem;
+}
+.card {
+  width: 100%;
+  max-width: 26rem;
+  text-align: center;
+}
+.logo { height: 28px; width: auto; margin-bottom: 1.6rem; }
+.kicker {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--id8-grey);
+  margin-bottom: 0.9rem;
+}
+.headline {
+  font-family: 'Roboto Serif', Georgia, serif;
+  font-weight: 300;
+  font-size: 2.4rem;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: var(--id8-ink);
+  margin: 0 0 1rem;
+}
+.headline em { font-style: italic; }
+.error {
+  font-size: 0.8rem;
+  color: var(--id8-stale);
+  background: color-mix(in srgb, var(--id8-stale) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--id8-stale) 30%, transparent);
+  border-radius: 2px;
+  padding: 0.6rem 0.8rem;
+  margin: 0 0 1.4rem;
+}
+.button {
+  font-family: 'Sora', sans-serif;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 600;
+  color: var(--id8-paper);
+  background: var(--id8-ink);
+  border: none;
+  border-radius: 2px;
+  padding: 0.8rem 1.8rem;
+  cursor: pointer;
+  width: 100%;
+}
+.button:hover { opacity: 0.85; }

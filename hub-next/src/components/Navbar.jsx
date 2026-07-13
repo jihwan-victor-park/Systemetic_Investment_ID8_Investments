@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import SignOutButton from './SignOutButton';
 import styles from './Navbar.module.css';
 
 const INTERNAL_LINKS = [
@@ -15,6 +16,7 @@ const INTERNAL_LINKS = [
 export default function Navbar() {
   const pathname = usePathname();
   const isInvestorView = pathname === '/investors';
+  const showSignOut = !['/signin', '/pending', '/denied'].includes(pathname);
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => setMenuOpen(false), [pathname]);
@@ -46,6 +48,7 @@ export default function Navbar() {
           <Link href="/investors" className={`${styles.link} ${isInvestorView ? styles.linkActive : ''}`}>
             Investor View
           </Link>
+          {showSignOut && <SignOutButton className={styles.signOut} />}
         </div>
         <button
           type="button"
@@ -70,6 +73,7 @@ export default function Navbar() {
               {l.label}
             </Link>
           ))}
+          {showSignOut && <SignOutButton className={styles.mobileLink} />}
         </div>
       )}
     </header>

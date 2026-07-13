@@ -36,6 +36,12 @@
   font-family: 'Roboto Serif', Georgia, serif; font-weight: 300; font-style: italic;
   font-size: 1.8rem; color: var(--id8-ink); line-height: 1.35; max-width: 40rem;
 }
+.closingLink {
+  display: inline-block; margin-top: 1.4rem; font-family: 'Sora', sans-serif; font-size: 0.85rem;
+  font-weight: 600; color: var(--id8-ink); text-decoration: none; border-bottom: 1px solid var(--id8-ink);
+  padding-bottom: 2px;
+}
+.closingLink:hover { opacity: 0.7; }
 
 @media (max-width: 768px) {
   .headline { font-size: 2.4rem; }

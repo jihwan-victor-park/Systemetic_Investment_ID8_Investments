@@ -58,6 +58,24 @@
   color: var(--id8-accent) !important;
 }
 
+.signOut {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 500;
+  color: var(--id8-grey);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  margin-left: 1.4rem;
+  font-family: inherit;
+}
+
+.signOut:hover {
+  color: var(--id8-ink);
+}
+
 .hamburger {
   display: none;
   flex-direction: column;

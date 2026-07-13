@@ -1,0 +1,25 @@
+.list { border-top: 1px solid var(--id8-ink); margin: 1.2rem 0 2rem; }
+.item {
+  display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: center;
+  padding: 0.9rem 0; border-bottom: 1px solid var(--id8-hair);
+}
+.email { font-size: 0.95rem; color: var(--id8-ink); font-weight: 500; }
+.name { font-size: 0.85rem; color: var(--id8-soft); margin-top: 0.1rem; }
+.meta { font-size: 0.7rem; color: var(--id8-grey); margin-top: 0.2rem; }
+.actions { display: flex; align-items: center; gap: 0.7rem; white-space: nowrap; }
+.status {
+  font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--id8-grey);
+  border: 1px solid var(--id8-hair); padding: 2px 7px; border-radius: 2px; margin-right: 0.3rem;
+}
+.status[data-status="approved"] { color: var(--id8-fresh); border-color: var(--id8-fresh); }
+.status[data-status="denied"] { color: var(--id8-stale); border-color: var(--id8-stale); }
+.approve, .deny {
+  font-family: 'Sora', sans-serif; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em;
+  font-weight: 600; border: none; padding: 0.4rem 0.8rem; cursor: pointer; border-radius: 2px;
+}
+.approve { color: var(--id8-paper); background: var(--id8-ink); }
+.approve:hover { opacity: 0.85; }
+.deny { color: var(--id8-ink); background: transparent; border: 1px solid var(--id8-hair); }
+.deny:hover { border-color: var(--id8-ink); }
+.approve:disabled, .deny:disabled { opacity: 0.35; cursor: default; }
+.empty { font-size: 0.85rem; color: var(--id8-grey); padding: 0.9rem 0; margin: 1.2rem 0; }

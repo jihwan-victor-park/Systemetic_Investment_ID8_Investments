@@ -12,6 +12,7 @@ __pycache__/
 venv/
 .env
 .env.*
+!hub-next/.env.example
 
 # Node / Docusaurus
 node_modules/

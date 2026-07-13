@@ -1,0 +1,59 @@
+.page {
+  min-height: calc(100vh - 64px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.5rem;
+}
+.card {
+  width: 100%;
+  max-width: 26rem;
+  text-align: center;
+}
+.logo { height: 28px; width: auto; margin-bottom: 1.6rem; }
+.kicker {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--id8-grey);
+  margin-bottom: 0.9rem;
+}
+.headline {
+  font-family: 'Roboto Serif', Georgia, serif;
+  font-weight: 300;
+  font-size: 2.4rem;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: var(--id8-ink);
+  margin: 0 0 1rem;
+}
+.headline em { font-style: italic; }
+.lede {
+  font-size: 0.95rem;
+  color: var(--id8-soft);
+  line-height: 1.6;
+  margin: 0 auto 1.4rem;
+  max-width: 24rem;
+}
+.detail {
+  font-size: 0.82rem;
+  color: var(--id8-grey);
+  line-height: 1.6;
+  margin: 0 auto;
+  max-width: 24rem;
+}
+.ghostButton {
+  font-family: 'Sora', sans-serif;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 600;
+  color: var(--id8-ink);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--id8-ink);
+  padding-bottom: 2px;
+  cursor: pointer;
+  margin-top: 1.6rem;
+}
+.ghostButton:hover { opacity: 0.6; }

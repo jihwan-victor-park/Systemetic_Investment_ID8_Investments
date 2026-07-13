@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import QualityFunnel from '@/components/QualityFunnel';
 import ConnectGraph from '@/components/ConnectGraph';
 import RubricCards from '@/components/RubricCards';
@@ -53,6 +54,7 @@ export default function Investors() {
           This is infrastructure we built and own. It compounds with every deal we see, so our sourcing
           and our judgment get sharper over time.
         </p>
+        <Link href="/investors/research" className={styles.closingLink}>Request research access →</Link>
       </div>
     </main>
   );
