@@ -39,10 +39,17 @@ for lst in lists:
     parent = ", ".join(lst.get("parent_object", []))
     print(f"  {name:<40} slug={slug:<30} list_id={list_id}   (on {parent})")
 
-print("\nATTIO_LIST_MAP skeleton -- fill in the cc_key for each list you want")
-print("reconciled (must match a key already in CC_LIST_MAP in deploy.sh):\n")
-skeleton = {
-    lst.get("api_slug", ""): {"list_id": lst.get("id", {}).get("list_id", ""), "cc_key": "TODO"}
-    for lst in lists
-}
+people_lists = [lst for lst in lists if "people" in (lst.get("parent_object") or [])]
+skipped = len(lists) - len(people_lists)
+if skipped:
+    print(f"\n({skipped} list(s) above are on companies/deals, not people -- no "
+          "email_addresses attribute, so they're excluded below. Reconciling "
+          "one of those would see 0 Attio members and try to remove everyone "
+          "from the matching CC list; reconcile.py refuses that by default.)")
+
+print("\nATTIO_LIST_MAP skeleton -- this is the ACTUAL shape main.py reads:")
+print("{ <attio list_id>: \"<cc_key already in CC_LIST_MAP>\" }.")
+print("Replace each null below with the matching CC_LIST_MAP key, delete any")
+print("list you don't want reconciled, then paste the result into deploy.sh:\n")
+skeleton = {lst.get("id", {}).get("list_id", ""): None for lst in people_lists}
 print("  " + json.dumps(skeleton, indent=2))

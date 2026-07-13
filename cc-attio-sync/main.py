@@ -223,6 +223,7 @@ def reconcile_endpoint():
 
     body = request.get_json(silent=True) or {}
     dry_run = body.get("dry_run", True)
+    force = body.get("force", False)
 
     attio_list_map = json.loads(os.environ.get("ATTIO_LIST_MAP", "{}"))
     cc_map = _list_map()
@@ -235,7 +236,7 @@ def reconcile_endpoint():
             results.append({"attio_list_id": attio_list_id, "error": f"no CC list mapped for '{cc_key}'"})
             continue
         try:
-            result = reconcile.reconcile_one_list(CC_API, access_token, attio_list_id, cc_list_id, dry_run)
+            result = reconcile.reconcile_one_list(CC_API, access_token, attio_list_id, cc_list_id, dry_run, force)
         except Exception as e:  # noqa: BLE001 — one bad list shouldn't kill the batch
             result = {"attio_list_id": attio_list_id, "cc_list_id": cc_list_id, "error": str(e)}
         results.append(result)

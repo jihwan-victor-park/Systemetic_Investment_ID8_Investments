@@ -89,9 +89,26 @@ def remove_from_cc_list(cc_api, access_token, contact_id, cc_list_id):
     return True
 
 
-def reconcile_one_list(cc_api, access_token, attio_list_id, cc_list_id, dry_run):
+def reconcile_one_list(cc_api, access_token, attio_list_id, cc_list_id, dry_run, force=False):
     attio_emails = attio_list_emails(attio_list_id)
     cc_contacts = cc_list_contacts(cc_api, access_token, cc_list_id)
+
+    # Zero Attio members with a non-empty CC list is far more likely a
+    # misconfiguration (wrong list_id, a companies/deals list with no
+    # email_addresses attribute, a transient API hiccup) than "everyone
+    # actually left" -- refuse to wipe the whole CC list in live mode unless
+    # explicitly forced. Dry-run still shows the would-remove-everyone
+    # result, which is exactly what should surface the mistake.
+    if not force and not dry_run and not attio_emails and cc_contacts:
+        return {
+            "attio_list_id": attio_list_id, "cc_list_id": cc_list_id,
+            "attio_member_count": 0, "cc_member_count": len(cc_contacts),
+            "skipped": "Attio list has 0 members but CC list has "
+                       f"{len(cc_contacts)} -- refusing to remove everyone. "
+                       "Check attio_list_id is correct (right object type: "
+                       "people, not companies/deals) or pass force=true.",
+        }
+
     to_remove = {email: cid for email, cid in cc_contacts.items() if email not in attio_emails}
 
     removed, errors = [], []
