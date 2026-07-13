@@ -15,14 +15,16 @@ const INTERNAL_LINKS = [
 
 export default function Navbar() {
   const pathname = usePathname();
-  const isInvestorView = pathname === '/investors';
-  const showSignOut = !['/signin', '/pending', '/denied'].includes(pathname);
+  const isInvestorView = pathname.startsWith('/investors');
+  const isAuthPage = ['/signin', '/pending', '/denied'].includes(pathname);
+  const hideInternalNav = isInvestorView || isAuthPage;
+  const showSignOut = !isAuthPage;
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => setMenuOpen(false), [pathname]);
 
   const links = [
-    ...(!isInvestorView ? INTERNAL_LINKS : []),
+    ...(!hideInternalNav ? INTERNAL_LINKS : []),
     { href: '/investors', label: 'Investor View' },
   ];
 
@@ -33,7 +35,7 @@ export default function Navbar() {
           <Link href="/" className={styles.brand}>
             <img src="/img/logo_charcoal.png" alt="ID8 Investments" className={styles.logo} />
           </Link>
-          {!isInvestorView &&
+          {!hideInternalNav &&
             INTERNAL_LINKS.map((l) => (
               <Link
                 key={l.href}
