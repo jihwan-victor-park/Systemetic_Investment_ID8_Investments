@@ -24,7 +24,7 @@ steps:
       - --platform=managed
       - --allow-unauthenticated
       - --port=8080
-      - --set-env-vars=GCP_PROJECT_ID=$PROJECT_ID,ALLOWED_HD=id8investments.com,AUTH_GOOGLE_ID=${_AUTH_GOOGLE_ID}
+      - --set-env-vars=GCP_PROJECT_ID=$PROJECT_ID,ALLOWED_HD=id8investments.com,AUTH_GOOGLE_ID=${_AUTH_GOOGLE_ID},AUTH_URL=${_AUTH_URL}
       - --set-secrets=AUTH_SECRET=hub-next-auth-secret:latest,AUTH_GOOGLE_SECRET=hub-next-google-secret:latest
 images:
   - '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_SERVICE}:$BUILD_ID'
@@ -33,5 +33,11 @@ substitutions:
   _REPO: id8-hub
   _SERVICE: id8-hub-next
   _AUTH_GOOGLE_ID: 137750788450-6j5ddgckliuthns31koton0cug6h162p.apps.googleusercontent.com
+  # Cloud Run URLs are deterministic per service/project/region, so this stays
+  # stable across redeploys. AUTH_URL pins the origin NextAuth uses to build
+  # its OAuth redirect_uri -- without it, trustHost's header-based detection
+  # was resolving to the container's internal bind address (0.0.0.0:8080)
+  # instead of the public URL, so every Google sign-in attempt failed.
+  _AUTH_URL: https://id8-hub-next-bkq2vtg6qq-uc.a.run.app
 options:
   logging: CLOUD_LOGGING_ONLY
