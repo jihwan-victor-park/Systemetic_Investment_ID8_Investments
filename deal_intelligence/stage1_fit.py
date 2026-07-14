@@ -98,9 +98,14 @@ async def score_deal(deal: DealInput) -> DealFit:
         # lets run()'s guard below tell "scoring broke" apart from "we scored it
         # and it's genuinely weak": a real score can never hit fit_score 0.0,
         # since the rubric floor is 1 per dimension.
+        # length + tail (not just head): the three-tier rationale asks for
+        # 40+ findings in one JSON blob, so the #1 suspect when parsing fails
+        # despite well-formed-looking content is max_tokens truncation
+        # mid-object -- the tail shows that at a glance, the head alone can't.
         raise ValueError(
             f"no usable rubric params in Perplexity response for {deal.name!r} "
-            f"(raw response, first 500 chars): {raw[:500]!r}"
+            f"(len={len(raw)}, first 300 chars): {raw[:300]!r} "
+            f"(last 300 chars): {raw[-300:]!r}"
         )
     fit_score = rubric.weighted_score(param_scores)
     raw_avg = rubric.raw_score(param_scores)

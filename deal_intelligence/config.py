@@ -60,10 +60,12 @@ STAGE1_SEARCH_CONTEXT_SIZE = os.getenv("DI_STAGE1_SEARCH_CONTEXT_SIZE", "medium"
 STAGE1_TIMEOUT_SECONDS = int(os.getenv("DI_STAGE1_TIMEOUT_SECONDS", "600"))
 # The three-tier rationale (point -> dimension -> deal) asks for 40+ grounded
 # subcategory findings plus four dimension syntheses plus a deal-level
-# rationale, all in one JSON response -- explicit, at sonar-deep-research's
-# documented output ceiling, so a lower silent API default can't truncate the
-# JSON mid-object and break extract_json().
-STAGE1_MAX_TOKENS = int(os.getenv("DI_STAGE1_MAX_TOKENS", "4000"))
+# rationale, all in one JSON response. 4000 was too low in practice -- seen in
+# production cutting the JSON off mid-object (valid, well-formed content up to
+# the truncation point, then nothing), because there's simply more content
+# demanded here than that budget covers. Doubled; raise further via env var if
+# stage1_fit.py's "no usable rubric params" error shows another mid-object cut.
+STAGE1_MAX_TOKENS = int(os.getenv("DI_STAGE1_MAX_TOKENS", "8000"))
 
 # ── Gate ─────────────────────────────────────────────────────────────────────
 # fit_score is the rubric's weighted average, 1-4 scale. v2.1 decision bands
