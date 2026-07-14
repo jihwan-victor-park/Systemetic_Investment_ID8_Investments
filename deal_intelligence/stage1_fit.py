@@ -75,7 +75,8 @@ async def score_deal(deal: DealInput) -> DealFit:
         reasoning_effort=config.STAGE1_REASONING_EFFORT,
         search_context_size=config.STAGE1_SEARCH_CONTEXT_SIZE,
         max_tokens=config.STAGE1_MAX_TOKENS)
-    parsed = research.extract_json(raw) or {}
+    parsed = research.extract_json(raw)
+    parsed = parsed if isinstance(parsed, dict) else {}
     param_scores = {}
     params = []
     weight_by_key = {p["key"]: p["weight"] for p in rubric.PARAMS}

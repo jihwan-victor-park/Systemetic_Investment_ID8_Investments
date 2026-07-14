@@ -57,7 +57,8 @@ def parse_investigate_message(message: str, context: str = None) -> dict:
     user_content = f"{context}\n\nLatest message: {message}" if context else message
     raw, _ = research.perplexity(user_content, model=config.CHAT_INTENT_MODEL, system=_SYSTEM,
                                   temperature=0, max_tokens=300, disable_search=True)
-    parsed = research.extract_json(raw) or {}
+    parsed = research.extract_json(raw)
+    parsed = parsed if isinstance(parsed, dict) else {}
     return {
         "name": str(parsed.get("name") or "").strip(),
         "domain": str(parsed.get("domain") or "").strip() or None,
