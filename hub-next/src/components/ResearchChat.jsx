@@ -140,12 +140,28 @@ export default function ResearchChat() {
     const input = text.trim();
     if (!input || sending) return;
 
+    // If the last turn was a clarification question, re-send that exchange as
+    // context so "it's this one: lassie.ai" resolves against "which company?"
+    // instead of being parsed alone and failing again. One prior exchange
+    // only -- see chat_intent.py's docstring for why this isn't full history.
+    let context;
+    if (stage === 1) {
+      const last = messages[messages.length - 1];
+      if (last?.role === 'assistant' && last.status === 'clarification') {
+        const prevUser = messages[messages.length - 2];
+        context = [
+          prevUser?.display ? `Previous message: ${prevUser.display}` : null,
+          `Assistant asked: ${last.question}`,
+        ].filter(Boolean).join('\n');
+      }
+    }
+
     // Stage 1: the box is a free-text message, parsed server-side into a
     // company (+ optional context) -- that's the "smarter" chat path. Stage 2
     // doesn't have that parsing yet, so the box is still read as a literal
     // company name there, same as the advanced fields below it.
     const body = stage === 1
-      ? { message: input, stage }
+      ? { message: input, stage, context }
       : { name: input, stage, domain: domain || undefined, round: round || undefined, leadInvestors: leadInvestors || undefined, hq };
     const meta = stage === 2 ? [round, domain, leadInvestors, hq].filter(Boolean).join(' · ') : '';
 

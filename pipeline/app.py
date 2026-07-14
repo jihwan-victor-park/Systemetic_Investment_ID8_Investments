@@ -1243,8 +1243,31 @@ def screen():
 # because Stage 1 now runs sonar-deep-research and Stage 2 runs several
 # research angles plus a Claude synthesis -- both take minutes, too long for a
 # single synchronous request.
-_chat_jobs = {}
-_chat_jobs_lock = threading.Lock()
+#
+# Job state lives in Firestore, NOT an in-process dict -- Cloud Run can (and
+# does) route the POST that starts a job and the GET that polls it to two
+# different container instances, and an in-memory dict on instance A is
+# invisible to instance B, which then 404s the poll ("not found") even though
+# the job is running fine. Firestore is shared across instances the same way
+# it already is for everything else in this service.
+_CHAT_JOBS_COLLECTION = "chat_jobs"
+_chat_jobs_db = None
+
+
+def _chat_jobs_firestore():
+    global _chat_jobs_db
+    if _chat_jobs_db is None:
+        _chat_jobs_db = gcp_firestore.Client(project=di_config.GCP_PROJECT_ID)
+    return _chat_jobs_db
+
+
+def _set_chat_job(job_id: str, data: dict):
+    _chat_jobs_firestore().collection(_CHAT_JOBS_COLLECTION).document(job_id).set(data)
+
+
+def _get_chat_job(job_id: str):
+    doc = _chat_jobs_firestore().collection(_CHAT_JOBS_COLLECTION).document(job_id).get()
+    return doc.to_dict() if doc.exists else None
 
 
 def _require_internal_secret():
@@ -1264,26 +1287,22 @@ def _run_chat_stage1(job_id: str, deal: "di_schemas.DealInput"):
         slug = di_fit_note.company_id(deal)
         docx_bytes = di_fit_note.build_docx_bytes(fit, deal)
         di_firestore_push.push_company_screen_firestore(fit, deal, slug, docx_bytes)
-        with _chat_jobs_lock:
-            _chat_jobs[job_id] = {
-                "status": "complete", "stage": 1,
-                "fit": fit.to_dict(), "slug": slug,
-                "verdict": di_fit_note._badge_text(fit),
-                "hub_path": f"/docs/qualified-deals/{slug}",
-            }
+        _set_chat_job(job_id, {
+            "status": "complete", "stage": 1,
+            "fit": fit.to_dict(), "slug": slug,
+            "verdict": di_fit_note._badge_text(fit),
+            "hub_path": f"/docs/qualified-deals/{slug}",
+        })
     except Exception as e:
-        with _chat_jobs_lock:
-            _chat_jobs[job_id] = {"status": "error", "stage": 1, "error": str(e)}
+        _set_chat_job(job_id, {"status": "error", "stage": 1, "error": str(e)})
 
 
 def _run_chat_stage2(job_id: str, deal: "di_schemas.DealInput"):
     try:
         memo = asyncio.run(di_stage2_research.deep_research(deal))
-        with _chat_jobs_lock:
-            _chat_jobs[job_id] = {"status": "complete", "stage": 2, "memo": memo.to_dict()}
+        _set_chat_job(job_id, {"status": "complete", "stage": 2, "memo": memo.to_dict()})
     except Exception as e:
-        with _chat_jobs_lock:
-            _chat_jobs[job_id] = {"status": "error", "stage": 2, "error": str(e)}
+        _set_chat_job(job_id, {"status": "error", "stage": 2, "error": str(e)})
 
 
 @app.route("/research-chat", methods=["POST"])
@@ -1315,8 +1334,9 @@ def research_chat():
     # it. Stage 2 has no chat-intent parsing yet, by design (see chat_intent.py
     # docstring) -- it still requires "name" directly, same as before.
     message = (body.get("message") or "").strip()
+    context = (body.get("context") or "").strip() or None
     if stage == 1 and message and not name:
-        parsed = di_chat_intent.parse_investigate_message(message)
+        parsed = di_chat_intent.parse_investigate_message(message, context=context)
         if parsed["needs_clarification"] or not parsed["name"]:
             return jsonify({
                 "status": "needs_clarification",
@@ -1337,8 +1357,7 @@ def research_chat():
         domain=domain, round=round_, lead_investors=lead_investors, hq=hq,
     )
     job_id = uuid.uuid4().hex
-    with _chat_jobs_lock:
-        _chat_jobs[job_id] = {"status": "running", "stage": stage}
+    _set_chat_job(job_id, {"status": "running", "stage": stage})
     target = _run_chat_stage1 if stage == 1 else _run_chat_stage2
     threading.Thread(target=target, args=(job_id, deal), daemon=True).start()
     # "name" echoed back so the frontend can show the resolved company name
@@ -1350,8 +1369,7 @@ def research_chat():
 def research_chat_status(job_id):
     if not _require_internal_secret():
         return jsonify({"error": "forbidden"}), 403
-    with _chat_jobs_lock:
-        job = _chat_jobs.get(job_id)
+    job = _get_chat_job(job_id)
     if not job:
         return jsonify({"error": "not found"}), 404
     return jsonify(job)

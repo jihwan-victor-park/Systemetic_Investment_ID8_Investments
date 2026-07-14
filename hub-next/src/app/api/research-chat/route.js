@@ -25,6 +25,7 @@ export async function POST(request) {
   const body = (await request.json().catch(() => null)) || {};
   const name = (body.name || '').trim();
   const message = (body.message || '').trim();
+  const context = (body.context || '').trim();
   const stage = body.stage === 2 ? 2 : 1;
   if (!name && !message) return NextResponse.json({ error: 'name or message is required' }, { status: 400 });
 
@@ -34,6 +35,7 @@ export async function POST(request) {
     body: JSON.stringify({
       name: name || undefined,
       message: message || undefined,
+      context: context || undefined,
       stage,
       domain: body.domain || undefined,
       round: body.round || undefined,
