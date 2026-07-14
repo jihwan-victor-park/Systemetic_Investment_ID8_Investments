@@ -11,6 +11,7 @@ const INTERNAL_LINKS = [
   { href: '/docs/qualified-deals', label: 'Qualified Deals' },
   { href: '/docs/top-vcs', label: 'Top VCs' },
   { href: '/docs/research', label: 'Research' },
+  { href: '/docs/research-chat', label: 'Research Chat' },
   { href: '/docs/overview', label: 'AI Capabilities' },
   { href: '/docs/projects/pitchbook-attio', label: 'Systems' },
   { href: '/docs/admin', label: 'Admin' },

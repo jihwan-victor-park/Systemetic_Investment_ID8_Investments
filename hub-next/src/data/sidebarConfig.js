@@ -47,6 +47,7 @@ export function getSidebarTree(companies = [], deals = []) {
         { type: 'doc', href: '/docs/research/market-map', label: 'Market Map Directory' },
       ],
     },
+    { type: 'doc', href: '/docs/research-chat', label: 'Research Chat' },
     { type: 'doc', href: '/docs/admin', label: 'Admin' },
   ];
 }

@@ -1,9 +1,10 @@
 import { H2 } from '@/components/Prose';
 import InlineMarkdown from '@/components/InlineMarkdown';
+import styles from './ScreenView.module.css';
 
 // Renders one company screen using the exact template every hub/docs/research/
 // companies/*.md file shares: a dated H2, a bold fit-score-and-verdict line,
-// a dimension-scoring table, a Rationale paragraph, a Confidence line, and a
+// a dimension-scoring list, a Rationale paragraph, a Confidence line, and a
 // numbered Sources list.
 export default function ScreenView({ screen }) {
   const heading = `Screen — ${screen.date}${screen.roundStage ? ` · ${screen.roundStage}` : ''}`;
@@ -19,24 +20,39 @@ export default function ScreenView({ screen }) {
       </p>
       {screen.hardAutoPassNote && <p><em>{screen.hardAutoPassNote}</em></p>}
 
-      <table>
-        <thead>
-          <tr>
-            <th>Dimension</th>
-            <th>Score</th>
-            <th>Evidence</th>
-          </tr>
-        </thead>
-        <tbody>
-          {screen.dimensions.map((d) => (
-            <tr key={d.name}>
-              <td>{d.name}</td>
-              <td>{d.score}</td>
-              <td><InlineMarkdown text={d.evidence} /></td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      {/* Click a dimension to expand its evidence/rationale detail. Collapsed
+          state still shows every score at a glance. */}
+      <div className={styles.dimensions}>
+        {screen.dimensions.map((d) => (
+          <details key={d.name} className={styles.dim}>
+            <summary>
+              <span className={styles.summaryLeft}>
+                <svg className={styles.chevron} width="10" height="10" viewBox="0 0 10 10" aria-hidden="true">
+                  <path d="M2 0.5 L8 5 L2 9.5" fill="none" stroke="currentColor" strokeWidth="1.6" />
+                </svg>
+                <span className={styles.dimName}>{d.name}</span>
+              </span>
+              <span className={styles.dimScore}>{d.score}<em> / 4</em></span>
+            </summary>
+            <div className={styles.dimEvidence}>
+              {/* Dimension-level tier: the synthesis of the point-level findings below. */}
+              <InlineMarkdown text={d.evidence} />
+              {/* Point-level tier: one grounded finding per rubric checklist item.
+                  Empty for AI Score/Terms, which have no checklist. */}
+              {d.subcategories?.length > 0 && (
+                <ul className={styles.subList}>
+                  {d.subcategories.map((s) => (
+                    <li key={s.name}>
+                      <span className={styles.subName}>{s.name}:</span>{' '}
+                      <InlineMarkdown text={s.finding} />
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </details>
+        ))}
+      </div>
 
       <p>
         <strong>Rationale</strong>

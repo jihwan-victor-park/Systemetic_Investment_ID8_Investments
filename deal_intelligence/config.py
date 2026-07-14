@@ -29,12 +29,32 @@ ANTHROPIC_URL = "https://api.anthropic.com/v1/messages"
 ATTIO_BASE = "https://api.attio.com/v2"
 
 # ── Models ───────────────────────────────────────────────────────────────────
-# Stage 1 is cheap and runs on every qualified deal. Stage 2 is deep and runs
-# only on deals that clear the gate.
-STAGE1_RESEARCH_MODEL = os.getenv("DI_STAGE1_MODEL", "sonar-pro")
+# Stage 1 now runs on Perplexity's deepest research model, at max reasoning
+# effort and max search context -- every qualified deal gets the full-power
+# read, not the cheap pass v2.1 used. Stage 2's model is unchanged for now.
+STAGE1_RESEARCH_MODEL = os.getenv("DI_STAGE1_MODEL", "sonar-deep-research")
 STAGE2_RESEARCH_MODEL = os.getenv("DI_STAGE2_MODEL", "sonar-reasoning-pro")
 SYNTH_MODEL = os.getenv("DI_SYNTH_MODEL", "claude-opus-4-8")        # memo synthesis
 SCORE_MODEL = os.getenv("DI_SCORE_MODEL", "claude-haiku-4-5-20251001")  # rubric scoring
+# Research-chat's Stage 1 intent parsing (deal_intelligence/chat_intent.py) --
+# extracting a company name out of a short chat message needs none of Opus's
+# depth, so this defaults to the fast/cheap model, not SYNTH_MODEL.
+CHAT_INTENT_MODEL = os.getenv("DI_CHAT_INTENT_MODEL", "claude-haiku-4-5-20251001")
+
+# sonar-deep-research runs iterative multi-step search and can take several
+# minutes per deal -- both knobs below only apply to Stage 1's perplexity()
+# call (see stage1_fit.py). reasoning_effort/search_context_size are Perplexity
+# API params (low/medium/high); "high" on both is the actual max-depth setting,
+# not just the biggest model name.
+STAGE1_REASONING_EFFORT = os.getenv("DI_STAGE1_REASONING_EFFORT", "high")
+STAGE1_SEARCH_CONTEXT_SIZE = os.getenv("DI_STAGE1_SEARCH_CONTEXT_SIZE", "high")
+STAGE1_TIMEOUT_SECONDS = int(os.getenv("DI_STAGE1_TIMEOUT_SECONDS", "600"))
+# The three-tier rationale (point -> dimension -> deal) asks for 40+ grounded
+# subcategory findings plus four dimension syntheses plus a deal-level
+# rationale, all in one JSON response -- explicit, at sonar-deep-research's
+# documented output ceiling, so a lower silent API default can't truncate the
+# JSON mid-object and break extract_json().
+STAGE1_MAX_TOKENS = int(os.getenv("DI_STAGE1_MAX_TOKENS", "4000"))
 
 # ── Gate ─────────────────────────────────────────────────────────────────────
 # fit_score is the rubric's weighted average, 1-4 scale. v2.1 decision bands
@@ -52,7 +72,11 @@ STRONG_GO_THRESHOLD = float(os.getenv("DI_STRONG_GO_THRESHOLD", "3.5"))
 MORE_DILIGENCE_THRESHOLD = float(os.getenv("DI_MORE_DILIGENCE_THRESHOLD", "2.5"))
 
 # ── Concurrency ──────────────────────────────────────────────────────────────
-STAGE1_PARALLEL = int(os.getenv("DI_STAGE1_PARALLEL", "6"))
+# sonar-deep-research has a much tighter rate limit than sonar-pro (as low as
+# 5 requests/min on a fresh Perplexity account, scaling with usage tier) --
+# defaulting lower than v2.1's 6 to avoid 429s the first time this runs.
+# Raise via env var once the account's actual Perplexity tier is confirmed.
+STAGE1_PARALLEL = int(os.getenv("DI_STAGE1_PARALLEL", "2"))
 STAGE2_PARALLEL = int(os.getenv("DI_STAGE2_PARALLEL", "3"))
 
 # ── Attio Deals schema ───────────────────────────────────────────────────────

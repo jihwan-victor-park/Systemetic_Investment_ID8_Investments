@@ -7,7 +7,7 @@ import asyncio
 import os
 
 from . import config, rubric, research
-from .schemas import DealInput, DealFit, ParamScore
+from .schemas import DealInput, DealFit, ParamScore, SubFinding
 
 _PROMPT = os.path.join(os.path.dirname(__file__), "prompts", "stage1_fit.md")
 
@@ -66,8 +66,15 @@ def _tier(fit_score: float, hard_auto_pass: bool, watch_list: bool) -> tuple:
 async def score_deal(deal: DealInput) -> DealFit:
     # temperature 0: scoring should be as repeatable as possible so a boundary
     # deal does not flip across the gate between runs (web-search variance remains).
+    # reasoning_effort/search_context_size at "high" + a long timeout: Stage 1
+    # now runs the deepest Perplexity model at max depth on every deal, not the
+    # cheap fast pass v2.1 used -- this can take several minutes per deal.
     raw, citations = await research.perplexity_async(
-        _build_prompt(deal), model=config.STAGE1_RESEARCH_MODEL, temperature=0)
+        _build_prompt(deal), model=config.STAGE1_RESEARCH_MODEL, temperature=0,
+        timeout=config.STAGE1_TIMEOUT_SECONDS,
+        reasoning_effort=config.STAGE1_REASONING_EFFORT,
+        search_context_size=config.STAGE1_SEARCH_CONTEXT_SIZE,
+        max_tokens=config.STAGE1_MAX_TOKENS)
     parsed = research.extract_json(raw) or {}
     param_scores = {}
     params = []
@@ -78,7 +85,12 @@ async def score_deal(deal: DealInput) -> DealFit:
             continue
         sc = float(item.get("score", 0) or 0)
         param_scores[key] = sc
-        params.append(ParamScore(key=key, score=sc, weight=weight_by_key[key], evidence=item.get("evidence", "")))
+        subs = [
+            SubFinding(label=str(s.get("label", "")), finding=str(s.get("finding", "")))
+            for s in (item.get("subcategories") or []) if isinstance(s, dict)
+        ]
+        params.append(ParamScore(key=key, score=sc, weight=weight_by_key[key],
+                                  evidence=item.get("evidence", ""), subcategories=subs))
     if not params:
         # Either Perplexity's response didn't parse as JSON at all, or it parsed
         # but had no "params" array we could read -- either way we got no real

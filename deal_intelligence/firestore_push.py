@@ -82,6 +82,15 @@ def push_company_screen_firestore(fit: DealFit, deal: DealInput, slug: str, docx
                 "name": PARAM_LABELS.get(p.key, p.key),
                 "score": p.score,
                 "evidence": _linkify_md(p.evidence.replace("|", "/").replace("\n", " "), cites),
+                # Point-level tier of the three-tier rationale (point -> dimension ->
+                # deal). Empty for ai_score/terms, which have no rubric checklist.
+                "subcategories": [
+                    {
+                        "name": s.label,
+                        "finding": _linkify_md(s.finding.replace("|", "/").replace("\n", " "), cites),
+                    }
+                    for s in p.subcategories
+                ],
             }
             for p in fit.params
         ],

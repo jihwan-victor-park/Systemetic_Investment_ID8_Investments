@@ -1,0 +1,104 @@
+/* Click-to-expand dimension rows: collapsed shows dimension + score, click
+   reveals the evidence/rationale detail behind it. Native <details> — no JS
+   needed, works with keyboard/screen readers for free. */
+
+.dimensions {
+  margin: 1.2rem 0;
+  border-top: 1.5px solid var(--id8-ink);
+}
+
+.dim {
+  border-bottom: 1px solid var(--id8-hair);
+}
+
+.dim > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 2px;
+  cursor: pointer;
+  list-style: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.dim > summary::-webkit-details-marker {
+  display: none;
+}
+
+.dim > summary:hover .dimName {
+  color: var(--id8-accent);
+}
+
+.chevron {
+  display: inline-flex;
+  margin-right: 10px;
+  color: var(--id8-grey);
+  transform: rotate(0deg);
+  transition: transform 0.15s ease;
+  flex-shrink: 0;
+}
+
+.dim[open] .chevron {
+  transform: rotate(90deg);
+}
+
+.summaryLeft {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.dimName {
+  font-family: 'Sora', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--id8-ink);
+}
+
+.dimScore {
+  font-family: 'Sora', sans-serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--id8-soft);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.dimScore em {
+  font-style: normal;
+  font-weight: 400;
+  color: var(--id8-grey);
+}
+
+.dimEvidence {
+  margin: 0 0 14px 26px;
+  padding-right: 4px;
+  color: var(--id8-soft);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+/* Point-level findings -- one per rubric checklist item, listed under the
+   dimension-level synthesis above. */
+.subList {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 10px 0 0;
+  border-top: 1px dashed var(--id8-hair);
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.subList li {
+  font-size: 0.84rem;
+  line-height: 1.5;
+  color: var(--id8-soft);
+}
+
+.subName {
+  font-family: 'Sora', sans-serif;
+  font-weight: 600;
+  color: var(--id8-ink);
+}

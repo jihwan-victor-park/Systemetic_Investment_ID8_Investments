@@ -13,6 +13,7 @@ import openpyxl
 from flask import Flask, request, jsonify, send_file, send_file
 from datetime import datetime
 
+import uuid
 import attio_apollo_sync as apollo_sync
 from google.cloud import firestore as gcp_firestore
 
@@ -24,6 +25,11 @@ from deal_intelligence import _secrets  # noqa: F401 — loads GCP secrets into 
 from deal_intelligence import pipeline as di_pipeline
 from deal_intelligence import schemas as di_schemas
 from deal_intelligence import config as di_config
+from deal_intelligence import stage1_fit as di_stage1_fit
+from deal_intelligence import stage2_research as di_stage2_research
+from deal_intelligence import fit_note as di_fit_note
+from deal_intelligence import firestore_push as di_firestore_push
+from deal_intelligence import chat_intent as di_chat_intent
 
 app = Flask(__name__)
 
@@ -1223,6 +1229,134 @@ def screen():
     result = asyncio.run(di_pipeline.screen(deals, dry_run=dry_run, publish=False))
     result.pop("fits", None)  # dataclasses aren't JSON-serializable
     return jsonify(result)
+
+
+# ── Research chat (hub-next "investigate a company" tool) ────────────────────
+# Ad-hoc, one-off research on a company NAMED IN CHAT, not necessarily an Attio
+# deal record — so unlike /screen and /screen-deals, this never touches Attio.
+# Stage 1 still gets a real fit score and (unlike the Attio path) is published
+# straight to Firestore, so it shows up in hub-next's Qualified Deals list like
+# any other screen. Stage 2 has no hub-next display surface today, so its memo
+# is returned to the caller directly and not persisted anywhere.
+#
+# Runs in a background thread and is polled, same shape as /screen-deals,
+# because Stage 1 now runs sonar-deep-research and Stage 2 runs several
+# research angles plus a Claude synthesis -- both take minutes, too long for a
+# single synchronous request.
+_chat_jobs = {}
+_chat_jobs_lock = threading.Lock()
+
+
+def _require_internal_secret():
+    """Optional shared-secret gate. hub-next's server-side API route is the
+    only intended caller (never the browser directly) -- if INTERNAL_API_SECRET
+    is configured, require it; if it isn't set yet, don't block (matches every
+    other endpoint on this service today, which has no request auth at all)."""
+    expected = os.environ.get("INTERNAL_API_SECRET")
+    if not expected:
+        return True
+    return request.headers.get("X-Internal-Secret") == expected
+
+
+def _run_chat_stage1(job_id: str, deal: "di_schemas.DealInput"):
+    try:
+        fit = asyncio.run(di_stage1_fit.score_deal(deal))
+        slug = di_fit_note.company_id(deal)
+        docx_bytes = di_fit_note.build_docx_bytes(fit, deal)
+        di_firestore_push.push_company_screen_firestore(fit, deal, slug, docx_bytes)
+        with _chat_jobs_lock:
+            _chat_jobs[job_id] = {
+                "status": "complete", "stage": 1,
+                "fit": fit.to_dict(), "slug": slug,
+                "verdict": di_fit_note._badge_text(fit),
+                "hub_path": f"/docs/qualified-deals/{slug}",
+            }
+    except Exception as e:
+        with _chat_jobs_lock:
+            _chat_jobs[job_id] = {"status": "error", "stage": 1, "error": str(e)}
+
+
+def _run_chat_stage2(job_id: str, deal: "di_schemas.DealInput"):
+    try:
+        memo = asyncio.run(di_stage2_research.deep_research(deal))
+        with _chat_jobs_lock:
+            _chat_jobs[job_id] = {"status": "complete", "stage": 2, "memo": memo.to_dict()}
+    except Exception as e:
+        with _chat_jobs_lock:
+            _chat_jobs[job_id] = {"status": "error", "stage": 2, "error": str(e)}
+
+
+@app.route("/research-chat", methods=["POST"])
+def research_chat():
+    """Start an ad-hoc research job on a company named in the chat. Body:
+      {"name": "Acme", "domain": "acme.com", "round": "Series C",
+       "lead_investors": "Accel", "hq": "SF, CA", "stage": 1}
+    Only "name" and "stage" (1 or 2) are required; the rest sharpen the
+    research the way they would for a real qualified-deal screen."""
+    if not _require_internal_secret():
+        return jsonify({"error": "forbidden"}), 403
+    missing = [v for v in ("PERPLEXITY_API_KEY",) if not os.environ.get(v)]
+    if missing:
+        return jsonify({"error": f"missing env vars: {', '.join(missing)}"}), 400
+    body = request.get_json(silent=True) or {}
+    stage = body.get("stage", 1)
+    if stage not in (1, 2):
+        return jsonify({"error": "'stage' must be 1 or 2"}), 400
+    if stage == 2 and not os.environ.get("ANTHROPIC_API_KEY"):
+        return jsonify({"error": "missing env var: ANTHROPIC_API_KEY (needed for Stage 2 synthesis)"}), 400
+
+    name = (body.get("name") or "").strip()
+    domain, round_, lead_investors, hq = (body.get("domain") or None, body.get("round") or None,
+                                           body.get("lead_investors") or None, body.get("hq") or None)
+
+    # Stage 1 only: free-text "message" gets parsed into a company + optional
+    # context (deal_intelligence/chat_intent.py) -- this is the ONLY intent
+    # that parser recognizes, and it's the only thing this endpoint does with
+    # it. Stage 2 has no chat-intent parsing yet, by design (see chat_intent.py
+    # docstring) -- it still requires "name" directly, same as before.
+    message = (body.get("message") or "").strip()
+    if stage == 1 and message and not name:
+        if not os.environ.get("ANTHROPIC_API_KEY"):
+            return jsonify({"error": "missing env var: ANTHROPIC_API_KEY (needed to parse the chat message)"}), 400
+        parsed = di_chat_intent.parse_investigate_message(message)
+        if parsed["needs_clarification"] or not parsed["name"]:
+            return jsonify({
+                "status": "needs_clarification",
+                "clarification_question": parsed["clarification_question"] or
+                    "Which company would you like me to investigate?",
+            })
+        name = parsed["name"]
+        domain = domain or parsed["domain"]
+        round_ = round_ or parsed["round"]
+        lead_investors = lead_investors or parsed["lead_investors"]
+        hq = hq or parsed["hq"]
+
+    if not name:
+        return jsonify({"error": "'name' is required"}), 400
+
+    deal = di_schemas.DealInput(
+        record_id=f"chat-{uuid.uuid4().hex[:10]}", name=name,
+        domain=domain, round=round_, lead_investors=lead_investors, hq=hq,
+    )
+    job_id = uuid.uuid4().hex
+    with _chat_jobs_lock:
+        _chat_jobs[job_id] = {"status": "running", "stage": stage}
+    target = _run_chat_stage1 if stage == 1 else _run_chat_stage2
+    threading.Thread(target=target, args=(job_id, deal), daemon=True).start()
+    # "name" echoed back so the frontend can show the resolved company name
+    # while polling, even when it only had a free-text message to go on.
+    return jsonify({"job_id": job_id, "status": "started", "poll": f"/research-chat/{job_id}", "name": name})
+
+
+@app.route("/research-chat/<job_id>", methods=["GET"])
+def research_chat_status(job_id):
+    if not _require_internal_secret():
+        return jsonify({"error": "forbidden"}), 403
+    with _chat_jobs_lock:
+        job = _chat_jobs.get(job_id)
+    if not job:
+        return jsonify({"error": "not found"}), 404
+    return jsonify(job)
 
 
 # ── Hub publish (rebuild + deploy the Firebase site) ──────────────────────────

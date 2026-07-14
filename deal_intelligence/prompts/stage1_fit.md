@@ -39,9 +39,17 @@ validated by ID8's own backtesting against the broader Series B/C/D universe:
 - The round is led or co-led by a Tier 1 (or Domain-Strategic) investor.
 - That investor is joining the cap table as lead/co-lead for the FIRST time —
   "new money," not an existing relationship extending its position. This is
-  the single strongest predictor of returns in ID8's own data (new-money
-  Tier 1-led Series Bs: 14.3x average MOIC vs. 6.4x for the Series B universe
-  as a whole; the same gap holds at Series C and D).
+  the single strongest predictor of returns in ID8's own data:
+
+  | Stage | New-money Tier-1 avg MOIC | Full stage universe avg MOIC |
+  | --- | --- | --- |
+  | Series B | 14.3x | 6.4x |
+  | Series C | 7.0x | 4.2x |
+  | Series D | 7.8x | 3.8x |
+
+  This backtest validates new-money Tier-1 leads specifically — it says
+  nothing about re-up leads, which is why a re-up claim needs verification,
+  not assumption (see research steps below).
 - The company's moat is genuinely AI-driven — not AI as a feature a
   foundational-model update could absorb. No meaningful AI component is a
   hard auto-pass regardless of how good everything else looks (see rubric).
@@ -53,6 +61,20 @@ this thesis — especially whether the lead is genuinely new-money Tier 1 (or a
 qualifying Domain-Strategic lead) vs. an existing/inside investor, and whether
 AI is genuinely structural to the business — not just restate the rubric
 scores.
+
+## Research steps that must not be skipped
+
+- **Re-up verification.** When the lead is characterized as a re-up, actively
+  verify this via cap table history, prior fund disclosures, or press
+  coverage of the prior round — do not accept "re-up" at face value from a
+  press release or company statement without corroboration. An unverified
+  re-up claim should be flagged in the evidence, not scored as if confirmed.
+- **Source VC structural constraint.** Search for the source fund's size,
+  vintage, and current portfolio concentration to assess whether they are
+  structurally pro-rata-constrained (small fund size relative to the check
+  size, late in fund life, concentration-capped — ID8's own stated thesis is
+  that early-stage VCs increasingly can't exercise their own pro-rata rights)
+  versus opportunistically selling access they could actually afford to keep.
 
 ## Data availability is not a verdict
 
@@ -93,6 +115,32 @@ almost nothing, even though the number looks identical. Never fabricate a
 number without labeling it `[ESTIMATED]` and showing the triangulation math,
 and never let missing data silently default to the worst score.
 
+## Three-tier rationale: point, dimension, deal
+
+The research record is the actual product here, not just the score. Report it
+at three tiers, each rolling up into the next:
+
+1. **Point.** For `lead_round_dynamics`, `founder_team_quality`, `fundamentals`,
+   and `return_potential`, the rubric gives you a 10-item subcategory checklist.
+   Work through every item on that dimension's checklist and report one
+   grounded finding per item in `subcategories`: a specific fact plus a source
+   where you have one, or `"none found"` where you genuinely don't — one tight
+   sentence each, not a paragraph. This is the real research trail; do not
+   skip items or merge two into one to save space. `ai_score` and `terms` have
+   no checklist in the rubric, so leave `subcategories` empty for those two and
+   put the full finding directly in `evidence` instead.
+2. **Dimension.** `evidence` is the synthesis of that dimension's point-level
+   findings into the verdict behind the 1-4 score — not a restatement of any
+   single point, and not a list recap. Say what the findings add up to.
+3. **Deal.** `rationale` is the synthesis across all four scored dimensions
+   plus AI Score and Terms — the overall read, with explicit thesis
+   alignment/misalignment per the "ID8's thesis" section above.
+
+Keep every point-level finding to one sentence — the JSON response has a
+token budget and 40+ findings plus four dimension syntheses and a deal-level
+rationale has to fit inside it. Precision over length: cite the sharpest
+available fact, not everything you found.
+
 ## Rubric
 
 {rubric}
@@ -102,8 +150,13 @@ and never let missing data silently default to the worst score.
 Return only JSON, no prose:
 
 {{
-  "params": [{{"key": "<param key>", "score": 1, "evidence": "1-2 sentences + source or 'none found'"}}],
-  "rationale": "2-3 sentences: the overall read, plus explicit thesis alignment/misalignment per above",
+  "params": [{{
+    "key": "<param key>",
+    "score": 1,
+    "subcategories": [{{"label": "<checklist item name from the rubric>", "finding": "one grounded sentence + source, or 'none found'"}}],
+    "evidence": "2-3 sentences: the dimension-level synthesis of the subcategory findings above -- empty subcategories array and the full finding here for ai_score/terms"
+  }}],
+  "rationale": "3-4 sentences: the overall deal-level read across every dimension, plus explicit thesis alignment/misalignment per above",
   "confidence": "high | medium | low  -- Diligence Confidence per the rubric: how much of the score rests on verified vs. public-only/estimated data, not a restatement of the numeric score",
   "hard_auto_pass": true | false,
   "hard_auto_pass_reason": "which condition fired, quoting the rubric's hard-auto-pass list -- empty string if false",
@@ -111,5 +164,10 @@ Return only JSON, no prose:
 }}
 
 Score every parameter in this list: {params}, each from 1 to 4 per the rubric's
-anchors. Be skeptical. No evidence means the data-missing anchor (usually 2),
-not a guess in either direction. Never fabricate a number or a source.
+anchors. `ai_score` and `terms` are gate-only: they still require a real,
+evidence-backed 1-4 score (used for hard_auto_pass detection and the
+one-pager's six-row display) but do not contribute to fit_score's weighted
+average — do not inflate either score to try to move the average, it
+structurally can't, and it only makes the evidence field less trustworthy.
+Be skeptical. No evidence means the data-missing anchor (usually 2), not a
+guess in either direction. Never fabricate a number or a source.

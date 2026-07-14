@@ -15,11 +15,24 @@ class DealInput:
 
 
 @dataclass
+class SubFinding:
+    """One rubric checklist point's grounded finding -- the point-level tier
+    of the three-tier rationale (point -> dimension -> deal). Empty for
+    gate_only dimensions (ai_score, terms), which have no checklist in
+    prompts/rubric.md and carry their full finding in ParamScore.evidence
+    directly."""
+    label: str          # checklist item name, e.g. "New money vs. re-up"
+    finding: str        # 1 grounded sentence: a specific fact + source, or "none found"
+
+
+@dataclass
 class ParamScore:
     key: str            # rubric parameter key
     score: float        # 1-4 for this parameter, per the rubric's anchors
     weight: float       # weight from the rubric
-    evidence: str       # 1-2 sentences with a source where possible
+    evidence: str       # dimension-level rationale -- the synthesis of subcategories below,
+                        # not a restatement of any single one
+    subcategories: list = field(default_factory=list)  # list[SubFinding], point-level tier
 
 
 @dataclass
