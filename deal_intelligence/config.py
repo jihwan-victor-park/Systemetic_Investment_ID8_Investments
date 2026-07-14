@@ -138,8 +138,13 @@ MEMO_DIR = os.getenv("DI_MEMO_DIR", "deal_intelligence/output/memos")
 HUB_COMPANIES_DIR = os.getenv("DI_HUB_COMPANIES_DIR", "hub/docs/research/companies")
 HUB_DOCX_DIR = os.getenv("DI_HUB_DOCX_DIR", "hub/static/research/companies")
 # Public base URL of the deployed hub, used to compose the per-company research
-# link written onto the Attio deal. The page path is /docs/research/companies/<slug>.
-HUB_BASE_URL = os.getenv("DI_HUB_BASE_URL", "https://intel.id8investments.com")
+# link written onto the Attio deal. The page path is /docs/qualified-deals/<slug>.
+# This is hub-next's real Cloud Run URL, not the old Docusaurus hub
+# (molten-crowbar-498920-q8.web.app) that intel.id8investments.com still
+# resolves to -- that custom domain was never actually remapped to hub-next
+# (see docs/HUB_NEXT_ACCESS_REQUESTS.md's DNS checklist), so defaulting to it
+# here sent every email link to a dead page on the old site.
+HUB_BASE_URL = os.getenv("DI_HUB_BASE_URL", "https://id8-hub-next-bkq2vtg6qq-uc.a.run.app")
 
 # ── hub-next (Firestore + Cloud Storage) ──────────────────────────────────────
 # Same GCP project as everything else here. The Cloud Run service account

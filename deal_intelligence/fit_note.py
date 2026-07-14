@@ -85,7 +85,7 @@ def hub_url(deal: DealInput, base: str = None) -> str:
     """The deployed-hub research page for this company. Predictable from the slug,
     so it can be written onto the Attio deal even before the page is published."""
     base = (base or config.HUB_BASE_URL).rstrip("/")
-    return f"{base}/docs/research/companies/{company_id(deal)}"
+    return f"{base}/docs/qualified-deals/{company_id(deal)}"
 
 
 def normalize_domain(domain: str) -> str:
