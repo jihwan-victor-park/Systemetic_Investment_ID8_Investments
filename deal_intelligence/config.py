@@ -67,20 +67,22 @@ STAGE1_TIMEOUT_SECONDS = int(os.getenv("DI_STAGE1_TIMEOUT_SECONDS", "600"))
 # The three-tier rationale (point -> dimension -> deal) asks for 50+ grounded
 # subcategory findings (v3.1: five scored dimensions with a 10-item checklist
 # each, AI Score now among them) plus five dimension syntheses plus a
-# deal-level rationale, all in one JSON response. This budget is shared with
-# the model's own <think> reasoning block (sonar-reasoning-pro/sonar-deep-
-# research spend real, variable-length tokens thinking before ever writing
-# the answer) -- so it isn't just "content length in, tokens out" arithmetic,
-# and undershooting cuts the JSON off mid-object with no warning beyond
-# stage1_fit.py's "no usable rubric params" error.
+# deal-level rationale, all in one JSON response.
 # History: 4000 too low -> 8000 -> 10000 for v3.1's fifth checklist -- and
-# 10000 STILL truncated in production (Research Chat, 2026-07-14: cut off
-# mid-sentence inside the Terms dimension's evidence field, after already
-# writing all five scored dimensions -- i.e. it ran out with the JSON nearly
-# complete, not early). Raised more aggressively this time rather than
-# incrementally again, since there's no cost penalty for unused ceiling
-# headroom (Perplexity bills actual tokens generated, not max_tokens itself).
-STAGE1_MAX_TOKENS = int(os.getenv("DI_STAGE1_MAX_TOKENS", "24000"))
+# 10000 STILL truncated in production (Research Chat, 2026-07-14: the raw
+# response was 24000+ characters and still cut off mid-sentence inside the
+# Terms dimension's evidence field, after already writing all five scored
+# dimensions). The root cause wasn't an unlucky ceiling, it was that
+# "one tight sentence" per finding is not a real constraint -- the model was
+# actually writing 30-50+ word findings, not the ~12 words that phrase implies.
+# prompts/stage1_fit.md now puts a hard, explicit word cap on every field
+# (<=12 words/finding, <=25 words/evidence, <=40 words/rationale) instead of
+# relying on "keep it tight" as a vibe, which should bring a compliant
+# response down to roughly 2000-3500 tokens of actual JSON content. This is
+# set well above that (not right at it) as margin for imperfect adherence to
+# the caps on any single run, without going back to the 24000 emergency
+# ceiling now that the actual size driver -- not the budget -- is fixed.
+STAGE1_MAX_TOKENS = int(os.getenv("DI_STAGE1_MAX_TOKENS", "12000"))
 
 # ── Gate ─────────────────────────────────────────────────────────────────────
 # fit_score is the rubric's weighted average, 1-4 scale. v2.1 decision bands

@@ -127,21 +127,28 @@ at three tiers, each rolling up into the next:
    subcategory checklist. Work through every item on that dimension's
    checklist and report one grounded finding per item in `subcategories`: a
    specific fact plus a source where you have one, or `"none found"` where
-   you genuinely don't — one tight sentence each, not a paragraph. This is the
-   real research trail; do not skip items or merge two into one to save
-   space. `terms` has no checklist in the rubric, so leave `subcategories`
-   empty for it and put the full finding directly in `evidence` instead.
+   you genuinely don't — **12 words or fewer, one clause, no exceptions.**
+   This is the real research trail; do not skip items or merge two into one
+   to save space, but do not narrate, hedge, or explain your reasoning either
+   — state the fact and stop. `terms` has no checklist in the rubric, so
+   leave `subcategories` empty for it and put the full finding directly in
+   `evidence` instead.
 2. **Dimension.** `evidence` is the synthesis of that dimension's point-level
-   findings into the verdict behind the 1-4 score — not a restatement of any
-   single point, and not a list recap. Say what the findings add up to.
+   findings into the verdict behind the 1-4 score — **one sentence, 25 words
+   or fewer.** Not a restatement of any single point, not a list recap, not a
+   second retelling of the findings above it — just the verdict they add up to.
 3. **Deal.** `rationale` is the synthesis across all five scored dimensions
-   plus Terms — the overall read, with explicit thesis alignment/
-   misalignment per the "ID8's thesis" section above.
+   plus Terms — **two sentences, 40 words or fewer** — the overall read, with
+   explicit thesis alignment/misalignment per the "ID8's thesis" section above.
 
-Keep every point-level finding to one sentence — the JSON response has a
-token budget and 50+ findings plus five dimension syntheses and a deal-level
-rationale has to fit inside it. Precision over length: cite the sharpest
-available fact, not everything you found.
+These are hard caps, not targets to approach: this response has a real token
+budget, and 50+ findings plus five dimension syntheses and a deal-level
+rationale must fit inside it. If a finding needs more than 12 words to state
+the fact, you are including reasoning or hedging — cut it, don't compress it
+into run-on clauses. A short "none found" beats a padded non-finding.
+`"label"` in each subcategory is a 2-4 word tag (e.g. `"New money vs. re-up"`),
+not the full checklist sentence copied from the rubric — the checklist text
+is for your reference, not for reproduction in the response.
 
 ## Rubric
 
@@ -155,10 +162,10 @@ Return only JSON, no prose:
   "params": [{{
     "key": "<param key>",
     "score": 1,
-    "subcategories": [{{"label": "<checklist item name from the rubric>", "finding": "one grounded sentence + source, or 'none found'"}}],
-    "evidence": "2-3 sentences: the dimension-level synthesis of the subcategory findings above -- empty subcategories array and the full finding here for terms"
+    "subcategories": [{{"label": "<2-4 word tag, not the rubric sentence>", "finding": "<= 12 words: one fact + source, or 'none found'"}}],
+    "evidence": "<= 25 words, one sentence: the dimension-level verdict -- empty subcategories array and the full finding here for terms"
   }}],
-  "rationale": "3-4 sentences: the overall deal-level read across every dimension, plus explicit thesis alignment/misalignment per above",
+  "rationale": "<= 40 words, two sentences: the overall deal-level read across every dimension, plus explicit thesis alignment/misalignment per above",
   "confidence": "high | medium | low  -- Diligence Confidence per the rubric: how much of the score rests on verified vs. public-only/estimated data, not a restatement of the numeric score",
   "hard_auto_pass": true | false,
   "hard_auto_pass_reason": "which condition fired, quoting the rubric's hard-auto-pass list -- empty string if false",
@@ -174,4 +181,6 @@ evidence field less trustworthy. `ai_score` is a normal scored dimension:
 work through its 10-item subcategory checklist like the other four and let
 it carry its full 20% weight.
 Be skeptical. No evidence means the data-missing anchor (usually 2), not a
-guess in either direction. Never fabricate a number or a source.
+guess in either direction. Never fabricate a number or a source. Every field
+above has a hard word cap — stated inline, not a suggestion. Hit it exactly
+or come in under; going over means you're padding, not researching harder.
