@@ -101,6 +101,15 @@ def perplexity(prompt: str, model: str = None, timeout: int = 90, temperature: f
         choice = data["choices"][0]
         content = choice.get("message", {}).get("content") or ""
         citations = data.get("citations") or []
+        if choice.get("finish_reason") == "length":
+            # Non-empty but cut off mid-generation (max_tokens exhausted before
+            # the model finished) -- extract_json() will fail to find a closed
+            # object downstream, surfacing as stage1_fit.py's "no usable rubric
+            # params" error. Log it here too, at the source, so a recurrence is
+            # immediately visible as a truncation (raise DI_STAGE1_MAX_TOKENS)
+            # rather than only inferable from the caller's truncated-text excerpt.
+            print(f"[research.perplexity] response truncated at max_tokens (attempt {attempt + 1}/{attempts}): "
+                  f"model={payload['model']!r} usage={data.get('usage')!r} content_len={len(content)}", flush=True)
         if content.strip():
             return content, citations
         print(f"[research.perplexity] empty content (attempt {attempt + 1}/{attempts}): "
