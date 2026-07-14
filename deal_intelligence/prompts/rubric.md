@@ -1,36 +1,36 @@
-<!-- The real ID8 rubric (v3.0, July 2026). Injected verbatim into the stage-1
+<!-- The real ID8 rubric (v3.1, July 2026). Injected verbatim into the stage-1
 prompt. Keep the parameter keys in sync with PARAMS in rubric.py. -->
 
-# ID8 Deal Fit Rubric (v3.0)
+# ID8 Deal Fit Rubric (v3.1)
 
 Score each of the six dimensions below from 1 to 4 using the anchors given.
-Four are weighted at parity; two are gate-only. Report both:
+Five are weighted at exact parity; one (Terms) is gate-only. Report both:
 
-- **Raw average** — plain mean of the four *scored* 1-4 dimensions (Lead /
-  Round Dynamics, Founder / Team Quality, Fundamentals, Return Potential).
-  AI Score and Terms are never part of this average.
+- **Raw average** — plain mean of the five *scored* 1-4 dimensions (Lead /
+  Round Dynamics, Founder / Team Quality, Fundamentals, Return Potential, AI
+  Score). Terms is never part of this average.
 - **Weighted average** — the rubric's actual verdict; this is what gates a
-  deal to deep research (see stage1_fit.md's thresholds). Same four
-  dimensions, each at exactly 25%, so weighted and raw average happen to be
+  deal to deep research (see stage1_fit.md's thresholds). Same five
+  dimensions, each at exactly 20%, so weighted and raw average happen to be
   the same computation at this rubric version — reported separately because
   the underlying math (and the field names downstream) treat them as
   distinct, and because a future reweighting should not require a schema
   change.
 
-AI Score and Terms still require a real, evidence-backed 1-4 score each —
-they drive hard-auto-pass detection and appear in the one-pager's six-row
-scoring table — but neither contributes to either average above. They are
-pass/fail gates, not graded on a curve. Do not inflate either score to try to
-move the weighted average; it structurally can't, and evidence padding just
-makes the record less useful.
+Terms still requires a real, evidence-backed 1-4 score — it drives
+hard-auto-pass detection and appears in the one-pager's six-row scoring
+table — but it does not contribute to either average above. It is a
+pass/fail gate, not graded on a curve. Do not inflate it to try to move the
+weighted average; it structurally can't, and evidence padding just makes the
+record less useful.
 
 | Dimension | Weight | What It Measures |
 | --- | --- | --- |
-| **Lead / Round Dynamics** | 25% | GP tier, new vs. re-up (verified), source-VC structural constraint, domain-strategic signal, direct access |
-| **Founder / Team Quality** | 25% | Track record, domain authority, execution history, integrity |
-| **Fundamentals** | 25% | Revenue, growth, NDR, burn, capital efficiency, moat strength |
-| **Return Potential** | 25% | Realistic MOIC and IRR trajectory, secondary-market demand corroboration — no valuation caps |
-| **AI Score** | Gate only | Depth of AI moat: pure-play vs. data advantage vs. feature wrapper. No meaningful AI component is a hard auto-pass; otherwise not weighted. |
+| **Lead / Round Dynamics** | 20% | GP tier, new vs. re-up (verified), source-VC structural constraint, domain-strategic signal, direct access |
+| **Founder / Team Quality** | 20% | Track record, domain authority, execution history, integrity |
+| **Fundamentals** | 20% | Revenue, growth, NDR, burn, capital efficiency, moat strength |
+| **Return Potential** | 20% | Realistic MOIC and IRR trajectory, secondary-market demand corroboration — no valuation caps |
+| **AI Score** | 20% | Depth of AI moat: pure-play vs. data advantage vs. feature wrapper. No meaningful AI component is still a hard auto-pass; otherwise scored on the same curve as everything else. |
 | **Terms** | Gate only | Carry, upfront fee, structure. Bad terms are a hard auto-pass trigger; otherwise not weighted. |
 
 ## Missing data is not the same as bad data
@@ -64,7 +64,7 @@ undisclosed data lands on a 2, not a 1:
   **Founder / Team Quality: 2 max**, flag `[unverified]`.
 - Non-Tier-1 lead at Series B+ → **Lead / Round Dynamics: 2** — a real, known
   signal (not missing data), but deliberately anchored at 2 rather than 1 so
-  it drags the weighted average via its 25% weight rather than killing the
+  it drags the weighted average via its 20% weight rather than killing the
   deal outright.
 
 Score 1 is reserved for a *confirmed* disqualifying fact. When a dimension
@@ -73,7 +73,7 @@ auto-pass triggers below.
 
 ## Dimension anchors
 
-**Lead / Round Dynamics (25%)** — the primary first-filter signal. A Tier 1+
+**Lead / Round Dynamics (20%)** — the primary first-filter signal. A Tier 1+
 fund leading with new money at Series B+ is what brings a deal into the ID8
 funnel; everything else is evaluation on top of that signal. Always note
 `NEW` (first time on the cap table) or `RE-UP` (existing investor increasing
@@ -142,7 +142,7 @@ the list below surfaced in `evidence`, not a checkbox-by-checkbox transcript.
 9. **Syndicate breadth and allocation dynamics.** Oversubscription, number of credible co-investors, ID8's actual allocation relative to demand.
 10. **Round timing and motivation.** Opportunistic (positive inflection, multiple term sheet options) vs. defensive (runway extension, limited alternatives).
 
-**Founder / Team Quality (25%)** — scores the people independently of
+**Founder / Team Quality (20%)** — scores the people independently of
 product metrics. If information is limited, land on 2 and flag
 `[unverified]` rather than guessing up or down.
 
@@ -171,7 +171,7 @@ writing · co-founder dynamics.
 9. **Founder financial alignment.** Ownership retained, personal capital at risk, compensation discipline relative to company stage.
 10. **Red flag / integrity history — CAN OVERRIDE EVERYTHING ELSE.** Litigation, fraud allegations, regulatory action, verified toxic-culture signals. A confirmed hit here is the Founder/Team Quality hard auto-pass regardless of every other subcategory (see anchor row 1 above).
 
-**Fundamentals (25%)** — moat strength and competitive positioning ·
+**Fundamentals (20%)** — moat strength and competitive positioning ·
 valuation vs. revenue and margins · capital efficiency · sector disruption
 risk. A revenue multiple vs. comp set is mandatory in every screen: search
 hard for a real disclosed number first; if none exists, triangulate an
@@ -204,7 +204,7 @@ Confidence at MEDIUM (see "Missing data is not the same as bad data" above).
 9. **Valuation vs. comp set.** Revenue multiple at entry vs. public and private comps, growth-adjusted (Rule-of-40-style). Mandatory in every screen; write `[NOT PUBLIC]` if unavailable, never estimate without triangulation and labeling.
 10. **Sector disruption risk.** Exposure to foundational-model capability creep, regulatory shifts, or macro cyclicality that could impair the business model within the hold period.
 
-**Return Potential (25%)** — no valuation caps. Score on realistic MOIC/IRR
+**Return Potential (20%)** — no valuation caps. Score on realistic MOIC/IRR
 given entry price, growth rate, dilution, and exit path. Ask what the
 company must achieve at this entry price for ID8 to return 6x, and whether
 that's the base case or the bull case. Model at least two future rounds of
@@ -250,12 +250,14 @@ Manager-level blended: 2.2yr average hold, 1.9x MOIC, 158.3% IRR.
 9. **Secondary market demand signal.** Check whether the company appears on the current Setter Capital "Setter 30" (deck p.16 — ID8's quarterly-ranked list of the most sought-after venture-backed companies in the global secondary market; ID8 already has three portfolio companies on it) or is reported as actively traded by Forge, Caplight, EquityZen, or similar secondary marketplaces. This is an external, checkable corroboration of the modeled exit thesis — not a substitute for it.
 10. **Portfolio fit / concentration.** Does this deal diversify ID8's book or concentrate it further in an already-heavy thesis, sector, or vintage.
 
-**AI Score (Gate only)** — does AI constitute the company's actual moat, or is it a
+**AI Score (20%)** — does AI constitute the company's actual moat, or is it a
 feature layer a foundational-model update could replicate? Test: could this
 product become a plugin or default feature of Claude, GPT, or Gemini without
-material loss? If yes, it scores 2 or below. This dimension is scored 1-4 for
-the record and for hard-auto-pass detection, but does not enter the weighted
-or raw average — see the note at the top of this document.
+material loss? If yes, it scores 2 or below. Scored and weighted at parity
+with the other four dimensions — but its bottom anchor is still a hard
+auto-pass, exactly like Lead / Round Dynamics' bottom anchor: a real 1-4
+score is required either way, and "no meaningful AI" ends the deal on its own
+regardless of how everything else scores.
 
 | Score | Anchor |
 | --- | --- |
@@ -263,6 +265,19 @@ or raw average — see the note at the top of this document.
 | 3 | AI-enabled with structural advantage: AI materially drives margin structure, data compounding, customer value prop, or distribution. Includes vertical AI with regulatory/workflow moats (health AI, compliance). |
 | 2 | AI-adjacent / feature layer. Uses AI as a feature, not a moat; value prop doesn't depend on it; easily replicated by a model update or platform entry. |
 | 1 | **(hard auto-pass)** No meaningful AI component — pure software, services, or hardware. ID8's mandate is AI-focused. |
+
+**Subcategory checklist:**
+
+1. **Architecture ownership.** Proprietary model, fine-tune, or training pipeline vs. a thin wrapper calling a third-party foundation-model API.
+2. **Data flywheel.** Does usage generate proprietary data that compounds product quality over time, and is there concrete evidence of it (stated improvement cadence, proprietary datasets, retraining cycle)?
+3. **Replicability test.** Could this product become a plugin or default feature of Claude, GPT, or Gemini without material loss? Name what specifically survives that test and what doesn't.
+4. **Technical team depth.** Research/ML headcount, published papers or technical blog posts, notable AI hires — vs. a generic engineering team bolting on API calls.
+5. **Compute / infra investment.** Evidence of real training or inference infrastructure spend (GPU clusters, model-serving cost structure) vs. a SaaS wrapper with negligible marginal AI cost.
+6. **Vertical workflow or regulatory moat.** For vertical AI (health, legal, compliance), does the AI depend on workflow integration or regulatory approval a generic model can't easily replicate?
+7. **Independent performance validation.** Any third-party benchmarks, evals, or comparisons validating the model's edge over commodity foundation models.
+8. **Margin structure tied to AI.** Does AI materially change unit economics (e.g., automation displacing headcount-driven cost), and is there evidence of that margin shift?
+9. **Competitive response risk.** History in this specific product category of feature-layer competitors getting steamrolled by a foundational-model update (OpenAI/Anthropic/Google shipping a similar capability natively).
+10. **Narrative vs. reality check.** Does the company's public "AI-powered" messaging match the actual product architecture? Cross-check marketing claims against job postings, technical writing, and engineering talks.
 
 **Terms (Gate only)** — bad terms can make a good deal uninvestable. This
 dimension is scored 1-4 for the record and for hard-auto-pass detection, but
@@ -323,11 +338,13 @@ Real ID8 deal history, for calibration. FQ = Founder/Team Quality, not
 backfilled for pre-v2.1 deals (shown as —). Polymarket's LD is `3*`
 (Domain-Strategic path, NYSE/ICE lead). The Wtd Avg column is carried over
 unchanged from the prior rubric versions that scored these deals — v2.1's
-20/20/20/20/15/5 weighting, in turn carried over from an earlier
-5-dimension equal-weight rubric before FQ existed. Use the per-dimension
-scores to calibrate your own anchor judgment; don't expect v3.0's
-25/25/25/25/gate/gate math on these same per-dimension scores to reproduce
-this exact historical average.
+20/20/20/20/15/5 weighting, in turn carried over from an earlier 5-dimension
+equal-weight rubric (LD/AI/Fundamentals/Return/Terms, all at 20%) before FQ
+existed. v3.1's 20/20/20/20/20/gate math brings the rubric back to that same
+five-way-equal shape, with FQ now occupying the fifth slot Terms once held
+and Terms demoted to gate-only — but use the per-dimension scores here only
+to calibrate your own anchor judgment; don't expect this version's math on
+these same per-dimension scores to reproduce this exact historical average.
 
 | Company | Status | LD | AI | FQ | Fund. | Ret. | Terms | Wtd Avg | Stage |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |

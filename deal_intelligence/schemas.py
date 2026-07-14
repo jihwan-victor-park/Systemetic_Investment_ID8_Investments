@@ -17,10 +17,9 @@ class DealInput:
 @dataclass
 class SubFinding:
     """One rubric checklist point's grounded finding -- the point-level tier
-    of the three-tier rationale (point -> dimension -> deal). Empty for
-    gate_only dimensions (ai_score, terms), which have no checklist in
-    prompts/rubric.md and carry their full finding in ParamScore.evidence
-    directly."""
+    of the three-tier rationale (point -> dimension -> deal). Empty for the
+    gate_only dimension (terms), which has no checklist in prompts/rubric.md
+    and carries its full finding in ParamScore.evidence directly."""
     label: str          # checklist item name, e.g. "New money vs. re-up"
     finding: str        # 1 grounded sentence: a specific fact + source, or "none found"
 
@@ -49,8 +48,10 @@ class DealFit:
     gate: bool = False                     # passed the threshold -> deep research
     quality_tier: str = "pass"             # strong_go | go_ic | more_diligence | pass | watch_list
     citations: list = field(default_factory=list)  # source URLs Perplexity grounded on; [1]->index 0
-    raw_score: float = 0.0                 # unweighted mean of params, 1-4 scale -- shown alongside
-                                            # fit_score so the AI Score/Terms weighting-down is visible
+    raw_score: float = 0.0                 # unweighted mean of the five scored params (Terms excluded),
+                                            # 1-4 scale -- identical to fit_score at this rubric version
+                                            # since all five scored dims sit at equal weight; kept as its
+                                            # own field so a future reweighting doesn't need a schema change
     hard_auto_pass: bool = False           # a confirmed (not data-missing) disqualifying condition fired;
                                             # forces quality_tier to "pass" and gate to False regardless of fit_score
     hard_auto_pass_reason: str = ""        # which condition triggered it; empty when hard_auto_pass is False

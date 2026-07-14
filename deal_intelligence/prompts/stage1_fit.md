@@ -53,6 +53,8 @@ validated by ID8's own backtesting against the broader Series B/C/D universe:
 - The company's moat is genuinely AI-driven — not AI as a feature a
   foundational-model update could absorb. No meaningful AI component is a
   hard auto-pass regardless of how good everything else looks (see rubric).
+  When AI is genuinely present, its depth is scored and weighted at exact
+  parity with the other four dimensions, not just pass/failed.
 - The team can execute — Founder / Team Quality is scored as its own
   dimension, independent of the product metrics.
 
@@ -121,23 +123,23 @@ The research record is the actual product here, not just the score. Report it
 at three tiers, each rolling up into the next:
 
 1. **Point.** For `lead_round_dynamics`, `founder_team_quality`, `fundamentals`,
-   and `return_potential`, the rubric gives you a 10-item subcategory checklist.
-   Work through every item on that dimension's checklist and report one
-   grounded finding per item in `subcategories`: a specific fact plus a source
-   where you have one, or `"none found"` where you genuinely don't — one tight
-   sentence each, not a paragraph. This is the real research trail; do not
-   skip items or merge two into one to save space. `ai_score` and `terms` have
-   no checklist in the rubric, so leave `subcategories` empty for those two and
-   put the full finding directly in `evidence` instead.
+   `return_potential`, and `ai_score`, the rubric gives you a 10-item
+   subcategory checklist. Work through every item on that dimension's
+   checklist and report one grounded finding per item in `subcategories`: a
+   specific fact plus a source where you have one, or `"none found"` where
+   you genuinely don't — one tight sentence each, not a paragraph. This is the
+   real research trail; do not skip items or merge two into one to save
+   space. `terms` has no checklist in the rubric, so leave `subcategories`
+   empty for it and put the full finding directly in `evidence` instead.
 2. **Dimension.** `evidence` is the synthesis of that dimension's point-level
    findings into the verdict behind the 1-4 score — not a restatement of any
    single point, and not a list recap. Say what the findings add up to.
-3. **Deal.** `rationale` is the synthesis across all four scored dimensions
-   plus AI Score and Terms — the overall read, with explicit thesis
-   alignment/misalignment per the "ID8's thesis" section above.
+3. **Deal.** `rationale` is the synthesis across all five scored dimensions
+   plus Terms — the overall read, with explicit thesis alignment/
+   misalignment per the "ID8's thesis" section above.
 
 Keep every point-level finding to one sentence — the JSON response has a
-token budget and 40+ findings plus four dimension syntheses and a deal-level
+token budget and 50+ findings plus five dimension syntheses and a deal-level
 rationale has to fit inside it. Precision over length: cite the sharpest
 available fact, not everything you found.
 
@@ -154,7 +156,7 @@ Return only JSON, no prose:
     "key": "<param key>",
     "score": 1,
     "subcategories": [{{"label": "<checklist item name from the rubric>", "finding": "one grounded sentence + source, or 'none found'"}}],
-    "evidence": "2-3 sentences: the dimension-level synthesis of the subcategory findings above -- empty subcategories array and the full finding here for ai_score/terms"
+    "evidence": "2-3 sentences: the dimension-level synthesis of the subcategory findings above -- empty subcategories array and the full finding here for terms"
   }}],
   "rationale": "3-4 sentences: the overall deal-level read across every dimension, plus explicit thesis alignment/misalignment per above",
   "confidence": "high | medium | low  -- Diligence Confidence per the rubric: how much of the score rests on verified vs. public-only/estimated data, not a restatement of the numeric score",
@@ -164,10 +166,12 @@ Return only JSON, no prose:
 }}
 
 Score every parameter in this list: {params}, each from 1 to 4 per the rubric's
-anchors. `ai_score` and `terms` are gate-only: they still require a real,
-evidence-backed 1-4 score (used for hard_auto_pass detection and the
-one-pager's six-row display) but do not contribute to fit_score's weighted
-average — do not inflate either score to try to move the average, it
-structurally can't, and it only makes the evidence field less trustworthy.
+anchors. `terms` is gate-only: it still requires a real, evidence-backed 1-4
+score (used for hard_auto_pass detection and the one-pager's six-row display)
+but does not contribute to fit_score's weighted average — do not inflate it
+to try to move the average, it structurally can't, and it only makes the
+evidence field less trustworthy. `ai_score` is a normal scored dimension:
+work through its 10-item subcategory checklist like the other four and let
+it carry its full 20% weight.
 Be skeptical. No evidence means the data-missing anchor (usually 2), not a
 guess in either direction. Never fabricate a number or a source.

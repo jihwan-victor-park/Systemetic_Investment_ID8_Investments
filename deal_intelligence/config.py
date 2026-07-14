@@ -34,6 +34,12 @@ ATTIO_BASE = "https://api.attio.com/v2"
 # read, not the cheap pass v2.1 used. Stage 2's model is unchanged for now.
 STAGE1_RESEARCH_MODEL = os.getenv("DI_STAGE1_MODEL", "sonar-deep-research")
 STAGE2_RESEARCH_MODEL = os.getenv("DI_STAGE2_MODEL", "sonar-reasoning-pro")
+# Stage 2 runs eleven angle queries per deal, but only for deals that already
+# cleared the Stage 1 gate -- a small enough set that "high" search context
+# (deepest grounding the API offers) is affordable per angle, unlike Stage 1
+# which runs on every qualified deal. See deep_research()'s comment for why
+# this differs from Stage 1's reasoning_effort caution.
+STAGE2_SEARCH_CONTEXT_SIZE = os.getenv("DI_STAGE2_SEARCH_CONTEXT_SIZE", "high")
 SYNTH_MODEL = os.getenv("DI_SYNTH_MODEL", "claude-opus-4-8")        # memo synthesis
 SCORE_MODEL = os.getenv("DI_SCORE_MODEL", "claude-haiku-4-5-20251001")  # rubric scoring
 # Research-chat's Stage 1 intent parsing (deal_intelligence/chat_intent.py) --
@@ -58,14 +64,16 @@ CHAT_INTENT_MODEL = os.getenv("DI_CHAT_INTENT_MODEL", "sonar")
 STAGE1_REASONING_EFFORT = os.getenv("DI_STAGE1_REASONING_EFFORT", "medium")
 STAGE1_SEARCH_CONTEXT_SIZE = os.getenv("DI_STAGE1_SEARCH_CONTEXT_SIZE", "medium")
 STAGE1_TIMEOUT_SECONDS = int(os.getenv("DI_STAGE1_TIMEOUT_SECONDS", "600"))
-# The three-tier rationale (point -> dimension -> deal) asks for 40+ grounded
-# subcategory findings plus four dimension syntheses plus a deal-level
-# rationale, all in one JSON response. 4000 was too low in practice -- seen in
-# production cutting the JSON off mid-object (valid, well-formed content up to
-# the truncation point, then nothing), because there's simply more content
-# demanded here than that budget covers. Doubled; raise further via env var if
-# stage1_fit.py's "no usable rubric params" error shows another mid-object cut.
-STAGE1_MAX_TOKENS = int(os.getenv("DI_STAGE1_MAX_TOKENS", "8000"))
+# The three-tier rationale (point -> dimension -> deal) asks for 50+ grounded
+# subcategory findings (v3.1: five scored dimensions with a 10-item checklist
+# each, AI Score now among them) plus five dimension syntheses plus a
+# deal-level rationale, all in one JSON response. 4000 was too low in
+# practice -- seen in production cutting the JSON off mid-object (valid,
+# well-formed content up to the truncation point, then nothing), because
+# there's simply more content demanded here than that budget covers. Raised
+# again (8000 -> 10000) for v3.1's fifth checklist; raise further via env var
+# if stage1_fit.py's "no usable rubric params" error shows another mid-object cut.
+STAGE1_MAX_TOKENS = int(os.getenv("DI_STAGE1_MAX_TOKENS", "10000"))
 
 # ── Gate ─────────────────────────────────────────────────────────────────────
 # fit_score is the rubric's weighted average, 1-4 scale. v2.1 decision bands

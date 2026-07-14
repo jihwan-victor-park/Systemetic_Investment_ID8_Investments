@@ -1,8 +1,10 @@
 # Deal Intelligence
 
 Two-stage agent research over qualified deals. Stage 1 scores every qualified
-deal against the rubric (v2.1: six weighted dimensions, with hard-auto-pass
-vs. soft-pass so undisclosed data doesn't sink a score the way a confirmed
+deal against the rubric (v3.1: five equally-weighted scored dimensions --
+Lead/Round Dynamics, Founder/Team Quality, Fundamentals, Return Potential, AI
+Score -- plus Terms as a gate-only pass/fail check, with hard-auto-pass vs.
+soft-pass so undisclosed data doesn't sink a score the way a confirmed
 weakness would -- see `prompts/rubric.md`). Stage 2 does deep research and
 writes a memo, but only for the deals that clear the gate.
 
@@ -33,7 +35,8 @@ Attio and can post a summary to Slack.
 ## Before this runs
 
 1. **Rubric**: done -- `prompts/rubric.md` + `rubric.py`'s `PARAMS` carry the
-   real v2.1 rubric (weights must sum to 100; `rubric.validate()` enforces it).
+   real v3.1 rubric (weights must sum to 100 across the five scored
+   dimensions; `rubric.validate()` enforces it).
 2. **Prompts**: `prompts/stage1_fit.md`, `prompts/stage2_research.md`, and
    `prompts/memo_template.md` are filled in; revisit if the rubric or thesis changes.
 3. **Attio fields**: create the write-back fields (fit score, gate, rationale,
