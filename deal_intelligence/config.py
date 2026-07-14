@@ -46,10 +46,17 @@ CHAT_INTENT_MODEL = os.getenv("DI_CHAT_INTENT_MODEL", "sonar")
 # sonar-deep-research runs iterative multi-step search and can take several
 # minutes per deal -- both knobs below only apply to Stage 1's perplexity()
 # call (see stage1_fit.py). reasoning_effort/search_context_size are Perplexity
-# API params (low/medium/high); "high" on both is the actual max-depth setting,
-# not just the biggest model name.
-STAGE1_REASONING_EFFORT = os.getenv("DI_STAGE1_REASONING_EFFORT", "high")
-STAGE1_SEARCH_CONTEXT_SIZE = os.getenv("DI_STAGE1_SEARCH_CONTEXT_SIZE", "high")
+# API params (low/medium/high).
+#
+# NOT "high" -- confirmed via production logs that "high" reliably fails on
+# this prompt: it drove the model to 40 search queries and 100K+ reasoning
+# tokens, exhausting its generation budget on reasoning before ever writing
+# the JSON answer (finish_reason="length", completion_tokens=0, every single
+# attempt). "Max depth" that never produces an answer isn't more powerful,
+# it's broken. "medium" is still far deeper than the original sonar-pro
+# baseline and actually completes.
+STAGE1_REASONING_EFFORT = os.getenv("DI_STAGE1_REASONING_EFFORT", "medium")
+STAGE1_SEARCH_CONTEXT_SIZE = os.getenv("DI_STAGE1_SEARCH_CONTEXT_SIZE", "medium")
 STAGE1_TIMEOUT_SECONDS = int(os.getenv("DI_STAGE1_TIMEOUT_SECONDS", "600"))
 # The three-tier rationale (point -> dimension -> deal) asks for 40+ grounded
 # subcategory findings plus four dimension syntheses plus a deal-level
