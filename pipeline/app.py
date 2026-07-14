@@ -1316,8 +1316,6 @@ def research_chat():
     # docstring) -- it still requires "name" directly, same as before.
     message = (body.get("message") or "").strip()
     if stage == 1 and message and not name:
-        if not os.environ.get("ANTHROPIC_API_KEY"):
-            return jsonify({"error": "missing env var: ANTHROPIC_API_KEY (needed to parse the chat message)"}), 400
         parsed = di_chat_intent.parse_investigate_message(message)
         if parsed["needs_clarification"] or not parsed["name"]:
             return jsonify({

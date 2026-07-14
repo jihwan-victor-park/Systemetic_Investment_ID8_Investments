@@ -37,9 +37,11 @@ STAGE2_RESEARCH_MODEL = os.getenv("DI_STAGE2_MODEL", "sonar-reasoning-pro")
 SYNTH_MODEL = os.getenv("DI_SYNTH_MODEL", "claude-opus-4-8")        # memo synthesis
 SCORE_MODEL = os.getenv("DI_SCORE_MODEL", "claude-haiku-4-5-20251001")  # rubric scoring
 # Research-chat's Stage 1 intent parsing (deal_intelligence/chat_intent.py) --
-# extracting a company name out of a short chat message needs none of Opus's
-# depth, so this defaults to the fast/cheap model, not SYNTH_MODEL.
-CHAT_INTENT_MODEL = os.getenv("DI_CHAT_INTENT_MODEL", "claude-haiku-4-5-20251001")
+# extracting a company name out of a short chat message doesn't need
+# sonar-deep-research's depth (or web search at all -- see disable_search in
+# that module), so this defaults to Perplexity's cheapest model. Deliberately
+# a Perplexity model, not a Claude one -- Stage 1 has no Anthropic dependency.
+CHAT_INTENT_MODEL = os.getenv("DI_CHAT_INTENT_MODEL", "sonar")
 
 # sonar-deep-research runs iterative multi-step search and can take several
 # minutes per deal -- both knobs below only apply to Stage 1's perplexity()

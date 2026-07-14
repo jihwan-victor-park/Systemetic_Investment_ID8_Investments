@@ -32,8 +32,15 @@ _SYSTEM = (
 def parse_investigate_message(message: str) -> dict:
     """Returns {name, domain, round, lead_investors, hq, needs_clarification,
     clarification_question}. domain/round/lead_investors/hq are None (not
-    empty string) when absent, matching DealInput's own convention."""
-    raw = research.claude(_SYSTEM, message, model=config.CHAT_INTENT_MODEL, max_tokens=300)
+    empty string) when absent, matching DealInput's own convention.
+
+    Perplexity, not Claude -- Stage 1 (scoring and now this parsing step) is
+    deliberately Anthropic-free; ANTHROPIC_API_KEY isn't required anywhere in
+    the Stage 1 path. disable_search=True: this is parsing structure out of
+    text already in the message, not a research question -- a web search
+    here would just add cost and latency for nothing."""
+    raw, _ = research.perplexity(message, model=config.CHAT_INTENT_MODEL, system=_SYSTEM,
+                                  temperature=0, max_tokens=300, disable_search=True)
     parsed = research.extract_json(raw) or {}
     return {
         "name": str(parsed.get("name") or "").strip(),

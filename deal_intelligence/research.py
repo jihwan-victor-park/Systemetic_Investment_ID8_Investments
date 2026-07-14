@@ -46,7 +46,8 @@ def _extract_json(text: str):
 
 # ── Perplexity ───────────────────────────────────────────────────────────────
 def perplexity(prompt: str, model: str = None, timeout: int = 90, temperature: float = None,
-                reasoning_effort: str = None, search_context_size: str = None, max_tokens: int = None) -> tuple:
+                reasoning_effort: str = None, search_context_size: str = None, max_tokens: int = None,
+                system: str = None, disable_search: bool = False) -> tuple:
     """Returns (content, citations) - citations is the list of source URLs
     Perplexity grounded its answer in, straight off the API response.
 
@@ -62,11 +63,16 @@ def perplexity(prompt: str, model: str = None, timeout: int = 90, temperature: f
     max_tokens: explicit output cap. Leave None for the API default -- pass it
     explicitly for any response with a lot of required structure (e.g. Stage
     1's per-subcategory findings), since a low silent default can truncate a
-    long JSON response mid-object and break extract_json()."""
+    long JSON response mid-object and break extract_json().
+
+    system: optional system-role message, same idea as claude()'s `system`.
+    disable_search: skip web search entirely -- for prompts that don't need
+    grounding (e.g. parsing structure out of text Perplexity already has),
+    where a search would just add cost and latency for nothing."""
     if not config.PERPLEXITY_API_KEY:
         raise RuntimeError("PERPLEXITY_API_KEY not set")
-    payload = {"model": model or config.STAGE1_RESEARCH_MODEL,
-               "messages": [{"role": "user", "content": prompt}]}
+    messages = ([{"role": "system", "content": system}] if system else []) + [{"role": "user", "content": prompt}]
+    payload = {"model": model or config.STAGE1_RESEARCH_MODEL, "messages": messages}
     if temperature is not None:
         payload["temperature"] = temperature
     if reasoning_effort is not None:
@@ -75,6 +81,8 @@ def perplexity(prompt: str, model: str = None, timeout: int = 90, temperature: f
         payload["web_search_options"] = {"search_context_size": search_context_size}
     if max_tokens is not None:
         payload["max_tokens"] = max_tokens
+    if disable_search:
+        payload["disable_search"] = True
     headers = {"Authorization": f"Bearer {config.PERPLEXITY_API_KEY}",
                "Content-Type": "application/json"}
     r = session.post(config.PERPLEXITY_URL, json=payload, headers=headers, timeout=timeout)
@@ -87,11 +95,11 @@ def perplexity(prompt: str, model: str = None, timeout: int = 90, temperature: f
 
 async def perplexity_async(prompt: str, model: str = None, timeout: int = 90, temperature: float = None,
                             reasoning_effort: str = None, search_context_size: str = None,
-                            max_tokens: int = None) -> tuple:
+                            max_tokens: int = None, system: str = None, disable_search: bool = False) -> tuple:
     loop = asyncio.get_event_loop()
     return await loop.run_in_executor(
         None, lambda: perplexity(prompt, model, timeout, temperature, reasoning_effort,
-                                  search_context_size, max_tokens))
+                                  search_context_size, max_tokens, system, disable_search))
 
 
 # ── Anthropic (Claude) ───────────────────────────────────────────────────────
