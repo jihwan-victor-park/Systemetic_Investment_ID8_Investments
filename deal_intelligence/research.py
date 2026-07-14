@@ -85,11 +85,27 @@ def perplexity(prompt: str, model: str = None, timeout: int = 90, temperature: f
         payload["disable_search"] = True
     headers = {"Authorization": f"Bearer {config.PERPLEXITY_API_KEY}",
                "Content-Type": "application/json"}
-    r = session.post(config.PERPLEXITY_URL, json=payload, headers=headers, timeout=timeout)
-    r.raise_for_status()
-    data = r.json()
-    content = data["choices"][0]["message"]["content"]
-    citations = data.get("citations") or []
+
+    # sonar-deep-research has documented rough edges (Perplexity's own
+    # community forum has June 2026 bug reports of empty/malformed responses
+    # for this specific model) -- a 200 with genuinely empty content is not
+    # hypothetical. Retry once before giving up, and always log enough
+    # (finish_reason, usage) to actually diagnose it if it recurs, instead of
+    # surfacing nothing but an empty string like before.
+    attempts = 2
+    content, citations = "", []
+    for attempt in range(attempts):
+        r = session.post(config.PERPLEXITY_URL, json=payload, headers=headers, timeout=timeout)
+        r.raise_for_status()
+        data = r.json()
+        choice = data["choices"][0]
+        content = choice.get("message", {}).get("content") or ""
+        citations = data.get("citations") or []
+        if content.strip():
+            return content, citations
+        print(f"[research.perplexity] empty content (attempt {attempt + 1}/{attempts}): "
+              f"model={payload['model']!r} finish_reason={choice.get('finish_reason')!r} "
+              f"usage={data.get('usage')!r}", flush=True)
     return content, citations
 
 
