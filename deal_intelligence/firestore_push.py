@@ -21,12 +21,23 @@ from datetime import date
 
 from google.cloud import firestore, storage
 
-from . import config
+from . import config, rubric
 from .fit_note import PARAM_LABELS, _badge_text, _linkify_md, normalize_domain
 from .schemas import DealFit, DealInput
 
 _db = None
 _gcs_client = None
+
+# key -> {1: "...", 2: "...", 3: "...", 4: "..."}, the fixed anchor text for
+# every subcategory across every dimension. Denormalized onto each pushed
+# subcategory doc below so hub-next's hover pop-up needs zero cross-repo
+# sync -- it renders whatever's already on the Firestore document, and this
+# module (rubric.py) is the only place that text is authored.
+_SUB_ANCHORS = {
+    s["key"]: s["anchors"]
+    for dim in rubric.PARAMS
+    for s in dim["subcategories"]
+}
 
 
 def _firestore():
@@ -79,15 +90,23 @@ def push_company_screen_firestore(fit: DealFit, deal: DealInput, slug: str, docx
         ),
         "dimensions": [
             {
+                "key": p.key,
                 "name": PARAM_LABELS.get(p.key, p.key),
                 "score": p.score,
                 "evidence": _linkify_md(p.evidence.replace("|", "/").replace("\n", " "), cites),
                 # Point-level tier of the three-tier rationale (point -> dimension ->
-                # deal). Empty for ai_score/terms, which have no rubric checklist.
+                # deal). Every dimension, Terms included, has at least one subcategory
+                # now. `anchors` is the fixed 1-4 rubric text for that item, copied
+                # from rubric.py at push time -- what hub-next's hover pop-up renders.
                 "subcategories": [
                     {
+                        "key": s.key,
                         "name": s.label,
+                        "score": s.score,
                         "finding": _linkify_md(s.finding.replace("|", "/").replace("\n", " "), cites),
+                        # Firestore map keys must be strings -- anchors is
+                        # keyed 1-4 in rubric.py, stringified here for storage.
+                        "anchors": {str(k): v for k, v in _SUB_ANCHORS.get(s.key, {}).items()},
                     }
                     for s in p.subcategories
                 ],

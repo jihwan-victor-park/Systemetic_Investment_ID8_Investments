@@ -79,18 +79,35 @@ async def score_deal(deal: DealInput) -> DealFit:
     parsed = parsed if isinstance(parsed, dict) else {}
     param_scores = {}
     params = []
-    weight_by_key = {p["key"]: p["weight"] for p in rubric.PARAMS}
+    dims_by_key = {p["key"]: p for p in rubric.PARAMS}
+    weight = round(100.0 / len(rubric.PARAMS), 2) if rubric.PARAMS else 0.0
     for item in parsed.get("params", []):
         key = item.get("key")
-        if key not in weight_by_key:
+        dim = dims_by_key.get(key)
+        if dim is None:
             continue
-        sc = float(item.get("score", 0) or 0)
-        param_scores[key] = sc
-        subs = [
-            SubFinding(label=str(s.get("label", "")), finding=str(s.get("finding", "")))
-            for s in (item.get("subcategories") or []) if isinstance(s, dict)
-        ]
-        params.append(ParamScore(key=key, score=sc, weight=weight_by_key[key],
+        # The model reports each subcategory by its fixed, verbatim label (not
+        # an invented machine key -- more robust against a text model's drift
+        # than asking it to remember snake_case keys). Resolve label -> the
+        # fixed subcategory key/label here; a label that doesn't match any of
+        # this dimension's standardized titles is dropped rather than guessed
+        # at, same defensive posture as the dimension-key lookup above.
+        sub_by_label = {s["label"]: s for s in dim["subcategories"]}
+        subs = []
+        sub_scores = []
+        for s in (item.get("subcategories") or []):
+            if not isinstance(s, dict):
+                continue
+            sub_def = sub_by_label.get(str(s.get("label", "")).strip())
+            if sub_def is None:
+                continue
+            sc = float(s.get("score", 0) or 0)
+            sub_scores.append(sc)
+            subs.append(SubFinding(key=sub_def["key"], label=sub_def["label"],
+                                    score=sc, finding=str(s.get("finding", ""))))
+        dim_score = rubric.dimension_score(sub_scores)
+        param_scores[key] = dim_score
+        params.append(ParamScore(key=key, score=dim_score, weight=weight,
                                   evidence=item.get("evidence", ""), subcategories=subs))
     if not params:
         # Either Perplexity's response didn't parse as JSON at all, or it parsed

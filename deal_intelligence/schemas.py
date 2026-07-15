@@ -16,19 +16,23 @@ class DealInput:
 
 @dataclass
 class SubFinding:
-    """One rubric checklist point's grounded finding -- the point-level tier
-    of the three-tier rationale (point -> dimension -> deal). Empty for the
-    gate_only dimension (terms), which has no checklist in prompts/rubric.md
-    and carries its full finding in ParamScore.evidence directly."""
-    label: str          # checklist item name, e.g. "New money vs. re-up"
+    """One fixed subcategory's real score + grounded finding -- the
+    point-level tier of the three-tier rationale (point -> dimension ->
+    deal). key/label are standardized across every deal (see rubric.PARAMS);
+    every dimension, Terms included, has at least one subcategory now."""
+    key: str            # fixed rubric subcategory key, e.g. "new_vs_reup" -- resolved
+                        # from the model's verbatim label via rubric.py, not model-supplied
+    label: str          # fixed rubric subcategory title, e.g. "New vs re-up"
+    score: float        # 1-4 for this subcategory, per its own fixed anchor rubric
     finding: str        # 1 grounded sentence: a specific fact + source, or "none found"
 
 
 @dataclass
 class ParamScore:
-    key: str            # rubric parameter key
-    score: float        # 1-4 for this parameter, per the rubric's anchors
-    weight: float       # weight from the rubric
+    key: str            # rubric parameter (dimension) key
+    score: float        # 1-4 for this dimension -- the mean of its subcategories' scores,
+                        # computed in stage1_fit.py, not read directly from the model
+    weight: float       # weight from the rubric (equal across all six dimensions)
     evidence: str       # dimension-level rationale -- the synthesis of subcategories below,
                         # not a restatement of any single one
     subcategories: list = field(default_factory=list)  # list[SubFinding], point-level tier
@@ -48,9 +52,9 @@ class DealFit:
     gate: bool = False                     # passed the threshold -> deep research
     quality_tier: str = "pass"             # strong_go | go_ic | more_diligence | pass | watch_list
     citations: list = field(default_factory=list)  # source URLs Perplexity grounded on; [1]->index 0
-    raw_score: float = 0.0                 # unweighted mean of the five scored params (Terms excluded),
+    raw_score: float = 0.0                 # unweighted mean of all six dimension scores, Terms included,
                                             # 1-4 scale -- identical to fit_score at this rubric version
-                                            # since all five scored dims sit at equal weight; kept as its
+                                            # since all six dims sit at equal weight; kept as its
                                             # own field so a future reweighting doesn't need a schema change
     hard_auto_pass: bool = False           # a confirmed (not data-missing) disqualifying condition fired;
                                             # forces quality_tier to "pass" and gate to False regardless of fit_score

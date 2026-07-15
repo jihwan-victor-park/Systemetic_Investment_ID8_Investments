@@ -293,7 +293,9 @@ def build_docx(fit: DealFit, deal: DealInput, output_path: str):
             _cell_borders(c, color=HAIR_HEX, size=4, sides=("bottom",))
         _run(row[0].paragraphs[0], PARAM_LABELS.get(param.key, param.key), size=9.5)
         score_run = row[1].paragraphs[0]
-        _run(score_run, f"{param.score:.0f}", size=9.5, bold=True)
+        # .1f, not .0f -- dimension scores are now the mean of several 1-4
+        # subcategory scores, so they're routinely fractional (e.g. 3.4).
+        _run(score_run, f"{param.score:.1f}", size=9.5, bold=True)
         _run(score_run, " / 4", size=8.5, color=C_GREY)
         _md_runs(row[2].paragraphs[0], param.evidence, size=9.0, color=C_SOFT)
 
@@ -364,7 +366,7 @@ def _screen_block(fit: DealFit, deal: DealInput) -> str:
     ]
     for param in fit.params:
         ev = _linkify_md(param.evidence.replace("|", "/").replace("\n", " "), cites)
-        lines.append(f"| {PARAM_LABELS.get(param.key, param.key)} | {param.score:.0f} / 4 | {ev} |")
+        lines.append(f"| {PARAM_LABELS.get(param.key, param.key)} | {param.score:.1f} / 4 | {ev} |")
     lines += ["", "**Rationale**", "", _linkify_md(fit.rationale, cites), "",
               f"*Confidence: {fit.confidence}*", ""]
     if cites:

@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+import { auth } from '@/auth';
 import { getCompany } from '@/lib/companies';
 import ScreenView from '@/components/ScreenView';
 
@@ -13,8 +14,14 @@ export async function generateMetadata({ params }) {
 
 export default async function CompanyScreenPage({ params }) {
   const { slug } = await params;
-  const company = await getCompany(slug);
+  const [company, session] = await Promise.all([getCompany(slug), auth()]);
   if (!company) notFound();
+  // Editing (subcategory scores/findings, dimension evidence, deal rationale)
+  // is internal-only -- same role check as /api/top-vcs. This page is
+  // already internal-only end to end (investors are redirected to
+  // /investors/research before reaching /docs/qualified-deals), so this only
+  // gates whether the edit controls render, not whether the page loads.
+  const canEdit = session?.user?.role === 'internal';
 
   return (
     <>
@@ -25,7 +32,7 @@ export default async function CompanyScreenPage({ params }) {
         <a href={company.screens[0]?.docxPath || `/research/companies/${company.slug}.docx`}>Download latest screen (Word) →</a>
       </p>
       {company.screens.map((screen) => (
-        <ScreenView key={screen.id} screen={screen} />
+        <ScreenView key={screen.id} screen={screen} canEdit={canEdit} slug={company.slug} />
       ))}
     </>
   );

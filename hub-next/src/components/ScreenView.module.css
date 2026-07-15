@@ -102,3 +102,121 @@
   font-weight: 600;
   color: var(--id8-ink);
 }
+
+.subRow {
+  position: relative;
+}
+
+/* Hover/focus target that owns the rubric pop-up -- wraps just the name so
+   the pop-up opens near where the pointer actually is. */
+.subNameWrap {
+  position: relative;
+  display: inline-block;
+  cursor: help;
+  border-bottom: 1px dotted var(--id8-grey);
+}
+
+.popover {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 6px);
+  left: 0;
+  width: min(360px, 80vw);
+  background: var(--id8-card);
+  border: 1px solid var(--id8-hair);
+  border-radius: 6px;
+  box-shadow: var(--id8-shadow-hover);
+  padding: 10px 12px;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: var(--id8-soft);
+}
+
+.popoverTitle {
+  font-family: 'Sora', sans-serif;
+  font-weight: 600;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--id8-grey);
+  margin-bottom: 6px;
+}
+
+.popoverAnchor,
+.popoverAnchorActive {
+  display: flex;
+  gap: 8px;
+  padding: 3px 0;
+}
+
+.popoverAnchorActive {
+  color: var(--id8-ink);
+  font-weight: 600;
+}
+
+.popoverScore {
+  flex-shrink: 0;
+  width: 1.1em;
+  text-align: right;
+  color: var(--id8-grey);
+}
+
+.popoverAnchorActive .popoverScore {
+  color: var(--id8-accent);
+}
+
+/* Subcategory score, read-only display for non-internal viewers. */
+.subScore {
+  font-family: 'Sora', sans-serif;
+  font-weight: 600;
+  color: var(--id8-soft);
+}
+
+.scoreSelect {
+  font-family: 'Sora', sans-serif;
+  font-weight: 600;
+  font-size: 0.82rem;
+  color: var(--id8-ink);
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid var(--id8-hair);
+  border-radius: 4px;
+  padding: 1px 4px;
+}
+
+/* Click-to-edit text (finding / evidence / rationale) for internal users. */
+.editable {
+  cursor: text;
+  border-bottom: 1px dashed transparent;
+}
+
+.editable:hover {
+  border-bottom-color: var(--id8-grey);
+}
+
+.editWrap {
+  display: inline-block;
+  width: 100%;
+}
+
+.editField {
+  width: 100%;
+  font: inherit;
+  color: inherit;
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid var(--id8-accent);
+  border-radius: 4px;
+  padding: 3px 6px;
+  box-sizing: border-box;
+}
+
+.saveError {
+  display: block;
+  color: #B3261E;
+  font-size: 0.75rem;
+  margin-top: 2px;
+}
+
+.placeholder {
+  color: var(--id8-grey);
+  font-style: italic;
+}

@@ -69,7 +69,7 @@ def _deal_card(fit: DealFit, hub_url: str = None) -> str:
             f'<td style="padding:5px 10px 5px 0;border-bottom:1px solid {HAIR};'
             f'font-size:13px;color:{CHARCOAL};white-space:nowrap;vertical-align:top;">{_esc(PARAM_LABELS.get(p.key, p.key))}</td>'
             f'<td style="padding:5px 10px;border-bottom:1px solid {HAIR};'
-            f'font-size:13px;color:{CHARCOAL};font-weight:600;vertical-align:top;">{p.score:.0f}<span style="color:{GREY};font-weight:400;"> / 4</span></td>'
+            f'font-size:13px;color:{CHARCOAL};font-weight:600;vertical-align:top;">{p.score:.1f}<span style="color:{GREY};font-weight:400;"> / 4</span></td>'
             f'<td style="padding:5px 0 5px 0;border-bottom:1px solid {HAIR};'
             f'font-size:12px;color:{SOFT};line-height:1.4;">{_esc(p.evidence)}</td>'
             f'</tr>'
@@ -138,7 +138,7 @@ def email_text(fits: list) -> str:
         if f.hard_auto_pass and f.hard_auto_pass_reason:
             out.append(f"  Hard auto-pass: {f.hard_auto_pass_reason}")
         for p in f.params:
-            out.append(f"  - {PARAM_LABELS.get(p.key, p.key)}: {p.score:.0f}/4")
+            out.append(f"  - {PARAM_LABELS.get(p.key, p.key)}: {p.score:.1f}/4")
         out.append(f"  Rationale: {f.rationale}")
         out.append("")
     return "\n".join(out)

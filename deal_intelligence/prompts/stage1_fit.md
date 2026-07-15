@@ -11,7 +11,8 @@ Two checks. They are handled differently — do not conflate them.
 1. **Geography.** The company must be headquartered in North America or
    Europe. This is a firm scope boundary, not a timing issue — a company
    outside these regions is not coming back into scope later. If it fails:
-   skip detailed research. Score every parameter 1, set `"hard_auto_pass"` to
+   skip detailed research. Score every subcategory on every dimension 1 (so
+   every dimension comes out to 1), set `"hard_auto_pass"` to
    `true` with `"hard_auto_pass_reason"` stating the HQ location and that it
    is outside the NA/Europe mandate, `"watch_list"` to `false`, confidence
    `"high"`, and say so plainly in the rationale. Then go straight to Output.
@@ -54,7 +55,7 @@ validated by ID8's own backtesting against the broader Series B/C/D universe:
   foundational-model update could absorb. No meaningful AI component is a
   hard auto-pass regardless of how good everything else looks (see rubric).
   When AI is genuinely present, its depth is scored and weighted at exact
-  parity with the other four dimensions, not just pass/failed.
+  parity with the other five dimensions, not just pass/failed.
 - The team can execute — Founder / Team Quality is scored as its own
   dimension, independent of the product metrics.
 
@@ -119,36 +120,44 @@ and never let missing data silently default to the worst score.
 
 ## Three-tier rationale: point, dimension, deal
 
-The research record is the actual product here, not just the score. Report it
-at three tiers, each rolling up into the next:
+The research record is the actual product here, not just the score. Every
+dimension — all six, Terms included — has a fixed, standardized subcategory
+checklist below it in the rubric (2 to 10 items depending on the dimension).
+Report at three tiers, each rolling up into the next:
 
-1. **Point.** For `lead_round_dynamics`, `founder_team_quality`, `fundamentals`,
-   `return_potential`, and `ai_score`, the rubric gives you a 10-item
-   subcategory checklist. Work through every item on that dimension's
-   checklist and report one grounded finding per item in `subcategories`: a
-   specific fact plus a source where you have one, or `"none found"` where
-   you genuinely don't — **12 words or fewer, one clause, no exceptions.**
+1. **Point.** Work through every subcategory on a dimension's checklist and
+   report, per item, in `subcategories`:
+   - `"label"` — copy the subcategory's title from the rubric **exactly,
+     verbatim** (e.g. `"Lead tier"`, `"Existing Tier 1"`). This is how the
+     item gets matched back to its fixed anchor rubric downstream, so it
+     must match one of that dimension's listed titles character-for-character
+     — never paraphrase, abbreviate, or invent one.
+   - `"score"` — a real 1-4 score against *that specific subcategory's own*
+     anchor table (not the dimension-level table above it). No evidence for
+     this one item means its own data-missing anchor (usually 2), not a guess.
+   - `"finding"` — a specific fact plus a source where you have one, or
+     `"none found"` where you genuinely don't — **12 words or fewer, one
+     clause, no exceptions.** State the fact and stop; do not narrate, hedge,
+     or explain your reasoning.
    This is the real research trail; do not skip items or merge two into one
-   to save space, but do not narrate, hedge, or explain your reasoning either
-   — state the fact and stop. `terms` has no checklist in the rubric, so
-   leave `subcategories` empty for it and put the full finding directly in
-   `evidence` instead.
+   to save space. Every dimension, including `terms`, has at least one
+   subcategory — none are left empty.
 2. **Dimension.** `evidence` is the synthesis of that dimension's point-level
-   findings into the verdict behind the 1-4 score — **one sentence, 25 words
-   or fewer.** Not a restatement of any single point, not a list recap, not a
-   second retelling of the findings above it — just the verdict they add up to.
-3. **Deal.** `rationale` is the synthesis across all five scored dimensions
-   plus Terms — **two sentences, 40 words or fewer** — the overall read, with
-   explicit thesis alignment/misalignment per the "ID8's thesis" section above.
+   findings into a verdict — **one sentence, 25 words or fewer.** Not a
+   restatement of any single point, not a list recap, not a second retelling
+   of the findings above it — just the verdict they add up to. Do **not**
+   report a numeric `score` for the dimension itself; the dimension's 1-4
+   score is computed downstream as the mean of its subcategory scores above.
+3. **Deal.** `rationale` is the synthesis across all six dimensions —
+   **two sentences, 40 words or fewer** — the overall read, with explicit
+   thesis alignment/misalignment per the "ID8's thesis" section above.
 
 These are hard caps, not targets to approach: this response has a real token
-budget, and 50+ findings plus five dimension syntheses and a deal-level
-rationale must fit inside it. If a finding needs more than 12 words to state
-the fact, you are including reasoning or hedging — cut it, don't compress it
-into run-on clauses. A short "none found" beats a padded non-finding.
-`"label"` in each subcategory is a 2-4 word tag (e.g. `"New money vs. re-up"`),
-not the full checklist sentence copied from the rubric — the checklist text
-is for your reference, not for reproduction in the response.
+budget, and 35 subcategory scores/findings plus six dimension syntheses and a
+deal-level rationale must fit inside it. If a finding needs more than 12
+words to state the fact, you are including reasoning or hedging — cut it,
+don't compress it into run-on clauses. A short "none found" beats a padded
+non-finding.
 
 ## Rubric
 
@@ -161,9 +170,8 @@ Return only JSON, no prose:
 {{
   "params": [{{
     "key": "<param key>",
-    "score": 1,
-    "subcategories": [{{"label": "<2-4 word tag, not the rubric sentence>", "finding": "<= 12 words: one fact + source, or 'none found'"}}],
-    "evidence": "<= 25 words, one sentence: the dimension-level verdict -- empty subcategories array and the full finding here for terms"
+    "subcategories": [{{"label": "<exact subcategory title from the rubric, verbatim>", "score": 1, "finding": "<= 12 words: one fact + source, or 'none found'"}}],
+    "evidence": "<= 25 words, one sentence: the dimension-level verdict synthesized from the subcategories above"
   }}],
   "rationale": "<= 40 words, two sentences: the overall deal-level read across every dimension, plus explicit thesis alignment/misalignment per above",
   "confidence": "high | medium | low  -- Diligence Confidence per the rubric: how much of the score rests on verified vs. public-only/estimated data, not a restatement of the numeric score",
@@ -172,15 +180,14 @@ Return only JSON, no prose:
   "watch_list": true | false
 }}
 
-Score every parameter in this list: {params}, each from 1 to 4 per the rubric's
-anchors. `terms` is gate-only: it still requires a real, evidence-backed 1-4
-score (used for hard_auto_pass detection and the one-pager's six-row display)
-but does not contribute to fit_score's weighted average — do not inflate it
-to try to move the average, it structurally can't, and it only makes the
-evidence field less trustworthy. `ai_score` is a normal scored dimension:
-work through its 10-item subcategory checklist like the other four and let
-it carry its full 20% weight.
-Be skeptical. No evidence means the data-missing anchor (usually 2), not a
-guess in either direction. Never fabricate a number or a source. Every field
-above has a hard word cap — stated inline, not a suggestion. Hit it exactly
-or come in under; going over means you're padding, not researching harder.
+Score every parameter in this list: {params}. All six, Terms included, are
+weighted equally and none is a gate anymore — score every one of them for
+real, on its own merits, against its subcategories' fixed anchors. Do not
+inflate or deflate any dimension to try to move the average; every dimension
+carries the same weight, so nudging one doesn't shape the outcome, it just
+makes the evidence field less trustworthy.
+Be skeptical. No evidence for a subcategory means its own data-missing anchor
+(usually 2), not a guess in either direction. Never fabricate a number or a
+source. Every field above has a hard word cap — stated inline, not a
+suggestion. Hit it exactly or come in under; going over means you're padding,
+not researching harder.
