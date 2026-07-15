@@ -3,7 +3,7 @@ dynamic Next.js hub) to read live. No rebuild required, unlike the GitHub
 Contents API path in hub_push.py that feeds the old static Docusaurus hub.
 
 Schema mirrors exactly what hub-next/src/lib/companies.js reads:
-    companies/{slug}                      -> {name, website}
+    companies/{slug}                      -> {name, website, stage}
     companies/{slug}/screens/{YYYY-MM-DD} -> {date, roundStage, fitScore,
         rawScore, verdict, hardAutoPassNote, dimensions, rationale,
         confidence, sources, docxPath}
@@ -73,7 +73,14 @@ def push_company_screen_firestore(fit: DealFit, deal: DealInput, slug: str, docx
     ISO date, so a same-day re-run overwrites rather than duplicates --
     matching hub_push's same-day-replace rule for the markdown page."""
     company_ref = _firestore().collection("companies").document(slug)
-    company_ref.set({"name": deal.name, "website": normalize_domain(deal.domain) or None}, merge=True)
+    company_payload = {"name": deal.name, "website": normalize_domain(deal.domain) or None}
+    # Only stamp a stage on brand-new companies (defaulting to "qualified",
+    # where every screened deal has always shown up) -- never on a re-screen
+    # of an existing company, so it doesn't silently undo Oscar re-filing it
+    # into Watchlist/Pipeline via the hub's Stage dropdown.
+    if not company_ref.get().exists:
+        company_payload["stage"] = "qualified"
+    company_ref.set(company_payload, merge=True)
 
     docx_path = _upload_docx(slug, docx_bytes)
     cites = fit.citations

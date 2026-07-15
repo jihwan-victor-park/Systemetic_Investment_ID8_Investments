@@ -6,17 +6,6 @@ import { useEffect, useState } from 'react';
 import SignOutButton from './SignOutButton';
 import styles from './Navbar.module.css';
 
-const INTERNAL_LINKS = [
-  { href: '/docs/deals', label: 'Deal Summaries' },
-  { href: '/docs/qualified-deals', label: 'Qualified Deals' },
-  { href: '/docs/top-vcs', label: 'Top VCs' },
-  { href: '/docs/research', label: 'Research' },
-  { href: '/docs/research-chat', label: 'Research Chat' },
-  { href: '/docs/overview', label: 'AI Capabilities' },
-  { href: '/docs/projects/pitchbook-attio', label: 'Systems' },
-  { href: '/docs/admin', label: 'Admin' },
-];
-
 export default function Navbar() {
   const pathname = usePathname();
   const isInvestorView = pathname.startsWith('/investors');
@@ -27,10 +16,9 @@ export default function Navbar() {
 
   useEffect(() => setMenuOpen(false), [pathname]);
 
-  const links = [
-    ...(!hideInternalNav ? INTERNAL_LINKS : []),
-    { href: '/investors', label: 'Investor View' },
-  ];
+  // The left sidebar (DocsShell) is the one place all of these live now --
+  // no more duplicate tab strip up here, just the way in.
+  const links = [{ href: '/investors', label: 'Investor View' }];
 
   return (
     <header className={styles.navbar}>
@@ -38,17 +26,8 @@ export default function Navbar() {
         <div className={styles.left}>
           <Link href="/" className={styles.brand}>
             <img src="/img/logo_charcoal.png" alt="ID8 Investments" className={styles.logo} />
+            {!hideInternalNav && <span className={styles.brandLabel}>Hub</span>}
           </Link>
-          {!hideInternalNav &&
-            INTERNAL_LINKS.map((l) => (
-              <Link
-                key={l.href}
-                href={l.href}
-                className={`${styles.link} ${pathname.startsWith(l.href) ? styles.linkActive : ''}`}
-              >
-                {l.label}
-              </Link>
-            ))}
         </div>
         <div className={styles.right}>
           <Link href="/investors" className={`${styles.link} ${isInvestorView ? styles.linkActive : ''}`}>

@@ -1,6 +1,7 @@
 import 'server-only';
 import { db, isoDate } from './firestore';
 import { dimensionScore, fitScore } from './rubricMath';
+import { STAGES } from './stages';
 
 export async function listCompanies() {
   const snap = await db().collection('companies').orderBy('name').get();
@@ -19,12 +20,28 @@ export async function listCompanies() {
       slug: doc.id,
       name: data.name,
       website: data.website,
+      // Every company that predates the Watchlist/Pipeline split has no
+      // `stage` field written yet -- treat that as "qualified" since that's
+      // where they were all shown before these buckets existed.
+      stage: STAGES.includes(data.stage) ? data.stage : 'qualified',
       latestScreen: latest
         ? { date: isoDate(latest.date), roundStage: latest.roundStage || null, fitScore: latest.fitScore ?? null }
         : null,
     });
   }
   return companies;
+}
+
+// Moves a company between Watchlist / Pipeline / Qualified Deals -- the
+// dropdown on each stage table's row calls this via the /api/companies/
+// [slug]/stage route. Internal-role-only; enforced by the API route.
+export async function updateCompanyStage(slug, stage) {
+  if (!STAGES.includes(stage)) throw new Error('invalid-stage');
+  const ref = db().collection('companies').doc(slug);
+  const snap = await ref.get();
+  if (!snap.exists) throw new Error('company-not-found');
+  await ref.set({ stage }, { merge: true });
+  return { slug, stage };
 }
 
 function _mapScreen(slug, screenId, d) {
@@ -111,5 +128,8 @@ export async function updateScreenField(slug, screenId, patch) {
 
 export async function listCompanySlugsForSidebar() {
   const snap = await db().collection('companies').orderBy('name').get();
-  return snap.docs.map((doc) => ({ slug: doc.id, name: doc.data().name }));
+  return snap.docs.map((doc) => {
+    const data = doc.data();
+    return { slug: doc.id, name: data.name, stage: STAGES.includes(data.stage) ? data.stage : 'qualified' };
+  });
 }

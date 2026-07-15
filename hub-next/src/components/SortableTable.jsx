@@ -4,12 +4,13 @@ import { useMemo, useState } from 'react';
 import styles from './SortableTable.module.css';
 
 // Generic sortable/filterable table for the deal-listing pages (Deal
-// Summaries, Qualified Deals). Each column optionally supplies `sortValue`
-// (row -> comparable) to make its header clickable, and `filterValue`
-// (row -> string) to make it part of the free-text search. Sorting handles
-// numbers and strings; nullish values always sort to the bottom regardless
-// of direction, so "no score yet" rows don't dominate a descending sort.
-export default function SortableTable({ columns, rows, rowKey, defaultSort, searchPlaceholder, emptyMessage }) {
+// Summaries, Watchlist, Pipeline, Qualified Deals). Callers are Server
+// Components, so `columns` and `rows` must be plain, RSC-serializable data
+// -- no function props. Each row supplies pre-computed `sort` values
+// (primitives to compare on), optional `search` strings (falls back to
+// `sort` when omitted), and `cells` (already-rendered React nodes to
+// display) -- the caller does all the row -> cell mapping server-side.
+export default function SortableTable({ columns, rows, defaultSort, searchPlaceholder, emptyMessage }) {
   const [sortKey, setSortKey] = useState(defaultSort?.key ?? null);
   const [sortDir, setSortDir] = useState(defaultSort?.dir ?? 'asc');
   const [query, setQuery] = useState('');
@@ -19,19 +20,19 @@ export default function SortableTable({ columns, rows, rowKey, defaultSort, sear
     if (!q) return rows;
     return rows.filter((row) =>
       columns.some((c) => {
-        const v = c.filterValue ? c.filterValue(row) : c.sortValue ? c.sortValue(row) : row[c.key];
+        const v = row.search?.[c.key] ?? row.sort?.[c.key];
         return v != null && String(v).toLowerCase().includes(q);
       }),
     );
   }, [rows, query, columns]);
 
   const sorted = useMemo(() => {
-    const col = columns.find((c) => c.key === sortKey);
-    if (!col?.sortValue) return filtered;
+    const col = columns.find((c) => c.key === sortKey && c.sortable);
+    if (!col) return filtered;
     const copy = [...filtered];
     copy.sort((a, b) => {
-      const av = col.sortValue(a);
-      const bv = col.sortValue(b);
+      const av = a.sort?.[col.key];
+      const bv = b.sort?.[col.key];
       if (av == null && bv == null) return 0;
       if (av == null) return 1;
       if (bv == null) return -1;
@@ -42,7 +43,7 @@ export default function SortableTable({ columns, rows, rowKey, defaultSort, sear
   }, [filtered, sortKey, sortDir, columns]);
 
   function toggleSort(col) {
-    if (!col.sortValue) return;
+    if (!col.sortable) return;
     if (sortKey === col.key) {
       setSortDir((d) => (d === 'asc' ? 'desc' : 'asc'));
     } else {
@@ -68,11 +69,11 @@ export default function SortableTable({ columns, rows, rowKey, defaultSort, sear
             {columns.map((c) => (
               <th
                 key={c.key}
-                className={c.sortValue ? styles.sortableHeader : undefined}
-                onClick={c.sortValue ? () => toggleSort(c) : undefined}
+                className={c.sortable ? styles.sortableHeader : undefined}
+                onClick={c.sortable ? () => toggleSort(c) : undefined}
               >
                 {c.label}
-                {c.sortValue && (
+                {c.sortable && (
                   <span className={styles.sortArrow} data-active={sortKey === c.key}>
                     {sortKey === c.key ? (sortDir === 'asc' ? '▲' : '▼') : '↕'}
                   </span>
@@ -83,14 +84,18 @@ export default function SortableTable({ columns, rows, rowKey, defaultSort, sear
         </thead>
         <tbody>
           {sorted.map((row) => (
-            <tr key={rowKey(row)}>
+            <tr key={row.key}>
               {columns.map((c) => (
-                <td key={c.key}>{c.render ? c.render(row) : row[c.key]}</td>
+                <td key={c.key}>{row.cells[c.key]}</td>
               ))}
             </tr>
           ))}
           {sorted.length === 0 && (
-            <tr><td colSpan={columns.length}><em>{rows.length === 0 ? (emptyMessage || 'No results.') : 'No rows match your filter.'}</em></td></tr>
+            <tr>
+              <td colSpan={columns.length}>
+                <em>{rows.length === 0 ? (emptyMessage || 'No results.') : 'No rows match your filter.'}</em>
+              </td>
+            </tr>
           )}
         </tbody>
       </table>

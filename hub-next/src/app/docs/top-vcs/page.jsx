@@ -1,7 +1,7 @@
 import { H2 } from '@/components/Prose';
 import { listTopVCs } from '@/lib/topVCs';
 
-export const metadata = { title: 'Top VCs', description: 'VCs by tier and sector focus.' };
+export const metadata = { title: 'Top 10 VCs', description: 'VCs by tier and sector focus.' };
 
 export const dynamic = 'force-dynamic';
 
@@ -15,7 +15,7 @@ export default async function TopVCsPage() {
 
   return (
     <>
-      <h1>Top VCs</h1>
+      <h1>Top 10 VCs</h1>
       <p>Curated list of VCs by tier and sector focus. Maintained from <a href="/docs/admin">Admin</a>.</p>
       {tiers.length === 0 && <p><em>No VCs added yet.</em></p>}
       {tiers.map((tier) => (

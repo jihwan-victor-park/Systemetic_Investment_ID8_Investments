@@ -15,8 +15,8 @@ export default function AdminPage() {
       <p>Anyone who signs in from outside id8investments.com lands here for approval before they can reach the investor research view.</p>
       <AccessRequests />
 
-      <H2>Top VCs</H2>
-      <p>Manually curated tier/sector list — shows on the <a href="/docs/top-vcs">Top VCs</a> tab. Internal only, not shown to investors.</p>
+      <H2>Top 10 VCs</H2>
+      <p>Manually curated tier/sector list — shows on the <a href="/docs/top-vcs">Top 10 VCs</a> tab. Internal only, not shown to investors.</p>
       <TopVCsAdmin />
 
       <H2>Capture</H2>
