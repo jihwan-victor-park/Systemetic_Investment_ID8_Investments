@@ -80,6 +80,54 @@ def _round_mismatch_warning(deal: DealInput, params: list, rationale: str) -> st
     return ""
 
 
+# Matches "<Company>'s Series C", "<Company>' round", "<Company>'s funding", etc:
+# a capitalized name (1-4 words) immediately possessive-modifying round/funding
+# language. Restricting to this specific construction (rather than any
+# capitalized name anywhere) is what keeps it from flagging ordinary investor
+# mentions like "led by Kleiner Perkins" -- those aren't phrased as the
+# investor owning a round, so they don't match.
+_COMPANY_SUBJECT_RE = re.compile(
+    r"\b([A-Z][\w&.-]*(?:\s[A-Z][\w&.-]*){0,3})[’']s?\s+"
+    r"(?=(?:Series\s+[A-Za-z0-9]+|round|funding|valuation|raise)\b)"
+)
+_GENERIC_NAME_WORDS = {
+    "inc", "llc", "corp", "corporation", "co", "company", "the",
+    "technologies", "technology", "labs", "lab", "ai", "research",
+    "group", "holdings", "capital", "ventures", "partners",
+}
+
+
+def _significant_tokens(name: str) -> set:
+    words = re.findall(r"[a-z0-9]+", name.lower())
+    return {w for w in words if w not in _GENERIC_NAME_WORDS} or set(words)
+
+
+def _foreign_company_warning(deal: DealInput, params: list, rationale: str) -> str:
+    """Second, more direct mechanical cross-check alongside _round_mismatch_warning:
+    that one only fires when the found round contradicts deal.round, so it goes
+    silent when no round was given at all -- which is exactly how Nous Research's
+    screen got past it a second time, reporting "ElevenLabs' Series C" verbatim
+    with no round context to contradict. This scans for the model naming a
+    *different* company as the literal subject of the round/funding language
+    (see _COMPANY_SUBJECT_RE) and flags it when that name shares no
+    significant word with the company we actually asked about."""
+    text = rationale + "\n" + "\n".join(
+        f"{p.evidence}\n" + "\n".join(s.finding for s in p.subcategories) for p in params
+    )
+    deal_tokens = _significant_tokens(deal.name)
+    foreign = set()
+    for m in _COMPANY_SUBJECT_RE.finditer(text):
+        candidate = m.group(1).strip()
+        cand_tokens = _significant_tokens(candidate)
+        if cand_tokens and not (cand_tokens & deal_tokens):
+            foreign.add(candidate)
+    if foreign:
+        return (f"Research findings name {', '.join(sorted(foreign))} as the subject of a "
+                f"round/funding claim, not {deal.name} -- the research may be about the wrong "
+                f"company (cross-company fact conflation). Verify manually before trusting this screen.")
+    return ""
+
+
 def _truthy(v) -> bool:
     """Defensive bool coercion -- Perplexity is a text model producing JSON, not
     a strict function-calling API, so hard_auto_pass/watch_list occasionally
@@ -180,7 +228,8 @@ async def score_deal(deal: DealInput) -> DealFit:
     hard_auto_pass_reason = parsed.get("hard_auto_pass_reason", "") or ""
     watch_list = _truthy(parsed.get("watch_list", False))
     rationale = parsed.get("rationale", "")
-    research_flag = _round_mismatch_warning(deal, params, rationale)
+    research_flag = (_round_mismatch_warning(deal, params, rationale)
+                      or _foreign_company_warning(deal, params, rationale))
     if research_flag:
         # Fail closed, same as the "no usable rubric params" guard above: a
         # screen that may be researching the wrong company must never be
