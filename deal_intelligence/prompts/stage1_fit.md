@@ -123,6 +123,20 @@ Quality: exhaust LinkedIn history, past-company outcomes, press, and
 conference/podcast appearances before landing on `[unverified]` — that flag
 is for when the trail genuinely runs out, not a default for a quick look.
 
+This standard is not specific to Fundamentals and Founder / Team Quality —
+it applies to every subcategory on every dimension. In particular: **Lead /
+Round Dynamics facts are usually sitting in the funding announcement
+itself.** Every deal reaching this checklist has a real round in motion, so
+who is leading, the round size, and who else is participating are normally
+one search away in TechCrunch/press-release coverage — "none found" on lead
+tier or new-vs-re-up is a research failure for a deal like that, not a data
+gap, and should be rare. One broad "company overview" search is not enough
+to ground 35 separate subcategory facts across six dimensions — run a
+distinct, targeted search per subcategory (or per small cluster of related
+subcategories) before writing "none found" for any of them. "none found"
+across most or all of a dimension's subcategories at once should be a red
+flag to yourself that you searched too shallow, not a signal to move on.
+
 The `"confidence"` field exists precisely to carry the distinction between a
 verified number, a disciplined estimate, and genuine data absence forward: a
 3.1 built on solid press coverage is not the same claim as a 3.1 built on

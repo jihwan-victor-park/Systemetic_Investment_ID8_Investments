@@ -62,6 +62,16 @@ CHAT_INTENT_MODEL = os.getenv("DI_CHAT_INTENT_MODEL", "sonar")
 # it's broken. "medium" is still far deeper than the original sonar-pro
 # baseline and actually completes.
 STAGE1_REASONING_EFFORT = os.getenv("DI_STAGE1_REASONING_EFFORT", "medium")
+# Tried raising this to "high" on 2026-07-15 on the theory that v4's 35-item
+# checklist needed more page content per search than "medium" was returning.
+# Reverted same day -- Research Chat (same score_deal() call, see
+# chat_intent.py/pipeline/app.py's /research-chat) stopped completing at all
+# after that change, consistent with the exact failure mode documented above
+# for reasoning_effort="high": more content pulled per search plus v4's
+# already-larger prompt pushes total token usage past the point where the
+# model ever gets to writing the JSON answer within STAGE1_TIMEOUT_SECONDS/
+# STAGE1_MAX_TOKENS. "medium" is the confirmed-working value; do not raise
+# this without a live way to test it first.
 STAGE1_SEARCH_CONTEXT_SIZE = os.getenv("DI_STAGE1_SEARCH_CONTEXT_SIZE", "medium")
 STAGE1_TIMEOUT_SECONDS = int(os.getenv("DI_STAGE1_TIMEOUT_SECONDS", "600"))
 # The three-tier rationale (point -> dimension -> deal) asks for 35 grounded
@@ -126,12 +136,22 @@ DEALS_OBJECT = os.getenv("DI_DEALS_OBJECT", "deals")
 STAGE_SLUG = os.getenv("DI_STAGE_SLUG", "stage")          # the deal-stage attribute
 QUALIFIED_VALUE = os.getenv("DI_QUALIFIED_VALUE", "Qualified")
 
-# Value slugs to read off a deal for research context. Confirm against Attio.
+# Value slugs to read off a deal for research context.
+# Confirmed against pipeline/app.py's FIELD_MAP/build_attio_values -- the code
+# that actually writes these Deal records, so it's ground truth for what the
+# real api_slugs are. round/hq were wrong here (guessed "round"/"hq_location",
+# real slugs are "series"/"location") -- every deal re-screened via
+# attio_io.get_qualified_deals() (the /screen-deals backlog path, as opposed to
+# a brand-new deal scored fresh off n8n via pipeline/app.py's own dict, which
+# was never affected by this) got round=None/hq=None every single time,
+# starving Stage 1 of the two facts its Stage/Geography gate needs most.
+# domain has no fix here -- see get_qualified_deals(), it isn't a Deal
+# attribute at all, it only exists on the linked Company record.
 READ_SLUGS = {
     "name": os.getenv("DI_SLUG_NAME", "name"),
-    "domain": os.getenv("DI_SLUG_DOMAIN", "domain"),       # TODO confirm
-    "round": os.getenv("DI_SLUG_ROUND", "round"),          # TODO confirm
-    "hq": os.getenv("DI_SLUG_HQ", "hq_location"),          # TODO confirm
+    "domain": os.getenv("DI_SLUG_DOMAIN", "domain"),       # not a real Deal attribute; see get_qualified_deals()
+    "round": os.getenv("DI_SLUG_ROUND", "series"),
+    "hq": os.getenv("DI_SLUG_HQ", "location"),
     "lead_investors": "lead_investors",                    # text slug (see memory)
 }
 

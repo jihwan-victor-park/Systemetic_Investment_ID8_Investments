@@ -29,6 +29,23 @@ def _value(values, slug):
     return v
 
 
+def _company_domain(record_id: str):
+    """Deals don't carry domain directly -- pipeline/app.py's build_attio_values
+    links each Deal to a Company record via `associated_company`, and domain
+    lives on that Company's `domains` field. Best-effort: a lookup failure
+    just means no domain, not a hard error, since domain is enrichment
+    (helps the model disambiguate a company name) rather than something
+    Stage 1 can't function without."""
+    if not record_id:
+        return None
+    url = f"{config.ATTIO_BASE}/objects/companies/records/{record_id}"
+    r = session.get(url, headers=_headers(), timeout=30)
+    if not r.ok:
+        return None
+    domains = r.json().get("data", {}).get("values", {}).get("domains") or []
+    return domains[0].get("domain") if domains and isinstance(domains[0], dict) else None
+
+
 def get_qualified_deals(limit: int = 500) -> list:
     """Query the Deals object for records at the Qualified stage."""
     if not config.ATTIO_API_KEY:
@@ -42,10 +59,18 @@ def get_qualified_deals(limit: int = 500) -> list:
         values = rec.get("values", {})
         rid = rec.get("id", {}).get("record_id")
         s = config.READ_SLUGS
+        domain = _value(values, s["domain"])
+        if not domain:
+            company_ref = values.get("associated_company")
+            company_rid = None
+            if isinstance(company_ref, list) and company_ref:
+                cell = company_ref[0]
+                company_rid = cell.get("target_record_id") if isinstance(cell, dict) else None
+            domain = _company_domain(company_rid)
         deals.append(DealInput(
             record_id=rid,
             name=_value(values, s["name"]) or "(unnamed deal)",
-            domain=_value(values, s["domain"]),
+            domain=domain,
             round=_value(values, s["round"]),
             hq=_value(values, s["hq"]),
             lead_investors=_value(values, s["lead_investors"]),
