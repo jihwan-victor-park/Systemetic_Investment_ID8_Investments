@@ -16,9 +16,15 @@ export default function Navbar() {
 
   useEffect(() => setMenuOpen(false), [pathname]);
 
+  const isInDocs = pathname.startsWith('/docs');
+
   // The left sidebar (DocsShell) is the one place all of these live now --
-  // no more duplicate tab strip up here, just the way in.
-  const links = [{ href: '/investors', label: 'Investor View' }];
+  // no more duplicate tab strip up here, just the one way in ("Hub", which
+  // actually links into /docs, unlike the logo which goes to the landing page).
+  const links = [
+    ...(!hideInternalNav ? [{ href: '/docs/overview', label: 'Hub' }] : []),
+    { href: '/investors', label: 'Investor View' },
+  ];
 
   return (
     <header className={styles.navbar}>
@@ -26,8 +32,12 @@ export default function Navbar() {
         <div className={styles.left}>
           <Link href="/" className={styles.brand}>
             <img src="/img/logo_charcoal.png" alt="ID8 Investments" className={styles.logo} />
-            {!hideInternalNav && <span className={styles.brandLabel}>Hub</span>}
           </Link>
+          {!hideInternalNav && (
+            <Link href="/docs/overview" className={`${styles.link} ${styles.hubLink} ${isInDocs ? styles.linkActive : ''}`}>
+              Hub
+            </Link>
+          )}
         </div>
         <div className={styles.right}>
           <Link href="/investors" className={`${styles.link} ${isInvestorView ? styles.linkActive : ''}`}>

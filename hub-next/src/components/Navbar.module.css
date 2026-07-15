@@ -28,16 +28,10 @@
   display: block;
 }
 
-.brandLabel {
+.hubLink {
   margin-left: 0.6rem;
-  padding-left: 0.6rem;
+  padding-left: 1.4rem;
   border-left: 1px solid var(--id8-hair);
-  font-family: 'Sora', sans-serif;
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--id8-soft);
 }
 
 .left {
