@@ -23,13 +23,30 @@ function SidebarItem({ item, pathname }) {
     );
   }
 
-  // category — every category is collapsible with a chevron; `collapsed`
-  // only controls the initial open state (Projects/Research start open,
-  // Companies starts closed), matching how Docusaurus actually renders them.
+  const isActiveBranch = containsPath(item, pathname);
+
+  // Flat categories (Deal Summaries/Watchlist/Pipeline/Qualified Deals) skip
+  // the chevron/expand entirely -- their item lists grow with every company
+  // and would dump a long, ever-changing name list into the sidebar. They
+  // still carry `items` (used above for breadcrumbs/prev-next/active-rail),
+  // just never render them here; the full list lives on the tab's own page.
+  if (item.flat) {
+    return (
+      <div className={styles.category}>
+        <div className={styles.rail} data-active={isActiveBranch}>
+          <Link href={item.href} className={`${styles.categoryRow} ${styles.categoryLink}`}>{item.label}</Link>
+        </div>
+      </div>
+    );
+  }
+
+  // category — every remaining category is collapsible with a chevron;
+  // `collapsed` only controls the initial open state (Projects/Research
+  // start open, Companies starts closed), matching how Docusaurus actually
+  // renders them.
   const chevron = (
     <span className={styles.chevron} data-open={open} aria-hidden="true">›</span>
   );
-  const isActiveBranch = containsPath(item, pathname);
 
   // The accent rail should stop right after the item leading to the current
   // page, not run the full length of the list — split children into the

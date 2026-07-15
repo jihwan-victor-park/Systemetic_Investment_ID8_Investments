@@ -34,7 +34,7 @@ export default function Navbar() {
             <img src="/img/logo_charcoal.png" alt="ID8 Investments" className={styles.logo} />
           </Link>
           {!hideInternalNav && (
-            <Link href="/docs/overview" className={`${styles.link} ${styles.hubLink} ${isInDocs ? styles.linkActive : ''}`}>
+            <Link href="/docs/overview" className={`${styles.hubLink} ${isInDocs ? styles.hubLinkActive : ''}`}>
               Hub
             </Link>
           )}

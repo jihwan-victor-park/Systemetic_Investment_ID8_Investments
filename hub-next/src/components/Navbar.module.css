@@ -29,9 +29,28 @@
 }
 
 .hubLink {
-  margin-left: 0.6rem;
-  padding-left: 1.4rem;
-  border-left: 1px solid var(--id8-hair);
+  margin-left: 0.9rem;
+  font-family: 'Sora', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--id8-paper);
+  background: var(--id8-ink);
+  padding: 6px 14px;
+  border-radius: 2px;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+}
+
+.hubLink:hover {
+  background: var(--id8-accent);
+  color: var(--id8-paper);
+  text-decoration: none;
+}
+
+.hubLinkActive {
+  background: var(--id8-accent);
 }
 
 .left {
