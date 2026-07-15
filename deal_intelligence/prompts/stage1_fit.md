@@ -92,6 +92,18 @@ which fact belongs to which, treat it as `"none found"` for this company
 rather than guessing or borrowing the closest-sounding fact. Getting a fact
 right about the wrong company is worse than reporting no fact at all.
 
+**The round given above (if any) is ground truth, not a hint to reinterpret.**
+It came from this company's own deal record, not from your search. If your
+research surfaces a *different* round (e.g. you were told Series B but your
+search results describe a Series D, or describe a round at a materially
+different size/valuation), that is a strong signal you have drifted onto a
+different, probably more prominently-covered company -- not that the deal
+record is wrong. Do not silently report the round your search turned up as
+if it were this company's. Stop, discard whatever you found that describes a
+different round, and either find sourcing for the *actual* stated round or
+report "none found" for those subcategories -- never substitute a
+better-documented company's story for a thin one.
+
 ## Research steps that must not be skipped
 
 - **Re-up verification.** When the lead is characterized as a re-up, actively

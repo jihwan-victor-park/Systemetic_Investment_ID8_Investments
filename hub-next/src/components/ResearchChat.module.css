@@ -118,6 +118,17 @@
   color: var(--id8-grey);
 }
 
+.integrityWarning {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--id8-stale);
+  background: color-mix(in srgb, var(--id8-stale) 12%, transparent);
+  border: 1px solid var(--id8-stale);
+  border-radius: 2px;
+  padding: 0.5rem 0.7rem;
+  margin: 0 0 0.6rem;
+}
+
 .resultNote {
   font-size: 0.82rem;
   color: var(--id8-grey);

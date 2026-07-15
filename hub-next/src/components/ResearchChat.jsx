@@ -40,6 +40,9 @@ function Stage1Result({ data }) {
         {fit.raw_score != null && <span className={styles.resultScoreRaw}> (raw {fit.raw_score.toFixed(1)})</span>}
         {data.verdict && <span className={styles.resultVerdict}> — {data.verdict}</span>}
       </p>
+      {fit.research_flag && (
+        <p className={styles.integrityWarning}>⚠ {fit.research_flag}</p>
+      )}
       {fit.hard_auto_pass && fit.hard_auto_pass_reason && (
         <p className={styles.resultNote}><em>Hard auto-pass: {fit.hard_auto_pass_reason}</em></p>
       )}

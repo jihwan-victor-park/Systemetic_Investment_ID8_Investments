@@ -62,6 +62,9 @@ class DealFit:
     reasoning: str = ""                    # the model's <think> chain-of-thought for this scoring call, if the
                                             # model produced one -- kept for QA (catching conflated/wrong-company
                                             # facts before trusting a score), never scored or parsed itself
+    research_flag: str = ""                # set by a mechanical (non-LLM) integrity check -- e.g. the findings
+                                            # describe a different round than the one we asked about, a sign of
+                                            # cross-company fact conflation -- empty when no check fired
 
     def to_dict(self):
         d = asdict(self)

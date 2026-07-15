@@ -5,6 +5,7 @@ One research-and-score call per deal against the rubric. Produces a weighted
 """
 import asyncio
 import os
+import re
 
 from . import config, rubric, research
 from .schemas import DealInput, DealFit, ParamScore, SubFinding
@@ -30,6 +31,46 @@ def _build_prompt(deal: DealInput) -> str:
         template = f.read()
     param_keys = ", ".join(p["key"] for p in rubric.PARAMS)
     return template.format(rubric=rubric.rubric_text(), deal=_deal_context(deal), params=param_keys)
+
+
+_ROUND_RE = re.compile(r"\b(pre-seed|seed|series\s+[a-h])\b", re.IGNORECASE)
+
+
+def _normalize_round(round_: str) -> str:
+    return re.sub(r"\s+", " ", round_).strip().lower()
+
+
+def _rounds_mentioned(text: str) -> set:
+    return {_normalize_round(m) for m in _ROUND_RE.findall(text)}
+
+
+def _round_mismatch_warning(deal: DealInput, params: list, rationale: str) -> str:
+    """Mechanical cross-check, independent of the model's own self-report:
+    scan every finding/evidence string plus the rationale for round mentions
+    ("Series D", "Seed", etc.) and compare against deal.round, the round we
+    actually asked it to research. This exists because a reasoning-model
+    prompt instruction ("verify the fact is about this company") is a nudge,
+    not a guarantee -- Nous Research's Series B screen still came back
+    describing a Series D led by a different, better-covered company's real
+    investors (Kleiner Perkins/Saronic's actual round), which is exactly the
+    kind of confident cross-company substitution a text instruction alone
+    doesn't reliably stop. A stated round that contradicts the one we asked
+    about is a cheap, high-signal tripwire for "this research may be about
+    the wrong company" that doesn't depend on the model noticing its own error.
+    Returns a warning string (empty if no mismatch, or deal.round wasn't given)."""
+    if not deal.round:
+        return ""
+    wanted = _normalize_round(deal.round)
+    text = rationale + "\n" + "\n".join(
+        f"{p.evidence}\n" + "\n".join(s.finding for s in p.subcategories) for p in params
+    )
+    found = _rounds_mentioned(text)
+    stray = found - {wanted}
+    if stray and wanted not in found:
+        return (f"Research findings mention {', '.join(sorted(stray))} but this deal's "
+                f"round is {deal.round} -- the research may be about the wrong company "
+                f"(cross-company fact conflation). Verify manually before trusting this screen.")
+    return ""
 
 
 def _truthy(v) -> bool:
@@ -131,13 +172,22 @@ async def score_deal(deal: DealInput) -> DealFit:
     hard_auto_pass = _truthy(parsed.get("hard_auto_pass", False))
     hard_auto_pass_reason = parsed.get("hard_auto_pass_reason", "") or ""
     watch_list = _truthy(parsed.get("watch_list", False))
-    tier, gate = _tier(fit_score, hard_auto_pass, watch_list)
+    rationale = parsed.get("rationale", "")
+    research_flag = _round_mismatch_warning(deal, params, rationale)
+    if research_flag:
+        # Fail closed, same as the "no usable rubric params" guard above: a
+        # screen that may be researching the wrong company must never be
+        # mistaken downstream (Attio, hub, email) for a real screening
+        # decision, regardless of what score it happened to compute.
+        tier, gate = "error", False
+    else:
+        tier, gate = _tier(fit_score, hard_auto_pass, watch_list)
     return DealFit(
         record_id=deal.record_id, name=deal.name, fit_score=fit_score, raw_score=raw_avg, params=params,
-        rationale=parsed.get("rationale", ""), confidence=parsed.get("confidence", "medium"),
+        rationale=rationale, confidence=parsed.get("confidence", "medium"),
         gate=gate, quality_tier=tier, citations=citations,
         hard_auto_pass=hard_auto_pass, hard_auto_pass_reason=hard_auto_pass_reason,
-        reasoning=reasoning,
+        reasoning=reasoning, research_flag=research_flag,
     )
 
 
