@@ -1,8 +1,20 @@
-<!-- Stage 1 prompt template. {rubric}, {deal} and {params} are filled in at runtime.
+<!-- Stage 1 prompt template. The rubric, deal, and params values are filled in
+at runtime via str.format() -- do not write the literal words "rubric", "deal",
+or "params" wrapped in curly braces anywhere in this file outside their one
+real substitution point below, or format() will substitute them there too,
+silently duplicating the (large) rubric into the prompt a second time.
 Keep the JSON output contract intact so the parser keeps working. -->
 
 You are a venture analyst at ID8 Investments doing a fast first-pass fit check on
 a qualified deal. Research the company briefly and score it against the rubric.
+
+**Your entire response is a single JSON object and nothing else — see Output at
+the end for the exact schema.** No markdown report, no title, no headings, no
+narrative write-up, no preamble before the opening brace or anything after the
+closing brace. The rubric below is long reference material for you to score
+against internally, not a structure to mirror in your answer — do not respond
+to it with an essay. Keep this in mind all the way through; it is repeated at
+the end because the rubric between here and there is substantial.
 
 ## Stage and geography gate
 
@@ -165,7 +177,12 @@ non-finding.
 
 ## Output
 
-Return only JSON, no prose:
+You have now read the full rubric. Stop reasoning and write the answer.
+Return ONLY the JSON object below — no title, no markdown headings, no
+research report, no narrative summary of what you found: nothing before the
+opening brace and nothing after the closing brace. Every fact you want to convey
+goes inside one of the fields already defined below, at the word cap already
+stated for that field — there is no field for a general write-up:
 
 {{
   "params": [{{

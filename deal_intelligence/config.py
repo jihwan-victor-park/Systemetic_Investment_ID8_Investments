@@ -64,10 +64,10 @@ CHAT_INTENT_MODEL = os.getenv("DI_CHAT_INTENT_MODEL", "sonar")
 STAGE1_REASONING_EFFORT = os.getenv("DI_STAGE1_REASONING_EFFORT", "medium")
 STAGE1_SEARCH_CONTEXT_SIZE = os.getenv("DI_STAGE1_SEARCH_CONTEXT_SIZE", "medium")
 STAGE1_TIMEOUT_SECONDS = int(os.getenv("DI_STAGE1_TIMEOUT_SECONDS", "600"))
-# The three-tier rationale (point -> dimension -> deal) asks for 50+ grounded
-# subcategory findings (v3.1: five scored dimensions with a 10-item checklist
-# each, AI Score now among them) plus five dimension syntheses plus a
-# deal-level rationale, all in one JSON response.
+# The three-tier rationale (point -> dimension -> deal) asks for 35 grounded
+# subcategory findings+scores (v4: six equally-weighted dimensions, 2-10
+# fixed subcategories each) plus six dimension syntheses plus a deal-level
+# rationale, all in one JSON response.
 # History: 4000 too low -> 8000 -> 10000 for v3.1's fifth checklist -- and
 # 10000 STILL truncated in production (Research Chat, 2026-07-14: the raw
 # response was 24000+ characters and still cut off mid-sentence inside the
@@ -78,11 +78,25 @@ STAGE1_TIMEOUT_SECONDS = int(os.getenv("DI_STAGE1_TIMEOUT_SECONDS", "600"))
 # prompts/stage1_fit.md now puts a hard, explicit word cap on every field
 # (<=12 words/finding, <=25 words/evidence, <=40 words/rationale) instead of
 # relying on "keep it tight" as a vibe, which should bring a compliant
-# response down to roughly 2000-3500 tokens of actual JSON content. This is
-# set well above that (not right at it) as margin for imperfect adherence to
-# the caps on any single run, without going back to the 24000 emergency
-# ceiling now that the actual size driver -- not the budget -- is fixed.
-STAGE1_MAX_TOKENS = int(os.getenv("DI_STAGE1_MAX_TOKENS", "12000"))
+# response down to roughly 2000-3500 tokens of actual JSON content.
+#
+# v4 regression (2026-07-15): the rubric injected into {rubric} roughly
+# doubled in length (35 subcategories each rendered as a full 4-row anchor
+# table, vs. v3.1's 50 one-line checklist bullets) even though the expected
+# JSON output got smaller (35 scored items, not 50). At least one production
+# run (Research Chat, "Nous Research") came back as a full markdown research
+# report -- "# Evaluating Nous Research as an ID8 Investments Opportunity:
+# A Rubric-Based Scientific Analysis..." -- that never once opened a JSON
+# object, and got cut off mid-sentence at the token ceiling. That is not the
+# v3.1 failure mode (valid-looking JSON truncated mid-object); the model
+# abandoned the JSON contract entirely and free-wrote prose instead, almost
+# certainly because a much longer, more essay-like rubric block primed it
+# toward answering in kind. The real fix is prompt-side (prompts/stage1_fit.md
+# now states the "single JSON object, no report" constraint both before and
+# after the rubric, not just once at the end) -- raising this ceiling is only
+# headroom behind that fix, not a substitute for it; a model that's decided
+# to write a report will not be stopped by a bigger budget, just cut off later.
+STAGE1_MAX_TOKENS = int(os.getenv("DI_STAGE1_MAX_TOKENS", "14000"))
 
 # ── Gate ─────────────────────────────────────────────────────────────────────
 # fit_score is the rubric's weighted average, 1-4 scale. v2.1 decision bands
