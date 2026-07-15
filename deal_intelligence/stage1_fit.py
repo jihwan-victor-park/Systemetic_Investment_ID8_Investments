@@ -57,10 +57,17 @@ def _round_mismatch_warning(deal: DealInput, params: list, rationale: str) -> st
     doesn't reliably stop. A stated round that contradicts the one we asked
     about is a cheap, high-signal tripwire for "this research may be about
     the wrong company" that doesn't depend on the model noticing its own error.
-    Returns a warning string (empty if no mismatch, or deal.round wasn't given)."""
+    Returns a warning string (empty if no mismatch, deal.round wasn't given,
+    or deal.round doesn't parse into one of the recognized tokens below --
+    e.g. "Growth" or "Series B-2" -- in which case there's nothing reliable
+    to compare against, so the check stays silent rather than risk a false
+    positive on a legitimate screen)."""
     if not deal.round:
         return ""
-    wanted = _normalize_round(deal.round)
+    wanted_matches = _ROUND_RE.findall(deal.round)
+    if not wanted_matches:
+        return ""
+    wanted = _normalize_round(wanted_matches[0])
     text = rationale + "\n" + "\n".join(
         f"{p.evidence}\n" + "\n".join(s.finding for s in p.subcategories) for p in params
     )
