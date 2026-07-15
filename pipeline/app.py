@@ -1336,7 +1336,18 @@ def research_chat():
     message = (body.get("message") or "").strip()
     context = (body.get("context") or "").strip() or None
     if stage == 1 and message and not name:
-        parsed = di_chat_intent.parse_investigate_message(message, context=context)
+        # Synchronous, inline in the request (unlike the actual research
+        # below, which is backgrounded) -- so an unhandled exception here
+        # (bad/expired PERPLEXITY_API_KEY, a transient Perplexity 429/500,
+        # a network blip) would otherwise propagate past Flask's default
+        # error handler as a plain HTML 500 page. hub-next's route.js can
+        # only do `res.json()` on whatever comes back, so an HTML body
+        # surfaces as an opaque "invalid response from pipeline service" --
+        # catch it here and return real JSON with the actual cause instead.
+        try:
+            parsed = di_chat_intent.parse_investigate_message(message, context=context)
+        except Exception as e:
+            return jsonify({"error": f"chat-intent parsing failed: {e}"}), 502
         if parsed["needs_clarification"] or not parsed["name"]:
             return jsonify({
                 "status": "needs_clarification",
