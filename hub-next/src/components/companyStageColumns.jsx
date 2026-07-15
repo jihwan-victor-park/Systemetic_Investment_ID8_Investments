@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import StageSelect from './StageSelect';
+import DeleteButton from './DeleteButton';
 
 // Shorter labels than the company docs' own frontmatter titles (which carry a
 // PitchBook category suffix, e.g. "Pocket (Business/Productivity Software)") --
@@ -24,6 +25,7 @@ export const STAGE_TABLE_COLUMNS = [
   { key: 'stage', label: 'Stage', sortable: true },
   { key: 'date', label: 'Screened', sortable: true },
   { key: 'report', label: 'Report' },
+  { key: 'actions', label: '' },
 ];
 
 export function companyToRow(c, { basePath, canEdit }) {
@@ -47,6 +49,12 @@ export function companyToRow(c, { basePath, canEdit }) {
       stage: <StageSelect slug={c.slug} stage={c.stage} canEdit={canEdit} />,
       date: c.latestScreen ? c.latestScreen.date.slice(0, 10) : '—',
       report: <Link href={`${basePath}/${c.slug}`}>View screen →</Link>,
+      actions: canEdit ? (
+        <DeleteButton
+          url={`/api/companies/${c.slug}`}
+          confirmMessage={`Remove ${name} from the directory? This also deletes its screen history.`}
+        />
+      ) : null,
     },
   };
 }

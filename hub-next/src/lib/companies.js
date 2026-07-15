@@ -126,6 +126,21 @@ export async function updateScreenField(slug, screenId, patch) {
   return _mapScreen(slug, screenId, { ...data, ...update });
 }
 
+// Removes a company from whichever stage table it's in and wipes its screen
+// history -- Firestore doesn't cascade-delete subcollections, so the screens
+// docs need their own batch delete alongside the company doc itself.
+// Internal-role-only; enforced by the API route.
+export async function deleteCompany(slug) {
+  const ref = db().collection('companies').doc(slug);
+  const snap = await ref.get();
+  if (!snap.exists) throw new Error('company-not-found');
+  const screensSnap = await ref.collection('screens').get();
+  const batch = db().batch();
+  screensSnap.docs.forEach((doc) => batch.delete(doc.ref));
+  batch.delete(ref);
+  await batch.commit();
+}
+
 export async function listCompanySlugsForSidebar() {
   const snap = await db().collection('companies').orderBy('name').get();
   return snap.docs.map((doc) => {

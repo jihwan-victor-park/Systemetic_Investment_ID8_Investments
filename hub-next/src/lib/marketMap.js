@@ -99,6 +99,22 @@ export async function updateMarketMapEntry(id, { title, imageBuffer, imageConten
   return { ok: true, id, updated: Object.keys(update) };
 }
 
+// Removes an entry from the directory, cleaning up its stored image (if any)
+// alongside the Firestore doc so it doesn't linger as an orphaned blob.
+export async function deleteMarketMapEntry(id) {
+  const ref = db().collection('marketMapEntries').doc(id);
+  const doc = await ref.get();
+  if (!doc.exists) return { ok: false, error: 'not-found' };
+
+  const { imagePath } = doc.data();
+  if (imagePath && BUCKET) {
+    await storage().bucket(BUCKET).file(imagePath).delete({ ignoreNotFound: true });
+  }
+
+  await ref.delete();
+  return { ok: true };
+}
+
 export async function getMarketMapImage(id) {
   if (!BUCKET) return null;
   const doc = await db().collection('marketMapEntries').doc(id).get();

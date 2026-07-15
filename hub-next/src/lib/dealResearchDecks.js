@@ -9,6 +9,10 @@ export async function listDealResearchDecks() {
   });
 }
 
+export async function deleteDealResearchDeck(id) {
+  await db().collection('dealResearchDecks').doc(id).delete();
+}
+
 export async function getDealResearchDeck(id) {
   const doc = await db().collection('dealResearchDecks').doc(id).get();
   if (!doc.exists) return null;

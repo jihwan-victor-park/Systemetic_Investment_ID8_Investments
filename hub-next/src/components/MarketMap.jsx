@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import styles from './MarketMap.module.css';
+import DeleteButton from '@/components/DeleteButton';
 import {
   CAT_CODE, freshness, firmCode, domainOf,
   ymFromMonthInput, firmsList, firmForDomain,
@@ -31,7 +32,7 @@ function sortItems(items) {
 // Clicking anywhere on the card opens the map image in a lightbox; the arrow
 // is its own link so it can still take you straight to the original source
 // without stealing the click from the lightbox.
-function Card({ item, mode, onOpen }) {
+function Card({ item, mode, onOpen, onDelete }) {
   const fr = freshness(item.ym);
   const sub = mode === 'cat' ? item.firm : item.cat;
   const hasImage = !!item.image;
@@ -64,16 +65,27 @@ function Card({ item, mode, onOpen }) {
       {item.note && <span className={styles.note}>{item.note}</span>}
       <div className={styles.cardFoot}>
         <span className={styles.domain}>{domainOf(item.url)}</span>
-        <a
-          className={styles.arrowLink}
-          href={item.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={(e) => e.stopPropagation()}
-          aria-label="Open original source"
-        >
-          {ARROW}
-        </a>
+        <span className={styles.cardActions}>
+          {item.id && (
+            <DeleteButton
+              className={styles.delBtn}
+              title="Remove from directory"
+              url={`/api/market-map?id=${encodeURIComponent(item.id)}`}
+              confirmMessage={`Remove "${item.title}" from the Market Map directory?`}
+              onDeleted={() => onDelete(item.id)}
+            />
+          )}
+          <a
+            className={styles.arrowLink}
+            href={item.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            aria-label="Open original source"
+          >
+            {ARROW}
+          </a>
+        </span>
       </div>
     </div>
   );
@@ -115,7 +127,7 @@ function Lightbox({ item, onClose }) {
   );
 }
 
-function Section({ id, code, isFirm, title, items, mode, onOpen }) {
+function Section({ id, code, isFirm, title, items, mode, onOpen, onDelete }) {
   const sorted = sortItems(items);
   return (
     <section className={styles.section} id={id}>
@@ -125,7 +137,7 @@ function Section({ id, code, isFirm, title, items, mode, onOpen }) {
         <span className={styles.secCount}>{sorted.length} {sorted.length === 1 ? 'map' : 'maps'}</span>
       </div>
       <div className={styles.grid}>
-        {sorted.map((it, i) => <Card key={i} item={it} mode={mode} onOpen={onOpen} />)}
+        {sorted.map((it, i) => <Card key={i} item={it} mode={mode} onOpen={onOpen} onDelete={onDelete} />)}
       </div>
     </section>
   );
@@ -174,6 +186,7 @@ function AddMapForm({ entries, onAdded }) {
       if (!res.ok) throw new Error('save-failed');
       const saved = await res.json();
       onAdded({
+        id: saved.id,
         firm: form.firm.trim(), title: form.title.trim(), cat: form.cat.trim(), url: form.url.trim(),
         ym, date, note: form.note.trim() || undefined,
         image: saved.hasImage ? `/api/market-map/image/${saved.id}` : null,
@@ -251,6 +264,8 @@ export default function MarketMap({ initialEntries = [] }) {
   const [lightbox, setLightbox] = useState(null);
 
   useEffect(() => setEntries(initialEntries), [initialEntries]);
+
+  const removeEntry = (id) => setEntries((prev) => prev.filter((e) => e.id !== id));
 
   const rows = useMemo(() => {
     const query = q.trim().toLowerCase();
@@ -352,6 +367,7 @@ export default function MarketMap({ initialEntries = [] }) {
                 items={items}
                 mode={mode}
                 onOpen={setLightbox}
+                onDelete={removeEntry}
               />
             ))
           )}

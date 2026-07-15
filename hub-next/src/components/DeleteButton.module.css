@@ -1,0 +1,12 @@
+.del {
+  background: none;
+  border: none;
+  color: var(--id8-grey);
+  cursor: pointer;
+  font-size: 0.95rem;
+  line-height: 1;
+  padding: 2px 6px;
+  border-radius: 2px;
+}
+.del:hover { color: var(--id8-stale); }
+.del:disabled { opacity: 0.5; cursor: default; }

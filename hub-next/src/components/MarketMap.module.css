@@ -87,6 +87,10 @@
 }
 .cardFoot { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-top: 0.7rem; }
 .domain { font-size: 0.68rem; color: var(--id8-grey); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cardActions { display: flex; align-items: center; gap: 2px; flex-shrink: 0; }
+.delBtn { background: none; border: none; color: var(--id8-grey); cursor: pointer; font-size: 0.9rem; line-height: 1; padding: 4px 6px; border-radius: 2px; }
+.delBtn:hover { color: var(--id8-stale); }
+.delBtn:disabled { opacity: 0.5; cursor: default; }
 .arrow { color: var(--id8-grey); flex-shrink: 0; transition: transform 0.15s ease, color 0.15s ease; }
 .arrowLink { display: inline-flex; margin: -6px; padding: 6px; border-radius: 2px; }
 .arrowLink:hover .arrow, .card:hover .arrow { color: var(--id8-accent); transform: translate(2px, -2px); }

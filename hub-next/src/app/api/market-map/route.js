@@ -1,5 +1,16 @@
 import { NextResponse } from 'next/server';
-import { addMarketMapEntry } from '@/lib/marketMap';
+import { auth } from '@/auth';
+import { addMarketMapEntry, deleteMarketMapEntry } from '@/lib/marketMap';
+
+// Same belt-and-suspenders pattern as /api/companies/[slug] -- middleware
+// already restricts the whole site to signed-in users and this page to
+// 'internal' (the Market Map directory lives under /docs, which redirects
+// investors away before they ever reach it), but a destructive endpoint is
+// worth double-checking here too.
+async function requireInternal() {
+  const session = await auth();
+  return session?.user?.role === 'internal';
+}
 
 export async function POST(request) {
   const form = await request.formData();
@@ -32,4 +43,15 @@ export async function POST(request) {
     imageContentType,
   });
   return NextResponse.json({ ok: true, id, hasImage });
+}
+
+export async function DELETE(request) {
+  if (!(await requireInternal())) return NextResponse.json({ error: 'forbidden' }, { status: 403 });
+  const { searchParams } = new URL(request.url);
+  const id = searchParams.get('id');
+  if (!id) return NextResponse.json({ error: 'missing-id' }, { status: 400 });
+
+  const result = await deleteMarketMapEntry(id);
+  if (!result.ok) return NextResponse.json(result, { status: result.error === 'not-found' ? 404 : 400 });
+  return NextResponse.json(result);
 }
