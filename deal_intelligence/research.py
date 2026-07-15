@@ -44,6 +44,20 @@ def _extract_json(text: str):
     return None
 
 
+# ID8's own domain. A citation from here can never legitimately be evidence
+# about a *different* company's deal -- it means the model's search drifted
+# onto researching ID8 (the fund performing the screen, prominently named in
+# every prompt as the persona/thesis owner) instead of the company actually
+# being screened. Stripped here, at the one place every caller (stage1_fit,
+# stage2_research) gets citations from, rather than trusted downstream into
+# Attio/hub/email.
+_SELF_CITATION_DOMAINS = ("id8investments.com",)
+
+
+def _strip_self_citations(citations: list) -> list:
+    return [c for c in citations if not any(d in c.lower() for d in _SELF_CITATION_DOMAINS)]
+
+
 # ── Perplexity ───────────────────────────────────────────────────────────────
 def perplexity(prompt: str, model: str = None, timeout: int = 90, temperature: float = None,
                 reasoning_effort: str = None, search_context_size: str = None, max_tokens: int = None,
@@ -100,7 +114,7 @@ def perplexity(prompt: str, model: str = None, timeout: int = 90, temperature: f
         data = r.json()
         choice = data["choices"][0]
         content = choice.get("message", {}).get("content") or ""
-        citations = data.get("citations") or []
+        citations = _strip_self_citations(data.get("citations") or [])
         if choice.get("finish_reason") == "length":
             # Non-empty but cut off mid-generation (max_tokens exhausted before
             # the model finished) -- extract_json() will fail to find a closed

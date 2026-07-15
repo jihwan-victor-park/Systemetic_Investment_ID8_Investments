@@ -104,6 +104,26 @@ different round, and either find sourcing for the *actual* stated round or
 report "none found" for those subcategories -- never substitute a
 better-documented company's story for a thin one.
 
+**The rubric's own calibration examples are not a research lead.** The
+rubric below cites real ID8 portfolio history by name -- Polymarket's
+NYSE/ICE-led $600M round, the Terms precedent's exact per-share pricing, the
+pipeline calibration table's named deals -- to teach you what a given score
+*looks like*, not as background you should go verify, expand on, or fold
+into your findings for the company you are actually screening. Naming any of
+those reference companies, or a real dollar figure lifted from those
+examples, as a fact *about this deal* is the same cross-company error as
+above, just sourced from this prompt instead of from a search result -- and
+it is just as disqualifying. Every fact in your output must trace to a
+source about the company named above, never to the rubric's own worked
+examples.
+
+**Do not research ID8 Investments itself.** You are ID8's analyst, not the
+subject of this screen -- ID8's own website, portfolio pages, deck, or any
+investor-directory listing of ID8 are never a legitimate source of evidence
+about a *different* company's deal. If a search for terms like "Tier 1
+investors" or the fund's own thesis surfaces id8investments.com or a
+directory profile of ID8 itself, discard it; it is noise, not corroboration.
+
 ## Research steps that must not be skipped
 
 - **Re-up verification.** When the lead is characterized as a re-up, actively

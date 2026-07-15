@@ -90,6 +90,27 @@ _COMPANY_SUBJECT_RE = re.compile(
     r"\b([A-Z][\w&.-]*(?:\s[A-Z][\w&.-]*){0,3})[’']s?\s+"
     r"(?=(?:Series\s+[A-Za-z0-9]+|round|funding|valuation|raise)\b)"
 )
+
+# Same idea, for the verb-based construction the possessive regex above
+# cannot see at all: "<Company> leads/closed/invested ... round/funding", no
+# possessive 's anywhere. This is exactly how a Nous Research screen got past
+# the possessive-only check: the rubric's own Domain-Strategic/backtest
+# calibration narrative (prompts/rubric.md's NYSE/ICE-led Polymarket
+# precedent) bled into the output verbatim as "ICE, a domain-strategic
+# incumbent, leads a large re-up primary round" and "ICE previously invested
+# up to $2B ... re-up" -- both name a different company as the one doing the
+# leading/investing, just as a verb's subject rather than a possessive, so
+# _COMPANY_SUBJECT_RE's lookahead never fires. Optional short appositive
+# clause (", a domain-strategic incumbent,") is allowed between the name and
+# the verb since that is exactly how this construction reads in practice.
+_COMPANY_VERB_RE = re.compile(
+    r"\b([A-Z][\w&.-]*(?:\s[A-Z][\w&.-]*){0,3})"
+    r"(?:,\s*[^.]{0,60}?)?"
+    r"\s+(?:previously\s+|has\s+|had\s+)?"
+    r"(?:leads?|co-leads?|(?:is|was)\s+leading|closes?|closed|"
+    r"raises?|raised|invests?|invested|commits?|committed)\b"
+    r"[^.]{0,60}?\b(?:round|financing|raise|primary|re-up)\b"
+)
 _GENERIC_NAME_WORDS = {
     "inc", "llc", "corp", "corporation", "co", "company", "the",
     "technologies", "technology", "labs", "lab", "ai", "research",
@@ -108,19 +129,22 @@ def _foreign_company_warning(deal: DealInput, params: list, rationale: str) -> s
     silent when no round was given at all -- which is exactly how Nous Research's
     screen got past it a second time, reporting "ElevenLabs' Series C" verbatim
     with no round context to contradict. This scans for the model naming a
-    *different* company as the literal subject of the round/funding language
-    (see _COMPANY_SUBJECT_RE) and flags it when that name shares no
-    significant word with the company we actually asked about."""
+    *different* company as the subject of round/funding language -- via either
+    a possessive (_COMPANY_SUBJECT_RE, "<Company>'s round") or a verb
+    (_COMPANY_VERB_RE, "<Company> leads/invested ... round") -- and flags it
+    when that name shares no significant word with the company we actually
+    asked about."""
     text = rationale + "\n" + "\n".join(
         f"{p.evidence}\n" + "\n".join(s.finding for s in p.subcategories) for p in params
     )
     deal_tokens = _significant_tokens(deal.name)
     foreign = set()
-    for m in _COMPANY_SUBJECT_RE.finditer(text):
-        candidate = m.group(1).strip()
-        cand_tokens = _significant_tokens(candidate)
-        if cand_tokens and not (cand_tokens & deal_tokens):
-            foreign.add(candidate)
+    for pattern in (_COMPANY_SUBJECT_RE, _COMPANY_VERB_RE):
+        for m in pattern.finditer(text):
+            candidate = m.group(1).strip()
+            cand_tokens = _significant_tokens(candidate)
+            if cand_tokens and not (cand_tokens & deal_tokens):
+                foreign.add(candidate)
     if foreign:
         return (f"Research findings name {', '.join(sorted(foreign))} as the subject of a "
                 f"round/funding claim, not {deal.name} -- the research may be about the wrong "
