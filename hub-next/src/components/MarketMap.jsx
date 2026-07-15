@@ -28,11 +28,34 @@ function sortItems(items) {
   });
 }
 
-function Card({ item, mode }) {
+// Clicking anywhere on the card opens the map image in a lightbox; the arrow
+// is its own link so it can still take you straight to the original source
+// without stealing the click from the lightbox.
+function Card({ item, mode, onOpen }) {
   const fr = freshness(item.ym);
   const sub = mode === 'cat' ? item.firm : item.cat;
+  const hasImage = !!item.image;
+
+  const activate = () => {
+    if (hasImage) onOpen(item);
+    else window.open(item.url, '_blank', 'noopener,noreferrer');
+  };
+
+  const onKeyDown = (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      activate();
+    }
+  };
+
   return (
-    <a className={styles.card} href={item.url} target="_blank" rel="noopener noreferrer">
+    <div
+      className={styles.card}
+      role="button"
+      tabIndex={0}
+      onClick={activate}
+      onKeyDown={onKeyDown}
+    >
       <div className={styles.cardTop}>
         <span className={styles.cardSub}>{sub}</span>
         <span className={`${styles.date} ${styles[`d-${fr}`]}`}><i className={styles.dot} />{item.date}</span>
@@ -41,13 +64,58 @@ function Card({ item, mode }) {
       {item.note && <span className={styles.note}>{item.note}</span>}
       <div className={styles.cardFoot}>
         <span className={styles.domain}>{domainOf(item.url)}</span>
-        {ARROW}
+        <a
+          className={styles.arrowLink}
+          href={item.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={(e) => e.stopPropagation()}
+          aria-label="Open original source"
+        >
+          {ARROW}
+        </a>
       </div>
-    </a>
+    </div>
   );
 }
 
-function Section({ id, code, isFirm, title, items, mode }) {
+function Lightbox({ item, onClose }) {
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === 'Escape') onClose(); };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [onClose]);
+
+  if (!item) return null;
+
+  return (
+    <div className={styles.lbOverlay} onClick={onClose}>
+      <div className={styles.lbPanel} onClick={(e) => e.stopPropagation()}>
+        <button className={styles.lbClose} onClick={onClose} aria-label="Close">×</button>
+        <div className={styles.lbImgWrap}>
+          {item.imageIsDoc ? (
+            <a className={styles.lbDoc} href={item.image} target="_blank" rel="noopener noreferrer">
+              Open document
+            </a>
+          ) : (
+            <img className={styles.lbImg} src={item.image} alt={item.title} />
+          )}
+        </div>
+        <div className={styles.lbFoot}>
+          <div>
+            <div className={styles.lbTitle}>{item.title}</div>
+            <div className={styles.lbSub}>{item.firm} · {item.date}</div>
+          </div>
+          <a className={styles.lbSource} href={item.url} target="_blank" rel="noopener noreferrer">
+            Original source {ARROW}
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Section({ id, code, isFirm, title, items, mode, onOpen }) {
   const sorted = sortItems(items);
   return (
     <section className={styles.section} id={id}>
@@ -57,13 +125,13 @@ function Section({ id, code, isFirm, title, items, mode }) {
         <span className={styles.secCount}>{sorted.length} {sorted.length === 1 ? 'map' : 'maps'}</span>
       </div>
       <div className={styles.grid}>
-        {sorted.map((it, i) => <Card key={i} item={it} mode={mode} />)}
+        {sorted.map((it, i) => <Card key={i} item={it} mode={mode} onOpen={onOpen} />)}
       </div>
     </section>
   );
 }
 
-const EMPTY_FORM = { url: '', firm: '', cat: '', title: '', month: todayMonthValue(), note: '' };
+const EMPTY_FORM = { url: '', firm: '', cat: '', title: '', month: todayMonthValue(), note: '', photo: null };
 
 function AddMapForm({ entries, onAdded }) {
   const [form, setForm] = useState(EMPTY_FORM);
@@ -82,22 +150,35 @@ function AddMapForm({ entries, onAdded }) {
     if (suggested) setForm((f) => ({ ...f, firm: suggested }));
   };
 
+  const onPhotoChange = (e) => {
+    setForm((f) => ({ ...f, photo: e.target.files?.[0] || null }));
+  };
+
   const add = async (e) => {
     e.preventDefault();
-    if (!form.url.trim() || !form.firm.trim() || !form.cat.trim() || !form.title.trim()) return;
+    if (!form.url.trim() || !form.firm.trim() || !form.cat.trim() || !form.title.trim() || !form.photo) return;
     const { ym, date } = ymFromMonthInput(form.month);
     setStatus('saving');
     try {
-      const res = await fetch('/api/market-map', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          firm: form.firm.trim(), title: form.title.trim(), category: form.cat.trim(),
-          url: form.url.trim(), ym, dateLabel: date, note: form.note.trim(),
-        }),
-      });
+      const body = new FormData();
+      body.set('firm', form.firm.trim());
+      body.set('title', form.title.trim());
+      body.set('category', form.cat.trim());
+      body.set('url', form.url.trim());
+      body.set('ym', String(ym));
+      body.set('dateLabel', date);
+      body.set('note', form.note.trim());
+      body.set('photo', form.photo);
+
+      const res = await fetch('/api/market-map', { method: 'POST', body });
       if (!res.ok) throw new Error('save-failed');
-      onAdded({ firm: form.firm.trim(), title: form.title.trim(), cat: form.cat.trim(), url: form.url.trim(), ym, date, note: form.note.trim() || undefined });
+      const saved = await res.json();
+      onAdded({
+        firm: form.firm.trim(), title: form.title.trim(), cat: form.cat.trim(), url: form.url.trim(),
+        ym, date, note: form.note.trim() || undefined,
+        image: saved.hasImage ? `/api/market-map/image/${saved.id}` : null,
+        imageIsDoc: form.photo.type === 'application/pdf',
+      });
       setForm({ ...EMPTY_FORM, month: form.month });
       setStatus('idle');
     } catch (err) {
@@ -109,11 +190,26 @@ function AddMapForm({ entries, onAdded }) {
     <div className={styles.addWrap}>
       <form className={styles.addForm} onSubmit={add}>
         <div className={styles.addFull}>
+          <div className={styles.addLabel}>Photo</div>
+          <input
+            className={styles.addFile}
+            type="file"
+            accept="image/*,application/pdf"
+            onChange={onPhotoChange}
+            required
+          />
+          {form.photo && <span className={styles.hint}>{form.photo.name}</span>}
+        </div>
+        <div className={styles.addFull}>
           <div className={styles.addLabel}>Link</div>
           <input {...field('url')} onBlur={onUrlBlur} className={styles.addInput} type="url" placeholder="https://…" required />
         </div>
         <div>
-          <div className={styles.addLabel}>Firm</div>
+          <div className={styles.addLabel}>Name</div>
+          <input {...field('title')} className={styles.addInput} placeholder="e.g. Defense Tech Landscape" required />
+        </div>
+        <div>
+          <div className={styles.addLabel}>VC</div>
           <input {...field('firm')} className={styles.addInput} list="mm-firm-list" placeholder="Autocompletes from the link" required />
           <datalist id="mm-firm-list">{firms.map((f) => <option key={f} value={f} />)}</datalist>
         </div>
@@ -122,15 +218,11 @@ function AddMapForm({ entries, onAdded }) {
           <input {...field('cat')} className={styles.addInput} list="mm-cat-list" placeholder="Existing or new" required />
           <datalist id="mm-cat-list">{cats.map((c) => <option key={c} value={c} />)}</datalist>
         </div>
-        <div className={styles.addFull}>
-          <div className={styles.addLabel}>Title</div>
-          <input {...field('title')} className={styles.addInput} placeholder="Report title" required />
-        </div>
         <div>
           <div className={styles.addLabel}>Published</div>
           <input {...field('month')} className={styles.addInput} type="month" required />
         </div>
-        <div>
+        <div className={styles.addFull}>
           <div className={styles.addLabel}>Note (optional)</div>
           <input {...field('note')} className={styles.addInput} placeholder="e.g. Refreshed" />
         </div>
@@ -156,6 +248,7 @@ export default function MarketMap({ initialEntries = [] }) {
   const [mode, setMode] = useState('cat');
   const [frFilter, setFrFilter] = useState('all');
   const [q, setQ] = useState('');
+  const [lightbox, setLightbox] = useState(null);
 
   useEffect(() => setEntries(initialEntries), [initialEntries]);
 
@@ -258,11 +351,14 @@ export default function MarketMap({ initialEntries = [] }) {
                 title={key}
                 items={items}
                 mode={mode}
+                onOpen={setLightbox}
               />
             ))
           )}
         </>
       )}
+
+      <Lightbox item={lightbox} onClose={() => setLightbox(null)} />
     </div>
   );
 }
