@@ -59,6 +59,9 @@ class DealFit:
     hard_auto_pass: bool = False           # a confirmed (not data-missing) disqualifying condition fired;
                                             # forces quality_tier to "pass" and gate to False regardless of fit_score
     hard_auto_pass_reason: str = ""        # which condition triggered it; empty when hard_auto_pass is False
+    reasoning: str = ""                    # the model's <think> chain-of-thought for this scoring call, if the
+                                            # model produced one -- kept for QA (catching conflated/wrong-company
+                                            # facts before trusting a score), never scored or parsed itself
 
     def to_dict(self):
         d = asdict(self)

@@ -12,6 +12,22 @@ function newId() {
   return (typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() : `${Date.now()}-${Math.random()}`;
 }
 
+// Collapsed by default -- this is raw model chain-of-thought / per-angle
+// research, kept for QA (e.g. catching a cross-company fact conflation before
+// trusting a score) rather than as something to read on every result.
+function ReasoningPanel({ label, text }) {
+  const [open, setOpen] = useState(false);
+  if (!text) return null;
+  return (
+    <div className={styles.reasoning}>
+      <button type="button" className={styles.moreToggle} onClick={() => setOpen((v) => !v)}>
+        {open ? 'Hide' : 'Show'} {label}
+      </button>
+      {open && <pre className={styles.reasoningBox}>{text}</pre>}
+    </div>
+  );
+}
+
 // Renders the Stage 1 fit result the same way the hub's own company pages do
 // (score, verdict, per-dimension evidence) but compact -- full detail with the
 // click-to-expand subcategory breakdown lives on the hub page this links to.
@@ -34,6 +50,7 @@ function Stage1Result({ data }) {
       {data.hub_path && (
         <Link href={data.hub_path} className={styles.resultLink}>View full screen (all dimensions + evidence) →</Link>
       )}
+      <ReasoningPanel label="reasoning (chain of thought)" text={fit.reasoning} />
     </div>
   );
 }
@@ -57,6 +74,7 @@ function Stage2Result({ data }) {
           </ol>
         </>
       )}
+      <ReasoningPanel label="raw per-angle research (chain of thought)" text={memo.sections?.raw_research} />
     </div>
   );
 }

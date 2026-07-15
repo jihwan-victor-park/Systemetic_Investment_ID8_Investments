@@ -148,3 +148,13 @@ async def claude_async(system: str, prompt: str, model: str = None, max_tokens: 
 
 def extract_json(text: str):
     return _extract_json(text)
+
+
+def extract_think(text: str) -> str:
+    """Pull out a reasoning model's <think>...</think> chain-of-thought block,
+    if present -- the same block _extract_json strips before parsing, but
+    here so callers can keep it (e.g. to store/display for QA) instead of
+    just discarding it. Returns "" when there is none (non-reasoning models,
+    or a disable_search=True call that has nothing to reason over)."""
+    m = re.search(r"<think>(.*?)</think>", text, flags=re.DOTALL | re.IGNORECASE)
+    return m.group(1).strip() if m else ""

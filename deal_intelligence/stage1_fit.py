@@ -75,6 +75,7 @@ async def score_deal(deal: DealInput) -> DealFit:
         reasoning_effort=config.STAGE1_REASONING_EFFORT,
         search_context_size=config.STAGE1_SEARCH_CONTEXT_SIZE,
         max_tokens=config.STAGE1_MAX_TOKENS)
+    reasoning = research.extract_think(raw)
     parsed = research.extract_json(raw)
     parsed = parsed if isinstance(parsed, dict) else {}
     param_scores = {}
@@ -136,6 +137,7 @@ async def score_deal(deal: DealInput) -> DealFit:
         rationale=parsed.get("rationale", ""), confidence=parsed.get("confidence", "medium"),
         gate=gate, quality_tier=tier, citations=citations,
         hard_auto_pass=hard_auto_pass, hard_auto_pass_reason=hard_auto_pass_reason,
+        reasoning=reasoning,
     )
 
 

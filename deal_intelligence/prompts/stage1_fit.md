@@ -77,6 +77,21 @@ qualifying Domain-Strategic lead) vs. an existing/inside investor, and whether
 AI is genuinely structural to the business — not just restate the rubric
 scores.
 
+## Company identity discipline
+
+Web search for a specific company routinely surfaces sources that cover
+*several* companies at once — funding roundups, "top AI startups" listicles,
+sector comparison pieces. Every fact you write must be explicitly and
+unambiguously about **this** company (matching the name and/or domain given
+above), not merely present somewhere in a source that also mentions it.
+Before writing any specific claim (round size, lead investor, board addition,
+valuation, metric), confirm the sentence or passage you're drawing it from
+names *this* company as the subject — not a different company covered in the
+same article. If a source bundles multiple companies and you cannot tell
+which fact belongs to which, treat it as `"none found"` for this company
+rather than guessing or borrowing the closest-sounding fact. Getting a fact
+right about the wrong company is worse than reporting no fact at all.
+
 ## Research steps that must not be skipped
 
 - **Re-up verification.** When the lead is characterized as a re-up, actively
