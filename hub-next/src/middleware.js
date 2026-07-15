@@ -8,8 +8,11 @@ import { authConfig } from './auth.config';
 export const { auth: middleware } = NextAuth(authConfig);
 
 // Gate the whole site behind sign-in, EXCEPT: the auth endpoints themselves,
-// static assets, and the public /investors marketing page (exact match only --
-// /investors/research, the gated investor view, still goes through the gate).
+// static assets, the public /investors marketing page (exact match only --
+// /investors/research, the gated investor view, still goes through the gate),
+// and api/admin-market-map -- that route has no browser session to check
+// (called server-to-server) and enforces its own shared-secret header instead,
+// see app/api/admin-market-map/[id]/route.js.
 export const config = {
-  matcher: ['/((?!api/auth|investors$|_next/static|_next/image|favicon.ico|fonts|img).*)'],
+  matcher: ['/((?!api/auth|api/admin-market-map|investors$|_next/static|_next/image|favicon.ico|fonts|img).*)'],
 };
