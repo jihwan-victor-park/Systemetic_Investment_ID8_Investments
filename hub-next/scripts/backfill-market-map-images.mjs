@@ -72,17 +72,100 @@ async function fetchBinary(url) {
   }
 }
 
+// Raw HTML attribute values still have entities escaped (a literal "&amp;"
+// between two query params, "&ndash;" for a real en-dash in a filename,
+// etc.) -- passed straight into fetch() as-is, a multi-param image URL turns
+// into one malformed request. Decoding here is what actually fixed two of
+// the "manual attention" entries from the 2026-07 backfill run: both were
+// good, fetchable images, just mangled by this.
+function decodeHtmlEntities(str) {
+  return str
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&(?:#0*39|apos);/g, "'")
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&ndash;/g, '–')
+    .replace(/&mdash;/g, '—')
+    .replace(/&#(\d+);/g, (_, dec) => String.fromCodePoint(Number(dec)))
+    .replace(/&#x([0-9a-fA-F]+);/g, (_, hex) => String.fromCodePoint(parseInt(hex, 16)));
+}
+
 function metaContent(html, property) {
   const re = new RegExp(`<meta[^>]+property=["']${property}["'][^>]+content=["']([^"']+)["']`, 'i');
   const m = html.match(re) || html.match(new RegExp(`<meta[^>]+content=["']([^"']+)["'][^>]+property=["']${property}["']`, 'i'));
-  return m ? m[1] : null;
+  return m ? decodeHtmlEntities(m[1]) : null;
 }
 
+// Specific, human-verified corrections from the 2026-07 backfill review --
+// keyed by the entry's CURRENT url so this stays correct even if titles
+// change later. Each entry needed one of:
+//   imageUrl  -- the page has no extractable og:image at all (interactive
+//                embed/mirror site); use this direct image URL instead of
+//                scraping the page.
+//   newUrl    -- the stored url itself was wrong (dead link, or pointed at a
+//                generic homepage instead of the actual sub-page); fetch
+//                og:image from here instead, and correct the stored url too.
+//   title     -- the stored title was the parent blog post's headline, and a
+//                more specific/accurate name for this exact map was found
+//                actually printed on the page (never invented).
+// Deliberately NOT exhaustive -- most of the 82 entries' titles were already
+// fine (og:title differences were just SEO branding cruft, worse than the
+// original), so only the ones with real, verified justification are here.
+const OVERRIDES = {
+  'https://venturemarketmaps.com/m/22-a16z-ai-content-generation-content-editing': {
+    imageUrl: 'https://pbs.twimg.com/media/GGJkoWbbYAAKC9N?format=jpg&name=medium',
+  },
+  'https://venturemarketmaps.com/m/2-a16z-ai-x-productivity-tools': {
+    imageUrl: 'https://pbs.twimg.com/media/GGzHOlobkAAzrf5?format=png&name=large',
+  },
+  'https://www.axc.vc/blog-posts/energy-ai': {
+    newUrl: 'https://www.axc.vc/blog/energy-ai',
+    title: 'AI for Energy in Europe',
+  },
+  'https://www.legaltechnologyhub.com/': {
+    newUrl: 'https://www.legaltechnologyhub.com/contents/lth-genai-legal-tech-map-june-2026/',
+    title: 'LTH GenAI Legal Tech Map: June 2026',
+  },
+  'https://headline.com/blog-latest/article-latest/the-duality-of-infrastructure-software-investing-i': {
+    title: 'The Duality of Infrastructure Software Investing in an AI World',
+  },
+  'https://www.sierraventures.com/content/voice-ai-market-map': {
+    title: 'Transforming Voice: Market Map of 150+ Voice AI Companies',
+  },
+  'https://sequoiacap.com/article/generative-ai-act-two/': {
+    title: "Generative AI's Act Two",
+  },
+  'https://www.nvp.com/blog/market-map-reimagining-cfo-software-stack/': {
+    title: 'Market Map: Reimagining the CFO Software Stack',
+  },
+  'https://a16z.com/space-a-market-map/': {
+    title: 'Space: A Market Map',
+  },
+  'https://www.bvp.com/atlas/how-data-privacy-engineering-will-prevent-future-data-oil-spills': {
+    title: 'Roadmap: Data Privacy Engineering',
+  },
+  'https://www.a16z.news/p/why-we-need-continual-learning': {
+    title: 'The Continual Learning Startup Landscape',
+  },
+  'https://newsletter.semianalysis.com/p/clustermax-20-the-industry-standard': {
+    title: 'ClusterMAX 2.0 Market View, November 2025',
+  },
+};
+
 async function resolveImageSource(entry) {
-  if (/\.pdf(\?|$)/i.test(entry.url)) {
-    return { imageUrl: entry.url, suggestedTitle: null, method: 'direct-pdf' };
+  const override = OVERRIDES[entry.url] || {};
+
+  if (override.imageUrl) {
+    return { imageUrl: override.imageUrl, suggestedTitle: null, method: 'override' };
   }
-  const page = await fetchText(entry.url);
+
+  const effectiveUrl = override.newUrl || entry.url;
+  if (/\.pdf(\?|$)/i.test(effectiveUrl)) {
+    return { imageUrl: effectiveUrl, suggestedTitle: null, method: 'direct-pdf' };
+  }
+  const page = await fetchText(effectiveUrl);
   if (!page.ok) return { error: `page fetch failed (${page.status || page.error})` };
 
   const ogImage = metaContent(page.text, 'og:image');
@@ -108,6 +191,7 @@ async function main() {
   const results = { ok: [], failed: [], titleSuggestions: [] };
 
   for (const entry of entries) {
+    const override = OVERRIDES[entry.url] || {};
     process.stdout.write(`- ${entry.firm} — "${entry.title}" (${entry.url})\n`);
     const resolved = await resolveImageSource(entry);
     if (resolved.error) {
@@ -128,13 +212,14 @@ async function main() {
 
     if (!DRY_RUN) {
       await storage.bucket(BUCKET).file(path).save(asset.buffer, { contentType: asset.contentType });
-      await db.collection('marketMapEntries').doc(entry.id).update({
-        imagePath: path,
-        imageContentType: asset.contentType,
-      });
+      const update = { imagePath: path, imageContentType: asset.contentType };
+      if (override.newUrl) update.url = override.newUrl;
+      if (override.title) update.title = override.title;
+      await db.collection('marketMapEntries').doc(entry.id).update(update);
     }
 
-    console.log(`    ✓ ${resolved.method} → ${path} (${asset.contentType}, ${(asset.buffer.length / 1024).toFixed(0)}KB)`);
+    const overrideNote = override.title || override.newUrl ? ' (title/url corrected)' : '';
+    console.log(`    ✓ ${resolved.method} → ${path} (${asset.contentType}, ${(asset.buffer.length / 1024).toFixed(0)}KB)${overrideNote}`);
     results.ok.push(entry.id);
 
     if (resolved.suggestedTitle && resolved.suggestedTitle.trim() !== entry.title.trim()) {
