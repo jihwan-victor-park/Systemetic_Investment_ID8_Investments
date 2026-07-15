@@ -7,27 +7,15 @@ export function getSidebarTree(companies = [], deals = []) {
     { type: 'doc', href: '/docs/overview', label: 'Capabilities' },
     {
       type: 'category',
-      label: 'Projects',
-      collapsed: false,
-      items: [
-        { type: 'doc', href: '/docs/projects/pitchbook-attio', label: 'PitchBook → Attio Pipeline' },
-        { type: 'doc', href: '/docs/projects/apollo-reach-out', label: 'Apollo Reach Out' },
-        { type: 'doc', href: '/docs/projects/intelligence', label: 'Deal Intelligence' },
-        { type: 'doc', href: '/docs/projects/investment-memo', label: 'Investment Memo Generator' },
-        { type: 'doc', href: '/docs/projects/hub-docs', label: 'Documentation System' },
-      ],
-    },
-    {
-      type: 'category',
       label: 'Deal Summaries',
-      collapsed: false,
+      collapsed: true,
       href: '/docs/deals',
       items: deals.map((d) => ({ type: 'doc', href: `/docs/deals/${d.id}`, label: d.companyName })),
     },
     {
       type: 'category',
       label: 'Qualified Deals',
-      collapsed: false,
+      collapsed: true,
       href: '/docs/qualified-deals',
       items: companies.map((c) => ({ type: 'doc', href: `/docs/qualified-deals/${c.slug}`, label: c.name })),
     },
@@ -41,13 +29,25 @@ export function getSidebarTree(companies = [], deals = []) {
     {
       type: 'category',
       label: 'Research',
-      collapsed: false,
+      collapsed: true,
       href: '/docs/research',
       items: [
         { type: 'doc', href: '/docs/research/market-map', label: 'Market Map Directory' },
       ],
     },
     { type: 'doc', href: '/docs/research-chat', label: 'Research Chat' },
+    {
+      type: 'category',
+      label: 'Projects',
+      collapsed: true,
+      items: [
+        { type: 'doc', href: '/docs/projects/pitchbook-attio', label: 'PitchBook → Attio Pipeline' },
+        { type: 'doc', href: '/docs/projects/apollo-reach-out', label: 'Apollo Reach Out' },
+        { type: 'doc', href: '/docs/projects/intelligence', label: 'Deal Intelligence' },
+        { type: 'doc', href: '/docs/projects/investment-memo', label: 'Investment Memo Generator' },
+        { type: 'doc', href: '/docs/projects/hub-docs', label: 'Documentation System' },
+      ],
+    },
     { type: 'doc', href: '/docs/admin', label: 'Admin' },
   ];
 }

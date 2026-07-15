@@ -151,9 +151,9 @@ code { background: rgba(0,0,0,0.04); border: none; border-radius: 2px; padding: 
 
 /* Sidebar + TOC: current position picked out with a sharp-cornered left rule
    spanning the full row height, not a rounded highlight box. */
-.menu__link { display: block; font-size: 0.85rem; color: var(--ifm-menu-color); text-decoration: none; padding: 0.4rem 0.6rem; border-radius: 0; border-left: 2px solid transparent; }
+.menu__link { display: block; font-size: 0.85rem; font-weight: 600; color: var(--ifm-menu-color); text-decoration: none; padding: 0.4rem 0.6rem; border-radius: 0; border-left: 2px solid transparent; }
 .menu__link:hover { color: var(--id8-ink); text-decoration: none; background: rgba(0, 0, 0, 0.04); }
-.menu__link--active { color: var(--ifm-menu-color-active); background: rgba(0, 0, 0, 0.05); border-left-color: var(--id8-accent); font-weight: 500; }
+.menu__link--active { color: var(--ifm-menu-color-active); background: rgba(0, 0, 0, 0.05); border-left-color: var(--id8-accent); font-weight: 600; }
 .menu__link:focus-visible { outline: none; box-shadow: inset 0 0 0 1px var(--id8-accent); }
 .menu__link--active:focus-visible { box-shadow: none; }
 
