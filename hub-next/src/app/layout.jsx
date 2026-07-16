@@ -8,7 +8,7 @@ import { auth } from '@/auth';
 export const metadata = {
   title: { default: 'ID8 AI Intelligence', template: '%s · ID8 AI Intelligence' },
   description: 'Ambitious ideas, made legible.',
-  icons: { icon: '/img/logo_charcoal.png' },
+  icons: { icon: '/img/favicon.png' },
 };
 
 export default async function RootLayout({ children }) {
