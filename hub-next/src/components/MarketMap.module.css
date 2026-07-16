@@ -114,17 +114,22 @@
 }
 .lbClose:hover { color: var(--id8-ink); }
 .lbImgWrap {
-  position: relative; background: var(--id8-paper); display: flex; align-items: center; justify-content: center;
-  min-height: 200px; cursor: pointer;
+  position: relative; background: var(--id8-paper); min-height: 200px; cursor: pointer;
+  /* Tall market maps (some run 5000px+) render at full width and scroll here
+     instead of being squeezed down to fit -- shrinking one to 72vh made
+     every company logo and label unreadably small. */
+  max-height: 72vh; overflow-y: auto;
 }
 .lbImgWrap:focus-visible { outline: 2px solid var(--id8-accent); outline-offset: -2px; }
-.lbImg { display: block; width: 100%; max-height: 72vh; object-fit: contain; }
-.lbHoverHint {
-  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-  font-family: 'Sora', sans-serif; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.03em;
-  color: var(--id8-paper); background: rgba(26, 26, 26, 0.55); opacity: 0; transition: opacity 0.15s ease;
+.lbImgWrapCenter { display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.lbImg { display: block; width: 100%; height: auto; }
+.lbReplaceHint {
+  position: absolute; top: 8px; right: 8px; z-index: 1; pointer-events: none;
+  font-family: 'Sora', sans-serif; font-size: 0.62rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
+  color: var(--id8-paper); background: rgba(26, 26, 26, 0.65); padding: 3px 7px; border-radius: 2px;
+  opacity: 0; transition: opacity 0.15s ease;
 }
-.lbImgWrap:hover .lbHoverHint, .lbImgWrap:focus-visible .lbHoverHint { opacity: 1; }
+.lbImgWrap:hover .lbReplaceHint, .lbImgWrap:focus-visible .lbReplaceHint { opacity: 1; }
 .lbDoc {
   display: flex; flex-direction: column; align-items: center; gap: 0.5rem; padding: 2.5rem 3rem;
   font-family: 'Sora', sans-serif; font-size: 0.85rem; font-weight: 600; color: var(--id8-accent); text-decoration: none;
@@ -140,7 +145,17 @@
 }
 .hiddenFileInput { position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden; pointer-events: none; }
 .lbFoot { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.9rem 1.1rem; border-top: 1px solid var(--id8-hair); }
-.lbTitle { font-family: 'Roboto Serif', Georgia, serif; font-size: 1rem; font-weight: 500; color: var(--id8-ink); }
+.lbTitleWrap { min-width: 0; }
+.lbTitle {
+  font-family: 'Roboto Serif', Georgia, serif; font-size: 1rem; font-weight: 500; color: var(--id8-ink);
+  cursor: pointer; border-bottom: 1px dashed transparent; display: inline;
+}
+.lbTitle:hover { border-bottom-color: var(--id8-grey); }
+.lbTitleInput {
+  font-family: 'Roboto Serif', Georgia, serif; font-size: 1rem; font-weight: 500; color: var(--id8-ink);
+  background: transparent; border: none; border-bottom: 1px solid var(--id8-accent); padding: 0; width: 100%; border-radius: 0;
+}
+.lbTitleInput:focus { outline: none; }
 .lbSub { font-size: 0.72rem; color: var(--id8-grey); margin-top: 0.2rem; }
 .lbSource {
   display: inline-flex; align-items: center; gap: 6px; font-family: 'Sora', sans-serif; font-size: 0.72rem;

@@ -94,12 +94,20 @@ function Card({ item, mode, onOpen, onDelete }) {
 function Lightbox({ item, onClose, onReplace }) {
   const inputRef = useRef(null);
   const [busy, setBusy] = useState(false);
+  const [editingTitle, setEditingTitle] = useState(false);
+  const [titleDraft, setTitleDraft] = useState('');
 
   useEffect(() => {
     const onKey = (e) => { if (e.key === 'Escape') onClose(); };
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
   }, [onClose]);
+
+  // Reset draft/editing state whenever a different entry is opened.
+  useEffect(() => {
+    setTitleDraft(item ? item.title : '');
+    setEditingTitle(false);
+  }, [item?.id]);
 
   if (!item) return null;
 
@@ -122,12 +130,35 @@ function Lightbox({ item, onClose, onReplace }) {
     }
   };
 
+  const saveTitle = async () => {
+    setEditingTitle(false);
+    const trimmed = titleDraft.trim();
+    if (!trimmed || trimmed === item.title || !item.id) {
+      setTitleDraft(item.title);
+      return;
+    }
+    try {
+      const body = new FormData();
+      body.set('title', trimmed);
+      const res = await fetch(`/api/market-map?id=${encodeURIComponent(item.id)}`, { method: 'PATCH', body });
+      if (!res.ok) throw new Error('rename-failed');
+      const result = await res.json();
+      onReplace(item.id, result);
+    } catch {
+      window.alert('Rename failed — try again.');
+      setTitleDraft(item.title);
+    }
+  };
+
+  const noImage = !item.image;
+  const isCentered = noImage || item.imageIsDoc;
+
   return (
     <div className={styles.lbOverlay} onClick={onClose}>
       <div className={styles.lbPanel} onClick={(e) => e.stopPropagation()}>
         <button className={styles.lbClose} onClick={onClose} aria-label="Close">×</button>
         <div
-          className={styles.lbImgWrap}
+          className={`${styles.lbImgWrap} ${isCentered ? styles.lbImgWrapCenter : ''}`}
           role="button"
           tabIndex={0}
           onClick={() => inputRef.current?.click()}
@@ -142,9 +173,12 @@ function Lightbox({ item, onClose, onReplace }) {
                 <span className={styles.lbHint}>Click anywhere here to replace it</span>
               </div>
             ) : (
+              // Long/tall market maps render at full width and scroll inside
+              // this wrap instead of being squeezed down to fit -- shrinking
+              // a 6000px-tall chart to 72vh makes every label unreadable.
               <>
                 <img className={styles.lbImg} src={item.image} alt={item.title} />
-                <span className={styles.lbHoverHint}>Click to replace photo</span>
+                <span className={styles.lbReplaceHint}>Click to replace</span>
               </>
             )
           ) : (
@@ -160,8 +194,29 @@ function Lightbox({ item, onClose, onReplace }) {
           />
         </div>
         <div className={styles.lbFoot}>
-          <div>
-            <div className={styles.lbTitle}>{item.title}</div>
+          <div className={styles.lbTitleWrap}>
+            {editingTitle ? (
+              <input
+                className={styles.lbTitleInput}
+                value={titleDraft}
+                autoFocus
+                onChange={(e) => setTitleDraft(e.target.value)}
+                onBlur={saveTitle}
+                onClick={(e) => e.stopPropagation()}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') { e.preventDefault(); e.currentTarget.blur(); }
+                  if (e.key === 'Escape') { setTitleDraft(item.title); setEditingTitle(false); }
+                }}
+              />
+            ) : (
+              <div
+                className={styles.lbTitle}
+                onClick={(e) => { e.stopPropagation(); setEditingTitle(true); }}
+                title="Click to rename"
+              >
+                {item.title}
+              </div>
+            )}
             <div className={styles.lbSub}>{item.firm} · {item.date}</div>
           </div>
           <a className={styles.lbSource} href={item.url} target="_blank" rel="noopener noreferrer">
