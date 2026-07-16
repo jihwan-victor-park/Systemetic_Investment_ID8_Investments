@@ -1298,12 +1298,41 @@ def _get_chat_job(job_id: str):
     return doc.to_dict() if doc.exists else None
 
 
+_STALE_JOB_MINUTES = 30
+
+
 def _list_active_jobs():
     """Every chat_jobs doc currently 'running' -- single-field equality
-    filter, no composite index needed. Backs the hub-next jobs tray."""
-    docs = _chat_jobs_firestore().collection(_CHAT_JOBS_COLLECTION).where(
-        "status", "==", "running").stream()
-    return [{"job_id": d.id, **d.to_dict()} for d in docs]
+    filter, no composite index needed. Backs the hub-next jobs tray.
+
+    A background thread's job doc is the ONLY record that it's alive --
+    there's no separate heartbeat. If the Cloud Run container that was
+    running it gets recycled mid-job (a deploy, a scale-down, an OOM), the
+    thread just dies and the doc is stuck at status='running' forever; the
+    tray would otherwise show it as active indefinitely. Anything older than
+    _STALE_JOB_MINUTES (comfortably past STAGE1_TIMEOUT_SECONDS, the longest
+    single call any job type here makes) gets flipped to 'error' here and
+    dropped from the list, rather than trusting 'running' at face value.
+    Jobs from before this field existed (no createdAt at all) count as stale
+    immediately -- there's no way to tell how old they are, so don't guess.
+    """
+    now = datetime.utcnow()
+    active = []
+    for doc in _chat_jobs_firestore().collection(_CHAT_JOBS_COLLECTION).where("status", "==", "running").stream():
+        data = doc.to_dict()
+        created_at = data.get("createdAt")
+        stale = True
+        if created_at:
+            try:
+                age_minutes = (now - datetime.fromisoformat(created_at.rstrip("Z"))).total_seconds() / 60
+                stale = age_minutes > _STALE_JOB_MINUTES
+            except ValueError:
+                stale = True
+        if stale:
+            _set_chat_job(doc.id, {"status": "error", "error": "stale — job never completed (likely interrupted by a deploy or restart)"})
+        else:
+            active.append({"job_id": doc.id, **data})
+    return active
 
 
 def _require_internal_secret():

@@ -66,10 +66,13 @@ export function JobsProvider({ enabled, children }) {
           }
           // A job we know about that the server no longer lists as running
           // either just finished (we'll get its terminal state from the
-          // button's own poll / startJob call) or crashed silently -- either
-          // way, stop treating it as active so the tray doesn't spin forever.
+          // button's own poll / startJob call) or was flagged stale server-side
+          // (see pipeline's _list_active_jobs) -- mark it failed rather than
+          // leaving the label reading "Running…" for its last few seconds
+          // before scheduleDismiss clears it.
           for (const id of Object.keys(prev)) {
             if (!serverIds.has(id) && prev[id].status === 'running') {
+              next[id] = { ...prev[id], status: 'error', error: prev[id].error || 'stopped responding' };
               scheduleDismiss(id);
             }
           }

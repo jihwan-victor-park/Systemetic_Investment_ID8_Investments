@@ -1,15 +1,3 @@
-.origin {
-  display: inline-block;
-  font-size: 0.72rem;
-  padding: 2px 7px;
-  border-radius: 999px;
-  color: var(--id8-soft);
-  background: var(--id8-hair);
-  white-space: nowrap;
-}
-.origin.attio { color: var(--id8-accent); background: var(--id8-accent-bg); }
-.origin.chat { color: var(--id8-fresh); background: #E1F5E9; }
-
 .actions {
   display: flex;
   align-items: center;
