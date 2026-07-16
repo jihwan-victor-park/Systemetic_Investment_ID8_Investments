@@ -2,6 +2,7 @@ import { H2 } from '@/components/Prose';
 import IdeaBoard from '@/components/IdeaBoard';
 import AccessRequests from '@/components/AccessRequests';
 import TopVCsAdmin from '@/components/TopVCsAdmin';
+import AttioImportButton from '@/components/AttioImportButton';
 
 export const metadata = { title: 'Admin', description: 'Capture ideas and suggestions, plus working notes.' };
 
@@ -10,6 +11,10 @@ export default function AdminPage() {
     <>
       <h1>Admin</h1>
       <p>Capture ideas, suggestions, and requests as they come up. Working notes that do not belong on a project page also live here.</p>
+
+      <H2>Attio import</H2>
+      <p>Pull every deal from Attio, regardless of stage, into the <a href="/docs/new-deals">New Deals</a> tab for manual triage. Never overwrites an existing company's stage — only refreshes its round/HQ/lead-investor context.</p>
+      <AttioImportButton />
 
       <H2>Investor access requests</H2>
       <p>Anyone who signs in from outside id8investments.com lands here for approval before they can reach the investor research view.</p>

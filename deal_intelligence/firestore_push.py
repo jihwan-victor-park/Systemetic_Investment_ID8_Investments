@@ -22,7 +22,7 @@ from datetime import date
 from google.cloud import firestore, storage
 
 from . import config, rubric
-from .fit_note import PARAM_LABELS, _badge_text, _linkify_md, normalize_domain
+from .fit_note import PARAM_LABELS, _badge_text, _linkify_md, company_id, normalize_domain
 from .schemas import DealFit, DealInput
 
 _db = None
@@ -68,10 +68,17 @@ def _upload_docx(slug: str, docx_bytes: bytes) -> str | None:
     return f"/api/research/companies/{slug}/docx"
 
 
-def push_company_screen_firestore(fit: DealFit, deal: DealInput, slug: str, docx_bytes: bytes) -> dict:
+def push_company_screen_firestore(fit: DealFit, deal: DealInput, slug: str, docx_bytes: bytes,
+                                   source: str = "chat") -> dict:
     """Upsert the company doc and today's dated screen. Screen doc id is the
     ISO date, so a same-day re-run overwrites rather than duplicates --
-    matching hub_push's same-day-replace rule for the markdown page."""
+    matching hub_push's same-day-replace rule for the markdown page.
+
+    `source` labels how this screen was triggered ("attio" for the qualified
+    backlog pull, "chat" for Research Chat / a per-row Run Analysis rerun) --
+    only stamped into `origin` on brand-new companies, same as `stage` below,
+    so hub-next's Origin column can show *how a company first showed up*
+    rather than how its latest screen happened to run."""
     company_ref = _firestore().collection("companies").document(slug)
     company_payload = {"name": deal.name, "website": normalize_domain(deal.domain) or None}
     # Only stamp a stage on brand-new companies (defaulting to "qualified",
@@ -80,6 +87,15 @@ def push_company_screen_firestore(fit: DealFit, deal: DealInput, slug: str, docx
     # into Watchlist/Pipeline via the hub's Stage dropdown.
     if not company_ref.get().exists:
         company_payload["stage"] = "qualified"
+        company_payload["origin"] = {
+            "source": source,
+            "attioRecordId": deal.record_id if source == "attio" else None,
+            "attioStage": None,
+            "round": deal.round,
+            "hq": deal.hq,
+            "leadInvestors": deal.lead_investors,
+            "importedAt": firestore.SERVER_TIMESTAMP,
+        }
     company_ref.set(company_payload, merge=True)
 
     docx_path = _upload_docx(slug, docx_bytes)
@@ -128,3 +144,33 @@ def push_company_screen_firestore(fit: DealFit, deal: DealInput, slug: str, docx
         screen_doc["docxPath"] = docx_path
     company_ref.collection("screens").document(screen_id).set(screen_doc, merge=True)
     return {"slug": slug, "screen_id": screen_id, "docx_uploaded": docx_path is not None}
+
+
+def push_company_from_attio(deal: DealInput, attio_stage: str | None) -> dict:
+    """Metadata-only upsert for the bulk Attio import -- no Stage 1 score, no
+    docx, no screens subcollection write, just enough to make the deal show
+    up for Oscar to triage. On a brand-new company: lands as stage='new'
+    (hub-next's "not yet triaged" bucket) with full origin metadata. On an
+    existing company: only refreshes `origin` (Attio is the source of truth
+    for round/hq/leadInvestors/attioStage) -- never touches `stage`, `name`,
+    or `website`, extending push_company_screen_firestore's same
+    don't-clobber-stage rule to this path."""
+    slug = company_id(deal)
+    company_ref = _firestore().collection("companies").document(slug)
+    origin = {
+        "source": "attio",
+        "attioRecordId": deal.record_id,
+        "attioStage": attio_stage,
+        "round": deal.round,
+        "hq": deal.hq,
+        "leadInvestors": deal.lead_investors,
+        "importedAt": firestore.SERVER_TIMESTAMP,
+    }
+    is_new = not company_ref.get().exists
+    payload = {"origin": origin}
+    if is_new:
+        payload["name"] = deal.name
+        payload["website"] = normalize_domain(deal.domain) or None
+        payload["stage"] = "new"
+    company_ref.set(payload, merge=True)
+    return {"slug": slug, "created": is_new}

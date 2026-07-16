@@ -130,6 +130,10 @@ MORE_DILIGENCE_THRESHOLD = float(os.getenv("DI_MORE_DILIGENCE_THRESHOLD", "2.5")
 # Raise via env var once the account's actual Perplexity tier is confirmed.
 STAGE1_PARALLEL = int(os.getenv("DI_STAGE1_PARALLEL", "2"))
 STAGE2_PARALLEL = int(os.getenv("DI_STAGE2_PARALLEL", "3"))
+# attio_io.list_all_deals()'s per-deal Company domain lookups -- plain GETs
+# against Attio's API, not an LLM call, so this can run much higher than the
+# Stage 1/2 knobs above without hitting a research-model rate limit.
+ATTIO_IMPORT_PARALLEL = int(os.getenv("DI_ATTIO_IMPORT_PARALLEL", "8"))
 
 # ── Attio Deals schema ───────────────────────────────────────────────────────
 DEALS_OBJECT = os.getenv("DI_DEALS_OBJECT", "deals")

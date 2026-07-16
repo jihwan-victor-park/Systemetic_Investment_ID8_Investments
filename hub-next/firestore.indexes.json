@@ -1,0 +1,13 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "topVCs",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "tier", "order": "ASCENDING" },
+        { "fieldPath": "name", "order": "ASCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

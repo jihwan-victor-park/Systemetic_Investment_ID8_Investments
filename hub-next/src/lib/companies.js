@@ -3,6 +3,24 @@ import { db, isoDate } from './firestore';
 import { dimensionScore, fitScore } from './rubricMath';
 import { STAGES } from './stages';
 
+// Firestore Timestamp fields don't survive JSON.stringify as anything
+// useful on their own (see isoDate) -- normalize the whole origin map here
+// so every reader (table column, detail page) gets plain serializable
+// values, and missing origin (every company that predates this feature)
+// comes back as null rather than a half-populated object.
+function _mapOrigin(o) {
+  if (!o) return null;
+  return {
+    source: o.source || null,
+    attioRecordId: o.attioRecordId || null,
+    attioStage: o.attioStage || null,
+    round: o.round || null,
+    hq: o.hq || null,
+    leadInvestors: o.leadInvestors || null,
+    importedAt: isoDate(o.importedAt),
+  };
+}
+
 export async function listCompanies() {
   const snap = await db().collection('companies').orderBy('name').get();
   const companies = [];
@@ -24,6 +42,7 @@ export async function listCompanies() {
       // `stage` field written yet -- treat that as "qualified" since that's
       // where they were all shown before these buckets existed.
       stage: STAGES.includes(data.stage) ? data.stage : 'qualified',
+      origin: _mapOrigin(data.origin),
       latestScreen: latest
         ? { date: isoDate(latest.date), roundStage: latest.roundStage || null, fitScore: latest.fitScore ?? null }
         : null,
@@ -72,7 +91,7 @@ export async function getCompany(slug) {
     .orderBy('date', 'desc')
     .get();
   const screens = screensSnap.docs.map((s) => _mapScreen(slug, s.id, s.data()));
-  return { slug, name: data.name, website: data.website, screens };
+  return { slug, name: data.name, website: data.website, origin: _mapOrigin(data.origin), screens };
 }
 
 // Edits a single field on a screen -- a subcategory's score or finding, a

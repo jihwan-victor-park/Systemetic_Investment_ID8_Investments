@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import InlineMarkdown from './InlineMarkdown';
 import BlockMarkdown from './BlockMarkdown';
+import { useJobs } from '@/context/JobsContext';
 import styles from './ResearchChat.module.css';
 
 const POLL_MS = 5000;
@@ -128,6 +129,7 @@ export default function ResearchChat() {
   const [sending, setSending] = useState(false);
   const cancelledRef = useRef(false);
   const endRef = useRef(null);
+  const { startJob, reportTerminal } = useJobs();
 
   useEffect(() => () => { cancelledRef.current = true; }, []);
   useEffect(() => { endRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' }); }, [messages]);
@@ -150,8 +152,16 @@ export default function ResearchChat() {
         patchMessage(msgId, { status: 'error', error: err.message });
         return;
       }
-      if (data.status === 'complete') { patchMessage(msgId, { ...data }); return; }
-      if (data.status === 'error') { patchMessage(msgId, { status: 'error', error: data.error || 'research failed' }); return; }
+      if (data.status === 'complete') {
+        patchMessage(msgId, { ...data });
+        reportTerminal(jobId, { status: 'complete', verdict: data.verdict });
+        return;
+      }
+      if (data.status === 'error') {
+        patchMessage(msgId, { status: 'error', error: data.error || 'research failed' });
+        reportTerminal(jobId, { status: 'error', error: data.error || 'research failed' });
+        return;
+      }
       // still running — keep polling
     }
   }
@@ -205,6 +215,10 @@ export default function ResearchChat() {
         return;
       }
       if (data.name) patchMessage(pendingId, { label: data.name });
+      startJob(data.job_id, {
+        status: 'running', type: 'chat', label: `${data.name || input} — Stage ${stage}`,
+        createdAt: new Date().toISOString(),
+      });
       await poll(data.job_id, pendingId);
     } catch (err) {
       patchMessage(pendingId, { status: 'error', error: err.message });
