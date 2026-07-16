@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { auth } from '@/auth';
-import { addMarketMapEntry, deleteMarketMapEntry } from '@/lib/marketMap';
+import { addMarketMapEntry, deleteMarketMapEntry, updateMarketMapEntry } from '@/lib/marketMap';
 
 // Same belt-and-suspenders pattern as /api/companies/[slug] -- middleware
 // already restricts the whole site to signed-in users and this page to
@@ -43,6 +43,33 @@ export async function POST(request) {
     imageContentType,
   });
   return NextResponse.json({ ok: true, id, hasImage });
+}
+
+// Lets a signed-in internal user replace an entry's photo (and/or correct its
+// title) straight from the directory page -- no shared secret, no
+// Cloud-Shell-and-a-script detour like the admin-market-map route requires.
+export async function PATCH(request) {
+  if (!(await requireInternal())) return NextResponse.json({ error: 'forbidden' }, { status: 403 });
+  const { searchParams } = new URL(request.url);
+  const id = searchParams.get('id');
+  if (!id) return NextResponse.json({ error: 'missing-id' }, { status: 400 });
+
+  const form = await request.formData();
+  const title = form.get('title')?.toString().trim() || undefined;
+  const photo = form.get('photo');
+
+  let imageBuffer, imageContentType;
+  if (photo && typeof photo === 'object' && typeof photo.arrayBuffer === 'function' && photo.size > 0) {
+    imageBuffer = Buffer.from(await photo.arrayBuffer());
+    imageContentType = photo.type || null;
+  }
+
+  const result = await updateMarketMapEntry(id, { title, imageBuffer, imageContentType });
+  if (!result.ok) {
+    const status = result.error === 'not-found' ? 404 : 400;
+    return NextResponse.json(result, { status });
+  }
+  return NextResponse.json(result);
 }
 
 export async function DELETE(request) {

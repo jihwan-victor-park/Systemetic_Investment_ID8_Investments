@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import styles from './MarketMap.module.css';
 import DeleteButton from '@/components/DeleteButton';
 import {
@@ -29,18 +29,15 @@ function sortItems(items) {
   });
 }
 
-// Clicking anywhere on the card opens the map image in a lightbox; the arrow
-// is its own link so it can still take you straight to the original source
-// without stealing the click from the lightbox.
+// Clicking anywhere on the card opens the lightbox -- to view the map image
+// if it has one, or to drop one in if it doesn't yet. The arrow is its own
+// link so it can still take you straight to the original source without
+// stealing the click.
 function Card({ item, mode, onOpen, onDelete }) {
   const fr = freshness(item.ym);
   const sub = mode === 'cat' ? item.firm : item.cat;
-  const hasImage = !!item.image;
 
-  const activate = () => {
-    if (hasImage) onOpen(item);
-    else window.open(item.url, '_blank', 'noopener,noreferrer');
-  };
+  const activate = () => onOpen(item);
 
   const onKeyDown = (e) => {
     if (e.key === 'Enter' || e.key === ' ') {
@@ -91,7 +88,13 @@ function Card({ item, mode, onOpen, onDelete }) {
   );
 }
 
-function Lightbox({ item, onClose }) {
+// The image area itself is the drop target -- click it (with an image
+// already there, or nothing yet) and pick a file to save it as this entry's
+// photo. No separate edit button; wrong photo or missing photo, same click.
+function Lightbox({ item, onClose, onReplace }) {
+  const inputRef = useRef(null);
+  const [busy, setBusy] = useState(false);
+
   useEffect(() => {
     const onKey = (e) => { if (e.key === 'Escape') onClose(); };
     document.addEventListener('keydown', onKey);
@@ -100,18 +103,61 @@ function Lightbox({ item, onClose }) {
 
   if (!item) return null;
 
+  const onFileChange = async (e) => {
+    const file = e.target.files?.[0];
+    e.target.value = '';
+    if (!file || !item.id) return;
+    setBusy(true);
+    try {
+      const body = new FormData();
+      body.set('photo', file);
+      const res = await fetch(`/api/market-map?id=${encodeURIComponent(item.id)}`, { method: 'PATCH', body });
+      if (!res.ok) throw new Error('replace-failed');
+      const result = await res.json();
+      onReplace(item.id, result);
+    } catch {
+      window.alert('Upload failed — try again.');
+    } finally {
+      setBusy(false);
+    }
+  };
+
   return (
     <div className={styles.lbOverlay} onClick={onClose}>
       <div className={styles.lbPanel} onClick={(e) => e.stopPropagation()}>
         <button className={styles.lbClose} onClick={onClose} aria-label="Close">×</button>
-        <div className={styles.lbImgWrap}>
-          {item.imageIsDoc ? (
-            <a className={styles.lbDoc} href={item.image} target="_blank" rel="noopener noreferrer">
-              Open document
-            </a>
+        <div
+          className={styles.lbImgWrap}
+          role="button"
+          tabIndex={0}
+          onClick={() => inputRef.current?.click()}
+          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); inputRef.current?.click(); } }}
+        >
+          {item.image ? (
+            item.imageIsDoc ? (
+              <div className={styles.lbDoc}>
+                <a href={item.image} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
+                  Open document
+                </a>
+                <span className={styles.lbHint}>Click anywhere here to replace it</span>
+              </div>
+            ) : (
+              <>
+                <img className={styles.lbImg} src={item.image} alt={item.title} />
+                <span className={styles.lbHoverHint}>Click to replace photo</span>
+              </>
+            )
           ) : (
-            <img className={styles.lbImg} src={item.image} alt={item.title} />
+            <span className={styles.lbEmpty}>Click to drop in a photo</span>
           )}
+          {busy && <span className={styles.lbBusyOverlay}>Uploading…</span>}
+          <input
+            ref={inputRef}
+            className={styles.hiddenFileInput}
+            type="file"
+            accept="image/*,application/pdf"
+            onChange={onFileChange}
+          />
         </div>
         <div className={styles.lbFoot}>
           <div>
@@ -267,6 +313,14 @@ export default function MarketMap({ initialEntries = [] }) {
 
   const removeEntry = (id) => setEntries((prev) => prev.filter((e) => e.id !== id));
 
+  const replaceEntry = (id, result) => {
+    const patch = {};
+    if (result.title !== undefined) patch.title = result.title;
+    if (result.image !== undefined) { patch.image = result.image; patch.imageIsDoc = !!result.imageIsDoc; }
+    setEntries((prev) => prev.map((e) => (e.id === id ? { ...e, ...patch } : e)));
+    setLightbox((prev) => (prev && prev.id === id ? { ...prev, ...patch } : prev));
+  };
+
   const rows = useMemo(() => {
     const query = q.trim().toLowerCase();
     return entries.filter((d) => {
@@ -374,7 +428,7 @@ export default function MarketMap({ initialEntries = [] }) {
         </>
       )}
 
-      <Lightbox item={lightbox} onClose={() => setLightbox(null)} />
+      <Lightbox item={lightbox} onClose={() => setLightbox(null)} onReplace={replaceEntry} />
     </div>
   );
 }

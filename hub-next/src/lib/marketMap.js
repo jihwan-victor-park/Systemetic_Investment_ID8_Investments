@@ -34,7 +34,11 @@ export async function listMarketMapEntries() {
       ym: d.ym ?? null,
       date: d.dateLabel,
       note: d.note || undefined,
-      image: d.imagePath ? `/api/market-map/image/${doc.id}` : null,
+      // imageUpdatedAt busts the image route's far-future cache when a photo is
+      // replaced in place (see updateMarketMapEntry) -- without it, browsers
+      // that already fetched the old image at this same URL would keep
+      // serving it from cache indefinitely.
+      image: d.imagePath ? `/api/market-map/image/${doc.id}${d.imageUpdatedAt ? `?v=${d.imageUpdatedAt}` : ''}` : null,
       imageIsDoc: d.imageContentType === 'application/pdf',
     };
   });
@@ -71,9 +75,11 @@ export async function addMarketMapEntry({ firm, title, category, url, ym, dateLa
   return { id: ref.id, hasImage: !!imagePath };
 }
 
-// Server-to-server update path (see app/api/admin-market-map/[id]/route.js) —
-// used to backfill an image and/or correct a title on an entry that already
-// exists, without touching firm/category/url/dateLabel/note/createdAt.
+// Shared update path for correcting an entry that already exists, without
+// touching firm/category/url/dateLabel/note/createdAt. Used server-to-server
+// by app/api/admin-market-map/[id]/route.js, and from the browser (signed-in
+// internal users only) by the PATCH handler in app/api/market-map/route.js
+// for the "replace photo" control on the directory page.
 export async function updateMarketMapEntry(id, { title, imageBuffer, imageContentType } = {}) {
   const ref = db().collection('marketMapEntries').doc(id);
   const doc = await ref.get();
@@ -91,12 +97,23 @@ export async function updateMarketMapEntry(id, { title, imageBuffer, imageConten
     });
     update.imagePath = imagePath;
     update.imageContentType = imageContentType || 'application/octet-stream';
+    // The image route caches responses far into the future assuming the
+    // bytes at a given id never change -- they now can, so stamp a version
+    // the client appends as a `?v=` query param to bust that cache.
+    update.imageUpdatedAt = Date.now();
   }
 
   if (Object.keys(update).length === 0) return { ok: false, error: 'nothing-to-update' };
 
   await ref.update(update);
-  return { ok: true, id, updated: Object.keys(update) };
+  return {
+    ok: true,
+    id,
+    updated: Object.keys(update),
+    title: update.title,
+    image: update.imagePath ? `/api/market-map/image/${id}?v=${update.imageUpdatedAt}` : undefined,
+    imageIsDoc: update.imageContentType === 'application/pdf' || undefined,
+  };
 }
 
 // Removes an entry from the directory, cleaning up its stored image (if any)
