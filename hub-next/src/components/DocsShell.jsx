@@ -148,7 +148,7 @@ export default function DocsShell({ companies = [], deals = [], children }) {
           right of the fixed-width sidebar — it isn't packed flush against the
           sidebar, and it isn't centered on the full viewport either. */}
       <div className={styles.contentArea}>
-        <div className={styles.contentInner}>
+        <div className={styles.contentInner} data-has-toc={toc.length > 0}>
           <main className={styles.main}>
             <button
               type="button"

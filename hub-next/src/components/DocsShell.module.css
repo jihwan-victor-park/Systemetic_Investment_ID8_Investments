@@ -32,6 +32,15 @@
   align-items: start;
 }
 
+/* Pages with no headings (the New Deals/Watchlist/Pipeline/Qualified Deals
+   tables, which are just an <h1> and a table) never render the "On this
+   page" aside, but the grid still reserved its 1fr track as empty space --
+   give main the full width instead of leaving a quarter of the page blank
+   next to a wide table. */
+.contentInner[data-has-toc="false"] {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 .category {
   margin-bottom: 0.2rem;
 }
