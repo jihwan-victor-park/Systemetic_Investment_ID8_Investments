@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import StageSelect from './StageSelect';
+import RoundInput from './RoundInput';
 import DeleteButton from './DeleteButton';
 import RunAnalysisButton from './RunAnalysisButton';
 import styles from './companyStageColumns.module.css';
@@ -23,6 +24,8 @@ const displayName = (c) => COMPANY_SHORT_NAME[c.slug] || c.name;
 // by the time it reaches SortableTable.
 export const STAGE_TABLE_COLUMNS = [
   { key: 'company', label: 'Company', sortable: true },
+  { key: 'series', label: 'Series', sortable: true },
+  { key: 'partnerVc', label: 'Partner VC', sortable: true },
   { key: 'score', label: 'Score', sortable: true },
   { key: 'stage', label: 'Stage', sortable: true },
   { key: 'date', label: 'Screened', sortable: true },
@@ -33,20 +36,25 @@ export const STAGE_TABLE_COLUMNS = [
 export function companyToRow(c, { basePath, canEdit }) {
   const name = displayName(c);
   const score = c.latestScreen?.fitScore ?? null;
+  const partnerVc = c.origin?.leadInvestors || null;
   return {
     key: c.slug,
     sort: {
       company: name.toLowerCase(),
+      series: c.round || '',
+      partnerVc: partnerVc || '',
       score,
       stage: c.stage,
       date: c.latestScreen?.date || '',
     },
     search: {
       company: name,
-      stage: c.stage,
+      series: c.round || '',
     },
     cells: {
-      company: name,
+      company: c.website ? `${name} (${c.website})` : name,
+      series: <RoundInput slug={c.slug} round={c.round} canEdit={canEdit} />,
+      partnerVc: partnerVc || '—',
       score: score != null ? `${score.toFixed(1)} / 4` : '—',
       stage: <StageSelect slug={c.slug} stage={c.stage} canEdit={canEdit} />,
       date: c.latestScreen ? c.latestScreen.date.slice(0, 10) : '—',

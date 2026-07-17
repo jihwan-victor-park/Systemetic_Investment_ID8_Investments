@@ -17,12 +17,11 @@ export default async function WatchlistPage() {
   return (
     <>
       <h1>Watchlist</h1>
-      <p>Companies ID8 is keeping an eye on but isn't actively working yet. Move one to Pipeline or Qualified Deals with the Stage dropdown once it's worth picking up.</p>
       <SortableTable
         columns={STAGE_TABLE_COLUMNS}
         rows={rows}
         defaultSort={{ key: 'company', dir: 'asc' }}
-        searchPlaceholder="Filter by company or stage…"
+        searchPlaceholder="Filter by company or series…"
         emptyMessage="Nothing on the watchlist yet."
       />
     </>

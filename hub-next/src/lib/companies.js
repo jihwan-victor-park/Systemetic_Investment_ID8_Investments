@@ -47,6 +47,7 @@ export async function listCompanies() {
       // `stage` field written yet -- treat that as "qualified" since that's
       // where they were all shown before these buckets existed.
       stage: STAGES.includes(data.stage) ? data.stage : 'qualified',
+      round: data.round || null,
       origin: _mapOrigin(data.origin),
       latestScreen: latest
         ? { date: isoDate(latest.date), roundStage: latest.roundStage || null, fitScore: latest.fitScore ?? null }
@@ -65,6 +66,20 @@ export async function updateCompanyStage(slug, stage) {
   if (!snap.exists) throw new Error('company-not-found');
   await ref.set({ stage }, { merge: true });
   return { slug, stage };
+}
+
+// Updates the hub's own editable Series value -- independent of
+// origin.round (Attio's last-synced value, refreshed on every re-import).
+// Once edited here, push_company_from_attio's don't-clobber rule means a
+// later Attio re-import never overwrites it. Internal-role-only; enforced
+// by the API route.
+export async function updateCompanyRound(slug, round) {
+  const ref = db().collection('companies').doc(slug);
+  const snap = await ref.get();
+  if (!snap.exists) throw new Error('company-not-found');
+  const value = String(round ?? '').trim() || null;
+  await ref.set({ round: value }, { merge: true });
+  return { slug, round: value };
 }
 
 function _mapScreen(slug, screenId, d) {

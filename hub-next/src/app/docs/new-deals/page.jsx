@@ -17,12 +17,11 @@ export default async function NewDealsPage() {
   return (
     <>
       <h1>New Deals</h1>
-      <p>Companies pulled in from Attio that haven't been triaged yet. Move one to Watchlist, Pipeline, or Qualified Deals with the Stage dropdown.</p>
       <SortableTable
         columns={STAGE_TABLE_COLUMNS}
         rows={rows}
         defaultSort={{ key: 'company', dir: 'asc' }}
-        searchPlaceholder="Filter by company or stage…"
+        searchPlaceholder="Filter by company or series…"
         emptyMessage="Nothing new to triage."
       />
     </>

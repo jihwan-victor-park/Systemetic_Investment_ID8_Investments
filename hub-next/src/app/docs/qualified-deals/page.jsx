@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { auth } from '@/auth';
 import SortableTable from '@/components/SortableTable';
 import { STAGE_TABLE_COLUMNS, companyToRow } from '@/components/companyStageColumns';
@@ -18,17 +17,11 @@ export default async function QualifiedDealsPage() {
   return (
     <>
       <h1>Qualified Deals</h1>
-      <p>
-        Every deal that reaches the Qualified stage gets scored by{' '}
-        <Link href="/docs/projects/intelligence">Deal Intelligence</Link>'s weekly Stage 1 screen against the ID8
-        rubric — this list populates automatically as those runs complete, no manual step required. Move a company to
-        Watchlist or Pipeline with the Stage dropdown if it belongs somewhere else.
-      </p>
       <SortableTable
         columns={STAGE_TABLE_COLUMNS}
         rows={rows}
         defaultSort={{ key: 'date', dir: 'desc' }}
-        searchPlaceholder="Filter by company or stage…"
+        searchPlaceholder="Filter by company or series…"
         emptyMessage="No qualified deals yet."
       />
     </>

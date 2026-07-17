@@ -155,8 +155,12 @@ def push_company_from_attio(deal: DealInput, attio_stage: str | None) -> dict:
     unset, which hub-next's listCompanies() fallback renders as Qualified.
     On an existing company: only refreshes `origin` (Attio is the source of
     truth for round/hq/leadInvestors/attioStage) -- never touches `stage`,
-    `name`, or `website`, extending push_company_screen_firestore's same
-    don't-clobber-stage rule to this path."""
+    `name`, `website`, or `round`, extending push_company_screen_firestore's
+    same don't-clobber-stage rule to this path. `round` is a brand-new
+    company's initial Series value, seeded from Attio but independently
+    editable afterward from the hub (see hub-next's RoundInput/updateCompanyRound)
+    -- unlike `origin.round`, which keeps tracking Attio's own value on every
+    re-import, this top-level copy is never overwritten once set."""
     slug = company_id(deal)
     company_ref = _firestore().collection("companies").document(slug)
     origin = {
@@ -173,6 +177,7 @@ def push_company_from_attio(deal: DealInput, attio_stage: str | None) -> dict:
     if is_new:
         payload["name"] = deal.name
         payload["website"] = normalize_domain(deal.domain) or None
+        payload["round"] = deal.round or None
         mapped_stage = config.ATTIO_STAGE_MAP.get((attio_stage or "").strip().lower())
         if mapped_stage:
             payload["stage"] = mapped_stage

@@ -17,12 +17,11 @@ export default async function PipelinePage() {
   return (
     <>
       <h1>Pipeline</h1>
-      <p>Companies ID8 is actively working right now. Move one to Qualified Deals once it clears the Stage 1 rubric, or back to Watchlist if it cools off.</p>
       <SortableTable
         columns={STAGE_TABLE_COLUMNS}
         rows={rows}
         defaultSort={{ key: 'company', dir: 'asc' }}
-        searchPlaceholder="Filter by company or stage…"
+        searchPlaceholder="Filter by company or series…"
         emptyMessage="Nothing in the pipeline yet."
       />
     </>
