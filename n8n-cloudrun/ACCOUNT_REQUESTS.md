@@ -4,6 +4,12 @@
 **For:** [Account owner / boss]  
 **Purpose:** Everything needed before Oscar can deploy the pipeline
 
+> **⚠️ Update (Jul 2026):** This was written before the project existed; the
+> actual project is `molten-crowbar-498920-q8` (`137750788450`), not
+> `id8-pipeline`. §4 (Neon account) never happened — the DB is Cloud SQL
+> Postgres, created and billed inside this same GCP project, so there's no
+> separate Neon signup/account to track.
+
 ---
 
 ## 1. Google Cloud Project

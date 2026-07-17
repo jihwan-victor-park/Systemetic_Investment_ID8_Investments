@@ -5,6 +5,16 @@
 **Owner:** Oscar Varas  
 **Infrastructure account:** ID8 GCP project (managed by firm / third-party account)
 
+> **⚠️ Update (Jul 2026):** Several specs below are the original plan, not what
+> actually shipped. Real state: project `molten-crowbar-498920-q8`
+> (`137750788450`); n8n DB is **Cloud SQL Postgres 16** (`n8n-db`, tier
+> `db-f1-micro`, ~$9/mo), not Neon; triggers are **native Google Drive/Sheets
+> Trigger nodes** (polling) inside n8n, not webhooks + Apps Script — that design
+> (§2.6, §3 "Webhook" triggers) was tried and abandoned, `drive-watcher.gs` is
+> unused; n8n image is pinned at `2.28.4`, not `1.108.2`; execution history is
+> pruned (`EXECUTIONS_DATA_PRUNE=true`, 14 days / 10k rows). Real total cost is
+> ~$28/mo (§6 below is stale). Treat `deploy.sh` as the source of truth.
+
 ---
 
 ## 1. System Overview

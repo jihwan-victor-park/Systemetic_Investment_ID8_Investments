@@ -3,6 +3,17 @@
 **Prepared by:** Oscar Varas  
 **Date:** June 2026
 
+> **⚠️ Update (Jul 2026):** This brief describes the original plan; a few things
+> changed once it was actually built. The DB is **Cloud SQL Postgres**, not Neon
+> (Neon couldn't be reached over a Unix socket the way n8n needed). Triggers are
+> **native Google Drive/Sheets Trigger polling nodes inside n8n**, not the
+> webhook + Apps Script design below — that was tried and dropped after
+> recurring IAM/webhook-path issues (see `WEBHOOK_SETUP.md`). Because polling
+> requires n8n to stay always-on, actual cost is higher than quoted here: real
+> Jul 2026 billing was Cloud SQL ~$46/mo + Cloud Run ~$17/mo; after right-sizing
+> Cloud SQL to `db-f1-micro` and enabling execution pruning, the real run-rate
+> is **~$28/mo total**. `deploy.sh` is the source of truth for the current setup.
+
 ---
 
 ## What We're Building

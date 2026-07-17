@@ -1,3 +1,11 @@
+> **⚠️ Abandoned (Jul 2026):** This was tried and reverted after repeated IAM
+> token / webhook-path drift issues in production. `drive-watcher.gs` is no
+> longer deployed. Production now uses the native Google Drive/Sheets Trigger
+> polling nodes this doc replaces, which requires n8n to run `--min-instances=1`
+> (see `deploy.sh`'s header comment for the full history). Kept here for
+> reference only — don't follow these steps to "fix" the cost, it's the reason
+> n8n has to be more expensive, not less.
+
 # Converting the workflow from polling → webhook (so Cloud Run can stay free)
 
 Goal: replace the two **Google Drive Trigger** nodes (which poll every minute and
