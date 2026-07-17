@@ -10,7 +10,10 @@ const ALLOWED_HD = process.env.ALLOWED_HD || 'id8investments.com';
 
 // Explicit safety-net allowlist, in case ALLOWED_HD ever drifts from the
 // deployed env var or an email needs internal access outside the domain check.
-const EXPLICIT_INTERNAL_EMAILS = new Set(['mussadiq@id8investments.com']);
+const EXPLICIT_INTERNAL_EMAILS = new Set([
+  'mussadiq@id8investments.com',
+  'hannah@id8investments.com',
+]);
 
 function isInternal(email) {
   return email.endsWith('@' + ALLOWED_HD) || EXPLICIT_INTERNAL_EMAILS.has(email);
