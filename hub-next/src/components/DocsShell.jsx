@@ -109,6 +109,17 @@ export default function DocsShell({ companies = [], deals = [], children }) {
 
   useEffect(() => setSidebarOpen(false), [pathname]);
 
+  // Without this, the page behind the mobile drawer stays scrollable --
+  // touch-scrolling the (fixed-position, so visually static) menu instead
+  // scrolls the body underneath it, which is what reads as the menu
+  // "moving" rather than staying put while it's open.
+  useEffect(() => {
+    if (!sidebarOpen) return undefined;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = prevOverflow; };
+  }, [sidebarOpen]);
+
   useEffect(() => {
     const container = contentRef.current;
     if (!container) return undefined;
