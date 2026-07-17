@@ -8,8 +8,12 @@ import { getOrCreateAccessRecord } from './lib/investorAccess';
 // stays gated to /pending until an internal user approves them from /docs/admin.
 const ALLOWED_HD = process.env.ALLOWED_HD || 'id8investments.com';
 
+// Explicit safety-net allowlist, in case ALLOWED_HD ever drifts from the
+// deployed env var or an email needs internal access outside the domain check.
+const EXPLICIT_INTERNAL_EMAILS = new Set(['mussadiq@id8investments.com']);
+
 function isInternal(email) {
-  return email.endsWith('@' + ALLOWED_HD);
+  return email.endsWith('@' + ALLOWED_HD) || EXPLICIT_INTERNAL_EMAILS.has(email);
 }
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
@@ -29,9 +33,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     async signIn({ profile }) {
       const email = (profile?.email || '').toLowerCase();
       if (!email) return false;
-      if (isInternal(email)) return true;
+      if (isInternal(email)) {
+        console.log(`[auth] signIn allowed (internal): ${email}`);
+        return true;
+      }
 
       const record = await getOrCreateAccessRecord(email, profile?.name);
+      console.log(`[auth] signIn for ${email}: status=${record.status}`);
       if (record.status === 'approved') return true;
       if (record.status === 'denied') return '/denied';
       return '/pending';
