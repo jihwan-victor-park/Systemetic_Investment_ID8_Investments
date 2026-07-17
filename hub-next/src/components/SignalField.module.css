@@ -1,5 +1,13 @@
 .field { display: block; width: 100%; height: auto; overflow: hidden; }
 
+.desktopOnly { display: block; }
+.mobileOnly { display: none; }
+
+@media (max-width: 768px) {
+  .desktopOnly { display: none; }
+  .mobileOnly { display: block; }
+}
+
 .edge {
   fill: none;
   stroke: var(--id8-ink);

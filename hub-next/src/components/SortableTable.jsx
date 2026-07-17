@@ -63,42 +63,44 @@ export default function SortableTable({ columns, rows, defaultSort, searchPlaceh
           onChange={(e) => setQuery(e.target.value)}
         />
       )}
-      <table>
-        <thead>
-          <tr>
-            {columns.map((c) => (
-              <th
-                key={c.key}
-                className={c.sortable ? styles.sortableHeader : undefined}
-                onClick={c.sortable ? () => toggleSort(c) : undefined}
-              >
-                {c.label}
-                {c.sortable && (
-                  <span className={styles.sortArrow} data-active={sortKey === c.key}>
-                    {sortKey === c.key ? (sortDir === 'asc' ? '▲' : '▼') : '↕'}
-                  </span>
-                )}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {sorted.map((row) => (
-            <tr key={row.key}>
+      <div className={styles.scrollWrap}>
+        <table>
+          <thead>
+            <tr>
               {columns.map((c) => (
-                <td key={c.key}>{row.cells[c.key]}</td>
+                <th
+                  key={c.key}
+                  className={c.sortable ? styles.sortableHeader : undefined}
+                  onClick={c.sortable ? () => toggleSort(c) : undefined}
+                >
+                  {c.label}
+                  {c.sortable && (
+                    <span className={styles.sortArrow} data-active={sortKey === c.key}>
+                      {sortKey === c.key ? (sortDir === 'asc' ? '▲' : '▼') : '↕'}
+                    </span>
+                  )}
+                </th>
               ))}
             </tr>
-          ))}
-          {sorted.length === 0 && (
-            <tr>
-              <td colSpan={columns.length}>
-                <em>{rows.length === 0 ? (emptyMessage || 'No results.') : 'No rows match your filter.'}</em>
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {sorted.map((row) => (
+              <tr key={row.key}>
+                {columns.map((c) => (
+                  <td key={c.key}>{row.cells[c.key]}</td>
+                ))}
+              </tr>
+            ))}
+            {sorted.length === 0 && (
+              <tr>
+                <td colSpan={columns.length}>
+                  <em>{rows.length === 0 ? (emptyMessage || 'No results.') : 'No rows match your filter.'}</em>
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

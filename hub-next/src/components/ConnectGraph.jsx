@@ -8,10 +8,13 @@ import styles from './ConnectGraph.module.css';
 function mulberry32(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
 function hashStr(s) { let h = 2166136261 >>> 0; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
 
-const W = 1000, H = 300, M = 80;
+const W = 1000, M = 80;
 const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
 
-function generate(seed) {
+// H is the only thing that varies between the desktop and mobile layouts --
+// nodes get more vertical room to spread into (same 40/70 top/bottom margin,
+// bigger range between them), same horizontal range either way.
+function generate(seed, H) {
   const rng = mulberry32(hashStr(seed));
   const N = 11, nodes = [];
   let tries = 0;
@@ -32,8 +35,8 @@ function generate(seed) {
   return { nodes, edges, hubs };
 }
 
-export default function ConnectGraph({ seed = 'connect' }) {
-  const G = useMemo(() => generate(seed), [seed]);
+function Graph({ seed, H, wrapClassName }) {
+  const G = useMemo(() => generate(seed, H), [seed, H]);
   const nodeEl = useRef([]); const edgeEl = useRef([]); const ringEl = useRef([]);
   const PAPER = useRef('#FBFAF7'); const INK = useRef('#1A1A1A');
 
@@ -96,7 +99,7 @@ export default function ConnectGraph({ seed = 'connect' }) {
   }
 
   return (
-    <div className={styles.wrap}>
+    <div className={`${styles.wrap} ${wrapClassName}`}>
       <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="xMidYMid meet">
         <g>{ticks}</g>
         {G.edges.map(([a], k) => (
@@ -113,5 +116,18 @@ export default function ConnectGraph({ seed = 'connect' }) {
         ))}
       </svg>
     </div>
+  );
+}
+
+// Renders both a desktop and a taller mobile layout and lets a media query
+// pick which one is visible -- avoids a client-side matchMedia check (which
+// would flash the wrong layout for a frame on mount) and responds instantly
+// to resize/orientation change since it's pure CSS.
+export default function ConnectGraph({ seed = 'connect' }) {
+  return (
+    <>
+      <Graph seed={seed} H={300} wrapClassName={styles.desktopOnly} />
+      <Graph seed={seed} H={520} wrapClassName={styles.mobileOnly} />
+    </>
   );
 }
