@@ -1082,6 +1082,16 @@ def fix_attio_import_stages():
     return jsonify(di_firestore_push.backfill_attio_stages())
 
 
+@app.route("/fix-company-rounds", methods=["POST"])
+def fix_company_rounds():
+    """One-time backfill: seeds `round` from origin.round for companies that
+    existed before the round field was added -- see
+    deal_intelligence.firestore_push.backfill_company_rounds."""
+    if not _require_internal_secret():
+        return jsonify({"error": "forbidden"}), 403
+    return jsonify(di_firestore_push.backfill_company_rounds())
+
+
 _apollo_state = {"status": "idle"}
 _apollo_lock  = threading.Lock()
 

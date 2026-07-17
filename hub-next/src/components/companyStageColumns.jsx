@@ -52,7 +52,11 @@ export function companyToRow(c, { basePath, canEdit }) {
       series: c.round || '',
     },
     cells: {
-      company: c.website ? `${name} (${c.website})` : name,
+      company: c.website ? (
+        <>
+          {name} (<a href={`https://${c.website}`} target="_blank" rel="noopener noreferrer">{c.website}</a>)
+        </>
+      ) : name,
       series: <RoundInput slug={c.slug} round={c.round} canEdit={canEdit} />,
       partnerVc: partnerVc || '—',
       score: score != null ? `${score.toFixed(1)} / 4` : '—',

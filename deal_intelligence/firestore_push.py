@@ -207,3 +207,25 @@ def backfill_attio_stages() -> dict:
         else:
             skipped.append(doc.id)
     return {"updated": len(updated), "skipped": len(skipped), "updated_slugs": updated}
+
+
+def backfill_company_rounds() -> dict:
+    """One-time backfill for companies that existed before the top-level
+    `round` field was introduced -- copies origin.round (stamped by both
+    push_company_from_attio and push_company_screen_firestore since before
+    this field existed) onto `round` wherever `round` is still unset and
+    origin.round has a value. Never overwrites an already-set `round`, so an
+    edit already made from the hub's Series field is untouched."""
+    updated, skipped = [], []
+    for doc in _firestore().collection("companies").stream():
+        data = doc.to_dict()
+        if data.get("round"):
+            skipped.append(doc.id)
+            continue
+        origin_round = (data.get("origin") or {}).get("round")
+        if origin_round:
+            doc.reference.set({"round": origin_round}, merge=True)
+            updated.append(doc.id)
+        else:
+            skipped.append(doc.id)
+    return {"updated": len(updated), "skipped": len(skipped), "updated_slugs": updated}

@@ -117,56 +117,58 @@ function Field({ seed, rows, wrapClassName }) {
   }
 
   return (
-    <svg
-      ref={svgRef}
-      className={`${styles.field} ${wrapClassName}`}
-      viewBox={`0 0 ${W} ${H}`}
-      preserveAspectRatio="xMidYMid meet"
-      onPointerMove={onPointerMove}
-      onPointerUp={onPointerUp}
-      onPointerCancel={onPointerUp}
-      role="img"
-      aria-label="A constellation of connected nodes representing ID8's systems. Each point can be dragged."
-    >
-      <g>{ticks}</g>
-      {G.edges.map(([a, b], i) => (
-        <path
-          key={`e${i}`}
-          ref={el => (edgeEl.current[i] = el)}
-          className={styles.edge}
-          style={{ '--d': `${180 + i * 90}ms` }}
-          d={linePath(G.pos[a], G.pos[b])}
-          pathLength="100"
-        />
-      ))}
-      {G.sig.map(k => (
-        <g key={`s${k}`} ref={el => { if (el) ringEl.current[k] = Array.from(el.children); }}>
-          <circle className={styles.ring1} style={{ '--d': '620ms' }} cx={G.pos[k][0]} cy={G.pos[k][1]} r="18" />
-          <circle className={styles.ring2} style={{ '--d': '680ms' }} cx={G.pos[k][0]} cy={G.pos[k][1]} r="30" />
-        </g>
-      ))}
-      {G.keys.map((k, idx) => {
-        const isHub = G.sig.includes(k);
-        return (
-          <g key={`n${k}`}>
-            <circle
-              ref={el => (nodeEl.current[k] = el)}
-              className={isHub ? styles.nodeHub : styles.node}
-              style={{ '--d': `${idx * 55}ms` }}
-              cx={G.pos[k][0]} cy={G.pos[k][1]}
-              r={isHub ? 5.5 : 4}
-            />
-            <circle
-              ref={el => (nodeEl.current[`hit-${k}`] = el)}
-              className={styles.hit}
-              cx={G.pos[k][0]} cy={G.pos[k][1]}
-              r={12}
-              onPointerDown={onPointerDown(k)}
-            />
+    <div className={wrapClassName}>
+      <svg
+        ref={svgRef}
+        className={styles.field}
+        viewBox={`0 0 ${W} ${H}`}
+        preserveAspectRatio="xMidYMid meet"
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        onPointerCancel={onPointerUp}
+        role="img"
+        aria-label="A constellation of connected nodes representing ID8's systems. Each point can be dragged."
+      >
+        <g>{ticks}</g>
+        {G.edges.map(([a, b], i) => (
+          <path
+            key={`e${i}`}
+            ref={el => (edgeEl.current[i] = el)}
+            className={styles.edge}
+            style={{ '--d': `${180 + i * 90}ms` }}
+            d={linePath(G.pos[a], G.pos[b])}
+            pathLength="100"
+          />
+        ))}
+        {G.sig.map(k => (
+          <g key={`s${k}`} ref={el => { if (el) ringEl.current[k] = Array.from(el.children); }}>
+            <circle className={styles.ring1} style={{ '--d': '620ms' }} cx={G.pos[k][0]} cy={G.pos[k][1]} r="18" />
+            <circle className={styles.ring2} style={{ '--d': '680ms' }} cx={G.pos[k][0]} cy={G.pos[k][1]} r="30" />
           </g>
-        );
-      })}
-    </svg>
+        ))}
+        {G.keys.map((k, idx) => {
+          const isHub = G.sig.includes(k);
+          return (
+            <g key={`n${k}`}>
+              <circle
+                ref={el => (nodeEl.current[k] = el)}
+                className={isHub ? styles.nodeHub : styles.node}
+                style={{ '--d': `${idx * 55}ms` }}
+                cx={G.pos[k][0]} cy={G.pos[k][1]}
+                r={isHub ? 5.5 : 4}
+              />
+              <circle
+                ref={el => (nodeEl.current[`hit-${k}`] = el)}
+                className={styles.hit}
+                cx={G.pos[k][0]} cy={G.pos[k][1]}
+                r={12}
+                onPointerDown={onPointerDown(k)}
+              />
+            </g>
+          );
+        })}
+      </svg>
+    </div>
   );
 }
 
