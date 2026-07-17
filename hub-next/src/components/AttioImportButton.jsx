@@ -5,9 +5,11 @@ import { useJobs } from '@/context/JobsContext';
 import styles from './TopVCsAdmin.module.css';
 
 // Triggers the pipeline's bulk Attio deal pull (every deal, any stage) --
-// results land as stage='new' company stubs for Oscar to triage on the New
-// Deals tab. Progress (processed/total) shows in the global jobs tray, not
-// here; this button just fires the job and hands it off.
+// results land as company stubs in the hub tab matching each deal's Attio
+// stage (Watchlist/Pipeline/Qualified), or Qualified Deals when there's no
+// match (see deal_intelligence/firestore_push.py's push_company_from_attio).
+// Progress (processed/total) shows in the global jobs tray, not here; this
+// button just fires the job and hands it off.
 export default function AttioImportButton() {
   const { startJob } = useJobs();
   const [busy, setBusy] = useState(false);

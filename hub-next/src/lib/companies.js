@@ -23,8 +23,13 @@ function _mapOrigin(o) {
 
 export async function listCompanies() {
   const snap = await db().collection('companies').orderBy('name').get();
-  const companies = [];
-  for (const doc of snap.docs) {
+  // One Firestore round trip per company for its latest screen -- run them
+  // concurrently (Promise.all preserves snap.docs' name-sorted order in the
+  // result regardless of which query resolves first) instead of sequentially,
+  // which used to serialize one network round trip per company and got
+  // dramatically slower as the company count grew (300+ after the Attio
+  // bulk import).
+  return Promise.all(snap.docs.map(async (doc) => {
     const data = doc.data();
     const latestSnap = await db()
       .collection('companies')
@@ -34,7 +39,7 @@ export async function listCompanies() {
       .limit(1)
       .get();
     const latest = latestSnap.empty ? null : latestSnap.docs[0].data();
-    companies.push({
+    return {
       slug: doc.id,
       name: data.name,
       website: data.website,
@@ -46,9 +51,8 @@ export async function listCompanies() {
       latestScreen: latest
         ? { date: isoDate(latest.date), roundStage: latest.roundStage || null, fitScore: latest.fitScore ?? null }
         : null,
-    });
-  }
-  return companies;
+    };
+  }));
 }
 
 // Moves a company between Watchlist / Pipeline / Qualified Deals -- the

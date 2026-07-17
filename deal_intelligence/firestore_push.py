@@ -149,11 +149,13 @@ def push_company_screen_firestore(fit: DealFit, deal: DealInput, slug: str, docx
 def push_company_from_attio(deal: DealInput, attio_stage: str | None) -> dict:
     """Metadata-only upsert for the bulk Attio import -- no Stage 1 score, no
     docx, no screens subcollection write, just enough to make the deal show
-    up for Oscar to triage. On a brand-new company: lands as stage='new'
-    (hub-next's "not yet triaged" bucket) with full origin metadata. On an
-    existing company: only refreshes `origin` (Attio is the source of truth
-    for round/hq/leadInvestors/attioStage) -- never touches `stage`, `name`,
-    or `website`, extending push_company_screen_firestore's same
+    up for Oscar to triage. On a brand-new company: lands in the hub tab that
+    matches its Attio stage (config.ATTIO_STAGE_MAP: Watchlist/Pipeline/
+    Qualified); no match (including Radar or no stage set) leaves `stage`
+    unset, which hub-next's listCompanies() fallback renders as Qualified.
+    On an existing company: only refreshes `origin` (Attio is the source of
+    truth for round/hq/leadInvestors/attioStage) -- never touches `stage`,
+    `name`, or `website`, extending push_company_screen_firestore's same
     don't-clobber-stage rule to this path."""
     slug = company_id(deal)
     company_ref = _firestore().collection("companies").document(slug)
@@ -171,6 +173,32 @@ def push_company_from_attio(deal: DealInput, attio_stage: str | None) -> dict:
     if is_new:
         payload["name"] = deal.name
         payload["website"] = normalize_domain(deal.domain) or None
-        payload["stage"] = "new"
+        mapped_stage = config.ATTIO_STAGE_MAP.get((attio_stage or "").strip().lower())
+        if mapped_stage:
+            payload["stage"] = mapped_stage
     company_ref.set(payload, merge=True)
     return {"slug": slug, "created": is_new}
+
+
+def backfill_attio_stages() -> dict:
+    """One-time correction for companies the bulk Attio import created before
+    push_company_from_attio's stage mapping existed -- every one of them was
+    forced to stage='new' regardless of its real Attio stage. Finds every
+    company still at stage='new' with origin.source=='attio' whose stored
+    origin.attioStage now maps to a real bucket (config.ATTIO_STAGE_MAP) and
+    moves it there. A company with no mapping (Radar, no stage) is left at
+    'new' -- that's exactly where a genuinely untriaged deal belongs."""
+    updated, skipped = [], []
+    for doc in _firestore().collection("companies").where("stage", "==", "new").stream():
+        data = doc.to_dict()
+        origin = data.get("origin") or {}
+        if origin.get("source") != "attio":
+            skipped.append(doc.id)
+            continue
+        mapped_stage = config.ATTIO_STAGE_MAP.get((origin.get("attioStage") or "").strip().lower())
+        if mapped_stage:
+            doc.reference.set({"stage": mapped_stage}, merge=True)
+            updated.append(doc.id)
+        else:
+            skipped.append(doc.id)
+    return {"updated": len(updated), "skipped": len(skipped), "updated_slugs": updated}

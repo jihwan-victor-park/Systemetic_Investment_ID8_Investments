@@ -1070,6 +1070,18 @@ def fix_radar_stages():
                     "skipped_count": len(skipped), "errors": errors})
 
 
+@app.route("/fix-attio-import-stages", methods=["POST"])
+def fix_attio_import_stages():
+    """One-time correction for hub-next companies the bulk Attio import
+    mis-bucketed into New Deals before push_company_from_attio's stage
+    mapping existed -- see deal_intelligence.firestore_push.backfill_attio_stages.
+    Synchronous (a Firestore-only scan, no external API calls), same style as
+    /fix-radar-stages above."""
+    if not _require_internal_secret():
+        return jsonify({"error": "forbidden"}), 403
+    return jsonify(di_firestore_push.backfill_attio_stages())
+
+
 _apollo_state = {"status": "idle"}
 _apollo_lock  = threading.Lock()
 

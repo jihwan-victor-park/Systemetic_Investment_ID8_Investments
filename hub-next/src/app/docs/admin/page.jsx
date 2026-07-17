@@ -13,7 +13,7 @@ export default function AdminPage() {
       <p>Capture ideas, suggestions, and requests as they come up. Working notes that do not belong on a project page also live here.</p>
 
       <H2>Attio import</H2>
-      <p>Pull every deal from Attio, regardless of stage, into the <a href="/docs/new-deals">New Deals</a> tab for manual triage. Never overwrites an existing company's stage — only refreshes its round/HQ/lead-investor context.</p>
+      <p>Pull every deal from Attio into the hub tab that matches its Attio stage (Watchlist, Pipeline, or Qualified) — anything else lands under <a href="/docs/qualified-deals">Qualified Deals</a> for manual triage. Never overwrites an existing company's stage — only refreshes its round/HQ/lead-investor context.</p>
       <AttioImportButton />
 
       <H2>Investor access requests</H2>
