@@ -286,8 +286,8 @@ export default function PortfolioGraph({ vcName, portfolio, companyIndex }) {
                 {nodes.map((node) => (
                   <g
                     key={node.company}
-                    className={`${styles.node} ${selectedName === node.company ? styles.nodeSelected : ''}`}
-                    style={{ animationDelay: `${node.delay + 70}ms` }}
+                    className={styles.nodeWrap}
+                    style={{ transform: `translate(${node.x}px, ${node.y}px)` }}
                     role="button"
                     aria-label={`View details for ${node.company}`}
                     aria-pressed={selectedName === node.company}
@@ -298,13 +298,24 @@ export default function PortfolioGraph({ vcName, portfolio, companyIndex }) {
                     onFocus={() => setHoveredName(node.company)}
                     onBlur={() => setHoveredName(null)}
                   >
-                    <rect
-                      className={styles.nodeShape}
-                      x={node.x - node.w / 2} y={node.y - node.h / 2} width={node.w} height={node.h} rx="2"
-                      fill={node.hasScore ? 'var(--id8-accent-bg)' : 'var(--id8-card)'}
-                      stroke={node.hasScore ? 'var(--id8-accent)' : 'var(--id8-hair)'}
-                    />
-                    <text x={node.x} y={node.y + 4} textAnchor="middle" className={styles.label}>{node.company}</text>
+                    {/* Position lives on this wrapping <g> alone (a single
+                        `transform: translate()`, transitioned via CSS) --
+                        SVG <text> doesn't reliably animate its own x/y
+                        attributes the way <rect> does, so the box would glide
+                        while the label snapped. One transform driving both
+                        children at once means there's nothing left to
+                        desync. The entrance pop (scale/opacity) lives on this
+                        inner <g> instead, so it doesn't fight the position
+                        transform for the same CSS property. */}
+                    <g className={`${styles.node} ${selectedName === node.company ? styles.nodeSelected : ''}`} style={{ animationDelay: `${node.delay + 70}ms` }}>
+                      <rect
+                        className={styles.nodeShape}
+                        x={-node.w / 2} y={-node.h / 2} width={node.w} height={node.h} rx="2"
+                        fill={node.hasScore ? 'var(--id8-accent-bg)' : 'var(--id8-card)'}
+                        stroke={node.hasScore ? 'var(--id8-accent)' : 'var(--id8-hair)'}
+                      />
+                      <text x={0} y={4} textAnchor="middle" className={styles.label}>{node.company}</text>
+                    </g>
                   </g>
                 ))}
               </g>
