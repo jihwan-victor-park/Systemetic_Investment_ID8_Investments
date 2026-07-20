@@ -268,7 +268,7 @@ export default function PortfolioGraph({ vcName, portfolio, companyIndex }) {
                 {nodes.map((node) => (
                   <line
                     key={`edge-${node.company}`}
-                    className={node.hasScore ? styles.edge : undefined}
+                    className={node.hasScore ? `${styles.line} ${styles.edge}` : styles.line}
                     x1={0} y1={0} x2={node.x} y2={node.y}
                     stroke={node.stroke}
                     strokeWidth={node.strokeWidth}

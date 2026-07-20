@@ -75,8 +75,16 @@
 .notScored { font-size: 0.78rem; color: var(--id8-grey); font-style: italic; }
 .detailLink { display: inline-block; margin-top: 10px; font-size: 0.82rem; font-weight: 600; }
 
-.label { font-family: 'Sora', sans-serif; font-size: 11.5px; font-weight: 600; fill: var(--id8-ink); }
+/* Position itself transitions (modern browsers animate SVG x/y/x2/y2 as
+   regular CSS properties) -- when a filter change re-lays-out the rings, a
+   company that's still visible slides to its new spot instead of snapping
+   there. React keeps the same DOM node across that re-render (stable `key`
+   on both the <g> and its edge <line>), which is what makes the browser
+   treat this as a transition rather than a fresh element with no "from". */
+.label { font-family: 'Sora', sans-serif; font-size: 11.5px; font-weight: 600; fill: var(--id8-ink); transition: x 0.45s cubic-bezier(.2,.65,.35,1), y 0.45s cubic-bezier(.2,.65,.35,1); }
 .vcLabel { font-family: 'Roboto Serif', Georgia, serif; font-size: 15px; font-weight: 500; fill: var(--id8-paper); letter-spacing: -0.01em; }
+
+.line { transition: x2 0.45s cubic-bezier(.2,.65,.35,1), y2 0.45s cubic-bezier(.2,.65,.35,1); }
 
 /* Squared nodes, not circles -- same 2px radius as .badge/.tag/.stat-card
    elsewhere, given real depth via drop-shadow (box-shadow doesn't apply to
@@ -84,7 +92,7 @@
    nodes are real links (keyboard-operable); the VC node is not. */
 .nodeShape {
   filter: drop-shadow(0 1px 1px rgba(26, 26, 26, 0.06)) drop-shadow(0 4px 10px rgba(26, 26, 26, 0.10));
-  transition: transform 0.12s ease, filter 0.12s ease;
+  transition: transform 0.12s ease, filter 0.12s ease, x 0.45s cubic-bezier(.2,.65,.35,1), y 0.45s cubic-bezier(.2,.65,.35,1);
   transform-box: fill-box; transform-origin: center;
 }
 .node { cursor: pointer; outline: none; animation: nodeIn 0.28s cubic-bezier(.2,.65,.35,1) backwards; transform-box: fill-box; transform-origin: center; }
