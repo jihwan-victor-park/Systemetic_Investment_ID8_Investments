@@ -1,24 +1,101 @@
-.wrap { display: flex; gap: 22px; align-items: flex-start; }
-.filters { flex: 0 0 150px; }
-.groupLabel { font-family: 'Sora', sans-serif; font-weight: 600; font-size: 0.64rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--id8-grey); margin-bottom: 7px; }
-.check, .radio { display: flex; align-items: center; gap: 7px; font-size: 0.82rem; color: var(--id8-soft); margin-bottom: 6px; cursor: pointer; }
-.check input, .radio input { accent-color: var(--id8-accent); }
-.canvas { flex: 1; min-width: 0; overflow-x: auto; display: flex; justify-content: center; }
-.svg { display: block; }
+.wrap { display: flex; gap: 24px; align-items: flex-start; }
+.filters { flex: 0 0 152px; }
+.groupLabel { font-family: 'Sora', sans-serif; font-weight: 600; font-size: 0.64rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--id8-grey); margin-bottom: 8px; }
+
+/* Industry: toggleable chips, not native checkboxes -- same pill language
+   as .tag/.badge elsewhere, just interactive. */
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  font-family: 'Sora', sans-serif; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.02em;
+  padding: 3px 9px; border-radius: 2px; border: 1px solid var(--id8-hair); background: transparent;
+  color: var(--id8-grey); cursor: pointer; transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+.chip:hover { border-color: var(--id8-soft); color: var(--id8-soft); }
+.chipActive, .chipActive:hover { background: var(--id8-accent-bg); border-color: var(--id8-accent); color: var(--id8-accent); }
+
+/* Minimum series: a vertical segmented control -- same active-fill language
+   as the List/Graph and By VC/By Investment toggles elsewhere in the hub. */
+.seriesList { display: flex; flex-direction: column; gap: 2px; }
+.seriesBtn {
+  display: block; width: 100%; text-align: left; font-family: 'Sora', sans-serif; font-size: 0.8rem; font-weight: 500;
+  padding: 5px 8px; border: none; border-radius: 2px; background: transparent; color: var(--id8-soft); cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.seriesBtn:hover { background: rgba(0, 0, 0, 0.04); }
+.seriesActive, .seriesActive:hover { background: var(--id8-ink); color: var(--id8-paper); font-weight: 600; }
+
+/* The map -- fixed-size viewport (canvasWrap/svg never resize with content),
+   panned/zoomed via the inner <g> transform in PortfolioGraph.jsx. This is
+   what lets a 200-company portfolio work at all: the world grows outward,
+   the window onto it stays constant, and you move the window instead of
+   staring at 200 tiny boxes forced into one screenful. */
+.canvasWrap { position: relative; flex: 1; min-width: 0; }
+.svg {
+  display: block; width: 100%; height: 480px;
+  background: color-mix(in srgb, var(--id8-hair) 22%, var(--id8-paper));
+  border: 1px solid var(--id8-hair); border-radius: 2px;
+  cursor: grab; touch-action: none; user-select: none;
+}
+.svg:active { cursor: grabbing; }
 .empty { font-size: 0.85rem; color: var(--id8-grey); }
 
-.label { font-family: 'Sora', sans-serif; font-size: 11.5px; font-weight: 600; fill: var(--id8-ink); }
-.sublabel { font-family: 'Sora', sans-serif; font-size: 9.5px; fill: var(--id8-grey); }
-.vcLabel { font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 700; fill: var(--id8-paper); }
+.hint {
+  position: absolute; left: 10px; bottom: 10px; font-size: 0.68rem; color: var(--id8-grey);
+  letter-spacing: 0.02em; pointer-events: none;
+}
 
-/* squared nodes, not circles -- same 2px radius as .badge/.tag/.stat-card
-   elsewhere. Company nodes are real links (keyboard-operable); the VC node
-   is not. */
-.nodeShape { transition: transform 0.12s ease, stroke 0.12s ease; transform-box: fill-box; transform-origin: center; }
+.controls { position: absolute; right: 10px; bottom: 10px; display: flex; gap: 4px; }
+.controls button {
+  font-family: 'Sora', sans-serif; font-size: 0.78rem; font-weight: 600; min-width: 30px;
+  padding: 4px 9px; border: 1px solid var(--id8-hair); border-radius: 2px;
+  background: var(--id8-card); color: var(--id8-ink); cursor: pointer;
+  transition: background 0.15s ease;
+}
+.controls button:hover { background: color-mix(in srgb, var(--id8-ink) 5%, var(--id8-card)); }
+
+/* Selecting a company opens this instead of navigating straight away --
+   panning across a node mid-drag should never yank you to another page,
+   and a considered "here's what this is, go if you want" reads as more
+   deliberate than an immediate teleport. */
+.detailCard {
+  position: absolute; top: 10px; right: 10px; width: 208px;
+  background: var(--id8-card); border: 1px solid var(--id8-hair); border-radius: 2px;
+  padding: 12px 14px 13px; box-shadow: var(--id8-shadow-hover);
+  animation: detailIn 0.16s ease-out;
+}
+@keyframes detailIn { from { opacity: 0; transform: translateY(-3px); } to { opacity: 1; transform: translateY(0); } }
+.detailClose {
+  position: absolute; top: 8px; right: 9px; border: none; background: none; cursor: pointer;
+  font-size: 0.95rem; line-height: 1; color: var(--id8-grey); padding: 0;
+}
+.detailClose:hover { color: var(--id8-ink); }
+.detailName { font-family: 'Roboto Serif', Georgia, serif; font-size: 1.02rem; font-weight: 500; color: var(--id8-ink); padding-right: 16px; }
+.detailMeta { font-size: 0.78rem; color: var(--id8-grey); margin-top: 3px; }
+.detailScore { font-size: 0.84rem; color: var(--id8-soft); margin-top: 9px; display: flex; align-items: center; gap: 6px; }
+.notScored { font-size: 0.78rem; color: var(--id8-grey); font-style: italic; }
+.detailLink { display: inline-block; margin-top: 10px; font-size: 0.82rem; font-weight: 600; }
+
+.label { font-family: 'Sora', sans-serif; font-size: 11.5px; font-weight: 600; fill: var(--id8-ink); }
+.vcLabel { font-family: 'Roboto Serif', Georgia, serif; font-size: 15px; font-weight: 500; fill: var(--id8-paper); letter-spacing: -0.01em; }
+
+/* Squared nodes, not circles -- same 2px radius as .badge/.tag/.stat-card
+   elsewhere, given real depth via drop-shadow (box-shadow doesn't apply to
+   SVG shapes; filter: drop-shadow is the equivalent that does). Company
+   nodes are real links (keyboard-operable); the VC node is not. */
+.nodeShape {
+  filter: drop-shadow(0 1px 1px rgba(26, 26, 26, 0.06)) drop-shadow(0 4px 10px rgba(26, 26, 26, 0.10));
+  transition: transform 0.12s ease, filter 0.12s ease;
+  transform-box: fill-box; transform-origin: center;
+}
 .node { cursor: pointer; outline: none; animation: nodeIn 0.28s cubic-bezier(.2,.65,.35,1) backwards; transform-box: fill-box; transform-origin: center; }
-.node:not(.vcNode):hover .nodeShape { transform: scale(1.04); stroke-width: 1.5; }
-.node:focus-visible .nodeShape { stroke: var(--id8-ink); stroke-width: 2; }
+.node:not(.vcNode):hover .nodeShape {
+  transform: scale(1.05);
+  filter: drop-shadow(0 2px 2px rgba(26, 26, 26, 0.08)) drop-shadow(0 6px 16px rgba(26, 26, 26, 0.14));
+}
+.node:focus-visible .nodeShape { filter: drop-shadow(0 0 0 2px var(--id8-ink)); }
+.nodeSelected .nodeShape { filter: drop-shadow(0 0 0 2px var(--id8-accent)) drop-shadow(0 4px 10px rgba(26, 26, 26, 0.14)); }
 .vcNode { cursor: default; }
+.vcNode .nodeShape { filter: drop-shadow(0 2px 2px rgba(26, 26, 26, 0.10)) drop-shadow(0 6px 16px rgba(26, 26, 26, 0.16)); }
 
 /* Nodes settle in on mount -- no bounce/overshoot, this is a diligence tool
    not a game. React only (re)mounts nodes that are newly visible after a
@@ -26,10 +103,16 @@
    so the animation reads as "this one just appeared", not a full redraw. */
 @keyframes nodeIn { from { opacity: 0; transform: scale(0.94); } to { opacity: 1; transform: scale(1); } }
 
-/* scored edges draw from the VC out to the company -- stroke-dashoffset
-   animated to 0 over the edge's own pixel length (--len, set inline). */
+/* Scored edges draw from the VC out to the company and carry a faint glow
+   in the same blue as the line itself, so they read as live connections
+   rather than flat hairlines. stroke-dashoffset animates to 0 over the
+   edge's own pixel length (--len, set inline). */
 @keyframes lineGrow { from { stroke-dashoffset: var(--len); } to { stroke-dashoffset: 0; } }
-.edge { stroke-dasharray: var(--len); animation: lineGrow 0.5s cubic-bezier(.2,.65,.35,1) backwards; }
+.edge {
+  stroke-dasharray: var(--len);
+  animation: lineGrow 0.5s cubic-bezier(.2,.65,.35,1) backwards;
+  filter: drop-shadow(0 0 3px color-mix(in srgb, var(--id8-accent) 35%, transparent));
+}
 
 @media (max-width: 900px) {
   .wrap { flex-direction: column; }

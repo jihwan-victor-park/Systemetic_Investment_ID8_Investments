@@ -1,7 +1,7 @@
 'use client';
 
-import { useMemo, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import Link from 'next/link';
 import { companyHref, lookupFitScore } from '@/lib/companyIndex';
 import styles from './PortfolioGraph.module.css';
 
@@ -15,16 +15,61 @@ function seriesRank(s) {
 const SERIES_OPTIONS = ['any', 'seed', 'series a', 'series b', 'series c'];
 const SERIES_LABEL = { any: 'Any', seed: 'Seed+', 'series a': 'Series A+', 'series b': 'Series B+', 'series c': 'Series C+' };
 
-// Real hub-and-spoke portfolio graph -- the VC at the center, one line per
-// portfolio company, arranged in a full circle (not a one-sided list).
-// Line weight + color-mix encode the company's own ID8 Stage 1 fit score
-// (1-4 rubric, gate at 3.0) -- cross-referenced live from `companyIndex`
-// (built server-side from the real companies/screens collection), never
-// invented. A company we haven't screened renders as a thin grey dashed
-// line, spanning the full 1-4 range so a 1.0 reads as true grey and a 4.0
-// as full electric blue.
+// Fixed viewport in local SVG units -- panning/zooming only ever moves the
+// inner <g> transform, never this. That's what lets the map hold 100+
+// companies without cramming: the world can be arbitrarily large, the
+// window onto it stays constant.
+const VIEW_W = 880, VIEW_H = 520;
+const MIN_SCALE = 0.28, MAX_SCALE = 3.2;
+
+// Concentric-ring layout: each ring's node capacity is however many fit at
+// `spacing` along its own circumference, so density never causes overlap
+// regardless of portfolio size -- 3 companies and 300 both just place
+// correctly, the canvas grows outward (panned/zoomed into) instead of the
+// per-node size shrinking to fit a fixed box. Alternate rings are rotated
+// half a step so nodes don't line up in radial spokes.
+function layoutRings(list, startRadius, spacing = 90, ringGap = 100) {
+  const out = [];
+  let idx = 0, radius = startRadius, ring = 0;
+  while (idx < list.length) {
+    const capacity = Math.max(1, Math.floor((2 * Math.PI * radius) / spacing));
+    const count = Math.min(capacity, list.length - idx);
+    const offset = ring % 2 === 1 ? Math.PI / count : 0;
+    for (let i = 0; i < count; i++) {
+      const angle = (i / count) * Math.PI * 2 - Math.PI / 2 + offset;
+      out.push({ ...list[idx + i], x: radius * Math.cos(angle), y: radius * Math.sin(angle) });
+    }
+    idx += count;
+    radius += ringGap;
+    ring += 1;
+  }
+  return out;
+}
+
+function clientToLocal(svgEl, clientX, clientY) {
+  const rect = svgEl.getBoundingClientRect();
+  return {
+    x: ((clientX - rect.left) / rect.width) * VIEW_W,
+    y: ((clientY - rect.top) / rect.height) * VIEW_H,
+  };
+}
+
+// Real hub-and-spoke portfolio map -- the VC at the center, one line per
+// portfolio company, laid out in rings so it scales from a handful of
+// companies to hundreds without redesign. Drag to pan, scroll/pinch or the
+// +/- controls to zoom, click a company to select it (a detail card opens;
+// nothing navigates until you actually choose "View company") -- clicking
+// while mid-drag is suppressed so panning across a node never yanks you
+// away. Line weight + color-mix encode the company's own ID8 Stage 1 fit
+// score (1-4 rubric, gate at 3.0), cross-referenced live from `companyIndex`
+// (built server-side from the real companies/screens collection) -- never
+// invented. Not yet screened renders as a thin grey dashed line.
 export default function PortfolioGraph({ vcName, portfolio, companyIndex }) {
-  const router = useRouter();
+  const svgRef = useRef(null);
+  const dragRef = useRef({ dragging: false, startX: 0, startY: 0, startViewX: 0, startViewY: 0, moved: 0 });
+  const [view, setView] = useState({ x: 0, y: 0, scale: 1 });
+  const [selectedName, setSelectedName] = useState(null);
+
   const industries = useMemo(
     () => [...new Set(portfolio.map((p) => p.industry).filter(Boolean))].sort(),
     [portfolio],
@@ -40,120 +85,235 @@ export default function PortfolioGraph({ vcName, portfolio, companyIndex }) {
     });
   }
 
-  const enriched = portfolio.map((p) => ({
-    ...p,
-    fitScore: lookupFitScore(companyIndex, p.company),
-    href: companyHref(companyIndex, p.company) || `/docs/vcs/company/${encodeURIComponent(p.company)}`,
-  }));
+  const vcSize = useMemo(() => {
+    const w = Math.min(240, Math.max(120, vcName.length * 7.8 + 40));
+    return { w, h: 56 };
+  }, [vcName]);
 
-  const minRank = minSeries === 'any' ? -1 : SERIES_ORDER[minSeries];
-  const visible = enriched.filter((p) => {
-    if (p.industry && !activeIndustries.has(p.industry)) return false;
-    if (minRank >= 0) {
-      const r = seriesRank(p.series);
-      if (r === null || r < minRank) return false;
+  const nodes = useMemo(() => {
+    const enriched = portfolio.map((p) => ({
+      ...p,
+      fitScore: lookupFitScore(companyIndex, p.company),
+      href: companyHref(companyIndex, p.company) || `/docs/vcs/company/${encodeURIComponent(p.company)}`,
+    }));
+    const minRank = minSeries === 'any' ? -1 : SERIES_ORDER[minSeries];
+    const visible = enriched.filter((p) => {
+      if (p.industry && !activeIndustries.has(p.industry)) return false;
+      if (minRank >= 0) {
+        const r = seriesRank(p.series);
+        if (r === null || r < minRank) return false;
+      }
+      return true;
+    });
+    const startRadius = Math.max(150, vcSize.w / 2 + 100);
+    return layoutRings(visible, startRadius).map((p, i) => {
+      const hasScore = p.fitScore != null;
+      // Maps the rubric's real floor/ceiling (1 -> 4, not 0 -> 4) onto
+      // 0-100% so a 1.0 renders as true grey and a 4.0 as full electric
+      // blue -- the whole scale is used, not just its top three-quarters.
+      const pct = hasScore ? Math.max(0, Math.min(100, ((p.fitScore - 1) / 3) * 100)) : 0;
+      return {
+        ...p,
+        hasScore,
+        w: Math.min(170, Math.max(64, p.company.length * 6.3 + 22)),
+        h: 28,
+        strokeWidth: hasScore ? 2 + (pct / 100) * 6.5 : 1.75,
+        stroke: hasScore
+          ? `color-mix(in srgb, var(--id8-accent) ${Math.round(pct)}%, var(--id8-grey) ${100 - Math.round(pct)}%)`
+          : 'var(--id8-hair)',
+        len: Math.hypot(p.x, p.y),
+        delay: Math.min(i, 20) * 22,
+      };
+    });
+  }, [portfolio, companyIndex, activeIndustries, minSeries, vcSize.w]);
+
+  const selected = selectedName ? nodes.find((node) => node.company === selectedName) || null : null;
+
+  // Wheel-zoom needs a non-passive listener to preventDefault (stop the
+  // page itself from scrolling) -- React's onWheel can't reliably do that,
+  // so this attaches directly to the DOM node.
+  useEffect(() => {
+    const el = svgRef.current;
+    if (!el) return;
+    function onWheel(e) {
+      e.preventDefault();
+      const local = clientToLocal(el, e.clientX, e.clientY);
+      setView((v) => {
+        const factor = e.deltaY < 0 ? 1.15 : 1 / 1.15;
+        const nextScale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, v.scale * factor));
+        const worldX = (local.x - VIEW_W / 2 - v.x) / v.scale;
+        const worldY = (local.y - VIEW_H / 2 - v.y) / v.scale;
+        return {
+          scale: nextScale,
+          x: local.x - VIEW_W / 2 - worldX * nextScale,
+          y: local.y - VIEW_H / 2 - worldY * nextScale,
+        };
+      });
     }
-    return true;
-  });
+    el.addEventListener('wheel', onWheel, { passive: false });
+    return () => el.removeEventListener('wheel', onWheel);
+  }, []);
 
-  const n = visible.length;
-  const nodeW = 96, nodeH = 36, vcW = 96, vcH = 46;
-  const radius = Math.min(210, Math.max(125, 90 + n * 16));
-  const pad = Math.max(nodeW, nodeH) / 2 + 24;
-  const W = radius * 2 + pad * 2, H = radius * 2 + pad * 2;
-  const cx = W / 2, cy = H / 2;
+  function handlePointerDown(e) {
+    dragRef.current = { dragging: true, startX: e.clientX, startY: e.clientY, startViewX: view.x, startViewY: view.y, moved: 0 };
+    e.currentTarget.setPointerCapture(e.pointerId);
+  }
+  function handlePointerMove(e) {
+    const d = dragRef.current;
+    if (!d.dragging) return;
+    const rect = svgRef.current.getBoundingClientRect();
+    const dxScreen = e.clientX - d.startX;
+    const dyScreen = e.clientY - d.startY;
+    d.moved = Math.max(d.moved, Math.hypot(dxScreen, dyScreen));
+    setView((v) => ({
+      ...v,
+      x: d.startViewX + (dxScreen / rect.width) * VIEW_W,
+      y: d.startViewY + (dyScreen / rect.height) * VIEW_H,
+    }));
+  }
+  function handlePointerUp() {
+    dragRef.current.dragging = false;
+  }
+  function zoomBy(factor) {
+    setView((v) => ({ ...v, scale: Math.min(MAX_SCALE, Math.max(MIN_SCALE, v.scale * factor)) }));
+  }
+  function resetView() {
+    setView({ x: 0, y: 0, scale: 1 });
+  }
 
-  const nodes = visible.map((p, i) => {
-    const angle = (i / n) * Math.PI * 2 - Math.PI / 2; // start at top, clockwise
-    const x = cx + radius * Math.cos(angle);
-    const y = cy + radius * Math.sin(angle);
-    const hasScore = p.fitScore != null;
-    // Maps the rubric's real floor/ceiling (1 -> 4, not 0 -> 4) onto 0-100%
-    // so a 1.0 renders as true grey and a 4.0 as full electric blue -- the
-    // whole scale is used, not just its top three-quarters.
-    const pct = hasScore ? Math.max(0, Math.min(100, ((p.fitScore - 1) / 3) * 100)) : 0;
-    const strokeWidth = hasScore ? 1.5 + (pct / 100) * 6 : 1.5;
-    const stroke = hasScore
-      ? `color-mix(in srgb, var(--id8-accent) ${Math.round(pct)}%, var(--id8-grey) ${100 - Math.round(pct)}%)`
-      : 'var(--id8-hair)';
-    const len = Math.hypot(x - cx, y - cy);
-    return { ...p, x, y, hasScore, strokeWidth, stroke, len, delay: i * 45 };
-  });
+  function selectNode(node) {
+    if (dragRef.current.moved > 6) return; // a drag that happened to end on a node isn't a click
+    setSelectedName(node.company);
+  }
 
   return (
     <div className={styles.wrap}>
       <div className={styles.filters}>
         <div className={styles.groupLabel}>Industry</div>
-        {industries.length
-          ? industries.map((ind) => (
-            <label key={ind} className={styles.check}>
-              <input type="checkbox" checked={activeIndustries.has(ind)} onChange={() => toggleIndustry(ind)} />
-              {ind}
-            </label>
-          ))
-          : <p className={styles.empty}>No industry data</p>}
+        {industries.length ? (
+          <div className={styles.chips}>
+            {industries.map((ind) => (
+              <button
+                key={ind}
+                type="button"
+                className={`${styles.chip} ${activeIndustries.has(ind) ? styles.chipActive : ''}`}
+                onClick={() => toggleIndustry(ind)}
+              >
+                {ind}
+              </button>
+            ))}
+          </div>
+        ) : <p className={styles.empty}>No industry data</p>}
 
-        <div className={styles.groupLabel} style={{ marginTop: 14 }}>Minimum series</div>
-        {SERIES_OPTIONS.map((s) => (
-          <label key={s} className={styles.radio}>
-            <input type="radio" name="minSeries" checked={minSeries === s} onChange={() => setMinSeries(s)} />
-            {SERIES_LABEL[s]}
-          </label>
-        ))}
+        <div className={styles.groupLabel} style={{ marginTop: 16 }}>Minimum series</div>
+        <div className={styles.seriesList}>
+          {SERIES_OPTIONS.map((s) => (
+            <button
+              key={s}
+              type="button"
+              className={`${styles.seriesBtn} ${minSeries === s ? styles.seriesActive : ''}`}
+              onClick={() => setMinSeries(s)}
+            >
+              {SERIES_LABEL[s]}
+            </button>
+          ))}
+        </div>
       </div>
 
-      <div className={styles.canvas}>
-        {n === 0 ? (
+      <div className={styles.canvasWrap}>
+        {nodes.length === 0 ? (
           <p className={styles.empty}>No portfolio companies match these filters.</p>
         ) : (
-          <svg viewBox={`0 0 ${W} ${H}`} width="100%" height={Math.min(H, 460)} className={styles.svg}>
-            {nodes.map((node) => (
-              <line
-                key={`edge-${node.company}`}
-                className={node.hasScore ? styles.edge : undefined}
-                x1={cx} y1={cy} x2={node.x} y2={node.y}
-                stroke={node.stroke}
-                strokeWidth={node.strokeWidth}
-                strokeDasharray={node.hasScore ? undefined : '4 4'}
-                strokeLinecap="round"
-                style={node.hasScore ? { '--len': `${node.len}px`, animationDelay: `${node.delay}ms` } : undefined}
-              />
-            ))}
+          <>
+            <svg
+              ref={svgRef}
+              viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
+              className={styles.svg}
+              onPointerDown={handlePointerDown}
+              onPointerMove={handlePointerMove}
+              onPointerUp={handlePointerUp}
+              onPointerCancel={handlePointerUp}
+            >
+              <defs>
+                <radialGradient id="vcHalo" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="var(--id8-accent)" stopOpacity="0.16" />
+                  <stop offset="100%" stopColor="var(--id8-accent)" stopOpacity="0" />
+                </radialGradient>
+              </defs>
+              <g transform={`translate(${VIEW_W / 2 + view.x} ${VIEW_H / 2 + view.y}) scale(${view.scale})`}>
+                <circle r={vcSize.w * 1.1} fill="url(#vcHalo)" />
 
-            <g className={`${styles.node} ${styles.vcNode}`}>
-              <rect className={styles.nodeShape} x={cx - vcW / 2} y={cy - vcH / 2} width={vcW} height={vcH} rx="2" fill="var(--id8-ink)" />
-              <text x={cx} y={cy + 5} textAnchor="middle" className={styles.vcLabel}>{vcName}</text>
-            </g>
+                {nodes.map((node) => (
+                  <line
+                    key={`edge-${node.company}`}
+                    className={node.hasScore ? styles.edge : undefined}
+                    x1={0} y1={0} x2={node.x} y2={node.y}
+                    stroke={node.stroke}
+                    strokeWidth={node.strokeWidth}
+                    strokeDasharray={node.hasScore ? undefined : '4 4'}
+                    strokeLinecap="round"
+                    style={node.hasScore ? { '--len': `${node.len}px`, animationDelay: `${node.delay}ms` } : undefined}
+                  />
+                ))}
 
-            {nodes.map((node) => (
-              <g
-                key={node.company}
-                className={styles.node}
-                style={{ animationDelay: `${node.delay + 70}ms` }}
-                role="link"
-                tabIndex={0}
-                onClick={() => router.push(node.href)}
-                onKeyDown={(e) => { if (e.key === 'Enter') router.push(node.href); }}
-              >
-                <rect
-                  className={styles.nodeShape}
-                  x={node.x - nodeW / 2} y={node.y - nodeH / 2} width={nodeW} height={nodeH} rx="2"
-                  fill={node.hasScore ? 'var(--id8-accent-bg)' : 'var(--id8-card)'}
-                  stroke={node.hasScore ? 'var(--id8-accent)' : 'var(--id8-hair)'}
-                />
-                <text x={node.x} y={node.y - 3} textAnchor="middle" className={styles.label}>{node.company}</text>
-                <text x={node.x} y={node.y + 11} textAnchor="middle" className={styles.sublabel}>
-                  {node.series || '—'}{node.hasScore ? ` · ${node.fitScore.toFixed(1)} / 4` : ' · not scored'}
-                </text>
-                <title>
-                  {node.company} — {node.industry || 'unknown industry'}, {node.series || 'stage unknown'}
-                  {node.hasScore
-                    ? `, fit score ${node.fitScore.toFixed(1)} / 4${node.fitScore >= 3 ? ' (clears gate)' : ''}`
-                    : ', not yet screened against our rubric'}
-                </title>
+                <g className={`${styles.node} ${styles.vcNode}`}>
+                  <rect className={styles.nodeShape} x={-vcSize.w / 2} y={-vcSize.h / 2} width={vcSize.w} height={vcSize.h} rx="3" fill="var(--id8-ink)" />
+                  <text x={0} y={5} textAnchor="middle" className={styles.vcLabel}>{vcName}</text>
+                </g>
+
+                {nodes.map((node) => (
+                  <g
+                    key={node.company}
+                    className={`${styles.node} ${selectedName === node.company ? styles.nodeSelected : ''}`}
+                    style={{ animationDelay: `${node.delay + 70}ms` }}
+                    role="button"
+                    aria-label={`View details for ${node.company}`}
+                    aria-pressed={selectedName === node.company}
+                    tabIndex={0}
+                    onClick={() => selectNode(node)}
+                    onKeyDown={(e) => { if (e.key === 'Enter') setSelectedName(node.company); }}
+                  >
+                    <rect
+                      className={styles.nodeShape}
+                      x={node.x - node.w / 2} y={node.y - node.h / 2} width={node.w} height={node.h} rx="2"
+                      fill={node.hasScore ? 'var(--id8-accent-bg)' : 'var(--id8-card)'}
+                      stroke={node.hasScore ? 'var(--id8-accent)' : 'var(--id8-hair)'}
+                    />
+                    <text x={node.x} y={node.y + 4} textAnchor="middle" className={styles.label}>{node.company}</text>
+                  </g>
+                ))}
               </g>
-            ))}
-          </svg>
+            </svg>
+
+            <div className={styles.hint}>Drag to pan · Scroll to zoom</div>
+
+            <div className={styles.controls}>
+              <button type="button" onClick={() => zoomBy(1 / 1.3)} aria-label="Zoom out">–</button>
+              <button type="button" onClick={resetView} aria-label="Reset view">Reset</button>
+              <button type="button" onClick={() => zoomBy(1.3)} aria-label="Zoom in">+</button>
+            </div>
+
+            {selected && (
+              <div className={styles.detailCard}>
+                <button type="button" className={styles.detailClose} onClick={() => setSelectedName(null)} aria-label="Close">×</button>
+                <div className={styles.detailName}>{selected.company}</div>
+                <div className={styles.detailMeta}>{[selected.industry, selected.series].filter(Boolean).join(' · ') || 'No detail recorded'}</div>
+                <div className={styles.detailScore}>
+                  {selected.hasScore ? (
+                    <>
+                      <span className={`badge ${selected.fitScore >= 3 ? 'badge--gate' : 'badge--below'}`}>
+                        {selected.fitScore >= 3 ? 'Clears gate' : 'Below gate'}
+                      </span>{' '}
+                      {selected.fitScore.toFixed(1)} / 4
+                    </>
+                  ) : (
+                    <span className={styles.notScored}>Not yet screened against our rubric</span>
+                  )}
+                </div>
+                <Link href={selected.href} className={styles.detailLink}>View company →</Link>
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>
