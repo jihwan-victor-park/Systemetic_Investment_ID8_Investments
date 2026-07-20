@@ -293,3 +293,15 @@
     cursor: pointer;
   }
 }
+
+.navBadge {
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--id8-fresh);
+  background: color-mix(in srgb, var(--id8-fresh) 16%, transparent);
+  padding: 1px 5px;
+  border-radius: 2px;
+  margin-left: 8px;
+  vertical-align: 1px;
+}

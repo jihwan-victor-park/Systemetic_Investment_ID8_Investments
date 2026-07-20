@@ -2,11 +2,14 @@ import { H2 } from '@/components/Prose';
 import IdeaBoard from '@/components/IdeaBoard';
 import AccessRequests from '@/components/AccessRequests';
 import TopVCsAdmin from '@/components/TopVCsAdmin';
+import PartnerVCsAdmin from '@/components/PartnerVCsAdmin';
 import AttioImportButton from '@/components/AttioImportButton';
+import { auth } from '@/auth';
 
 export const metadata = { title: 'Admin', description: 'Capture ideas and suggestions, plus working notes.' };
 
-export default function AdminPage() {
+export default async function AdminPage() {
+  const session = await auth();
   return (
     <>
       <h1>Admin</h1>
@@ -20,9 +23,13 @@ export default function AdminPage() {
       <p>Anyone who signs in from outside id8investments.com lands here for approval before they can reach the investor research view.</p>
       <AccessRequests />
 
-      <H2>Top 10 VCs</H2>
-      <p>Manually curated tier/sector list — shows on the <a href="/docs/top-vcs">Top 10 VCs</a> tab. Internal only, not shown to investors.</p>
+      <H2>Tier 1 VCs</H2>
+      <p>Manually curated tier/sector list — shows on the <a href="/docs/vcs">VCs</a> tab. Fund characteristics, portfolio/deals, and news are added from each firm's own detail page after it's created here. Internal only, not shown to investors.</p>
       <TopVCsAdmin />
+
+      <H2>Partner VCs</H2>
+      <p>A partner's own personal contact into a VC firm — separate from the curated Tier 1 list above, also shown on the <a href="/docs/vcs">VCs</a> tab. Not Attio-synced yet; everything here is typed in by hand.</p>
+      <PartnerVCsAdmin defaultTrackedBy={session?.user?.name || ''} />
 
       <H2>Capture</H2>
       <IdeaBoard />

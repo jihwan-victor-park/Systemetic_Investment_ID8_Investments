@@ -1,0 +1,13 @@
+.head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 1.6rem 0 0.8rem; padding-bottom: 0.3rem; border-bottom: 1px solid var(--id8-hair); }
+.head h2 { margin: 0 !important; border: none !important; padding: 0 !important; }
+
+.subtabs { display: inline-flex; border: 1px solid var(--id8-hair); border-radius: 2px; overflow: hidden; flex-shrink: 0; }
+.subtabs button {
+  font-family: 'Sora', sans-serif; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 6px 13px; border: none; background: transparent; color: var(--id8-soft); cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease;
+}
+.subtabs button:active { transform: scale(0.95); }
+.subtabs button + button { border-left: 1px solid var(--id8-hair); }
+.active { background: var(--id8-ink); color: var(--id8-paper); }
+.subtabs button:not(.active):hover { background: rgba(0, 0, 0, 0.04); }

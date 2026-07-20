@@ -107,6 +107,7 @@ def push_company_screen_firestore(fit: DealFit, deal: DealInput, slug: str, docx
         "fitScore": fit.fit_score,
         "rawScore": fit.raw_score,
         "verdict": _badge_text(fit).lower(),
+        "gate": fit.gate,
         "hardAutoPassNote": (
             f"Hard auto-pass: {_linkify_md(fit.hard_auto_pass_reason, cites)}"
             if (fit.hard_auto_pass and fit.hard_auto_pass_reason) else None

@@ -9,3 +9,13 @@ export const STAGE_LABELS = {
   pipeline: 'Pipeline',
   qualified: 'Qualified Deals',
 };
+
+// Where a company's own screen/report page lives, by its current stage --
+// shared by Hot Deals and any other view that links out to "the real
+// company page" rather than a VC-portfolio-only drill-in.
+export const STAGE_BASEPATH = {
+  new: '/docs/new-deals',
+  watchlist: '/docs/watchlist',
+  pipeline: '/docs/pipeline',
+  qualified: '/docs/qualified-deals',
+};

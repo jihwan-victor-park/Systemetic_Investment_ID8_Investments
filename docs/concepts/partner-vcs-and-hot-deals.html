@@ -199,6 +199,8 @@ tr.highlight td { background: color-mix(in srgb, var(--id8-accent-bg) 55%, trans
 .subtabs button + button { border-left: 1px solid var(--id8-hair); }
 .subtabs button.active { background: var(--id8-ink); color: var(--id8-paper); }
 .subtabs button:not(.active):hover { background: rgba(0,0,0,0.04); }
+.subtabs button { transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease; }
+.subtabs button:active { transform: scale(0.94); }
 .search-input {
   flex: 1; min-width: 180px; font-family: 'Sora'; font-size: 0.82rem;
   padding: 7px 11px; border: 1px solid var(--id8-hair); border-radius: 4px;
@@ -226,9 +228,51 @@ tr.highlight td { background: color-mix(in srgb, var(--id8-accent-bg) 55%, trans
 .inv-row .deal { color: var(--id8-grey); font-size: 0.76rem; white-space: nowrap; }
 .empty { font-size: 0.85rem; color: var(--id8-grey); }
 
+/* ---------- new: portfolio graph view (Partner VC firm page) ---------- */
+.portfolio-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0 0 0.8rem; padding-bottom: 0.3rem; border-bottom: 1px solid var(--id8-hair); }
+.portfolio-head h2 { margin: 0; border: none; padding: 0; font-size: 1.25rem; font-weight: 500; }
+.two-col.graph-active { grid-template-columns: 3fr 1fr; }
+
+.graph-wrap { display: flex; gap: 22px; align-items: flex-start; }
+.graph-filters { flex: 0 0 150px; }
+.filter-group-label { font-family: 'Sora'; font-weight: 600; font-size: 0.64rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--id8-grey); margin-bottom: 7px; }
+.filter-check, .filter-radio { display: flex; align-items: center; gap: 7px; font-size: 0.82rem; color: var(--id8-soft); margin-bottom: 6px; cursor: pointer; }
+.filter-check input, .filter-radio input { accent-color: var(--id8-accent); }
+.graph-canvas { flex: 1; min-width: 0; overflow-x: auto; display: flex; justify-content: center; }
+.graph-svg { display: block; }
+.graph-label { font-family: 'Sora'; font-size: 11.5px; font-weight: 600; fill: var(--id8-ink); }
+.graph-sublabel { font-family: 'Sora'; font-size: 9.5px; fill: var(--id8-grey); }
+.graph-vc-label { font-family: 'Sora'; font-size: 12px; font-weight: 700; fill: var(--id8-paper); }
+
+/* squared nodes, not circles -- same 2px radius as .badge/.tag/.stat-card elsewhere */
+.node-shape { transition: transform 0.12s ease, stroke 0.12s ease; transform-box: fill-box; transform-origin: center; cursor: default; }
+.graph-node:hover .node-shape { transform: scale(1.04); stroke-width: 1.5; }
+
+/* Nodes settle in on every render (full innerHTML rebuild means CSS
+   `transition` can't animate between renders -- only `animation`, which
+   plays on insert regardless of prior state, works here). Restrained:
+   a small fade + settle, no overshoot/bounce -- this is a diligence tool,
+   not a game. Staggered via inline animation-delay. */
+@keyframes nodeIn { from { opacity: 0; transform: scale(0.94); } to { opacity: 1; transform: scale(1); } }
+.graph-node { animation: nodeIn 0.28s cubic-bezier(.2,.65,.35,1) backwards; transform-box: fill-box; transform-origin: center; }
+
+/* scored edges draw from the VC out to the company -- stroke-dashoffset
+   animated to 0 over the edge's own pixel length (--len, set inline per edge). */
+@keyframes lineGrow { from { stroke-dashoffset: var(--len); } to { stroke-dashoffset: 0; } }
+.graph-edge { stroke-dasharray: var(--len); animation: lineGrow 0.5s cubic-bezier(.2,.65,.35,1) backwards; }
+
+/* the whole content pane settles in on every render() -- tab switches,
+   filter changes, drill-ins -- so the app reads as responsive rather than a
+   hard page swap, without calling attention to itself. Restarted each
+   render via the playEnter() reflow trick. */
+@keyframes contentIn { from { opacity: 0; transform: translateY(3px); } to { opacity: 1; transform: translateY(0); } }
+#content.animating { animation: contentIn 0.2s ease-out; }
+
 @media (max-width: 900px) {
   .sidebar { display: none; }
   .two-col { grid-template-columns: 1fr; }
+  .two-col.graph-active { grid-template-columns: 1fr; }
+  .graph-wrap { flex-direction: column; }
   .stat-grid { grid-template-columns: 1fr 1fr; }
   table.hub-table { min-width: 780px; }
   .table-wrap { overflow-x: auto; }
@@ -275,14 +319,41 @@ tr.highlight td { background: color-mix(in srgb, var(--id8-accent-bg) 55%, trans
 /* Illustrative — "which ID8 partner has a personal line into which VC"
    isn't in Attio-synced form yet, so this mirrors radar_flow.html's
    placeholder names rather than asserting a real partner/VC pairing. */
+// Portfolio entries now carry industry/series/score -- `score` is a 0-100
+// illustrative stand-in for "ID8's own Stage 1 fit score for this company,
+// normalized to a percent, if we've screened it." null means not yet
+// screened, which the graph view renders as a thin, uncolored, dashed line
+// rather than inventing a score. See renderPortfolioGraphHtml().
+// fitScore matches ID8's real Stage 1 rubric scale (1-4, gate clears at
+// 3.0 -- deal_intelligence/config.py's FIT_THRESHOLD) rather than an
+// invented 0-100%, same units the rest of the hub shows everywhere
+// (e.g. "3.4 / 4" on the stage tables). null = not yet screened by us.
 const PARTNER_VCS = [
   { name: "VC 1", trackedBy: "Partner 1", contact: "A. Rivera",
-    portfolio: ["Company 1", "Company 2"],
+    portfolio: [
+      { company: "Company 1", industry: "AI", series: "Series B", fitScore: 3.5 },
+      { company: "Company 2", industry: "Consumer", series: "Seed", fitScore: null },
+    ],
     news: [ { company: "Company 3", daysAgo: "3d ago" }, { company: "Company 4", daysAgo: "6d ago" } ] },
   { name: "VC 2", trackedBy: "Partner 1", contact: "",
-    portfolio: ["Company I", "Company II", "Company III", "Company IV", "Company V"], news: [] },
+    portfolio: [
+      { company: "Company I", industry: "AI", series: "Seed", fitScore: 2.6 },
+      { company: "Company II", industry: "Bio", series: "Series A", fitScore: null },
+      { company: "Company III", industry: "Consumer", series: "Series B", fitScore: 3.1 },
+      { company: "Company IV", industry: "AI", series: "Series C", fitScore: 3.8 },
+      { company: "Company V", industry: "Bio", series: "Seed", fitScore: null },
+      { company: "Company XI", industry: "AI", series: "Series B", fitScore: 3.4 },
+      { company: "Company XII", industry: "Consumer", series: "Series A", fitScore: 2.2 },
+      { company: "Company XIII", industry: "Bio", series: "Series C", fitScore: 3.9 },
+      { company: "Company XIV", industry: "AI", series: "Seed", fitScore: null },
+      { company: "Company XV", industry: "Consumer", series: "Series D", fitScore: 1.7 },
+    ], news: [] },
   { name: "VC 3", trackedBy: "Partner 2", contact: "",
-    portfolio: ["Company VI", "Company VII", "Company VIII"], news: [] },
+    portfolio: [
+      { company: "Company VI", industry: "Consumer", series: "Series A", fitScore: null },
+      { company: "Company VII", industry: "AI", series: "Series B", fitScore: 2.5 },
+      { company: "Company VIII", industry: "Bio", series: "Seed", fitScore: 1.6 },
+    ], news: [] },
 ];
 
 const TIER1_VCS = [
@@ -359,6 +430,8 @@ let activeFirm = null;        // { kind: "partner"|"tier1", name }
 let activeCompany = null;
 let page = 1;
 let query = "";
+let portfolioView = "list";   // "list" | "graph" -- Partner VC firm's Portfolio tile
+let graphFilters = { industries: null, minSeries: "any" }; // industries: null -> all on (set on first graph render)
 
 const $ = id => document.getElementById(id);
 const initials = n => n.split(/\s+/).map(w => w[0]).slice(0,3).join("").toUpperCase();
@@ -451,6 +524,7 @@ function renderDirectory() {
   document.querySelectorAll("tr[data-kind]").forEach(el =>
     el.addEventListener("click", () => {
       activeFirm = { kind: el.dataset.kind, name: el.dataset.name };
+      portfolioView = "list"; graphFilters = { industries: null, minSeries: "any" };
       vcView = "firm"; render();
     }));
   document.querySelectorAll(".inv-row[data-co]").forEach(el =>
@@ -476,10 +550,129 @@ function renderFirm() {
   return renderTier1Firm();
 }
 
+// Seed < Series A < Series B ... -- a best-effort ranking for the "minimum
+// series" filter. Unrecognized labels (Growth, Later stage VC, etc.) rank as
+// null and are only excluded once a real threshold is picked, same as
+// "not yet scored" -- we can't confirm they've surpassed anything, so we
+// don't guess.
+const SERIES_ORDER = { "seed": 0, "series a": 1, "series b": 2, "series c": 3, "series d": 4, "series e": 5 };
+function seriesRank(s) {
+  if (!s) return null;
+  const r = SERIES_ORDER[s.trim().toLowerCase()];
+  return r === undefined ? null : r;
+}
+
+// Hub-and-spoke portfolio graph -- the VC in the center, one line per
+// portfolio company. Line weight + color intensity stand in for "ID8's own
+// Stage 1 fit score for this company, if we've screened it" (illustrative
+// 0-100 here; the real version would read the matching company's fitScore
+// out of the companies collection, same cross-reference Hot Deals already
+// does). No score yet -> thin, uncolored, dashed line, never invented.
+function renderPortfolioGraphHtml(v) {
+  const industries = [...new Set(v.portfolio.map(p => p.industry).filter(Boolean))].sort();
+  if (!graphFilters.industries) graphFilters.industries = new Set(industries);
+
+  const seriesOptions = ["any", "seed", "series a", "series b", "series c"];
+  const seriesLabel = { any: "Any", seed: "Seed+", "series a": "Series A+", "series b": "Series B+", "series c": "Series C+" };
+  const minRank = graphFilters.minSeries === "any" ? -1 : SERIES_ORDER[graphFilters.minSeries];
+
+  const visible = v.portfolio.filter(p => {
+    if (p.industry && !graphFilters.industries.has(p.industry)) return false;
+    if (minRank >= 0) {
+      const r = seriesRank(p.series);
+      if (r === null || r < minRank) return false;
+    }
+    return true;
+  });
+
+  // Radial hub-and-spoke, not a one-sided list -- the VC sits dead center,
+  // portfolio companies ring it evenly (starting at 12 o'clock, clockwise),
+  // same layout shape as any standard network/star diagram. Radius scales
+  // gently with node count so a 2-node and an 8-node portfolio both read
+  // clearly rather than either cramming together or floating in empty space.
+  const n = visible.length;
+  const nodeW = 96, nodeH = 36, vcW = 96, vcH = 46;
+  const radius = Math.min(210, Math.max(125, 90 + n * 16));
+  const pad = Math.max(nodeW, nodeH) / 2 + 24;
+  const W = radius * 2 + pad * 2, H = radius * 2 + pad * 2;
+  const cx = W / 2, cy = H / 2;
+
+  const edges = visible.map((p, i) => {
+    const angle = (i / n) * Math.PI * 2 - Math.PI / 2; // start at top, clockwise
+    const x = cx + radius * Math.cos(angle);
+    const y = cy + radius * Math.sin(angle);
+    const hasScore = p.fitScore != null;
+    // Same 1-4 scale + 3.0 gate as the rest of the hub (deal_intelligence's
+    // FIT_THRESHOLD) -- not an invented 0-100%. pct maps the rubric's actual
+    // floor and ceiling (1 -> 4, not 0 -> 4) onto 0-100%, so a 1.0 renders as
+    // true grey and a 4.0 as full electric blue -- the whole scale is used,
+    // not just its top three-quarters. pct only drives the line's
+    // weight/color; the number shown to a person is always "x.x / 4".
+    const pct = hasScore ? Math.max(0, Math.min(100, ((p.fitScore - 1) / 3) * 100)) : 0;
+    const strokeWidth = (hasScore ? 1.5 + (pct / 100) * 6 : 1.5).toFixed(1);
+    const stroke = hasScore
+      ? `color-mix(in srgb, var(--id8-accent) ${Math.round(pct)}%, var(--id8-grey) ${100 - Math.round(pct)}%)`
+      : "var(--id8-hair)";
+    const len = Math.hypot(x - cx, y - cy).toFixed(1);
+    const line = hasScore
+      ? `<line class="graph-edge" x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="${stroke}" stroke-width="${strokeWidth}" stroke-linecap="round" style="--len:${len}px; animation-delay:${i * 45}ms;" />`
+      : `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="${stroke}" stroke-width="${strokeWidth}" stroke-dasharray="4 4" stroke-linecap="round" />`;
+    return { p, x, y, i, hasScore, line };
+  });
+
+  // Squared nodes throughout, not circles -- company portfolio "cards" with
+  // the name + series/score inside, same 2px-radius rect language as
+  // .stat-card/.tag/.badge elsewhere in the hub, just scaled down.
+  const nodesHtml = edges.map(({ p, x, y, i, hasScore }) => `
+    <g class="graph-node" style="animation-delay:${i * 45 + 70}ms;">
+      <rect class="node-shape" x="${x - nodeW / 2}" y="${y - nodeH / 2}" width="${nodeW}" height="${nodeH}" rx="2"
+        fill="${hasScore ? 'var(--id8-accent-bg)' : 'var(--id8-card)'}" stroke="${hasScore ? 'var(--id8-accent)' : 'var(--id8-hair)'}" stroke-width="1" />
+      <text x="${x}" y="${y - 3}" text-anchor="middle" class="graph-label">${p.company}</text>
+      <text x="${x}" y="${y + 11}" text-anchor="middle" class="graph-sublabel">${p.series || '—'}${hasScore ? ` · ${p.fitScore.toFixed(1)} / 4` : ' · not scored'}</text>
+      <title>${p.company} — ${p.industry || 'unknown industry'}, ${p.series || 'stage unknown'}${hasScore ? `, fit score ${p.fitScore.toFixed(1)} / 4${p.fitScore >= 3 ? ' (clears gate)' : ''}` : ', not yet screened against our rubric'}</title>
+    </g>`).join("");
+
+  const vcNodeHtml = `
+    <g class="graph-node graph-vc-node">
+      <rect class="node-shape" x="${cx - vcW / 2}" y="${cy - vcH / 2}" width="${vcW}" height="${vcH}" rx="2" fill="var(--id8-ink)" />
+      <text x="${cx}" y="${cy + 5}" text-anchor="middle" class="graph-vc-label">${v.name}</text>
+    </g>`;
+
+  const svgHtml = n
+    ? `<svg viewBox="0 0 ${W} ${H}" width="100%" height="${Math.min(H, 460)}" class="graph-svg">
+        ${edges.map(e => e.line).join("")}${vcNodeHtml}${nodesHtml}
+      </svg>`
+    : `<p class="empty">No portfolio companies match these filters.</p>`;
+
+  const industryChecksHtml = industries.length
+    ? industries.map(ind => `
+        <label class="filter-check">
+          <input type="checkbox" data-industry="${ind}" ${graphFilters.industries.has(ind) ? "checked" : ""}> ${ind}
+        </label>`).join("")
+    : `<p class="empty">No industry data</p>`;
+
+  const seriesRadiosHtml = seriesOptions.map(s => `
+    <label class="filter-radio">
+      <input type="radio" name="minSeries" data-series="${s}" ${graphFilters.minSeries === s ? "checked" : ""}> ${seriesLabel[s]}
+    </label>`).join("");
+
+  return `
+    <div class="graph-wrap">
+      <div class="graph-filters">
+        <div class="filter-group-label">Industry</div>
+        ${industryChecksHtml}
+        <div class="filter-group-label" style="margin-top:14px;">Minimum series</div>
+        ${seriesRadiosHtml}
+      </div>
+      <div class="graph-canvas">${svgHtml}</div>
+    </div>
+    <p class="footnote-strip">Fit scores here are illustrative, but the scale is real — ID8's own 1-4 Stage 1 rubric, gate at 3.0, same units shown everywhere else in the hub. In production this would be pulled from the matching company's actual screen, if we've run one (same cross-reference Hot Deals already does against VC portfolios). Not yet screened always renders as a thin grey dashed line, never a guess.</p>`;
+}
+
 function renderPartnerFirm() {
   const v = PARTNER_VCS.find(f => f.name === activeFirm.name);
   const portfolioHtml = v.portfolio.length
-    ? v.portfolio.map(c => `<li>${c}</li>`).join("")
+    ? v.portfolio.map(c => `<li>${c.company}</li>`).join("")
     : `<li class="empty" style="border:none;">No data yet</li>`;
   const newsHtml = v.news.length
     ? v.news.map(n => `<li class="new"><span><span class="badge badge--new">new</span>${n.company}</span><span class="news-date">${n.daysAgo}</span></li>`).join("")
@@ -492,14 +685,33 @@ function renderPartnerFirm() {
       ${v.contact ? `<div class="contact-chip"><div class="avatar">${initials(v.contact)}</div><div class="meta"><div class="label">Contact · Tracked by ${v.trackedBy}</div><div class="name">${v.contact}</div></div></div>`
                   : `<div class="contact-chip"><div class="meta"><div class="label">Tracked by</div><div class="name">${v.trackedBy}</div></div></div>`}
     </div>
-    <div class="two-col">
-      <div><h2 class="section">Portfolio</h2><ul class="col-list">${portfolioHtml}</ul></div>
+    <div class="two-col ${portfolioView === 'graph' ? 'graph-active' : ''}">
+      <div>
+        <div class="portfolio-head">
+          <h2>Portfolio</h2>
+          <div class="subtabs">
+            <button class="${portfolioView === 'list' ? 'active' : ''}" data-portfolioview="list">List</button>
+            <button class="${portfolioView === 'graph' ? 'active' : ''}" data-portfolioview="graph">Graph</button>
+          </div>
+        </div>
+        ${portfolioView === 'list' ? `<ul class="col-list">${portfolioHtml}</ul>` : renderPortfolioGraphHtml(v)}
+      </div>
       <div><h2 class="section">News</h2><ul class="col-list">${newsHtml}</ul></div>
     </div>
     ${v.news.length ? `<p class="footnote-strip">Neither company above is in ${v.name}'s listed portfolio yet — both only turned up in this week's news pass, which is exactly the signal Radar watches for.</p>` : ""}
     <p class="footnote-strip">Illustrative placeholder — Partner VC contacts and portfolios aren't synced from Attio yet.</p>`;
 
   wireCommon();
+  document.querySelectorAll("[data-portfolioview]").forEach(el =>
+    el.addEventListener("click", () => { portfolioView = el.dataset.portfolioview; render(); }));
+  document.querySelectorAll("[data-industry]").forEach(el =>
+    el.addEventListener("change", () => {
+      const ind = el.dataset.industry;
+      if (el.checked) graphFilters.industries.add(ind); else graphFilters.industries.delete(ind);
+      render();
+    }));
+  document.querySelectorAll("[data-series]").forEach(el =>
+    el.addEventListener("change", () => { graphFilters.minSeries = el.dataset.series; render(); }));
 }
 
 function renderTier1Firm() {
@@ -659,12 +871,26 @@ function wireCommon() {
 }
 
 /* ---------- shell ---------- */
+// Every render() fully rebuilds #content's innerHTML, so a plain CSS
+// `transition` never fires (there's no persisting element to transition --
+// the old one is gone). Toggling the `animating` class off/on with a forced
+// reflow between restarts its `animation` from frame zero every time,
+// giving every tab switch/filter change/drill-in a consistent fade-in
+// instead of a hard swap.
+function playEnter() {
+  const el = $("content");
+  el.classList.remove("animating");
+  void el.offsetWidth;
+  el.classList.add("animating");
+}
+
 function render() {
   renderSidenav();
-  if (section === "hotdeals") { renderHotDeals(); return; }
+  if (section === "hotdeals") { renderHotDeals(); playEnter(); return; }
   if (vcView === "directory") renderDirectory();
   else if (vcView === "firm") renderFirm();
   else if (vcView === "company") renderCompany();
+  playEnter();
 }
 
 render();

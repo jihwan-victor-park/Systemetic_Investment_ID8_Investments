@@ -19,6 +19,7 @@ function SidebarItem({ item, pathname }) {
     return (
       <Link href={item.href} className={`menu__link ${active ? 'menu__link--active' : ''}`}>
         {item.label}
+        {item.badge && <span className={styles.navBadge}>{item.badge}</span>}
       </Link>
     );
   }

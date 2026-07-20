@@ -1,0 +1,36 @@
+.wrap { display: flex; gap: 22px; align-items: flex-start; }
+.filters { flex: 0 0 150px; }
+.groupLabel { font-family: 'Sora', sans-serif; font-weight: 600; font-size: 0.64rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--id8-grey); margin-bottom: 7px; }
+.check, .radio { display: flex; align-items: center; gap: 7px; font-size: 0.82rem; color: var(--id8-soft); margin-bottom: 6px; cursor: pointer; }
+.check input, .radio input { accent-color: var(--id8-accent); }
+.canvas { flex: 1; min-width: 0; overflow-x: auto; display: flex; justify-content: center; }
+.svg { display: block; }
+.empty { font-size: 0.85rem; color: var(--id8-grey); }
+
+.label { font-family: 'Sora', sans-serif; font-size: 11.5px; font-weight: 600; fill: var(--id8-ink); }
+.sublabel { font-family: 'Sora', sans-serif; font-size: 9.5px; fill: var(--id8-grey); }
+.vcLabel { font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 700; fill: var(--id8-paper); }
+
+/* squared nodes, not circles -- same 2px radius as .badge/.tag/.stat-card
+   elsewhere. Company nodes are real links (keyboard-operable); the VC node
+   is not. */
+.nodeShape { transition: transform 0.12s ease, stroke 0.12s ease; transform-box: fill-box; transform-origin: center; }
+.node { cursor: pointer; outline: none; animation: nodeIn 0.28s cubic-bezier(.2,.65,.35,1) backwards; transform-box: fill-box; transform-origin: center; }
+.node:not(.vcNode):hover .nodeShape { transform: scale(1.04); stroke-width: 1.5; }
+.node:focus-visible .nodeShape { stroke: var(--id8-ink); stroke-width: 2; }
+.vcNode { cursor: default; }
+
+/* Nodes settle in on mount -- no bounce/overshoot, this is a diligence tool
+   not a game. React only (re)mounts nodes that are newly visible after a
+   filter change (stable `key`s keep already-visible nodes from replaying),
+   so the animation reads as "this one just appeared", not a full redraw. */
+@keyframes nodeIn { from { opacity: 0; transform: scale(0.94); } to { opacity: 1; transform: scale(1); } }
+
+/* scored edges draw from the VC out to the company -- stroke-dashoffset
+   animated to 0 over the edge's own pixel length (--len, set inline). */
+@keyframes lineGrow { from { stroke-dashoffset: var(--len); } to { stroke-dashoffset: 0; } }
+.edge { stroke-dasharray: var(--len); animation: lineGrow 0.5s cubic-bezier(.2,.65,.35,1) backwards; }
+
+@media (max-width: 900px) {
+  .wrap { flex-direction: column; }
+}

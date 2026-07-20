@@ -1,0 +1,14 @@
+.section { font-size: 1.25rem; font-weight: 500; margin: 2rem 0 0.7rem; padding-bottom: 0.3rem; border-bottom: 1px solid var(--id8-hair); }
+.section:first-of-type { margin-top: 0; }
+.dek { color: var(--id8-soft); margin: 0 0 0.8rem; }
+
+.subtabs { display: inline-flex; border: 1px solid var(--id8-hair); border-radius: 2px; overflow: hidden; margin-bottom: 1.2rem; }
+.subtabs button {
+  font-family: 'Sora', sans-serif; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 7px 14px; border: none; background: transparent; color: var(--id8-soft); cursor: pointer;
+}
+.subtabs button + button { border-left: 1px solid var(--id8-hair); }
+.subtabs button.active { background: var(--id8-ink); color: var(--id8-paper); }
+.subtabs button:not(.active):hover { background: rgba(0,0,0,0.04); }
+
+.tag { font-size: 0.68rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; border: 1px solid var(--id8-hair); border-radius: 2px; padding: 2px 8px; color: var(--id8-soft); display: inline-block; }

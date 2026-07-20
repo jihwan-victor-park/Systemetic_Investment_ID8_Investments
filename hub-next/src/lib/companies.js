@@ -50,7 +50,12 @@ export async function listCompanies() {
       round: data.round || null,
       origin: _mapOrigin(data.origin),
       latestScreen: latest
-        ? { date: isoDate(latest.date), roundStage: latest.roundStage || null, fitScore: latest.fitScore ?? null }
+        ? {
+            date: isoDate(latest.date),
+            roundStage: latest.roundStage || null,
+            fitScore: latest.fitScore ?? null,
+            gate: latest.gate ?? (latest.verdict || '').startsWith('clears gate'),
+          }
         : null,
     };
   }));
@@ -90,6 +95,11 @@ function _mapScreen(slug, screenId, d) {
     fitScore: d.fitScore ?? null,
     rawScore: d.rawScore ?? null,
     verdict: d.verdict || null,
+    // `gate` is a first-class field on screens written after this feature
+    // shipped; earlier screens only ever stored the derived `verdict` badge
+    // text ("clears gate · ..."), so fall back to reading that instead of
+    // requiring a backfill.
+    gate: d.gate ?? (d.verdict || '').startsWith('clears gate'),
     hardAutoPassNote: d.hardAutoPassNote || null,
     dimensions: d.dimensions || [],
     rationale: d.rationale || '',

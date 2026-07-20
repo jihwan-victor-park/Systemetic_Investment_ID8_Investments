@@ -4,7 +4,8 @@ import styles from './Footer.module.css';
 const LINKS = [
   { to: '/docs/deals', label: 'Deal Summaries' },
   { to: '/docs/qualified-deals', label: 'Qualified Deals' },
-  { to: '/docs/top-vcs', label: 'Top 10 VCs' },
+  { to: '/docs/hot-deals', label: 'Hot Deals' },
+  { to: '/docs/vcs', label: 'VCs' },
   { to: '/docs/overview', label: 'Capabilities' },
   { to: '/docs/admin', label: 'Admin' },
 ];

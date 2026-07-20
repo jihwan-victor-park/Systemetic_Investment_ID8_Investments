@@ -1,0 +1,32 @@
+.grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px; margin-bottom: 0.6rem; }
+.cell { background: var(--id8-card); border: 1px solid var(--id8-hair); border-radius: 2px; padding: 12px 14px; }
+.k { font-family: 'Sora', sans-serif; font-size: 0.62rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--id8-grey); margin-bottom: 4px; }
+.v { font-size: 0.85rem; font-weight: 500; color: var(--id8-ink); }
+
+.editBtn {
+  font-family: 'Sora', sans-serif; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--id8-soft); background: transparent; border: 1px solid var(--id8-hair); border-radius: 2px; padding: 4px 10px; cursor: pointer;
+}
+.editBtn:hover { background: rgba(0,0,0,0.04); }
+
+.form { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 0.6rem 1rem; margin-bottom: 0.8rem; }
+.label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--id8-grey); margin-bottom: 0.3rem; }
+.input {
+  width: 100%; font-family: 'Sora', sans-serif; font-size: 0.9rem; color: var(--id8-ink);
+  background: transparent; border: none; border-bottom: 1px solid var(--id8-hair); padding: 0.4rem 0; border-radius: 0;
+}
+.input:focus { outline: none; border-bottom: 1.5px solid var(--id8-ink); }
+.actions { grid-column: 1 / -1; display: flex; gap: 0.8rem; align-items: center; margin-top: 0.2rem; }
+.save {
+  font-family: 'Sora', sans-serif; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 600;
+  color: var(--id8-paper); background: var(--id8-ink); border: none; padding: 0.4rem 1rem; cursor: pointer; border-radius: 2px;
+}
+.cancel {
+  font-family: 'Sora', sans-serif; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 600;
+  color: var(--id8-soft); background: transparent; border: none; cursor: pointer;
+}
+.error { color: #B3261E; font-size: 0.72rem; grid-column: 1 / -1; }
+
+@media (max-width: 768px) {
+  .grid, .form { grid-template-columns: 1fr 1fr; }
+}

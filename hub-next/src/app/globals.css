@@ -138,6 +138,10 @@ h1, h2, h3, h4 { font-family: var(--ifm-heading-font-family); letter-spacing: -0
 .badge--gate { color: var(--id8-fresh); background: color-mix(in srgb, var(--id8-fresh) 16%, transparent); }
 .badge--borderline { color: var(--id8-aging); background: color-mix(in srgb, var(--id8-aging) 16%, transparent); }
 .badge--below { color: var(--id8-stale); background: color-mix(in srgb, var(--id8-stale) 16%, transparent); }
+/* VCs / Hot Deals tabs */
+.badge--co { color: var(--id8-fresh); background: color-mix(in srgb, var(--id8-fresh) 16%, transparent); }
+.badge--pipe { color: var(--id8-accent); background: var(--id8-accent-bg); }
+.badge--hot { color: var(--id8-stale); background: color-mix(in srgb, var(--id8-stale) 16%, transparent); }
 
 .status-pill { display: inline-flex; align-items: center; white-space: nowrap; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 600; color: var(--id8-ink); }
 .status-pill::before { content: ''; display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 6px; }
