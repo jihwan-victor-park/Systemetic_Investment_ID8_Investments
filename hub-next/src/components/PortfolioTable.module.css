@@ -1,0 +1,14 @@
+.form { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; margin-top: 0.9rem; }
+.input {
+  font-family: 'Sora', sans-serif; font-size: 0.85rem; color: var(--id8-ink); background: transparent;
+  border: none; border-bottom: 1px solid var(--id8-hair); padding: 0.35rem 0.2rem; flex: 1 1 140px; min-width: 100px;
+}
+.input:focus { outline: none; border-bottom: 1.5px solid var(--id8-ink); }
+.add {
+  font-family: 'Sora', sans-serif; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 600;
+  color: var(--id8-paper); background: var(--id8-ink); border: none; padding: 0.4rem 0.9rem; cursor: pointer; border-radius: 2px;
+}
+.add:hover { opacity: 0.85; }
+.del { background: none; border: none; color: var(--id8-grey); cursor: pointer; font-size: 0.95rem; line-height: 1; }
+.del:hover { color: var(--id8-ink); }
+.error { color: #B3261E; font-size: 0.72rem; width: 100%; }

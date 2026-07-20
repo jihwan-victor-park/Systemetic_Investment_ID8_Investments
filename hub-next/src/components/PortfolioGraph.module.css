@@ -103,16 +103,24 @@
    so the animation reads as "this one just appeared", not a full redraw. */
 @keyframes nodeIn { from { opacity: 0; transform: scale(0.94); } to { opacity: 1; transform: scale(1); } }
 
-/* Scored edges draw from the VC out to the company and carry a faint glow
-   in the same blue as the line itself, so they read as live connections
-   rather than flat hairlines. stroke-dashoffset animates to 0 over the
-   edge's own pixel length (--len, set inline). */
+/* Scored edges draw from the VC out to the company -- stroke-dashoffset
+   animates to 0 over the edge's own pixel length (--len, set inline). No
+   glow: color is the whole signal here, and a glow on every scored edge
+   at once just washes out the unscored/thin lines next to them. */
 @keyframes lineGrow { from { stroke-dashoffset: var(--len); } to { stroke-dashoffset: 0; } }
 .edge {
   stroke-dasharray: var(--len);
   animation: lineGrow 0.5s cubic-bezier(.2,.65,.35,1) backwards;
-  filter: drop-shadow(0 0 3px color-mix(in srgb, var(--id8-accent) 35%, transparent));
 }
+
+/* Legend -- a static grey-to-blue gradient bar as a reading guide, not
+   another interactive control. Gate sits at (3-1)/3 = 66.7% along the 1-4
+   range, marked with a fixed tick since that position never changes. */
+.legend { margin-top: 2px; }
+.legendBar { position: relative; height: 6px; border-radius: 3px; background: linear-gradient(to right, var(--id8-grey), var(--id8-accent)); margin-bottom: 4px; }
+.legendGate { position: absolute; left: 66.7%; top: -2px; bottom: -2px; width: 2px; background: var(--id8-ink); }
+.legendScale { display: flex; justify-content: space-between; font-size: 0.66rem; color: var(--id8-grey); font-variant-numeric: tabular-nums; }
+.legendCaption { font-size: 0.66rem; color: var(--id8-grey); margin-top: 4px; line-height: 1.4; }
 
 @media (max-width: 900px) {
   .wrap { flex-direction: column; }

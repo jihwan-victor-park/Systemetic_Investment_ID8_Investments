@@ -117,7 +117,10 @@ export default function PortfolioGraph({ vcName, portfolio, companyIndex }) {
         hasScore,
         w: Math.min(170, Math.max(64, p.company.length * 6.3 + 22)),
         h: 28,
-        strokeWidth: hasScore ? 2 + (pct / 100) * 6.5 : 1.75,
+        // Color is the primary signal; width only thickens a little (1.75px
+        // -> 4px) so a crowded map doesn't turn into a tangle of fat lines
+        // that drown out everything else.
+        strokeWidth: hasScore ? 1.75 + (pct / 100) * 2.25 : 1.5,
         stroke: hasScore
           ? `color-mix(in srgb, var(--id8-accent) ${Math.round(pct)}%, var(--id8-grey) ${100 - Math.round(pct)}%)`
           : 'var(--id8-hair)',
@@ -217,6 +220,13 @@ export default function PortfolioGraph({ vcName, portfolio, companyIndex }) {
               {SERIES_LABEL[s]}
             </button>
           ))}
+        </div>
+
+        <div className={styles.groupLabel} style={{ marginTop: 16 }}>Fit score</div>
+        <div className={styles.legend}>
+          <div className={styles.legendBar}><div className={styles.legendGate} /></div>
+          <div className={styles.legendScale}><span>1.0</span><span>4.0</span></div>
+          <div className={styles.legendCaption}>Gate at 3.0 · grey = not yet screened</div>
         </div>
       </div>
 

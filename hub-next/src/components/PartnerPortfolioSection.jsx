@@ -1,35 +1,18 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
-import ArrayFieldEditor from './ArrayFieldEditor';
+import PortfolioTable from './PortfolioTable';
 import PortfolioGraph from './PortfolioGraph';
-import { companyHref } from '@/lib/companyIndex';
 import styles from './PartnerPortfolioSection.module.css';
 
-const PORTFOLIO_FIELDS = [
-  { key: 'company', label: 'Company', required: true, placeholder: 'Company name' },
-  { key: 'industry', label: 'Industry', placeholder: 'e.g. AI' },
-  { key: 'series', label: 'Series', placeholder: 'e.g. Series B' },
-];
-
-// Portfolio tile on a Partner VC's page -- List (add/remove, the source of
-// truth for this data) and Graph (read-only network view; fit scores are
-// cross-referenced live from ID8's own companies/screens in PortfolioGraph,
-// never typed in here). Editing only ever happens in List view.
+// Portfolio tile on a Partner VC's page -- List (the same sortable/
+// searchable table every other deal list in the hub uses, and the source
+// of truth for this data) and Graph (read-only network view; fit scores
+// are cross-referenced live from ID8's own companies/screens in
+// PortfolioGraph, never typed in here). Editing only ever happens in List
+// view.
 export default function PartnerPortfolioSection({ vcId, vcName, portfolio, companyIndex, canEdit }) {
   const [view, setView] = useState('list');
-
-  const displayItems = portfolio.map((p) => {
-    const href = companyHref(companyIndex, p.company) || `/docs/vcs/company/${encodeURIComponent(p.company)}`;
-    const meta = [p.industry, p.series].filter(Boolean).join(' · ');
-    return (
-      <>
-        <Link href={href}>{p.company}</Link>
-        {meta ? ` — ${meta}` : ''}
-      </>
-    );
-  });
 
   return (
     <div>
@@ -42,13 +25,12 @@ export default function PartnerPortfolioSection({ vcId, vcName, portfolio, compa
       </div>
 
       {view === 'list' ? (
-        <ArrayFieldEditor
+        <PortfolioTable
           endpoint="/api/partner-vcs"
           id={vcId}
           field="portfolio"
           items={portfolio}
-          displayItems={displayItems}
-          fields={PORTFOLIO_FIELDS}
+          companyIndex={companyIndex}
           canEdit={canEdit}
           addLabel="Add company"
         />

@@ -73,10 +73,10 @@ export default async function Tier1VCPage({ params }) {
   return (
     <>
       <p><Link href="/docs/vcs">← VCs</Link></p>
-      <h1>{vc.website ? <a href={`https://${vc.website}`} target="_blank" rel="noopener noreferrer">{vc.name} ↗</a> : vc.name}</h1>
+      <h1>{vc.name}</h1>
       <p>
         Tier 1{vc.sector ? ` · ${vc.sector}` : ''}
-        {vc.website ? <> · {vc.website}</> : null}
+        {vc.website ? <> · <a href={`https://${vc.website}`} target="_blank" rel="noopener noreferrer">{vc.website}</a></> : null}
       </p>
 
       <H2>Fund characteristics</H2>

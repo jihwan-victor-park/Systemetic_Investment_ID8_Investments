@@ -6,7 +6,7 @@ import { getPartnerVC } from '@/lib/partnerVCs';
 import { listCompanies } from '@/lib/companies';
 import { buildCompanyIndex } from '@/lib/companyIndex';
 import ArrayFieldEditor from '@/components/ArrayFieldEditor';
-import InlineTextField from '@/components/InlineTextField';
+import ContactChip from '@/components/ContactChip';
 import PartnerPortfolioSection from '@/components/PartnerPortfolioSection';
 
 export const dynamic = 'force-dynamic';
@@ -33,17 +33,12 @@ export default async function PartnerVCPage({ params }) {
   return (
     <>
       <p><Link href="/docs/vcs">← VCs</Link></p>
-      <h1>{vc.website ? <a href={`https://${vc.website}`} target="_blank" rel="noopener noreferrer">{vc.name} ↗</a> : vc.name}</h1>
+      <h1>{vc.name}</h1>
       <p>
         Partner VC{vc.sector ? ` · ${vc.sector}` : ''}
-        {vc.website ? <> · {vc.website}</> : null}
+        {vc.website ? <> · <a href={`https://${vc.website}`} target="_blank" rel="noopener noreferrer">{vc.website}</a></> : null}
       </p>
-      <p>
-        Tracked by <InlineTextField endpoint="/api/partner-vcs" id={vc.id} field="trackedBy" value={vc.trackedBy} canEdit={canEdit} placeholder="Which partner" />
-        {' · Contact '}
-        <InlineTextField endpoint="/api/partner-vcs" id={vc.id} field="contact" value={vc.contact} canEdit={canEdit} placeholder="e.g. A. Rivera" />
-      </p>
-      <p><em>Illustrative placeholder — this VC&rsquo;s portfolio and relationship data aren&rsquo;t synced from Attio yet; everything below is typed in by hand.</em></p>
+      <ContactChip endpoint="/api/partner-vcs" id={vc.id} trackedBy={vc.trackedBy} contact={vc.contact} canEdit={canEdit} />
 
       <PartnerPortfolioSection
         vcId={vc.id}

@@ -1,0 +1,97 @@
+'use client';
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import SortableTable from './SortableTable';
+import { companyHref } from '@/lib/companyIndex';
+import styles from './PortfolioTable.module.css';
+
+const COLUMNS = [
+  { key: 'company', label: 'Company', sortable: true },
+  { key: 'industry', label: 'Industry', sortable: true },
+  { key: 'series', label: 'Series', sortable: true },
+  { key: 'actions', label: '' },
+];
+
+// Portfolio, shown as the same sortable/searchable table every other deal
+// list in the hub uses (Watchlist/Pipeline/Qualified Deals) rather than a
+// plain bullet list -- this is also what makes a 100+ company portfolio
+// actually usable in List view, not just in the Graph.
+export default function PortfolioTable({ endpoint, id, field, items, companyIndex, canEdit, addLabel }) {
+  const router = useRouter();
+  const [name, setName] = useState('');
+  const [industry, setIndustry] = useState('');
+  const [series, setSeries] = useState('');
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState('');
+
+  async function persist(nextItems) {
+    setSaving(true);
+    setError('');
+    try {
+      const res = await fetch(endpoint, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, [field]: nextItems }),
+      });
+      if (!res.ok) throw new Error('save-failed');
+      router.refresh();
+    } catch {
+      setError('Failed — try again');
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  function add(e) {
+    e.preventDefault();
+    if (!name.trim()) return;
+    persist([...(items || []), { company: name.trim(), industry: industry.trim(), series: series.trim() }]);
+    setName('');
+    setIndustry('');
+    setSeries('');
+  }
+
+  function remove(i) {
+    persist((items || []).filter((_, idx) => idx !== i));
+  }
+
+  const rows = (items || []).map((p, i) => {
+    const href = companyHref(companyIndex, p.company) || `/docs/vcs/company/${encodeURIComponent(p.company)}`;
+    return {
+      key: i,
+      sort: { company: p.company.toLowerCase(), industry: p.industry || '', series: p.series || '' },
+      search: { company: p.company, industry: p.industry || '', series: p.series || '' },
+      cells: {
+        company: <Link href={href}>{p.company}</Link>,
+        industry: p.industry || '—',
+        series: p.series || '—',
+        actions: canEdit ? (
+          <button type="button" className={styles.del} disabled={saving} onClick={() => remove(i)} title="Remove">×</button>
+        ) : null,
+      },
+    };
+  });
+
+  return (
+    <div>
+      <SortableTable
+        columns={COLUMNS}
+        rows={rows}
+        defaultSort={{ key: 'company', dir: 'asc' }}
+        searchPlaceholder="Filter portfolio…"
+        emptyMessage="No portfolio companies yet."
+      />
+      {canEdit && (
+        <form className={styles.form} onSubmit={add}>
+          <input className={styles.input} value={name} onChange={(e) => setName(e.target.value)} placeholder="Company name" />
+          <input className={styles.input} value={industry} onChange={(e) => setIndustry(e.target.value)} placeholder="Industry" />
+          <input className={styles.input} value={series} onChange={(e) => setSeries(e.target.value)} placeholder="Series" />
+          <button className={styles.add} type="submit" disabled={saving}>{addLabel || 'Add'}</button>
+          {error && <span className={styles.error}>{error}</span>}
+        </form>
+      )}
+    </div>
+  );
+}
