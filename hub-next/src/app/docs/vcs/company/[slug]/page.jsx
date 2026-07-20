@@ -44,16 +44,20 @@ export default async function VCPortfolioCompanyPage({ params }) {
   if (tier1Matches.length === 0 && partnerMatches.length === 0) notFound();
 
   const rep = tier1Matches[0]?.d;
-  const repIndustry = rep?.industry || partnerMatches[0]?.entry.industry;
+  const repEntry = partnerMatches[0]?.entry;
+  const repIndustry = rep?.industry || repEntry?.industry;
+  const repCategory = repEntry?.category;
+  const repDescription = repEntry?.description;
 
   return (
     <>
       <p><Link href="/docs/vcs">← VCs</Link></p>
       <h1>{companyName}</h1>
       <p>
-        {[repIndustry, rep && rep.type && rep.date ? `last deal ${rep.type}, ${rep.date}${rep.size ? ` (${rep.size})` : ''}` : null]
+        {[repIndustry, repCategory, rep && rep.type && rep.date ? `last deal ${rep.type}, ${rep.date}${rep.size ? ` (${rep.size})` : ''}` : null]
           .filter(Boolean).join(' · ') || 'No deal detail recorded.'}
       </p>
+      {repDescription && <p>{repDescription}</p>}
 
       {tier1Matches.length > 0 && (
         <>

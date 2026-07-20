@@ -10,7 +10,7 @@
     "portfolio": [
       {
         "company": "AgentMark",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2021-09-01",
@@ -19,11 +19,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "470662-21",
         "pitchbookUrl": "https://my.pitchbook.com/profile/470662-21/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of an AI-powered dashboard platform designed to increase an online store's return on advertisement spending.",
+        "category": "Software",
+        "vertical": "AdTech, Artificial Intelligence & Machine Learning, Marketing Tech, SaaS, TMT",
+        "yearFounded": 2018,
+        "hqLocation": "Boston, MA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Anduril Industries",
-        "industry": "",
+        "industry": "Business Products and Services (B2B)",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2025-12-16",
@@ -32,11 +38,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "223461-82",
         "pitchbookUrl": "https://my.pitchbook.com/profile/223461-82/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of an autonomous defense technology designed to automate surveillance and threat detection for national security purposes.",
+        "category": "Commercial Products",
+        "vertical": "Artificial Intelligence & Machine Learning, Augmented Reality, Robotics and Drones",
+        "yearFounded": 2017,
+        "hqLocation": "Costa Mesa, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "AppliedXL",
-        "industry": "",
+        "industry": "Healthcare",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2023-03-10",
@@ -45,11 +57,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "435094-39",
         "pitchbookUrl": "https://my.pitchbook.com/profile/435094-39/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a machine intelligence platform designed for solving ambitious information challenges.",
+        "category": "Healthcare Technology Systems",
+        "vertical": "Advanced Manufacturing, Artificial Intelligence & Machine Learning, Big Data",
+        "yearFounded": 2020,
+        "hqLocation": "New York, NY",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Apptronik",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2026-02-11",
@@ -58,11 +76,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "222785-47",
         "pitchbookUrl": "https://my.pitchbook.com/profile/222785-47/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Operator of a robotics company intended to deliver and scale a variety of general-purpose robots.",
+        "category": "Computer Hardware",
+        "vertical": "Advanced Manufacturing, Artificial Intelligence & Machine Learning, Robotics and Drones, TMT",
+        "yearFounded": 2016,
+        "hqLocation": "Austin, TX",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Ash",
-        "industry": "",
+        "industry": "Healthcare",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2024-10-17",
@@ -71,11 +95,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "458602-30",
         "pitchbookUrl": "https://my.pitchbook.com/profile/458602-30/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Operator of a home health testing platform intended to offer at-home self-collected diagnostic testing services.",
+        "category": "Healthcare Services",
+        "vertical": "HealthTech",
+        "yearFounded": 2019,
+        "hqLocation": "New York, NY",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "BLOK (Household Appliances)",
-        "industry": "",
+        "industry": "Consumer Products and Services (B2C)",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2024-12-26",
@@ -84,11 +114,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "483942-34",
         "pitchbookUrl": "https://my.pitchbook.com/profile/483942-34/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a smart cutting board with a removable digital display intended to let users interact with friends while cooking.",
+        "category": "Consumer Durables",
+        "vertical": "FoodTech, Restaurant Technology",
+        "yearFounded": 2021,
+        "hqLocation": "Malvern, PA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Base Power",
-        "industry": "",
+        "industry": "Energy",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2025-10-08",
@@ -97,11 +133,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "553144-96",
         "pitchbookUrl": "https://my.pitchbook.com/profile/553144-96/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Operator of a residential energy and battery backup service intended to provide electricity and home power protection.",
+        "category": "Utilities",
+        "vertical": "CleanTech, Climate Tech, Mobile, SaaS",
+        "yearFounded": 2023,
+        "hqLocation": "Austin, TX",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Bazze",
-        "industry": "",
+        "industry": "Business Products and Services (B2B)",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2024-08-16",
@@ -110,11 +152,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "494532-73",
         "pitchbookUrl": "https://my.pitchbook.com/profile/494532-73/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of an artificial intelligence-powered threat intelligence platform designed to help national security organizations identify emerging risks and potential threats.",
+        "category": "Commercial Products",
+        "vertical": "Artificial Intelligence & Machine Learning, Big Data, Cybersecurity",
+        "yearFounded": 2019,
+        "hqLocation": "San Francisco, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Castelion",
-        "industry": "",
+        "industry": "Business Products and Services (B2B)",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2025-12-05",
@@ -123,11 +171,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "533360-53",
         "pitchbookUrl": "https://my.pitchbook.com/profile/533360-53/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Manufacturer of advanced hypersonic weapon systems designed to strengthen conventional deterrence through rapid and scalable production.",
+        "category": "Commercial Products",
+        "vertical": "Manufacturing",
+        "yearFounded": 2022,
+        "hqLocation": "El Segundo, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Cerebras Systems",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Former",
         "investorSince": "2026-01-28",
@@ -136,11 +190,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "163733-59",
         "pitchbookUrl": "https://my.pitchbook.com/profile/163733-59/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Manufacturer of a wafer-scale artificial intelligence processing platform intended to provide machine learning by training and inference of models on a single machine.",
+        "category": "Semiconductors",
+        "vertical": "Advanced Manufacturing, Artificial Intelligence & Machine Learning, CloudTech & DevOps, Infrastructure, Manufacturing, SaaS",
+        "yearFounded": 2015,
+        "hqLocation": "Sunnyvale, CA",
+        "businessStatus": "Profitable"
       },
       {
         "company": "Crusoe",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2025-10-24",
@@ -149,11 +209,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "267230-08",
         "pitchbookUrl": "https://my.pitchbook.com/profile/267230-08/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Operator of artificial intelligence optimized cloud infrastructure intended to deliver computing for next-generation artificial intelligence workloads.",
+        "category": "IT Services",
+        "vertical": "Artificial Intelligence & Machine Learning, CloudTech & DevOps, SaaS",
+        "yearFounded": 2018,
+        "hqLocation": "Denver, CO",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "DataPlor",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2024-03-06",
@@ -162,11 +228,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "233502-22",
         "pitchbookUrl": "https://my.pitchbook.com/profile/233502-22/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of global location and foot traffic data platform designed for business intelligence and market analysis.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, Big Data, Mobile, SaaS",
+        "yearFounded": 2016,
+        "hqLocation": "Manhattan Beach, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Dodo",
-        "industry": "",
+        "industry": "Healthcare",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2024-12-13",
@@ -175,11 +247,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "634616-11",
         "pitchbookUrl": "https://my.pitchbook.com/profile/634616-11/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of an artificial intelligence-based communication platform designed to automate client interactions for clinics.",
+        "category": "Healthcare Technology Systems",
+        "vertical": "Artificial Intelligence & Machine Learning, SaaS",
+        "yearFounded": 2024,
+        "hqLocation": "San Francisco, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "ElevenLabs",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2024-11-08",
@@ -188,11 +266,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "509315-23",
         "pitchbookUrl": "https://my.pitchbook.com/profile/509315-23/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of an artificial intelligence audio platform designed for creating realistic speech.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, AudioTech, SaaS",
+        "yearFounded": 2022,
+        "hqLocation": "New York, NY",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Fakespot",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Former",
         "investorSince": "2022-09-01",
@@ -201,11 +285,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "143816-86",
         "pitchbookUrl": "https://my.pitchbook.com/profile/143816-86/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of an online data authentication platform designed to prevent fake and misleading content from deceiving consumers.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, Big Data",
+        "yearFounded": 2016,
+        "hqLocation": "New York, NY",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Groopit",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2025-07-07",
@@ -214,11 +304,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "160270-66",
         "pitchbookUrl": "https://my.pitchbook.com/profile/160270-66/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a collaboration platform designed to accelerate results across the organization.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, Mobile, SaaS",
+        "yearFounded": 2016,
+        "hqLocation": "Seattle, WA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Groq",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Former",
         "investorSince": "2025-08-22",
@@ -227,11 +323,17 @@
         "exitSizeUsdMillions": 20000.0,
         "companyPbid": "167350-06",
         "pitchbookUrl": "https://my.pitchbook.com/profile/167350-06/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of artificial intelligence inference hardware and cloud-based compute services designed for executing machine learning workloads.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, Big Data, CloudTech & DevOps, SaaS",
+        "yearFounded": 2016,
+        "hqLocation": "San Jose, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Harvey",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2025-05-19",
@@ -240,11 +342,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "510703-21",
         "pitchbookUrl": "https://my.pitchbook.com/profile/510703-21/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a legal technology platform designed to assist law practitioners.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, Big Data, Legal Tech",
+        "yearFounded": 2022,
+        "hqLocation": "San Francisco, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Hebbia",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2024-10-14",
@@ -253,11 +361,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "439260-40",
         "pitchbookUrl": "https://my.pitchbook.com/profile/439260-40/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of an artificial intelligence platform designed to support knowledge work through task breakdown and document analysis.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, FinTech, Legal Tech, SaaS",
+        "yearFounded": 2020,
+        "hqLocation": "New York, NY",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "MRGN",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2022-06-01",
@@ -266,11 +380,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "506877-31",
         "pitchbookUrl": "https://my.pitchbook.com/profile/506877-31/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a business intelligence platform designed to make budgeting and planning easier for small and medium enterprises.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, SaaS",
+        "yearFounded": 2019,
+        "hqLocation": "New York, NY",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Mach Industries",
-        "industry": "",
+        "industry": "Business Products and Services (B2B)",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2026-06-02",
@@ -279,11 +399,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "529300-00",
         "pitchbookUrl": "https://my.pitchbook.com/profile/529300-00/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of defense manufacturing technology designed to support military readiness and defense production infrastructure.",
+        "category": "Commercial Products",
+        "vertical": "Robotics and Drones, Space Technology",
+        "yearFounded": null,
+        "hqLocation": "Huntington Beach, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Mosea Technologies",
-        "industry": "",
+        "industry": "Business Products and Services (B2B)",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2020-03-10",
@@ -292,11 +418,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "437427-37",
         "pitchbookUrl": "https://my.pitchbook.com/profile/437427-37/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Operator of a campus marketing and events agency intended to help brands reach students via ambassadors and campus events.",
+        "category": "Commercial Services",
+        "vertical": null,
+        "yearFounded": 2019,
+        "hqLocation": "Toronto, Canada",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Naya (Multimedia and Design Software)",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2021-12-01",
@@ -305,11 +437,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "481837-69",
         "pitchbookUrl": "https://my.pitchbook.com/profile/481837-69/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a digital design software platform designed to bring the entire physical product design journey into one digital studio.",
+        "category": "Software",
+        "vertical": "Advanced Manufacturing, Artificial Intelligence & Machine Learning, SaaS",
+        "yearFounded": 2019,
+        "hqLocation": "Allston, MA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Nomad Data",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2022-11-01",
@@ -318,11 +456,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "462778-84",
         "pitchbookUrl": "https://my.pitchbook.com/profile/462778-84/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a data management platform designed for connecting data buyers with data sellers in a smart, scalable way.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, SaaS",
+        "yearFounded": 2020,
+        "hqLocation": "New York, NY",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Nscale",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2026-03-09",
@@ -331,11 +475,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "593750-17",
         "pitchbookUrl": "https://my.pitchbook.com/profile/593750-17/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of artificial-intelligence infrastructure intended to support organizations running large computing workloads.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, Big Data, CloudTech & DevOps",
+        "yearFounded": 2018,
+        "hqLocation": "London, United Kingdom",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "OpenAI",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2024-10-02",
@@ -344,11 +494,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "149504-14",
         "pitchbookUrl": "https://my.pitchbook.com/profile/149504-14/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of machine learning systems designed for general-purpose artificial intelligence applications.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, Big Data, Mobile, SaaS",
+        "yearFounded": 2015,
+        "hqLocation": "San Francisco, CA",
+        "businessStatus": "Generating Revenue/Not Profitable"
       },
       {
         "company": "Paragon Intel",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2022-02-24",
@@ -357,11 +513,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "228041-38",
         "pitchbookUrl": "https://my.pitchbook.com/profile/228041-38/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a management analytics platform designed to quantify the impact management teams have on company performance.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, SaaS",
+        "yearFounded": 2016,
+        "hqLocation": "Stamford, CT",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Perplexity",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2024-12-16",
@@ -370,11 +532,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "517947-04",
         "pitchbookUrl": "https://my.pitchbook.com/profile/517947-04/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of AI-powered information discovery tools designed for answering questions and exploring topics.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, Mobile, SaaS",
+        "yearFounded": 2022,
+        "hqLocation": "San Francisco, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Physical Intelligence",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2024-10-22",
@@ -383,11 +551,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "590542-30",
         "pitchbookUrl": "https://my.pitchbook.com/profile/590542-30/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Operator of a general-purpose company intended to bridge the gap between artificial intelligence and the physical world.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, Robotics and Drones",
+        "yearFounded": 2024,
+        "hqLocation": "San Francisco, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Planful",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2022-01-01",
@@ -396,11 +570,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "13284-73",
         "pitchbookUrl": "https://my.pitchbook.com/profile/13284-73/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a cloud-based enterprise performance management software intended to help businesses in sectors like life sciences, manufacturing and automation of financial processes.",
+        "category": "Software",
+        "vertical": "FinTech, SaaS",
+        "yearFounded": 2000,
+        "hqLocation": "San Francisco, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Plannuh",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Former",
         "investorSince": "2021-07-09",
@@ -409,11 +589,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "431341-30",
         "pitchbookUrl": "https://my.pitchbook.com/profile/431341-30/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of AI-driven marketing resource management platform intended to deliver operational marketing excellence.",
+        "category": "Software",
+        "vertical": "Marketing Tech",
+        "yearFounded": 2017,
+        "hqLocation": "Newton, MA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Polygraf AI",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2024-06-01",
@@ -422,11 +608,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "496483-12",
         "pitchbookUrl": "https://my.pitchbook.com/profile/496483-12/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of an on-premise artificial intelligence security platform designed to detect and prevent AI-driven threats and data leaks.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, Big Data, Cryptocurrency/Blockchain, Cybersecurity, EdTech, FinTech, InsurTech, Legal Tech, Marketing Tech",
+        "yearFounded": 2021,
+        "hqLocation": "Austin, TX",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Revelio Labs",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2021-07-29",
@@ -435,11 +627,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "279516-43",
         "pitchbookUrl": "https://my.pitchbook.com/profile/279516-43/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a labor market analytics platform designed to absorb and standardize public employment records to create a universal HR database.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, HR Tech, SaaS",
+        "yearFounded": 2018,
+        "hqLocation": "New York, NY",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Rippling",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2025-05-06",
@@ -448,11 +646,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "178355-71",
         "pitchbookUrl": "https://my.pitchbook.com/profile/178355-71/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a workforce management platform designed to eliminate the administrative work of running a company.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, HR Tech, SaaS",
+        "yearFounded": 2016,
+        "hqLocation": "San Francisco, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Safe Superintelligence",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2025-04-11",
@@ -461,11 +665,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "606742-48",
         "pitchbookUrl": "https://my.pitchbook.com/profile/606742-48/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of an artificial intelligence research laboratory and foundational model architecture designed for the secure development of superhuman intelligence.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning",
+        "yearFounded": 2024,
+        "hqLocation": "Palo Alto, CA",
+        "businessStatus": "Startup"
       },
       {
         "company": "Scoutr",
-        "industry": "",
+        "industry": "Business Products and Services (B2B)",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2024-10-11",
@@ -474,11 +684,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "690746-23",
         "pitchbookUrl": "https://my.pitchbook.com/profile/690746-23/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a talent acquisition platform designed to automate the sourcing and referral of top-tier passive candidates.",
+        "category": "Commercial Services",
+        "vertical": "Artificial Intelligence & Machine Learning, HR Tech, SaaS",
+        "yearFounded": null,
+        "hqLocation": "Dubai, United Arab Emirates",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "SpaceX",
-        "industry": "",
+        "industry": "Business Products and Services (B2B)",
         "series": "",
         "investorStatus": "Former",
         "investorSince": "2024-08-16",
@@ -487,11 +703,17 @@
         "exitSizeUsdMillions": 86249.99988,
         "companyPbid": "46488-07",
         "pitchbookUrl": "https://my.pitchbook.com/profile/46488-07/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of rockets and spacecraft products designed to advance space transportation.",
+        "category": "Commercial Products",
+        "vertical": "Space Technology",
+        "yearFounded": 2002,
+        "hqLocation": "Starbase, TX",
+        "businessStatus": "Generating Revenue/Not Profitable"
       },
       {
         "company": "Stripe",
-        "industry": "",
+        "industry": "Financial Services",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2026-02-12",
@@ -500,11 +722,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "54782-29",
         "pitchbookUrl": "https://my.pitchbook.com/profile/54782-29/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Operator of an online financial infrastructure platform designed to accept payments, grow revenue, and accelerate new business opportunities.",
+        "category": "Other Financial Services",
+        "vertical": "Artificial Intelligence & Machine Learning, FinTech, Mobile, SaaS",
+        "yearFounded": 2010,
+        "hqLocation": "South San Francisco, CA",
+        "businessStatus": "Profitable"
       },
       {
         "company": "Sumatra",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Former",
         "investorSince": "2022-07-13",
@@ -513,11 +741,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "481264-75",
         "pitchbookUrl": "https://my.pitchbook.com/profile/481264-75/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a real-time data platform designed to remove data engineering dependencies that delay or block real-time machine learning and analytics deployments.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, Big Data, Cybersecurity, FinTech",
+        "yearFounded": 2019,
+        "hqLocation": "Austin, TX",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "TensorWave",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2025-05-14",
@@ -526,11 +760,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "571915-99",
         "pitchbookUrl": "https://my.pitchbook.com/profile/571915-99/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of AI compute infrastructure designed to support large-scale model training and real-time inference workloads.",
+        "category": "IT Services",
+        "vertical": "Artificial Intelligence & Machine Learning, Big Data, SaaS",
+        "yearFounded": 2023,
+        "hqLocation": "Las Vegas, NV",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Together AI",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2026-03-05",
@@ -539,11 +779,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "518020-12",
         "pitchbookUrl": "https://my.pitchbook.com/profile/518020-12/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Operator of a cloud-based artificial intelligence infrastructure platform designed to enable organizations to build, train, and deploy AI models at scale",
+        "category": "IT Services",
+        "vertical": "Artificial Intelligence & Machine Learning, CloudTech & DevOps, SaaS",
+        "yearFounded": 2022,
+        "hqLocation": "San Francisco, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "True Anomaly",
-        "industry": "",
+        "industry": "Business Products and Services (B2B)",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2025-05-05",
@@ -552,11 +798,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "503180-47",
         "pitchbookUrl": "https://my.pitchbook.com/profile/503180-47/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of space-focused AI and software-integrated spacecraft systems designed to support secure and sustainable access to orbital environments.",
+        "category": "Commercial Products",
+        "vertical": "Advanced Manufacturing, Artificial Intelligence & Machine Learning, Manufacturing, Space Technology",
+        "yearFounded": 2022,
+        "hqLocation": "Centennial, CO",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Unconventional AI",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2025-12-09",
@@ -565,7 +817,13 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "1130420-71",
         "pitchbookUrl": "https://my.pitchbook.com/profile/1130420-71/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Operator of an artificial intelligence-focused hardware startup intended to reinvent computer architecture for efficient and scalable artificial intelligence processing.",
+        "category": "Semiconductors",
+        "vertical": "Advanced Manufacturing, Artificial Intelligence & Machine Learning, Big Data, CloudTech & DevOps",
+        "yearFounded": 2025,
+        "hqLocation": "San Francisco, CA",
+        "businessStatus": "Generating Revenue"
       }
     ]
   },
@@ -580,7 +838,7 @@
     "portfolio": [
       {
         "company": "Anthro Energy",
-        "industry": "",
+        "industry": "Business Products and Services (B2B)",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2022-09-14",
@@ -589,11 +847,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "442202-41",
         "pitchbookUrl": "https://my.pitchbook.com/profile/442202-41/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of flexible battery technology designed to improve the capacity of wearable electronic devices.",
+        "category": "Commercial Products",
+        "vertical": "CleanTech, Manufacturing",
+        "yearFounded": 2020,
+        "hqLocation": "Alameda, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Cognitive Space",
-        "industry": "",
+        "industry": "Business Products and Services (B2B)",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2021-11-18",
@@ -602,11 +866,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "277560-01",
         "pitchbookUrl": "https://my.pitchbook.com/profile/277560-01/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of an artificial intelligence software-as-a-service platform designed to address the massive growth in the space market with autonomous asset management.",
+        "category": "Commercial Products",
+        "vertical": "Artificial Intelligence & Machine Learning, SaaS, Space Technology",
+        "yearFounded": 2018,
+        "hqLocation": "Houston, TX",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Firehawk Aerospace",
-        "industry": "",
+        "industry": "Business Products and Services (B2B)",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2023-01-01",
@@ -615,11 +885,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "438880-87",
         "pitchbookUrl": "https://my.pitchbook.com/profile/438880-87/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a rocket engine technology designed to make space transportation safe, reliable, and affordable.",
+        "category": "Commercial Products",
+        "vertical": "3D Printing, Advanced Manufacturing, Robotics and Drones, Space Technology",
+        "yearFounded": 2019,
+        "hqLocation": "Addison, TX",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Great Lakes Crystal Technologies",
-        "industry": "",
+        "industry": "Materials and Resources",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2023-07-13",
@@ -628,11 +904,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "459194-68",
         "pitchbookUrl": "https://my.pitchbook.com/profile/459194-68/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Manufacturer of synthetic crystalline substrates designed for advanced sensing, computing, and energy applications.",
+        "category": "Metals, Minerals and Mining",
+        "vertical": "Manufacturing",
+        "yearFounded": 2019,
+        "hqLocation": "East Lansing, MI",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Hybron",
-        "industry": "",
+        "industry": "Business Products and Services (B2B)",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2026-03-02",
@@ -641,11 +923,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "601831-99",
         "pitchbookUrl": "https://my.pitchbook.com/profile/601831-99/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Manufacturer of advanced composite components intended to replace traditional metal parts in high-performance applications.",
+        "category": "Commercial Products",
+        "vertical": "Advanced Manufacturing, Manufacturing",
+        "yearFounded": 2022,
+        "hqLocation": "El Segundo, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Immaterial",
-        "industry": "",
+        "industry": "Materials and Resources",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2023-10-05",
@@ -654,11 +942,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "125454-25",
         "pitchbookUrl": "https://my.pitchbook.com/profile/125454-25/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Manufacturer of advanced materials and engineering porous nanomaterials intended to address challenges in energy transition, water harvesting, air purification, and other separation processes.",
+        "category": "Other Materials",
+        "vertical": "Advanced Manufacturing, CleanTech, Climate Tech, Infrastructure, Manufacturing, Nanotechnology",
+        "yearFounded": 2015,
+        "hqLocation": "Cambridge, United Kingdom",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Ion Channel",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Former",
         "investorSince": "2022-02-08",
@@ -667,11 +961,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "233545-51",
         "pitchbookUrl": "https://my.pitchbook.com/profile/233545-51/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a data platform designed to secure software supply chain infrastructure.",
+        "category": "Software",
+        "vertical": null,
+        "yearFounded": 2015,
+        "hqLocation": "Washington, DC",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Ixana",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2024-06-11",
@@ -680,11 +980,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "484245-10",
         "pitchbookUrl": "https://my.pitchbook.com/profile/484245-10/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of an ultra-low-power wireless communication silicon semiconductor designed for always-on wearable devices and human-computer interaction.",
+        "category": "Semiconductors",
+        "vertical": "Artificial Intelligence & Machine Learning, Augmented Reality, Internet of Things, Wearables & Quantified Self",
+        "yearFounded": 2021,
+        "hqLocation": "West Lafayette, IN",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Lux Semiconductors",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2023-02-20",
@@ -693,11 +999,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "436177-72",
         "pitchbookUrl": "https://my.pitchbook.com/profile/436177-72/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of metal-core substrates designed to replace standard organic and glass cores in advanced semiconductor packages.",
+        "category": "Semiconductors",
+        "vertical": "Advanced Manufacturing, Internet of Things, Manufacturing, Nanotechnology, Space Technology",
+        "yearFounded": 2017,
+        "hqLocation": "Albany, NY",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Neurable",
-        "industry": "",
+        "industry": "Healthcare",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2023-04-24",
@@ -706,11 +1018,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "165938-05",
         "pitchbookUrl": "https://my.pitchbook.com/profile/165938-05/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of brain-computer interfaces designed to translate brain activity into actionable insights.",
+        "category": "Healthcare Devices and Supplies",
+        "vertical": "HealthTech",
+        "yearFounded": 2015,
+        "hqLocation": "Boston, MA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "NextGO Epi",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2026-07-14",
@@ -719,11 +1037,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "691795-72",
         "pitchbookUrl": "https://my.pitchbook.com/profile/691795-72/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Manufacturer of gallium oxide semiconductors intended to deliver better performance than traditional silicon carbide and gallium nitride semiconductors.",
+        "category": "Semiconductors",
+        "vertical": "Manufacturing",
+        "yearFounded": null,
+        "hqLocation": "Berlin, Germany",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Quantum Brilliance",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2022-05-01",
@@ -732,11 +1056,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "438743-44",
         "pitchbookUrl": "https://my.pitchbook.com/profile/438743-44/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of room-temperature quantum chips designed to enable real-world deployment of quantum computing and sensing technologies.",
+        "category": "Semiconductors",
+        "vertical": "Advanced Manufacturing, Artificial Intelligence & Machine Learning, Manufacturing, Nanotechnology",
+        "yearFounded": 2019,
+        "hqLocation": "Sydney, Australia",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Radian Aerospace",
-        "industry": "",
+        "industry": "Business Products and Services (B2B)",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2022-01-19",
@@ -745,11 +1075,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "154893-25",
         "pitchbookUrl": "https://my.pitchbook.com/profile/154893-25/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of reusable space transportation systems intended to enable rapid, flexible, and affordable access to and from orbit.",
+        "category": "Commercial Products",
+        "vertical": "Space Technology",
+        "yearFounded": 2016,
+        "hqLocation": "Seattle, WA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Stathera",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2023-05-18",
@@ -758,11 +1094,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "517978-36",
         "pitchbookUrl": "https://my.pitchbook.com/profile/517978-36/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Manufacturer of silicon timing oscillators and MEMS resonator devices designed to replace quartz clocks in electronic equipment.",
+        "category": "Semiconductors",
+        "vertical": "Advanced Manufacturing, Big Data, Internet of Things, Manufacturing",
+        "yearFounded": 2015,
+        "hqLocation": "Montreal, Canada",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Strangeworks",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2023-03-21",
@@ -771,11 +1113,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "226335-52",
         "pitchbookUrl": "https://my.pitchbook.com/profile/226335-52/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a quantum computing platform designed to make probabilistic or nondeterministic data processing simple and accessible to everyone.",
+        "category": "Software",
+        "vertical": "Big Data, CloudTech & DevOps, SaaS, TMT",
+        "yearFounded": 2017,
+        "hqLocation": "Austin, TX",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Sylvatex",
-        "industry": "",
+        "industry": "Business Products and Services (B2B)",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2023-01-01",
@@ -784,11 +1132,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "113645-89",
         "pitchbookUrl": "https://my.pitchbook.com/profile/113645-89/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Operator of a cathode manufacturing process intended for the future-proof production of lithium-ion batteries.",
+        "category": "Commercial Products",
+        "vertical": "CleanTech, Climate Tech",
+        "yearFounded": 2007,
+        "hqLocation": "Alameda, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Tidal Cyber",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2023-11-08",
@@ -797,11 +1151,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "491858-92",
         "pitchbookUrl": "https://my.pitchbook.com/profile/491858-92/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a threat-informed defense platform designed to shift cybersecurity from reactive vulnerability management to proactive, adversary-behavior-centric protection.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, Cybersecurity, SaaS",
+        "yearFounded": 2022,
+        "hqLocation": "Clifton, VA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Trellis Data",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2022-03-10",
@@ -810,11 +1170,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "277720-75",
         "pitchbookUrl": "https://my.pitchbook.com/profile/277720-75/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of an end-to-end machine learning platform designed to help make more informed and quicker decisions.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, Big Data, SaaS",
+        "yearFounded": 2016,
+        "hqLocation": "Canberra, Australia",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "e-Zinc",
-        "industry": "",
+        "industry": "Energy",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2023-02-17",
@@ -823,7 +1189,13 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "231861-34",
         "pitchbookUrl": "https://my.pitchbook.com/profile/231861-34/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of economic energy storage technology designed to turn electricity into physically free zinc material.",
+        "category": "Energy Services",
+        "vertical": "CleanTech, Climate Tech",
+        "yearFounded": 2012,
+        "hqLocation": "Mississauga, Canada",
+        "businessStatus": "Generating Revenue"
       }
     ]
   },
@@ -2575,7 +2947,7 @@
       },
       {
         "company": "Bazze",
-        "industry": "",
+        "industry": "Business Products and Services (B2B)",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2024-08-16",
@@ -2584,7 +2956,13 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "494532-73",
         "pitchbookUrl": "https://my.pitchbook.com/profile/494532-73/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of an artificial intelligence-powered threat intelligence platform designed to help national security organizations identify emerging risks and potential threats.",
+        "category": "Commercial Products",
+        "vertical": "Artificial Intelligence & Machine Learning, Big Data, Cybersecurity",
+        "yearFounded": 2019,
+        "hqLocation": "San Francisco, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Beam for Music",
@@ -5290,7 +5668,7 @@
     "portfolio": [
       {
         "company": "Abridge",
-        "industry": "",
+        "industry": "Healthcare",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2025-02-17",
@@ -5299,11 +5677,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "268134-40",
         "pitchbookUrl": "https://my.pitchbook.com/profile/268134-40/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of an AI-powered conversation analysis application designed to bring context and understanding to every medical conversation.",
+        "category": "Healthcare Technology Systems",
+        "vertical": "Artificial Intelligence & Machine Learning, Digital Health, HealthTech, Mobile",
+        "yearFounded": 2018,
+        "hqLocation": "Philadelphia, PA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Adagy Robotics",
-        "industry": "",
+        "industry": "Consumer Products and Services (B2C)",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2024-04-04",
@@ -5312,11 +5696,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "593098-84",
         "pitchbookUrl": "https://my.pitchbook.com/profile/593098-84/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of robotic systems intended to automate household organization tasks.",
+        "category": "Consumer Durables",
+        "vertical": "Artificial Intelligence & Machine Learning, Robotics and Drones",
+        "yearFounded": 2023,
+        "hqLocation": "New York, NY",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Agentic Labs",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2024-03-18",
@@ -5325,11 +5715,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "553356-82",
         "pitchbookUrl": "https://my.pitchbook.com/profile/553356-82/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a self-assembling software program designed for writing technical design documents.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning",
+        "yearFounded": 2023,
+        "hqLocation": "Albany, NY",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Aikium",
-        "industry": "",
+        "industry": "Healthcare",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2023-10-01",
@@ -5338,11 +5734,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "537541-48",
         "pitchbookUrl": "https://my.pitchbook.com/profile/537541-48/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of protein therapeutics intended for neuro-inflammation and oncology.",
+        "category": "Pharmaceuticals and Biotechnology",
+        "vertical": "Artificial Intelligence & Machine Learning, Life Sciences, Oncology",
+        "yearFounded": 2022,
+        "hqLocation": "Berkeley, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Altrina (Business/Productivity Software)",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2025-03-13",
@@ -5351,11 +5753,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "739929-07",
         "pitchbookUrl": "https://my.pitchbook.com/profile/739929-07/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of an AI-based digital coworker platform designed to autonomously learn and master the usage of web-based tools.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, SaaS",
+        "yearFounded": 2024,
+        "hqLocation": "Menlo Park, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Anarchy",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Former",
         "investorSince": "2023-06-01",
@@ -5364,11 +5772,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "520696-45",
         "pitchbookUrl": "https://my.pitchbook.com/profile/520696-45/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a digital platform designed to build LLM tools augmented with external interactivity.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, Big Data, SaaS",
+        "yearFounded": 2022,
+        "hqLocation": "San Francisco, CA",
+        "businessStatus": "Out of Business"
       },
       {
         "company": "Artisan AI",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2024-09-30",
@@ -5377,11 +5791,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "539200-36",
         "pitchbookUrl": "https://my.pitchbook.com/profile/539200-36/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a sales platform designed to automate repetitive tasks within the sales outreach process.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, Marketing Tech, SaaS",
+        "yearFounded": 2023,
+        "hqLocation": "San Francisco, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "BIOPTIC",
-        "industry": "",
+        "industry": "Healthcare",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2022-07-20",
@@ -5390,11 +5810,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "501824-08",
         "pitchbookUrl": "https://my.pitchbook.com/profile/501824-08/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of artificial intelligence technology designed to accelerate the process of molecular discovery.",
+        "category": "Pharmaceuticals and Biotechnology",
+        "vertical": "Artificial Intelligence & Machine Learning, Big Data, Cryptocurrency/Blockchain, HealthTech",
+        "yearFounded": 2022,
+        "hqLocation": "San Francisco, CA",
+        "businessStatus": "Pre-Clinical Trials"
       },
       {
         "company": "Bluesky (Business/Productivity Software)",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Former",
         "investorSince": "2022-09-14",
@@ -5403,11 +5829,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "500641-84",
         "pitchbookUrl": "https://my.pitchbook.com/profile/500641-84/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a data cloud software designed to deliver next-generation data infrastructure on clouds.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, SaaS",
+        "yearFounded": 2022,
+        "hqLocation": "Menlo Park, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "CodeComplete",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Former",
         "investorSince": "2023-05-01",
@@ -5416,11 +5848,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "520694-02",
         "pitchbookUrl": "https://my.pitchbook.com/profile/520694-02/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of an AI-powered coding technology designed to assist with auto-completion, chat questions and answers, automated unit test generation, and auto-documentation.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, SaaS",
+        "yearFounded": 2022,
+        "hqLocation": "San Francisco, CA",
+        "businessStatus": "Out of Business"
       },
       {
         "company": "Corgi",
-        "industry": "",
+        "industry": "Financial Services",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2026-01-09",
@@ -5429,11 +5867,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "640148-50",
         "pitchbookUrl": "https://my.pitchbook.com/profile/640148-50/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of an artificial intelligence-powered insurance platform designed to automate and optimize carrier operations.",
+        "category": "Insurance",
+        "vertical": "Artificial Intelligence & Machine Learning, FinTech, InsurTech, SaaS",
+        "yearFounded": 2024,
+        "hqLocation": "San Francisco, CA",
+        "businessStatus": "Profitable"
       },
       {
         "company": "Daze (Social/Platform Software)",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2024-12-27",
@@ -5442,11 +5886,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "507423-79",
         "pitchbookUrl": "https://my.pitchbook.com/profile/507423-79/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a social calendar designed for people to plan events and vividly capture their time spent together.",
+        "category": "Software",
+        "vertical": "Mobile, SaaS",
+        "yearFounded": 2021,
+        "hqLocation": "New York, NY",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Diffuse Bio",
-        "industry": "",
+        "industry": "Healthcare",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2024-03-04",
@@ -5455,11 +5905,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "520049-71",
         "pitchbookUrl": "https://my.pitchbook.com/profile/520049-71/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a generative AI platform designed to engineer new and useful proteins for therapeutic and diagnostic applications.",
+        "category": "Healthcare Technology Systems",
+        "vertical": "Artificial Intelligence & Machine Learning, HealthTech, Life Sciences",
+        "yearFounded": 2022,
+        "hqLocation": "San Carlos, CA",
+        "businessStatus": "Startup"
       },
       {
         "company": "Evidently",
-        "industry": "",
+        "industry": "Healthcare",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2024-12-09",
@@ -5468,11 +5924,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "144427-87",
         "pitchbookUrl": "https://my.pitchbook.com/profile/144427-87/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a cognitive artificial intelligence platform designed to supercharge documentation, research, and population health.",
+        "category": "Healthcare Technology Systems",
+        "vertical": "Artificial Intelligence & Machine Learning, Big Data, TMT",
+        "yearFounded": 2020,
+        "hqLocation": "Palo Alto, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Fluorescent Labs",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2024-04-01",
@@ -5481,11 +5943,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "594406-90",
         "pitchbookUrl": "https://my.pitchbook.com/profile/594406-90/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a video creation tool designed to create and share TV episodes and movies.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, SaaS",
+        "yearFounded": 2024,
+        "hqLocation": "San Francisco, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "GC AI",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2025-05-29",
@@ -5494,11 +5962,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "594193-06",
         "pitchbookUrl": "https://my.pitchbook.com/profile/594193-06/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of artificial intelligence software designed to support legal document drafting, review, and analysis.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, Legal Tech, SaaS",
+        "yearFounded": 2023,
+        "hqLocation": "San Francisco, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Gamma Tech.",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": null,
@@ -5507,11 +5981,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "483289-84",
         "pitchbookUrl": "https://my.pitchbook.com/profile/483289-84/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of an artificial intelligence (AI)-based presentation tool designed for enterprise collaboration.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, Mobile, SaaS",
+        "yearFounded": 2020,
+        "hqLocation": "San Francisco, CA",
+        "businessStatus": "Profitable"
       },
       {
         "company": "Harmonic (Software Development Applications)",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2024-09-23",
@@ -5520,11 +6000,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "608847-76",
         "pitchbookUrl": "https://my.pitchbook.com/profile/608847-76/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a mathematical reasoning engine designed to explore the frontiers of human understanding.",
+        "category": "Software",
+        "vertical": "Advanced Manufacturing, Artificial Intelligence & Machine Learning, EdTech",
+        "yearFounded": 2023,
+        "hqLocation": "Palo Alto, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Harper (Insurance Brokers)",
-        "industry": "",
+        "industry": "Financial Services",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2025-01-01",
@@ -5533,11 +6019,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "731913-58",
         "pitchbookUrl": "https://my.pitchbook.com/profile/731913-58/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Provider of insurance services intended to protect businesses and manage risks.",
+        "category": "Insurance",
+        "vertical": "Artificial Intelligence & Machine Learning, FinTech, InsurTech",
+        "yearFounded": 2024,
+        "hqLocation": "San Francisco, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Higgsfield",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2026-01-15",
@@ -5546,11 +6038,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "541424-89",
         "pitchbookUrl": "https://my.pitchbook.com/profile/541424-89/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of an AI-driven video creation platform intended for cinematic content generation and editing purposes.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, SaaS",
+        "yearFounded": 2023,
+        "hqLocation": "San Francisco, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Hyperbound",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2025-09-15",
@@ -5559,11 +6057,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "534508-03",
         "pitchbookUrl": "https://my.pitchbook.com/profile/534508-03/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of an artificial intelligence-based hyper-personalized sales email software designed to research prospects using domain-specific knowledge in CRM.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, Marketing Tech, SaaS",
+        "yearFounded": 2023,
+        "hqLocation": "Cupertino, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "InsightFinder AI",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2021-06-11",
@@ -5572,11 +6076,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "171663-49",
         "pitchbookUrl": "https://my.pitchbook.com/profile/171663-49/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of artificial intelligence observability software designed to help organizations automatically identify, diagnose, and remediate issues.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, CloudTech & DevOps, Infrastructure, SaaS",
+        "yearFounded": 2015,
+        "hqLocation": "Durham, NC",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "K-Scale Labs",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Former",
         "investorSince": "2024-04-12",
@@ -5585,11 +6095,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "594403-57",
         "pitchbookUrl": "https://my.pitchbook.com/profile/594403-57/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a humanoid-robotics company designed to accelerate the timeline to a world with billions of general-purpose robots.",
+        "category": "Computer Hardware",
+        "vertical": "3D Printing, Robotics and Drones",
+        "yearFounded": 2023,
+        "hqLocation": "Palo Alto, CA",
+        "businessStatus": "Out of Business"
       },
       {
         "company": "Kyber",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2023-10-01",
@@ -5598,11 +6114,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "512802-55",
         "pitchbookUrl": "https://my.pitchbook.com/profile/512802-55/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a claims processing platform intended to streamline the insurance notice creation process.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, Big Data, FinTech, InsurTech, SaaS",
+        "yearFounded": 2022,
+        "hqLocation": "New York, NY",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "LISA (Business/Productivity Software)",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2025-10-15",
@@ -5611,11 +6133,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "1152954-19",
         "pitchbookUrl": "https://my.pitchbook.com/profile/1152954-19/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of an AI-powered smart contract security platform designed for complex logic vulnerability detection.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, Cryptocurrency/Blockchain, SaaS",
+        "yearFounded": null,
+        "hqLocation": "San Francisco, CA",
+        "businessStatus": "Startup"
       },
       {
         "company": "Lemon Slice",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2022-12-15",
@@ -5624,11 +6152,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "496333-27",
         "pitchbookUrl": "https://my.pitchbook.com/profile/496333-27/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of generative video models designed to automate synthetic training data.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, Big Data, SaaS",
+        "yearFounded": 2021,
+        "hqLocation": "Sacramento, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "LiveX AI",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2024-01-01",
@@ -5637,11 +6171,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "529050-61",
         "pitchbookUrl": "https://my.pitchbook.com/profile/529050-61/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of human-like AI agents designed to improve user growth and retention for subscription-based businesses.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, SaaS",
+        "yearFounded": 2023,
+        "hqLocation": "Palo Alto, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "MAI( Business/Productivity Software)",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2025-07-25",
@@ -5650,11 +6190,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "896062-51",
         "pitchbookUrl": "https://my.pitchbook.com/profile/896062-51/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of automated advertising optimization technology intended for digital marketing performance enhancement.",
+        "category": "Software",
+        "vertical": "AdTech, Artificial Intelligence & Machine Learning, Big Data, Marketing Tech, SaaS",
+        "yearFounded": 2024,
+        "hqLocation": "Wilmington, DE",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Meaning",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2022-01-01",
@@ -5663,11 +6209,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "510814-54",
         "pitchbookUrl": "https://my.pitchbook.com/profile/510814-54/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a communication platform designed to augment the human-to-human communication experience.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning",
+        "yearFounded": 2021,
+        "hqLocation": "Baltimore, MD",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "MetaTrust Labs",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2023-10-29",
@@ -5676,11 +6228,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "528193-45",
         "pitchbookUrl": "https://my.pitchbook.com/profile/528193-45/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a Web3 security technology designed to protect the Web3 space so that builders can innovate confidently and reliably.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, Cryptocurrency/Blockchain, Cybersecurity, SaaS",
+        "yearFounded": 2021,
+        "hqLocation": "Singapore, Singapore",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Momentum Labs",
-        "industry": "",
+        "industry": "Financial Services",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2023-01-05",
@@ -5689,11 +6247,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "515497-42",
         "pitchbookUrl": "https://my.pitchbook.com/profile/515497-42/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a multi-signature, non-custodial digital assets management platform designed to enhance security, interoperability, and user experience for organizations operating within move-based ecosystems.",
+        "category": "Other Financial Services",
+        "vertical": "Cryptocurrency/Blockchain, FinTech, Mobile, SaaS",
+        "yearFounded": 2022,
+        "hqLocation": "San Francisco, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Mysten Labs",
-        "industry": "",
+        "industry": "Financial Services",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2022-08-03",
@@ -5702,11 +6266,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "484702-93",
         "pitchbookUrl": "https://my.pitchbook.com/profile/484702-93/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a web3 infrastructure platform designed to create foundational infrastructure to accelerate web adoption.",
+        "category": "Other Financial Services",
+        "vertical": "Cryptocurrency/Blockchain, FinTech, Gaming",
+        "yearFounded": 2021,
+        "hqLocation": "Palo Alto, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Normalyze",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Former",
         "investorSince": "2022-06-28",
@@ -5715,11 +6285,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "460155-70",
         "pitchbookUrl": "https://my.pitchbook.com/profile/460155-70/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of agentless scanning platform intended to put data security at the center of information security, where it belongs.",
+        "category": "Software",
+        "vertical": "Cybersecurity, SaaS",
+        "yearFounded": 2020,
+        "hqLocation": "Los Altos, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Nura Studios",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2026-05-01",
@@ -5728,11 +6304,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "791554-24",
         "pitchbookUrl": "https://my.pitchbook.com/profile/791554-24/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of an animation technology company for entertainment and media designed to enable a new generation of human creators to thrill audiences.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning",
+        "yearFounded": 2025,
+        "hqLocation": "San Francisco, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Nurdle",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Former",
         "investorSince": "2022-01-24",
@@ -5741,11 +6323,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "439486-66",
         "pitchbookUrl": "https://my.pitchbook.com/profile/439486-66/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Operator of a technology platform company intended to make the internet safe and valuable for all.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, SaaS",
+        "yearFounded": 2016,
+        "hqLocation": "Miami, FL",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Obsidian (Network Management Software)",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2022-04-14",
@@ -5754,11 +6342,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "181981-00",
         "pitchbookUrl": "https://my.pitchbook.com/profile/181981-00/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a cybersecurity platform designed to combat cyber threats across hybrid-cloud environments.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, Cybersecurity, SaaS",
+        "yearFounded": 2017,
+        "hqLocation": "Newport Beach, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "OmniML",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Former",
         "investorSince": "2022-03-29",
@@ -5767,11 +6361,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "482448-16",
         "pitchbookUrl": "https://my.pitchbook.com/profile/482448-16/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of machine learning models designed for specific hardware based in San Jose, California.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, TMT",
+        "yearFounded": 2021,
+        "hqLocation": "San Jose, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "OpusClip",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2023-09-01",
@@ -5780,11 +6380,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "529126-48",
         "pitchbookUrl": "https://my.pitchbook.com/profile/529126-48/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of an AI-driven video editing platform designed to increase social media reach.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, Big Data, SaaS",
+        "yearFounded": 2022,
+        "hqLocation": "Palo Alto, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Parallel (California)",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Former",
         "investorSince": "2024-03-01",
@@ -5793,11 +6399,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "591464-26",
         "pitchbookUrl": "https://my.pitchbook.com/profile/591464-26/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a gaming platform intended to offer a parallel gaming universe.",
+        "category": "Software",
+        "vertical": "Gaming",
+        "yearFounded": 2023,
+        "hqLocation": "Hillsborough, CA",
+        "businessStatus": "Out of Business"
       },
       {
         "company": "Periodic Labs",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2025-09-03",
@@ -5806,11 +6418,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "901835-56",
         "pitchbookUrl": "https://my.pitchbook.com/profile/901835-56/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Operator of an AI-driven scientific research platform intended to create autonomous AI scientists and laboratories.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, Big Data",
+        "yearFounded": 2025,
+        "hqLocation": "San Francisco, CA",
+        "businessStatus": "Startup"
       },
       {
         "company": "Persist AI",
-        "industry": "",
+        "industry": "Healthcare",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2023-08-16",
@@ -5819,11 +6437,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "513338-68",
         "pitchbookUrl": "https://my.pitchbook.com/profile/513338-68/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of AI-enabled cloud formulations intended to accelerate drug development and improve patient lives.",
+        "category": "Pharmaceuticals and Biotechnology",
+        "vertical": "Artificial Intelligence & Machine Learning, HealthTech, Life Sciences",
+        "yearFounded": 2022,
+        "hqLocation": "West Sacramento, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Physical Intelligence",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2024-03-12",
@@ -5832,11 +6456,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "590542-30",
         "pitchbookUrl": "https://my.pitchbook.com/profile/590542-30/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Operator of a general-purpose company intended to bridge the gap between artificial intelligence and the physical world.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, Robotics and Drones",
+        "yearFounded": 2024,
+        "hqLocation": "San Francisco, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Quadrata",
-        "industry": "",
+        "industry": "Financial Services",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2022-07-12",
@@ -5845,11 +6475,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "494170-39",
         "pitchbookUrl": "https://my.pitchbook.com/profile/494170-39/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a web3-based passport network designed to create a permission-open DeFi ecosystem.",
+        "category": "Other Financial Services",
+        "vertical": "Cryptocurrency/Blockchain, FinTech, SaaS",
+        "yearFounded": 2021,
+        "hqLocation": "Marina del Rey, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Replit",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2025-10-22",
@@ -5858,11 +6494,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "113831-02",
         "pitchbookUrl": "https://my.pitchbook.com/profile/113831-02/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a collaborative software development platform designed for creating and deploying applications.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, Big Data, CloudTech & DevOps, SaaS",
+        "yearFounded": 2016,
+        "hqLocation": "Foster City, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Sapling.GG",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Former",
         "investorSince": "2022-07-05",
@@ -5871,11 +6513,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "537539-68",
         "pitchbookUrl": "https://my.pitchbook.com/profile/537539-68/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of metaverse platform designed for hosting events, talks, and meetings online.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, Cryptocurrency/Blockchain",
+        "yearFounded": null,
+        "hqLocation": "San Francisco, CA",
+        "businessStatus": "Out of Business"
       },
       {
         "company": "Space and Time",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2022-09-01",
@@ -5884,11 +6532,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "497289-07",
         "pitchbookUrl": "https://my.pitchbook.com/profile/497289-07/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer a decentralized analytics platform designed to power low-latency queries and tamperproof analytics across the Web.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, Big Data, Cryptocurrency/Blockchain, FinTech, SaaS",
+        "yearFounded": 2021,
+        "hqLocation": "San Clemente, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Sycamore",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2026-03-30",
@@ -5897,11 +6551,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "1366568-92",
         "pitchbookUrl": "https://my.pitchbook.com/profile/1366568-92/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of an agent operating system designed to orchestrate autonomous enterprise intelligence.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning",
+        "yearFounded": 2025,
+        "hqLocation": "Palo Alto, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Taskade",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2023-10-01",
@@ -5910,11 +6570,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "265560-04",
         "pitchbookUrl": "https://my.pitchbook.com/profile/265560-04/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a productivity tool designed to create instant task lists, collaborative notes, Kanban boards, mind maps, and workspaces with video and audio chat.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, Big Data, SaaS",
+        "yearFounded": 2017,
+        "hqLocation": "San Francisco, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Truewind",
-        "industry": "",
+        "industry": "Business Products and Services (B2B)",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2023-09-20",
@@ -5923,11 +6589,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "520602-40",
         "pitchbookUrl": "https://my.pitchbook.com/profile/520602-40/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of an artificial intelligence-based platform designed to power bookkeeping and finance.",
+        "category": "Commercial Services",
+        "vertical": "Artificial Intelligence & Machine Learning, FinTech, SaaS",
+        "yearFounded": 2022,
+        "hqLocation": "San Francisco, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "TruthSuite",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2025-02-01",
@@ -5936,11 +6608,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "726996-43",
         "pitchbookUrl": "https://my.pitchbook.com/profile/726996-43/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a due-diligence platform designed to assist paralegals in quickly analyzing and organizing complex case content.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, Big Data",
+        "yearFounded": 2022,
+        "hqLocation": "New York, NY",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Viva Translate",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Former",
         "investorSince": "2021-11-04",
@@ -5949,11 +6627,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "439802-20",
         "pitchbookUrl": "https://my.pitchbook.com/profile/439802-20/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a web-based translation platform designed to improve communication.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning",
+        "yearFounded": 2020,
+        "hqLocation": "San Leandro, CA",
+        "businessStatus": "Out of Business"
       },
       {
         "company": "Waifu Tactical Force",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Former",
         "investorSince": "2023-01-01",
@@ -5962,11 +6646,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "517941-55",
         "pitchbookUrl": "https://my.pitchbook.com/profile/517941-55/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of game infrastructure software and content intended to serve multiplayer gaming experiences.",
+        "category": "Software",
+        "vertical": "Cryptocurrency/Blockchain, Gaming",
+        "yearFounded": 2022,
+        "hqLocation": "New York, NY",
+        "businessStatus": "Out of Business"
       },
       {
         "company": "WithFeeling.AI",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2024-03-01",
@@ -5975,11 +6665,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "534608-83",
         "pitchbookUrl": "https://my.pitchbook.com/profile/534608-83/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of artificial intelligence models intended for creating human-like interactions.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, Big Data",
+        "yearFounded": 2022,
+        "hqLocation": "Irvine, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Yoneda Labs",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2024-05-15",
@@ -5988,7 +6684,13 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "551392-93",
         "pitchbookUrl": "https://my.pitchbook.com/profile/551392-93/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of an AI-based software intended for chemists to optimize reactions.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, Mobile, SaaS",
+        "yearFounded": 2023,
+        "hqLocation": "San Francisco, CA",
+        "businessStatus": "Generating Revenue"
       }
     ]
   },
@@ -6003,7 +6705,7 @@
     "portfolio": [
       {
         "company": "Alexander Shulgin Research Institute",
-        "industry": "",
+        "industry": "Healthcare",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2021-12-09",
@@ -6012,11 +6714,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "489218-77",
         "pitchbookUrl": "https://my.pitchbook.com/profile/489218-77/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Operator of a medicinal drugs research platform intended for the study and development of psychedelic substances.",
+        "category": "Pharmaceuticals and Biotechnology",
+        "vertical": "Life Sciences",
+        "yearFounded": 2021,
+        "hqLocation": "Lafayette, CA",
+        "businessStatus": "Clinical Trials - Phase 1"
       },
       {
         "company": "Apollo Neuroscience",
-        "industry": "",
+        "industry": "Healthcare",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2021-06-16",
@@ -6025,11 +6733,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "230508-55",
         "pitchbookUrl": "https://my.pitchbook.com/profile/230508-55/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a wearable device designed to improve the body's resilience to stress.",
+        "category": "Healthcare Devices and Supplies",
+        "vertical": "HealthTech, LOHAS & Wellness, Mobile, TMT, Wearables & Quantified Self",
+        "yearFounded": 2017,
+        "hqLocation": "Pittsburgh, PA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Beckley Psytech",
-        "industry": "",
+        "industry": "Healthcare",
         "series": "",
         "investorStatus": "Former",
         "investorSince": "2020-05-28",
@@ -6038,11 +6752,17 @@
         "exitSizeUsdMillions": 390.0,
         "companyPbid": "436704-31",
         "pitchbookUrl": "https://my.pitchbook.com/profile/436704-31/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a clinical-stage biotechnology platform designed to upgrade psychedelics into effective medicines for neuropsychiatric disorders.",
+        "category": "Pharmaceuticals and Biotechnology",
+        "vertical": "Life Sciences",
+        "yearFounded": 2018,
+        "hqLocation": "Oxford, United Kingdom",
+        "businessStatus": "Clinical Trials - Phase 2"
       },
       {
         "company": "Bexson Biomedical",
-        "industry": "",
+        "industry": "Healthcare",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2021-01-01",
@@ -6051,11 +6771,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "436590-19",
         "pitchbookUrl": "https://my.pitchbook.com/profile/436590-19/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a subcutaneous ketamine delivery system designed to address the limitations of current ketamine preparations to control overdosing and reduce the need for monitoring.",
+        "category": "Pharmaceuticals and Biotechnology",
+        "vertical": "Life Sciences",
+        "yearFounded": 2017,
+        "hqLocation": "Santa Barbara, CA",
+        "businessStatus": "Startup"
       },
       {
         "company": "COMPASS Pathways",
-        "industry": "",
+        "industry": "Healthcare",
         "series": "",
         "investorStatus": "Former",
         "investorSince": "2020-04-17",
@@ -6064,11 +6790,17 @@
         "exitSizeUsdMillions": 127.5,
         "companyPbid": "233729-38",
         "pitchbookUrl": "https://my.pitchbook.com/profile/233729-38/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of clinical stage psychedelic therapies intended for patients with treatment resistant conditions worldwide.",
+        "category": "Pharmaceuticals and Biotechnology",
+        "vertical": "Life Sciences",
+        "yearFounded": 2016,
+        "hqLocation": "Altrincham, United Kingdom",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "CaaMTech",
-        "industry": "",
+        "industry": "Healthcare",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2021-09-08",
@@ -6077,11 +6809,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "416652-40",
         "pitchbookUrl": "https://my.pitchbook.com/profile/416652-40/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of medicine discovery and optimization technology designed to focus on engineering psychedelic drugs.",
+        "category": "Pharmaceuticals and Biotechnology",
+        "vertical": "HealthTech",
+        "yearFounded": 2019,
+        "hqLocation": "Issaquah, WA",
+        "businessStatus": "Clinical Trials - Phase 2"
       },
       {
         "company": "Cybin",
-        "industry": "",
+        "industry": "Healthcare",
         "series": "",
         "investorStatus": "Former",
         "investorSince": "2020-10-19",
@@ -6090,11 +6828,17 @@
         "exitSizeUsdMillions": 8.25,
         "companyPbid": "434809-72",
         "pitchbookUrl": "https://my.pitchbook.com/profile/434809-72/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of psychedelic medicines and nutraceutical products designed to drive the next discovery phase of life-changing medications to treat mental illness and other health conditions.",
+        "category": "Pharmaceuticals and Biotechnology",
+        "vertical": "Life Sciences",
+        "yearFounded": 2016,
+        "hqLocation": "Toronto, Canada",
+        "businessStatus": "Generating Revenue/Not Profitable"
       },
       {
         "company": "Damona",
-        "industry": "",
+        "industry": "Healthcare",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2022-09-26",
@@ -6103,11 +6847,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "509390-29",
         "pitchbookUrl": "https://my.pitchbook.com/profile/509390-29/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of therapies designed to restore cognitive function across neurological and psychiatric disorders.",
+        "category": "Pharmaceuticals and Biotechnology",
+        "vertical": "Life Sciences",
+        "yearFounded": 2019,
+        "hqLocation": "Toronto, Canada",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Definium Therapeutics",
-        "industry": "",
+        "industry": "Healthcare",
         "series": "",
         "investorStatus": "Former",
         "investorSince": "2020-02-27",
@@ -6116,11 +6866,17 @@
         "exitSizeUsdMillions": 21.76866143,
         "companyPbid": "277525-00",
         "pitchbookUrl": "https://my.pitchbook.com/profile/277525-00/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Operator of a psychedelic medicine biotech company intended to address addiction and mental illness.",
+        "category": "Pharmaceuticals and Biotechnology",
+        "vertical": "LOHAS & Wellness, Life Sciences",
+        "yearFounded": 2019,
+        "hqLocation": "New York, NY",
+        "businessStatus": "Generating Revenue/Not Profitable"
       },
       {
         "company": "Delix Therapeutics",
-        "industry": "",
+        "industry": "Healthcare",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2020-07-01",
@@ -6129,11 +6885,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "437532-94",
         "pitchbookUrl": "https://my.pitchbook.com/profile/437532-94/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of neuroscience therapeutics designed to address mental health and central nervous system conditions.",
+        "category": "Pharmaceuticals and Biotechnology",
+        "vertical": "HealthTech, LOHAS & Wellness, Life Sciences",
+        "yearFounded": 2019,
+        "hqLocation": "Bedford, MA",
+        "businessStatus": "Clinical Trials - Phase 2"
       },
       {
         "company": "Diamond Therapeutics",
-        "industry": "",
+        "industry": "Healthcare",
         "series": "",
         "investorStatus": "Active",
         "investorSince": null,
@@ -6142,11 +6904,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "437220-10",
         "pitchbookUrl": "https://my.pitchbook.com/profile/437220-10/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Operator of a drug development company intended to work towards new and suitable therapies for mental health conditions by unlocking the promise of psychedelic compounds.",
+        "category": "Pharmaceuticals and Biotechnology",
+        "vertical": "Life Sciences",
+        "yearFounded": 2018,
+        "hqLocation": "Toronto, Canada",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Eleusis",
-        "industry": "",
+        "industry": "Healthcare",
         "series": "",
         "investorStatus": "Former",
         "investorSince": "2020-01-01",
@@ -6155,11 +6923,17 @@
         "exitSizeUsdMillions": 29.0,
         "companyPbid": "154373-05",
         "pitchbookUrl": "https://my.pitchbook.com/profile/154373-05/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of psychedelic drug therapies intended to address unmet needs within and beyond psychiatry.",
+        "category": "Pharmaceuticals and Biotechnology",
+        "vertical": "Life Sciences",
+        "yearFounded": 2013,
+        "hqLocation": "London, United Kingdom",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Eve (Clinics/Outpatient Services)",
-        "industry": "",
+        "industry": "Healthcare",
         "series": "",
         "investorStatus": "Former",
         "investorSince": "2022-07-21",
@@ -6168,11 +6942,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "489069-10",
         "pitchbookUrl": "https://my.pitchbook.com/profile/489069-10/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a data-powered mental health care platform designed to connect patients with clinicians.",
+        "category": "Healthcare Services",
+        "vertical": "Artificial Intelligence & Machine Learning, HealthTech, LOHAS & Wellness",
+        "yearFounded": 2019,
+        "hqLocation": "Aspen, CO",
+        "businessStatus": "Out of Business"
       },
       {
         "company": "Frequency Breathwork",
-        "industry": "",
+        "industry": "Healthcare",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2021-04-15",
@@ -6181,11 +6961,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "434936-62",
         "pitchbookUrl": "https://my.pitchbook.com/profile/434936-62/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Operator of an emotional well-being platform intended to offer live-streamed virtual breathwork classes.",
+        "category": "Healthcare Services",
+        "vertical": "Digital Health, LOHAS & Wellness",
+        "yearFounded": 2018,
+        "hqLocation": "New York, NY",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Gilgamesh Pharma",
-        "industry": "",
+        "industry": "Healthcare",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2021-04-26",
@@ -6194,11 +6980,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "436997-62",
         "pitchbookUrl": "https://my.pitchbook.com/profile/436997-62/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of novel chemical entities designed to transform the treatment of psychiatric disorders through rapid-acting and durable therapies.",
+        "category": "Pharmaceuticals and Biotechnology",
+        "vertical": "Artificial Intelligence & Machine Learning, HealthTech, Life Sciences",
+        "yearFounded": 2019,
+        "hqLocation": "New York, NY",
+        "businessStatus": "Clinical Trials - Phase 2"
       },
       {
         "company": "Merlyn Mind",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2021-06-22",
@@ -6207,11 +6999,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "469081-99",
         "pitchbookUrl": "https://my.pitchbook.com/profile/469081-99/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of spoken dialog-based systems designed to bring artificial intelligence to education to support teaching and learning.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning",
+        "yearFounded": 2018,
+        "hqLocation": "New York, NY",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Numinus",
-        "industry": "",
+        "industry": "Healthcare",
         "series": "",
         "investorStatus": "Former",
         "investorSince": "2020-03-03",
@@ -6220,11 +7018,17 @@
         "exitSizeUsdMillions": 3.49152382,
         "companyPbid": "435217-15",
         "pitchbookUrl": "https://my.pitchbook.com/profile/435217-15/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Provider of integrative health-related therapies intended to treat mental illness, addictions, and trauma.",
+        "category": "Healthcare Services",
+        "vertical": null,
+        "yearFounded": 1962,
+        "hqLocation": "Vancouver, Canada",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Onsero Therapeutics",
-        "industry": "",
+        "industry": "Healthcare",
         "series": "",
         "investorStatus": "Former",
         "investorSince": "2022-04-01",
@@ -6233,11 +7037,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "494944-84",
         "pitchbookUrl": "https://my.pitchbook.com/profile/494944-84/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Operator of a biopharmaceutical company focused on the discovery of small-molecule drugs for treating neuropsychiatric and mental health conditions.",
+        "category": "Pharmaceuticals and Biotechnology",
+        "vertical": "Life Sciences",
+        "yearFounded": 2021,
+        "hqLocation": "Boston, MA",
+        "businessStatus": "Out of Business"
       },
       {
         "company": "People Science",
-        "industry": "",
+        "industry": "Healthcare",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2021-12-01",
@@ -6246,11 +7056,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "489408-40",
         "pitchbookUrl": "https://my.pitchbook.com/profile/489408-40/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Operator of a technology-enabled clinical research company intended to provide a scaled research and development platform for alternative medicines.",
+        "category": "Healthcare Technology Systems",
+        "vertical": "Artificial Intelligence & Machine Learning, HealthTech, Mobile",
+        "yearFounded": 2019,
+        "hqLocation": "Los Angeles, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "PsyBio Therapeutics",
-        "industry": "",
+        "industry": "Healthcare",
         "series": "",
         "investorStatus": "Former",
         "investorSince": "2020-01-01",
@@ -6259,11 +7075,17 @@
         "exitSizeUsdMillions": 18.44191216,
         "companyPbid": "442932-49",
         "pitchbookUrl": "https://my.pitchbook.com/profile/442932-49/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of proprietary platform technology intended to develop psychoactive compounds for treating mental health challenges and other disorders.",
+        "category": "Pharmaceuticals and Biotechnology",
+        "vertical": "HealthTech, Life Sciences",
+        "yearFounded": 2009,
+        "hqLocation": "Denver, CO",
+        "businessStatus": "Out of Business"
       },
       {
         "company": "Psygen",
-        "industry": "",
+        "industry": "Healthcare",
         "series": "",
         "investorStatus": "Active",
         "investorSince": null,
@@ -6272,11 +7094,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "442749-79",
         "pitchbookUrl": "https://my.pitchbook.com/profile/442749-79/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Manufacturer of psychedelic drug substances intended for clinical research and therapeutic applications.",
+        "category": "Pharmaceuticals and Biotechnology",
+        "vertical": "Life Sciences",
+        "yearFounded": 2019,
+        "hqLocation": "Calgary, Canada",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Reconnect Labs",
-        "industry": "",
+        "industry": "Consumer Products and Services (B2C)",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2021-05-21",
@@ -6285,11 +7113,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "466705-00",
         "pitchbookUrl": "https://my.pitchbook.com/profile/466705-00/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of regenerative therapeutics designed to address a variety of affective disorders in a transformative therapy paradigm.",
+        "category": "Services (Non-Financial)",
+        "vertical": "Life Sciences",
+        "yearFounded": 2018,
+        "hqLocation": "Zurich, Switzerland",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Rythmia",
-        "industry": "",
+        "industry": "Consumer Products and Services (B2C)",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2021-02-01",
@@ -6298,11 +7132,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "126580-42",
         "pitchbookUrl": "https://my.pitchbook.com/profile/126580-42/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Operator of a healthcare platform intended to give mental and spiritual healing to an individual.",
+        "category": "Restaurants, Hotels and Leisure",
+        "vertical": "LOHAS & Wellness",
+        "yearFounded": 2014,
+        "hqLocation": "Playa Avellana, Costa Rica",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Sana Health",
-        "industry": "",
+        "industry": "Healthcare",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2020-07-30",
@@ -6311,11 +7151,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "159349-51",
         "pitchbookUrl": "https://my.pitchbook.com/profile/159349-51/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a wearable sleep inducer designed to accelerate physical and mental recovery.",
+        "category": "Healthcare Devices and Supplies",
+        "vertical": "Digital Health, LOHAS & Wellness, Wearables & Quantified Self",
+        "yearFounded": 2016,
+        "hqLocation": "Louisville, CO",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Tactogen",
-        "industry": "",
+        "industry": "Healthcare",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2022-01-26",
@@ -6324,11 +7170,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "454295-53",
         "pitchbookUrl": "https://my.pitchbook.com/profile/454295-53/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Operator of a drug discovery and development company intended to make medicines safer, more effective, and more accessible.",
+        "category": "Pharmaceuticals and Biotechnology",
+        "vertical": "HealthTech, Life Sciences",
+        "yearFounded": 2019,
+        "hqLocation": "Palo Alto, CA",
+        "businessStatus": "Clinical Trials - Phase 2"
       },
       {
         "company": "Terran Biosciences",
-        "industry": "",
+        "industry": "Healthcare",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2020-05-22",
@@ -6337,11 +7189,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "279714-43",
         "pitchbookUrl": "https://my.pitchbook.com/profile/279714-43/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a biotechnology platform designed to advance transformative therapeutics and technologies for neurological and psychiatric diseases.",
+        "category": "Pharmaceuticals and Biotechnology",
+        "vertical": "Artificial Intelligence & Machine Learning, Life Sciences",
+        "yearFounded": 2017,
+        "hqLocation": "Miami Beach, FL",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Vessel Health",
-        "industry": "",
+        "industry": "Healthcare",
         "series": "",
         "investorStatus": "Former",
         "investorSince": "2020-03-17",
@@ -6350,11 +7208,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "435398-41",
         "pitchbookUrl": "https://my.pitchbook.com/profile/435398-41/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of an in-home health tracker application designed to simplify attaining and maintaining optimal health.",
+        "category": "Healthcare Devices and Supplies",
+        "vertical": "Digital Health, Internet of Things, Life Sciences, Wearables & Quantified Self",
+        "yearFounded": 2015,
+        "hqLocation": "San Diego, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Wake (Consumer Non-Durables)",
-        "industry": "",
+        "industry": "Consumer Products and Services (B2C)",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2020-08-06",
@@ -6363,11 +7227,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "437987-53",
         "pitchbookUrl": "https://my.pitchbook.com/profile/437987-53/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Operator of a wellness platform intended to support the use of fungi and plant-based medicine for mental and holistic health.",
+        "category": "Consumer Non-Durables",
+        "vertical": "E-Commerce, HealthTech, LOHAS & Wellness",
+        "yearFounded": 2018,
+        "hqLocation": "Toronto, Canada",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Woven Science",
-        "industry": "",
+        "industry": "Financial Services",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2021-05-21",
@@ -6376,7 +7246,13 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "466692-22",
         "pitchbookUrl": "https://my.pitchbook.com/profile/466692-22/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a mental-healthcare investment and development platform designed to build an ecosystem across drug development and holistic wellness.",
+        "category": "Capital Markets/Institutions",
+        "vertical": null,
+        "yearFounded": 2020,
+        "hqLocation": "New York, NY",
+        "businessStatus": "Generating Revenue"
       }
     ]
   },
@@ -6391,7 +7267,7 @@
     "portfolio": [
       {
         "company": "Aeon (Aerospace and Defense)",
-        "industry": "",
+        "industry": "Business Products and Services (B2B)",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2025-01-09",
@@ -6400,11 +7276,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "542240-65",
         "pitchbookUrl": "https://my.pitchbook.com/profile/542240-65/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of missile systems designed to advance the United States and allied military dominance.",
+        "category": "Commercial Products",
+        "vertical": null,
+        "yearFounded": 2023,
+        "hqLocation": "Austin, TX",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Anduril Industries",
-        "industry": "",
+        "industry": "Business Products and Services (B2B)",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2025-06-05",
@@ -6413,11 +7295,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "223461-82",
         "pitchbookUrl": "https://my.pitchbook.com/profile/223461-82/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of an autonomous defense technology designed to automate surveillance and threat detection for national security purposes.",
+        "category": "Commercial Products",
+        "vertical": "Artificial Intelligence & Machine Learning, Augmented Reality, Robotics and Drones",
+        "yearFounded": 2017,
+        "hqLocation": "Costa Mesa, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Axiom Space",
-        "industry": "",
+        "industry": "Business Products and Services (B2B)",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2026-02-12",
@@ -6426,11 +7314,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "171267-85",
         "pitchbookUrl": "https://my.pitchbook.com/profile/171267-85/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Operator of an international commercial space station intended to host government astronauts, tourists, private companies, and individuals for research, manufacturing, space exploration system testing, and tourism.",
+        "category": "Commercial Products",
+        "vertical": "Space Technology",
+        "yearFounded": 2016,
+        "hqLocation": "Houston, TX",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Ayar Labs",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2026-03-03",
@@ -6439,11 +7333,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "113119-75",
         "pitchbookUrl": "https://my.pitchbook.com/profile/113119-75/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of optical interconnect technology designed to accelerate data movement in computing systems.",
+        "category": "Semiconductors",
+        "vertical": "Advanced Manufacturing, Artificial Intelligence & Machine Learning, Big Data",
+        "yearFounded": 2015,
+        "hqLocation": "San Jose, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Base Power",
-        "industry": "",
+        "industry": "Energy",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2025-10-08",
@@ -6452,11 +7352,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "553144-96",
         "pitchbookUrl": "https://my.pitchbook.com/profile/553144-96/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Operator of a residential energy and battery backup service intended to provide electricity and home power protection.",
+        "category": "Utilities",
+        "vertical": "CleanTech, Climate Tech, Mobile, SaaS",
+        "yearFounded": 2023,
+        "hqLocation": "Austin, TX",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Blink Health",
-        "industry": "",
+        "industry": "Healthcare",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2024-06-10",
@@ -6465,11 +7371,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "97844-50",
         "pitchbookUrl": "https://my.pitchbook.com/profile/97844-50/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a digital and prescription medicine platform designed to offer medications online at economical prices.",
+        "category": "Healthcare Technology Systems",
+        "vertical": "E-Commerce",
+        "yearFounded": 2014,
+        "hqLocation": "New York, NY",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Cerebras Systems",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Former",
         "investorSince": "2025-09-30",
@@ -6478,11 +7390,17 @@
         "exitSizeUsdMillions": 6382.5,
         "companyPbid": "163733-59",
         "pitchbookUrl": "https://my.pitchbook.com/profile/163733-59/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Manufacturer of a wafer-scale artificial intelligence processing platform intended to provide machine learning by training and inference of models on a single machine.",
+        "category": "Semiconductors",
+        "vertical": "Advanced Manufacturing, Artificial Intelligence & Machine Learning, CloudTech & DevOps, Infrastructure, Manufacturing, SaaS",
+        "yearFounded": 2015,
+        "hqLocation": "Sunnyvale, CA",
+        "businessStatus": "Profitable"
       },
       {
         "company": "Crusoe",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2025-10-24",
@@ -6491,11 +7409,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "267230-08",
         "pitchbookUrl": "https://my.pitchbook.com/profile/267230-08/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Operator of artificial intelligence optimized cloud infrastructure intended to deliver computing for next-generation artificial intelligence workloads.",
+        "category": "IT Services",
+        "vertical": "Artificial Intelligence & Machine Learning, CloudTech & DevOps, SaaS",
+        "yearFounded": 2018,
+        "hqLocation": "Denver, CO",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Databricks",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2025-09-08",
@@ -6504,11 +7428,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "59199-40",
         "pitchbookUrl": "https://my.pitchbook.com/profile/59199-40/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a data analytics platform designed to offer an open and unified environment for the data and artificial intelligence sectors.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, Big Data, Mobile, SaaS",
+        "yearFounded": 2013,
+        "hqLocation": "San Francisco, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Deel",
-        "industry": "",
+        "industry": "Business Products and Services (B2B)",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2025-10-16",
@@ -6517,11 +7447,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "266258-80",
         "pitchbookUrl": "https://my.pitchbook.com/profile/266258-80/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a global workforce management platform designed for businesses hiring international talent.",
+        "category": "Commercial Services",
+        "vertical": "Artificial Intelligence & Machine Learning, FinTech, HR Tech, Legal Tech, SaaS",
+        "yearFounded": 2019,
+        "hqLocation": "San Francisco, CA",
+        "businessStatus": "Profitable"
       },
       {
         "company": "Enhanced Games",
-        "industry": "",
+        "industry": "Healthcare",
         "series": "",
         "investorStatus": "Former",
         "investorSince": "2025-03-31",
@@ -6530,11 +7466,17 @@
         "exitSizeUsdMillions": 200.0,
         "companyPbid": "570292-93",
         "pitchbookUrl": "https://my.pitchbook.com/profile/570292-93/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Manufacturer of telehealth-based athletic performance enhancement supplements designed to support sports events and competitive athletes.",
+        "category": "Pharmaceuticals and Biotechnology",
+        "vertical": "E-Commerce, Esports, Mobile",
+        "yearFounded": 2023,
+        "hqLocation": "New York, NY",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Firehawk Aerospace",
-        "industry": "",
+        "industry": "Business Products and Services (B2B)",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2025-08-01",
@@ -6543,11 +7485,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "438880-87",
         "pitchbookUrl": "https://my.pitchbook.com/profile/438880-87/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a rocket engine technology designed to make space transportation safe, reliable, and affordable.",
+        "category": "Commercial Products",
+        "vertical": "3D Printing, Advanced Manufacturing, Robotics and Drones, Space Technology",
+        "yearFounded": 2019,
+        "hqLocation": "Addison, TX",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Groq",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Former",
         "investorSince": "2025-04-08",
@@ -6556,11 +7504,17 @@
         "exitSizeUsdMillions": 20000.0,
         "companyPbid": "167350-06",
         "pitchbookUrl": "https://my.pitchbook.com/profile/167350-06/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of artificial intelligence inference hardware and cloud-based compute services designed for executing machine learning workloads.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, Big Data, CloudTech & DevOps, SaaS",
+        "yearFounded": 2016,
+        "hqLocation": "San Jose, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Hadrian",
-        "industry": "",
+        "industry": "Business Products and Services (B2B)",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2026-01-09",
@@ -6569,11 +7523,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "465088-60",
         "pitchbookUrl": "https://my.pitchbook.com/profile/465088-60/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of an autonomous manufacturing platform designed to accelerate and reduce the cost of aerospace and defense production.",
+        "category": "Commercial Products",
+        "vertical": "Manufacturing, Robotics and Drones",
+        "yearFounded": 2020,
+        "hqLocation": "Torrance, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Happy Dad",
-        "industry": "",
+        "industry": "Consumer Products and Services (B2C)",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2024-03-01",
@@ -6582,11 +7542,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "503398-09",
         "pitchbookUrl": "https://my.pitchbook.com/profile/503398-09/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Producer of hard seltzer intended to provide flavored alcohol.",
+        "category": "Consumer Non-Durables",
+        "vertical": "E-Commerce, FoodTech",
+        "yearFounded": 2021,
+        "hqLocation": "Santa Ana, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Juul Labs",
-        "industry": "",
+        "industry": "Consumer Products and Services (B2C)",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2023-11-01",
@@ -6595,11 +7561,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "223456-87",
         "pitchbookUrl": "https://my.pitchbook.com/profile/223456-87/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Manufacturer of e-cigarettes and nicotine products intended to provide an alternative to tobacco smoking.",
+        "category": "Consumer Non-Durables",
+        "vertical": "E-Commerce, LOHAS & Wellness",
+        "yearFounded": 2007,
+        "hqLocation": "San Francisco, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Neuralink",
-        "industry": "",
+        "industry": "Healthcare",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2025-06-02",
@@ -6608,11 +7580,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "179115-22",
         "pitchbookUrl": "https://my.pitchbook.com/profile/179115-22/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of an implantable brain-machine interface designed to help people with paralysis.",
+        "category": "Healthcare Devices and Supplies",
+        "vertical": "Artificial Intelligence & Machine Learning, HealthTech, Life Sciences",
+        "yearFounded": 2016,
+        "hqLocation": "Fremont, CA",
+        "businessStatus": "Clinical Trials - General"
       },
       {
         "company": "Plaid",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2025-04-03",
@@ -6621,11 +7599,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "59128-48",
         "pitchbookUrl": "https://my.pitchbook.com/profile/59128-48/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a data network programming platform designed to assist in connecting fintech applications with traditional bank accounts.",
+        "category": "Software",
+        "vertical": "FinTech, Mobile, SaaS",
+        "yearFounded": 2012,
+        "hqLocation": "San Francisco, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "PlusAI",
-        "industry": "",
+        "industry": "Business Products and Services (B2B)",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2024-04-17",
@@ -6634,11 +7618,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "180375-76",
         "pitchbookUrl": "https://my.pitchbook.com/profile/180375-76/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of an artificial intelligence-based autonomous driving software intended to offer autonomous trucks to move goods safely and efficiently worldwide.",
+        "category": "Commercial Transportation",
+        "vertical": "Artificial Intelligence & Machine Learning, Autonomous cars, Big Data, Industrials, Mobility Tech",
+        "yearFounded": 2016,
+        "hqLocation": "Santa Clara, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Polymarket",
-        "industry": "",
+        "industry": "Financial Services",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2024-08-02",
@@ -6647,11 +7637,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "436089-07",
         "pitchbookUrl": "https://my.pitchbook.com/profile/436089-07/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of an online prediction market platform designed for trading on the outcomes of real-world events.",
+        "category": "Other Financial Services",
+        "vertical": "Artificial Intelligence & Machine Learning, FinTech, Mobile, SaaS",
+        "yearFounded": 2017,
+        "hqLocation": "New York, NY",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "PsiQuantum",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2025-09-10",
@@ -6660,11 +7656,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "235924-66",
         "pitchbookUrl": "https://my.pitchbook.com/profile/235924-66/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Operator of a quantum computing company intended to build and deploy functional quantum computers.",
+        "category": "Computer Hardware",
+        "vertical": "Advanced Manufacturing",
+        "yearFounded": 2015,
+        "hqLocation": "Palo Alto, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Ramp",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2025-11-17",
@@ -6673,11 +7675,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "277837-93",
         "pitchbookUrl": "https://my.pitchbook.com/profile/277837-93/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a spend-management platform designed to streamline business, improve efficiency, and build healthier enterprises.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, FinTech, Mobile, SaaS",
+        "yearFounded": 2019,
+        "hqLocation": "New York, NY",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Reflection AI",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2025-10-09",
@@ -6686,11 +7694,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "655606-00",
         "pitchbookUrl": "https://my.pitchbook.com/profile/655606-00/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of large-scale artificial intelligence models designed for advancing accessible machine intelligence.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, Big Data, SaaS",
+        "yearFounded": 2024,
+        "hqLocation": "New York, NY",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Replit",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2026-03-11",
@@ -6699,11 +7713,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "113831-02",
         "pitchbookUrl": "https://my.pitchbook.com/profile/113831-02/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a collaborative software development platform designed for creating and deploying applications.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, Big Data, CloudTech & DevOps, SaaS",
+        "yearFounded": 2016,
+        "hqLocation": "Foster City, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Skild AI",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2026-01-14",
@@ -6712,11 +7732,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "608340-52",
         "pitchbookUrl": "https://my.pitchbook.com/profile/608340-52/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a robotics foundation model designed to enable robots to autonomously perceive, act, and interact across diverse environments.",
+        "category": "Computer Hardware",
+        "vertical": "Advanced Manufacturing, Artificial Intelligence & Machine Learning, Big Data, Manufacturing, Robotics and Drones",
+        "yearFounded": 2023,
+        "hqLocation": "Pittsburgh, PA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "SpaceX",
-        "industry": "",
+        "industry": "Business Products and Services (B2B)",
         "series": "",
         "investorStatus": "Former",
         "investorSince": "2025-09-12",
@@ -6725,11 +7751,17 @@
         "exitSizeUsdMillions": 86249.99988,
         "companyPbid": "46488-07",
         "pitchbookUrl": "https://my.pitchbook.com/profile/46488-07/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of rockets and spacecraft products designed to advance space transportation.",
+        "category": "Commercial Products",
+        "vertical": "Space Technology",
+        "yearFounded": 2002,
+        "hqLocation": "Starbase, TX",
+        "businessStatus": "Generating Revenue/Not Profitable"
       },
       {
         "company": "Starlab Space",
-        "industry": "",
+        "industry": "Business Products and Services (B2B)",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2026-05-21",
@@ -6738,11 +7770,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "532941-31",
         "pitchbookUrl": "https://my.pitchbook.com/profile/532941-31/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Operator of a commercial space station company intended to serve space agencies, researchers, and companies.",
+        "category": "Commercial Products",
+        "vertical": "Advanced Manufacturing, Artificial Intelligence & Machine Learning, Life Sciences, Space Technology",
+        "yearFounded": 2023,
+        "hqLocation": "Webster, TX",
+        "businessStatus": "Product Development"
       },
       {
         "company": "Substack",
-        "industry": "",
+        "industry": "Consumer Products and Services (B2C)",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2025-07-17",
@@ -6751,11 +7789,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "226108-27",
         "pitchbookUrl": "https://my.pitchbook.com/profile/226108-27/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Operator of a subscription-based publishing platform intended to generate money from newsletter subscriptions.",
+        "category": "Media",
+        "vertical": null,
+        "yearFounded": 2017,
+        "hqLocation": "San Francisco, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Tucker Carlson Network",
-        "industry": "",
+        "industry": "Consumer Products and Services (B2C)",
         "series": "",
         "investorStatus": "Former",
         "investorSince": "2023-10-17",
@@ -6764,11 +7808,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "538216-66",
         "pitchbookUrl": "https://my.pitchbook.com/profile/538216-66/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Operator of a streaming platform intended to tell stories from a variety of genres.",
+        "category": "Media",
+        "vertical": "SaaS",
+        "yearFounded": 2023,
+        "hqLocation": "Reno, NV",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Vulcan Elements",
-        "industry": "",
+        "industry": "Business Products and Services (B2B)",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2025-08-07",
@@ -6777,11 +7827,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "547543-72",
         "pitchbookUrl": "https://my.pitchbook.com/profile/547543-72/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Manufacturer of rare earth magnets intended to create the critical magnets that will electrify highways and power offshore wind turbines.",
+        "category": "Commercial Products",
+        "vertical": "CleanTech, Climate Tech, Manufacturing",
+        "yearFounded": 2023,
+        "hqLocation": "Durham, NC",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "VulcanForms",
-        "industry": "",
+        "industry": "Business Products and Services (B2B)",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2026-01-30",
@@ -6790,11 +7846,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "268366-51",
         "pitchbookUrl": "https://my.pitchbook.com/profile/268366-51/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a digital production system designed for scalable industrial metal additive manufacturing.",
+        "category": "Commercial Services",
+        "vertical": "3D Printing, Advanced Manufacturing, Artificial Intelligence & Machine Learning",
+        "yearFounded": 2015,
+        "hqLocation": "Newburyport, MA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "X (Social/Platform Software)",
-        "industry": "",
+        "industry": "Consumer Products and Services (B2C)",
         "series": "",
         "investorStatus": "Former",
         "investorSince": "2025-03-19",
@@ -6803,11 +7865,17 @@
         "exitSizeUsdMillions": 33000.0,
         "companyPbid": "43104-88",
         "pitchbookUrl": "https://my.pitchbook.com/profile/43104-88/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Operator of a social networking and microblogging platform designed for people to have a free and safe space to talk.",
+        "category": "Media",
+        "vertical": null,
+        "yearFounded": 2006,
+        "hqLocation": "Bastrop, TX",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "xAI",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Former",
         "investorSince": "2025-01-01",
@@ -6816,7 +7884,13 @@
         "exitSizeUsdMillions": 250000.0,
         "companyPbid": "533035-45",
         "pitchbookUrl": "https://my.pitchbook.com/profile/533035-45/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of an artificial intelligence platform designed to assist users in exploring information and understanding complex topics.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, Mobile, SaaS",
+        "yearFounded": 2023,
+        "hqLocation": "Palo Alto, CA",
+        "businessStatus": "Generating Revenue"
       }
     ]
   },
@@ -8196,7 +9270,7 @@
       },
       {
         "company": "Crusoe",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2022-04-20",
@@ -8205,7 +9279,13 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "267230-08",
         "pitchbookUrl": "https://my.pitchbook.com/profile/267230-08/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Operator of artificial intelligence optimized cloud infrastructure intended to deliver computing for next-generation artificial intelligence workloads.",
+        "category": "IT Services",
+        "vertical": "Artificial Intelligence & Machine Learning, CloudTech & DevOps, SaaS",
+        "yearFounded": 2018,
+        "hqLocation": "Denver, CO",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Culture Amp",
@@ -11017,7 +12097,7 @@
       },
       {
         "company": "Periodic Labs",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2025-09-03",
@@ -11026,7 +12106,13 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "901835-56",
         "pitchbookUrl": "https://my.pitchbook.com/profile/901835-56/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Operator of an AI-driven scientific research platform intended to create autonomous AI scientists and laboratories.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, Big Data",
+        "yearFounded": 2025,
+        "hqLocation": "San Francisco, CA",
+        "businessStatus": "Startup"
       },
       {
         "company": "PermitFlow",
@@ -11147,7 +12233,7 @@
       },
       {
         "company": "Plaid",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2013-07-31",
@@ -11156,7 +12242,13 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "59128-48",
         "pitchbookUrl": "https://my.pitchbook.com/profile/59128-48/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a data network programming platform designed to assist in connecting fintech applications with traditional bank accounts.",
+        "category": "Software",
+        "vertical": "FinTech, Mobile, SaaS",
+        "yearFounded": 2012,
+        "hqLocation": "San Francisco, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Planet Labs",
@@ -11966,7 +13058,7 @@
       },
       {
         "company": "Skild AI",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2024-05-16",
@@ -11975,7 +13067,13 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "608340-52",
         "pitchbookUrl": "https://my.pitchbook.com/profile/608340-52/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a robotics foundation model designed to enable robots to autonomously perceive, act, and interact across diverse environments.",
+        "category": "Computer Hardware",
+        "vertical": "Advanced Manufacturing, Artificial Intelligence & Machine Learning, Big Data, Manufacturing, Robotics and Drones",
+        "yearFounded": 2023,
+        "hqLocation": "Pittsburgh, PA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "SkipTheDishes Restaurant Services",
@@ -12837,7 +13935,7 @@
       },
       {
         "company": "Unconventional AI",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2025-12-09",
@@ -12846,7 +13944,13 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "1130420-71",
         "pitchbookUrl": "https://my.pitchbook.com/profile/1130420-71/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Operator of an artificial intelligence-focused hardware startup intended to reinvent computer architecture for efficient and scalable artificial intelligence processing.",
+        "category": "Semiconductors",
+        "vertical": "Advanced Manufacturing, Artificial Intelligence & Machine Learning, Big Data, CloudTech & DevOps",
+        "yearFounded": 2025,
+        "hqLocation": "San Francisco, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Vannevar Labs",
@@ -13472,7 +14576,7 @@
     "portfolio": [
       {
         "company": "Adelaide",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2022-07-12",
@@ -13481,11 +14585,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "498025-63",
         "pitchbookUrl": "https://my.pitchbook.com/profile/498025-63/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a media analytics platform designed to bring transparency to media quality.",
+        "category": "Software",
+        "vertical": "AdTech, Artificial Intelligence & Machine Learning, Marketing Tech",
+        "yearFounded": 2019,
+        "hqLocation": "New York, NY",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Ambassco",
-        "industry": "",
+        "industry": "Business Products and Services (B2B)",
         "series": "",
         "investorStatus": "Active",
         "investorSince": null,
@@ -13494,11 +14604,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "483500-98",
         "pitchbookUrl": "https://my.pitchbook.com/profile/483500-98/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Operator of a research services platform intended to provide actionable feedback and insights networks.",
+        "category": "Commercial Services",
+        "vertical": "Marketing Tech",
+        "yearFounded": 2021,
+        "hqLocation": "Hillsborough, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Attentional",
-        "industry": "",
+        "industry": "Business Products and Services (B2B)",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2025-06-01",
@@ -13507,11 +14623,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "863437-69",
         "pitchbookUrl": "https://my.pitchbook.com/profile/863437-69/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "The company is currently operating in Stealth mode.",
+        "category": "Commercial Products",
+        "vertical": null,
+        "yearFounded": null,
+        "hqLocation": "New York, NY",
+        "businessStatus": "Stealth"
       },
       {
         "company": "Attestis",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2020-03-26",
@@ -13520,11 +14642,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "221995-90",
         "pitchbookUrl": "https://my.pitchbook.com/profile/221995-90/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of connected site display and monitoring systems designed for regulatory compliance.",
+        "category": "Software",
+        "vertical": "Construction Technology, Industrials, Internet of Things, Legal Tech, Real Estate Technology, SaaS",
+        "yearFounded": 2017,
+        "hqLocation": "Biot, France",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Bikky",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2021-05-21",
@@ -13533,11 +14661,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "233298-82",
         "pitchbookUrl": "https://my.pitchbook.com/profile/233298-82/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a customer data platform designed for restaurants to analyze guest behavior and optimize marketing strategies.",
+        "category": "Software",
+        "vertical": "Marketing Tech, Restaurant Technology, SaaS",
+        "yearFounded": 2017,
+        "hqLocation": "New York, NY",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Breakaway (Movies, Music and Entertainment)",
-        "industry": "",
+        "industry": "Consumer Products and Services (B2C)",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2019-07-08",
@@ -13546,11 +14680,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "512176-51",
         "pitchbookUrl": "https://my.pitchbook.com/profile/512176-51/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Provider of event organization and promotions services intended to promote brands among millennials and generation Z markets.",
+        "category": "Media",
+        "vertical": null,
+        "yearFounded": 2016,
+        "hqLocation": "Los Angeles, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Caper (Media and Information Services)",
-        "industry": "",
+        "industry": "Business Products and Services (B2B)",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2026-03-01",
@@ -13559,11 +14699,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "1376146-54",
         "pitchbookUrl": "https://my.pitchbook.com/profile/1376146-54/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Provider of investigative journalism services intended for the hospitality and restaurant industry.",
+        "category": "Commercial Services",
+        "vertical": null,
+        "yearFounded": 2025,
+        "hqLocation": "New York, NY",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Capsule (Multimedia and Design Software)",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2025-03-14",
@@ -13572,11 +14718,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "458631-73",
         "pitchbookUrl": "https://my.pitchbook.com/profile/458631-73/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of browser-based video editing technology designed for collaborative content creation and automated post-production purposes.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, SaaS",
+        "yearFounded": 2020,
+        "hqLocation": "Miami, FL",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Cartwheel",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2024-06-05",
@@ -13585,11 +14737,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "539264-98",
         "pitchbookUrl": "https://my.pitchbook.com/profile/539264-98/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a text-to-animation platform designed to help users animate using artificial intelligence.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, SaaS, Virtual Reality",
+        "yearFounded": 2023,
+        "hqLocation": "New York, NY",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Casa Komos Beverage Group",
-        "industry": "",
+        "industry": "Consumer Products and Services (B2C)",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2019-12-04",
@@ -13598,11 +14756,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "438309-73",
         "pitchbookUrl": "https://my.pitchbook.com/profile/438309-73/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Producer of premium alcoholic beverages intended to create distinctive spirits and food products.",
+        "category": "Consumer Non-Durables",
+        "vertical": "Manufacturing",
+        "yearFounded": 2019,
+        "hqLocation": "New York, NY",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Change (Business/Productivity Software)",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2020-12-09",
@@ -13611,11 +14775,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "454893-49",
         "pitchbookUrl": "https://my.pitchbook.com/profile/454893-49/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Operator of a donation platform designed to streamline regulations, donations, and analytics.",
+        "category": "Software",
+        "vertical": "Mobile, SaaS",
+        "yearFounded": 2020,
+        "hqLocation": "San Francisco, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Chorus (Social/Platform Software)",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2023-08-01",
@@ -13624,11 +14794,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "533239-75",
         "pitchbookUrl": "https://my.pitchbook.com/profile/533239-75/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of an artist-centric fan engagement platform designed to help artists build direct relationships with their core fans.",
+        "category": "Software",
+        "vertical": "AudioTech, Marketing Tech, Mobile",
+        "yearFounded": 2022,
+        "hqLocation": "West Hollywood, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Clark (Educational Software)",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Former",
         "investorSince": "2016-10-06",
@@ -13637,11 +14813,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "167738-95",
         "pitchbookUrl": "https://my.pitchbook.com/profile/167738-95/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Provider of a virtual assistant for independent educators designed to offer the tools needed to run an educational business outside of the classroom.",
+        "category": "Software",
+        "vertical": "EdTech, Mobile, SaaS",
+        "yearFounded": 2016,
+        "hqLocation": "New York, NY",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Commit Action",
-        "industry": "",
+        "industry": "Business Products and Services (B2B)",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2013-06-12",
@@ -13650,11 +14832,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "438309-46",
         "pitchbookUrl": "https://my.pitchbook.com/profile/438309-46/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Provider of professional training and coaching services intended to help entrepreneurs execute ideas.",
+        "category": "Commercial Services",
+        "vertical": "EdTech",
+        "yearFounded": 2012,
+        "hqLocation": "New York, NY",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Confidently",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Former",
         "investorSince": "2022-10-01",
@@ -13663,11 +14851,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "443262-88",
         "pitchbookUrl": "https://my.pitchbook.com/profile/443262-88/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of an AI-powered conference assistant designed for organizers to streamline event experiences for attendees.",
+        "category": "Software",
+        "vertical": "Artificial Intelligence & Machine Learning, SaaS",
+        "yearFounded": 2019,
+        "hqLocation": "Palo Alto, CA",
+        "businessStatus": "Out of Business"
       },
       {
         "company": "Current (Commercial Banks)",
-        "industry": "",
+        "industry": "Financial Services",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2017-03-07",
@@ -13676,11 +14870,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "117674-11",
         "pitchbookUrl": "https://my.pitchbook.com/profile/117674-11/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a consumer financial technology platform designed to improve access to financial services for individuals.",
+        "category": "Commercial Banks",
+        "vertical": "Cryptocurrency/Blockchain, FinTech",
+        "yearFounded": 2015,
+        "hqLocation": "New York, NY",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Day One (Consulting Services)",
-        "industry": "",
+        "industry": "Business Products and Services (B2B)",
         "series": "",
         "investorStatus": "Former",
         "investorSince": "2020-09-09",
@@ -13689,11 +14889,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "471949-39",
         "pitchbookUrl": "https://my.pitchbook.com/profile/471949-39/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Operator of a community-powered platform intended to provide mentorship to entrepreneurs.",
+        "category": "Commercial Services",
+        "vertical": "EdTech, Marketing Tech",
+        "yearFounded": 2020,
+        "hqLocation": "New York, NY",
+        "businessStatus": "Out of Business"
       },
       {
         "company": "Deep (Clinics/Outpatient Services)",
-        "industry": "",
+        "industry": "Healthcare",
         "series": "",
         "investorStatus": "Former",
         "investorSince": "2020-09-29",
@@ -13702,11 +14908,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "460024-30",
         "pitchbookUrl": "https://my.pitchbook.com/profile/460024-30/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Operator of a sleep coaching platform intended to develop habits to get a healthy night's rest.",
+        "category": "Healthcare Services",
+        "vertical": "Digital Health, LOHAS & Wellness, Mobile",
+        "yearFounded": 2020,
+        "hqLocation": "New York, NY",
+        "businessStatus": "Out of Business"
       },
       {
         "company": "Demi (Social/Platform Software)",
-        "industry": "",
+        "industry": "Information Technology",
         "series": "",
         "investorStatus": "Former",
         "investorSince": "2020-09-24",
@@ -13715,11 +14927,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "458163-01",
         "pitchbookUrl": "https://my.pitchbook.com/profile/458163-01/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Operator of a community-driven marketplace intended to connect people through food and help inspire and learn from each other.",
+        "category": "Software",
+        "vertical": "FoodTech",
+        "yearFounded": 2020,
+        "hqLocation": "Copenhagen, Denmark",
+        "businessStatus": "Out of Business"
       },
       {
         "company": "Doladira",
-        "industry": "",
+        "industry": "Consumer Products and Services (B2C)",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2025-03-21",
@@ -13728,11 +14946,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "863438-14",
         "pitchbookUrl": "https://my.pitchbook.com/profile/863438-14/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Operator of a alcoholic beverage brand intended to offer drinks and cocktails for social or casual settings.",
+        "category": "Consumer Non-Durables",
+        "vertical": "E-Commerce, FoodTech, LOHAS & Wellness",
+        "yearFounded": 2020,
+        "hqLocation": "New York, NY",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "ELANZA Wellness",
-        "industry": "",
+        "industry": "Healthcare",
         "series": "",
         "investorStatus": "Active",
         "investorSince": null,
@@ -13741,11 +14965,17 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "464452-84",
         "pitchbookUrl": "https://my.pitchbook.com/profile/464452-84/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Developer of a virtual care platform designed to help people with chronic reproductive health conditions.",
+        "category": "Healthcare Services",
+        "vertical": "Artificial Intelligence & Machine Learning, Digital Health, FemTech, HealthTech, LOHAS & Wellness",
+        "yearFounded": 2020,
+        "hqLocation": "San Francisco, CA",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Elektra Health",
-        "industry": "",
+        "industry": "Healthcare",
         "series": "",
         "investorStatus": "Active",
         "investorSince": "2021-06-09",
@@ -13754,7 +14984,13 @@
         "exitSizeUsdMillions": null,
         "companyPbid": "279595-90",
         "pitchbookUrl": "https://my.pitchbook.com/profile/279595-90/company/profile",
-        "source": "pitchbook"
+        "source": "pitchbook",
+        "description": "Operator of a digital health company intended to provide information regarding perimenopause and menopause.",
+        "category": "Healthcare Services",
+        "vertical": "Digital Health, FemTech, HealthTech",
+        "yearFounded": 2019,
+        "hqLocation": "New York, NY",
+        "businessStatus": "Generating Revenue"
       },
       {
         "company": "Ellement",

@@ -96,7 +96,7 @@ export default function PortfolioTable({ endpoint, id, field, items, companyInde
       sort: { company: p.company.toLowerCase(), industry: p.industry || '', series: p.series || '', score: fitScore ?? -1, pipeline: stage || '' },
       search: { company: p.company, industry: p.industry || '', series: p.series || '' },
       cells: {
-        company: <Link href={href}>{p.company}</Link>,
+        company: <Link href={href} title={p.description || undefined}>{p.company}</Link>,
         industry: p.industry || '—',
         series: p.series || '—',
         score: fitScore != null ? `${fitScore.toFixed(1)} / 4` : '—',
