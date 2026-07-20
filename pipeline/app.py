@@ -438,6 +438,29 @@ def find_or_create_company(company_name, domain, description=None):
         return None
     return resp.json().get("data", {}).get("id", {}).get("record_id")
 
+def _attio_post_retry(url, json_body, attempts=3, backoff=2.0):
+    """POST to Attio with retries on 5xx/network errors. Attio's create endpoint
+    threw a one-off 500 in production (Chai Discovery, 2026-07-20) that silently
+    dropped a brand-new deal from the whole run -- no retry, and nothing surfaced
+    the failure anywhere the team would see it. A 4xx is a real validation
+    problem a retry won't fix, so only 5xx/network errors are retried."""
+    resp = None
+    last_exc = None
+    for attempt in range(1, attempts + 1):
+        try:
+            resp = requests.post(url, headers=attio_headers(), json=json_body)
+        except requests.RequestException as exc:
+            last_exc = exc
+            resp = None
+        if resp is not None and resp.status_code < 500:
+            return resp
+        if attempt < attempts:
+            time.sleep(backoff * attempt)
+    if resp is not None:
+        return resp
+    raise last_exc
+
+
 def find_deal(company_name, series):
     """Return existing deal record_id if this company+series already exists."""
     resp = requests.post(
@@ -551,11 +574,11 @@ def upsert_deal(row, company_record_id, stage="Watchlist", source=None, top10=Fa
         return "skipped"
 
     values = build_attio_values(row, company_record_id, stage, source, top10)
-    resp = requests.post(
-        f"{ATTIO_API_BASE}/objects/deals/records",
-        headers=attio_headers(),
-        json={"data": {"values": values}},
-    )
+    try:
+        resp = _attio_post_retry(f"{ATTIO_API_BASE}/objects/deals/records", {"data": {"values": values}})
+    except requests.RequestException as exc:
+        print(f"DEAL CREATE {company_name} top10={top10}: network error after retries: {exc}")
+        return f"error:network:{exc}"
     print(f"DEAL CREATE {company_name} top10={top10}: "
           f"{resp.status_code} {resp.text[:200]}")
     if resp.status_code in (200, 201):
@@ -635,10 +658,16 @@ def _start_pipeline(stage, source, top10=False):
 
     # Block until the whole pipeline (ingest + Perplexity screening) finishes, so
     # the single n8n HTTP node gets deals + fit scores + email_html in one response.
-    # gunicorn --timeout is 300s; we stop polling a touch before that. If a large
-    # upload doesn't finish in time, we return the partial state and the caller can
-    # poll /process/status for the rest.
-    deadline = time.time() + 280
+    # gunicorn --timeout is 1800s (see Dockerfile); we stop polling a touch before
+    # that. This used to be 280s, calibrated to a 300s gunicorn timeout that's
+    # since been raised for /screen's sake -- left stale here, this endpoint kept
+    # bailing at 280s regardless, so any batch whose Stage 1 scoring ran past that
+    # (routine with sonar-deep-research's per-deal timeout) got its /process
+    # response -- and the n8n deal-intake email built straight from it -- with no
+    # fit_score on any deal, even though scoring finished normally moments later.
+    # If a large upload still doesn't finish in time, we return the partial state
+    # and the caller can poll /process/status for the rest.
+    deadline = time.time() + 1700
     while time.time() < deadline:
         with _pipeline_lock:
             s = _pipeline_state.get("status")
