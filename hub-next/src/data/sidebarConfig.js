@@ -51,7 +51,7 @@ export function getSidebarTree(companies = [], deals = []) {
       href: '/docs/qualified-deals',
       items: companies.filter((c) => c.stage === 'qualified').map((c) => ({ type: 'doc', href: `/docs/qualified-deals/${c.slug}`, label: c.name })),
     },
-    { type: 'doc', href: '/docs/hot-deals', label: 'Hot Deals', badge: 'NEW' },
+    { type: 'doc', href: '/docs/hot-deals', label: 'Hot Deals' },
     { type: 'doc', href: '/docs/vcs', label: 'VCs' },
     {
       type: 'category',

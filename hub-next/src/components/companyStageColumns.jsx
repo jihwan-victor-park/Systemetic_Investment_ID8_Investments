@@ -3,6 +3,7 @@ import StageSelect from './StageSelect';
 import RoundInput from './RoundInput';
 import DeleteButton from './DeleteButton';
 import RunAnalysisButton from './RunAnalysisButton';
+import { findInvestorSource } from '@/lib/companyIndex';
 import styles from './companyStageColumns.module.css';
 
 // Shorter labels than the company docs' own frontmatter titles (which carry a
@@ -33,10 +34,17 @@ export const STAGE_TABLE_COLUMNS = [
   { key: 'actions', label: '' },
 ];
 
-export function companyToRow(c, { basePath, canEdit }) {
+export function companyToRow(c, { basePath, canEdit, tier1 = [], partners = [] }) {
   const name = displayName(c);
   const score = c.latestScreen?.fitScore ?? null;
-  const partnerVc = c.origin?.leadInvestors || null;
+  // Live cross-reference against every VC's recorded portfolio, same lookup
+  // Hot Deals uses -- not `c.origin?.leadInvestors`, which is only ever set
+  // at intake time (typed by hand in Research Chat, or copied from the
+  // source VC when a portfolio row gets promoted via "Add to pipeline") and
+  // stays blank for the vast majority of companies that arrive through the
+  // regular Deal Intelligence email screen.
+  const match = findInvestorSource(c.name, tier1, partners);
+  const partnerVc = match?.via || null;
   return {
     key: c.slug,
     sort: {
@@ -58,7 +66,7 @@ export function companyToRow(c, { basePath, canEdit }) {
         </>
       ) : name,
       series: <RoundInput slug={c.slug} round={c.round} canEdit={canEdit} />,
-      partnerVc: partnerVc || '—',
+      partnerVc: match ? (match.viaHref ? <Link href={match.viaHref}>{partnerVc}</Link> : partnerVc) : '—',
       score: score != null ? `${score.toFixed(1)} / 4` : '—',
       stage: <StageSelect slug={c.slug} stage={c.stage} canEdit={canEdit} />,
       date: c.latestScreen ? c.latestScreen.date.slice(0, 10) : '—',

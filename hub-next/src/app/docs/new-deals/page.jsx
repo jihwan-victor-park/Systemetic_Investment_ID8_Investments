@@ -2,17 +2,19 @@ import { auth } from '@/auth';
 import SortableTable from '@/components/SortableTable';
 import { STAGE_TABLE_COLUMNS, companyToRow } from '@/components/companyStageColumns';
 import { listCompanies } from '@/lib/companies';
+import { listTopVCs } from '@/lib/topVCs';
+import { listPartnerVCs } from '@/lib/partnerVCs';
 
 export const metadata = { title: 'New Deals', description: 'Companies pulled in from Attio that haven\'t been triaged into Watchlist/Pipeline/Qualified yet.' };
 
 export const dynamic = 'force-dynamic';
 
 export default async function NewDealsPage() {
-  const [companies, session] = await Promise.all([listCompanies(), auth()]);
+  const [companies, tier1, partners, session] = await Promise.all([listCompanies(), listTopVCs(), listPartnerVCs(), auth()]);
   const canEdit = session?.user?.role === 'internal';
   const rows = companies
     .filter((c) => c.stage === 'new')
-    .map((c) => companyToRow(c, { basePath: '/docs/new-deals', canEdit }));
+    .map((c) => companyToRow(c, { basePath: '/docs/new-deals', canEdit, tier1, partners }));
 
   return (
     <>

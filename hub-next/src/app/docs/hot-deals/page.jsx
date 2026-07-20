@@ -5,6 +5,7 @@ import StageSelect from '@/components/StageSelect';
 import { listCompanies } from '@/lib/companies';
 import { listTopVCs } from '@/lib/topVCs';
 import { listPartnerVCs } from '@/lib/partnerVCs';
+import { findInvestorSource } from '@/lib/companyIndex';
 import { STAGE_BASEPATH } from '@/lib/stages';
 
 export const metadata = { title: 'Hot Deals', description: 'Every company that cleared the Stage 1 gate this week.' };
@@ -23,25 +24,11 @@ const COLUMNS = [
   { key: 'report', label: 'Report' },
 ];
 
-// Best-effort case-insensitive name match against every VC's recorded
-// portfolio -- Tier 1 VCs' deals[] first, then partner VCs' portfolio[],
-// falling back to "Qualified screen" when nothing matches. Not a persisted
-// field: recomputed on every page load from whatever's currently in topVCs/
-// partnerVCs, so a portfolio added after a company gated still attributes
-// correctly on the next view.
+// "Qualified screen" is Hot Deals' own fallback label for the "no VC
+// portfolio match" case (shared findInvestorSource just returns null there;
+// the stage tables render that as a plain "—" instead).
 function findSource(companyName, tier1, partners) {
-  const nameLc = companyName.toLowerCase();
-  for (const firm of tier1) {
-    if ((firm.deals || []).some((d) => d.company.toLowerCase() === nameLc)) {
-      return { source: 'Tier 1 VC', via: firm.name, viaHref: `/docs/vcs/tier1/${firm.id}` };
-    }
-  }
-  for (const p of partners) {
-    if ((p.portfolio || []).some((x) => x.company.toLowerCase() === nameLc)) {
-      return { source: 'Partner VC', via: p.trackedBy ? `${p.name} · ${p.trackedBy}` : p.name, viaHref: `/docs/vcs/partner/${p.id}` };
-    }
-  }
-  return { source: 'Qualified screen', via: 'Weekly automated screen', viaHref: null };
+  return findInvestorSource(companyName, tier1, partners) || { source: 'Qualified screen', via: 'Weekly automated screen', viaHref: null };
 }
 
 export default async function HotDealsPage() {

@@ -45,3 +45,27 @@ export function lookupStage(index, name) {
   const entry = index[(name || '').trim().toLowerCase()];
   return entry ? entry.stage : null;
 }
+
+// Best-effort case-insensitive name match against every VC's recorded
+// portfolio -- Tier 1 VCs' deals[] first, then partner VCs' portfolio[].
+// Not persisted: recomputed on every page load from whatever's currently in
+// topVCs/partnerVCs, so a portfolio added after a company was already in the
+// pipeline still attributes correctly on the next view. Returns null when no
+// VC's recorded portfolio contains this company -- callers decide how to
+// render "no match" (Hot Deals falls back to "Qualified screen"; the
+// Watchlist/Pipeline/Qualified Deals tables just show "—").
+export function findInvestorSource(companyName, tier1, partners) {
+  const nameLc = (companyName || '').trim().toLowerCase();
+  if (!nameLc) return null;
+  for (const firm of tier1 || []) {
+    if ((firm.deals || []).some((d) => d.company.toLowerCase() === nameLc)) {
+      return { source: 'Tier 1 VC', via: firm.name, viaHref: `/docs/vcs/tier1/${firm.id}` };
+    }
+  }
+  for (const p of partners || []) {
+    if ((p.portfolio || []).some((x) => x.company.toLowerCase() === nameLc)) {
+      return { source: 'Partner VC', via: p.trackedBy ? `${p.name} · ${p.trackedBy}` : p.name, viaHref: `/docs/vcs/partner/${p.id}` };
+    }
+  }
+  return null;
+}
