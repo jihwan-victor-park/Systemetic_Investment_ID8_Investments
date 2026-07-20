@@ -3,7 +3,7 @@ import StageSelect from './StageSelect';
 import RoundInput from './RoundInput';
 import DeleteButton from './DeleteButton';
 import RunAnalysisButton from './RunAnalysisButton';
-import { findInvestorSource } from '@/lib/companyIndex';
+import { findInvestorSources } from '@/lib/companyIndex';
 import styles from './companyStageColumns.module.css';
 
 // Shorter labels than the company docs' own frontmatter titles (which carry a
@@ -42,9 +42,11 @@ export function companyToRow(c, { basePath, canEdit, tier1 = [], partners = [] }
   // at intake time (typed by hand in Research Chat, or copied from the
   // source VC when a portfolio row gets promoted via "Add to pipeline") and
   // stays blank for the vast majority of companies that arrive through the
-  // regular Deal Intelligence email screen.
-  const match = findInvestorSource(c.name, tier1, partners);
-  const partnerVc = match?.via || null;
+  // regular Deal Intelligence email screen. A company can sit in more than
+  // one tracked firm's portfolio at once (e.g. Anduril), so this returns
+  // every match, not just the first.
+  const matches = findInvestorSources(c.name, tier1, partners);
+  const partnerVc = matches.length ? matches.map((m) => m.via).join(', ') : null;
   return {
     key: c.slug,
     sort: {
@@ -66,7 +68,11 @@ export function companyToRow(c, { basePath, canEdit, tier1 = [], partners = [] }
         </>
       ) : name,
       series: <RoundInput slug={c.slug} round={c.round} canEdit={canEdit} />,
-      partnerVc: match ? (match.viaHref ? <Link href={match.viaHref}>{partnerVc}</Link> : partnerVc) : '—',
+      partnerVc: matches.length === 0 ? '—' : matches.length === 1 ? (
+        matches[0].viaHref ? <Link href={matches[0].viaHref}>{matches[0].via}</Link> : matches[0].via
+      ) : (
+        <span title={matches.map((m) => m.via).join('\n')}>{matches.length} VCs</span>
+      ),
       score: score != null ? `${score.toFixed(1)} / 4` : '—',
       stage: <StageSelect slug={c.slug} stage={c.stage} canEdit={canEdit} />,
       date: c.latestScreen ? c.latestScreen.date.slice(0, 10) : '—',

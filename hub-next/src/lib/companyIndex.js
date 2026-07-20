@@ -46,26 +46,37 @@ export function lookupStage(index, name) {
   return entry ? entry.stage : null;
 }
 
-// Best-effort case-insensitive name match against every VC's recorded
-// portfolio -- Tier 1 VCs' deals[] first, then partner VCs' portfolio[].
-// Not persisted: recomputed on every page load from whatever's currently in
-// topVCs/partnerVCs, so a portfolio added after a company was already in the
-// pipeline still attributes correctly on the next view. Returns null when no
-// VC's recorded portfolio contains this company -- callers decide how to
-// render "no match" (Hot Deals falls back to "Qualified screen"; the
-// Watchlist/Pipeline/Qualified Deals tables just show "—").
-export function findInvestorSource(companyName, tier1, partners) {
+// Best-effort case-insensitive name match against EVERY VC's recorded
+// portfolio -- Tier 1 VCs' deals[] first, then partner VCs' portfolio[],
+// returning every firm that holds this company, not just the first one
+// found (a company like Anduril legitimately sits in several firms'
+// portfolios at once). `via` is just the firm's own name -- never the
+// internal `trackedBy` contact, which is ID8's own relationship-tracking
+// detail, not something to surface next to a company row. Not persisted:
+// recomputed on every page load from whatever's currently in topVCs/
+// partnerVCs, so a portfolio added after a company was already in the
+// pipeline still attributes correctly on the next view. Returns [] when no
+// VC's recorded portfolio contains this company.
+export function findInvestorSources(companyName, tier1, partners) {
   const nameLc = (companyName || '').trim().toLowerCase();
-  if (!nameLc) return null;
+  if (!nameLc) return [];
+  const matches = [];
   for (const firm of tier1 || []) {
     if ((firm.deals || []).some((d) => d.company.toLowerCase() === nameLc)) {
-      return { source: 'Tier 1 VC', via: firm.name, viaHref: `/docs/vcs/tier1/${firm.id}` };
+      matches.push({ source: 'Tier 1 VC', via: firm.name, viaHref: `/docs/vcs/tier1/${firm.id}` });
     }
   }
   for (const p of partners || []) {
     if ((p.portfolio || []).some((x) => x.company.toLowerCase() === nameLc)) {
-      return { source: 'Partner VC', via: p.trackedBy ? `${p.name} · ${p.trackedBy}` : p.name, viaHref: `/docs/vcs/partner/${p.id}` };
+      matches.push({ source: 'Partner VC', via: p.name, viaHref: `/docs/vcs/partner/${p.id}` });
     }
   }
-  return null;
+  return matches;
+}
+
+// Single-match convenience wrapper for callers (Hot Deals) that only ever
+// attribute a company to one VC -- picks the first match, same priority
+// order as findInvestorSources (Tier 1 before Partner).
+export function findInvestorSource(companyName, tier1, partners) {
+  return findInvestorSources(companyName, tier1, partners)[0] || null;
 }
