@@ -2,6 +2,7 @@ import 'server-only';
 import { db, isoDate } from './firestore';
 import { dimensionScore, fitScore } from './rubricMath';
 import { STAGES } from './stages';
+import { companySlug } from './companySlug';
 
 // Firestore Timestamp fields don't survive JSON.stringify as anything
 // useful on their own (see isoDate) -- normalize the whole origin map here
@@ -85,6 +86,31 @@ export async function updateCompanyRound(slug, round) {
   const value = String(round ?? '').trim() || null;
   await ref.set({ round: value }, { merge: true });
   return { slug, round: value };
+}
+
+// Promotes a partner VC's portfolio company into the real pipeline at a
+// chosen stage -- the opt-in counterpart to the automatic name-match every
+// portfolio table row already shows via companyIndex. Never fires on its
+// own; only from a partner's own "Add to pipeline" control, and never
+// touches a company that's already there (a slug collision here most often
+// means a name mismatch between the portfolio entry and an existing pipeline
+// company -- surfacing that as an error is safer than silently overwriting
+// whatever stage it's already in). Internal-role-only; enforced by the API
+// route.
+export async function createCompanyFromPortfolio({ name, stage, sourceVCName }) {
+  if (!STAGES.includes(stage)) throw new Error('invalid-stage');
+  const slug = companySlug(name);
+  if (!slug) throw new Error('invalid-name');
+  const ref = db().collection('companies').doc(slug);
+  const snap = await ref.get();
+  if (snap.exists) throw new Error('already-exists');
+  await ref.set({
+    name,
+    website: null,
+    stage,
+    origin: { source: 'partner-vc-portfolio', leadInvestors: sourceVCName || null, importedAt: new Date() },
+  });
+  return { slug, stage };
 }
 
 function _mapScreen(slug, screenId, d) {

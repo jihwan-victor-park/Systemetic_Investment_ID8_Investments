@@ -33,6 +33,7 @@ export default function PartnerPortfolioSection({ vcId, vcName, portfolio, compa
           companyIndex={companyIndex}
           canEdit={canEdit}
           addLabel="Add company"
+          vcName={vcName}
         />
       ) : (
         <PortfolioGraph vcName={vcName} portfolio={portfolio} companyIndex={companyIndex} />

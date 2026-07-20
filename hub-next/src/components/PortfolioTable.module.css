@@ -12,3 +12,14 @@
 .del { background: none; border: none; color: var(--id8-grey); cursor: pointer; font-size: 0.95rem; line-height: 1; }
 .del:hover { color: var(--id8-ink); }
 .error { color: #B3261E; font-size: 0.72rem; width: 100%; }
+
+.stageBadge {
+  font-family: 'Sora', sans-serif; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600;
+  color: var(--id8-ink); background: var(--id8-hair); padding: 0.15rem 0.5rem; border-radius: 2px; white-space: nowrap;
+}
+.muted { color: var(--id8-grey); font-size: 0.8rem; }
+.pipelineCell { display: flex; flex-direction: column; gap: 0.2rem; }
+.pipelineSelect {
+  font-family: 'Sora', sans-serif; font-size: 0.72rem; color: var(--id8-ink); background: transparent;
+  border: 1px solid var(--id8-hair); border-radius: 2px; padding: 0.2rem 0.35rem; cursor: pointer;
+}
