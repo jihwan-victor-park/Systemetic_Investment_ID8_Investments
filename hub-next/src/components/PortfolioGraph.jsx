@@ -237,13 +237,14 @@ export default function PortfolioGraph({ vcName, portfolio, companyIndex }) {
         </div>
       </div>
 
-      {/* Hover-clear lives on the whole canvas, not on each node -- the node
-          and the detail card are two disjoint elements, so moving the mouse
-          from one to the other briefly passes over neither. Clearing
-          per-node closes the card before the pointer can ever reach its
-          "View company" link; clearing only once the pointer leaves the
-          entire canvas (which the card sits inside) fixes that gap. */}
-      <div className={styles.canvasWrap} onMouseLeave={() => setHoveredName(null)}>
+      {/* No mouseleave-based clearing anywhere, on the node or the canvas --
+          the node and its card are two disjoint elements, and every "clear
+          on leave" variant tried so far still raced the pointer crossing
+          the gap between them on some path. Hovering a node now just shows
+          its card and leaves it there indefinitely; it only changes when a
+          *different* node is hovered (onMouseEnter below overwrites it), or
+          is dismissed explicitly via the close button. Nothing to race. */}
+      <div className={styles.canvasWrap}>
         {nodes.length === 0 ? (
           <p className={styles.empty}>No portfolio companies match these filters.</p>
         ) : (
@@ -342,9 +343,12 @@ export default function PortfolioGraph({ vcName, portfolio, companyIndex }) {
 
             {shown && (
               <div className={styles.detailCard}>
-                {selectedName && (
-                  <button type="button" className={styles.detailClose} onClick={() => setSelectedName(null)} aria-label="Close">×</button>
-                )}
+                <button
+                  type="button"
+                  className={styles.detailClose}
+                  onClick={() => { setSelectedName(null); setHoveredName(null); }}
+                  aria-label="Close"
+                >×</button>
                 <div className={styles.detailName}>{shown.company}</div>
                 <div className={styles.detailMeta}>{[shown.industry, shown.series].filter(Boolean).join(' · ') || 'No detail recorded'}</div>
                 <div className={styles.detailScore}>
