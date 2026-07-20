@@ -236,7 +236,13 @@ export default function PortfolioGraph({ vcName, portfolio, companyIndex }) {
         </div>
       </div>
 
-      <div className={styles.canvasWrap}>
+      {/* Hover-clear lives on the whole canvas, not on each node -- the node
+          and the detail card are two disjoint elements, so moving the mouse
+          from one to the other briefly passes over neither. Clearing
+          per-node closes the card before the pointer can ever reach its
+          "View company" link; clearing only once the pointer leaves the
+          entire canvas (which the card sits inside) fixes that gap. */}
+      <div className={styles.canvasWrap} onMouseLeave={() => setHoveredName(null)}>
         {nodes.length === 0 ? (
           <p className={styles.empty}>No portfolio companies match these filters.</p>
         ) : (
@@ -289,7 +295,6 @@ export default function PortfolioGraph({ vcName, portfolio, companyIndex }) {
                     onClick={() => selectNode(node)}
                     onKeyDown={(e) => { if (e.key === 'Enter') setSelectedName(node.company); }}
                     onMouseEnter={() => setHoveredName(node.company)}
-                    onMouseLeave={() => setHoveredName(null)}
                     onFocus={() => setHoveredName(node.company)}
                     onBlur={() => setHoveredName(null)}
                   >

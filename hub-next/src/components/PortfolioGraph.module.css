@@ -1,6 +1,6 @@
 .wrap { display: flex; gap: 24px; align-items: flex-start; }
 .filters { flex: 0 0 152px; }
-.groupLabel { font-family: 'Sora', sans-serif; font-weight: 600; font-size: 0.64rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--id8-grey); margin-bottom: 8px; }
+.groupLabel { font-family: 'Sora', sans-serif; font-weight: 600; font-size: 0.72rem; letter-spacing: 0.01em; color: var(--id8-soft); margin-bottom: 8px; }
 
 /* Industry: toggleable chips, not native checkboxes -- same pill language
    as .tag/.badge elsewhere, just interactive. */
