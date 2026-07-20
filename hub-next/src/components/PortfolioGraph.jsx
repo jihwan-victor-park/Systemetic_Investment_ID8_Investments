@@ -126,6 +126,7 @@ export default function PortfolioGraph({ vcName, portfolio, companyIndex }) {
           ? `color-mix(in srgb, var(--id8-accent) ${Math.round(pct)}%, var(--id8-grey) ${100 - Math.round(pct)}%)`
           : 'var(--id8-hair)',
         len: Math.hypot(p.x, p.y),
+        angleDeg: Math.atan2(p.y, p.x) * (180 / Math.PI),
         delay: Math.min(i, 20) * 22,
       };
     });
@@ -266,16 +267,26 @@ export default function PortfolioGraph({ vcName, portfolio, companyIndex }) {
                 <circle r={vcSize.w * 1.1} fill="url(#vcHalo)" />
 
                 {nodes.map((node) => (
-                  <line
-                    key={`edge-${node.company}`}
-                    className={node.hasScore ? `${styles.line} ${styles.edge}` : styles.line}
-                    x1={0} y1={0} x2={node.x} y2={node.y}
-                    stroke={node.stroke}
-                    strokeWidth={node.strokeWidth}
-                    strokeDasharray={node.hasScore ? undefined : '4 4'}
-                    strokeLinecap="round"
-                    style={node.hasScore ? { '--len': `${node.len}px`, animationDelay: `${node.delay}ms` } : undefined}
-                  />
+                  // Same reasoning as the node <g>s below: <line> doesn't
+                  // reliably transition x2/y2 either, which is why the edge
+                  // was arriving at its new angle instantly while the box
+                  // was still gliding there. Keeping the line's own geometry
+                  // fixed (always horizontal, from the VC out to `len`) and
+                  // rotating a wrapping <g> instead means the one thing that
+                  // actually changes on a re-layout -- the angle -- moves
+                  // through an ordinary `transform`, which does transition
+                  // reliably, so the edge and its node now move in lockstep.
+                  <g key={`edge-${node.company}`} className={styles.edgeWrap} style={{ transform: `rotate(${node.angleDeg}deg)` }}>
+                    <line
+                      className={node.hasScore ? styles.edge : undefined}
+                      x1={0} y1={0} x2={node.len} y2={0}
+                      stroke={node.stroke}
+                      strokeWidth={node.strokeWidth}
+                      strokeDasharray={node.hasScore ? undefined : '4 4'}
+                      strokeLinecap="round"
+                      style={node.hasScore ? { '--len': `${node.len}px`, animationDelay: `${node.delay}ms` } : undefined}
+                    />
+                  </g>
                 ))}
 
                 <g className={`${styles.node} ${styles.vcNode}`}>
