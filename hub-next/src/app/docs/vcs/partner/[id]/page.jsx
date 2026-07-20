@@ -8,6 +8,7 @@ import { buildCompanyIndex } from '@/lib/companyIndex';
 import ArrayFieldEditor from '@/components/ArrayFieldEditor';
 import ContactChip from '@/components/ContactChip';
 import PartnerPortfolioSection from '@/components/PartnerPortfolioSection';
+import styles from './page.module.css';
 
 export const dynamic = 'force-dynamic';
 
@@ -33,12 +34,16 @@ export default async function PartnerVCPage({ params }) {
   return (
     <>
       <p><Link href="/docs/vcs">← VCs</Link></p>
-      <h1>{vc.name}</h1>
-      <p>
-        Partner VC{vc.sector ? ` · ${vc.sector}` : ''}
-        {vc.website ? <> · <a href={`https://${vc.website}`} target="_blank" rel="noopener noreferrer">{vc.website}</a></> : null}
-      </p>
-      <ContactChip endpoint="/api/partner-vcs" id={vc.id} trackedBy={vc.trackedBy} contact={vc.contact} canEdit={canEdit} />
+      <div className={styles.head}>
+        <div>
+          <h1>{vc.name}</h1>
+          <p className={styles.sub}>
+            Partner VC{vc.sector ? ` · ${vc.sector}` : ''}
+            {vc.website ? <> · <a href={`https://${vc.website}`} target="_blank" rel="noopener noreferrer">{vc.website}</a></> : null}
+          </p>
+        </div>
+        <ContactChip endpoint="/api/partner-vcs" id={vc.id} trackedBy={vc.trackedBy} contact={vc.contact} canEdit={canEdit} />
+      </div>
 
       <PartnerPortfolioSection
         vcId={vc.id}

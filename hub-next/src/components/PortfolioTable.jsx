@@ -4,13 +4,14 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import SortableTable from './SortableTable';
-import { companyHref } from '@/lib/companyIndex';
+import { companyHref, lookupFitScore } from '@/lib/companyIndex';
 import styles from './PortfolioTable.module.css';
 
 const COLUMNS = [
   { key: 'company', label: 'Company', sortable: true },
   { key: 'industry', label: 'Industry', sortable: true },
   { key: 'series', label: 'Series', sortable: true },
+  { key: 'score', label: 'Fit score', sortable: true },
   { key: 'actions', label: '' },
 ];
 
@@ -59,14 +60,16 @@ export default function PortfolioTable({ endpoint, id, field, items, companyInde
 
   const rows = (items || []).map((p, i) => {
     const href = companyHref(companyIndex, p.company) || `/docs/vcs/company/${encodeURIComponent(p.company)}`;
+    const fitScore = lookupFitScore(companyIndex, p.company);
     return {
       key: i,
-      sort: { company: p.company.toLowerCase(), industry: p.industry || '', series: p.series || '' },
+      sort: { company: p.company.toLowerCase(), industry: p.industry || '', series: p.series || '', score: fitScore ?? -1 },
       search: { company: p.company, industry: p.industry || '', series: p.series || '' },
       cells: {
         company: <Link href={href}>{p.company}</Link>,
         industry: p.industry || '—',
         series: p.series || '—',
+        score: fitScore != null ? `${fitScore.toFixed(1)} / 4` : '—',
         actions: canEdit ? (
           <button type="button" className={styles.del} disabled={saving} onClick={() => remove(i)} title="Remove">×</button>
         ) : null,

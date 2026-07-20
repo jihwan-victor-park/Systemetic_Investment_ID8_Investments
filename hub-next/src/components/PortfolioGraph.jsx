@@ -69,6 +69,7 @@ export default function PortfolioGraph({ vcName, portfolio, companyIndex }) {
   const dragRef = useRef({ dragging: false, startX: 0, startY: 0, startViewX: 0, startViewY: 0, moved: 0 });
   const [view, setView] = useState({ x: 0, y: 0, scale: 1 });
   const [selectedName, setSelectedName] = useState(null);
+  const [hoveredName, setHoveredName] = useState(null);
 
   const industries = useMemo(
     () => [...new Set(portfolio.map((p) => p.industry).filter(Boolean))].sort(),
@@ -130,7 +131,12 @@ export default function PortfolioGraph({ vcName, portfolio, companyIndex }) {
     });
   }, [portfolio, companyIndex, activeIndustries, minSeries, vcSize.w]);
 
-  const selected = selectedName ? nodes.find((node) => node.company === selectedName) || null : null;
+  // Hover shows the card transiently (updates live as you move between
+  // nodes); a click pins it (setSelectedName), which is what keeps it open
+  // once the pointer leaves -- useful on touch, or to keep looking at one
+  // company's detail while your cursor wanders elsewhere on the map.
+  const shownName = hoveredName || selectedName;
+  const shown = shownName ? nodes.find((node) => node.company === shownName) || null : null;
 
   // Wheel-zoom needs a non-passive listener to preventDefault (stop the
   // page itself from scrolling) -- React's onWheel can't reliably do that,
@@ -282,6 +288,10 @@ export default function PortfolioGraph({ vcName, portfolio, companyIndex }) {
                     tabIndex={0}
                     onClick={() => selectNode(node)}
                     onKeyDown={(e) => { if (e.key === 'Enter') setSelectedName(node.company); }}
+                    onMouseEnter={() => setHoveredName(node.company)}
+                    onMouseLeave={() => setHoveredName(null)}
+                    onFocus={() => setHoveredName(node.company)}
+                    onBlur={() => setHoveredName(null)}
                   >
                     <rect
                       className={styles.nodeShape}
@@ -303,24 +313,26 @@ export default function PortfolioGraph({ vcName, portfolio, companyIndex }) {
               <button type="button" onClick={() => zoomBy(1.3)} aria-label="Zoom in">+</button>
             </div>
 
-            {selected && (
+            {shown && (
               <div className={styles.detailCard}>
-                <button type="button" className={styles.detailClose} onClick={() => setSelectedName(null)} aria-label="Close">×</button>
-                <div className={styles.detailName}>{selected.company}</div>
-                <div className={styles.detailMeta}>{[selected.industry, selected.series].filter(Boolean).join(' · ') || 'No detail recorded'}</div>
+                {selectedName && (
+                  <button type="button" className={styles.detailClose} onClick={() => setSelectedName(null)} aria-label="Close">×</button>
+                )}
+                <div className={styles.detailName}>{shown.company}</div>
+                <div className={styles.detailMeta}>{[shown.industry, shown.series].filter(Boolean).join(' · ') || 'No detail recorded'}</div>
                 <div className={styles.detailScore}>
-                  {selected.hasScore ? (
+                  {shown.hasScore ? (
                     <>
-                      <span className={`badge ${selected.fitScore >= 3 ? 'badge--gate' : 'badge--below'}`}>
-                        {selected.fitScore >= 3 ? 'Clears gate' : 'Below gate'}
+                      <span className={`badge ${shown.fitScore >= 3 ? 'badge--gate' : 'badge--below'}`}>
+                        {shown.fitScore >= 3 ? 'Clears gate' : 'Below gate'}
                       </span>{' '}
-                      {selected.fitScore.toFixed(1)} / 4
+                      {shown.fitScore.toFixed(1)} / 4
                     </>
                   ) : (
                     <span className={styles.notScored}>Not yet screened against our rubric</span>
                   )}
                 </div>
-                <Link href={selected.href} className={styles.detailLink}>View company →</Link>
+                <Link href={shown.href} className={styles.detailLink}>View company →</Link>
               </div>
             )}
           </>
