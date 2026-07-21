@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import styles from '../page.module.css';
 
 export const metadata = { title: 'Research', description: "ID8's research view for approved investors" };
@@ -16,6 +17,11 @@ export default function InvestorResearch() {
         sourcing narrative will live for approved investors. That view is still being built;
         for now, this page just confirms your account has research access.
       </p>
+      <div className={styles.closing}>
+        <Link href="/investors/research/fund-one-pager" className={styles.closingLink}>
+          View the Growth Opportunities Fund I one-pager →
+        </Link>
+      </div>
     </main>
   );
 }
