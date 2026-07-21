@@ -109,15 +109,23 @@ export function getSidebarTree(companies = [], deals = []) {
           items: companies.filter((c) => c.stage === 'invested').map((c) => ({ type: 'doc', href: `/docs/invested/${c.slug}`, label: c.name })),
         },
         // Not a stage -- a cross-cutting view over every company already in
-        // one of the five stage buckets above, filtered to whichever ones
-        // also show up in a Tier 1 VC's portfolio (see docs/top10-vc/page.jsx).
-        // `type: 'doc'` (not 'category'): it has no company sub-pages of its
-        // own, just links out to each company's real stage page.
+        // one of the five stage buckets above, filtered to Attio's own
+        // "Top 10 VC" Deals-object view (company.top10VC, see
+        // docs/top10-vc/page.jsx and deal_intelligence/firestore_push.py's
+        // backfill_top10_vc). `type: 'doc'` (not 'category'): it has no
+        // company sub-pages of its own, just links out to each company's
+        // real stage page.
         { type: 'doc', href: '/docs/top10-vc', label: 'Top 10 VCs' },
       ],
     },
     { id: 'hot-deals', type: 'doc', href: '/docs/hot-deals', label: 'Top Deals' },
     { id: 'vcs', type: 'doc', href: '/docs/vcs', label: 'VCs' },
+    // Lives physically under /investors/research (not /docs/*) because
+    // auth.config.js's `authorized` callback hard-redirects an approved
+    // 'investor'-role account away from anything outside that path prefix --
+    // an 'internal' account (everyone using this nav) isn't affected by that
+    // rule at all and can reach it from here like any other tab.
+    { id: 'fund-one-pager', type: 'doc', href: '/investors/research/fund-one-pager', label: 'Fund I One-Pager' },
     {
       id: 'research',
       type: 'category',
