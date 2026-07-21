@@ -1,47 +1,79 @@
-import { auth } from '@/auth';
+import Link from 'next/link';
 import SortableTable from '@/components/SortableTable';
-import { STAGE_TABLE_COLUMNS, companyToRow } from '@/components/companyStageColumns';
 import { listCompanies } from '@/lib/companies';
 import { listTopVCs } from '@/lib/topVCs';
-import { listPartnerVCs } from '@/lib/partnerVCs';
-import { findInvestorSources } from '@/lib/companyIndex';
+import { buildCompanyIndex, companyHref } from '@/lib/companyIndex';
 
-export const metadata = { title: 'Top 10 VCs', description: 'Every company sourced from a Tier 1 VC’s portfolio, across every stage.' };
+export const metadata = { title: 'Top 10 VCs', description: 'Every deal recorded across ID8’s Tier 1 VC relationships, in one list.' };
 
 export const dynamic = 'force-dynamic';
 
-// Cross-cutting view, not a stage of its own -- a company keeps whatever
-// stage it's actually at (Watchlist/Pipeline/Qualified/Radar/Invested) and
-// just shows up here too if it's in a Tier 1 firm's recorded portfolio. Same
-// findInvestorSources lookup Hot Deals and every stage table already use;
-// basePath is omitted from companyToRow so each row still links to the
-// company's own real stage page rather than a single fixed tab.
+const COLUMNS = [
+  { key: 'company', label: 'Company', sortable: true },
+  { key: 'vc', label: 'Top 10 VC', sortable: true },
+  { key: 'round', label: 'Round', sortable: true },
+  { key: 'size', label: 'Size', sortable: true },
+  { key: 'industry', label: 'Industry', sortable: true },
+  { key: 'status', label: 'Status', sortable: true },
+  { key: 'date', label: 'Date', sortable: true },
+];
+
+// Not a stage -- a read-only view that flattens every Tier 1 ("Top 10")
+// VC's own `deals` array (see docs/vcs/tier1/[id]/page.jsx's ArrayFieldEditor)
+// into one cross-firm list, same as that page shows one firm at a time. Add
+// or edit a deal from the firm's own page -- this view has no write path of
+// its own, it's just another way to browse data that already lives there.
+// `company` links to the real hub page when ID8 has already screened it
+// (companyHref), else the same VC-portfolio-only drill-in tier1's own page
+// falls back to.
 export default async function Top10VCPage() {
-  const [companies, tier1, partners, session] = await Promise.all([
-    listCompanies(),
-    listTopVCs(),
-    listPartnerVCs(),
-    auth(),
-  ]);
-  const canEdit = session?.user?.role === 'internal';
-  const rows = companies
-    .filter((c) => findInvestorSources(c.name, tier1, partners).some((m) => m.source === 'Tier 1 VC'))
-    .map((c) => companyToRow(c, { canEdit, tier1, partners }));
+  const [tier1, companies] = await Promise.all([listTopVCs(), listCompanies()]);
+  const companyIndex = buildCompanyIndex(companies);
+  const top10Firms = tier1.filter((vc) => vc.tier === 'Tier 1');
+
+  const rows = top10Firms.flatMap((vc) =>
+    (vc.deals || []).map((d, i) => {
+      const href = companyHref(companyIndex, d.company) || `/docs/vcs/company/${encodeURIComponent(d.company)}`;
+      const statusLabel = d.status === 'co' ? 'Co-invested' : d.status === 'pipe' ? 'In pipeline' : '—';
+      return {
+        key: `${vc.id}-${i}`,
+        sort: {
+          company: (d.company || '').toLowerCase(),
+          vc: vc.name.toLowerCase(),
+          round: d.type || '',
+          size: d.size || '',
+          industry: d.industry || '',
+          status: statusLabel,
+          date: d.date || '',
+        },
+        search: { company: d.company, vc: vc.name, industry: d.industry || '' },
+        cells: {
+          company: <Link href={href}><strong>{d.company}</strong></Link>,
+          vc: <Link href={`/docs/vcs/tier1/${vc.id}`}>{vc.name}</Link>,
+          round: d.type || '—',
+          size: d.size || '—',
+          industry: d.industry || '—',
+          status: <>{statusLabel}{d.hot ? ' · Hot' : ''}</>,
+          date: d.date || '—',
+        },
+      };
+    }),
+  );
 
   return (
     <>
       <h1>Top 10 VCs</h1>
       <p>
-        Every company in the directory, at any stage, that shows up in one of ID8&rsquo;s Tier 1 VCs&rsquo; own
-        portfolios &mdash; a view across the existing stages, not a stage of its own. Manage the Tier 1 list itself
-        from <a href="/docs/admin">Admin</a>.
+        Every deal recorded across ID8&rsquo;s Tier 1 VC relationships, in one list &mdash; a view across those
+        firms&rsquo; own portfolios, not a stage of its own. Add or edit a deal from the firm&rsquo;s own page
+        under <Link href="/docs/vcs">VCs</Link>.
       </p>
       <SortableTable
-        columns={STAGE_TABLE_COLUMNS}
+        columns={COLUMNS}
         rows={rows}
         defaultSort={{ key: 'company', dir: 'asc' }}
-        searchPlaceholder="Filter by company or series…"
-        emptyMessage="No companies matched to a Tier 1 VC yet."
+        searchPlaceholder="Filter by company, VC, or industry…"
+        emptyMessage="No deals recorded for a Tier 1 VC yet."
       />
     </>
   );
