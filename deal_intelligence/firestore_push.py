@@ -152,15 +152,19 @@ def push_company_from_attio(deal: DealInput, attio_stage: str | None) -> dict:
     docx, no screens subcollection write, just enough to make the deal show
     up for Oscar to triage. On a brand-new company: lands in the hub tab that
     matches its Attio stage (config.ATTIO_STAGE_MAP: Watchlist/Pipeline/
-    Qualified/Radar); no match (unset or anything else) leaves `stage`
-    unset, which hub-next's listCompanies() fallback renders as Qualified.
-    On an existing company: only refreshes `origin` (Attio is the source of
-    truth for round/hq/leadInvestors/attioStage) -- never touches `stage`,
-    `name`, `website`, or `round`, extending push_company_screen_firestore's
-    same don't-clobber-stage rule to this path. `round` is a brand-new
-    company's initial Series value, seeded from Attio but independently
-    editable afterward from the hub (see hub-next's RoundInput/updateCompanyRound)
-    -- unlike `origin.round`, which keeps tracking Attio's own value on every
+    Qualified/Radar/Invested); no match (unset or anything else) explicitly
+    sets `stage` to 'new' -- hub-next's internal-only holding bucket with no
+    public tab, surfaced in the Admin page's "Needs Triage" table instead of
+    silently blending into Qualified Deals (that used to be the fallback;
+    Oscar wants unmapped deals visibly flagged for manual assignment, not
+    quietly mixed in with everything else). On an existing company: only
+    refreshes `origin` (Attio is the source of truth for
+    round/hq/leadInvestors/attioStage) -- never touches `stage`, `name`,
+    `website`, or `round`, extending push_company_screen_firestore's same
+    don't-clobber-stage rule to this path. `round` is a brand-new company's
+    initial Series value, seeded from Attio but independently editable
+    afterward from the hub (see hub-next's RoundInput/updateCompanyRound) --
+    unlike `origin.round`, which keeps tracking Attio's own value on every
     re-import, this top-level copy is never overwritten once set."""
     slug = company_id(deal)
     company_ref = _firestore().collection("companies").document(slug)
@@ -179,9 +183,7 @@ def push_company_from_attio(deal: DealInput, attio_stage: str | None) -> dict:
         payload["name"] = deal.name
         payload["website"] = normalize_domain(deal.domain) or None
         payload["round"] = deal.round or None
-        mapped_stage = config.ATTIO_STAGE_MAP.get((attio_stage or "").strip().lower())
-        if mapped_stage:
-            payload["stage"] = mapped_stage
+        payload["stage"] = config.ATTIO_STAGE_MAP.get((attio_stage or "").strip().lower(), "new")
     company_ref.set(payload, merge=True)
     return {"slug": slug, "created": is_new}
 
@@ -192,23 +194,40 @@ def backfill_attio_stages() -> dict:
     forced to stage='new' regardless of its real Attio stage. Finds every
     company still at stage='new' with origin.source=='attio' whose stored
     origin.attioStage now maps to a real bucket (config.ATTIO_STAGE_MAP,
-    including Radar) and moves it there. A company with no mapping (no stage
-    recorded at all) is left at 'new' -- that's exactly where a genuinely
-    untriaged deal belongs."""
+    including Radar and Invested) and moves it there. A company with no
+    mapping (no stage recorded at all) is left at 'new' -- that's exactly
+    where a genuinely untriaged deal belongs, and it now surfaces in the
+    hub's Admin page ("Needs Triage") for manual assignment instead of
+    sitting in an orphaned tab.
+
+    Returns a `skip_reasons` breakdown (non_attio_source vs unmapped_stage,
+    plus a tally of the raw origin.attioStage strings behind unmapped_stage)
+    so a 0-updated run is diagnosable -- e.g. Attio's real stage-field values
+    don't textually match config.ATTIO_STAGE_MAP's keys, rather than every
+    stuck company genuinely lacking a stage."""
     updated, skipped = [], []
+    non_attio_source = 0
+    unmapped_stage_tally = {}
     for doc in _firestore().collection("companies").where("stage", "==", "new").stream():
         data = doc.to_dict()
         origin = data.get("origin") or {}
         if origin.get("source") != "attio":
             skipped.append(doc.id)
+            non_attio_source += 1
             continue
-        mapped_stage = config.ATTIO_STAGE_MAP.get((origin.get("attioStage") or "").strip().lower())
+        raw_stage = (origin.get("attioStage") or "").strip()
+        mapped_stage = config.ATTIO_STAGE_MAP.get(raw_stage.lower())
         if mapped_stage:
             doc.reference.set({"stage": mapped_stage}, merge=True)
             updated.append(doc.id)
         else:
             skipped.append(doc.id)
-    return {"updated": len(updated), "skipped": len(skipped), "updated_slugs": updated}
+            key = raw_stage or "(blank)"
+            unmapped_stage_tally[key] = unmapped_stage_tally.get(key, 0) + 1
+    return {
+        "updated": len(updated), "skipped": len(skipped), "updated_slugs": updated,
+        "skip_reasons": {"non_attio_source": non_attio_source, "unmapped_attio_stage_tally": unmapped_stage_tally},
+    }
 
 
 def backfill_company_rounds() -> dict:

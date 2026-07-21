@@ -39,9 +39,9 @@ export const STAGE_TABLE_COLUMNS = [
 ];
 
 // `basePath` is optional -- callers with a single fixed stage (Watchlist,
-// Pipeline, Qualified Deals, New Deals, Radar) pass their own page's path;
-// a cross-cutting view spanning multiple stages could omit it and let each
-// row resolve its own via c.stage instead.
+// Deal Pipeline, Qualified Deals, Radar, Invested, or Admin's Needs Triage
+// table) pass their own page's path; a cross-cutting view spanning multiple
+// stages could omit it and let each row resolve its own via c.stage instead.
 export function companyToRow(c, { basePath, canEdit, tier1 = [], partners = [] }) {
   const name = displayName(c);
   const resolvedBasePath = basePath || STAGE_BASEPATH[c.stage] || STAGE_BASEPATH.qualified;

@@ -164,14 +164,18 @@ READ_SLUGS = {
 # case-insensitive match. "radar" is Attio's own classification for Series
 # A-or-earlier deals sourced from a Top 10 VC's portfolio (see
 # determine_stage in pipeline/app.py) -- it maps to hub-next's own Radar
-# stage, a real tab there, not a derived filter. Any Attio stage not in this
-# map (unset, or anything else) leaves a brand-new company's `stage` unset --
-# hub-next's existing "no stage" fallback already treats that as Qualified.
+# stage, a real tab there, not a derived filter. "invested" maps the same way
+# for deals Attio has marked as an actual ID8 investment. Any Attio stage not
+# in this map (unset, or anything else) leaves a brand-new company at
+# hub-next's 'new' stage -- an internal-only holding bucket with no public
+# tab, surfaced instead in the hub's Admin page ("Needs Triage") for manual
+# assignment (see firestore_push.push_company_from_attio).
 ATTIO_STAGE_MAP = {
     "watchlist": "watchlist",
     "pipeline": "pipeline",
     "qualified": "qualified",
     "radar": "radar",
+    "invested": "invested",
 }
 
 # Write-back slugs. Leave unset (None) to skip that write until the field exists.

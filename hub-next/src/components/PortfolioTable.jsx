@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import SortableTable from './SortableTable';
 import { companyHref, lookupFitScore, lookupStage } from '@/lib/companyIndex';
-import { STAGES, STAGE_LABELS } from '@/lib/stages';
+import { PUBLIC_STAGES, STAGE_LABELS } from '@/lib/stages';
 import styles from './PortfolioTable.module.css';
 
 const COLUMNS = [
@@ -153,7 +153,7 @@ export default function PortfolioTable({ endpoint, id, field, items, filterFn, c
               onChange={(e) => addToPipeline(p.company, e.target.value)}
             >
               <option value="" disabled>Add to pipeline…</option>
-              {STAGES.map((s) => (
+              {PUBLIC_STAGES.map((s) => (
                 <option key={s} value={s}>{STAGE_LABELS[s]}</option>
               ))}
             </select>

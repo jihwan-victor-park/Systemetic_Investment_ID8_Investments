@@ -54,9 +54,9 @@ export default async function Tier1VCPage({ params }) {
   if (!vc) notFound();
   const canEdit = session?.user?.role === 'internal';
   // Touching a company should land on wherever ID8 actually tracks it (its
-  // real Watchlist/Pipeline/Qualified/New Deals page) when we've screened
-  // it ourselves; only fall back to the VC-portfolio-only drill-in when we
-  // haven't -- same cross-reference Hot Deals already does.
+  // real Watchlist/Deal Pipeline/Qualified/Radar/Invested page) when we've
+  // screened it ourselves; only fall back to the VC-portfolio-only drill-in
+  // when we haven't -- same cross-reference Hot Deals already does.
   const companyIndex = buildCompanyIndex(companies);
   const companyLink = (name) => companyHref(companyIndex, name) || `/docs/vcs/company/${encodeURIComponent(name)}`;
 

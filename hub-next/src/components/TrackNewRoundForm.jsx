@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { STAGES, STAGE_LABELS, STAGE_BASEPATH } from '@/lib/stages';
+import { PUBLIC_STAGES, STAGE_LABELS, STAGE_BASEPATH } from '@/lib/stages';
 import styles from './TrackNewRoundForm.module.css';
 
 // Opt-in second (or third...) tracked round for a company already in the
@@ -58,7 +58,7 @@ export default function TrackNewRoundForm({ slug }) {
         disabled={saving}
       />
       <select className={styles.select} value={stage} onChange={(e) => setStage(e.target.value)} disabled={saving}>
-        {STAGES.map((s) => (
+        {PUBLIC_STAGES.map((s) => (
           <option key={s} value={s}>{STAGE_LABELS[s]}</option>
         ))}
       </select>

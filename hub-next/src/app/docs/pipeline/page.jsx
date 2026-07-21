@@ -5,7 +5,7 @@ import { listCompanies } from '@/lib/companies';
 import { listTopVCs } from '@/lib/topVCs';
 import { listPartnerVCs } from '@/lib/partnerVCs';
 
-export const metadata = { title: 'Pipeline', description: 'Companies ID8 is actively working right now.' };
+export const metadata = { title: 'Deal Pipeline', description: 'Companies ID8 is actively working right now.' };
 
 export const dynamic = 'force-dynamic';
 
@@ -18,7 +18,7 @@ export default async function PipelinePage() {
 
   return (
     <>
-      <h1>Pipeline</h1>
+      <h1>Deal Pipeline</h1>
       <SortableTable
         columns={STAGE_TABLE_COLUMNS}
         rows={rows}

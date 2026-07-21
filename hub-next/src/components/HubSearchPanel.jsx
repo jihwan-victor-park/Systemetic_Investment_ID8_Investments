@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { STAGES, STAGE_LABELS } from '@/lib/stages';
+import { PUBLIC_STAGES, STAGE_LABELS } from '@/lib/stages';
 import styles from './HubSearchPanel.module.css';
 
 // "Search the Hub" -- a structured facet search over tracked companies
@@ -64,7 +64,7 @@ export default function HubSearchPanel() {
           <label className={styles.label}>Stage</label>
           <select className={styles.select} value={stage} onChange={(e) => setStage(e.target.value)}>
             <option value="any">Any</option>
-            {STAGES.map((s) => (
+            {PUBLIC_STAGES.map((s) => (
               <option key={s} value={s}>{STAGE_LABELS[s]}</option>
             ))}
           </select>
