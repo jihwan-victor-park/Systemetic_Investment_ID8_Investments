@@ -25,9 +25,16 @@ function _mapPortfolioEntry(p) {
 }
 
 // A partner's own personal contact into a VC firm -- distinct from topVCs
-// (the curated Tier 1 list). Nothing here is Attio-synced yet (see
-// docs/concepts/partner-vcs-and-hot-deals.html); trackedBy/contact/portfolio
-// are entirely admin-typed until a real Attio relationship pipeline exists.
+// (the curated Tier 1 list). trackedBy/contact/portfolio are still entirely
+// admin-typed, but name/description/attioCategories/connectionStrength now
+// come from a real Attio export (see scripts/parse-partner-vcs-csv.mjs) --
+// `description` is the fund's own literal blurb (e.g. "we invest $500k-$2M
+// in pre-traction companies"), deliberately kept separate from
+// `attioCategories` (Attio's own tag, e.g. "Venture Capital"). Both feed the
+// same isSectorInScope keyword check portfolio companies already use --
+// see PartnerPortfolioSection.jsx and the VC page's own "may be off-thesis"
+// flag -- letting a fund-level description cheaply flag an entire portfolio
+// as likely off-thesis before ever pulling its individual companies.
 function _mapVC(doc) {
   const d = doc.data();
   return {
@@ -38,6 +45,9 @@ function _mapVC(doc) {
     sector: d.sector || '',
     website: d.website || '',
     note: d.note || '',
+    description: d.description || '',
+    attioCategories: d.attioCategories || '',
+    connectionStrength: d.connectionStrength || '',
     portfolio: (d.portfolio || []).map(_mapPortfolioEntry),
     news: d.news || [],
     createdAt: isoDate(d.createdAt),

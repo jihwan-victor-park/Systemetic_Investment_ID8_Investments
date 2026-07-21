@@ -10,7 +10,7 @@ async function requireInternal() {
   return session?.user?.role === 'internal';
 }
 
-const PATCHABLE_FIELDS = ['trackedBy', 'contact', 'sector', 'website', 'note', 'portfolio', 'news'];
+const PATCHABLE_FIELDS = ['trackedBy', 'contact', 'sector', 'website', 'note', 'description', 'attioCategories', 'connectionStrength', 'portfolio', 'news'];
 
 export async function GET() {
   if (!(await requireInternal())) return NextResponse.json({ error: 'forbidden' }, { status: 403 });

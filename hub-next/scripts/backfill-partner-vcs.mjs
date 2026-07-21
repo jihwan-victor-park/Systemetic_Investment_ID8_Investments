@@ -1,13 +1,14 @@
 #!/usr/bin/env node
-// Loads the first 10 real partner VCs (from Oscar's Attio "ID8 Partner VCs"
-// export) into partnerVCs, with their full PitchBook portfolio history --
-// the test batch for the VC-portfolio-in-hub feature. Real data, real doc
-// ids (not "example-" prefixed) -- upsert-safe (merge:true keyed by a
-// deterministic slug) so it's safe to re-run as more of the 76-firm list
-// gets processed. Does NOT touch the `companies` collection / deal
-// pipeline at all -- portfolio companies land only in partnerVCs.portfolio,
-// matched against the real pipeline at *read* time via companyIndex, never
-// written into it.
+// Loads every partner VC in scripts/data/partner-vcs-seed.json (all 75, as
+// of the real Attio "ID8 Partner VCs" export parsed by
+// parse-partner-vcs-csv.mjs) into partnerVCs -- fund identity/metadata for
+// all of them, plus full PitchBook portfolio history for the ones already
+// enriched. Real data, real doc ids (not "example-" prefixed) -- upsert-safe
+// (merge:true keyed by a deterministic slug) so it's safe to re-run as more
+// firms get portfolio-enriched later. Does NOT touch the `companies`
+// collection / deal pipeline at all -- portfolio companies land only in
+// partnerVCs.portfolio, matched against the real pipeline at *read* time via
+// companyIndex, never written into it.
 //
 // Usage:
 //   FIRESTORE_EMULATOR_HOST=localhost:8090 node scripts/backfill-partner-vcs.mjs   (local)
@@ -26,8 +27,15 @@ const firms = JSON.parse(readFileSync(SEED_PATH, 'utf-8'));
 async function main() {
   for (const firm of firms) {
     const { slug, ...data } = firm;
-    await db.collection('partnerVCs').doc(slug).set({ ...data, createdAt: new Date() }, { merge: true });
-    console.log(`partnerVCs/${slug}  (${firm.portfolio.length} portfolio companies)`);
+    const ref = db.collection('partnerVCs').doc(slug);
+    // Re-running this against all 75 (10 already real, 65 brand new) must
+    // not stamp a fresh createdAt on the 10 that already exist -- an
+    // unconditional `new Date()` here would silently overwrite their real
+    // creation dates on every re-run.
+    const snap = await ref.get();
+    const payload = snap.exists ? data : { ...data, createdAt: new Date() };
+    await ref.set(payload, { merge: true });
+    console.log(`partnerVCs/${slug}  (${firm.portfolio.length} portfolio companies)${snap.exists ? '' : ' — new'}`);
   }
   console.log(`\nDone. ${firms.length} partner VCs written.`);
 }

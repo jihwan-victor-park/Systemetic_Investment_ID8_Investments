@@ -8,6 +8,7 @@ import { buildCompanyIndex } from '@/lib/companyIndex';
 import ArrayFieldEditor from '@/components/ArrayFieldEditor';
 import ContactChip from '@/components/ContactChip';
 import PartnerPortfolioSection from '@/components/PartnerPortfolioSection';
+import { isSectorInScope } from '@/lib/sectorRelevance';
 import styles from './page.module.css';
 
 export const dynamic = 'force-dynamic';
@@ -30,6 +31,13 @@ export default async function PartnerVCPage({ params }) {
   const canEdit = session?.user?.role === 'internal';
   const companyIndex = buildCompanyIndex(companies);
   const newsDisplay = vc.news.map((n) => `${n.company}${n.daysAgo ? ` — ${n.daysAgo}` : ''}`);
+  // Cheap fund-level pre-filter, ahead of ever pulling this fund's individual
+  // portfolio companies -- the same hard-rule keyword check the portfolio
+  // table uses, run here against the fund's OWN Attio description/category.
+  // A false here doesn't hide anything (deliberately no auto-collapse of the
+  // portfolio section below); it's a flag for a human to weigh, since a
+  // fund's own one-line blurb is a weaker signal than its actual portfolio.
+  const maybeOffThesis = !isSectorInScope({ description: vc.description, category: vc.attioCategories });
 
   return (
     <>
@@ -39,8 +47,16 @@ export default async function PartnerVCPage({ params }) {
           <h1>{vc.name}</h1>
           <p className={styles.sub}>
             Partner VC{vc.sector ? ` · ${vc.sector}` : ''}
+            {vc.attioCategories ? ` · ${vc.attioCategories}` : ''}
             {vc.website ? <> · <a href={`https://${vc.website}`} target="_blank" rel="noopener noreferrer">{vc.website}</a></> : null}
+            {vc.connectionStrength ? ` · Connection: ${vc.connectionStrength}` : ''}
           </p>
+          {vc.description && <p className={styles.description}>{vc.description}</p>}
+          {maybeOffThesis && (
+            <p className={styles.offThesis}>
+              ⚠ This fund&rsquo;s own description matches an off-thesis keyword (e.g. biotech) — worth a second look before investing time in its portfolio.
+            </p>
+          )}
         </div>
         <ContactChip endpoint="/api/partner-vcs" id={vc.id} trackedBy={vc.trackedBy} contact={vc.contact} canEdit={canEdit} />
       </div>
