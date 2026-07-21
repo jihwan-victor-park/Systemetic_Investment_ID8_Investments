@@ -1121,6 +1121,19 @@ def fix_company_rounds():
     return jsonify(di_firestore_push.backfill_company_rounds())
 
 
+@app.route("/backfill-top10-vc", methods=["POST"])
+def backfill_top10_vc():
+    """One-time seed for hub-next's `top10VC` field from a pasted snapshot of
+    Attio's "Top 10 VC" Deals-object view -- see
+    deal_intelligence.firestore_push.backfill_top10_vc. Body: {"names": [...]}."""
+    if not _require_internal_secret():
+        return jsonify({"error": "forbidden"}), 403
+    names = (request.get_json(silent=True) or {}).get("names") or []
+    if not isinstance(names, list) or not names:
+        return jsonify({"error": "'names' must be a non-empty array"}), 400
+    return jsonify(di_firestore_push.backfill_top10_vc(names))
+
+
 _apollo_state = {"status": "idle"}
 _apollo_lock  = threading.Lock()
 

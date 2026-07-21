@@ -250,3 +250,40 @@ def backfill_company_rounds() -> dict:
         else:
             skipped.append(doc.id)
     return {"updated": len(updated), "skipped": len(skipped), "updated_slugs": updated}
+
+
+def backfill_top10_vc(names: list) -> dict:
+    """One-time seed for `top10VC` from a snapshot of Attio's "Top 10 VC"
+    Deals-object view (a saved filter, not a Deal attribute or a List --
+    there's no API query that reproduces it yet, so this takes the view's
+    current membership as plain company names, typed/pasted by hand).
+
+    Matches each name against `companies` by exact (case-insensitive,
+    trimmed) name -- company.name already carries any PitchBook category
+    suffix verbatim (e.g. "Pocket (Business/Productivity Software)", see
+    hub-next's companyStageColumns.jsx), so names copied straight out of
+    Attio/PitchBook should match as-is with no stripping needed.
+
+    Only ever sets top10VC=True on a match -- never sets it False on
+    anything, so this is purely additive and safe to re-run as the view's
+    membership grows. `unmatched` is names with no corresponding company doc
+    yet (most likely: that deal hasn't been pulled into the hub at all --
+    run /import-attio-deals first, or the two names just don't match
+    verbatim character-for-character)."""
+    by_name = {}
+    for doc in _firestore().collection("companies").stream():
+        nm = (doc.to_dict().get("name") or "").strip().lower()
+        if nm:
+            by_name.setdefault(nm, []).append(doc.reference)
+
+    matched, unmatched = [], []
+    for raw_name in names:
+        key = (raw_name or "").strip().lower()
+        refs = by_name.get(key)
+        if not refs:
+            unmatched.append(raw_name)
+            continue
+        for ref in refs:
+            ref.set({"top10VC": True}, merge=True)
+        matched.append(raw_name)
+    return {"matched": len(matched), "unmatched": unmatched, "unmatched_count": len(unmatched)}

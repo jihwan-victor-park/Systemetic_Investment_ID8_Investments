@@ -60,6 +60,11 @@ export async function listCompanies() {
       // clobbers it.
       radarCategory: data.radarCategory || null,
       pitchbookUrl: data.pitchbookUrl || null,
+      // Attio's own "Top 10 VC" deal flag, synced on every Attio import --
+      // see deal_intelligence/firestore_push.py's push_company_from_attio.
+      // Not hub-editable (no don't-clobber rule like round/radarCategory
+      // above): it should always mirror whatever Attio currently says.
+      top10VC: !!data.top10VC,
       origin: _mapOrigin(data.origin),
       latestScreen: latest
         ? {
