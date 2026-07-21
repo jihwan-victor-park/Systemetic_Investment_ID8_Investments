@@ -3,8 +3,39 @@
   border: 1px solid var(--id8-hair);
   border-radius: 2px;
   background: var(--id8-card);
+  box-shadow: var(--id8-shadow-hover);
   display: flex;
   flex-direction: column;
+}
+
+.modeTabs {
+  display: flex;
+  border-bottom: 1px solid var(--id8-hair);
+}
+.modeTabs button {
+  flex: 1;
+  font-family: 'Sora', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--id8-soft);
+  background: transparent;
+  border: none;
+  padding: 11px 10px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.modeTabs button + button {
+  border-left: 1px solid var(--id8-hair);
+}
+.modeTabs button:not(.modeActive):hover {
+  background: rgba(0, 0, 0, 0.03);
+  color: var(--id8-ink);
+}
+.modeActive {
+  color: var(--id8-ink);
+  background: color-mix(in srgb, var(--id8-accent) 7%, var(--id8-card));
+  box-shadow: inset 0 -2px 0 var(--id8-accent);
 }
 
 .history {
@@ -63,6 +94,16 @@
   color: var(--id8-soft);
   width: 100%;
   max-width: 100%;
+}
+
+.bubbleLabel {
+  font-family: 'Sora', sans-serif;
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  color: var(--id8-grey);
+  margin-bottom: 0.4rem;
 }
 
 .userMeta {

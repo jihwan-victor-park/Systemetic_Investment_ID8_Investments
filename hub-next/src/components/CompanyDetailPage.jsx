@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import { auth } from '@/auth';
 import { getCompany } from '@/lib/companies';
 import ScreenView from '@/components/ScreenView';
+import TrackNewRoundForm from '@/components/TrackNewRoundForm';
 
 // Shared by the Watchlist / Pipeline / Qualified Deals detail routes -- a
 // company's screen history looks identical regardless of which stage it's
@@ -35,6 +36,7 @@ export default async function CompanyDetailPage({ params }) {
       {company.screens.map((screen) => (
         <ScreenView key={screen.id} screen={screen} canEdit={canEdit} slug={company.slug} />
       ))}
+      {canEdit && <TrackNewRoundForm slug={company.slug} />}
     </>
   );
 }

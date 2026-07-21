@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import SignOutButton from './SignOutButton';
+import GlobalSearch from './GlobalSearch';
 import styles from './Navbar.module.css';
 
 export default function Navbar() {
@@ -40,6 +41,7 @@ export default function Navbar() {
           )}
         </div>
         <div className={styles.right}>
+          {!hideInternalNav && <GlobalSearch />}
           <Link href="/investors" className={`${styles.link} ${isInvestorView ? styles.linkActive : ''}`}>
             Investor View
           </Link>

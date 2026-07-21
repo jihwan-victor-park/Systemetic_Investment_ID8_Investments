@@ -3,6 +3,27 @@ import { db, isoDate } from './firestore';
 
 const COLLECTION = 'partnerVCs';
 
+// Normalizes one portfolio-company entry -- a raw, schema-less object on the
+// VC doc's `portfolio` array. `roundInvested` is the canonical field going
+// forward (the round the migration/backfill will write); it falls back to
+// the legacy `series` value so the ~200 entries already backfilled under the
+// old field name (see project_partner_vc_portfolio_backfill_jul2026 memory)
+// still show a value instead of going blank. `series` itself is left
+// untouched on write -- nothing here deletes it, this is a read-side
+// fallback only.
+function _mapPortfolioEntry(p) {
+  return {
+    company: p.company,
+    industry: p.industry || '',
+    roundInvested: p.roundInvested || p.series || '',
+    latestRound: p.latestRound || '',
+    latestRoundDate: p.latestRoundDate || null,
+    category: p.category || '',
+    description: p.description || '',
+    pitchbookUrl: p.pitchbookUrl || '',
+  };
+}
+
 // A partner's own personal contact into a VC firm -- distinct from topVCs
 // (the curated Tier 1 list). Nothing here is Attio-synced yet (see
 // docs/concepts/partner-vcs-and-hot-deals.html); trackedBy/contact/portfolio
@@ -17,7 +38,7 @@ function _mapVC(doc) {
     sector: d.sector || '',
     website: d.website || '',
     note: d.note || '',
-    portfolio: d.portfolio || [],
+    portfolio: (d.portfolio || []).map(_mapPortfolioEntry),
     news: d.news || [],
     createdAt: isoDate(d.createdAt),
   };

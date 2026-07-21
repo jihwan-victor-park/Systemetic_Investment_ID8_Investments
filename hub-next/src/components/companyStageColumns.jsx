@@ -1,9 +1,12 @@
 import Link from 'next/link';
 import StageSelect from './StageSelect';
 import RoundInput from './RoundInput';
+import CompanyInlineField from './CompanyInlineField';
+import PartnerVcPopover from './PartnerVcPopover';
 import DeleteButton from './DeleteButton';
 import RunAnalysisButton from './RunAnalysisButton';
 import { findInvestorSources } from '@/lib/companyIndex';
+import { STAGE_BASEPATH } from '@/lib/stages';
 import styles from './companyStageColumns.module.css';
 
 // Shorter labels than the company docs' own frontmatter titles (which carry a
@@ -27,6 +30,8 @@ export const STAGE_TABLE_COLUMNS = [
   { key: 'company', label: 'Company', sortable: true },
   { key: 'series', label: 'Series', sortable: true },
   { key: 'partnerVc', label: 'Partner VC', sortable: true },
+  { key: 'radarCategory', label: 'Radar Category', sortable: true },
+  { key: 'pitchbook', label: 'PitchBook' },
   { key: 'score', label: 'Score', sortable: true },
   { key: 'stage', label: 'Stage', sortable: true },
   { key: 'date', label: 'Screened', sortable: true },
@@ -34,8 +39,13 @@ export const STAGE_TABLE_COLUMNS = [
   { key: 'actions', label: '' },
 ];
 
+// `basePath` is optional -- callers with a single fixed stage (Watchlist,
+// Pipeline, Qualified Deals, New Deals) pass their own page's path; cross-
+// cutting views like Top 10 VC Deals, where a row's company can be filed
+// under any stage, omit it and let each row resolve its own via c.stage.
 export function companyToRow(c, { basePath, canEdit, tier1 = [], partners = [] }) {
   const name = displayName(c);
+  const resolvedBasePath = basePath || STAGE_BASEPATH[c.stage] || STAGE_BASEPATH.qualified;
   const score = c.latestScreen?.fitScore ?? null;
   // Live cross-reference against every VC's recorded portfolio, same lookup
   // Hot Deals uses -- not `c.origin?.leadInvestors`, which is only ever set
@@ -53,6 +63,7 @@ export function companyToRow(c, { basePath, canEdit, tier1 = [], partners = [] }
       company: name.toLowerCase(),
       series: c.round || '',
       partnerVc: partnerVc || '',
+      radarCategory: c.radarCategory || '',
       score,
       stage: c.stage,
       date: c.latestScreen?.date || '',
@@ -60,6 +71,7 @@ export function companyToRow(c, { basePath, canEdit, tier1 = [], partners = [] }
     search: {
       company: name,
       series: c.round || '',
+      radarCategory: c.radarCategory || '',
     },
     cells: {
       company: c.website ? (
@@ -68,15 +80,33 @@ export function companyToRow(c, { basePath, canEdit, tier1 = [], partners = [] }
         </>
       ) : name,
       series: <RoundInput slug={c.slug} round={c.round} canEdit={canEdit} />,
-      partnerVc: matches.length === 0 ? '—' : matches.length === 1 ? (
-        matches[0].viaHref ? <Link href={matches[0].viaHref}>{matches[0].via}</Link> : matches[0].via
-      ) : (
-        <span title={matches.map((m) => m.via).join('\n')}>{matches.length} VCs</span>
+      partnerVc: matches.length === 0 ? '—' : <PartnerVcPopover matches={matches} />,
+      radarCategory: (
+        <CompanyInlineField
+          slug={c.slug}
+          apiSegment="radar-category"
+          field="radarCategory"
+          value={c.radarCategory}
+          canEdit={canEdit}
+          placeholder="—"
+        />
+      ),
+      pitchbook: (
+        <CompanyInlineField
+          slug={c.slug}
+          apiSegment="pitchbook"
+          field="pitchbookUrl"
+          value={c.pitchbookUrl}
+          canEdit={canEdit}
+          placeholder="URL"
+          renderAs="link"
+          linkLabel="PitchBook ↗"
+        />
       ),
       score: score != null ? `${score.toFixed(1)} / 4` : '—',
       stage: <StageSelect slug={c.slug} stage={c.stage} canEdit={canEdit} />,
       date: c.latestScreen ? c.latestScreen.date.slice(0, 10) : '—',
-      report: <Link href={`${basePath}/${c.slug}`}>View screen →</Link>,
+      report: <Link href={`${resolvedBasePath}/${c.slug}`}>View screen →</Link>,
       actions: canEdit ? (
         <span className={styles.actions}>
           <RunAnalysisButton slug={c.slug} name={name} />

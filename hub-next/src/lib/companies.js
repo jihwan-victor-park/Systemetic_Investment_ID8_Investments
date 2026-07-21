@@ -18,6 +18,11 @@ function _mapOrigin(o) {
     round: o.round || null,
     hq: o.hq || null,
     leadInvestors: o.leadInvestors || null,
+    // Attio's own "Radar Category" field -- the category a Top 10 VC deal
+    // arrives under when it's Series A or earlier. Raw, last-synced value;
+    // radarCategory (top-level, below) is the hub's own editable copy, same
+    // don't-clobber relationship origin.round already has with `round`.
+    radarCategory: o.radarCategory || null,
     importedAt: isoDate(o.importedAt),
   };
 }
@@ -49,6 +54,12 @@ export async function listCompanies() {
       // where they were all shown before these buckets existed.
       stage: STAGES.includes(data.stage) ? data.stage : 'qualified',
       round: data.round || null,
+      // Hub-editable copies -- same relationship to their Attio-synced
+      // origin.* counterpart as `round` has to `origin.round` (see
+      // updateCompanyRadarCategory below): once set here, a re-import never
+      // clobbers it.
+      radarCategory: data.radarCategory || null,
+      pitchbookUrl: data.pitchbookUrl || null,
       origin: _mapOrigin(data.origin),
       latestScreen: latest
         ? {
@@ -88,6 +99,30 @@ export async function updateCompanyRound(slug, round) {
   return { slug, round: value };
 }
 
+// Same not-clobbered-by-Attio-reimport relationship as updateCompanyRound
+// above, for the Radar Category the deal arrived under (Attio's own field --
+// see origin.radarCategory in _mapOrigin). Internal-role-only; enforced by
+// the API route.
+export async function updateCompanyRadarCategory(slug, radarCategory) {
+  const ref = db().collection('companies').doc(slug);
+  const snap = await ref.get();
+  if (!snap.exists) throw new Error('company-not-found');
+  const value = String(radarCategory ?? '').trim() || null;
+  await ref.set({ radarCategory: value }, { merge: true });
+  return { slug, radarCategory: value };
+}
+
+// PitchBook profile URL -- plain hub-editable field, no Attio counterpart.
+// Internal-role-only; enforced by the API route.
+export async function updateCompanyPitchbookUrl(slug, pitchbookUrl) {
+  const ref = db().collection('companies').doc(slug);
+  const snap = await ref.get();
+  if (!snap.exists) throw new Error('company-not-found');
+  const value = String(pitchbookUrl ?? '').trim() || null;
+  await ref.set({ pitchbookUrl: value }, { merge: true });
+  return { slug, pitchbookUrl: value };
+}
+
 // Promotes a partner VC's portfolio company into the real pipeline at a
 // chosen stage -- the opt-in counterpart to the automatic name-match every
 // portfolio table row already shows via companyIndex. Never fires on its
@@ -111,6 +146,65 @@ export async function createCompanyFromPortfolio({ name, stage, sourceVCName }) 
     origin: { source: 'partner-vc-portfolio', leadInvestors: sourceVCName || null, importedAt: new Date() },
   });
   return { slug, stage };
+}
+
+// Every company doc's "family" identity for multi-round tracking --
+// `companyKey` is absent on every doc created before this feature (the
+// single-round-per-company era), which is fine: those all implicitly key off
+// their own slug, so nothing needs a backfill for existing data to keep
+// working exactly as it did before.
+function companyKeyOf(data, slug) {
+  return data.companyKey || slug;
+}
+
+// Lets ID8 track a second (or third...) round for a company already in the
+// pipeline without overwriting the existing entry -- e.g. Series A is
+// Qualified, then months later the same company raises a Series B and we
+// want a distinct tracked deal for it, not a silent overwrite of the first
+// one. The new doc's id is `${companyKey}--${roundSlug}`, never a bare-slug
+// collision with the original (whose id is untouched) -- that also keeps the
+// external Attio-import pipeline's own slug-based dedup (companySlug.js)
+// matching only the first round's doc, not this one. Rejects an exact
+// duplicate round for the same company family (case-insensitive) -- that's
+// the "don't have a duplicated round" half of the ask; a differently-worded
+// but effectively-same round is on the caller to catch. Internal-role-only;
+// enforced by the API route.
+export async function createAdditionalRound(baseSlug, { round, stage }) {
+  if (!STAGES.includes(stage)) throw new Error('invalid-stage');
+  const roundValue = String(round ?? '').trim();
+  if (!roundValue) throw new Error('invalid-round');
+
+  const baseRef = db().collection('companies').doc(baseSlug);
+  const baseSnap = await baseRef.get();
+  if (!baseSnap.exists) throw new Error('company-not-found');
+  const baseData = baseSnap.data();
+  const companyKey = companyKeyOf(baseData, baseSlug);
+
+  const familySnap = await db().collection('companies').where('companyKey', '==', companyKey).get();
+  const existingRounds = new Set(familySnap.docs.map((d) => (d.data().round || '').trim().toLowerCase()));
+  // The base doc itself only shows up in that query once it's been given a
+  // companyKey (below, on this or an earlier additional round) -- until
+  // then, check its own round directly so a same-name duplicate is still
+  // caught on the very first additional round created.
+  if (!baseData.companyKey) existingRounds.add((baseData.round || '').trim().toLowerCase());
+  if (existingRounds.has(roundValue.toLowerCase())) throw new Error('duplicate-round');
+
+  const roundSlugPart = companySlug(roundValue) || 'round';
+  const newSlug = `${companyKey}--${roundSlugPart}`;
+  const newRef = db().collection('companies').doc(newSlug);
+  if ((await newRef.get()).exists) throw new Error('duplicate-round');
+
+  await newRef.set({
+    name: baseData.name,
+    website: baseData.website || null,
+    stage,
+    round: roundValue,
+    companyKey,
+    origin: { source: 'additional-round', leadInvestors: baseData.origin?.leadInvestors || null, importedAt: new Date() },
+  });
+  if (!baseData.companyKey) await baseRef.set({ companyKey }, { merge: true });
+
+  return { slug: newSlug, companyKey, round: roundValue, stage };
 }
 
 function _mapScreen(slug, screenId, d) {
@@ -146,7 +240,17 @@ export async function getCompany(slug) {
     .orderBy('date', 'desc')
     .get();
   const screens = screensSnap.docs.map((s) => _mapScreen(slug, s.id, s.data()));
-  return { slug, name: data.name, website: data.website, origin: _mapOrigin(data.origin), screens };
+  return {
+    slug,
+    name: data.name,
+    website: data.website,
+    stage: STAGES.includes(data.stage) ? data.stage : 'qualified',
+    round: data.round || null,
+    radarCategory: data.radarCategory || null,
+    pitchbookUrl: data.pitchbookUrl || null,
+    origin: _mapOrigin(data.origin),
+    screens,
+  };
 }
 
 // Edits a single field on a screen -- a subcategory's score or finding, a
@@ -219,6 +323,12 @@ export async function listCompanySlugsForSidebar() {
   const snap = await db().collection('companies').orderBy('name').get();
   return snap.docs.map((doc) => {
     const data = doc.data();
-    return { slug: doc.id, name: data.name, stage: STAGES.includes(data.stage) ? data.stage : 'qualified' };
+    return {
+      slug: doc.id,
+      name: data.name,
+      stage: STAGES.includes(data.stage) ? data.stage : 'qualified',
+      round: data.round || null,
+      attioStage: data.origin?.attioStage || null,
+    };
   });
 }

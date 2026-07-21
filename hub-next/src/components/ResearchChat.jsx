@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import InlineMarkdown from './InlineMarkdown';
 import BlockMarkdown from './BlockMarkdown';
+import HubSearchPanel from './HubSearchPanel';
 import { useJobs } from '@/context/JobsContext';
 import styles from './ResearchChat.module.css';
 
@@ -87,6 +88,7 @@ function AssistantBubble({ msg }) {
   return (
     <div className={styles.row} data-role="assistant">
       <div className={styles.bubble} data-role="assistant">
+        <div className={styles.bubbleLabel}>ID8 Research</div>
         {msg.status === 'pending' && (
           <div className={styles.pending}>
             <span className={styles.spinner} aria-hidden="true" />
@@ -118,6 +120,7 @@ function UserBubble({ msg }) {
 }
 
 export default function ResearchChat() {
+  const [mode, setMode] = useState('research');
   const [messages, setMessages] = useState([]);
   const [text, setText] = useState('');
   const [stage, setStage] = useState(1);
@@ -229,6 +232,19 @@ export default function ResearchChat() {
 
   return (
     <div className={styles.chat}>
+      <div className={styles.modeTabs}>
+        <button type="button" className={mode === 'research' ? styles.modeActive : ''} onClick={() => setMode('research')}>
+          Research a company
+        </button>
+        <button type="button" className={mode === 'search' ? styles.modeActive : ''} onClick={() => setMode('search')}>
+          Search the Hub
+        </button>
+      </div>
+
+      {mode === 'search' ? (
+        <HubSearchPanel />
+      ) : (
+        <>
       <div className={styles.history}>
         {messages.length === 0 && (
           <div className={styles.empty}>
@@ -236,7 +252,8 @@ export default function ResearchChat() {
             Results are saved to the hub and show up in Qualified Deals.
             Stage 2 (deep research memo) still needs the company name typed directly; that gets
             smarter later. Both run the real research pipeline at max depth — expect several
-            minutes per company.
+            minutes per company. Looking for something already in the Hub instead? Switch to
+            "Search the Hub" above.
           </div>
         )}
         {messages.map((msg) => (msg.role === 'user'
@@ -278,6 +295,8 @@ export default function ResearchChat() {
           </>
         )}
       </form>
+        </>
+      )}
     </div>
   );
 }

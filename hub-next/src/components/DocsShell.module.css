@@ -45,6 +45,31 @@
   margin-bottom: 0.2rem;
 }
 
+/* Draggable wrapper around each top-level tab -- a grab affordance only
+   shows up on hover so the sidebar doesn't look interactive-everywhere at
+   rest; dragging itself is native HTML5 DnD (draggable + onDragStart/Over/
+   Drop in DocsShell.jsx), no library needed for a single-axis list this
+   short. */
+.topLevelItem {
+  cursor: grab;
+}
+.topLevelItem:active {
+  cursor: grabbing;
+}
+
+.renameInput {
+  width: calc(100% - 1rem);
+  margin: 2px 0.5rem;
+  font-family: 'Sora', sans-serif;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--id8-ink);
+  background: var(--id8-card);
+  border: 1px solid var(--id8-accent);
+  border-radius: 2px;
+  padding: 3px 6px;
+}
+
 /* Wraps the category's own row plus only the children on the path to the
    current page — so the accent rule ends right after the highlighted item
    instead of running the full length of the list. */

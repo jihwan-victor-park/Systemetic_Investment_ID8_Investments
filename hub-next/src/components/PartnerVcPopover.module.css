@@ -1,0 +1,39 @@
+.trigger {
+  cursor: default;
+  border-bottom: 1px dashed var(--id8-hair);
+  outline: none;
+}
+.trigger:focus-visible {
+  border-bottom-color: var(--id8-accent);
+}
+
+.panel {
+  position: fixed;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  min-width: 160px;
+  max-width: 240px;
+  padding: 8px 0;
+  margin-top: 4px;
+  background: var(--id8-card);
+  border: 1px solid var(--id8-hair);
+  border-radius: 2px;
+  box-shadow: var(--id8-shadow-hover);
+  animation: panelIn 0.12s ease-out;
+}
+
+@keyframes panelIn {
+  from { opacity: 0; transform: translateY(-2px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.row {
+  padding: 5px 12px;
+  font-size: 0.82rem;
+  white-space: nowrap;
+  color: var(--id8-ink);
+}
+.row:hover {
+  background: color-mix(in srgb, var(--id8-ink) 5%, var(--id8-card));
+}

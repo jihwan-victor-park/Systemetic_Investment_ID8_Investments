@@ -1,0 +1,139 @@
+.wrap {
+  padding: 1.1rem 1.2rem 1.3rem;
+}
+
+.filters {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr) auto;
+  gap: 0.7rem 1rem;
+  align-items: end;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.label {
+  font-family: 'Sora', sans-serif;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  color: var(--id8-grey);
+}
+
+.input,
+.select {
+  font-family: 'Sora', sans-serif;
+  font-size: 0.85rem;
+  color: var(--id8-ink);
+  background: var(--id8-paper);
+  border: 1px solid var(--id8-hair);
+  border-radius: 2px;
+  padding: 0.45rem 0.55rem;
+}
+
+.input:focus,
+.select:focus {
+  outline: none;
+  border-color: var(--id8-accent);
+}
+
+.searchBtn {
+  font-family: 'Sora', sans-serif;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 600;
+  color: var(--id8-paper);
+  background: var(--id8-ink);
+  border: none;
+  padding: 0.55rem 1.1rem;
+  border-radius: 2px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.searchBtn:hover:not(:disabled) { opacity: 0.85; }
+.searchBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.error {
+  color: var(--id8-stale);
+  font-size: 0.82rem;
+  margin: 0.8rem 0 0;
+}
+
+.empty {
+  margin: 1.4rem 0 0;
+  font-size: 0.85rem;
+  color: var(--id8-grey);
+  text-align: center;
+}
+
+.results {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-height: 420px;
+  overflow-y: auto;
+}
+
+.resultRow {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto;
+  column-gap: 12px;
+  padding: 9px 10px;
+  border-radius: 2px;
+  text-decoration: none;
+  transition: background 0.12s ease;
+}
+.resultRow:hover {
+  background: color-mix(in srgb, var(--id8-ink) 4%, var(--id8-card));
+}
+
+.resultMain {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  grid-column: 1;
+  grid-row: 1;
+}
+.resultName {
+  font-family: 'Roboto Serif', Georgia, serif;
+  font-size: 0.95rem;
+  color: var(--id8-ink);
+}
+.resultStage {
+  font-family: 'Sora', sans-serif;
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+  color: var(--id8-soft);
+  background: var(--id8-hair);
+  padding: 2px 6px;
+  border-radius: 2px;
+}
+.resultMeta {
+  grid-column: 1;
+  grid-row: 2;
+  font-size: 0.78rem;
+  color: var(--id8-grey);
+}
+.resultScore {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: center;
+  font-family: 'Roboto Serif', Georgia, serif;
+  font-size: 0.95rem;
+  color: var(--id8-ink);
+  white-space: nowrap;
+}
+
+@media (max-width: 720px) {
+  .filters { grid-template-columns: repeat(2, 1fr); }
+}

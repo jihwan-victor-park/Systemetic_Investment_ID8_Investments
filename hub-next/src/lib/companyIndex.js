@@ -9,6 +9,13 @@ import { STAGE_BASEPATH } from './stages';
 // import -- this only touches already-fetched plain data (listCompanies()'s
 // output), safe to build in a Server Component and hand the resulting plain
 // object down to a Client Component like any other serializable prop.
+// Known limitation once a company has more than one tracked round
+// (createAdditionalRound in lib/companies.js): this map is keyed by name
+// alone, so a second round's doc silently overwrites the first's entry here
+// -- portfolio-table/graph cross-references will only ever resolve to
+// whichever round happened to be processed last, never both. Fine for now
+// (multi-round is schema/logic-ready but not yet in real use); revisit if
+// that becomes a problem in practice, e.g. by keying on companyKey+round.
 export function buildCompanyIndex(companies) {
   const map = {};
   for (const c of companies) {

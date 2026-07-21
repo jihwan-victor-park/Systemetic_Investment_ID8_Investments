@@ -11,3 +11,17 @@
 .subtabs button + button { border-left: 1px solid var(--id8-hair); }
 .active { background: var(--id8-ink); color: var(--id8-paper); }
 .subtabs button:not(.active):hover { background: rgba(0, 0, 0, 0.04); }
+
+.scopeToggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Sora', sans-serif;
+  font-size: 0.8rem;
+  color: var(--id8-soft);
+  margin: 0.7rem 0 0.4rem;
+  cursor: pointer;
+  user-select: none;
+}
+.scopeToggle input { cursor: pointer; }
+.scopeHint { color: var(--id8-grey); }

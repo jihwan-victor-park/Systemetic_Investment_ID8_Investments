@@ -3,14 +3,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { companyHref, lookupFitScore } from '@/lib/companyIndex';
+import { SERIES_ORDER, seriesRank } from '@/lib/seriesRank';
 import styles from './PortfolioGraph.module.css';
-
-const SERIES_ORDER = { seed: 0, 'series a': 1, 'series b': 2, 'series c': 3, 'series d': 4, 'series e': 5 };
-function seriesRank(s) {
-  if (!s) return null;
-  const r = SERIES_ORDER[s.trim().toLowerCase()];
-  return r === undefined ? null : r;
-}
 
 const SERIES_OPTIONS = ['any', 'seed', 'series a', 'series b', 'series c'];
 const SERIES_LABEL = { any: 'Any', seed: 'Seed+', 'series a': 'Series A+', 'series b': 'Series B+', 'series c': 'Series C+' };
@@ -101,7 +95,7 @@ export default function PortfolioGraph({ vcName, portfolio, companyIndex }) {
     const visible = enriched.filter((p) => {
       if (p.industry && !activeIndustries.has(p.industry)) return false;
       if (minRank >= 0) {
-        const r = seriesRank(p.series);
+        const r = seriesRank(p.roundInvested);
         if (r === null || r < minRank) return false;
       }
       return true;
@@ -350,7 +344,7 @@ export default function PortfolioGraph({ vcName, portfolio, companyIndex }) {
                   aria-label="Close"
                 >×</button>
                 <div className={styles.detailName}>{shown.company}</div>
-                <div className={styles.detailMeta}>{[shown.industry, shown.series].filter(Boolean).join(' · ') || 'No detail recorded'}</div>
+                <div className={styles.detailMeta}>{[shown.category, shown.industry, shown.roundInvested].filter(Boolean).join(' · ') || 'No detail recorded'}</div>
                 <div className={styles.detailScore}>
                   {shown.hasScore ? (
                     <>
@@ -364,6 +358,11 @@ export default function PortfolioGraph({ vcName, portfolio, companyIndex }) {
                   )}
                 </div>
                 <Link href={shown.href} className={styles.detailLink}>View company →</Link>
+                {shown.pitchbookUrl && (
+                  <a href={shown.pitchbookUrl} target="_blank" rel="noopener noreferrer" className={styles.detailLink} style={{ marginLeft: 12 }}>
+                    PitchBook ↗
+                  </a>
+                )}
               </div>
             )}
           </>
