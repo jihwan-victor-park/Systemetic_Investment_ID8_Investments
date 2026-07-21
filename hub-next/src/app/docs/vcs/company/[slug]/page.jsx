@@ -48,6 +48,7 @@ export default async function VCPortfolioCompanyPage({ params }) {
   const repIndustry = rep?.industry || repEntry?.industry;
   const repCategory = repEntry?.category;
   const repDescription = repEntry?.description;
+  const repPitchbookUrl = repEntry?.pitchbookUrl;
 
   return (
     <>
@@ -56,6 +57,12 @@ export default async function VCPortfolioCompanyPage({ params }) {
       <p>
         {[repIndustry, repCategory, rep && rep.type && rep.date ? `last deal ${rep.type}, ${rep.date}${rep.size ? ` (${rep.size})` : ''}` : null]
           .filter(Boolean).join(' · ') || 'No deal detail recorded.'}
+        {repPitchbookUrl && (
+          <>
+            {' · '}
+            <a href={repPitchbookUrl} target="_blank" rel="noopener noreferrer">PitchBook ↗</a>
+          </>
+        )}
       </p>
       {repDescription && <p>{repDescription}</p>}
 

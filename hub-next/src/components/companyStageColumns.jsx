@@ -31,7 +31,6 @@ export const STAGE_TABLE_COLUMNS = [
   { key: 'series', label: 'Series', sortable: true },
   { key: 'partnerVc', label: 'Partner VC', sortable: true },
   { key: 'radarCategory', label: 'Radar Category', sortable: true },
-  { key: 'pitchbook', label: 'PitchBook' },
   { key: 'score', label: 'Score', sortable: true },
   { key: 'stage', label: 'Stage', sortable: true },
   { key: 'date', label: 'Screened', sortable: true },
@@ -40,9 +39,9 @@ export const STAGE_TABLE_COLUMNS = [
 ];
 
 // `basePath` is optional -- callers with a single fixed stage (Watchlist,
-// Pipeline, Qualified Deals, New Deals) pass their own page's path; cross-
-// cutting views like Top 10 VC Deals, where a row's company can be filed
-// under any stage, omit it and let each row resolve its own via c.stage.
+// Pipeline, Qualified Deals, New Deals, Radar) pass their own page's path;
+// a cross-cutting view spanning multiple stages could omit it and let each
+// row resolve its own via c.stage instead.
 export function companyToRow(c, { basePath, canEdit, tier1 = [], partners = [] }) {
   const name = displayName(c);
   const resolvedBasePath = basePath || STAGE_BASEPATH[c.stage] || STAGE_BASEPATH.qualified;
@@ -89,18 +88,6 @@ export function companyToRow(c, { basePath, canEdit, tier1 = [], partners = [] }
           value={c.radarCategory}
           canEdit={canEdit}
           placeholder="—"
-        />
-      ),
-      pitchbook: (
-        <CompanyInlineField
-          slug={c.slug}
-          apiSegment="pitchbook"
-          field="pitchbookUrl"
-          value={c.pitchbookUrl}
-          canEdit={canEdit}
-          placeholder="URL"
-          renderAs="link"
-          linkLabel="PitchBook ↗"
         />
       ),
       score: score != null ? `${score.toFixed(1)} / 4` : '—',

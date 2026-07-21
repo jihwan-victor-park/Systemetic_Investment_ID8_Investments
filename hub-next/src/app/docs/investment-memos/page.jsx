@@ -4,7 +4,7 @@ import SortableTable from '@/components/SortableTable';
 import DeleteButton from '@/components/DeleteButton';
 import { listDealResearchDecks } from '@/lib/dealResearchDecks';
 
-export const metadata = { title: 'Deal Summaries', description: 'Companies ID8 has done real research work on.' };
+export const metadata = { title: 'Investment Memo', description: 'Full investment memos ID8 has written.' };
 
 export const dynamic = 'force-dynamic';
 
@@ -30,38 +30,38 @@ function toRow(d, canEdit) {
       stage: d.stage || '',
     },
     cells: {
-      company: <Link href={`/docs/deals/${d.id}`}>{d.companyName}</Link>,
+      company: <Link href={`/docs/investment-memos/${d.id}`}>{d.companyName}</Link>,
       thesis: d.thesis,
       stage: d.stage,
       date: d.createdAt ? d.createdAt.slice(0, 10) : '—',
       actions: canEdit ? (
         <DeleteButton
           url={`/api/deals/${d.id}`}
-          confirmMessage={`Remove the deal summary for ${d.companyName}?`}
+          confirmMessage={`Remove the investment memo for ${d.companyName}?`}
         />
       ) : null,
     },
   };
 }
 
-export default async function DealsPage() {
+// Same underlying `dealResearchDecks` collection as Deal Summaries, filtered
+// to docType === 'investment-memo' -- see lib/dealResearchDecks.js for why
+// this is a split of one collection rather than a separate one.
+export default async function InvestmentMemosPage() {
   const [allDecks, session] = await Promise.all([listDealResearchDecks(), auth()]);
-  const decks = allDecks.filter((d) => d.docType !== 'investment-memo');
+  const decks = allDecks.filter((d) => d.docType === 'investment-memo');
   const canEdit = session?.user?.role === 'internal';
 
   return (
     <>
-      <h1>Deal Summaries</h1>
-      <p>
-        Companies ID8 has done real diligence work on. Looking for a full investment memo instead?
-        See <a href="/docs/investment-memos">Investment Memo</a>, under Docs.
-      </p>
+      <h1>Investment Memo</h1>
+      <p>Full investment memos ID8 has written — the deeper counterpart to a <a href="/docs/deals">Deal Summary</a>.</p>
       <SortableTable
         columns={COLUMNS}
         rows={decks.map((d) => toRow(d, canEdit))}
         defaultSort={{ key: 'company', dir: 'asc' }}
         searchPlaceholder="Filter by company or thesis…"
-        emptyMessage="No deal summaries yet."
+        emptyMessage="No investment memos yet."
       />
     </>
   );

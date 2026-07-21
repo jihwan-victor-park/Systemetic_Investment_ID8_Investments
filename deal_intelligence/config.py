@@ -161,13 +161,17 @@ READ_SLUGS = {
 
 # Attio Deal `stage` status values that correspond 1:1 to a hub-next stage
 # bucket (hub-next/src/lib/stages.js's STAGES). Keys are lowercased for a
-# case-insensitive match. Any Attio stage not in this map (unset, "Radar",
-# or anything else) leaves a brand-new company's `stage` unset -- hub-next's
-# existing "no stage" fallback already treats that as Qualified.
+# case-insensitive match. "radar" is Attio's own classification for Series
+# A-or-earlier deals sourced from a Top 10 VC's portfolio (see
+# determine_stage in pipeline/app.py) -- it maps to hub-next's own Radar
+# stage, a real tab there, not a derived filter. Any Attio stage not in this
+# map (unset, or anything else) leaves a brand-new company's `stage` unset --
+# hub-next's existing "no stage" fallback already treats that as Qualified.
 ATTIO_STAGE_MAP = {
     "watchlist": "watchlist",
     "pipeline": "pipeline",
     "qualified": "qualified",
+    "radar": "radar",
 }
 
 # Write-back slugs. Leave unset (None) to skip that write until the field exists.

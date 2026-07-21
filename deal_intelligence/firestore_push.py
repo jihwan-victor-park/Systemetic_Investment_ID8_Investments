@@ -152,7 +152,7 @@ def push_company_from_attio(deal: DealInput, attio_stage: str | None) -> dict:
     docx, no screens subcollection write, just enough to make the deal show
     up for Oscar to triage. On a brand-new company: lands in the hub tab that
     matches its Attio stage (config.ATTIO_STAGE_MAP: Watchlist/Pipeline/
-    Qualified); no match (including Radar or no stage set) leaves `stage`
+    Qualified/Radar); no match (unset or anything else) leaves `stage`
     unset, which hub-next's listCompanies() fallback renders as Qualified.
     On an existing company: only refreshes `origin` (Attio is the source of
     truth for round/hq/leadInvestors/attioStage) -- never touches `stage`,
@@ -191,9 +191,10 @@ def backfill_attio_stages() -> dict:
     push_company_from_attio's stage mapping existed -- every one of them was
     forced to stage='new' regardless of its real Attio stage. Finds every
     company still at stage='new' with origin.source=='attio' whose stored
-    origin.attioStage now maps to a real bucket (config.ATTIO_STAGE_MAP) and
-    moves it there. A company with no mapping (Radar, no stage) is left at
-    'new' -- that's exactly where a genuinely untriaged deal belongs."""
+    origin.attioStage now maps to a real bucket (config.ATTIO_STAGE_MAP,
+    including Radar) and moves it there. A company with no mapping (no stage
+    recorded at all) is left at 'new' -- that's exactly where a genuinely
+    untriaged deal belongs."""
     updated, skipped = [], []
     for doc in _firestore().collection("companies").where("stage", "==", "new").stream():
         data = doc.to_dict()

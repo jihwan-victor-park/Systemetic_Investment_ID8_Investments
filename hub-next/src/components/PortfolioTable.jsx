@@ -15,7 +15,6 @@ const COLUMNS = [
   { key: 'roundInvested', label: 'Round invested', sortable: true },
   { key: 'latestRound', label: 'Latest round', sortable: true },
   { key: 'probability', label: 'Raise prob. (3mo)', sortable: false },
-  { key: 'pitchbook', label: 'PitchBook' },
   { key: 'score', label: 'Fit score', sortable: true },
   { key: 'pipeline', label: 'Pipeline', sortable: true },
   { key: 'actions', label: '' },
@@ -142,11 +141,6 @@ export default function PortfolioTable({ endpoint, id, field, items, filterFn, c
         // metric (heat/traffic/coolness indicators) is designed, per Oscar's
         // explicit "don't worry about it yet" on this one.
         probability: <span className={styles.muted}>Coming soon</span>,
-        pitchbook: p.pitchbookUrl ? (
-          <a href={p.pitchbookUrl} target="_blank" rel="noopener noreferrer">PitchBook ↗</a>
-        ) : (
-          <span className={styles.muted}>—</span>
-        ),
         score: fitScore != null ? `${fitScore.toFixed(1)} / 4` : '—',
         pipeline: stage ? (
           <span className={styles.stageBadge}>{STAGE_LABELS[stage] || stage}</span>

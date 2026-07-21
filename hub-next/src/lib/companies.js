@@ -327,8 +327,6 @@ export async function listCompanySlugsForSidebar() {
       slug: doc.id,
       name: data.name,
       stage: STAGES.includes(data.stage) ? data.stage : 'qualified',
-      round: data.round || null,
-      attioStage: data.origin?.attioStage || null,
     };
   });
 }

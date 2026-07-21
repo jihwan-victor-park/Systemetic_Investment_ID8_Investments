@@ -8,7 +8,7 @@ import { listPartnerVCs } from '@/lib/partnerVCs';
 import { findInvestorSource } from '@/lib/companyIndex';
 import { STAGE_BASEPATH } from '@/lib/stages';
 
-export const metadata = { title: 'Hot Deals', description: 'Every company that cleared the Stage 1 gate this week.' };
+export const metadata = { title: 'Top Deals', description: 'Every company that cleared the Stage 1 gate this week.' };
 
 export const dynamic = 'force-dynamic';
 
@@ -24,7 +24,7 @@ const COLUMNS = [
   { key: 'report', label: 'Report' },
 ];
 
-// "Qualified screen" is Hot Deals' own fallback label for the "no VC
+// "Qualified screen" is Top Deals' own fallback label for the "no VC
 // portfolio match" case (shared findInvestorSource just returns null there;
 // the stage tables render that as a plain "—" instead).
 function findSource(companyName, tier1, partners) {
@@ -76,7 +76,7 @@ export default async function HotDealsPage() {
 
   return (
     <>
-      <h1>Hot Deals</h1>
+      <h1>Top Deals</h1>
       <p>
         Every company that cleared the 3.0 Stage 1 gate in the last {WINDOW_DAYS} days — from a Tier 1 VC&rsquo;s
         portfolio, a partner&rsquo;s own contact, or the regular automated screen, whichever surfaced it first.
