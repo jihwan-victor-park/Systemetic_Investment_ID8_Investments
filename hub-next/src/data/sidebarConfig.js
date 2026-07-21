@@ -108,6 +108,12 @@ export function getSidebarTree(companies = [], deals = []) {
           href: '/docs/invested',
           items: companies.filter((c) => c.stage === 'invested').map((c) => ({ type: 'doc', href: `/docs/invested/${c.slug}`, label: c.name })),
         },
+        // Not a stage -- a cross-cutting view over every company already in
+        // one of the five stage buckets above, filtered to whichever ones
+        // also show up in a Tier 1 VC's portfolio (see docs/top10-vc/page.jsx).
+        // `type: 'doc'` (not 'category'): it has no company sub-pages of its
+        // own, just links out to each company's real stage page.
+        { type: 'doc', href: '/docs/top10-vc', label: 'Top 10 VCs' },
       ],
     },
     { id: 'hot-deals', type: 'doc', href: '/docs/hot-deals', label: 'Top Deals' },
