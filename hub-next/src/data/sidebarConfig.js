@@ -120,12 +120,8 @@ export function getSidebarTree(companies = [], deals = []) {
     },
     { id: 'hot-deals', type: 'doc', href: '/docs/hot-deals', label: 'Top Deals' },
     { id: 'vcs', type: 'doc', href: '/docs/vcs', label: 'VCs' },
-    // Lives physically under /investors/research (not /docs/*) because
-    // auth.config.js's `authorized` callback hard-redirects an approved
-    // 'investor'-role account away from anything outside that path prefix --
-    // an 'internal' account (everyone using this nav) isn't affected by that
-    // rule at all and can reach it from here like any other tab.
-    { id: 'fund-one-pager', type: 'doc', href: '/investors/research/fund-one-pager', label: 'Fund I One-Pager' },
+    // Fund I One-Pager lives in the top Navbar now, not here -- see
+    // components/Navbar.jsx.
     {
       id: 'research',
       type: 'category',

@@ -25,6 +25,7 @@ export default function Navbar() {
   const links = [
     ...(!hideInternalNav ? [{ href: '/docs/overview', label: 'Hub' }] : []),
     { href: '/investors', label: 'Investor View' },
+    { href: '/investors/research/fund-one-pager', label: 'Growth Opportunities Fund I' },
   ];
 
   return (
@@ -44,6 +45,12 @@ export default function Navbar() {
           {!hideInternalNav && <GlobalSearch />}
           <Link href="/investors" className={`${styles.link} ${isInvestorView ? styles.linkActive : ''}`}>
             Investor View
+          </Link>
+          <Link
+            href="/investors/research/fund-one-pager"
+            className={`${styles.link} ${pathname.startsWith('/investors/research/fund-one-pager') ? styles.linkActive : ''}`}
+          >
+            Growth Opportunities Fund I
           </Link>
           {showSignOut && <SignOutButton className={styles.signOut} />}
         </div>
