@@ -44,7 +44,9 @@
         "vertical": "Artificial Intelligence & Machine Learning, Augmented Reality, Robotics and Drones",
         "yearFounded": 2017,
         "hqLocation": "Costa Mesa, CA",
-        "businessStatus": "Generating Revenue"
+        "businessStatus": "Generating Revenue",
+        "latestRound": "Later Stage VC",
+        "latestRoundDate": "2026-05-13"
       },
       {
         "company": "AppliedXL",
@@ -139,7 +141,9 @@
         "vertical": "CleanTech, Climate Tech, Mobile, SaaS",
         "yearFounded": 2023,
         "hqLocation": "Austin, TX",
-        "businessStatus": "Generating Revenue"
+        "businessStatus": "Generating Revenue",
+        "latestRound": "Early Stage VC",
+        "latestRoundDate": "2026-05-29"
       },
       {
         "company": "Bazze",
@@ -158,7 +162,8 @@
         "vertical": "Artificial Intelligence & Machine Learning, Big Data, Cybersecurity",
         "yearFounded": 2019,
         "hqLocation": "San Francisco, CA",
-        "businessStatus": "Generating Revenue"
+        "businessStatus": "Generating Revenue",
+        "latestRound": "Later Stage VC"
       },
       {
         "company": "Castelion",
@@ -196,7 +201,9 @@
         "vertical": "Advanced Manufacturing, Artificial Intelligence & Machine Learning, CloudTech & DevOps, Infrastructure, Manufacturing, SaaS",
         "yearFounded": 2015,
         "hqLocation": "Sunnyvale, CA",
-        "businessStatus": "Profitable"
+        "businessStatus": "Profitable",
+        "latestRound": "IPO",
+        "latestRoundDate": "2026-05-14"
       },
       {
         "company": "Crusoe",
@@ -215,7 +222,8 @@
         "vertical": "Artificial Intelligence & Machine Learning, CloudTech & DevOps, SaaS",
         "yearFounded": 2018,
         "hqLocation": "Denver, CO",
-        "businessStatus": "Generating Revenue"
+        "businessStatus": "Generating Revenue",
+        "latestRound": "Later Stage VC"
       },
       {
         "company": "DataPlor",
@@ -329,7 +337,9 @@
         "vertical": "Artificial Intelligence & Machine Learning, Big Data, CloudTech & DevOps, SaaS",
         "yearFounded": 2016,
         "hqLocation": "San Jose, CA",
-        "businessStatus": "Generating Revenue"
+        "businessStatus": "Generating Revenue",
+        "latestRound": "Later Stage VC",
+        "latestRoundDate": "2026-06-24"
       },
       {
         "company": "Harvey",
@@ -348,7 +358,9 @@
         "vertical": "Artificial Intelligence & Machine Learning, Big Data, Legal Tech",
         "yearFounded": 2022,
         "hqLocation": "San Francisco, CA",
-        "businessStatus": "Generating Revenue"
+        "businessStatus": "Generating Revenue",
+        "latestRound": "Later Stage VC",
+        "latestRoundDate": "2026-03-24"
       },
       {
         "company": "Hebbia",
@@ -367,7 +379,9 @@
         "vertical": "Artificial Intelligence & Machine Learning, FinTech, Legal Tech, SaaS",
         "yearFounded": 2020,
         "hqLocation": "New York, NY",
-        "businessStatus": "Generating Revenue"
+        "businessStatus": "Generating Revenue",
+        "latestRound": "Later Stage VC",
+        "latestRoundDate": "2026-02-24"
       },
       {
         "company": "MRGN",
@@ -386,7 +400,9 @@
         "vertical": "Artificial Intelligence & Machine Learning, SaaS",
         "yearFounded": 2019,
         "hqLocation": "New York, NY",
-        "businessStatus": "Generating Revenue"
+        "businessStatus": "Generating Revenue",
+        "latestRound": "Accelerator/Incubator",
+        "latestRoundDate": "2025-12-03"
       },
       {
         "company": "Mach Industries",
@@ -405,7 +421,9 @@
         "vertical": "Robotics and Drones, Space Technology",
         "yearFounded": null,
         "hqLocation": "Huntington Beach, CA",
-        "businessStatus": "Generating Revenue"
+        "businessStatus": "Generating Revenue",
+        "latestRound": "Later Stage VC",
+        "latestRoundDate": "2026-06-02"
       },
       {
         "company": "Mosea Technologies",
@@ -424,7 +442,9 @@
         "vertical": null,
         "yearFounded": 2019,
         "hqLocation": "Toronto, Canada",
-        "businessStatus": "Generating Revenue"
+        "businessStatus": "Generating Revenue",
+        "latestRound": "Seed Round",
+        "latestRoundDate": "2023-07-20"
       },
       {
         "company": "Naya (Multimedia and Design Software)",
@@ -443,7 +463,9 @@
         "vertical": "Advanced Manufacturing, Artificial Intelligence & Machine Learning, SaaS",
         "yearFounded": 2019,
         "hqLocation": "Allston, MA",
-        "businessStatus": "Generating Revenue"
+        "businessStatus": "Generating Revenue",
+        "latestRound": "Seed Round",
+        "latestRoundDate": "2021-12-01"
       },
       {
         "company": "Nomad Data",
@@ -462,7 +484,9 @@
         "vertical": "Artificial Intelligence & Machine Learning, SaaS",
         "yearFounded": 2020,
         "hqLocation": "New York, NY",
-        "businessStatus": "Generating Revenue"
+        "businessStatus": "Generating Revenue",
+        "latestRound": "Later Stage VC",
+        "latestRoundDate": "2025-02-01"
       },
       {
         "company": "Nscale",
@@ -481,7 +505,9 @@
         "vertical": "Artificial Intelligence & Machine Learning, Big Data, CloudTech & DevOps",
         "yearFounded": 2018,
         "hqLocation": "London, United Kingdom",
-        "businessStatus": "Generating Revenue"
+        "businessStatus": "Generating Revenue",
+        "latestRound": "IPO",
+        "latestRoundDate": "2025-10-15"
       },
       {
         "company": "OpenAI",
@@ -500,7 +526,9 @@
         "vertical": "Artificial Intelligence & Machine Learning, Big Data, Mobile, SaaS",
         "yearFounded": 2015,
         "hqLocation": "San Francisco, CA",
-        "businessStatus": "Generating Revenue/Not Profitable"
+        "businessStatus": "Generating Revenue/Not Profitable",
+        "latestRound": "IPO",
+        "latestRoundDate": "2026-06-08"
       },
       {
         "company": "Paragon Intel",
@@ -557,7 +585,8 @@
         "vertical": "Artificial Intelligence & Machine Learning, Robotics and Drones",
         "yearFounded": 2024,
         "hqLocation": "San Francisco, CA",
-        "businessStatus": "Generating Revenue"
+        "businessStatus": "Generating Revenue",
+        "latestRound": "Early Stage VC"
       },
       {
         "company": "Planful",
@@ -576,7 +605,9 @@
         "vertical": "FinTech, SaaS",
         "yearFounded": 2000,
         "hqLocation": "San Francisco, CA",
-        "businessStatus": "Generating Revenue"
+        "businessStatus": "Generating Revenue",
+        "latestRound": "Mezzanine",
+        "latestRoundDate": "2025-11-12"
       },
       {
         "company": "Plannuh",
@@ -595,7 +626,9 @@
         "vertical": "Marketing Tech",
         "yearFounded": 2017,
         "hqLocation": "Newton, MA",
-        "businessStatus": "Generating Revenue"
+        "businessStatus": "Generating Revenue",
+        "latestRound": "Buyout/LBO",
+        "latestRoundDate": "2022-09-12"
       },
       {
         "company": "Polygraf AI",
@@ -614,7 +647,9 @@
         "vertical": "Artificial Intelligence & Machine Learning, Big Data, Cryptocurrency/Blockchain, Cybersecurity, EdTech, FinTech, InsurTech, Legal Tech, Marketing Tech",
         "yearFounded": 2021,
         "hqLocation": "Austin, TX",
-        "businessStatus": "Generating Revenue"
+        "businessStatus": "Generating Revenue",
+        "latestRound": "Early Stage VC",
+        "latestRoundDate": "2025-09-30"
       },
       {
         "company": "Revelio Labs",
@@ -633,7 +668,9 @@
         "vertical": "Artificial Intelligence & Machine Learning, HR Tech, SaaS",
         "yearFounded": 2018,
         "hqLocation": "New York, NY",
-        "businessStatus": "Generating Revenue"
+        "businessStatus": "Generating Revenue",
+        "latestRound": "Accelerator/Incubator",
+        "latestRoundDate": "2025-02-24"
       },
       {
         "company": "Rippling",
@@ -652,7 +689,9 @@
         "vertical": "Artificial Intelligence & Machine Learning, HR Tech, SaaS",
         "yearFounded": 2016,
         "hqLocation": "San Francisco, CA",
-        "businessStatus": "Generating Revenue"
+        "businessStatus": "Generating Revenue",
+        "latestRound": "Later Stage VC",
+        "latestRoundDate": "2025-12-05"
       },
       {
         "company": "Safe Superintelligence",
@@ -671,7 +710,9 @@
         "vertical": "Artificial Intelligence & Machine Learning",
         "yearFounded": 2024,
         "hqLocation": "Palo Alto, CA",
-        "businessStatus": "Startup"
+        "businessStatus": "Startup",
+        "latestRound": "Early Stage VC",
+        "latestRoundDate": "2025-04-11"
       },
       {
         "company": "Scoutr",
@@ -690,7 +731,9 @@
         "vertical": "Artificial Intelligence & Machine Learning, HR Tech, SaaS",
         "yearFounded": null,
         "hqLocation": "Dubai, United Arab Emirates",
-        "businessStatus": "Generating Revenue"
+        "businessStatus": "Generating Revenue",
+        "latestRound": "Seed Round",
+        "latestRoundDate": "2024-10-11"
       },
       {
         "company": "SpaceX",
@@ -709,7 +752,9 @@
         "vertical": "Space Technology",
         "yearFounded": 2002,
         "hqLocation": "Starbase, TX",
-        "businessStatus": "Generating Revenue/Not Profitable"
+        "businessStatus": "Generating Revenue/Not Profitable",
+        "latestRound": "IPO",
+        "latestRoundDate": "2026-06-12"
       },
       {
         "company": "Stripe",
@@ -728,7 +773,9 @@
         "vertical": "Artificial Intelligence & Machine Learning, FinTech, Mobile, SaaS",
         "yearFounded": 2010,
         "hqLocation": "South San Francisco, CA",
-        "businessStatus": "Profitable"
+        "businessStatus": "Profitable",
+        "latestRound": "Secondary Transaction - Private",
+        "latestRoundDate": "2026-03-27"
       },
       {
         "company": "Sumatra",
@@ -747,7 +794,9 @@
         "vertical": "Artificial Intelligence & Machine Learning, Big Data, Cybersecurity, FinTech",
         "yearFounded": 2019,
         "hqLocation": "Austin, TX",
-        "businessStatus": "Generating Revenue"
+        "businessStatus": "Generating Revenue",
+        "latestRound": "Merger/Acquisition",
+        "latestRoundDate": "2024-06-26"
       },
       {
         "company": "TensorWave",
@@ -766,7 +815,9 @@
         "vertical": "Artificial Intelligence & Machine Learning, Big Data, SaaS",
         "yearFounded": 2023,
         "hqLocation": "Las Vegas, NV",
-        "businessStatus": "Generating Revenue"
+        "businessStatus": "Generating Revenue",
+        "latestRound": "Early Stage VC",
+        "latestRoundDate": "2026-05-29"
       },
       {
         "company": "Together AI",
@@ -785,7 +836,9 @@
         "vertical": "Artificial Intelligence & Machine Learning, CloudTech & DevOps, SaaS",
         "yearFounded": 2022,
         "hqLocation": "San Francisco, CA",
-        "businessStatus": "Generating Revenue"
+        "businessStatus": "Generating Revenue",
+        "latestRound": "Later Stage VC",
+        "latestRoundDate": "2026-03-05"
       },
       {
         "company": "True Anomaly",
@@ -804,7 +857,9 @@
         "vertical": "Advanced Manufacturing, Artificial Intelligence & Machine Learning, Manufacturing, Space Technology",
         "yearFounded": 2022,
         "hqLocation": "Centennial, CO",
-        "businessStatus": "Generating Revenue"
+        "businessStatus": "Generating Revenue",
+        "latestRound": "Later Stage VC",
+        "latestRoundDate": "2026-03-31"
       },
       {
         "company": "Unconventional AI",
@@ -823,7 +878,9 @@
         "vertical": "Advanced Manufacturing, Artificial Intelligence & Machine Learning, Big Data, CloudTech & DevOps",
         "yearFounded": 2025,
         "hqLocation": "San Francisco, CA",
-        "businessStatus": "Generating Revenue"
+        "businessStatus": "Generating Revenue",
+        "latestRound": "Seed Round",
+        "latestRoundDate": "2025-12-09"
       }
     ],
     "description": null,
@@ -2953,7 +3010,7 @@
         "source": "pitchbook"
       },
       {
-        "company": "BRÂAM",
+        "company": "BR\u00c2AM",
         "industry": "",
         "series": "",
         "investorStatus": "Active",
@@ -2982,7 +3039,8 @@
         "vertical": "Artificial Intelligence & Machine Learning, Big Data, Cybersecurity",
         "yearFounded": 2019,
         "hqLocation": "San Francisco, CA",
-        "businessStatus": "Generating Revenue"
+        "businessStatus": "Generating Revenue",
+        "latestRound": "Later Stage VC"
       },
       {
         "company": "Beam for Music",
@@ -3102,7 +3160,7 @@
         "source": "pitchbook"
       },
       {
-        "company": "Bretzel Love Caffè",
+        "company": "Bretzel Love Caff\u00e8",
         "industry": "",
         "series": "",
         "investorStatus": "Former",
@@ -5663,7 +5721,7 @@
         "source": "pitchbook"
       },
       {
-        "company": "Élues Locales",
+        "company": "\u00c9lues Locales",
         "industry": "",
         "series": "",
         "investorStatus": "Former",
@@ -6487,7 +6545,8 @@
         "vertical": "Artificial Intelligence & Machine Learning, Robotics and Drones",
         "yearFounded": 2024,
         "hqLocation": "San Francisco, CA",
-        "businessStatus": "Generating Revenue"
+        "businessStatus": "Generating Revenue",
+        "latestRound": "Early Stage VC"
       },
       {
         "company": "Quadrata",
@@ -7336,7 +7395,9 @@
         "vertical": "Artificial Intelligence & Machine Learning, Augmented Reality, Robotics and Drones",
         "yearFounded": 2017,
         "hqLocation": "Costa Mesa, CA",
-        "businessStatus": "Generating Revenue"
+        "businessStatus": "Generating Revenue",
+        "latestRound": "Later Stage VC",
+        "latestRoundDate": "2026-05-13"
       },
       {
         "company": "Axiom Space",
@@ -7393,7 +7454,9 @@
         "vertical": "CleanTech, Climate Tech, Mobile, SaaS",
         "yearFounded": 2023,
         "hqLocation": "Austin, TX",
-        "businessStatus": "Generating Revenue"
+        "businessStatus": "Generating Revenue",
+        "latestRound": "Early Stage VC",
+        "latestRoundDate": "2026-05-29"
       },
       {
         "company": "Blink Health",
@@ -7431,7 +7494,9 @@
         "vertical": "Advanced Manufacturing, Artificial Intelligence & Machine Learning, CloudTech & DevOps, Infrastructure, Manufacturing, SaaS",
         "yearFounded": 2015,
         "hqLocation": "Sunnyvale, CA",
-        "businessStatus": "Profitable"
+        "businessStatus": "Profitable",
+        "latestRound": "IPO",
+        "latestRoundDate": "2026-05-14"
       },
       {
         "company": "Crusoe",
@@ -7450,7 +7515,8 @@
         "vertical": "Artificial Intelligence & Machine Learning, CloudTech & DevOps, SaaS",
         "yearFounded": 2018,
         "hqLocation": "Denver, CO",
-        "businessStatus": "Generating Revenue"
+        "businessStatus": "Generating Revenue",
+        "latestRound": "Later Stage VC"
       },
       {
         "company": "Databricks",
@@ -7545,7 +7611,9 @@
         "vertical": "Artificial Intelligence & Machine Learning, Big Data, CloudTech & DevOps, SaaS",
         "yearFounded": 2016,
         "hqLocation": "San Jose, CA",
-        "businessStatus": "Generating Revenue"
+        "businessStatus": "Generating Revenue",
+        "latestRound": "Later Stage VC",
+        "latestRoundDate": "2026-06-24"
       },
       {
         "company": "Hadrian",
@@ -7792,7 +7860,9 @@
         "vertical": "Space Technology",
         "yearFounded": 2002,
         "hqLocation": "Starbase, TX",
-        "businessStatus": "Generating Revenue/Not Profitable"
+        "businessStatus": "Generating Revenue/Not Profitable",
+        "latestRound": "IPO",
+        "latestRoundDate": "2026-06-12"
       },
       {
         "company": "Starlab Space",
@@ -9325,7 +9395,8 @@
         "vertical": "Artificial Intelligence & Machine Learning, CloudTech & DevOps, SaaS",
         "yearFounded": 2018,
         "hqLocation": "Denver, CO",
-        "businessStatus": "Generating Revenue"
+        "businessStatus": "Generating Revenue",
+        "latestRound": "Later Stage VC"
       },
       {
         "company": "Culture Amp",
@@ -13990,7 +14061,9 @@
         "vertical": "Advanced Manufacturing, Artificial Intelligence & Machine Learning, Big Data, CloudTech & DevOps",
         "yearFounded": 2025,
         "hqLocation": "San Francisco, CA",
-        "businessStatus": "Generating Revenue"
+        "businessStatus": "Generating Revenue",
+        "latestRound": "Seed Round",
+        "latestRoundDate": "2025-12-09"
       },
       {
         "company": "Vannevar Labs",
@@ -17048,7 +17121,7 @@
         "company": "Crusoe",
         "industry": "",
         "roundInvested": "",
-        "latestRound": "",
+        "latestRound": "Later Stage VC",
         "latestRoundDate": null,
         "category": "",
         "description": "",
@@ -17133,8 +17206,8 @@
         "company": "Groq",
         "industry": "",
         "roundInvested": "",
-        "latestRound": "",
-        "latestRoundDate": null,
+        "latestRound": "Later Stage VC",
+        "latestRoundDate": "2026-06-24",
         "category": "",
         "description": "",
         "investorStatus": "Former",
@@ -17201,8 +17274,8 @@
         "company": "OpenAI",
         "industry": "",
         "roundInvested": "",
-        "latestRound": "",
-        "latestRoundDate": null,
+        "latestRound": "IPO",
+        "latestRoundDate": "2026-06-08",
         "category": "",
         "description": "",
         "investorStatus": "Active",
@@ -17286,8 +17359,8 @@
         "company": "SpaceX",
         "industry": "",
         "roundInvested": "",
-        "latestRound": "",
-        "latestRoundDate": null,
+        "latestRound": "IPO",
+        "latestRoundDate": "2026-06-12",
         "category": "",
         "description": "",
         "investorStatus": "Former",
@@ -18255,8 +18328,8 @@
         "company": "Base Power",
         "industry": "",
         "roundInvested": "",
-        "latestRound": "",
-        "latestRoundDate": null,
+        "latestRound": "Early Stage VC",
+        "latestRoundDate": "2026-05-29",
         "category": "",
         "description": "",
         "investorStatus": "Active",
@@ -18306,8 +18379,8 @@
         "company": "SpaceX",
         "industry": "",
         "roundInvested": "",
-        "latestRound": "",
-        "latestRoundDate": null,
+        "latestRound": "IPO",
+        "latestRoundDate": "2026-06-12",
         "category": "",
         "description": "",
         "investorStatus": "Former",
@@ -18425,8 +18498,8 @@
         "company": "OpenAI",
         "industry": "",
         "roundInvested": "",
-        "latestRound": "",
-        "latestRoundDate": null,
+        "latestRound": "IPO",
+        "latestRoundDate": "2026-06-08",
         "category": "",
         "description": "",
         "investorStatus": "Active",
@@ -18493,7 +18566,7 @@
         "company": "Physical Intelligence",
         "industry": "",
         "roundInvested": "",
-        "latestRound": "",
+        "latestRound": "Early Stage VC",
         "latestRoundDate": null,
         "category": "",
         "description": "",
@@ -20193,8 +20266,8 @@
         "company": "Stripe",
         "industry": "",
         "roundInvested": "",
-        "latestRound": "",
-        "latestRoundDate": null,
+        "latestRound": "Secondary Transaction - Private",
+        "latestRoundDate": "2026-03-27",
         "category": "",
         "description": "",
         "investorStatus": "Active",
@@ -21347,8 +21420,8 @@
         "company": "OpenAI",
         "industry": "",
         "roundInvested": "",
-        "latestRound": "",
-        "latestRoundDate": null,
+        "latestRound": "IPO",
+        "latestRoundDate": "2026-06-08",
         "category": "",
         "description": "",
         "investorStatus": "Active",
@@ -21381,8 +21454,8 @@
         "company": "Mach Industries",
         "industry": "",
         "roundInvested": "",
-        "latestRound": "",
-        "latestRoundDate": null,
+        "latestRound": "Later Stage VC",
+        "latestRoundDate": "2026-06-02",
         "category": "",
         "description": "",
         "investorStatus": "Active",
@@ -23231,7 +23304,7 @@
         "source": "pitchbook"
       },
       {
-        "company": "Indē Wild",
+        "company": "Ind\u0113 Wild",
         "industry": "",
         "roundInvested": "",
         "latestRound": "",
@@ -25107,8 +25180,8 @@
         "company": "OpenAI",
         "industry": "",
         "roundInvested": "",
-        "latestRound": "",
-        "latestRoundDate": null,
+        "latestRound": "IPO",
+        "latestRoundDate": "2026-06-08",
         "category": "",
         "description": "",
         "investorStatus": "Active",
@@ -25345,8 +25418,8 @@
         "company": "Anduril Industries",
         "industry": "",
         "roundInvested": "",
-        "latestRound": "",
-        "latestRoundDate": null,
+        "latestRound": "Later Stage VC",
+        "latestRoundDate": "2026-05-13",
         "category": "",
         "description": "",
         "investorStatus": "Active",
@@ -27237,7 +27310,7 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/590668-03/company/profile"
       },
       {
-        "company": "Glīd (Rail)",
+        "company": "Gl\u012bd (Rail)",
         "companyPbid": "512617-33",
         "source": "pitchbook",
         "series": "",
@@ -33252,7 +33325,7 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/131241-61/company/profile"
       },
       {
-        "company": "Fêtefully",
+        "company": "F\u00eatefully",
         "companyPbid": "340782-40",
         "source": "pitchbook",
         "series": "",
@@ -47127,7 +47200,7 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/102245-14/company/profile"
       },
       {
-        "company": "Jüsto",
+        "company": "J\u00fcsto",
         "companyPbid": "290118-07",
         "source": "pitchbook",
         "series": "",
@@ -49332,7 +49405,7 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/628977-16/company/profile"
       },
       {
-        "company": "Tú TeleDoc",
+        "company": "T\u00fa TeleDoc",
         "companyPbid": "943316-38",
         "source": "pitchbook",
         "series": "",
@@ -54208,7 +54281,7 @@
     "sector": "",
     "website": "afore.vc",
     "note": "",
-    "description": "We’re a $500M fund investing $500k - $2M+ with high conviction in pre-traction, pre-everything companies!",
+    "description": "We\u2019re a $500M fund investing $500k - $2M+ with high conviction in pre-traction, pre-everything companies!",
     "connectionStrength": null,
     "attioCategories": null,
     "portfolio": [
@@ -54620,14 +54693,15 @@
         "source": "pitchbook",
         "series": "",
         "roundInvested": "",
-        "latestRound": "",
+        "latestRound": "IPO",
         "industry": "",
         "investorStatus": "",
         "investorSince": "",
         "exitType": null,
         "exitDate": null,
         "exitSizeUsdMillions": null,
-        "pitchbookUrl": "https://my.pitchbook.com/profile/149504-14/company/profile"
+        "pitchbookUrl": "https://my.pitchbook.com/profile/149504-14/company/profile",
+        "latestRoundDate": "2026-06-08"
       },
       {
         "company": "Fullsteam Operations",
@@ -54710,14 +54784,15 @@
         "source": "pitchbook",
         "series": "",
         "roundInvested": "",
-        "latestRound": "",
+        "latestRound": "IPO",
         "industry": "",
         "investorStatus": "",
         "investorSince": "",
         "exitType": null,
         "exitDate": null,
         "exitSizeUsdMillions": null,
-        "pitchbookUrl": "https://my.pitchbook.com/profile/46488-07/company/profile"
+        "pitchbookUrl": "https://my.pitchbook.com/profile/46488-07/company/profile",
+        "latestRoundDate": "2026-06-12"
       },
       {
         "company": "Incode Technologies",
@@ -61299,7 +61374,7 @@
     "attioCategories": null,
     "portfolio": [
       {
-        "company": "Ualá",
+        "company": "Ual\u00e1",
         "companyPbid": "183752-92",
         "source": "pitchbook",
         "series": "",
@@ -62289,7 +62364,7 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/264841-21/company/profile"
       },
       {
-        "company": "Aplós",
+        "company": "Apl\u00f3s",
         "companyPbid": "481854-97",
         "source": "pitchbook",
         "series": "",
@@ -63899,14 +63974,15 @@
         "source": "pitchbook",
         "series": "",
         "roundInvested": "",
-        "latestRound": "",
+        "latestRound": "Later Stage VC",
         "industry": "",
         "investorStatus": "",
         "investorSince": "",
         "exitType": null,
         "exitDate": null,
         "exitSizeUsdMillions": null,
-        "pitchbookUrl": "https://my.pitchbook.com/profile/223461-82/company/profile"
+        "pitchbookUrl": "https://my.pitchbook.com/profile/223461-82/company/profile",
+        "latestRoundDate": "2026-05-13"
       },
       {
         "company": "ReturnLogic",
@@ -67764,7 +67840,7 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/471204-91/company/profile"
       },
       {
-        "company": "So Gay Rosé",
+        "company": "So Gay Ros\u00e9",
         "companyPbid": "489655-27",
         "source": "pitchbook",
         "series": "",
@@ -70614,7 +70690,7 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/529850-35/company/profile"
       },
       {
-        "company": "Tômtex",
+        "company": "T\u00f4mtex",
         "companyPbid": "465323-32",
         "source": "pitchbook",
         "series": "",
@@ -72654,7 +72730,7 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/459754-57/company/profile"
       },
       {
-        "company": "Fortë",
+        "company": "Fort\u00eb",
         "companyPbid": "172010-98",
         "source": "pitchbook",
         "series": "",
@@ -74429,14 +74505,15 @@
         "source": "pitchbook",
         "series": "",
         "roundInvested": "",
-        "latestRound": "",
+        "latestRound": "Early Stage VC",
         "industry": "",
         "investorStatus": "",
         "investorSince": "",
         "exitType": null,
         "exitDate": null,
         "exitSizeUsdMillions": null,
-        "pitchbookUrl": "https://my.pitchbook.com/profile/496483-12/company/profile"
+        "pitchbookUrl": "https://my.pitchbook.com/profile/496483-12/company/profile",
+        "latestRoundDate": "2025-09-30"
       },
       {
         "company": "Symbio",
@@ -80274,7 +80351,7 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/403985-80/company/profile"
       },
       {
-        "company": "Hyfé",
+        "company": "Hyf\u00e9",
         "companyPbid": "490988-44",
         "source": "pitchbook",
         "series": "",
@@ -85334,14 +85411,15 @@
         "source": "pitchbook",
         "series": "",
         "roundInvested": "",
-        "latestRound": "",
+        "latestRound": "IPO",
         "industry": "",
         "investorStatus": "",
         "investorSince": "",
         "exitType": null,
         "exitDate": null,
         "exitSizeUsdMillions": null,
-        "pitchbookUrl": "https://my.pitchbook.com/profile/163733-59/company/profile"
+        "pitchbookUrl": "https://my.pitchbook.com/profile/163733-59/company/profile",
+        "latestRoundDate": "2026-05-14"
       },
       {
         "company": "Density (Electronic Equipment and Instruments)",
@@ -91869,7 +91947,7 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/52975-99/company/profile"
       },
       {
-        "company": "Elevāt",
+        "company": "Elev\u0101t",
         "companyPbid": "222247-45",
         "source": "pitchbook",
         "series": "",
@@ -94254,7 +94332,7 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/268213-78/company/profile"
       },
       {
-        "company": "Kenshō Health",
+        "company": "Kensh\u014d Health",
         "companyPbid": "234711-10",
         "source": "pitchbook",
         "series": "",
@@ -97746,7 +97824,7 @@
     "attioCategories": null,
     "portfolio": [
       {
-        "company": "Mädchenflohmarkt",
+        "company": "M\u00e4dchenflohmarkt",
         "companyPbid": "101639-89",
         "investorStatus": "Former",
         "investorSince": "2018-09-26",
@@ -101927,8 +102005,8 @@
         "company": "Base Power",
         "industry": "",
         "roundInvested": "",
-        "latestRound": "",
-        "latestRoundDate": null,
+        "latestRound": "Early Stage VC",
+        "latestRoundDate": "2026-05-29",
         "category": "",
         "description": "",
         "investorStatus": "Active",
@@ -101944,8 +102022,8 @@
         "company": "Anduril Industries",
         "industry": "",
         "roundInvested": "",
-        "latestRound": "",
-        "latestRoundDate": null,
+        "latestRound": "Later Stage VC",
+        "latestRoundDate": "2026-05-13",
         "category": "",
         "description": "",
         "investorStatus": "Active",
@@ -104080,8 +104158,8 @@
         "company": "Base Power",
         "industry": "",
         "roundInvested": "",
-        "latestRound": "",
-        "latestRoundDate": null,
+        "latestRound": "Early Stage VC",
+        "latestRoundDate": "2026-05-29",
         "category": "",
         "description": "",
         "investorStatus": "Active",
@@ -105122,14 +105200,15 @@
         "source": "pitchbook",
         "series": "",
         "roundInvested": "",
-        "latestRound": "",
+        "latestRound": "Later Stage VC",
         "industry": "",
         "investorStatus": "",
         "investorSince": "",
         "exitType": null,
         "exitDate": null,
         "exitSizeUsdMillions": null,
-        "pitchbookUrl": "https://my.pitchbook.com/profile/518020-12/company/profile"
+        "pitchbookUrl": "https://my.pitchbook.com/profile/518020-12/company/profile",
+        "latestRoundDate": "2026-03-05"
       },
       {
         "company": "MagicSchool",
@@ -107348,8 +107427,8 @@
         "company": "Base Power",
         "industry": "",
         "roundInvested": "",
-        "latestRound": "",
-        "latestRoundDate": null,
+        "latestRound": "Early Stage VC",
+        "latestRoundDate": "2026-05-29",
         "category": "",
         "description": "",
         "investorStatus": "Active",
@@ -107399,8 +107478,8 @@
         "company": "Mach Industries",
         "industry": "",
         "roundInvested": "",
-        "latestRound": "",
-        "latestRoundDate": null,
+        "latestRound": "Later Stage VC",
+        "latestRoundDate": "2026-06-02",
         "category": "",
         "description": "",
         "investorStatus": "Active",
@@ -107433,8 +107512,8 @@
         "company": "Harvey",
         "industry": "",
         "roundInvested": "",
-        "latestRound": "",
-        "latestRoundDate": null,
+        "latestRound": "Later Stage VC",
+        "latestRoundDate": "2026-03-24",
         "category": "",
         "description": "",
         "investorStatus": "Active",
@@ -110767,7 +110846,7 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/171922-78/company/profile"
       },
       {
-        "company": "Ualá",
+        "company": "Ual\u00e1",
         "companyPbid": "183752-92",
         "source": "pitchbook",
         "series": "",
@@ -112430,7 +112509,7 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/1378241-11/company/profile"
       },
       {
-        "company": "Bella Sláinte",
+        "company": "Bella Sl\u00e1inte",
         "companyPbid": "1440350-92",
         "source": "pitchbook",
         "series": "",
@@ -113270,7 +113349,7 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/1162638-64/company/profile"
       },
       {
-        "company": "eve AI (Åkersberga)",
+        "company": "eve AI (\u00c5kersberga)",
         "companyPbid": "1318411-09",
         "source": "pitchbook",
         "series": "",
@@ -114890,7 +114969,7 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/1318455-37/company/profile"
       },
       {
-        "company": "Glīd (Rail)",
+        "company": "Gl\u012bd (Rail)",
         "companyPbid": "512617-33",
         "source": "pitchbook",
         "series": "",
@@ -127715,7 +127794,7 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/538167-16/company/profile"
       },
       {
-        "company": "SNÜX",
+        "company": "SN\u00dcX",
         "companyPbid": "529952-32",
         "source": "pitchbook",
         "series": "",
@@ -129725,7 +129804,7 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/528478-48/company/profile"
       },
       {
-        "company": "Alternō",
+        "company": "Altern\u014d",
         "companyPbid": "523110-25",
         "source": "pitchbook",
         "series": "",
