@@ -41,6 +41,7 @@ export default function InlineTextField({ endpoint, id, field, value, canEdit, p
     <span className={styles.wrap}>
       <input
         className={styles.input}
+        style={{ width: `${Math.max(val.length, (placeholder || '').length, 1) + 1}ch` }}
         value={val}
         disabled={saving}
         placeholder={placeholder || '—'}
