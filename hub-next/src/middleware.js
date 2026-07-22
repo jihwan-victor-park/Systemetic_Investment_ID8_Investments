@@ -10,9 +10,13 @@ export const { auth: middleware } = NextAuth(authConfig);
 // Gate the whole site behind sign-in, EXCEPT: the auth endpoints themselves,
 // static assets, the public /investors marketing page (exact match only --
 // /investors/research, the gated investor view, still goes through the gate),
+// the Growth Opportunities Fund I one-pager (a public LP-facing page; the
+// navbar hides its own link to it for signed-out visitors, see Navbar.jsx),
 // and api/admin-market-map -- that route has no browser session to check
 // (called server-to-server) and enforces its own shared-secret header instead,
 // see app/api/admin-market-map/[id]/route.js.
 export const config = {
-  matcher: ['/((?!api/auth|api/admin-market-map|investors$|_next/static|_next/image|favicon.ico|fonts|img).*)'],
+  matcher: [
+    '/((?!api/auth|api/admin-market-map|investors$|investors/research/fund-one-pager(?:/|$)|_next/static|_next/image|favicon.ico|fonts|img).*)',
+  ],
 };

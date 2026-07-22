@@ -7,12 +7,12 @@ import SignOutButton from './SignOutButton';
 import GlobalSearch from './GlobalSearch';
 import styles from './Navbar.module.css';
 
-export default function Navbar() {
+export default function Navbar({ isSignedIn = false }) {
   const pathname = usePathname();
   const isInvestorView = pathname.startsWith('/investors');
   const isAuthPage = ['/signin', '/pending', '/denied'].includes(pathname);
   const hideInternalNav = isInvestorView || isAuthPage;
-  const showSignOut = !isAuthPage;
+  const showSignOut = !isAuthPage && isSignedIn;
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => setMenuOpen(false), [pathname]);
@@ -22,10 +22,16 @@ export default function Navbar() {
   // The left sidebar (DocsShell) is the one place all of these live now --
   // no more duplicate tab strip up here, just the one way in ("Hub", which
   // actually links into /docs, unlike the logo which goes to the landing page).
+  // The Investor View / Fund I tabs are gated on isSignedIn: both pages are
+  // reachable without a session (the fund one-pager deliberately so, see
+  // middleware.js), but the tabs advertising them should only show once
+  // someone's actually signed in.
   const links = [
     ...(!hideInternalNav ? [{ href: '/docs/overview', label: 'Hub' }] : []),
-    { href: '/investors', label: 'Investor View' },
-    { href: '/investors/research/fund-one-pager', label: 'Growth Opportunities Fund I' },
+    ...(isSignedIn ? [{ href: '/investors', label: 'Investor View' }] : []),
+    ...(isSignedIn
+      ? [{ href: '/investors/research/fund-one-pager', label: 'Growth Opportunities Fund I' }]
+      : []),
   ];
 
   return (
@@ -43,15 +49,19 @@ export default function Navbar() {
         </div>
         <div className={styles.right}>
           {!hideInternalNav && <GlobalSearch />}
-          <Link href="/investors" className={`${styles.link} ${isInvestorView ? styles.linkActive : ''}`}>
-            Investor View
-          </Link>
-          <Link
-            href="/investors/research/fund-one-pager"
-            className={`${styles.link} ${pathname.startsWith('/investors/research/fund-one-pager') ? styles.linkActive : ''}`}
-          >
-            Growth Opportunities Fund I
-          </Link>
+          {isSignedIn && (
+            <>
+              <Link href="/investors" className={`${styles.link} ${isInvestorView ? styles.linkActive : ''}`}>
+                Investor View
+              </Link>
+              <Link
+                href="/investors/research/fund-one-pager"
+                className={`${styles.link} ${pathname.startsWith('/investors/research/fund-one-pager') ? styles.linkActive : ''}`}
+              >
+                Growth Opportunities Fund I
+              </Link>
+            </>
+          )}
           {showSignOut && <SignOutButton className={styles.signOut} />}
         </div>
         <button

@@ -23,7 +23,7 @@ export default async function RootLayout({ children }) {
     <html lang="en">
       <body>
         <JobsProvider enabled={isInternal}>
-          <Navbar />
+          <Navbar isSignedIn={!!session?.user} />
           {children}
           <Footer />
           <JobsTray />
