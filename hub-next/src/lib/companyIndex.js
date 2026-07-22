@@ -87,3 +87,28 @@ export function findInvestorSources(companyName, tier1, partners) {
 export function findInvestorSource(companyName, tier1, partners) {
   return findInvestorSources(companyName, tier1, partners)[0] || null;
 }
+
+// Full-detail version of findInvestorSources -- same case-insensitive match
+// against Tier 1 deals[] and partner portfolio[], but keeps the raw deal/
+// portfolio-entry and firm objects (not just source/via/viaHref) so callers
+// can render the same "Deals recorded" / "Partner relationships" tables
+// InvestorRelationships expects. Shared by the VC-portfolio drill-in page
+// (docs/vcs/company/[slug]) and CompanyDetailPage, so a screened pipeline
+// company like Anduril shows the same partner-firm table an unscreened one
+// like Honeycomb does, instead of only the drill-in page having it.
+export function findInvestorMatches(companyName, tier1, partners) {
+  const nameLc = (companyName || '').trim().toLowerCase();
+  const tier1Matches = [];
+  (tier1 || []).forEach((firm) => {
+    (firm.deals || []).forEach((d) => {
+      if (d.company.toLowerCase() === nameLc) tier1Matches.push({ d, firm });
+    });
+  });
+  const partnerMatches = [];
+  (partners || []).forEach((p) => {
+    (p.portfolio || []).forEach((entry) => {
+      if (entry.company.toLowerCase() === nameLc) partnerMatches.push({ entry, firm: p });
+    });
+  });
+  return { tier1Matches, partnerMatches };
+}

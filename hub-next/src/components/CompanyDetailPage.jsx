@@ -1,9 +1,13 @@
 import { notFound } from 'next/navigation';
 import { auth } from '@/auth';
 import { getCompany } from '@/lib/companies';
+import { listTopVCs } from '@/lib/topVCs';
+import { listPartnerVCs } from '@/lib/partnerVCs';
+import { findInvestorMatches } from '@/lib/companyIndex';
 import ScreenView from '@/components/ScreenView';
 import TrackNewRoundForm from '@/components/TrackNewRoundForm';
 import CompanyInlineField from '@/components/CompanyInlineField';
+import InvestorRelationships from '@/components/InvestorRelationships';
 
 // Shared by the Watchlist / Pipeline / Qualified Deals detail routes -- a
 // company's screen history looks identical regardless of which stage it's
@@ -17,8 +21,14 @@ export async function generateCompanyMetadata({ params }) {
 
 export default async function CompanyDetailPage({ params }) {
   const { slug } = await params;
-  const [company, session] = await Promise.all([getCompany(slug), auth()]);
+  const [company, session, tier1, partners] = await Promise.all([
+    getCompany(slug),
+    auth(),
+    listTopVCs(),
+    listPartnerVCs(),
+  ]);
   if (!company) notFound();
+  const { tier1Matches, partnerMatches } = findInvestorMatches(company.name, tier1, partners);
   // Editing (subcategory scores/findings, dimension evidence, deal rationale)
   // is internal-only -- same role check as /api/top-vcs. These pages are
   // already internal-only end to end (investors are redirected to
@@ -49,6 +59,7 @@ export default async function CompanyDetailPage({ params }) {
         <ScreenView key={screen.id} screen={screen} canEdit={canEdit} slug={company.slug} />
       ))}
       {canEdit && <TrackNewRoundForm slug={company.slug} />}
+      <InvestorRelationships tier1Matches={tier1Matches} partnerMatches={partnerMatches} />
     </>
   );
 }
