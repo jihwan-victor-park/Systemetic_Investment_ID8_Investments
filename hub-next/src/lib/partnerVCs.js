@@ -1,5 +1,12 @@
 import 'server-only';
 import { db, isoDate } from './firestore';
+import { matchContacts } from './contactMatch';
+
+const ATTIO_WORKSPACE = 'i-d-8-investments';
+
+export function attioCompanyUrl(attioId) {
+  return attioId ? `https://app.attio.com/${ATTIO_WORKSPACE}/company/${attioId}` : '';
+}
 
 const COLLECTION = 'partnerVCs';
 
@@ -42,6 +49,9 @@ function _mapVC(doc) {
     name: d.name,
     trackedBy: d.trackedBy || '',
     contact: d.contact || '',
+    contactEmails: d.contactEmails || '',
+    contacts: matchContacts(d.contact || '', d.contactEmails || ''),
+    attioId: d.attioId || '',
     sector: d.sector || '',
     website: d.website || '',
     note: d.note || '',

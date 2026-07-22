@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { auth } from '@/auth';
 import { H2 } from '@/components/Prose';
-import { getPartnerVC } from '@/lib/partnerVCs';
+import { getPartnerVC, attioCompanyUrl } from '@/lib/partnerVCs';
 import { listCompanies } from '@/lib/companies';
 import { buildCompanyIndex } from '@/lib/companyIndex';
 import ArrayFieldEditor from '@/components/ArrayFieldEditor';
@@ -58,7 +58,15 @@ export default async function PartnerVCPage({ params }) {
             </p>
           )}
         </div>
-        <ContactChip endpoint="/api/partner-vcs" id={vc.id} trackedBy={vc.trackedBy} contact={vc.contact} canEdit={canEdit} />
+        <ContactChip
+          endpoint="/api/partner-vcs"
+          id={vc.id}
+          trackedBy={vc.trackedBy}
+          contact={vc.contact}
+          contacts={vc.contacts}
+          attioUrl={attioCompanyUrl(vc.attioId)}
+          canEdit={canEdit}
+        />
       </div>
 
       <PartnerPortfolioSection

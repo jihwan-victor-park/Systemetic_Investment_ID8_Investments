@@ -828,7 +828,9 @@
     ],
     "description": null,
     "connectionStrength": "Weak",
-    "attioCategories": null
+    "attioCategories": null,
+    "attioId": "37b79898-f386-4e4c-a3f1-abdefc7e54ee",
+    "contactEmails": "david@datapower.vc"
   },
   {
     "slug": "partner-ultratech-capital-partners",
@@ -1203,7 +1205,9 @@
     ],
     "description": null,
     "connectionStrength": "Very weak",
-    "attioCategories": null
+    "attioCategories": null,
+    "attioId": "5682cd37-2e77-4378-aa0b-b358b3deeef7",
+    "contactEmails": "dale.davis@ultratech.capital"
   },
   {
     "slug": "partner-volley-capital",
@@ -1216,7 +1220,9 @@
     "portfolio": [],
     "description": null,
     "connectionStrength": "Weak",
-    "attioCategories": null
+    "attioCategories": null,
+    "attioId": "559bccd1-0554-4b73-8ad2-f80439e9b7d0",
+    "contactEmails": "racz.greg@gmail.com,epepa@volleycap.com,greg@volleycap.com"
   },
   {
     "slug": "partner-left-lane-capital",
@@ -2647,7 +2653,9 @@
     ],
     "description": null,
     "connectionStrength": "Very weak",
-    "attioCategories": null
+    "attioCategories": null,
+    "attioId": "3fc26eb2-952a-4ae1-99d7-b6edaedf2633",
+    "contactEmails": "matt@leftlane.com,harley@leftlane.com"
   },
   {
     "slug": "partner-newfund",
@@ -2945,7 +2953,7 @@
         "source": "pitchbook"
       },
       {
-        "company": "BR\u00c2AM",
+        "company": "BRÂAM",
         "industry": "",
         "series": "",
         "investorStatus": "Active",
@@ -3094,7 +3102,7 @@
         "source": "pitchbook"
       },
       {
-        "company": "Bretzel Love Caff\u00e8",
+        "company": "Bretzel Love Caffè",
         "industry": "",
         "series": "",
         "investorStatus": "Former",
@@ -5655,7 +5663,7 @@
         "source": "pitchbook"
       },
       {
-        "company": "\u00c9lues Locales",
+        "company": "Élues Locales",
         "industry": "",
         "series": "",
         "investorStatus": "Former",
@@ -5670,7 +5678,9 @@
     ],
     "description": null,
     "connectionStrength": "Very weak",
-    "attioCategories": null
+    "attioCategories": null,
+    "attioId": "0d9707ac-7a34-40f3-ad41-d95c24c25f5a",
+    "contactEmails": "pj@newfundcap.com,christy@newfundcap.com,henri@newfundcap.com"
   },
   {
     "slug": "partner-fellows-fund",
@@ -6710,7 +6720,9 @@
     ],
     "description": null,
     "connectionStrength": "Weak",
-    "attioCategories": null
+    "attioCategories": null,
+    "attioId": "117f4484-74f2-45ed-9844-b52d793a1528",
+    "contactEmails": "lucas@fellows.fund,alex@fellows.fund"
   },
   {
     "slug": "partner-noetic-fund",
@@ -7275,7 +7287,9 @@
     ],
     "description": null,
     "connectionStrength": "Very weak",
-    "attioCategories": null
+    "attioCategories": null,
+    "attioId": "f63f0ee6-32a3-44af-bfc9-c6e5be3716dd",
+    "contactEmails": "michael@noeticfund.com,naseem@noeticfund.com,naseem@noeticfoundry.com,saad@noeticfund.com,michael@greyhousepartners.ca"
   },
   {
     "slug": "partner-1789-capital",
@@ -7916,7 +7930,9 @@
     ],
     "description": null,
     "connectionStrength": "Very strong",
-    "attioCategories": null
+    "attioCategories": null,
+    "attioId": "747d5b59-3359-43c1-8e74-f5c976fbf436",
+    "contactEmails": "mark@1789capital.io,kellyann@1789capital.io,andy@1789capital.io,steve@1789capital.io,dane@1789capital.io,paul@1789capital.io,cww@1789capital.io,emanuel@1789capital.io,leo@1789capital.io,kate@1789capital.io,omeed@1789capital.io,jordan@1789capital.io"
   },
   {
     "slug": "partner-felicis",
@@ -14590,7 +14606,9 @@
     ],
     "description": null,
     "connectionStrength": "Very weak",
-    "attioCategories": null
+    "attioCategories": null,
+    "attioId": "3bae3980-d297-4584-a34e-80332b1189ec",
+    "contactEmails": "dasha@felicis.com,niki@felicis.com"
   },
   {
     "slug": "partner-human-ventures",
@@ -16075,7 +16093,9 @@
     ],
     "description": null,
     "connectionStrength": "Very weak",
-    "attioCategories": null
+    "attioCategories": null,
+    "attioId": "c840e30b-f5fe-46e2-ae09-a21d360dceba",
+    "contactEmails": ""
   },
   {
     "slug": "partner-skypointer-venture-partners",
@@ -16362,7 +16382,9 @@
         "source": "pitchbook"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "7d870403-aa09-4135-ae65-2f751dd85894",
+    "contactEmails": "mserna@skypointervp.com,dsakovics@skypointervp.com"
   },
   {
     "slug": "partner-cartograph-ventures",
@@ -16513,7 +16535,9 @@
         "source": "pitchbook"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "23836651-c091-43f1-96d4-fd5d8b9c806e",
+    "contactEmails": "alex@cartographventures.com"
   },
   {
     "slug": "partner-connectivity-ventures",
@@ -16953,7 +16977,9 @@
         "source": "pitchbook"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "12782260-c629-479a-9d1f-93ea6c94f279",
+    "contactEmails": "jct@connectivity.vc"
   },
   {
     "slug": "partner-millennia-capital",
@@ -17427,7 +17453,9 @@
         "source": "pitchbook"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "8fc2b91d-5730-4953-83ec-ec5290a9ba58",
+    "contactEmails": "joe@millenniallp.com"
   },
   {
     "slug": "partner-h-e-n-r-y-collective",
@@ -17782,7 +17810,9 @@
         "source": "pitchbook"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "c56bbf51-d6d5-41c7-8796-ab24c79a8ac2",
+    "contactEmails": "tknight@henrycollective.co"
   },
   {
     "slug": "partner-wollemi-capital-group",
@@ -18103,7 +18133,9 @@
         "source": "pitchbook"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "51cf4fa8-ceb4-4b53-85a2-69c8c68a17a3",
+    "contactEmails": "jess@wollemicap.com"
   },
   {
     "slug": "partner-bond",
@@ -20379,7 +20411,9 @@
         "source": "pitchbook"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "5677d54d-f401-4386-aac8-555142bd75e2",
+    "contactEmails": "david@bondcap.com"
   },
   {
     "slug": "partner-7bc-venture-capital",
@@ -21091,7 +21125,9 @@
         "source": "pitchbook"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "3b6d8fcd-8548-4991-8a59-2433a40ce7f7",
+    "contactEmails": "andrew@7bc.vc"
   },
   {
     "slug": "partner-chiltern-street-capital",
@@ -21121,7 +21157,9 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/442635-85/company/profile"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "800b2874-39e3-4c44-9403-ed896e8d44ec",
+    "contactEmails": "murtaza@chilternstreet.capital,mohammed@chilternstreet.capital"
   },
   {
     "slug": "partner-converge",
@@ -21153,7 +21191,9 @@
         "source": "pitchbook"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "aba13b3d-65f3-4910-98c9-e89e17c641fb",
+    "contactEmails": "nb@converge.vc,jf@converge.vc"
   },
   {
     "slug": "partner-mgx",
@@ -21321,7 +21361,9 @@
         "source": "pitchbook"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "161ff482-6125-4fd5-bfb3-13a8671cb890",
+    "contactEmails": "emena@mgx.ae"
   },
   {
     "slug": "partner-autopilot",
@@ -21472,7 +21514,9 @@
         "source": "pitchbook"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "556fff55-fded-4288-b1fc-0ae7417fcdf7",
+    "contactEmails": "leon@apv.vc,will@apv.vc,max@apv.vc"
   },
   {
     "slug": "partner-guild-capital",
@@ -21759,7 +21803,9 @@
         "source": "pitchbook"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "59704cae-16fc-43d0-897b-cfb20125ed3c",
+    "contactEmails": "iain@guildcap.com,connor@guildcap.com,ir@guildcap.com,aviral@guildcap.com,harrison@guildcap.com,kavita@guildcap.com,dan@guildcap.com,iain@techweek.com"
   },
   {
     "slug": "partner-obsidian-investment-partners",
@@ -21859,7 +21905,9 @@
         "source": "pitchbook"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "154d4d35-b7dc-4a27-9776-a1deb64e4bed",
+    "contactEmails": "michael@obsidianip.co"
   },
   {
     "slug": "partner-plug-and-play-tech-center",
@@ -22044,7 +22092,9 @@
         "source": "pitchbook"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "b37322c8-bc2a-4b9b-8d66-798663f02047",
+    "contactEmails": "kirstin@pnptc.com,a.shirvani@pnptc.com,j.steinberg@pnptc.com,t.osborne@pnptc.com,h.cornelissen@pnptc.com,roja@pnptc.com,vanessa@pnptc.com,m.chavinson@pnptc.com,tianqi@pnptc.com,a.catutoiu@pnptc.com,v.decastelbajac@pnptc.com,m.williams@pnptc.com"
   },
   {
     "slug": "partner-alsop-louie-partners",
@@ -22416,7 +22466,9 @@
         "source": "pitchbook"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "c0df0df5-ee0c-48ed-afcf-9f3e85996a03",
+    "contactEmails": "salsop@alsop-louie.com,glouie@alsop-louie.com"
   },
   {
     "slug": "partner-story-ventures",
@@ -23060,7 +23112,9 @@
         "source": "pitchbook"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "a3528fd2-4f29-417b-8af8-dc3085fb7d15",
+    "contactEmails": "jake@storyventures.vc,brian@storyventures.vc"
   },
   {
     "slug": "partner-necessary-ventures",
@@ -23177,7 +23231,7 @@
         "source": "pitchbook"
       },
       {
-        "company": "Ind\u0113 Wild",
+        "company": "Indē Wild",
         "industry": "",
         "roundInvested": "",
         "latestRound": "",
@@ -23721,7 +23775,9 @@
         "source": "pitchbook"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "552d7371-0eb8-49be-ab27-2f8db7dbcf12",
+    "contactEmails": "neil@necessary.vc"
   },
   {
     "slug": "partner-grit-capital-partners",
@@ -24076,7 +24132,9 @@
         "source": "pitchbook"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "e9b19063-ce67-4eb8-9b6c-523b23a29994",
+    "contactEmails": "paul@grit.vc"
   },
   {
     "slug": "partner-iovc",
@@ -24533,7 +24591,9 @@
         "source": "pitchbook"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "01232a2d-c7f0-444a-b399-4ed2cdbe50ea",
+    "contactEmails": "shuo@iovc.io"
   },
   {
     "slug": "partner-crossbeam-venture-partners",
@@ -24608,7 +24668,9 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/599632-66/company/profile"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "854d4f93-6980-49c7-93d7-c54249545eec",
+    "contactEmails": "jamal.sakib@gmail.com,anotis@crossbeam.vc,rmorgan@crossbeam.vc,sjamal@crossbeam.vc"
   },
   {
     "slug": "partner-anthem-venture-partners",
@@ -24912,7 +24974,9 @@
         "source": "pitchbook"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "e57a01b6-cac4-4737-bf21-30a4d4ddbe2f",
+    "contactEmails": "dougsills90@gmail.com,dwoodward@anthemvp.com,dsills@anthemvp.com,bill@anthemvp.com,dillon@anthemvp.com,doug@immunovec.com"
   },
   {
     "slug": "partner-cadenza-ventures",
@@ -24972,7 +25036,9 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/729331-84/company/profile"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "5d1939ad-f9d9-43f2-bfae-331c6e842774",
+    "contactEmails": "harris@cadenza.vc,aniruddh.c@cadenza.vc"
   },
   {
     "slug": "partner-drover-ventures",
@@ -25208,7 +25274,9 @@
         "source": "pitchbook"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "c7f492f3-6485-421a-b60e-50445fa1bd65",
+    "contactEmails": "william@droverventures.com,elise@droverventures.com,hunter@droverventures.com"
   },
   {
     "slug": "partner-ironarc-capital",
@@ -25410,7 +25478,9 @@
         "source": "pitchbook"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "99257884-f3af-4e80-9996-3abcc99584dc",
+    "contactEmails": "ish@ironarcventures.com,ir@ironarcventures.com,pat@ironarcventures.com,av@ironarcventures.com,operations@ironarcventures.com,david@ironarcventures.com,lindsey@ironarcventures.com,owen@ironarcventures.com,ish@goldenarccap.com"
   },
   {
     "slug": "partner-tamarack-global",
@@ -25935,7 +26005,9 @@
         "source": "pitchbook"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "85172bda-bc45-4691-9b0d-48e809f9cf45",
+    "contactEmails": "rob@tamarackglobal.com"
   },
   {
     "slug": "partner-capital-factory",
@@ -27165,7 +27237,7 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/590668-03/company/profile"
       },
       {
-        "company": "Gl\u012bd (Rail)",
+        "company": "Glīd (Rail)",
         "companyPbid": "512617-33",
         "source": "pitchbook",
         "series": "",
@@ -33180,7 +33252,7 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/131241-61/company/profile"
       },
       {
-        "company": "F\u00eatefully",
+        "company": "Fêtefully",
         "companyPbid": "340782-40",
         "source": "pitchbook",
         "series": "",
@@ -47055,7 +47127,7 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/102245-14/company/profile"
       },
       {
-        "company": "J\u00fcsto",
+        "company": "Jüsto",
         "companyPbid": "290118-07",
         "source": "pitchbook",
         "series": "",
@@ -49260,7 +49332,7 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/628977-16/company/profile"
       },
       {
-        "company": "T\u00fa TeleDoc",
+        "company": "Tú TeleDoc",
         "companyPbid": "943316-38",
         "source": "pitchbook",
         "series": "",
@@ -53820,7 +53892,9 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/228010-87/company/profile"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "5a653fc7-a478-4492-b2af-cd6dd5bc9223",
+    "contactEmails": "jamieserio@capitalfactory.com,euniceroman@capitalfactory.com,painematiscik@capitalfactory.com,nickspiller@capitalfactory.com,bryanchambers@capitalfactory.com,carolinedavis@capitalfactory.com"
   },
   {
     "slug": "partner-u-first-capital",
@@ -54090,7 +54164,9 @@
         "source": "pitchbook"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "871f5379-1c7a-487f-911a-72925b01de74",
+    "contactEmails": "sanjit@ufirstcapital.com"
   },
   {
     "slug": "partner-edo-capital",
@@ -54104,7 +54180,9 @@
     "connectionStrength": "Weak",
     "attioCategories": null,
     "portfolio": [],
-    "news": []
+    "news": [],
+    "attioId": "dd014536-8b97-4145-8e55-8e49e5277102",
+    "contactEmails": "geoff@edocap.com,geoff.w.peters@gmail.com"
   },
   {
     "slug": "partner-awaken-capital",
@@ -54118,7 +54196,9 @@
     "connectionStrength": "Very weak",
     "attioCategories": null,
     "portfolio": [],
-    "news": []
+    "news": [],
+    "attioId": "c72fde3a-157b-42b1-bd34-62588b811c9f",
+    "contactEmails": "lily@awakencap.com,jeff@awakencap.com,tariq@awakencap.com,doug@awakencap.com,lily@osf.co"
   },
   {
     "slug": "partner-afore-capital",
@@ -54128,7 +54208,7 @@
     "sector": "",
     "website": "afore.vc",
     "note": "",
-    "description": "We\u2019re a $500M fund investing $500k - $2M+ with high conviction in pre-traction, pre-everything companies!",
+    "description": "We’re a $500M fund investing $500k - $2M+ with high conviction in pre-traction, pre-everything companies!",
     "connectionStrength": null,
     "attioCategories": null,
     "portfolio": [
@@ -54473,7 +54553,9 @@
         "source": "pitchbook"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "bfe728a7-29a0-4e2e-80b7-f92aae8db588",
+    "contactEmails": "derrick@wildcardfund.com"
   },
   {
     "slug": "partner-tribe-capital",
@@ -60788,7 +60870,9 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/962248-69/company/profile"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "04aee4ac-24c3-5033-82ae-41616007ce63",
+    "contactEmails": "jon@tribecap.co,evan@tribecap.co,mk@tribecap.co,caroline@tribecap.co,boris@tribecap.co,andrew@tribecap.co"
   },
   {
     "slug": "partner-lateral-frontiers-vc",
@@ -60848,7 +60932,9 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/550926-37/company/profile"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "eb3ad13a-e6b3-4270-badb-0b697030b7bf",
+    "contactEmails": "sgrin@lateralfrontiers.com"
   },
   {
     "slug": "partner-goldenarc-capital",
@@ -61050,7 +61136,9 @@
         "source": "pitchbook"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "bd90d1cc-43d4-4b22-8734-89f53f9c3728",
+    "contactEmails": ""
   },
   {
     "slug": "partner-coventure",
@@ -61064,7 +61152,9 @@
     "connectionStrength": "Very weak",
     "attioCategories": null,
     "portfolio": [],
-    "news": []
+    "news": [],
+    "attioId": "a1dd3e77-ef56-48ca-b111-7b44227ed3d3",
+    "contactEmails": "ali@coventure.vc,danielle@coventure.vc,cecilia@coventure.vc,brian@coventure.vc,dan@coventure.vc,elizabeth@coventure.vc,msloan@coventure.vc,meghan@coventure.vc,ir@coventure.vc,michael@coventure.vc,savneet@coventure.vc,ahamed@crossbeam.vc"
   },
   {
     "slug": "partner-red-sea-ventures",
@@ -61124,7 +61214,9 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/55319-68/company/profile"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "631a00df-9eeb-44d9-8a9d-ee5a1dff2b83",
+    "contactEmails": ""
   },
   {
     "slug": "partner-humans",
@@ -61190,7 +61282,9 @@
         "source": "pitchbook"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "faf78ebf-ac98-4313-bf32-1d86f7729380",
+    "contactEmails": "andrewztan12@gmail.com"
   },
   {
     "slug": "partner-gaingels",
@@ -61205,7 +61299,7 @@
     "attioCategories": null,
     "portfolio": [
       {
-        "company": "Ual\u00e1",
+        "company": "Ualá",
         "companyPbid": "183752-92",
         "source": "pitchbook",
         "series": "",
@@ -62195,7 +62289,7 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/264841-21/company/profile"
       },
       {
-        "company": "Apl\u00f3s",
+        "company": "Aplós",
         "companyPbid": "481854-97",
         "source": "pitchbook",
         "series": "",
@@ -67670,7 +67764,7 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/471204-91/company/profile"
       },
       {
-        "company": "So Gay Ros\u00e9",
+        "company": "So Gay Rosé",
         "companyPbid": "489655-27",
         "source": "pitchbook",
         "series": "",
@@ -70520,7 +70614,7 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/529850-35/company/profile"
       },
       {
-        "company": "T\u00f4mtex",
+        "company": "Tômtex",
         "companyPbid": "465323-32",
         "source": "pitchbook",
         "series": "",
@@ -72560,7 +72654,7 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/459754-57/company/profile"
       },
       {
-        "company": "Fort\u00eb",
+        "company": "Fortë",
         "companyPbid": "172010-98",
         "source": "pitchbook",
         "series": "",
@@ -80180,7 +80274,7 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/403985-80/company/profile"
       },
       {
-        "company": "Hyf\u00e9",
+        "company": "Hyfé",
         "companyPbid": "490988-44",
         "source": "pitchbook",
         "series": "",
@@ -91775,7 +91869,7 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/52975-99/company/profile"
       },
       {
-        "company": "Elev\u0101t",
+        "company": "Elevāt",
         "companyPbid": "222247-45",
         "source": "pitchbook",
         "series": "",
@@ -94160,7 +94254,7 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/268213-78/company/profile"
       },
       {
-        "company": "Kensh\u014d Health",
+        "company": "Kenshō Health",
         "companyPbid": "234711-10",
         "source": "pitchbook",
         "series": "",
@@ -97025,7 +97119,9 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/267451-39/company/profile"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "4b0e331e-c6db-4457-9e61-99cc6287c23d",
+    "contactEmails": "paulgrossinger@gaingels.com,iman@gaingels.com"
   },
   {
     "slug": "partner-scalar-vc",
@@ -97039,7 +97135,9 @@
     "connectionStrength": "Very weak",
     "attioCategories": null,
     "portfolio": [],
-    "news": []
+    "news": [],
+    "attioId": "cc1eb80e-a3d9-49a6-bdc4-1cb7973dc41d",
+    "contactEmails": "mussadiq@scalarvc.com"
   },
   {
     "slug": "partner-original-capital",
@@ -97099,7 +97197,9 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/756924-76/company/profile"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "0705ff5c-9495-4992-94ff-a66bc19c6da9",
+    "contactEmails": "snow@originalcapital.com,gajri@originalcapital.com"
   },
   {
     "slug": "partner-c2-ventures",
@@ -97159,7 +97259,9 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/500578-21/company/profile"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "b76475dc-588f-470c-8418-3441ad640533",
+    "contactEmails": "matt@c2ventures.co,chris@c2ventures.co"
   },
   {
     "slug": "partner-rosecliff-ventures",
@@ -97219,7 +97321,9 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/466959-97/company/profile"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "2fac9d43-19b7-5eaa-b273-4e6e3a4143a6",
+    "contactEmails": "keating@rosecliff.com,krish@rosecliff.com"
   },
   {
     "slug": "partner-treasury",
@@ -97625,7 +97729,9 @@
         "source": "pitchbook"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "e406ecf9-b8dc-490c-931f-a1f00c682830",
+    "contactEmails": "eli.broverman@gmail.com,maria@thetreasury.com,eli@thetreasury.com,ir@thetreasury.com,kir@thetreasury.com,jay@thetreasury.com,james@thetreasury.com,jeff@thetreasury.com,sasha@thetreasury.com"
   },
   {
     "slug": "partner-catalpa",
@@ -97640,7 +97746,7 @@
     "attioCategories": null,
     "portfolio": [
       {
-        "company": "M\u00e4dchenflohmarkt",
+        "company": "Mädchenflohmarkt",
         "companyPbid": "101639-89",
         "investorStatus": "Former",
         "investorSince": "2018-09-26",
@@ -97670,7 +97776,9 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/56916-82/company/profile"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "bcb8f1a0-05d6-4dc8-865e-9b82c74f66c3",
+    "contactEmails": "tdahya@catalpainc.com"
   },
   {
     "slug": "partner-rocana-venture-partners",
@@ -98229,7 +98337,9 @@
         "source": "pitchbook"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "1f07f3af-05fd-4d72-aa54-a1cd211983fb",
+    "contactEmails": "ssachar@rocanaventures.com,shawna@rocanaventures.com,jmalik@rocanaventures.com,gprewal@rocanaventures.com"
   },
   {
     "slug": "partner-ff-venture-capital",
@@ -101094,7 +101204,9 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/100101-88/company/profile"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "aeaf9d1d-1056-4ef6-b185-4e6fa8fd4a4f",
+    "contactEmails": "john@ffvc.com,nandini@ffvc.com,oliver.mitchell@ffvc.com,andrew.hong@ffvc.com"
   },
   {
     "slug": "partner-samara-capital",
@@ -101184,7 +101296,9 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/471287-44/company/profile"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "6d8014ad-c02f-43c2-865a-af0504cf3f73",
+    "contactEmails": "bcubitt@samarafunds.com"
   },
   {
     "slug": "partner-alpha-partners",
@@ -101726,7 +101840,9 @@
         "source": "pitchbook"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "54081356-93ae-4f37-b3c9-1b00023751ca",
+    "contactEmails": "brian@alphapartners.com,bsmiga@gmail.com"
   },
   {
     "slug": "partner-sabertooth-vc",
@@ -101740,7 +101856,9 @@
     "connectionStrength": "Good",
     "attioCategories": null,
     "portfolio": [],
-    "news": []
+    "news": [],
+    "attioId": "f04e2a89-6264-4657-90fb-1ca71e466faa",
+    "contactEmails": "justin@sabertooth.vc"
   },
   {
     "slug": "partner-align-ventures",
@@ -102248,7 +102366,9 @@
         "source": "pitchbook"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "c6ae6781-1374-5d3e-a5c0-143219ff2c81",
+    "contactEmails": "andrew@align.vc"
   },
   {
     "slug": "partner-scop-venture-capital",
@@ -102739,7 +102859,9 @@
         "source": "pitchbook"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "41d1bcf2-485b-4f4b-8646-d5a14569eaef",
+    "contactEmails": "ivan@scopvc.com,mike@scopvc.com,ibercovich@gmail.com"
   },
   {
     "slug": "partner-melitas-ventures",
@@ -103298,7 +103420,9 @@
         "source": "pitchbook"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "a5127e02-c0d3-4c67-a0fc-ee3adf027e85",
+    "contactEmails": "alex@nebari.us,alex@melitasventures.com"
   },
   {
     "slug": "partner-spice-capital",
@@ -103358,7 +103482,9 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/711616-06/company/profile"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "021d436a-2e69-44ed-aa67-b56a99ef0c62",
+    "contactEmails": "maya@spicecap.xyz"
   },
   {
     "slug": "partner-2-punks-capital",
@@ -103781,7 +103907,9 @@
         "source": "pitchbook"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "94c405da-c1f2-47bb-bd2c-b89b35cd4fb1",
+    "contactEmails": "jacob@2punkscapital.com"
   },
   {
     "slug": "partner-silent-ventures",
@@ -104272,7 +104400,9 @@
         "source": "pitchbook"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "cfadd88a-9974-41b8-b5ae-e1a7195ed21c",
+    "contactEmails": "jackson@silentvc.com"
   },
   {
     "slug": "partner-jumpspace-vc",
@@ -104610,7 +104740,9 @@
         "source": "pitchbook"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "008a8843-482b-4388-8675-17a80778c99c",
+    "contactEmails": "adam_levinson@yahoo.com,adam.levinson@jumpspace.vc,adam@jumpspace.vc"
   },
   {
     "slug": "partner-saas-ventures",
@@ -107145,7 +107277,9 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/432926-92/company/profile"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "fe91c59b-ec37-4152-afdf-ce58875ee241",
+    "contactEmails": "brian.gaister@saasventurecapital.com,jesse.bloom@saasventurecapital.com,brian.gaister@penningtonptrs.com"
   },
   {
     "slug": "partner-manhattan-venture-partners",
@@ -107789,7 +107923,9 @@
         "source": "pitchbook"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "4d68f66e-9e4d-4652-b6d0-9427246a3f5a",
+    "contactEmails": "mevans@mvp.vc,ccapps@mvp.vc,mzhang@manhattanventurepartners.com"
   },
   {
     "slug": "partner-embark-ventures",
@@ -108229,7 +108365,9 @@
         "source": "pitchbook"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "000034b5-9eae-4bd1-a4f9-7b2d6c2d0881",
+    "contactEmails": "yipeng@embark.vc"
   },
   {
     "slug": "partner-alley",
@@ -110629,7 +110767,7 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/171922-78/company/profile"
       },
       {
-        "company": "Ual\u00e1",
+        "company": "Ualá",
         "companyPbid": "183752-92",
         "source": "pitchbook",
         "series": "",
@@ -111169,7 +111307,9 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/469898-92/company/profile"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "f7f517b3-aacb-4d11-9122-9d706ad8b605",
+    "contactEmails": "abe@arv.team,brannon@alleycorp.com,abe@alleycorp.com"
   },
   {
     "slug": "partner-bluescorpioninv",
@@ -111388,7 +111528,9 @@
         "source": "pitchbook"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "327f6de6-e934-4a80-91ee-fa8752716151",
+    "contactEmails": "ga@bluescorpioninv.com,ea@bluescorpioninv.com"
   },
   {
     "slug": "partner-antler",
@@ -112288,7 +112430,7 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/1378241-11/company/profile"
       },
       {
-        "company": "Bella Sl\u00e1inte",
+        "company": "Bella Sláinte",
         "companyPbid": "1440350-92",
         "source": "pitchbook",
         "series": "",
@@ -113128,7 +113270,7 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/1162638-64/company/profile"
       },
       {
-        "company": "eve AI (\u00c5kersberga)",
+        "company": "eve AI (Åkersberga)",
         "companyPbid": "1318411-09",
         "source": "pitchbook",
         "series": "",
@@ -114748,7 +114890,7 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/1318455-37/company/profile"
       },
       {
-        "company": "Gl\u012bd (Rail)",
+        "company": "Glīd (Rail)",
         "companyPbid": "512617-33",
         "source": "pitchbook",
         "series": "",
@@ -127573,7 +127715,7 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/538167-16/company/profile"
       },
       {
-        "company": "SN\u00dcX",
+        "company": "SNÜX",
         "companyPbid": "529952-32",
         "source": "pitchbook",
         "series": "",
@@ -129583,7 +129725,7 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/528478-48/company/profile"
       },
       {
-        "company": "Altern\u014d",
+        "company": "Alternō",
         "companyPbid": "523110-25",
         "source": "pitchbook",
         "series": "",
@@ -141433,7 +141575,9 @@
         "pitchbookUrl": "https://my.pitchbook.com/profile/1405675-54/company/profile"
       }
     ],
-    "news": []
+    "news": [],
+    "attioId": "f1d8d01a-8869-409a-b08c-863073d57759",
+    "contactEmails": "roslyn@antler.co,will.griffiths@antler.co,jeff.becker@antler.co,ryan@antler.co,teddy.himler@antler.co,chris.millisits@antler.co"
   },
   {
     "slug": "partner-redshift",
@@ -141447,7 +141591,9 @@
     "connectionStrength": "Good",
     "attioCategories": null,
     "portfolio": [],
-    "news": []
+    "news": [],
+    "attioId": "0b08434a-56f5-43b1-803c-b6b8d2206bc1",
+    "contactEmails": "zarek@redshiftcap.com"
   },
   {
     "slug": "partner-beyond-capital",
@@ -141461,6 +141607,8 @@
     "connectionStrength": "Good",
     "attioCategories": null,
     "portfolio": [],
-    "news": []
+    "news": [],
+    "attioId": "33874d72-6ff0-487f-af6f-23d21e778735",
+    "contactEmails": "will@joinbeyond.co"
   }
 ]
