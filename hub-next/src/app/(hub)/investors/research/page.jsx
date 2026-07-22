@@ -18,8 +18,8 @@ export default function InvestorResearch() {
         for now, this page just confirms your account has research access.
       </p>
       <div className={styles.closing}>
-        <Link href="/investors/research/fund-one-pager" className={styles.closingLink}>
-          View the Growth Opportunities Fund I one-pager →
+        <Link href="/investors/materials/fund-overview" className={styles.closingLink}>
+          View the Growth Opportunities Fund I overview →
         </Link>
       </div>
     </main>

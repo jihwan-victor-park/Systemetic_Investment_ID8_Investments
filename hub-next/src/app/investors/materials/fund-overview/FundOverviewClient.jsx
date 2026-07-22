@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react';
 import { PAGE_CSS, BODY_HTML } from './content.js';
 
-// Renders the ported one-pager inside a Shadow DOM so its (fairly aggressive,
+// Renders the ported fund overview inside a Shadow DOM so its (fairly aggressive,
 // document-level) CSS reset -- *{...}, :host{...} standing in for the
 // original body{...} -- can never leak into or be leaked into by the rest of
 // the hub's styles. The markup itself is untouched from the original export
@@ -19,8 +19,8 @@ import { PAGE_CSS, BODY_HTML } from './content.js';
 // callouts ($50MM, 4–6x, 14.3x, etc.) and a few CSS-only hover treatments
 // (already appended into content.js's PAGE_CSS) -- kept subtle and only
 // active once a stat scrolls into view, so the page still reads as a
-// professional LP one-pager rather than a demo of animation effects.
-export default function FundOnePagerClient() {
+// professional LP fund overview rather than a demo of animation effects.
+export default function FundOverviewClient() {
   const hostRef = useRef(null);
 
   useEffect(() => {

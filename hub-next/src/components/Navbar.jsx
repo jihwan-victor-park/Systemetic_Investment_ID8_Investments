@@ -23,14 +23,14 @@ export default function Navbar({ isSignedIn = false }) {
   // no more duplicate tab strip up here, just the one way in ("Hub", which
   // actually links into /docs, unlike the logo which goes to the landing page).
   // The Investor View / Fund I tabs are gated on isSignedIn: both pages are
-  // reachable without a session (the fund one-pager deliberately so, see
+  // reachable without a session (the fund overview deliberately so, see
   // middleware.js), but the tabs advertising them should only show once
   // someone's actually signed in.
   const links = [
     ...(!hideInternalNav ? [{ href: '/docs/overview', label: 'Hub' }] : []),
     ...(isSignedIn ? [{ href: '/investors', label: 'Investor View' }] : []),
     ...(isSignedIn
-      ? [{ href: '/investors/research/fund-one-pager', label: 'Growth Opportunities Fund I' }]
+      ? [{ href: '/investors/materials/fund-overview', label: 'Growth Opportunities Fund I' }]
       : []),
   ];
 
@@ -55,8 +55,8 @@ export default function Navbar({ isSignedIn = false }) {
                 Investor View
               </Link>
               <Link
-                href="/investors/research/fund-one-pager"
-                className={`${styles.link} ${pathname.startsWith('/investors/research/fund-one-pager') ? styles.linkActive : ''}`}
+                href="/investors/materials/fund-overview"
+                className={`${styles.link} ${pathname.startsWith('/investors/materials/fund-overview') ? styles.linkActive : ''}`}
               >
                 Growth Opportunities Fund I
               </Link>

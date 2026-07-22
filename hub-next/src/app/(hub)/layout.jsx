@@ -4,11 +4,11 @@ import JobsTray from '@/components/JobsTray';
 import { JobsProvider } from '@/context/JobsContext';
 import { auth } from '@/auth';
 
-// Every route except the Growth Opportunities Fund I one-pager lives inside
-// this group -- that page renders its own header/footer from the LP one-
-// pager export and deliberately opts out of the hub's chrome entirely (see
-// the sibling, non-grouped investors/research/fund-one-pager route and the
-// bare root layout.jsx).
+// Every route except the Growth Opportunities Fund I overview lives inside
+// this group -- that page renders its own header/footer from the LP fund
+// overview export and deliberately opts out of the hub's chrome entirely
+// (see the sibling, non-grouped investors/materials/fund-overview route and
+// the bare root layout.jsx).
 export default async function HubLayout({ children }) {
   // Only internal users trigger/see screening jobs -- fetched here (a Server
   // Component) rather than via a client useSession() hook, since this app
