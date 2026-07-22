@@ -1,9 +1,4 @@
 import './globals.css';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
-import JobsTray from '@/components/JobsTray';
-import { JobsProvider } from '@/context/JobsContext';
-import { auth } from '@/auth';
 
 export const metadata = {
   title: { default: 'ID8 AI Intelligence', template: '%s · ID8 AI Intelligence' },
@@ -11,24 +6,14 @@ export const metadata = {
   icons: { icon: '/img/favicon.png' },
 };
 
-export default async function RootLayout({ children }) {
-  // Only internal users trigger/see screening jobs -- fetched here (a Server
-  // Component) rather than via a client useSession() hook, since this app
-  // has no SessionProvider mounted anywhere and every other page already
-  // gets its session this way.
-  const session = await auth();
-  const isInternal = session?.user?.role === 'internal';
-
+// Deliberately bare -- the hub's own chrome (Navbar, Footer, JobsTray) lives
+// in (hub)/layout.jsx instead, so the Growth Opportunities Fund I one-pager
+// (the one route not inside that group) can render with none of it: just its
+// own header/footer from the LP one-pager export, full-bleed.
+export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>
-        <JobsProvider enabled={isInternal}>
-          <Navbar isSignedIn={!!session?.user} />
-          {children}
-          <Footer />
-          <JobsTray />
-        </JobsProvider>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
