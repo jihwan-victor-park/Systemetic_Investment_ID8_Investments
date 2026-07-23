@@ -27,7 +27,12 @@
   max-width: var(--ifm-container-width-xl);
   padding: 0 2rem;
   display: grid;
-  grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+  /* TOC is nav links, not body copy -- it doesn't need to scale with the
+     container the way prose would, so it gets a fixed width and every extra
+     pixel from a wider container (or a wider viewport) goes to main instead.
+     That matters most on pages like a Partner VC's Portfolio table, which
+     eats into this same "with a TOC" budget via its News section heading. */
+  grid-template-columns: minmax(0, 1fr) 240px;
   gap: 2.5rem;
   align-items: start;
 }

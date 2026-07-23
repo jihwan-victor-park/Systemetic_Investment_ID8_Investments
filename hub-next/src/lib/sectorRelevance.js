@@ -37,3 +37,18 @@ export function isSectorInScope(entry) {
   if (!text) return true;
   return !EXCLUDED_KEYWORDS.some((kw) => text.includes(kw));
 }
+
+// Portfolio-company scope check -- layers the real deterministic prefilter
+// (deal_intelligence/portfolio_prefilter.py: geography NA/Europe, business
+// status, no-enrichment-data, AI-relevance keyword+embeddings) on top of this
+// file's own lighter keyword check. That Python pass stamps `prefilterPass`/
+// `prefilterReason` directly onto each company in partner-vcs-seed.json, so
+// this is just reading its verdict, not re-deriving one -- single source of
+// truth stays the Python side. `prefilterPass === false` hides the company;
+// `true` or missing (funds over 500 companies are deferred, not evaluated,
+// so they carry no field at all -- see run_all()'s DEFAULT_MAX_FUND_SIZE)
+// falls back to the plain keyword check, same as before this existed.
+export function isPortfolioCompanyInScope(entry) {
+  if (entry?.prefilterPass === false) return false;
+  return isSectorInScope(entry);
+}

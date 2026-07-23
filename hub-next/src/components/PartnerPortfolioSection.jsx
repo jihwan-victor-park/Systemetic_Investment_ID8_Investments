@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react';
 import PortfolioTable from './PortfolioTable';
 import PortfolioGraph from './PortfolioGraph';
-import { isSectorInScope } from '@/lib/sectorRelevance';
+import { isPortfolioCompanyInScope } from '@/lib/sectorRelevance';
 import styles from './PartnerPortfolioSection.module.css';
 
 // Portfolio tile on a Partner VC's page -- List (the same sortable/
@@ -15,7 +15,12 @@ import styles from './PartnerPortfolioSection.module.css';
 //
 // The scope toggle defaults OFF (i.e. showing the filtered, in-thesis view)
 // -- per Oscar's "biotech shouldn't be here" ask, a portfolio is assumed to
-// contain off-thesis companies until proven otherwise. Graph gets a plain
+// contain off-thesis companies until proven otherwise. isPortfolioCompanyInScope
+// (sectorRelevance.js) is this file's own keyword check layered on top of the
+// real prefilterPass verdict deal_intelligence/portfolio_prefilter.py stamps
+// onto each company (geography, business status, AI-relevance) -- funds over
+// 500 companies haven't been run through that yet, so they fall back to the
+// keyword check alone until they are. Graph gets a plain
 // pre-filtered array (read-only, nothing to persist); List gets the full
 // unfiltered array plus a filterFn, since PortfolioTable's add/remove needs
 // the true underlying array to persist correctly (see PortfolioTable.jsx).
@@ -25,7 +30,7 @@ export default function PartnerPortfolioSection({ vcId, vcName, portfolio, compa
 
   const { visiblePortfolio, hiddenCount } = useMemo(() => {
     if (showAll) return { visiblePortfolio: portfolio, hiddenCount: 0 };
-    const visible = portfolio.filter(isSectorInScope);
+    const visible = portfolio.filter(isPortfolioCompanyInScope);
     return { visiblePortfolio: visible, hiddenCount: portfolio.length - visible.length };
   }, [portfolio, showAll]);
 
@@ -43,7 +48,7 @@ export default function PartnerPortfolioSection({ vcId, vcName, portfolio, compa
         <input type="checkbox" checked={showAll} onChange={(e) => setShowAll(e.target.checked)} />
         Show all portfolio companies
         {!showAll && hiddenCount > 0 && (
-          <span className={styles.scopeHint}>({hiddenCount} hidden — out of scope, e.g. biotech)</span>
+          <span className={styles.scopeHint}>({hiddenCount} hidden — off-thesis sector, wrong geography, inactive, or no data on file)</span>
         )}
       </label>
 
@@ -53,7 +58,7 @@ export default function PartnerPortfolioSection({ vcId, vcName, portfolio, compa
           id={vcId}
           field="portfolio"
           items={portfolio}
-          filterFn={showAll ? null : isSectorInScope}
+          filterFn={showAll ? null : isPortfolioCompanyInScope}
           companyIndex={companyIndex}
           canEdit={canEdit}
           addLabel="Add company"

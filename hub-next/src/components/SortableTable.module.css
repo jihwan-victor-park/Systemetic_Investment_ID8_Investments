@@ -35,9 +35,39 @@
    with room to spare, so this table opts out and sizes to its natural
    content width instead, scrolling horizontally when that's wider than the
    viewport ("slide through the table") rather than squeezing every column. */
+/* Scroll-shadow trick: two "fade to page background" layers scroll WITH the
+   content (background-attachment: local) and mask themselves once you've
+   scrolled past that edge, while two darker shadow layers stay fixed to the
+   viewport (background-attachment: scroll) and only peek out from under the
+   fade where there's still more table to see. Net effect: a soft edge glow
+   that's only visible on whichever side still has hidden columns -- no JS,
+   no native scrollbar required to notice a table scrolls. */
 .scrollWrap {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+  background:
+    linear-gradient(to right, var(--id8-paper) 0%, rgba(251, 250, 247, 0) 100%) left center / 32px 100% no-repeat,
+    linear-gradient(to left, var(--id8-paper) 0%, rgba(251, 250, 247, 0) 100%) right center / 32px 100% no-repeat,
+    linear-gradient(to right, rgba(17, 46, 212, 0.16), rgba(17, 46, 212, 0)) left center / 14px 100% no-repeat,
+    linear-gradient(to left, rgba(17, 46, 212, 0.16), rgba(17, 46, 212, 0)) right center / 14px 100% no-repeat;
+  background-attachment: local, local, scroll, scroll;
+  scrollbar-color: var(--id8-accent) var(--id8-hair);
+  scrollbar-width: thin;
+}
+
+.scrollWrap::-webkit-scrollbar {
+  height: 8px;
+}
+.scrollWrap::-webkit-scrollbar-track {
+  background: var(--id8-hair);
+  border-radius: 4px;
+}
+.scrollWrap::-webkit-scrollbar-thumb {
+  background: var(--id8-accent);
+  border-radius: 4px;
+}
+.scrollWrap::-webkit-scrollbar-thumb:hover {
+  background: var(--id8-ink);
 }
 .wrap .scrollWrap table {
   width: auto;

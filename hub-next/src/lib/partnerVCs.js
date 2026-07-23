@@ -29,6 +29,11 @@ function _mapPortfolioEntry(p) {
     category: p.category || '',
     description: p.description || '',
     pitchbookUrl: p.pitchbookUrl || '',
+    // Stamped by deal_intelligence/portfolio_prefilter.py's run_all() --
+    // undefined for anything not yet evaluated (funds over 500 companies are
+    // deliberately deferred, see DEFAULT_MAX_FUND_SIZE), never inferred here.
+    prefilterPass: p.prefilterPass ?? null,
+    prefilterReason: p.prefilterReason || '',
   };
 }
 
