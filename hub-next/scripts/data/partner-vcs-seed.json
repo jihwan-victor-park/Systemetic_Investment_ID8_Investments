@@ -46,7 +46,8 @@
         "hqLocation": "Costa Mesa, CA",
         "businessStatus": "Generating Revenue",
         "latestRound": "Later Stage VC",
-        "latestRoundDate": "2026-05-13"
+        "latestRoundDate": "2026-05-13",
+        "roundInvested": "Later Stage VC"
       },
       {
         "company": "AppliedXL",
@@ -143,7 +144,8 @@
         "hqLocation": "Austin, TX",
         "businessStatus": "Generating Revenue",
         "latestRound": "Early Stage VC",
-        "latestRoundDate": "2026-05-29"
+        "latestRoundDate": "2026-05-29",
+        "roundInvested": "Early Stage VC"
       },
       {
         "company": "Bazze",
@@ -163,7 +165,8 @@
         "yearFounded": 2019,
         "hqLocation": "San Francisco, CA",
         "businessStatus": "Generating Revenue",
-        "latestRound": "Later Stage VC"
+        "latestRound": "Later Stage VC",
+        "roundInvested": "Seed Round"
       },
       {
         "company": "Castelion",
@@ -223,7 +226,8 @@
         "yearFounded": 2018,
         "hqLocation": "Denver, CO",
         "businessStatus": "Generating Revenue",
-        "latestRound": "Later Stage VC"
+        "latestRound": "Later Stage VC",
+        "roundInvested": "Early Stage VC"
       },
       {
         "company": "DataPlor",
@@ -339,7 +343,8 @@
         "hqLocation": "San Jose, CA",
         "businessStatus": "Generating Revenue",
         "latestRound": "Later Stage VC",
-        "latestRoundDate": "2026-06-24"
+        "latestRoundDate": "2026-06-24",
+        "roundInvested": "Later Stage VC"
       },
       {
         "company": "Harvey",
@@ -360,7 +365,8 @@
         "hqLocation": "San Francisco, CA",
         "businessStatus": "Generating Revenue",
         "latestRound": "Later Stage VC",
-        "latestRoundDate": "2026-03-24"
+        "latestRoundDate": "2026-03-24",
+        "roundInvested": "Later Stage VC"
       },
       {
         "company": "Hebbia",
@@ -381,7 +387,8 @@
         "hqLocation": "New York, NY",
         "businessStatus": "Generating Revenue",
         "latestRound": "Later Stage VC",
-        "latestRoundDate": "2026-02-24"
+        "latestRoundDate": "2026-02-24",
+        "roundInvested": "Later Stage VC"
       },
       {
         "company": "MRGN",
@@ -402,7 +409,8 @@
         "hqLocation": "New York, NY",
         "businessStatus": "Generating Revenue",
         "latestRound": "Accelerator/Incubator",
-        "latestRoundDate": "2025-12-03"
+        "latestRoundDate": "2025-12-03",
+        "roundInvested": "Seed Round"
       },
       {
         "company": "Mach Industries",
@@ -423,7 +431,8 @@
         "hqLocation": "Huntington Beach, CA",
         "businessStatus": "Generating Revenue",
         "latestRound": "Later Stage VC",
-        "latestRoundDate": "2026-06-02"
+        "latestRoundDate": "2026-06-02",
+        "roundInvested": "Later Stage VC"
       },
       {
         "company": "Mosea Technologies",
@@ -444,7 +453,8 @@
         "hqLocation": "Toronto, Canada",
         "businessStatus": "Generating Revenue",
         "latestRound": "Seed Round",
-        "latestRoundDate": "2023-07-20"
+        "latestRoundDate": "2023-07-20",
+        "roundInvested": "Seed Round"
       },
       {
         "company": "Naya (Multimedia and Design Software)",
@@ -465,7 +475,8 @@
         "hqLocation": "Allston, MA",
         "businessStatus": "Generating Revenue",
         "latestRound": "Seed Round",
-        "latestRoundDate": "2021-12-01"
+        "latestRoundDate": "2021-12-01",
+        "roundInvested": "Seed Round"
       },
       {
         "company": "Nomad Data",
@@ -486,7 +497,8 @@
         "hqLocation": "New York, NY",
         "businessStatus": "Generating Revenue",
         "latestRound": "Later Stage VC",
-        "latestRoundDate": "2025-02-01"
+        "latestRoundDate": "2025-02-01",
+        "roundInvested": "Seed Round"
       },
       {
         "company": "Nscale",
@@ -507,7 +519,8 @@
         "hqLocation": "London, United Kingdom",
         "businessStatus": "Generating Revenue",
         "latestRound": "IPO",
-        "latestRoundDate": "2025-10-15"
+        "latestRoundDate": "2025-10-15",
+        "roundInvested": "IPO"
       },
       {
         "company": "OpenAI",
@@ -586,7 +599,8 @@
         "yearFounded": 2024,
         "hqLocation": "San Francisco, CA",
         "businessStatus": "Generating Revenue",
-        "latestRound": "Early Stage VC"
+        "latestRound": "Early Stage VC",
+        "roundInvested": "Early Stage VC"
       },
       {
         "company": "Planful",
@@ -628,7 +642,8 @@
         "hqLocation": "Newton, MA",
         "businessStatus": "Generating Revenue",
         "latestRound": "Buyout/LBO",
-        "latestRoundDate": "2022-09-12"
+        "latestRoundDate": "2022-09-12",
+        "roundInvested": "Seed Round"
       },
       {
         "company": "Polygraf AI",
@@ -670,7 +685,8 @@
         "hqLocation": "New York, NY",
         "businessStatus": "Generating Revenue",
         "latestRound": "Accelerator/Incubator",
-        "latestRoundDate": "2025-02-24"
+        "latestRoundDate": "2025-02-24",
+        "roundInvested": "Seed Round"
       },
       {
         "company": "Rippling",
@@ -691,7 +707,8 @@
         "hqLocation": "San Francisco, CA",
         "businessStatus": "Generating Revenue",
         "latestRound": "Later Stage VC",
-        "latestRoundDate": "2025-12-05"
+        "latestRoundDate": "2025-12-05",
+        "roundInvested": "Later Stage VC"
       },
       {
         "company": "Safe Superintelligence",
@@ -712,7 +729,8 @@
         "hqLocation": "Palo Alto, CA",
         "businessStatus": "Startup",
         "latestRound": "Early Stage VC",
-        "latestRoundDate": "2025-04-11"
+        "latestRoundDate": "2025-04-11",
+        "roundInvested": "Early Stage VC"
       },
       {
         "company": "Scoutr",
@@ -733,7 +751,8 @@
         "hqLocation": "Dubai, United Arab Emirates",
         "businessStatus": "Generating Revenue",
         "latestRound": "Seed Round",
-        "latestRoundDate": "2024-10-11"
+        "latestRoundDate": "2024-10-11",
+        "roundInvested": "Seed Round"
       },
       {
         "company": "SpaceX",
@@ -754,7 +773,8 @@
         "hqLocation": "Starbase, TX",
         "businessStatus": "Generating Revenue/Not Profitable",
         "latestRound": "IPO",
-        "latestRoundDate": "2026-06-12"
+        "latestRoundDate": "2026-06-12",
+        "roundInvested": "Later Stage VC"
       },
       {
         "company": "Stripe",
@@ -775,7 +795,8 @@
         "hqLocation": "South San Francisco, CA",
         "businessStatus": "Profitable",
         "latestRound": "Secondary Transaction - Private",
-        "latestRoundDate": "2026-03-27"
+        "latestRoundDate": "2026-03-27",
+        "roundInvested": "Later Stage VC"
       },
       {
         "company": "Sumatra",
@@ -796,7 +817,8 @@
         "hqLocation": "Austin, TX",
         "businessStatus": "Generating Revenue",
         "latestRound": "Merger/Acquisition",
-        "latestRoundDate": "2024-06-26"
+        "latestRoundDate": "2024-06-26",
+        "roundInvested": "Seed Round"
       },
       {
         "company": "TensorWave",
@@ -817,7 +839,8 @@
         "hqLocation": "Las Vegas, NV",
         "businessStatus": "Generating Revenue",
         "latestRound": "Early Stage VC",
-        "latestRoundDate": "2026-05-29"
+        "latestRoundDate": "2026-05-29",
+        "roundInvested": "Early Stage VC"
       },
       {
         "company": "Together AI",
@@ -838,7 +861,8 @@
         "hqLocation": "San Francisco, CA",
         "businessStatus": "Generating Revenue",
         "latestRound": "Later Stage VC",
-        "latestRoundDate": "2026-03-05"
+        "latestRoundDate": "2026-03-05",
+        "roundInvested": "Later Stage VC"
       },
       {
         "company": "True Anomaly",
@@ -859,7 +883,8 @@
         "hqLocation": "Centennial, CO",
         "businessStatus": "Generating Revenue",
         "latestRound": "Later Stage VC",
-        "latestRoundDate": "2026-03-31"
+        "latestRoundDate": "2026-03-31",
+        "roundInvested": "Later Stage VC"
       },
       {
         "company": "Unconventional AI",
@@ -880,7 +905,8 @@
         "hqLocation": "San Francisco, CA",
         "businessStatus": "Generating Revenue",
         "latestRound": "Seed Round",
-        "latestRoundDate": "2025-12-09"
+        "latestRoundDate": "2025-12-09",
+        "roundInvested": "Seed Round"
       }
     ],
     "description": null,
@@ -3040,7 +3066,8 @@
         "yearFounded": 2019,
         "hqLocation": "San Francisco, CA",
         "businessStatus": "Generating Revenue",
-        "latestRound": "Later Stage VC"
+        "latestRound": "Later Stage VC",
+        "roundInvested": "Seed Round"
       },
       {
         "company": "Beam for Music",
@@ -7397,7 +7424,8 @@
         "hqLocation": "Costa Mesa, CA",
         "businessStatus": "Generating Revenue",
         "latestRound": "Later Stage VC",
-        "latestRoundDate": "2026-05-13"
+        "latestRoundDate": "2026-05-13",
+        "roundInvested": "Later Stage VC"
       },
       {
         "company": "Axiom Space",
@@ -7456,7 +7484,8 @@
         "hqLocation": "Austin, TX",
         "businessStatus": "Generating Revenue",
         "latestRound": "Early Stage VC",
-        "latestRoundDate": "2026-05-29"
+        "latestRoundDate": "2026-05-29",
+        "roundInvested": "Early Stage VC"
       },
       {
         "company": "Blink Health",
@@ -7516,7 +7545,8 @@
         "yearFounded": 2018,
         "hqLocation": "Denver, CO",
         "businessStatus": "Generating Revenue",
-        "latestRound": "Later Stage VC"
+        "latestRound": "Later Stage VC",
+        "roundInvested": "Early Stage VC"
       },
       {
         "company": "Databricks",
@@ -7613,7 +7643,8 @@
         "hqLocation": "San Jose, CA",
         "businessStatus": "Generating Revenue",
         "latestRound": "Later Stage VC",
-        "latestRoundDate": "2026-06-24"
+        "latestRoundDate": "2026-06-24",
+        "roundInvested": "Early Stage VC"
       },
       {
         "company": "Hadrian",
@@ -7862,7 +7893,8 @@
         "hqLocation": "Starbase, TX",
         "businessStatus": "Generating Revenue/Not Profitable",
         "latestRound": "IPO",
-        "latestRoundDate": "2026-06-12"
+        "latestRoundDate": "2026-06-12",
+        "roundInvested": "Later Stage VC"
       },
       {
         "company": "Starlab Space",
@@ -14063,7 +14095,8 @@
         "hqLocation": "San Francisco, CA",
         "businessStatus": "Generating Revenue",
         "latestRound": "Seed Round",
-        "latestRoundDate": "2025-12-09"
+        "latestRoundDate": "2025-12-09",
+        "roundInvested": "Seed Round"
       },
       {
         "company": "Vannevar Labs",
@@ -17120,7 +17153,7 @@
       {
         "company": "Crusoe",
         "industry": "",
-        "roundInvested": "",
+        "roundInvested": "Later Stage VC",
         "latestRound": "Later Stage VC",
         "latestRoundDate": null,
         "category": "",
@@ -17358,7 +17391,7 @@
       {
         "company": "SpaceX",
         "industry": "",
-        "roundInvested": "",
+        "roundInvested": "Later Stage VC",
         "latestRound": "IPO",
         "latestRoundDate": "2026-06-12",
         "category": "",
@@ -18327,7 +18360,7 @@
       {
         "company": "Base Power",
         "industry": "",
-        "roundInvested": "",
+        "roundInvested": "Early Stage VC",
         "latestRound": "Early Stage VC",
         "latestRoundDate": "2026-05-29",
         "category": "",
@@ -18378,7 +18411,7 @@
       {
         "company": "SpaceX",
         "industry": "",
-        "roundInvested": "",
+        "roundInvested": "Later Stage VC",
         "latestRound": "IPO",
         "latestRoundDate": "2026-06-12",
         "category": "",
@@ -18497,7 +18530,7 @@
       {
         "company": "OpenAI",
         "industry": "",
-        "roundInvested": "",
+        "roundInvested": "Grant",
         "latestRound": "IPO",
         "latestRoundDate": "2026-06-08",
         "category": "",
@@ -18565,7 +18598,7 @@
       {
         "company": "Physical Intelligence",
         "industry": "",
-        "roundInvested": "",
+        "roundInvested": "Early Stage VC",
         "latestRound": "Early Stage VC",
         "latestRoundDate": null,
         "category": "",
@@ -21453,7 +21486,7 @@
       {
         "company": "Mach Industries",
         "industry": "",
-        "roundInvested": "",
+        "roundInvested": "Later Stage VC",
         "latestRound": "Later Stage VC",
         "latestRoundDate": "2026-06-02",
         "category": "",
@@ -25179,7 +25212,7 @@
       {
         "company": "OpenAI",
         "industry": "",
-        "roundInvested": "",
+        "roundInvested": "Later Stage VC",
         "latestRound": "IPO",
         "latestRoundDate": "2026-06-08",
         "category": "",
@@ -25417,7 +25450,7 @@
       {
         "company": "Anduril Industries",
         "industry": "",
-        "roundInvested": "",
+        "roundInvested": "Later Stage VC",
         "latestRound": "Later Stage VC",
         "latestRoundDate": "2026-05-13",
         "category": "",
@@ -102004,7 +102037,7 @@
       {
         "company": "Base Power",
         "industry": "",
-        "roundInvested": "",
+        "roundInvested": "Early Stage VC",
         "latestRound": "Early Stage VC",
         "latestRoundDate": "2026-05-29",
         "category": "",
@@ -102021,7 +102054,7 @@
       {
         "company": "Anduril Industries",
         "industry": "",
-        "roundInvested": "",
+        "roundInvested": "Later Stage VC",
         "latestRound": "Later Stage VC",
         "latestRoundDate": "2026-05-13",
         "category": "",
@@ -104157,7 +104190,7 @@
       {
         "company": "Base Power",
         "industry": "",
-        "roundInvested": "",
+        "roundInvested": "Early Stage VC",
         "latestRound": "Early Stage VC",
         "latestRoundDate": "2026-05-29",
         "category": "",
@@ -107426,7 +107459,7 @@
       {
         "company": "Base Power",
         "industry": "",
-        "roundInvested": "",
+        "roundInvested": "Early Stage VC",
         "latestRound": "Early Stage VC",
         "latestRoundDate": "2026-05-29",
         "category": "",
@@ -107477,7 +107510,7 @@
       {
         "company": "Mach Industries",
         "industry": "",
-        "roundInvested": "",
+        "roundInvested": "Early Stage VC",
         "latestRound": "Later Stage VC",
         "latestRoundDate": "2026-06-02",
         "category": "",
