@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import SortableTable from './SortableTable';
+import DescriptionPopover from './DescriptionPopover';
 import { companyHref, lookupFitScore, lookupStage } from '@/lib/companyIndex';
 import { PUBLIC_STAGES, STAGE_LABELS } from '@/lib/stages';
 import styles from './PortfolioTable.module.css';
@@ -12,6 +13,7 @@ const COLUMNS = [
   { key: 'company', label: 'Company', sortable: true },
   { key: 'category', label: 'Category', sortable: true },
   { key: 'industry', label: 'Industry', sortable: true },
+  { key: 'description', label: 'Description', sortable: false },
   { key: 'roundInvested', label: 'Round invested', sortable: true },
   { key: 'latestRound', label: 'Latest round', sortable: true },
   { key: 'probability', label: 'Raise prob. (3mo)', sortable: false },
@@ -129,11 +131,12 @@ export default function PortfolioTable({ endpoint, id, field, items, filterFn, c
         score: fitScore ?? -1,
         pipeline: stage || '',
       },
-      search: { company: p.company, category: p.category || '', industry: p.industry || '', roundInvested: p.roundInvested || '', latestRound: p.latestRound || '' },
+      search: { company: p.company, category: p.category || '', industry: p.industry || '', description: p.description || '', roundInvested: p.roundInvested || '', latestRound: p.latestRound || '' },
       cells: {
-        company: <Link href={href} title={p.description || undefined}>{p.company}</Link>,
+        company: <Link href={href}>{p.company}</Link>,
         category: p.category || '—',
         industry: p.industry || '—',
+        description: <DescriptionPopover text={p.description} />,
         roundInvested: p.roundInvested || '—',
         latestRound: p.latestRound || '—',
         // Not built yet -- this is a placeholder column so the layout/data
