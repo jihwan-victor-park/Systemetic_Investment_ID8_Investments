@@ -16,6 +16,12 @@ from deal_intelligence import _secrets  # noqa: F401, E402
 ATTIO_API_KEY = os.getenv("ATTIO_API_KEY")
 PERPLEXITY_API_KEY = os.getenv("PERPLEXITY_API_KEY")
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
+# Embeddings only (deal_intelligence/ai_relevance_embeddings.py, used by
+# portfolio_prefilter.py) -- not used anywhere else in this package. No
+# generation/chat calls made with this key, deliberately: embeddings are
+# stateless/deterministic (same text -> same vector, always), which is why
+# they can sit inside an otherwise-deterministic Phase 1 filter at all.
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 # ── GitHub hub push (Cloud Run) ───────────────────────────────────────────────
 # GH_TOKEN: fine-grained PAT with Contents: Read & Write on GH_REPO.

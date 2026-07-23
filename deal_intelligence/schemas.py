@@ -72,6 +72,40 @@ class DealFit:
 
 
 @dataclass
+class DimensionScore:
+    """One Portfolio Fit dimension's holistic score -- no subcategories,
+    unlike ParamScore above (see rubric_portfolio.py for why)."""
+    key: str            # rubric_portfolio.PARAMS dimension key
+    score: float        # 1-4 holistic score for this dimension
+    weight: float       # 0.25 for all four dimensions at v1
+    evidence: str       # <= 25 words: the holistic verdict, grounded in a specific fact
+
+
+@dataclass
+class PortfolioFit:
+    """Portfolio Fit output (v1): the lighter-than-Stage-1 monitoring score
+    for a partner VC's portfolio company with no live round. See
+    prompts/portfolio_fit_rubric.md for the full design and rubric_portfolio.py
+    for the scoring logic this schema is populated from."""
+    company: str
+    company_pbid: Optional[str] = None
+    fit_score: float = 0.0                 # weighted average across the four dimensions, 1-4 scale
+    dimensions: list = field(default_factory=list)   # list[DimensionScore]
+    rationale: str = ""
+    confidence: str = "medium"             # high | medium | low, same meaning as DealFit.confidence
+    decision_tier: str = "drop"            # track_priority | track | monitor | drop | too_early
+    hard_auto_pass: bool = False
+    hard_auto_pass_reason: str = ""
+    too_early: bool = False                # stage override -- real fit_score kept regardless
+    raise_probability_band: str = ""       # low | medium | high | imminent
+    raise_probability_evidence: str = ""   # <= 25 words: what moved the band off the deterministic baseline
+    base_rate_context: str = ""            # the deterministic base-rate string this call was given as input
+
+    def to_dict(self):
+        return asdict(self)
+
+
+@dataclass
 class DealMemo:
     """Stage 2 output: deep research, only for deals that clear the gate."""
     record_id: str
