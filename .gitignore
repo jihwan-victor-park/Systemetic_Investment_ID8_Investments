@@ -34,3 +34,7 @@ deal_intelligence/output/
 pipeline/attio_import/*.csv
 pipeline/Documents/*.xlsx
 pipeline/Documents/*.xls
+
+# Raw PitchBook portfolio exports -- proprietary, binary, and already fully
+# absorbed into partner-vcs-seed.json by import_pitchbook_exports.py
+hub-next/scripts/data/pitchbook_exports/*.xlsx
