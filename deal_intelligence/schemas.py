@@ -96,7 +96,14 @@ class PortfolioFit:
     decision_tier: str = "drop"            # track_priority | track | monitor | drop | too_early
     hard_auto_pass: bool = False
     hard_auto_pass_reason: str = ""
-    too_early: bool = False                # stage override -- real fit_score kept regardless
+    too_early: bool = False                # stage override -- real fit_score kept regardless. FINAL value:
+                                            # recomputed in portfolio_fit.py from current_stage (below), not
+                                            # taken raw from the model -- see that module for the precedence
+    current_stage: str = ""                # the company's TRUE current round, RESEARCHED by the model, not the
+                                            # (possibly stale/generic) PitchBook latestRound label on file
+    current_stage_evidence: str = ""       # <= 20 words: the round + date + source, or why unknown
+    pitchbook_latest_round: str = ""       # the on-file label the research was asked to confirm/override, kept
+                                            # alongside current_stage so QA can see where the two disagree (stale data)
     raise_probability_band: str = ""       # low | medium | high | imminent
     raise_probability_evidence: str = ""   # <= 25 words: what moved the band off the deterministic baseline
     base_rate_context: str = ""            # the deterministic base-rate string this call was given as input

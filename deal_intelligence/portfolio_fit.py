@@ -161,22 +161,42 @@ async def score_company(company, vc_name=None, as_of=None):
 
     fit_score = rubric_portfolio.weighted_score(dim_scores)
     hard_auto_pass = _truthy(parsed.get("hard_auto_pass", False))
-    too_early = _truthy(parsed.get("too_early", False))
+    model_too_early = _truthy(parsed.get("too_early", False))
     rationale = parsed.get("rationale", "") or ""
     raise_evidence = parsed.get("raise_probability_evidence", "") or ""
+    current_stage = (parsed.get("current_stage") or "").strip()
+    current_stage_evidence = (parsed.get("current_stage_evidence") or "").strip()
+    pitchbook_label = company.get("latestRound") or ""
 
-    # Deterministic stage backstop: the model's too_early (below-Series-B)
-    # judgment is unreliable on PitchBook's generic bucket labels -- it tagged
-    # xAI ('Later Stage VC') and Hadrian ('Series C') too_early. Stage is
-    # structured data, so a clearly Series-B+ company can never be too_early,
-    # regardless of what the model said. One-directional on purpose (see
-    # portfolio_timing.is_series_b_plus): only overrides a wrong True, never
-    # forces one, since the model may know a newer round than the snapshot.
-    stage_note = ""
-    if too_early and portfolio_timing.is_series_b_plus(company.get("latestRound")) is True:
+    # too_early (below Series B) is a threshold applied in code, over the true
+    # current stage -- NOT the model's own boolean, which proved unreliable.
+    # Precedence, most authoritative first:
+    #   1. the stage the model RESEARCHED (current_stage) -- the whole point of
+    #      paying for the call; reflects rounds newer than PitchBook's snapshot.
+    #   2. the on-file PitchBook label, but only to veto a wrong too_early on a
+    #      clearly-B+ label (never to force one -- a stale low label may hide a
+    #      newer round the model didn't surface).
+    #   3. the model's raw boolean, when neither stage classifies cleanly.
+    researched = portfolio_timing.is_series_b_plus(current_stage)
+    onfile = portfolio_timing.is_series_b_plus(pitchbook_label)
+    if researched is not None:
+        too_early = researched is False
+        stage_basis = f"researched current stage {current_stage!r}"
+    elif onfile is True:
         too_early = False
-        stage_note = (f"model tagged too_early but latestRound "
-                      f"({company.get('latestRound')!r}) is Series B+ -- override applied")
+        stage_basis = f"on-file label {pitchbook_label!r} (Series B+)"
+    else:
+        too_early = model_too_early
+        stage_basis = "model's own read (stage indeterminate from data)"
+
+    # Surface for QA when the code disagrees with the model's raw boolean, or
+    # when the researched stage contradicts the on-file label (stale data).
+    stage_note = ""
+    if too_early != model_too_early:
+        stage_note = f"too_early set to {too_early} from {stage_basis}, model said {model_too_early}"
+    elif researched is not None and onfile is not None and researched != onfile:
+        stage_note = (f"researched stage {current_stage!r} disagrees with on-file "
+                      f"{pitchbook_label!r} -- on-file data may be stale")
     tier = rubric_portfolio.decision_tier(
         fit_score, hard_auto_pass, too_early,
         config.PORTFOLIO_TRACK_PRIORITY_THRESHOLD,
@@ -197,6 +217,9 @@ async def score_company(company, vc_name=None, as_of=None):
         hard_auto_pass=hard_auto_pass,
         hard_auto_pass_reason=parsed.get("hard_auto_pass_reason", "") or "",
         too_early=too_early,
+        current_stage=current_stage,
+        current_stage_evidence=current_stage_evidence,
+        pitchbook_latest_round=pitchbook_label,
         raise_probability_band=parsed.get("raise_probability_band", "") or "",
         raise_probability_evidence=raise_evidence,
         base_rate_context=br.context,
