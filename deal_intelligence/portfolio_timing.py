@@ -81,6 +81,39 @@ def _classify_stage(latest_round):
     return None
 
 
+def is_series_b_plus(latest_round):
+    """Deterministic 'is this company at Series B or later?' from the round
+    label -- returns True | False | None (genuinely ambiguous/unknown).
+
+    Exists because the model's own `too_early` (below-Series-B) judgment proved
+    unreliable exactly where PitchBook's label is a generic bucket rather than
+    a series letter: 'Later Stage VC (4th Round)' is unambiguously late-stage,
+    but the model read xAI and Hadrian as too_early off labels like that. Stage
+    is structured data, so this is the deterministic backstop portfolio_fit.py
+    uses to override a clearly-wrong too_early=True (never the reverse -- the
+    model may know of a newer round than PitchBook's snapshot, so a low label
+    left un-flagged is trusted).
+
+      True  -> Series B-H, or PitchBook 'Later Stage VC' / 'PE Growth' / Buyout
+      False -> Seed / pre-seed / angel / Series A (A1/A2 included)
+      None  -> 'Early Stage VC' (could be A or B) or blank/unparseable
+    """
+    if not latest_round:
+        return None
+    r = latest_round.strip().lower()
+    m = re.search(r"series\s+([a-h])", r)
+    if m:
+        return m.group(1) >= "b"
+    if "later stage vc" in r:
+        return True
+    if any(k in r for k in ("buyout", "lbo", "growth", "pe ", "private equity", "mezzanine")):
+        return True
+    if "seed" in r or "angel" in r or "pre-seed" in r:
+        return False
+    # 'Early Stage VC (Nth Round)' and anything else -> genuinely ambiguous.
+    return None
+
+
 @dataclass
 class TimingBaseRate:
     band: str            # low | medium | high  (never imminent -- see module docstring)

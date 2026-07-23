@@ -164,6 +164,19 @@ async def score_company(company, vc_name=None, as_of=None):
     too_early = _truthy(parsed.get("too_early", False))
     rationale = parsed.get("rationale", "") or ""
     raise_evidence = parsed.get("raise_probability_evidence", "") or ""
+
+    # Deterministic stage backstop: the model's too_early (below-Series-B)
+    # judgment is unreliable on PitchBook's generic bucket labels -- it tagged
+    # xAI ('Later Stage VC') and Hadrian ('Series C') too_early. Stage is
+    # structured data, so a clearly Series-B+ company can never be too_early,
+    # regardless of what the model said. One-directional on purpose (see
+    # portfolio_timing.is_series_b_plus): only overrides a wrong True, never
+    # forces one, since the model may know a newer round than the snapshot.
+    stage_note = ""
+    if too_early and portfolio_timing.is_series_b_plus(company.get("latestRound")) is True:
+        too_early = False
+        stage_note = (f"model tagged too_early but latestRound "
+                      f"({company.get('latestRound')!r}) is Series B+ -- override applied")
     tier = rubric_portfolio.decision_tier(
         fit_score, hard_auto_pass, too_early,
         config.PORTFOLIO_TRACK_PRIORITY_THRESHOLD,
@@ -171,6 +184,7 @@ async def score_company(company, vc_name=None, as_of=None):
         config.PORTFOLIO_MONITOR_THRESHOLD,
     )
     flag = _conflation_flag(company.get("company", ""), dimensions, rationale, raise_evidence)
+    flag = " · ".join(f for f in (flag, stage_note) if f)
 
     return PortfolioFit(
         company=company.get("company", ""),
@@ -287,7 +301,7 @@ def _print_summary(results):
         if base_bands.get(band):
             print(f"  {base_bands[band]:4d}  {band}")
     if flagged:
-        print(f"\n⚠ {len(flagged)} flagged for possible cross-company conflation (verify manually):")
+        print(f"\n⚠ {len(flagged)} flagged for manual review (conflation and/or stage override):")
         for r in flagged[:10]:
             print(f"    {r.company}: {r.research_flag}")
 
