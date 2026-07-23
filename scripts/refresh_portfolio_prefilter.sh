@@ -21,14 +21,23 @@
 #
 # Optional passthrough:
 #   MAX_FUND_SIZE=500 ./scripts/refresh_portfolio_prefilter.sh
+#   USE_EMBEDDINGS=1 ./scripts/refresh_portfolio_prefilter.sh   (off by default --
+#     the embeddings tier needs a funded OPENAI_API_KEY; the reported 2,724/3,778
+#     result was produced keyword-only, so that stays the default rather than
+#     silently attempting-and-falling-back per company against a key that's
+#     out of quota)
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 MAX_FUND_SIZE="${MAX_FUND_SIZE:-500}"
+EMBEDDINGS_FLAG="--no-embeddings"
+if [ "${USE_EMBEDDINGS:-0}" = "1" ]; then
+  EMBEDDINGS_FLAG=""
+fi
 
 echo "== 1/2: recomputing prefilter + persisting to partner-vcs-seed.json =="
 python3 -m deal_intelligence.portfolio_prefilter --all --persist --max-fund-size "$MAX_FUND_SIZE" \
-  --json > /tmp/portfolio_prefilter_summary.json
+  $EMBEDDINGS_FLAG --json > /tmp/portfolio_prefilter_summary.json
 python3 -c "
 import json
 s = json.load(open('/tmp/portfolio_prefilter_summary.json'))
