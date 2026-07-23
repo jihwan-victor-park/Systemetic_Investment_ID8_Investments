@@ -9,6 +9,17 @@ import { companyHref, lookupFitScore, lookupStage } from '@/lib/companyIndex';
 import { PUBLIC_STAGES, STAGE_LABELS } from '@/lib/stages';
 import styles from './PortfolioTable.module.css';
 
+// A VC can back a company across more than one round -- roundInvested and
+// investorSince are comma-separated in lockstep when that happens (e.g.
+// "Series C, Series E" / "2021-10-21, 2023-01-19"), so each round shows next
+// to the date it actually closed on rather than one date for every round.
+function formatRoundsWithDates(roundStr, dateStr) {
+  if (!roundStr) return '—';
+  const rounds = roundStr.split(',').map((s) => s.trim()).filter(Boolean);
+  const dates = (dateStr || '').split(',').map((s) => s.trim()).filter(Boolean);
+  return rounds.map((r, i) => (dates[i] ? `${r} · ${dates[i]}` : r)).join(', ');
+}
+
 const COLUMNS = [
   { key: 'company', label: 'Company', sortable: true },
   { key: 'category', label: 'Category', sortable: true },
@@ -137,8 +148,8 @@ export default function PortfolioTable({ endpoint, id, field, items, filterFn, c
         category: p.category || '—',
         industry: p.industry || '—',
         description: <DescriptionPopover text={p.description} />,
-        roundInvested: p.roundInvested || '—',
-        latestRound: p.latestRound || '—',
+        roundInvested: formatRoundsWithDates(p.roundInvested, p.investorSince),
+        latestRound: formatRoundsWithDates(p.latestRound, p.latestRoundDate),
         // Not built yet -- this is a placeholder column so the layout/data
         // shape is ready before the "probability to raise in 3 months"
         // metric (heat/traffic/coolness indicators) is designed, per Oscar's

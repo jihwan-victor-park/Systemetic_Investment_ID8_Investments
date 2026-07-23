@@ -23,6 +23,7 @@ function _mapPortfolioEntry(p) {
     company: p.company,
     industry: p.industry || '',
     roundInvested: p.roundInvested || p.series || '',
+    investorSince: p.investorSince || null,
     latestRound: p.latestRound || '',
     latestRoundDate: p.latestRoundDate || null,
     category: p.category || '',

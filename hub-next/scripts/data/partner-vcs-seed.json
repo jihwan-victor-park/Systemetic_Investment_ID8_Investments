@@ -45,7 +45,7 @@
         "yearFounded": 2017,
         "hqLocation": "Costa Mesa, CA",
         "businessStatus": "Generating Revenue",
-        "latestRound": "Later Stage VC",
+        "latestRound": "Series H",
         "latestRoundDate": "2026-05-13",
         "roundInvested": "Later Stage VC (11th Round)"
       },
@@ -431,7 +431,7 @@
         "yearFounded": null,
         "hqLocation": "Huntington Beach, CA",
         "businessStatus": "Generating Revenue",
-        "latestRound": "Later Stage VC",
+        "latestRound": "Series C",
         "latestRoundDate": "2026-06-02",
         "roundInvested": "Series C"
       },
@@ -497,8 +497,8 @@
         "yearFounded": 2020,
         "hqLocation": "New York, NY",
         "businessStatus": "Generating Revenue",
-        "latestRound": "Later Stage VC",
-        "latestRoundDate": "2025-02-01",
+        "latestRound": "Accelerator/Incubator",
+        "latestRoundDate": "2025-06-01",
         "roundInvested": "Seed (Series 1)"
       },
       {
@@ -601,8 +601,9 @@
         "yearFounded": 2024,
         "hqLocation": "San Francisco, CA",
         "businessStatus": "Generating Revenue",
-        "latestRound": "Early Stage VC",
-        "roundInvested": "Series A"
+        "latestRound": "Series C",
+        "roundInvested": "Series A",
+        "latestRoundDate": null
       },
       {
         "company": "Planful",
@@ -666,8 +667,8 @@
         "yearFounded": 2021,
         "hqLocation": "Austin, TX",
         "businessStatus": "Generating Revenue",
-        "latestRound": "Early Stage VC",
-        "latestRoundDate": "2025-09-30",
+        "latestRound": "Accelerator/Incubator",
+        "latestRoundDate": "2025-10-09",
         "roundInvested": "Seed Round"
       },
       {
@@ -776,8 +777,8 @@
         "yearFounded": 2002,
         "hqLocation": "Starbase, TX",
         "businessStatus": "Generating Revenue/Not Profitable",
-        "latestRound": "IPO",
-        "latestRoundDate": "2026-06-12",
+        "latestRound": "Debt Refinancing",
+        "latestRoundDate": "2026-06-23",
         "roundInvested": "Later Stage VC (21st Round)"
       },
       {
@@ -842,7 +843,7 @@
         "yearFounded": 2023,
         "hqLocation": "Las Vegas, NV",
         "businessStatus": "Generating Revenue",
-        "latestRound": "Early Stage VC",
+        "latestRound": "Series B",
         "latestRoundDate": "2026-05-29",
         "roundInvested": "Series A"
       },
@@ -864,7 +865,7 @@
         "yearFounded": 2022,
         "hqLocation": "San Francisco, CA",
         "businessStatus": "Generating Revenue",
-        "latestRound": "Later Stage VC",
+        "latestRound": "Series C",
         "latestRoundDate": "2026-03-05",
         "roundInvested": "Series C"
       },
@@ -886,7 +887,7 @@
         "yearFounded": 2022,
         "hqLocation": "Centennial, CO",
         "businessStatus": "Generating Revenue",
-        "latestRound": "Later Stage VC",
+        "latestRound": "Series D",
         "latestRoundDate": "2026-03-31",
         "roundInvested": "Series C"
       },
@@ -6577,8 +6578,9 @@
         "yearFounded": 2024,
         "hqLocation": "San Francisco, CA",
         "businessStatus": "Generating Revenue",
-        "latestRound": "Early Stage VC",
-        "roundInvested": "Seed Round"
+        "latestRound": "Series C",
+        "roundInvested": "Seed Round",
+        "latestRoundDate": null
       },
       {
         "company": "Quadrata",
@@ -7428,7 +7430,7 @@
         "yearFounded": 2017,
         "hqLocation": "Costa Mesa, CA",
         "businessStatus": "Generating Revenue",
-        "latestRound": "Later Stage VC",
+        "latestRound": "Series H",
         "latestRoundDate": "2026-05-13",
         "roundInvested": "Series G"
       },
@@ -7898,8 +7900,8 @@
         "yearFounded": 2002,
         "hqLocation": "Starbase, TX",
         "businessStatus": "Generating Revenue/Not Profitable",
-        "latestRound": "IPO",
-        "latestRoundDate": "2026-06-12",
+        "latestRound": "Debt Refinancing",
+        "latestRoundDate": "2026-06-23",
         "roundInvested": "Later Stage VC (22nd Round)"
       },
       {
@@ -17399,8 +17401,8 @@
         "company": "SpaceX",
         "industry": "",
         "roundInvested": "Later Stage VC (19th Round)",
-        "latestRound": "IPO",
-        "latestRoundDate": "2026-06-12",
+        "latestRound": "Debt Refinancing",
+        "latestRoundDate": "2026-06-23",
         "category": "",
         "description": "",
         "investorStatus": "Former",
@@ -18419,8 +18421,8 @@
         "company": "SpaceX",
         "industry": "",
         "roundInvested": "Later Stage VC (22nd Round)",
-        "latestRound": "IPO",
-        "latestRoundDate": "2026-06-12",
+        "latestRound": "Debt Refinancing",
+        "latestRoundDate": "2026-06-23",
         "category": "",
         "description": "",
         "investorStatus": "Former",
@@ -18606,7 +18608,7 @@
         "company": "Physical Intelligence",
         "industry": "",
         "roundInvested": "Series A",
-        "latestRound": "Early Stage VC",
+        "latestRound": "Series C",
         "latestRoundDate": null,
         "category": "",
         "description": "",
@@ -21494,7 +21496,7 @@
         "company": "Mach Industries",
         "industry": "",
         "roundInvested": "Series C",
-        "latestRound": "Later Stage VC",
+        "latestRound": "Series C",
         "latestRoundDate": "2026-06-02",
         "category": "",
         "description": "",
@@ -25458,7 +25460,7 @@
         "company": "Anduril Industries",
         "industry": "",
         "roundInvested": "Series G",
-        "latestRound": "Later Stage VC",
+        "latestRound": "Series H",
         "latestRoundDate": "2026-05-13",
         "category": "",
         "description": "",
@@ -54824,7 +54826,7 @@
         "source": "pitchbook",
         "series": "",
         "roundInvested": "",
-        "latestRound": "IPO",
+        "latestRound": "Debt Refinancing",
         "industry": "",
         "investorStatus": "",
         "investorSince": "",
@@ -54832,7 +54834,7 @@
         "exitDate": null,
         "exitSizeUsdMillions": null,
         "pitchbookUrl": "https://my.pitchbook.com/profile/46488-07/company/profile",
-        "latestRoundDate": "2026-06-12"
+        "latestRoundDate": "2026-06-23"
       },
       {
         "company": "Incode Technologies",
@@ -64014,7 +64016,7 @@
         "source": "pitchbook",
         "series": "",
         "roundInvested": "",
-        "latestRound": "Later Stage VC",
+        "latestRound": "Series H",
         "industry": "",
         "investorStatus": "",
         "investorSince": "",
@@ -74545,7 +74547,7 @@
         "source": "pitchbook",
         "series": "",
         "roundInvested": "",
-        "latestRound": "Early Stage VC",
+        "latestRound": "Accelerator/Incubator",
         "industry": "",
         "investorStatus": "",
         "investorSince": "",
@@ -74553,7 +74555,7 @@
         "exitDate": null,
         "exitSizeUsdMillions": null,
         "pitchbookUrl": "https://my.pitchbook.com/profile/496483-12/company/profile",
-        "latestRoundDate": "2025-09-30"
+        "latestRoundDate": "2025-10-09"
       },
       {
         "company": "Symbio",
@@ -102062,7 +102064,7 @@
         "company": "Anduril Industries",
         "industry": "",
         "roundInvested": "Series G",
-        "latestRound": "Later Stage VC",
+        "latestRound": "Series H",
         "latestRoundDate": "2026-05-13",
         "category": "",
         "description": "",
@@ -105240,7 +105242,7 @@
         "source": "pitchbook",
         "series": "",
         "roundInvested": "",
-        "latestRound": "Later Stage VC",
+        "latestRound": "Series C",
         "industry": "",
         "investorStatus": "",
         "investorSince": "",
@@ -107518,7 +107520,7 @@
         "company": "Mach Industries",
         "industry": "",
         "roundInvested": "Series B",
-        "latestRound": "Later Stage VC",
+        "latestRound": "Series C",
         "latestRoundDate": "2026-06-02",
         "category": "",
         "description": "",
