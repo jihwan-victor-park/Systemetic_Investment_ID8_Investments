@@ -54,6 +54,15 @@ SCORE_MODEL = os.getenv("DI_SCORE_MODEL", "claude-haiku-4-5-20251001")  # rubric
 # that module), so this defaults to Perplexity's cheapest model. Deliberately
 # a Perplexity model, not a Claude one -- Stage 1 has no Anthropic dependency.
 CHAT_INTENT_MODEL = os.getenv("DI_CHAT_INTENT_MODEL", "sonar")
+# portfolio_enrich.py's bulk Phase 0 pass over partner VC portfolio rows
+# (category/industry/description/hqLocation/businessStatus/vertical) -- same
+# reasoning as CHAT_INTENT_MODEL: a real web-search lookup, but a short,
+# tightly-scoped one, so the cheapest Perplexity tier is the right fit at
+# 1,000-9,000+ company scale. Kept as its own knob (not reused from
+# CHAT_INTENT_MODEL) since the two call sites may need to diverge later even
+# though they share a default today -- same convention as every other model
+# knob in this file.
+PORTFOLIO_ENRICH_MODEL = os.getenv("DI_PORTFOLIO_ENRICH_MODEL", "sonar")
 
 # sonar-deep-research runs iterative multi-step search and can take several
 # minutes per deal -- both knobs below only apply to Stage 1's perplexity()
@@ -140,6 +149,11 @@ STAGE2_PARALLEL = int(os.getenv("DI_STAGE2_PARALLEL", "3"))
 # against Attio's API, not an LLM call, so this can run much higher than the
 # Stage 1/2 knobs above without hitting a research-model rate limit.
 ATTIO_IMPORT_PARALLEL = int(os.getenv("DI_ATTIO_IMPORT_PARALLEL", "8"))
+# portfolio_enrich.py -- `sonar` (non-reasoning, cheap tier) has a much looser
+# rate limit than sonar-deep-research, but it's still a real web-search call,
+# not a plain GET like ATTIO_IMPORT_PARALLEL's target -- start conservative,
+# raise once a real run confirms the account's actual sonar rate limit.
+PORTFOLIO_ENRICH_PARALLEL = int(os.getenv("DI_PORTFOLIO_ENRICH_PARALLEL", "5"))
 
 # ── Attio Deals schema ───────────────────────────────────────────────────────
 DEALS_OBJECT = os.getenv("DI_DEALS_OBJECT", "deals")

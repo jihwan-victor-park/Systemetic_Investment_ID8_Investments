@@ -128,16 +128,31 @@ def _save_cache(cache):
         json.dump(cache, f)
 
 
+class AIRelevanceUnavailable(Exception):
+    """Raised whenever the embeddings tier can't run for ANY reason -- no
+    key set, quota exhausted, rate limited, network down, an unexpected SDK
+    error. One exception type so portfolio_prefilter.py's caller only needs
+    a single except clause to fall back to tier 4 (category-only) cleanly,
+    the same as if embeddings had never been consulted -- a flaky API call
+    should never crash a filter pass over a multi-thousand-company
+    portfolio."""
+
+
 def embed(texts, cache=None):
     """texts: list[str]. Returns list[np.ndarray], one per input, in order.
-    Cache-first -- only ever calls the API for text not already cached."""
+    Cache-first -- only ever calls the API for text not already cached.
+    Raises AIRelevanceUnavailable (never a raw openai/network exception) on
+    any failure -- see that class's docstring for why."""
     if not config.OPENAI_API_KEY:
-        raise RuntimeError(
+        raise AIRelevanceUnavailable(
             "OPENAI_API_KEY is not set. Add it to deal_intelligence/.env "
             "yourself (this module never writes secrets to disk) -- see "
             "ai_relevance_embeddings.py's module docstring."
         )
-    from openai import OpenAI  # imported lazily so the rest of Phase 1 works with no API key at all
+    try:
+        from openai import OpenAI  # imported lazily so the rest of Phase 1 works with no API key at all
+    except ImportError as exc:
+        raise AIRelevanceUnavailable(f"openai package not installed: {exc}") from exc
 
     owns_cache = cache is None
     if owns_cache:
@@ -145,8 +160,11 @@ def embed(texts, cache=None):
 
     to_fetch = [t for t in texts if _cache_key(t) not in cache]
     if to_fetch:
-        client = OpenAI(api_key=config.OPENAI_API_KEY)
-        resp = client.embeddings.create(model=EMBED_MODEL, input=to_fetch)
+        try:
+            client = OpenAI(api_key=config.OPENAI_API_KEY)
+            resp = client.embeddings.create(model=EMBED_MODEL, input=to_fetch)
+        except Exception as exc:  # noqa: BLE001 -- deliberately broad, see AIRelevanceUnavailable
+            raise AIRelevanceUnavailable(f"embeddings API call failed: {exc}") from exc
         for text, item in zip(to_fetch, resp.data):
             cache[_cache_key(text)] = item.embedding
         if owns_cache:

@@ -53,6 +53,7 @@ import argparse
 import json
 import os
 import re
+import sys
 
 SEED_PATH = os.path.join(
     os.path.dirname(__file__), "..", "hub-next", "scripts", "data", "partner-vcs-seed.json"
@@ -101,6 +102,25 @@ def _classify_region(hq_location):
     return "other"
 
 
+# ── No enrichment data at all ───────────────────────────────────────────────
+
+# ~65% of rows across the full partner-VC universe (6,813 of 10,536 as of
+# this writing) have never been touched by any enrichment pass -- no
+# hqLocation, businessStatus, description, category, or vertical. Oscar's
+# call: treat a company Perplexity/PitchBook couldn't find anything on as
+# more likely dead/stale than as "real company, just unlucky" -- skip it
+# rather than let it silently ride through tier 4 of _ai_relevant() the way
+# it used to. This is a deliberate reversal of this module's original
+# "when in doubt, pass it through" default, scoped to the single case where
+# there is NOTHING to go on at all (every other ambiguous case below still
+# passes through as before).
+_ENRICHMENT_FIELDS = ("hqLocation", "businessStatus", "description", "category", "vertical")
+
+
+def _has_any_enrichment(company):
+    return any((company.get(f) or "").strip() for f in _ENRICHMENT_FIELDS)
+
+
 # ── Business status ─────────────────────────────────────────────────────────
 
 # Only "Out of Business" is reliably excludable today -- see KNOWN GAP above
@@ -135,6 +155,23 @@ AI_KEYWORDS = [
     "agentic",
 ]
 _AI_KEYWORD_RE = re.compile("|".join(AI_KEYWORDS), re.IGNORECASE)
+
+_embeddings_warned = False
+
+
+def _warn_embeddings_unavailable(exc):
+    """Prints once per process, not once per company -- a portfolio pass
+    touches thousands of rows, and an outage/missing-key reason doesn't
+    change row to row."""
+    global _embeddings_warned
+    if _embeddings_warned:
+        return
+    _embeddings_warned = True
+    # stderr, not stdout -- --json/--all pipes stdout as machine-readable
+    # output (see refresh_portfolio_prefilter.sh), and this would otherwise
+    # land ahead of the JSON and break every consumer's parser.
+    print(f"[portfolio_prefilter] embeddings tier unavailable, falling back to category-only: {exc}", file=sys.stderr)
+
 
 # Industry/category values observed in this dataset that are definitively
 # non-tech -- a company landing here with NO AI vertical/keyword hit anywhere
@@ -190,8 +227,14 @@ def _ai_relevant(vertical, category, industry, description, use_embeddings=True)
                 return False, label
             # else: ambiguous -- fall through to tier 4 below, same as if
             # embeddings were never consulted at all.
-        except RuntimeError:
-            pass  # OPENAI_API_KEY not set -- silently skip this tier
+        except Exception as exc:  # noqa: BLE001 -- deliberately broad: key
+            # missing, quota exhausted, rate limited, network down, numpy/
+            # openai not installed, anything. This tier is best-effort --
+            # never crash a filter pass over a multi-thousand-company
+            # portfolio for it; skip and warn once (not per-company) so a
+            # real outage doesn't silently masquerade as "no company had AI
+            # signal" (every row just quietly falling to tier 4 instead).
+            _warn_embeddings_unavailable(exc)
 
     cat_lc = (category or "").strip().lower()
     if cat_lc in NON_TECH_CATEGORIES and not keyword_hit:
@@ -209,6 +252,10 @@ def evaluate(company, use_embeddings=True):
     (why it passed, or why/which check excluded it), never a bare boolean.
     """
     reasons = []
+
+    if not _has_any_enrichment(company):
+        return {"pass": False, "reasons": ["no enrichment data on file (no hqLocation/businessStatus/"
+                                            "description/category/vertical) -- skipped, likely stale or dead"]}
 
     status = (company.get("businessStatus") or "").strip().lower()
     if status in EXCLUDED_BUSINESS_STATUSES:
@@ -242,6 +289,76 @@ def filter_companies(companies, use_embeddings=True):
     return passed, excluded
 
 
+# Funds this size or larger are accelerator/syndicate-style portfolios
+# (Antler, Capital Factory, Gaingels, ...) that dwarf everything else in the
+# dataset -- 4 funds alone account for 6,758 of 10,536 companies (64%) as of
+# this writing. Deliberately deferred, not excluded: `run_all()` leaves every
+# company in an oversized fund completely untouched (no prefilterPass field
+# at all) rather than writing a verdict for them, so "not yet evaluated"
+# stays visibly distinct from "evaluated and rejected" -- revisit once the
+# rest of the universe is under control.
+DEFAULT_MAX_FUND_SIZE = 500
+
+
+def run_all(seed_path=SEED_PATH, max_fund_size=DEFAULT_MAX_FUND_SIZE, use_embeddings=True, persist=False):
+    """Runs evaluate() over every company in every VC fund at or under
+    max_fund_size, stamping "prefilterPass"/"prefilterReason" directly onto
+    each company dict in place -- the label Oscar asked for so a later
+    full-scale (paid) analysis pass can filter on `prefilterPass is True`
+    without recomputing anything. Stage/Series-B+ is deliberately NOT
+    considered here (see module docstring) -- this is geography +
+    business-status + no-enrichment-data + AI-relevance only.
+
+    Returns a summary dict; writes seed_path back to disk iff persist=True
+    (dry-run by default -- this mutates a real, committed data file).
+    """
+    with open(seed_path, encoding="utf-8") as f:
+        data = json.load(f)
+
+    deferred_funds, evaluated_funds = [], []
+    total_pass = total_excluded = total_deferred = 0
+    exclude_reasons = {}
+
+    for vc in data:
+        portfolio = vc.get("portfolio", [])
+        if len(portfolio) > max_fund_size:
+            deferred_funds.append((vc["name"], len(portfolio)))
+            total_deferred += len(portfolio)
+            continue
+        evaluated_funds.append((vc["name"], len(portfolio)))
+        for company in portfolio:
+            result = evaluate(company, use_embeddings=use_embeddings)
+            company["prefilterPass"] = result["pass"]
+            company["prefilterReason"] = " · ".join(result["reasons"])
+            if result["pass"]:
+                total_pass += 1
+            else:
+                total_excluded += 1
+                # reasons[-1] is always the one that actually decided the
+                # exclusion -- reasons[0] can instead be an earlier
+                # informational note (e.g. "geography: NA") logged before an
+                # AI-relevance check further down the chain is what actually
+                # excluded the company.
+                key = result["reasons"][-1].split(":")[0].split("(")[0].strip()
+                exclude_reasons[key] = exclude_reasons.get(key, 0) + 1
+
+    if persist:
+        with open(seed_path, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2, ensure_ascii=False)
+            f.write("\n")
+
+    return {
+        "funds_evaluated": len(evaluated_funds),
+        "funds_deferred": deferred_funds,
+        "companies_deferred": total_deferred,
+        "companies_evaluated": total_pass + total_excluded,
+        "companies_pass": total_pass,
+        "companies_excluded": total_excluded,
+        "exclude_reasons": exclude_reasons,
+        "persisted": persist,
+    }
+
+
 # ── CLI ──────────────────────────────────────────────────────────────────────
 
 def _load_vc_portfolio(vc_name):
@@ -256,12 +373,44 @@ def _load_vc_portfolio(vc_name):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.add_argument("--vc", required=True, help='partner VC name, e.g. "1789 Capital"')
+    ap.add_argument("--vc", help='partner VC name, e.g. "1789 Capital" (omit when using --all)')
+    ap.add_argument("--all", action="store_true",
+                    help="run every fund at/under --max-fund-size and stamp prefilterPass/prefilterReason "
+                         "onto partner-vcs-seed.json (see run_all())")
+    ap.add_argument("--max-fund-size", type=int, default=DEFAULT_MAX_FUND_SIZE,
+                    help=f"funds with more portfolio companies than this are deferred, not evaluated "
+                         f"(default {DEFAULT_MAX_FUND_SIZE})")
+    ap.add_argument("--persist", action="store_true",
+                    help="--all only: write the stamped labels back to partner-vcs-seed.json "
+                         "(default is a dry run that only prints the summary)")
     ap.add_argument("--json", action="store_true", help="print full JSON instead of a summary table")
     ap.add_argument("--show-excluded", action="store_true", help="also print excluded companies + reasons")
     ap.add_argument("--no-embeddings", action="store_true",
                      help="skip the embeddings tier even if OPENAI_API_KEY is set (free/offline run)")
     args = ap.parse_args()
+
+    if args.all:
+        summary = run_all(max_fund_size=args.max_fund_size, use_embeddings=not args.no_embeddings, persist=args.persist)
+        if args.json:
+            print(json.dumps(summary, indent=2))
+            return
+        print(f"Funds evaluated (<= {args.max_fund_size} companies): {summary['funds_evaluated']}")
+        print(f"Funds deferred (> {args.max_fund_size} companies): {len(summary['funds_deferred'])}"
+              f" ({summary['companies_deferred']} companies)")
+        for name, n in sorted(summary["funds_deferred"], key=lambda x: -x[1]):
+            print(f"  DEFERRED  {name:<30} {n} companies")
+        print()
+        print(f"Companies evaluated: {summary['companies_evaluated']}")
+        print(f"  PASS:     {summary['companies_pass']}")
+        print(f"  EXCLUDE:  {summary['companies_excluded']}")
+        for reason, n in sorted(summary["exclude_reasons"].items(), key=lambda x: -x[1]):
+            print(f"    {n:5d}  {reason}")
+        print()
+        print("Persisted to disk." if summary["persisted"] else "Dry run -- rerun with --persist to write labels to disk.")
+        return
+
+    if not args.vc:
+        ap.error("--vc is required unless --all is given")
 
     name, portfolio = _load_vc_portfolio(args.vc)
     passed, excluded = filter_companies(portfolio, use_embeddings=not args.no_embeddings)
