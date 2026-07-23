@@ -47,7 +47,7 @@
         "businessStatus": "Generating Revenue",
         "latestRound": "Later Stage VC",
         "latestRoundDate": "2026-05-13",
-        "roundInvested": "Later Stage VC"
+        "roundInvested": "Later Stage VC (11th Round)"
       },
       {
         "company": "AppliedXL",
@@ -145,7 +145,7 @@
         "businessStatus": "Generating Revenue",
         "latestRound": "Early Stage VC",
         "latestRoundDate": "2026-05-29",
-        "roundInvested": "Early Stage VC"
+        "roundInvested": "Early Stage VC (4th Round)"
       },
       {
         "company": "Bazze",
@@ -712,7 +712,7 @@
         "businessStatus": "Generating Revenue",
         "latestRound": "Later Stage VC",
         "latestRoundDate": "2025-12-05",
-        "roundInvested": "Later Stage VC"
+        "roundInvested": "Later Stage VC (9th Round)"
       },
       {
         "company": "Safe Superintelligence",
@@ -734,7 +734,7 @@
         "businessStatus": "Startup",
         "latestRound": "Early Stage VC",
         "latestRoundDate": "2025-04-11",
-        "roundInvested": "Early Stage VC"
+        "roundInvested": "Early Stage VC (2nd Round)"
       },
       {
         "company": "Scoutr",
@@ -778,7 +778,7 @@
         "businessStatus": "Generating Revenue/Not Profitable",
         "latestRound": "IPO",
         "latestRoundDate": "2026-06-12",
-        "roundInvested": "Later Stage VC"
+        "roundInvested": "Later Stage VC (21st Round)"
       },
       {
         "company": "Stripe",
@@ -800,7 +800,7 @@
         "businessStatus": "Profitable",
         "latestRound": "Secondary Transaction - Private",
         "latestRoundDate": "2026-03-27",
-        "roundInvested": "Later Stage VC"
+        "roundInvested": "Later Stage VC (18th Round)"
       },
       {
         "company": "Sumatra",
@@ -7430,7 +7430,7 @@
         "businessStatus": "Generating Revenue",
         "latestRound": "Later Stage VC",
         "latestRoundDate": "2026-05-13",
-        "roundInvested": "Later Stage VC"
+        "roundInvested": "Later Stage VC (10th Round)"
       },
       {
         "company": "Axiom Space",
@@ -7490,7 +7490,7 @@
         "businessStatus": "Generating Revenue",
         "latestRound": "Early Stage VC",
         "latestRoundDate": "2026-05-29",
-        "roundInvested": "Early Stage VC"
+        "roundInvested": "Early Stage VC (4th Round)"
       },
       {
         "company": "Blink Health",
@@ -7900,7 +7900,7 @@
         "businessStatus": "Generating Revenue/Not Profitable",
         "latestRound": "IPO",
         "latestRoundDate": "2026-06-12",
-        "roundInvested": "Later Stage VC"
+        "roundInvested": "Later Stage VC (22nd Round)"
       },
       {
         "company": "Starlab Space",
@@ -17160,7 +17160,7 @@
       {
         "company": "Crusoe",
         "industry": "",
-        "roundInvested": "Later Stage VC",
+        "roundInvested": "Later Stage VC (8th Round)",
         "latestRound": "Later Stage VC",
         "latestRoundDate": null,
         "category": "",
@@ -17398,7 +17398,7 @@
       {
         "company": "SpaceX",
         "industry": "",
-        "roundInvested": "Later Stage VC",
+        "roundInvested": "Later Stage VC (19th Round)",
         "latestRound": "IPO",
         "latestRoundDate": "2026-06-12",
         "category": "",
@@ -18367,7 +18367,7 @@
       {
         "company": "Base Power",
         "industry": "",
-        "roundInvested": "Early Stage VC",
+        "roundInvested": "Early Stage VC (4th Round)",
         "latestRound": "Early Stage VC",
         "latestRoundDate": "2026-05-29",
         "category": "",
@@ -18418,7 +18418,7 @@
       {
         "company": "SpaceX",
         "industry": "",
-        "roundInvested": "Later Stage VC",
+        "roundInvested": "Later Stage VC (22nd Round)",
         "latestRound": "IPO",
         "latestRoundDate": "2026-06-12",
         "category": "",
@@ -25219,7 +25219,7 @@
       {
         "company": "OpenAI",
         "industry": "",
-        "roundInvested": "Later Stage VC",
+        "roundInvested": "Later Stage VC (11th Round)",
         "latestRound": "IPO",
         "latestRoundDate": "2026-06-08",
         "category": "",
@@ -25457,7 +25457,7 @@
       {
         "company": "Anduril Industries",
         "industry": "",
-        "roundInvested": "Later Stage VC",
+        "roundInvested": "Later Stage VC (10th Round)",
         "latestRound": "Later Stage VC",
         "latestRoundDate": "2026-05-13",
         "category": "",
@@ -102044,7 +102044,7 @@
       {
         "company": "Base Power",
         "industry": "",
-        "roundInvested": "Early Stage VC",
+        "roundInvested": "Early Stage VC (4th Round)",
         "latestRound": "Early Stage VC",
         "latestRoundDate": "2026-05-29",
         "category": "",
@@ -102061,7 +102061,7 @@
       {
         "company": "Anduril Industries",
         "industry": "",
-        "roundInvested": "Later Stage VC",
+        "roundInvested": "Later Stage VC (10th Round)",
         "latestRound": "Later Stage VC",
         "latestRoundDate": "2026-05-13",
         "category": "",
@@ -104197,7 +104197,7 @@
       {
         "company": "Base Power",
         "industry": "",
-        "roundInvested": "Early Stage VC",
+        "roundInvested": "Early Stage VC (4th Round)",
         "latestRound": "Early Stage VC",
         "latestRoundDate": "2026-05-29",
         "category": "",
@@ -107466,7 +107466,7 @@
       {
         "company": "Base Power",
         "industry": "",
-        "roundInvested": "Early Stage VC",
+        "roundInvested": "Early Stage VC (4th Round)",
         "latestRound": "Early Stage VC",
         "latestRoundDate": "2026-05-29",
         "category": "",
