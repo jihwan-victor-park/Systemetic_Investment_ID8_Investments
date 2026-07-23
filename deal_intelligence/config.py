@@ -63,6 +63,23 @@ CHAT_INTENT_MODEL = os.getenv("DI_CHAT_INTENT_MODEL", "sonar")
 # though they share a default today -- same convention as every other model
 # knob in this file.
 PORTFOLIO_ENRICH_MODEL = os.getenv("DI_PORTFOLIO_ENRICH_MODEL", "sonar")
+# Stage 0 Portfolio Fit scoring (portfolio_fit.py) -- the lighter-than-Stage-1
+# monitoring pass over a partner VC's portfolio companies. Deliberately `sonar`
+# (non-reasoning, cheap tier), NOT sonar-deep-research: portfolio_fit.md is
+# written to run one shallow research call per company at 100s-1,000s-of-
+# company scale inside a ~$30-60 budget (see that prompt's header). `sonar`
+# is not a reasoning model, so STAGE1_REASONING_EFFORT does not apply here --
+# only search_context_size does, and it's "low" per the prompt's own note.
+PORTFOLIO_FIT_MODEL = os.getenv("DI_PORTFOLIO_FIT_MODEL", "sonar")
+PORTFOLIO_FIT_SEARCH_CONTEXT_SIZE = os.getenv("DI_PORTFOLIO_FIT_SEARCH_CONTEXT_SIZE", "low")
+# Output is small and tightly capped (4 holistic dimension scores + short
+# rationale/raise-probability fields, no per-subcategory findings the way
+# Stage 1 has), so this can sit far below STAGE1_MAX_TOKENS -- but not so low
+# it truncates the JSON mid-object (which surfaces as "no usable dimensions").
+PORTFOLIO_FIT_MAX_TOKENS = int(os.getenv("DI_PORTFOLIO_FIT_MAX_TOKENS", "2000"))
+# `sonar` answers in seconds, not the minutes sonar-deep-research takes, so
+# this is a fraction of STAGE1_TIMEOUT_SECONDS.
+PORTFOLIO_FIT_TIMEOUT_SECONDS = int(os.getenv("DI_PORTFOLIO_FIT_TIMEOUT_SECONDS", "120"))
 
 # sonar-deep-research runs iterative multi-step search and can take several
 # minutes per deal -- both knobs below only apply to Stage 1's perplexity()
@@ -138,6 +155,15 @@ FIT_THRESHOLD = float(os.getenv("DI_FIT_THRESHOLD", "3.0"))
 STRONG_GO_THRESHOLD = float(os.getenv("DI_STRONG_GO_THRESHOLD", "3.5"))
 MORE_DILIGENCE_THRESHOLD = float(os.getenv("DI_MORE_DILIGENCE_THRESHOLD", "2.5"))
 
+# Stage 0 Portfolio Fit decision tiers (rubric_portfolio.decision_tier) -- the
+# numeric boundaries prompts/portfolio_fit_rubric.md's "Decision tiers" section
+# names explicitly. They coincide with the Stage 1 bands above at v1, but are
+# kept as their own knobs since the two rubrics are free to diverge: Stage 0
+# gates to a Hub watchlist, Stage 1 gates to paid deep research.
+PORTFOLIO_TRACK_PRIORITY_THRESHOLD = float(os.getenv("DI_PORTFOLIO_TRACK_PRIORITY_THRESHOLD", "3.5"))
+PORTFOLIO_TRACK_THRESHOLD = float(os.getenv("DI_PORTFOLIO_TRACK_THRESHOLD", "3.0"))
+PORTFOLIO_MONITOR_THRESHOLD = float(os.getenv("DI_PORTFOLIO_MONITOR_THRESHOLD", "2.5"))
+
 # ── Concurrency ──────────────────────────────────────────────────────────────
 # sonar-deep-research has a much tighter rate limit than sonar-pro (as low as
 # 5 requests/min on a fresh Perplexity account, scaling with usage tier) --
@@ -154,6 +180,11 @@ ATTIO_IMPORT_PARALLEL = int(os.getenv("DI_ATTIO_IMPORT_PARALLEL", "8"))
 # not a plain GET like ATTIO_IMPORT_PARALLEL's target -- start conservative,
 # raise once a real run confirms the account's actual sonar rate limit.
 PORTFOLIO_ENRICH_PARALLEL = int(os.getenv("DI_PORTFOLIO_ENRICH_PARALLEL", "5"))
+# portfolio_fit.py -- same reasoning as PORTFOLIO_ENRICH_PARALLEL: `sonar` has
+# a far looser rate limit than sonar-deep-research, but it's still a real
+# web-search call. Start conservative; raise once a real run confirms the
+# account's actual sonar rate limit without 429s.
+PORTFOLIO_FIT_PARALLEL = int(os.getenv("DI_PORTFOLIO_FIT_PARALLEL", "5"))
 
 # ── Attio Deals schema ───────────────────────────────────────────────────────
 DEALS_OBJECT = os.getenv("DI_DEALS_OBJECT", "deals")

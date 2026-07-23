@@ -100,6 +100,15 @@ class PortfolioFit:
     raise_probability_band: str = ""       # low | medium | high | imminent
     raise_probability_evidence: str = ""   # <= 25 words: what moved the band off the deterministic baseline
     base_rate_context: str = ""            # the deterministic base-rate string this call was given as input
+    base_rate_band: str = ""               # low | medium | high -- the deterministic timing band before the
+                                            # model's qualitative overlay; kept alongside raise_probability_band
+                                            # so QA can see how far the model moved off the baseline
+    months_since_last_round: Optional[float] = None  # deterministic input to the base rate, for auditing
+    vc_source: str = ""                    # which partner VC's portfolio this company was scored from
+    citations: list = field(default_factory=list)   # source URLs Perplexity grounded on
+    research_flag: str = ""                # mechanical (non-LLM) integrity check -- set when the model's own
+                                            # text names a *different* company as the subject of a funding claim
+                                            # (cross-company conflation, same risk stage1_fit guards); "" when clean
 
     def to_dict(self):
         return asdict(self)
