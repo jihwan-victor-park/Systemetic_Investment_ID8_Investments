@@ -6,13 +6,21 @@ import { listPartnerVCs } from '@/lib/partnerVCs';
 import { findInvestorMatches } from '@/lib/companyIndex';
 import InvestorRelationships from '@/components/InvestorRelationships';
 import PromoteToPipeline from '@/components/PromoteToPipeline';
-import styles from './page.module.css';
 
 export const dynamic = 'force-dynamic';
 
+// Same tier vocabulary as PortfolioTable/PortfolioGraph's Stage 0 badges,
+// mapped onto the house `badge--gate/borderline/below` classes (globals.css)
+// -- no bespoke colors, this is the exact pattern ScreenView.jsx already
+// uses for a Stage 1 screen's own fit score.
 const TIER_LABEL = {
   track_priority: 'Track — priority', track: 'Track', monitor: 'Monitor',
   too_early: 'Too early', drop: 'Drop', error: 'Scoring error',
+};
+const TIER_BADGE_CLASS = {
+  track_priority: 'badge--gate', track: 'badge--gate',
+  monitor: 'badge--borderline', too_early: 'badge--borderline',
+  drop: 'badge--below',
 };
 
 export async function generateMetadata({ params }) {
@@ -49,7 +57,7 @@ export default async function VCPortfolioCompanyPage({ params }) {
   const scoredMatch = partnerMatches.find((m) => m.entry.fitScore != null);
   const fit = scoredMatch?.entry;
 
-  // Best-effort attribution for "Add to pipeline" (origin.leadInvestors) --
+  // Best-effort attribution for "Add..." (origin.leadInvestors) --
   // prefer a Tier 1 relationship, else the first partner match. Purely
   // informational, never gates anything.
   const sourceVCName = tier1Matches[0]?.firm?.name || partnerMatches[0]?.firm?.name;
@@ -78,14 +86,13 @@ export default async function VCPortfolioCompanyPage({ params }) {
       {repDescription && <p>{repDescription}</p>}
 
       {fit && (
-        <div className={styles.fitSummary}>
-          <div className={styles.fitScore}>{fit.fitScore.toFixed(1)} <span>/ 4</span></div>
-          <span className={styles.tierBadge} data-tier={fit.fitTier}>{TIER_LABEL[fit.fitTier] || fit.fitTier}</span>
-          <span className={styles.stageNote}>Latest round: <b>{fit.fitCurrentStage || fit.latestRound || '—'}</b></span>
-          <span className={styles.fitSource}>
-            Stage 0 portfolio-fit monitoring score (via {scoredMatch.firm.name}), not a live Stage 1 deal screen.
+        <p>
+          <strong>Fit score: {fit.fitScore.toFixed(1)} / 4.0</strong>{' '}
+          <span className={`badge ${TIER_BADGE_CLASS[fit.fitTier] || 'badge--borderline'}`}>
+            {TIER_LABEL[fit.fitTier] || fit.fitTier}
           </span>
-        </div>
+          {' — Latest round: '}{fit.fitCurrentStage || fit.latestRound || '—'}
+        </p>
       )}
 
       {canEdit && (

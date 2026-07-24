@@ -78,15 +78,27 @@
 /* Stage 0 Portfolio Fit tier badge -- same colors as PortfolioTable.jsx's
    .fitTier so a company reads consistently whether you're looking at the
    List or the Graph view. */
+/* Dot + colored text, matching the map's own color-as-signal language
+   (gradient edge/node color, never a filled pill) -- same pattern as
+   PortfolioTable's fitTier / FitScorePopover's tierBadge. */
 .stage0Badge {
-  font-family: 'Sora', sans-serif; font-size: 0.64rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600;
-  padding: 0.12rem 0.4rem; border-radius: 2px; white-space: nowrap;
+  font-family: 'Sora', sans-serif; font-size: 0.76rem; font-weight: 600; text-transform: capitalize; white-space: nowrap;
+  padding-left: 0.9rem; position: relative;
 }
-.stage0Badge[data-tier="track_priority"] { color: #fff; background: var(--id8-fresh); }
-.stage0Badge[data-tier="track"] { color: var(--id8-fresh); background: rgba(0, 158, 73, 0.12); }
-.stage0Badge[data-tier="monitor"] { color: var(--id8-aging); background: rgba(166, 124, 0, 0.12); }
-.stage0Badge[data-tier="too_early"] { color: var(--id8-aging); background: rgba(166, 124, 0, 0.12); }
-.stage0Badge[data-tier="drop"] { color: var(--id8-stale); background: rgba(242, 0, 15, 0.10); }
+.stage0Badge::before {
+  content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+  width: 0.5rem; height: 0.5rem; border-radius: 50%;
+}
+.stage0Badge[data-tier="track_priority"] { color: var(--id8-accent); }
+.stage0Badge[data-tier="track_priority"]::before { background: var(--id8-accent); }
+.stage0Badge[data-tier="track"] { color: var(--id8-accent); }
+.stage0Badge[data-tier="track"]::before { background: var(--id8-accent); opacity: 0.55; }
+.stage0Badge[data-tier="monitor"] { color: var(--id8-aging); }
+.stage0Badge[data-tier="monitor"]::before { background: var(--id8-aging-dot); }
+.stage0Badge[data-tier="too_early"] { color: var(--id8-grey); }
+.stage0Badge[data-tier="too_early"]::before { background: var(--id8-hair); }
+.stage0Badge[data-tier="drop"] { color: var(--id8-stale); }
+.stage0Badge[data-tier="drop"]::before { background: var(--id8-stale-dot); }
 .stage0Caption { font-size: 0.68rem; color: var(--id8-grey); font-style: italic; }
 .stage0Rationale { font-size: 0.76rem; color: var(--id8-soft); line-height: 1.35; }
 .detailLink { display: inline-block; margin-top: 10px; font-size: 0.82rem; font-weight: 600; }

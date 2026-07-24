@@ -49,7 +49,7 @@ export function companyToRow(c, { basePath, canEdit, tier1 = [], partners = [] }
   // Live cross-reference against every VC's recorded portfolio, same lookup
   // Hot Deals uses -- not `c.origin?.leadInvestors`, which is only ever set
   // at intake time (typed by hand in Research Chat, or copied from the
-  // source VC when a portfolio row gets promoted via "Add to pipeline") and
+  // source VC when a portfolio row gets promoted via "Add...") and
   // stays blank for the vast majority of companies that arrive through the
   // regular Deal Intelligence email screen. A company can sit in more than
   // one tracked firm's portfolio at once (e.g. Anduril), so this returns

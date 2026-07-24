@@ -56,7 +56,7 @@ export function lookupSlug(index, name) {
 
 // The company's current pipeline stage if ID8 already tracks it, else null --
 // null is the "not in our pipeline yet" signal callers use to offer an
-// "Add to pipeline" action instead of a stage badge.
+// "Add..." action instead of a stage badge.
 export function lookupStage(index, name) {
   const entry = index[(name || '').trim().toLowerCase()];
   return entry ? entry.stage : null;

@@ -20,7 +20,7 @@
 // hand. It stays in STAGES (so existing 'new' docs still validate/read
 // correctly) but is excluded from PUBLIC_STAGES, so no user-facing dropdown
 // (StageSelect's other rows, TrackNewRoundForm, HubSearchPanel's stage
-// filter, PortfolioTable's "Add to pipeline") ever offers it as a
+// filter, PortfolioTable's "Add...") ever offers it as a
 // destination -- moving a company into 'new' only ever happens via the Attio
 // import path, never by hand.
 export const STAGES = ['new', 'watchlist', 'pipeline', 'qualified', 'radar', 'invested'];

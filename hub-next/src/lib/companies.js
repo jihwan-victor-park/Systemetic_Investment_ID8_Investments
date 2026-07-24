@@ -148,7 +148,7 @@ export async function updateCompanyPitchbookUrl(slug, pitchbookUrl) {
 // Promotes a partner VC's portfolio company into the real pipeline at a
 // chosen stage -- the opt-in counterpart to the automatic name-match every
 // portfolio table row already shows via companyIndex. Never fires on its
-// own; only from a partner's own "Add to pipeline" control, and never
+// own; only from a partner's own "Add..." control, and never
 // touches a company that's already there (a slug collision here most often
 // means a name mismatch between the portfolio entry and an existing pipeline
 // company -- surfacing that as an error is safer than silently overwriting

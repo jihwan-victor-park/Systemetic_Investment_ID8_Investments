@@ -35,16 +35,28 @@
 }
 
 .header { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+/* Dot + colored text, same restrained pattern as PortfolioTable's fitTier /
+   RaiseProbabilityPopover -- no filled pill. */
 .tierBadge {
-  font-family: 'Sora', sans-serif; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600;
-  padding: 0.15rem 0.5rem; border-radius: 2px; white-space: nowrap;
+  font-family: 'Sora', sans-serif; font-size: 0.74rem; font-weight: 600; text-transform: capitalize; white-space: nowrap;
+  padding-left: 0.9rem; position: relative;
 }
-.tierBadge[data-tier="track_priority"] { color: #fff; background: var(--id8-fresh); }
-.tierBadge[data-tier="track"] { color: var(--id8-fresh); background: rgba(0, 158, 73, 0.12); }
-.tierBadge[data-tier="monitor"] { color: var(--id8-aging); background: rgba(166, 124, 0, 0.12); }
-.tierBadge[data-tier="too_early"] { color: var(--id8-aging); background: rgba(166, 124, 0, 0.12); }
-.tierBadge[data-tier="drop"] { color: var(--id8-stale); background: rgba(242, 0, 15, 0.10); }
-.tierBadge[data-tier="error"] { color: var(--id8-grey); background: var(--id8-hair); }
+.tierBadge::before {
+  content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+  width: 0.5rem; height: 0.5rem; border-radius: 50%;
+}
+.tierBadge[data-tier="track_priority"] { color: var(--id8-accent); }
+.tierBadge[data-tier="track_priority"]::before { background: var(--id8-accent); }
+.tierBadge[data-tier="track"] { color: var(--id8-accent); }
+.tierBadge[data-tier="track"]::before { background: var(--id8-accent); opacity: 0.55; }
+.tierBadge[data-tier="monitor"] { color: var(--id8-aging); }
+.tierBadge[data-tier="monitor"]::before { background: var(--id8-aging-dot); }
+.tierBadge[data-tier="too_early"] { color: var(--id8-grey); }
+.tierBadge[data-tier="too_early"]::before { background: var(--id8-hair); }
+.tierBadge[data-tier="drop"] { color: var(--id8-stale); }
+.tierBadge[data-tier="drop"]::before { background: var(--id8-stale-dot); }
+.tierBadge[data-tier="error"] { color: var(--id8-grey); }
+.tierBadge[data-tier="error"]::before { background: var(--id8-hair); }
 .confidence { font-size: 0.7rem; color: var(--id8-grey); white-space: nowrap; }
 
 .flagLine {

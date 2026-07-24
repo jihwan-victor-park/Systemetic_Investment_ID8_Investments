@@ -12,7 +12,7 @@ async function requireInternal() {
 // Promotes a partner VC's portfolio company into the real pipeline -- the
 // opt-in counterpart to the automatic name-match every portfolio table row
 // already shows via companyIndex. Only ever called from a portfolio row's
-// own "Add to pipeline" control; never runs automatically, and never touches
+// own "Add..." control; never runs automatically, and never touches
 // the pipeline for companies that already match by name (those get a stage
 // badge instead of this control).
 export async function POST(request) {

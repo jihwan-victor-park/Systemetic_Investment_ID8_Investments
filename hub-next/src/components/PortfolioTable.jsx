@@ -133,7 +133,7 @@ export default function PortfolioTable({ endpoint, id, field, items, filterFn, c
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
         const message = body.error === 'already-exists'
-          ? 'A company with this name is already in the pipeline (check for a name mismatch)'
+          ? 'A company with this name is already added (check for a name mismatch)'
           : body.error === 'invalid-round'
             ? 'No known round for this company — add one in the portfolio table first'
             : 'Failed — try again';
@@ -216,7 +216,7 @@ export default function PortfolioTable({ endpoint, id, field, items, filterFn, c
               value=""
               onChange={(e) => addToPipeline(p.company, e.target.value, p.fitCurrentStage || p.latestRound || '')}
             >
-              <option value="" disabled>Add to pipeline…</option>
+              <option value="" disabled>Add…</option>
               {PUBLIC_STAGES.map((s) => (
                 <option key={s} value={s}>{STAGE_LABELS[s]}</option>
               ))}
@@ -224,7 +224,7 @@ export default function PortfolioTable({ endpoint, id, field, items, filterFn, c
             {pipelineError?.company === p.company && <span className={styles.error}>{pipelineError.message}</span>}
           </div>
         ) : (
-          <span className={styles.muted}>Not in pipeline</span>
+          <span className={styles.muted}>Not added</span>
         ),
         actions: canEdit ? (
           <button type="button" className={styles.del} disabled={saving} onClick={() => remove(i)} title="Remove">×</button>

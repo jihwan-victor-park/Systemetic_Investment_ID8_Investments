@@ -7,17 +7,19 @@ import styles from './PromoteToPipeline.module.css';
 
 // Promotes a VC-portfolio-only company (this drill-in page's whole reason
 // to exist -- see VCPortfolioCompanyPage's docstring) into ID8's real
-// pipeline, then immediately offers RunAnalysisButton without navigating
-// away -- same two-step "Add to pipeline" -> "Run Analysis" flow
-// PortfolioTable.jsx's pipeline cell already uses, just here on the
-// standalone company page instead of a table row.
+// stages, then immediately offers RunAnalysisButton without navigating away
+// -- same two-step "Add" -> "Run Analysis" flow PortfolioTable.jsx's stage
+// cell already uses, just here on the standalone company page instead of a
+// table row. Deliberately just "Add," not "add to pipeline" -- "Deal
+// Pipeline" is one specific stage (STAGE_LABELS), so that phrase reads as if
+// it only meant that one, not any of the five.
 //
 // The round is a required field, not inferred silently -- createCompanyFromPortfolio
 // rejects a blank one (see lib/companies.js). `defaultRound` pre-fills it from
 // whatever's already known (the Stage 0-researched current stage, or the
 // on-file latest round) so the common case is just "confirm and go," but a
-// human always confirms the value that lands in the pipeline's Series field
-// rather than it silently staying blank.
+// human always confirms the value that lands in the company's own Series
+// field rather than it silently staying blank.
 //
 // sourceVCName is best-effort attribution (the first VC relationship found),
 // stored as origin.leadInvestors -- purely informational, never used to gate
@@ -42,7 +44,7 @@ export default function PromoteToPipeline({ companyName, sourceVCName, defaultRo
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || data.error) {
-        const message = data.error === 'already-exists' ? 'Already in the pipeline (name mismatch?)'
+        const message = data.error === 'already-exists' ? 'Already added (name mismatch?)'
           : data.error === 'invalid-round' ? 'The latest round is required'
           : 'Failed — try again';
         throw new Error(message);
@@ -96,7 +98,7 @@ export default function PromoteToPipeline({ companyName, sourceVCName, defaultRo
         </select>
       </label>
       <button type="submit" className={styles.submit} disabled={saving || !round.trim() || !stage}>
-        {saving ? 'Adding…' : 'Add to pipeline'}
+        {saving ? 'Adding…' : 'Add'}
       </button>
       {error && <span className={styles.error}>{error}</span>}
     </form>

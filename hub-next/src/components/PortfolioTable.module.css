@@ -19,19 +19,29 @@
 }
 .muted { color: var(--id8-grey); font-size: 0.8rem; }
 
-/* Stage 0 decision-tier badge. Colors follow the same fresh/aging/stale accent
-   family the hub already uses elsewhere: track_priority/track = go (green),
-   monitor/too_early = hold (amber), drop = pass (red). */
+/* Stage 0 decision-tier -- dot + colored text, same restrained pattern as
+   the Raise-probability column right next to it (and the graph's own
+   color-as-signal language: a gradient bar + marker, never a filled pill). */
 .fitTier {
-  font-family: 'Sora', sans-serif; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600;
-  padding: 0.15rem 0.5rem; border-radius: 2px; white-space: nowrap; cursor: default;
+  font-family: 'Sora', sans-serif; font-size: 0.72rem; font-weight: 600; text-transform: capitalize; white-space: nowrap;
+  padding-left: 0.9rem; position: relative; cursor: default;
 }
-.fitTier[data-tier="track_priority"] { color: #fff; background: var(--id8-fresh); }
-.fitTier[data-tier="track"] { color: var(--id8-fresh); background: rgba(0, 158, 73, 0.12); }
-.fitTier[data-tier="monitor"] { color: var(--id8-aging); background: rgba(166, 124, 0, 0.12); }
-.fitTier[data-tier="too_early"] { color: var(--id8-aging); background: rgba(166, 124, 0, 0.12); }
-.fitTier[data-tier="drop"] { color: var(--id8-stale); background: rgba(242, 0, 15, 0.10); }
-.fitTier[data-tier="error"] { color: var(--id8-grey); background: var(--id8-hair); }
+.fitTier::before {
+  content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+  width: 0.5rem; height: 0.5rem; border-radius: 50%;
+}
+.fitTier[data-tier="track_priority"] { color: var(--id8-accent); }
+.fitTier[data-tier="track_priority"]::before { background: var(--id8-accent); }
+.fitTier[data-tier="track"] { color: var(--id8-accent); }
+.fitTier[data-tier="track"]::before { background: var(--id8-accent); opacity: 0.55; }
+.fitTier[data-tier="monitor"] { color: var(--id8-aging); }
+.fitTier[data-tier="monitor"]::before { background: var(--id8-aging-dot); }
+.fitTier[data-tier="too_early"] { color: var(--id8-grey); }
+.fitTier[data-tier="too_early"]::before { background: var(--id8-hair); }
+.fitTier[data-tier="drop"] { color: var(--id8-stale); }
+.fitTier[data-tier="drop"]::before { background: var(--id8-stale-dot); }
+.fitTier[data-tier="error"] { color: var(--id8-grey); }
+.fitTier[data-tier="error"]::before { background: var(--id8-hair); }
 
 .pipelineCell { display: flex; flex-direction: column; gap: 0.2rem; }
 .stageWithAction { display: flex; align-items: center; gap: 0.5rem; }
