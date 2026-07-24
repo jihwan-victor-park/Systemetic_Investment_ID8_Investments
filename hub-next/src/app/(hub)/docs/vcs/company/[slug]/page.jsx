@@ -1,27 +1,15 @@
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import { auth } from '@/auth';
+import { listCompanies } from '@/lib/companies';
 import { listTopVCs } from '@/lib/topVCs';
 import { listPartnerVCs } from '@/lib/partnerVCs';
-import { findInvestorMatches } from '@/lib/companyIndex';
+import { buildCompanyIndex, companyHref, findInvestorMatches } from '@/lib/companyIndex';
 import InvestorRelationships from '@/components/InvestorRelationships';
 import PromoteToPipeline from '@/components/PromoteToPipeline';
+import { TIER_LABEL, TIER_BADGE_CLASS } from '@/lib/fitTier';
 
 export const dynamic = 'force-dynamic';
-
-// Same tier vocabulary as PortfolioTable/PortfolioGraph's Stage 0 badges,
-// mapped onto the house `badge--gate/borderline/below` classes (globals.css)
-// -- no bespoke colors, this is the exact pattern ScreenView.jsx already
-// uses for a Stage 1 screen's own fit score.
-const TIER_LABEL = {
-  track_priority: 'Track — priority', track: 'Track', monitor: 'Monitor',
-  too_early: 'Too early', drop: 'Drop', error: 'Scoring error',
-};
-const TIER_BADGE_CLASS = {
-  track_priority: 'badge--gate', track: 'badge--gate',
-  monitor: 'badge--borderline', too_early: 'badge--borderline',
-  drop: 'badge--below',
-};
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
@@ -32,10 +20,22 @@ export async function generateMetadata({ params }) {
 // somewhere in a VC's recorded portfolio (Tier 1's deals[] or a partner's
 // portfolio[]). `slug` is an encodeURIComponent'd company name, matched
 // case-insensitively against both -- no separate collection needed.
+//
+// A company and a deal should always point to the same place: if this name
+// already has a real company doc (promoted via PromoteToPipeline, or arrived
+// through the regular Attio/Deal Intelligence path), redirect to ITS profile
+// (CompanyDetailPage) instead of rendering this VC-only drill-in -- that page
+// now shows the same Stage 0 fit read this one does (see fitTier.js), so
+// nothing is lost by landing there instead.
 export default async function VCPortfolioCompanyPage({ params }) {
   const { slug } = await params;
   const companyName = decodeURIComponent(slug);
-  const [tier1, partners, session] = await Promise.all([listTopVCs(), listPartnerVCs(), auth()]);
+  const [companies, tier1, partners, session] = await Promise.all([
+    listCompanies(), listTopVCs(), listPartnerVCs(), auth(),
+  ]);
+  const href = companyHref(buildCompanyIndex(companies), companyName);
+  if (href) redirect(href);
+
   const { tier1Matches, partnerMatches } = findInvestorMatches(companyName, tier1, partners);
 
   if (tier1Matches.length === 0 && partnerMatches.length === 0) notFound();

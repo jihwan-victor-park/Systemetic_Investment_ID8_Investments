@@ -78,6 +78,23 @@
   white-space: nowrap;
 }
 
+/* Company is always the first column (PortfolioTable.jsx's COLUMNS and
+   companyStageColumns.jsx's STAGE_TABLE_COLUMNS both start with it) -- pin
+   it so sliding through a wide table (10+ columns, or a 100+-row portfolio)
+   never loses track of which row you're looking at. Needs its own opaque
+   background (matching the page, not the card) to occlude cells scrolling
+   underneath; the hairline on the right stands in for the left scroll-shadow,
+   which a pinned column makes moot -- there's nothing left of it to hint at
+   scrolling toward anymore. */
+.scrollWrap th:first-child,
+.scrollWrap td:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: var(--id8-paper);
+  box-shadow: 1px 0 0 0 var(--id8-hair);
+}
+
 .sortableHeader {
   cursor: pointer;
   user-select: none;

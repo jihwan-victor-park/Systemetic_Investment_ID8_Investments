@@ -73,11 +73,21 @@ export function companyToRow(c, { basePath, canEdit, tier1 = [], partners = [] }
       radarCategory: c.radarCategory || '',
     },
     cells: {
-      company: c.website ? (
+      // The name itself now goes to the same profile "Report" already links
+      // to -- previously only "View screen →" did, so the name was dead text
+      // (or, with a website on file, an external link elsewhere entirely).
+      company: (
         <>
-          {name} (<a href={`https://${c.website}`} target="_blank" rel="noopener noreferrer">{c.website}</a>)
+          <Link href={`${resolvedBasePath}/${c.slug}`}>{name}</Link>
+          {c.website && (
+            <>
+              {' ('}
+              <a href={`https://${c.website}`} target="_blank" rel="noopener noreferrer">{c.website}</a>
+              {')'}
+            </>
+          )}
         </>
-      ) : name,
+      ),
       series: <RoundInput slug={c.slug} round={c.round} canEdit={canEdit} />,
       partnerVc: matches.length === 0 ? '—' : <PartnerVcPopover matches={matches} />,
       radarCategory: (
