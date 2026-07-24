@@ -26,6 +26,10 @@ function _mapPortfolioEntry(p) {
     investorSince: p.investorSince || null,
     latestRound: p.latestRound || '',
     latestRoundDate: p.latestRoundDate || null,
+    // Set by portfolio_fit.write_back() only when the stage-resolution pass
+    // replaced a stale/generic on-file round with the true researched one --
+    // holds the original PitchBook value for provenance (shown on hover).
+    latestRoundOnFile: p.latestRoundOnFile || '',
     category: p.category || '',
     description: p.description || '',
     pitchbookUrl: p.pitchbookUrl || '',

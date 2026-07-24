@@ -99,8 +99,12 @@ class PortfolioFit:
     too_early: bool = False                # stage override -- real fit_score kept regardless. FINAL value:
                                             # recomputed in portfolio_fit.py from current_stage (below), not
                                             # taken raw from the model -- see that module for the precedence
-    current_stage: str = ""                # the company's TRUE current round, RESEARCHED by the model, not the
-                                            # (possibly stale/generic) PitchBook latestRound label on file
+    current_stage: str = ""                # the EFFECTIVE current round: the researched value when pass 1 found
+                                            # one, else the on-file PitchBook label (never discarded)
+    current_round_date: str = ""           # the researched round's date (YYYY-MM/-DD), when pass 1 found one
+    stage_source: str = ""                 # "researched" (pass 1 found a real round) | "on-file" (pass 1 came
+                                            # back unknown, fell back to the PitchBook label) -- write_back only
+                                            # overwrites latestRound when this is "researched"
     current_stage_evidence: str = ""       # <= 20 words: the round + date + source, or why unknown
     pitchbook_latest_round: str = ""       # the on-file label the research was asked to confirm/override, kept
                                             # alongside current_stage so QA can see where the two disagree (stale data)

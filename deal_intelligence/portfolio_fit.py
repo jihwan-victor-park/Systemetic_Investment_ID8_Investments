@@ -76,6 +76,32 @@ def _load_id8_holdings():
 _ID8_HOLDINGS = _load_id8_holdings()
 
 
+# ── Stage label handling ──────────────────────────────────────────────────────
+
+def _onfile_round(company):
+    """The ORIGINAL PitchBook round label. write_back overwrites `latestRound`
+    in place with the researched round, preserving the original in
+    `latestRoundOnFile` -- so once that's set, IT is the true on-file value.
+    Reading through this keeps re-scoring idempotent (the stage pass always
+    verifies against the original PitchBook label, never a value we already
+    replaced)."""
+    return (company.get("latestRoundOnFile") or company.get("latestRound") or "").strip()
+
+
+# How specific a round label is, so write_back never DOWNGRADES a precise
+# on-file series (e.g. "Series K") to a vaguer researched answer ("Growth/
+# Late-stage"). Higher = more specific.
+def _round_specificity(label):
+    s = (label or "").strip().lower()
+    if not s:
+        return 0
+    if re.match(r"(pre-?seed|seed|series\s+[a-z])", s):
+        return 3  # a clean/near-clean series letter (incl. "Seed Round (Nth)")
+    if "growth" in s or "late-stage" in s or "late stage" in s:
+        return 2  # named late-stage but no letter
+    return 1      # generic PitchBook bucket: "Later Stage VC", "Early Stage VC", "PE Growth", ...
+
+
 def is_id8_holding(company_name):
     return _normalize_name(company_name) in _ID8_HOLDINGS
 
@@ -108,7 +134,7 @@ def _company_context(company, vc_name=None):
         ("HQ", _fmt(company.get("hqLocation"))),
         ("Year founded", _fmt(company.get("yearFounded"))),
         ("Business status", _fmt(company.get("businessStatus"))),
-        ("Latest round", _fmt(company.get("latestRound"))),
+        ("Latest round", _fmt(_onfile_round(company))),
         ("Latest round date", _fmt(company.get("latestRoundDate"))),
         ("Employees (PitchBook)", _fmt(fin.get("employees"))),
         ("Revenue $000s (PitchBook)", _fmt(fin.get("revenueUsdThousands"))),
@@ -155,7 +181,7 @@ async def resolve_current_stage(company, vc_name=None):
         template = f.read()
     prompt = template.format(
         company=_company_context(company, vc_name=vc_name),
-        pitchbook_label=company.get("latestRound") or "(none on file)",
+        pitchbook_label=_onfile_round(company) or "(none on file)",
         pitchbook_date=company.get("latestRoundDate") or "unknown",
     )
     raw, _ = await research.perplexity_async(
@@ -219,7 +245,7 @@ async def score_company(company, vc_name=None, as_of=None, stage=None):
     # returns "unknown" for obscure companies it can't verify (e.g. Hadrian),
     # and the on-file PitchBook label -- even a generic bucket -- is better than
     # nothing there.
-    pitchbook_label = company.get("latestRound") or ""
+    pitchbook_label = _onfile_round(company)
     resolved = (stage.stage or "").strip()
     stage_is_real = bool(resolved) and resolved.lower() != "unknown"
     effective_stage = resolved if stage_is_real else pitchbook_label
@@ -322,6 +348,8 @@ async def score_company(company, vc_name=None, as_of=None, stage=None):
         hard_auto_pass_reason=hard_auto_pass_reason,
         too_early=too_early,
         current_stage=effective_stage or "unknown",
+        current_round_date=(stage.date if stage_is_real else ""),
+        stage_source=("on-file" if stage_from_onfile else "researched" if stage_is_real else "none"),
         current_stage_evidence=" | ".join(f for f in (
             ("(pass 1 unknown; using on-file label)" if stage_from_onfile else stage.evidence),
             f"date: {stage.date}" if stage.date else "",
@@ -449,7 +477,7 @@ def write_back(results, seed_path=_SEED_PATH):
             idx[(vc["name"], _normalize_name(c.get("company", "")))] = c
 
     scored_at = date.today().isoformat()
-    written, unmatched = 0, []
+    written, unmatched, rounds_updated = 0, [], 0
     for r in results:
         if r.decision_tier == "error":
             continue
@@ -465,7 +493,23 @@ def write_back(results, seed_path=_SEED_PATH):
         c["fitHardPass"] = r.hard_auto_pass
         c["fitRationale"] = r.rationale
         c["fitScoredAt"] = scored_at
+        # When pass 1 actually researched a current round, update the displayed
+        # latestRound/latestRoundDate with it -- the stale/generic PitchBook
+        # bucket ("Later Stage VC (4th Round)") gets replaced by the true series
+        # we found. But NEVER downgrade: if the on-file label is already more
+        # specific than the researched one (a clean "Series K" vs a vague
+        # "Growth/Late-stage"), keep the on-file. Preserve the original once for
+        # provenance; fallback ("on-file") cases leave latestRound as-is.
+        onfile = _onfile_round(c)
+        if (r.stage_source == "researched" and r.current_stage
+                and _round_specificity(r.current_stage) >= _round_specificity(onfile)):
+            c.setdefault("latestRoundOnFile", c.get("latestRound", ""))
+            c["latestRound"] = r.current_stage
+            if r.current_round_date:
+                c["latestRoundDate"] = r.current_round_date
+            rounds_updated += 1
         written += 1
+    write_back.rounds_updated = rounds_updated
 
     with open(seed_path, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
@@ -570,6 +614,7 @@ def main():
     if args.write_back:
         written, unmatched = write_back(results, seed_path=args.seed)
         print(f"\nWrote fit results onto {written} companies in {os.path.basename(args.seed)}.")
+        print(f"  ({getattr(write_back, 'rounds_updated', 0)} had latestRound updated to the researched current round)")
         if unmatched:
             print(f"  ({len(unmatched)} results could not be matched back and were skipped)")
         print("Next: push to Firestore -- (cd hub-next && node scripts/backfill-partner-vcs.mjs) "

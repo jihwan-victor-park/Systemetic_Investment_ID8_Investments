@@ -26,7 +26,7 @@ const COLUMNS = [
   { key: 'industry', label: 'Industry', sortable: true },
   { key: 'description', label: 'Description', sortable: false },
   { key: 'roundInvested', label: 'Round invested', sortable: true },
-  { key: 'currentStage', label: 'Current stage', sortable: true },
+  { key: 'latestRound', label: 'Latest round', sortable: true },
   { key: 'fitTier', label: 'Stage 0 fit', sortable: true, defaultDir: 'desc' },
   { key: 'probability', label: 'Raise prob. (3mo)', sortable: true, defaultDir: 'desc' },
   { key: 'score', label: 'Fit score', sortable: true },
@@ -142,10 +142,11 @@ export default function PortfolioTable({ endpoint, id, field, items, filterFn, c
     const fitScore = lookupFitScore(companyIndex, p.company);
     const stage = lookupStage(companyIndex, p.company);
     // Stage 0 Portfolio Fit results (deal_intelligence/portfolio_fit.py write_back).
-    // Only present on companies actually scored; the researched current stage
-    // falls back to the on-file latestRound so the column is never blank.
-    const currentStage = p.fitCurrentStage || p.latestRound || '';
+    // latestRound is updated in place to the researched current round when the
+    // stage pass found one; latestRoundOnFile then holds the original PitchBook
+    // value, shown on hover as provenance.
     const raiseBand = p.fitRaiseProbability || '';
+    const roundResearched = Boolean(p.latestRoundOnFile) && p.latestRoundOnFile !== p.latestRound;
     return {
       key: i,
       sort: {
@@ -153,21 +154,23 @@ export default function PortfolioTable({ endpoint, id, field, items, filterFn, c
         category: p.category || '',
         industry: p.industry || '',
         roundInvested: p.roundInvested || '',
-        currentStage,
+        latestRound: p.latestRound || '',
         fitTier: TIER_RANK[p.fitTier] ?? -1,
         probability: RAISE_RANK[raiseBand] ?? -1,
         score: p.fitScore ?? fitScore ?? -1,
         pipeline: stage || '',
       },
-      search: { company: p.company, category: p.category || '', industry: p.industry || '', description: p.description || '', roundInvested: p.roundInvested || '', currentStage },
+      search: { company: p.company, category: p.category || '', industry: p.industry || '', description: p.description || '', roundInvested: p.roundInvested || '', latestRound: p.latestRound || '' },
       cells: {
         company: <Link href={href}>{p.company}</Link>,
         category: p.category || '—',
         industry: p.industry || '—',
         description: <DescriptionPopover text={p.description} />,
         roundInvested: formatRoundsWithDates(p.roundInvested, p.investorSince),
-        currentStage: currentStage
-          ? <span title={p.fitCurrentStage ? 'Researched current round (Stage 0 pass)' : 'On-file PitchBook round'}>{currentStage}{!p.fitCurrentStage && p.latestRoundDate ? ` · ${p.latestRoundDate}` : ''}</span>
+        latestRound: p.latestRound
+          ? <span title={roundResearched ? `Researched current round (was "${p.latestRoundOnFile}" on file in PitchBook)` : undefined}>
+              {formatRoundsWithDates(p.latestRound, p.latestRoundDate)}{roundResearched ? ' ✓' : ''}
+            </span>
           : '—',
         fitTier: p.fitTier
           ? <span className={styles.fitTier} data-tier={p.fitTier} title={p.fitRationale || ''}>{TIER_LABEL[p.fitTier] || p.fitTier}</span>

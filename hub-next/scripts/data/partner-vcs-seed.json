@@ -17588,7 +17588,7 @@
         "hqLocation": "Austin, TX",
         "businessStatus": "Generating Revenue",
         "roundInvested": "Seed Round (1st Round)",
-        "latestRound": "Seed Round (1st Round)",
+        "latestRound": "Seed",
         "latestRoundDate": "2025-01-09",
         "financials": {
           "employees": 36.0,
@@ -17602,7 +17602,16 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.8,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed",
+        "fitRaiseProbability": "medium",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Aeon looks like a real AI-enabled defense platform with venture-scale ambition, but public evidence for traction and team pedigree is thin. Backing is credible but not yet Tier 1+ dense, and the company is still Seed, so it remains too early.",
+        "fitScoredAt": "2026-07-24",
+        "latestRoundOnFile": "Seed Round (1st Round)"
       },
       {
         "company": "Anduril Industries",
@@ -17622,7 +17631,7 @@
         "yearFounded": 2017,
         "hqLocation": "Costa Mesa, CA",
         "businessStatus": "Generating Revenue",
-        "latestRound": "Series G",
+        "latestRound": "Series G+",
         "latestRoundDate": "2025-06-05",
         "roundInvested": "Series G",
         "financials": {
@@ -17637,7 +17646,16 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 4.0,
+        "fitTier": "track_priority",
+        "fitCurrentStage": "Series G+",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Anduril is a strong AI-defense business: AI is central to the product, fundamentals are already large, and the company is well past early-stage risk. Backing quality is strong; founder quality is credible, though this read relies partly on public reputation rather than deep verified bios.",
+        "fitScoredAt": "2026-07-24",
+        "latestRoundOnFile": "Series G"
       },
       {
         "company": "Axiom Space",
@@ -17672,7 +17690,15 @@
           "financingStatus": "Private Equity-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.8,
+        "fitTier": "drop",
+        "fitCurrentStage": "PE Growth/Expansion (12th Round)",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": true,
+        "fitRationale": "Axiom Space scores as a credible, capitalized space infrastructure company with real revenue and a plausible billion-dollar ceiling, but it is not AI-thesis aligned. Backing is strong at Series B+ equivalent scale, and the founder/team read is solid rather than exceptional.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Ayar Labs",
@@ -17707,7 +17733,16 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 3.5,
+        "fitTier": "track_priority",
+        "fitCurrentStage": "Series E",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "The company is strongly thesis-aligned through deep semiconductor/IP hardware for AI infrastructure, with credible scale potential and late-stage institutional backing. Team quality is the weakest signal only because verified public pedigree was not surfaced in the provided material.",
+        "fitScoredAt": "2026-07-24",
+        "latestRoundOnFile": "Series E"
       },
       {
         "company": "Base Power",
@@ -17777,7 +17812,16 @@
           "financingStatus": "Private Equity-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.2,
+        "fitTier": "drop",
+        "fitCurrentStage": "Series D",
+        "fitRaiseProbability": "medium",
+        "fitTooEarly": false,
+        "fitHardPass": true,
+        "fitRationale": "Blink Health looks like a real, scaled healthcare commerce business, but not an AI-native one. Backing is credible at Series D, while founder quality is insufficiently verified from the available evidence.",
+        "fitScoredAt": "2026-07-24",
+        "latestRoundOnFile": "Series D"
       },
       {
         "company": "Cerebras Systems",
@@ -17847,7 +17891,16 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 3.5,
+        "fitTier": "track_priority",
+        "fitCurrentStage": "Series E",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Crusoe scores as a strong AI infrastructure company with clear thesis alignment and late-stage venture scale, though the team evidence is thinner than the business profile. Backing quality looks strong, while the company’s revenue and valuation support a large outcome.",
+        "fitScoredAt": "2026-07-24",
+        "latestRoundOnFile": "Series E"
       },
       {
         "company": "Databricks",
@@ -17869,7 +17922,7 @@
         "businessStatus": "Generating Revenue",
         "roundInvested": "Series K",
         "latestRound": "Series K",
-        "latestRoundDate": "2025-09-08",
+        "latestRoundDate": "2024-12",
         "financials": {
           "employees": 9000.0,
           "revenueUsdThousands": 5400000.0,
@@ -17882,7 +17935,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 3.8,
+        "fitTier": "track_priority",
+        "fitCurrentStage": "Growth/Late-stage",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Databricks is a strong AI-native platform with substantial scale and late-stage backing, fitting the thesis well. Team pedigree is credible but not fully verified in the supplied sources, while backing quality is strong and clearly in mandate.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Deel",
@@ -17917,7 +17978,16 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 3.8,
+        "fitTier": "track_priority",
+        "fitCurrentStage": "Series E",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Deel scores as a mature, venture-scale B2B platform with strong fundamentals and late-stage backing. The AI thesis is real but secondary to the core workforce/compliance business, while founder pedigree is not substantiated in the provided research.",
+        "fitScoredAt": "2026-07-24",
+        "latestRoundOnFile": "Series E"
       },
       {
         "company": "Enhanced Games",
@@ -17987,7 +18057,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.5,
+        "fitTier": "monitor",
+        "fitCurrentStage": "Series C1",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Firehawk Aerospace looks like a real venture-scale deep-tech business, but the fit is driven by aerospace hardware rather than AI. Backing appears solid enough for Series C1, though I found no evidence of elite founder pedigree or a Tier 1 cap table beyond the confirmed stage.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Groq",
@@ -18057,7 +18135,16 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · keyword match: 'autonomous'"
+        "prefilterReason": "geography: NA · keyword match: 'autonomous'",
+        "fitScore": 3.2,
+        "fitTier": "track",
+        "fitCurrentStage": "Series C",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Hadrian fits the AI thesis strongly and appears to have meaningful scale potential, but I could not verify founder pedigree from the available evidence. Stage and backing look strong for a Series C company, with at least one known institutional investor on the cap table.",
+        "fitScoredAt": "2026-07-24",
+        "latestRoundOnFile": "Series C"
       },
       {
         "company": "Happy Dad",
@@ -18162,7 +18249,16 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 3.8,
+        "fitTier": "track_priority",
+        "fitCurrentStage": "Series E",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Neuralink fits the AI thesis strongly and shows top-tier late-stage backing. Fundamentals support a plausible venture-scale outcome, but disclosed operating traction remains limited.",
+        "fitScoredAt": "2026-07-24",
+        "latestRoundOnFile": "Series E"
       },
       {
         "company": "Plaid",
@@ -18197,7 +18293,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 3.2,
+        "fitTier": "track",
+        "fitCurrentStage": "Later Stage VC (12th Round)",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Plaid scores as a large, durable fintech infrastructure business with strong backing and clear venture-scale fundamentals. Thesis fit is weaker because the company’s moat appears to be data/network infrastructure rather than evidenced AI depth.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "PlusAI",
@@ -18232,7 +18336,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 3.5,
+        "fitTier": "track_priority",
+        "fitCurrentStage": "Later Stage VC (10th Round)",
+        "fitRaiseProbability": "medium",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "PlusAI looks like a real AI-native autonomy company with product-level AI at the core and credible scale potential. Backing quality is strong; founder pedigree is not fully verified from this search, so that dimension stays at 3.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Polymarket",
@@ -18302,7 +18414,16 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.5,
+        "fitTier": "drop",
+        "fitCurrentStage": "Series E",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": true,
+        "fitRationale": "PsiQuantum is a serious late-stage quantum hardware company, but its thesis fit is not AI-led. Backing quality and scale potential look strong, while founder quality is only modestly evidenced from the materials reviewed.",
+        "fitScoredAt": "2026-07-24",
+        "latestRoundOnFile": "Series E"
       },
       {
         "company": "Ramp",
@@ -18324,7 +18445,7 @@
         "businessStatus": "Generating Revenue",
         "roundInvested": "Series F",
         "latestRound": "Series F",
-        "latestRoundDate": "2026-06-04",
+        "latestRoundDate": "2025-07",
         "financials": {
           "employees": 2469.0,
           "revenueUsdThousands": 1000000.0,
@@ -18337,7 +18458,16 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 3.5,
+        "fitTier": "track_priority",
+        "fitCurrentStage": "Series F",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Ramp looks like a strong late-stage venture asset with exceptional scale, but the AI thesis appears more product-embedded than moat-defining. Backing quality and stage are strong; I did not verify a Tier 1 syndicate from the available evidence.",
+        "fitScoredAt": "2026-07-24",
+        "latestRoundOnFile": "Series F"
       },
       {
         "company": "Reflection AI",
@@ -18442,7 +18572,16 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 3.2,
+        "fitTier": "track",
+        "fitCurrentStage": "Series C",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Skild AI is a strong AI-native robotics thesis with real commercial scale, but the publicly verifiable team signal is thin. Backing and stage are strong, while the moat appears more model-centric than clearly proven defensible flywheel.",
+        "fitScoredAt": "2026-07-24",
+        "latestRoundOnFile": "Series C"
       },
       {
         "company": "SpaceX",
@@ -18512,7 +18651,16 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.2,
+        "fitTier": "drop",
+        "fitCurrentStage": "Series A",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": true,
+        "fitHardPass": true,
+        "fitRationale": "The company looks like a capital-intensive space infrastructure play with plausible venture scale, but the AI thesis is not evidenced. Backing is real but not top-tier by the data available, and team quality is unverified.",
+        "fitScoredAt": "2026-07-24",
+        "latestRoundOnFile": "Series A"
       },
       {
         "company": "Substack",
@@ -18603,7 +18751,7 @@
         "hqLocation": "Durham, NC",
         "businessStatus": "Generating Revenue",
         "roundInvested": "Series A1",
-        "latestRound": "Series A1",
+        "latestRound": "Series A",
         "latestRoundDate": "2025-08-07",
         "financials": {
           "employees": 64.0,
@@ -18617,7 +18765,16 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.2,
+        "fitTier": "drop",
+        "fitCurrentStage": "Series A",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": true,
+        "fitHardPass": true,
+        "fitRationale": "Vulcan Elements looks strong on industrial scale potential and respectable on backing, but it does not show an AI moat and the team record is not well evidenced. Overall thesis alignment is weak on AI depth, while backing quality is decent but not top-tier.",
+        "fitScoredAt": "2026-07-24",
+        "latestRoundOnFile": "Series A1"
       },
       {
         "company": "VulcanForms",
@@ -18652,7 +18809,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 3.2,
+        "fitTier": "track",
+        "fitCurrentStage": "Series D",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "VulcanForms looks like a real AI-enabled industrial platform, not a thin wrapper, but the team signal is not well verified from available results. Revenue generation and Series D backing support a credible scale case and thesis fit with deep manufacturing AI.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "X (Social/Platform Software)",
