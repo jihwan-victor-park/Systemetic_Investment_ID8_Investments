@@ -53,7 +53,12 @@ export default function InvestorRelationships({ tier1Matches, partnerMatches }) 
                 <tr key={i}>
                   <td><Link href={`/docs/vcs/partner/${firm.id}`}>{firm.name}</Link></td>
                   <td>{firm.trackedBy || '—'}</td>
-                  <td>{entry.series || '—'}</td>
+                  {/* roundInvested is the canonical field (see partnerVCs.js's
+                      _mapPortfolioEntry) -- `series` is a legacy field that's
+                      empty on every real entry, which is why this column
+                      always rendered "—" regardless of what round the VC
+                      actually invested at. */}
+                  <td>{entry.roundInvested || entry.series || '—'}</td>
                 </tr>
               ))}
             </tbody>

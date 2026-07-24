@@ -114,8 +114,13 @@ export default function PortfolioTable({ endpoint, id, field, items, filterFn, c
 
   // Promotes a portfolio company into the real pipeline at a chosen stage --
   // only offered when companyIndex shows no existing match (a stage badge
-  // is shown instead once it does). Never fires on its own.
-  async function addToPipeline(company, stage) {
+  // is shown instead once it does). Never fires on its own. `round` is
+  // required by the API (createCompanyFromPortfolio) -- passed here from
+  // whatever this row already knows (the Stage 0-researched current stage,
+  // or the on-file latest round), so the common case needs no extra prompt;
+  // a row with neither surfaces 'invalid-round' below rather than silently
+  // creating a pipeline company with a blank Series.
+  async function addToPipeline(company, stage, round) {
     if (!stage) return;
     setAddingCompany(company);
     setPipelineError(null);
@@ -123,11 +128,16 @@ export default function PortfolioTable({ endpoint, id, field, items, filterFn, c
       const res = await fetch('/api/companies', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: company, stage, sourceVCName: vcName }),
+        body: JSON.stringify({ name: company, stage, sourceVCName: vcName, round }),
       });
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
-        throw new Error(body.error === 'already-exists' ? 'A company with this name is already in the pipeline (check for a name mismatch)' : 'Failed — try again');
+        const message = body.error === 'already-exists'
+          ? 'A company with this name is already in the pipeline (check for a name mismatch)'
+          : body.error === 'invalid-round'
+            ? 'No known round for this company — add one in the portfolio table first'
+            : 'Failed — try again';
+        throw new Error(message);
       }
       router.refresh();
     } catch (err) {
@@ -204,7 +214,7 @@ export default function PortfolioTable({ endpoint, id, field, items, filterFn, c
               className={styles.pipelineSelect}
               disabled={addingCompany === p.company}
               value=""
-              onChange={(e) => addToPipeline(p.company, e.target.value)}
+              onChange={(e) => addToPipeline(p.company, e.target.value, p.fitCurrentStage || p.latestRound || '')}
             >
               <option value="" disabled>Add to pipeline…</option>
               {PUBLIC_STAGES.map((s) => (

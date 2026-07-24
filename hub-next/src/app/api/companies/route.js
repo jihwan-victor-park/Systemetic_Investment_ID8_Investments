@@ -17,15 +17,17 @@ async function requireInternal() {
 // badge instead of this control).
 export async function POST(request) {
   if (!(await requireInternal())) return NextResponse.json({ error: 'forbidden' }, { status: 403 });
-  const { name, stage, sourceVCName } = await request.json();
+  const { name, stage, sourceVCName, round } = await request.json();
   if (!name || !STAGES.includes(stage)) {
     return NextResponse.json({ error: 'invalid-request' }, { status: 400 });
   }
   try {
-    const result = await createCompanyFromPortfolio({ name, stage, sourceVCName });
+    const result = await createCompanyFromPortfolio({ name, stage, sourceVCName, round });
     return NextResponse.json({ ok: true, ...result });
   } catch (err) {
-    const status = err.message === 'already-exists' ? 409 : err.message === 'invalid-stage' || err.message === 'invalid-name' ? 400 : 500;
+    const status = err.message === 'already-exists' ? 409
+      : err.message === 'invalid-stage' || err.message === 'invalid-name' || err.message === 'invalid-round' ? 400
+      : 500;
     return NextResponse.json({ error: err.message || 'create-failed' }, { status });
   }
 }

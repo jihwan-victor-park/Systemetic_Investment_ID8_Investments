@@ -8,6 +8,7 @@ import ScreenView from '@/components/ScreenView';
 import TrackNewRoundForm from '@/components/TrackNewRoundForm';
 import CompanyInlineField from '@/components/CompanyInlineField';
 import InvestorRelationships from '@/components/InvestorRelationships';
+import RunAnalysisButton from '@/components/RunAnalysisButton';
 
 // Shared by the Watchlist / Pipeline / Qualified Deals detail routes -- a
 // company's screen history looks identical regardless of which stage it's
@@ -55,6 +56,13 @@ export default async function CompanyDetailPage({ params }) {
           linkLabel="PitchBook ↗"
         />
       </p>
+      {/* Same "Run Analysis" trigger the stage-table rows already have
+          (companyStageColumns.jsx) -- there it's always available (first run
+          or re-run), so it is here too. A company promoted straight from a
+          VC portfolio (PromoteToPipeline) lands on this exact page with zero
+          screens yet, and this is what starts Stage 1 without going back to
+          a list first. */}
+      {canEdit && <p><RunAnalysisButton slug={company.slug} name={company.name} /></p>}
       {company.screens.map((screen) => (
         <ScreenView key={screen.id} screen={screen} canEdit={canEdit} slug={company.slug} />
       ))}

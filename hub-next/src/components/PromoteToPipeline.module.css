@@ -1,0 +1,22 @@
+.form { display: flex; align-items: flex-end; gap: 12px; flex-wrap: wrap; margin: 12px 0; }
+.field { display: flex; flex-direction: column; gap: 3px; }
+.label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--id8-grey); font-weight: 600; }
+.input, .select {
+  font-family: 'Sora', sans-serif; font-size: 0.82rem; color: var(--id8-ink); background: var(--id8-card);
+  border: 1px solid var(--id8-hair); border-radius: 4px; padding: 0.4rem 0.6rem;
+}
+.select { cursor: pointer; }
+.submit {
+  background: var(--id8-ink); color: var(--id8-paper); border: none; border-radius: 4px;
+  padding: 0.45rem 0.9rem; font-size: 0.82rem; font-weight: 600; cursor: pointer;
+}
+.submit:disabled { opacity: 0.4; cursor: default; }
+.submit:not(:disabled):hover { opacity: 0.85; }
+
+.wrap { display: flex; align-items: center; gap: 8px; margin: 12px 0; }
+.stageLink {
+  font-family: 'Sora', sans-serif; font-size: 0.82rem; font-weight: 600; color: var(--id8-fresh);
+  text-decoration: none;
+}
+.stageLink:hover { text-decoration: underline; }
+.error { color: #B3261E; font-size: 0.78rem; }

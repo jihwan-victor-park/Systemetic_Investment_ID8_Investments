@@ -1,0 +1,21 @@
+.fitSummary {
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  margin: 10px 0 4px; padding: 10px 14px;
+  background: var(--id8-accent-bg); border-radius: 4px;
+}
+.fitScore { font-family: 'Roboto Serif', Georgia, serif; font-size: 1.3rem; color: var(--id8-ink); }
+.fitScore span { font-size: 0.9rem; color: var(--id8-grey); font-family: 'Sora', sans-serif; }
+
+.tierBadge {
+  font-family: 'Sora', sans-serif; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600;
+  padding: 0.18rem 0.55rem; border-radius: 2px; white-space: nowrap;
+}
+.tierBadge[data-tier="track_priority"] { color: #fff; background: var(--id8-fresh); }
+.tierBadge[data-tier="track"] { color: var(--id8-fresh); background: rgba(0, 158, 73, 0.15); }
+.tierBadge[data-tier="monitor"] { color: var(--id8-aging); background: rgba(166, 124, 0, 0.15); }
+.tierBadge[data-tier="too_early"] { color: var(--id8-aging); background: rgba(166, 124, 0, 0.15); }
+.tierBadge[data-tier="drop"] { color: var(--id8-stale); background: rgba(242, 0, 15, 0.12); }
+
+.stageNote { font-size: 0.82rem; color: var(--id8-soft); }
+.stageNote b { color: var(--id8-ink); }
+.fitSource { font-size: 0.72rem; color: var(--id8-grey); width: 100%; }

@@ -154,10 +154,17 @@ export async function updateCompanyPitchbookUrl(slug, pitchbookUrl) {
 // company -- surfacing that as an error is safer than silently overwriting
 // whatever stage it's already in). Internal-role-only; enforced by the API
 // route.
-export async function createCompanyFromPortfolio({ name, stage, sourceVCName }) {
+//
+// `round` is required, not inferred here -- the caller (PromoteToPipeline.jsx)
+// pre-fills it from whatever the portfolio entry/Stage 0 scan already knows
+// (the researched current round when available), but a human confirms it
+// before the company enters the real pipeline with a blank Series field.
+export async function createCompanyFromPortfolio({ name, stage, sourceVCName, round }) {
   if (!STAGES.includes(stage)) throw new Error('invalid-stage');
   const slug = companySlug(name);
   if (!slug) throw new Error('invalid-name');
+  const roundValue = String(round ?? '').trim();
+  if (!roundValue) throw new Error('invalid-round');
   const ref = db().collection('companies').doc(slug);
   const snap = await ref.get();
   if (snap.exists) throw new Error('already-exists');
@@ -165,10 +172,11 @@ export async function createCompanyFromPortfolio({ name, stage, sourceVCName }) 
     name,
     website: null,
     stage,
+    round: roundValue,
     origin: { source: 'partner-vc-portfolio', leadInvestors: sourceVCName || null, importedAt: new Date() },
   });
   revalidateTag('companies');
-  return { slug, stage };
+  return { slug, stage, round: roundValue };
 }
 
 // Every company doc's "family" identity for multi-round tracking --
