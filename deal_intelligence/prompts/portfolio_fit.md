@@ -44,38 +44,23 @@ Do not spend research effort re-verifying either; if the company on file
 looks like it fails one of these, treat that as a data-quality flag for the
 upstream filter, not something to score down here.
 
-## Research the company's TRUE current stage -- do not trust the label on file
+## The company's current stage is already established -- use it
 
-This is a required research task, not a lookup. The `Latest round` shown in
-the Company block above is PitchBook's value **as of its last snapshot, and it
-is frequently wrong for our purpose in two ways**: (1) it can be a generic
-bucket ("Later Stage VC (4th Round)", "Early Stage VC", "PE Growth/Expansion")
-that does not name the actual series, and (2) it can be stale -- the company
-may have raised a newer, later round since PitchBook recorded it.
+A dedicated research pass has already established this company's true current
+financing round:
 
-Your job: find the company's **most recent financing round as of today**, and
-report it in `current_stage` as a clean series where one exists ("Seed",
-"Series A", "Series B", "Series C", ... or "Growth/Late-stage" only if it is
-genuinely past lettered rounds and no letter is reported). If your research
-finds a more recent round than the on-file label, yours is the one that
-counts -- say so in `current_stage_evidence` with the round and its
-approximate date. If you genuinely cannot establish it, report `"unknown"`
-rather than echoing the on-file label back.
+  **Confirmed current stage: {confirmed_stage}**
 
-Guard against identity drift here especially: a "Series D" you found must be
-*this* company's round (matching name/domain), not a similarly-named, better-
-covered company's -- see Company identity discipline below.
-
-## Stage is scored as too_early, not a fail -- but the threshold is applied in code
-
-Do NOT try to decide mandate yourself. Report the researched `current_stage`
-and `too_early` honestly (set `too_early: true` if the current stage you found
-is below Series B), but the final below-/at-mandate call is recomputed
-deterministically from your `current_stage` downstream -- so spend your effort
-getting the *stage fact* right, not adjudicating the threshold. Either way,
-still research and score the company for real against the full rubric (real
-1-4 scores, real evidence) -- a too_early company is benched for re-evaluation
-at Series B+, never shortcut to all-1s or judged as weak on its merits.
+Trust this, not the (possibly stale/generic) PitchBook `Latest round` in the
+Company block. Do NOT re-derive the stage or decide mandate yourself -- whether
+the company is below Series B (benched as too_early) is recomputed in code from
+the confirmed stage above. Use the confirmed stage as an input when you score
+the Stage & Backing dimension, and factor it into your read, but spend your
+research budget on the four rubric dimensions and the raise-probability signal,
+not on re-litigating the round. A below-Series-B company is still scored for
+real against the full rubric (real 1-4 scores, real evidence) -- benched for
+re-evaluation at Series B+, never shortcut to all-1s or judged as weak on its
+merits.
 
 ## Company identity discipline
 
@@ -107,11 +92,9 @@ layoffs/shutdown signal) and report a band, nudging the base rate above up or
 down as that evidence warrants -- per the rubric's "Probability of next
 round" section.
 
-Important: the base rate above was computed from the on-file last-financing
-date, which may be stale (see the current-stage section). If the most recent
-round you actually found is **more recent** than that, the company is less
-overdue than the base rate implies -- nudge the band **down**. If you
-confirmed a round even older, or none more recent, the base rate stands.
+The base rate above was already computed from the confirmed current round (not
+the stale on-file date), so it is a sound starting point -- move it only for
+genuine qualitative signal, not to correct the timing.
 
 ## Output
 
@@ -132,9 +115,6 @@ already stated for that field:
   "confidence": "high | medium | low -- how much of the score rests on verified vs. public-only/estimated data",
   "hard_auto_pass": true | false,
   "hard_auto_pass_reason": "which condition fired, quoting the rubric's hard-auto-pass list -- empty string if false",
-  "current_stage": "the company's TRUE most recent round as of today, researched not echoed: \"Seed\" | \"Series A\" | \"Series B\" | \"Series C\" | ... | \"Growth/Late-stage\" | \"unknown\"",
-  "current_stage_evidence": "<= 20 words: the round + approximate date + where you saw it; or why it's unknown. Note explicitly if this is newer than the on-file label.",
-  "too_early": true | false,
   "raise_probability_band": "low | medium | high | imminent",
   "raise_probability_evidence": "<= 25 words, one sentence: what moved the band off the deterministic baseline, or state plainly that nothing did"
 }}

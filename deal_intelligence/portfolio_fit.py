@@ -13,12 +13,21 @@ Where this sits in the pipeline (Oscar's framing):
   Stage 1 -- the existing live-deal fit pass (stage1_fit.py / Research Chat).
   Stage 2 -- deal screening (not built; out of scope here).
 
-Two things happen in the single scored call, per the rubric:
-  1. the four-dimension holistic fit score (AI/thesis, team, fundamentals,
-     stage/backing), and
-  2. the 3-month raise-probability band -- seeded by portfolio_timing.py's
-     deterministic base rate (computed in code from last-financing recency vs
-     stage cadence) and nudged by the model's qualitative overlay.
+Two sonar calls per company, in order (Oscar's design):
+  1. STAGE RESOLUTION (resolve_current_stage / prompts/portfolio_stage.md) --
+     a dedicated first pass whose only job is nailing the company's TRUE
+     current round. This exists because stage-as-one-field-in-the-big-call was
+     unreliable on fast-moving private companies (it called Base Power, a live
+     Series C ID8 holding, "Series A"), and getting it wrong wrongly benches a
+     company as too_early. The verified round then drives too_early (in code)
+     and the timing base rate.
+  2. FIT SCORING (score_company / prompts/portfolio_fit.md) -- the four-
+     dimension holistic score (AI/thesis, team, fundamentals, stage/backing)
+     plus the 3-month raise-probability band, given the confirmed stage from
+     pass 1 as ground truth rather than re-researching it.
+
+Companies ID8 already holds are excluded at selection time (data/id8_holdings.json)
+-- they're current portfolio, not prospects to track for future access.
 
 Mirrors stage1_fit.py's structure (build prompt -> perplexity_async -> parse
 JSON -> typed result -> bounded-concurrency run()) so it reads the same as the
@@ -29,6 +38,7 @@ import argparse
 import asyncio
 import json
 import os
+import re
 from datetime import date
 
 from . import config, research, rubric_portfolio, portfolio_timing
@@ -36,9 +46,38 @@ from .schemas import PortfolioFit, DimensionScore
 from .stage1_fit import _significant_tokens, _COMPANY_SUBJECT_RE, _COMPANY_VERB_RE, _truthy
 
 _PROMPT = os.path.join(os.path.dirname(__file__), "prompts", "portfolio_fit.md")
+_STAGE_PROMPT = os.path.join(os.path.dirname(__file__), "prompts", "portfolio_stage.md")
 _REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 _SEED_PATH = os.path.join(_REPO_ROOT, "hub-next", "scripts", "data", "partner-vcs-seed.json")
 _DEFAULT_OUT = os.path.join(_REPO_ROOT, "portfolio_fit_results.json")
+_HOLDINGS_PATH = os.path.join(os.path.dirname(__file__), "data", "id8_holdings.json")
+
+
+# ── ID8 holdings exclusion ────────────────────────────────────────────────────
+
+def _normalize_name(name):
+    """Lowercase + strip everything non-alphanumeric so 'Scale AI', 'Scale AI,
+    Inc.' and 'scaleai' all collapse to the same key. Also drops a trailing
+    parenthetical ('X (Social/Platform Software)' -> 'x') the seed data uses to
+    disambiguate generic names."""
+    name = re.sub(r"\s*\([^)]*\)\s*$", "", name or "")
+    return re.sub(r"[^a-z0-9]", "", name.lower())
+
+
+def _load_id8_holdings():
+    try:
+        with open(_HOLDINGS_PATH, encoding="utf-8") as f:
+            data = json.load(f)
+        return {_normalize_name(n) for n in data.get("holdings", [])}
+    except (OSError, json.JSONDecodeError):
+        return set()
+
+
+_ID8_HOLDINGS = _load_id8_holdings()
+
+
+def is_id8_holding(company_name):
+    return _normalize_name(company_name) in _ID8_HOLDINGS
 
 
 # ── Prompt assembly ──────────────────────────────────────────────────────────
@@ -82,7 +121,7 @@ def _company_context(company, vc_name=None):
     return "\n".join(f"{k}: {v}" for k, v in lines if v is not None)
 
 
-def _build_prompt(company, base_rate_context, vc_name=None):
+def _build_prompt(company, base_rate_context, confirmed_stage, vc_name=None):
     with open(_PROMPT, "r", encoding="utf-8") as f:
         template = f.read()
     param_keys = ", ".join(p["key"] for p in rubric_portfolio.PARAMS)
@@ -91,6 +130,49 @@ def _build_prompt(company, base_rate_context, vc_name=None):
         company=_company_context(company, vc_name=vc_name),
         params=param_keys,
         base_rate_context=base_rate_context,
+        confirmed_stage=confirmed_stage,
+    )
+
+
+# ── Pass 1: dedicated stage resolution ────────────────────────────────────────
+
+class StageResult:
+    """Small holder for the stage-resolution pass output."""
+    __slots__ = ("stage", "date", "lead_investor", "evidence", "confidence")
+
+    def __init__(self, stage="", date="", lead_investor="", evidence="", confidence=""):
+        self.stage, self.date, self.lead_investor = stage, date, lead_investor
+        self.evidence, self.confidence = evidence, confidence
+
+
+async def resolve_current_stage(company, vc_name=None):
+    """Pass 1: one focused sonar call whose ONLY job is the company's true
+    current round (prompts/portfolio_stage.md). Deeper search context than the
+    fit call. Returns a StageResult; falls back to the on-file label on any
+    parse failure so pass 2 always has *something*, rather than crashing the
+    whole company on a flaky stage lookup."""
+    with open(_STAGE_PROMPT, "r", encoding="utf-8") as f:
+        template = f.read()
+    prompt = template.format(
+        company=_company_context(company, vc_name=vc_name),
+        pitchbook_label=company.get("latestRound") or "(none on file)",
+        pitchbook_date=company.get("latestRoundDate") or "unknown",
+    )
+    raw, _ = await research.perplexity_async(
+        prompt, model=config.PORTFOLIO_FIT_MODEL, temperature=0,
+        timeout=config.PORTFOLIO_FIT_TIMEOUT_SECONDS,
+        search_context_size=config.PORTFOLIO_STAGE_SEARCH_CONTEXT_SIZE,
+        max_tokens=config.PORTFOLIO_FIT_MAX_TOKENS,
+    )
+    parsed = research.extract_json(raw)
+    if not isinstance(parsed, dict):
+        return StageResult(stage=company.get("latestRound") or "", evidence="stage pass unparseable; fell back to on-file label", confidence="low")
+    return StageResult(
+        stage=(parsed.get("current_stage") or "").strip(),
+        date=(parsed.get("current_round_date") or "").strip(),
+        lead_investor=(parsed.get("lead_investor") or "").strip(),
+        evidence=(parsed.get("evidence") or "").strip(),
+        confidence=(parsed.get("confidence") or "").strip(),
     )
 
 
@@ -121,12 +203,34 @@ def _conflation_flag(company_name, dimensions, rationale, raise_evidence):
 
 # ── Scoring ──────────────────────────────────────────────────────────────────
 
-async def score_company(company, vc_name=None, as_of=None):
+async def score_company(company, vc_name=None, as_of=None, stage=None):
     """Score one portfolio company. Never raises for a normal bad/thin result
     (that's a real low score); raises only when the model returned nothing
-    usable, so run()'s guard can tell 'scoring broke' from 'scored and weak'."""
-    br = portfolio_timing.base_rate(company, as_of=as_of)
-    prompt = _build_prompt(company, br.context, vc_name=vc_name)
+    usable, so run()'s guard can tell 'scoring broke' from 'scored and weak'.
+
+    Runs the dedicated stage-resolution pass first (unless a StageResult is
+    passed in via `stage`, e.g. for testing), then the fit pass with that
+    confirmed round as ground truth."""
+    if stage is None:
+        stage = await resolve_current_stage(company, vc_name=vc_name)
+
+    # Effective stage: the pass-1 research when it produced a real answer;
+    # otherwise fall back to the on-file label rather than discarding it. Pass 1
+    # returns "unknown" for obscure companies it can't verify (e.g. Hadrian),
+    # and the on-file PitchBook label -- even a generic bucket -- is better than
+    # nothing there.
+    pitchbook_label = company.get("latestRound") or ""
+    resolved = (stage.stage or "").strip()
+    stage_is_real = bool(resolved) and resolved.lower() != "unknown"
+    effective_stage = resolved if stage_is_real else pitchbook_label
+    stage_from_onfile = not stage_is_real and bool(pitchbook_label)
+
+    # Timing baseline uses the effective round/date (base_rate falls back to
+    # on-file internally when a field is blank) -- the whole point of pass 1.
+    br = portfolio_timing.base_rate(company, as_of=as_of,
+                                    stage_override=effective_stage, date_override=stage.date)
+    confirmed_stage = effective_stage or "unknown"
+    prompt = _build_prompt(company, br.context, confirmed_stage, vc_name=vc_name)
 
     # sonar is not a reasoning model, so no reasoning_effort here -- only
     # search_context_size applies. temperature 0 for score repeatability.
@@ -161,41 +265,29 @@ async def score_company(company, vc_name=None, as_of=None):
 
     fit_score = rubric_portfolio.weighted_score(dim_scores)
     hard_auto_pass = _truthy(parsed.get("hard_auto_pass", False))
-    model_too_early = _truthy(parsed.get("too_early", False))
     rationale = parsed.get("rationale", "") or ""
     raise_evidence = parsed.get("raise_probability_evidence", "") or ""
-    current_stage = (parsed.get("current_stage") or "").strip()
-    current_stage_evidence = (parsed.get("current_stage_evidence") or "").strip()
-    pitchbook_label = company.get("latestRound") or ""
 
-    # too_early (below Series B) is a threshold applied in code, over the true
-    # current stage -- NOT the model's own boolean, which proved unreliable.
-    # Precedence, most authoritative first:
-    #   1. the stage the model RESEARCHED (current_stage) -- the whole point of
-    #      paying for the call; reflects rounds newer than PitchBook's snapshot.
-    #   2. the on-file PitchBook label, but only to veto a wrong too_early on a
-    #      clearly-B+ label (never to force one -- a stale low label may hide a
-    #      newer round the model didn't surface).
-    #   3. the model's raw boolean, when neither stage classifies cleanly.
-    researched = portfolio_timing.is_series_b_plus(current_stage)
-    onfile = portfolio_timing.is_series_b_plus(pitchbook_label)
-    if researched is not None:
-        too_early = researched is False
-        stage_basis = f"researched current stage {current_stage!r}"
-    elif onfile is True:
-        too_early = False
-        stage_basis = f"on-file label {pitchbook_label!r} (Series B+)"
+    # too_early (below Series B) is a threshold applied IN CODE over the
+    # EFFECTIVE stage (pass-1 research when real, else the on-file label) --
+    # never the fit model's read. When even the effective stage doesn't
+    # classify, default to NOT too_early: a false bench hides a real holding,
+    # so better to let the fit score speak.
+    effective_cls = portfolio_timing.is_series_b_plus(effective_stage)
+    if effective_cls is not None:
+        too_early = effective_cls is False
+        stage_basis = f"stage {effective_stage!r}" + (" (from on-file label)" if stage_from_onfile else " (researched)")
     else:
-        too_early = model_too_early
-        stage_basis = "model's own read (stage indeterminate from data)"
+        too_early = False
+        stage_basis = "stage indeterminate -- not benched"
 
-    # Surface for QA when the code disagrees with the model's raw boolean, or
-    # when the researched stage contradicts the on-file label (stale data).
+    # Surface for QA when pass 1's researched stage contradicts the on-file
+    # label (a stale-data signal worth a human glance).
+    researched = portfolio_timing.is_series_b_plus(resolved) if stage_is_real else None
+    onfile = portfolio_timing.is_series_b_plus(pitchbook_label)
     stage_note = ""
-    if too_early != model_too_early:
-        stage_note = f"too_early set to {too_early} from {stage_basis}, model said {model_too_early}"
-    elif researched is not None and onfile is not None and researched != onfile:
-        stage_note = (f"researched stage {current_stage!r} disagrees with on-file "
+    if researched is not None and onfile is not None and researched != onfile:
+        stage_note = (f"researched stage {stage.stage!r} disagrees with on-file "
                       f"{pitchbook_label!r} -- on-file data may be stale")
     tier = rubric_portfolio.decision_tier(
         fit_score, hard_auto_pass, too_early,
@@ -217,8 +309,13 @@ async def score_company(company, vc_name=None, as_of=None):
         hard_auto_pass=hard_auto_pass,
         hard_auto_pass_reason=parsed.get("hard_auto_pass_reason", "") or "",
         too_early=too_early,
-        current_stage=current_stage,
-        current_stage_evidence=current_stage_evidence,
+        current_stage=effective_stage or "unknown",
+        current_stage_evidence=" | ".join(f for f in (
+            ("(pass 1 unknown; using on-file label)" if stage_from_onfile else stage.evidence),
+            f"date: {stage.date}" if stage.date else "",
+            f"lead: {stage.lead_investor}" if stage.lead_investor else "",
+            f"confidence: {stage.confidence}" if stage.confidence else "",
+        ) if f),
         pitchbook_latest_round=pitchbook_label,
         raise_probability_band=parsed.get("raise_probability_band", "") or "",
         raise_probability_evidence=raise_evidence,
@@ -248,7 +345,6 @@ async def run(companies, parallel=None, as_of=None):
                     company_pbid=company.get("companyPbid"),
                     rationale=f"scoring failed: {e}", confidence="low",
                     decision_tier="error", vc_source=vc_name or "",
-                    base_rate_context=portfolio_timing.base_rate(company, as_of=as_of).context,
                 )
 
     return await asyncio.gather(*[guarded(c, vc) for c, vc in companies])
@@ -263,17 +359,29 @@ def _load_seed(seed_path):
 
 def select_companies(data, limit=100, vc_name=None):
     """Pick up to `limit` companies that passed the prefilter (prefilterPass
-    is True). With --vc, only that fund. Otherwise round-robins across every
-    evaluated fund so a 100-company test spans many portfolios instead of
-    exhausting one alphabetical fund -- more representative for QA. Deterministic
-    (file order, no randomness), returns [(company_dict, vc_name), ...]."""
+    is True) AND are not already ID8 holdings (data/id8_holdings.json -- we
+    don't scan companies we already own as if they were prospects). With --vc,
+    only that fund. Otherwise round-robins across every evaluated fund so a
+    100-company test spans many portfolios instead of exhausting one
+    alphabetical fund -- more representative for QA. Deterministic (file order,
+    no randomness), returns [(company_dict, vc_name), ...]."""
     per_vc = []
+    skipped_holdings = 0
     for vc in data:
         if vc_name and vc["name"].strip().lower() != vc_name.strip().lower():
             continue
-        passing = [c for c in vc.get("portfolio", []) if c.get("prefilterPass") is True]
+        passing = []
+        for c in vc.get("portfolio", []):
+            if c.get("prefilterPass") is not True:
+                continue
+            if is_id8_holding(c.get("company", "")):
+                skipped_holdings += 1
+                continue
+            passing.append(c)
         if passing:
             per_vc.append((vc["name"], passing))
+    if skipped_holdings:
+        print(f"(excluded {skipped_holdings} companies ID8 already holds -- see data/id8_holdings.json)")
 
     if vc_name and not per_vc:
         available = ", ".join(sorted(v["name"] for v in data))
@@ -351,22 +459,23 @@ def main():
           + (f" from {args.vc}" if args.vc else f" across {len({v for _, v in companies})} funds"))
 
     if args.dry_run:
-        # Rough token estimate: prompt words / 0.75 ~= tokens; output ~300 tok.
-        sample_prompt = _build_prompt(companies[0][0],
-                                      portfolio_timing.base_rate(companies[0][0]).context,
+        # Rough token estimate: prompt words / 0.75 ~= tokens. There are now
+        # TWO sonar calls/company (stage resolution + fit), so per-request fees
+        # count twice; estimate off the fit prompt (the larger of the two).
+        br0 = portfolio_timing.base_rate(companies[0][0])
+        sample_prompt = _build_prompt(companies[0][0], br0.context,
+                                      companies[0][0].get("latestRound") or "unknown",
                                       vc_name=companies[0][1])
         in_tok = int(len(sample_prompt.split()) / 0.75)
-        # Sonar: $1/M in + $1/M out (+ per-request fee, dominant). Token cost only here.
         tok_cost = (in_tok + 300) / 1_000_000 * 1.0
         print(f"\nDRY RUN -- no API calls made.")
-        print(f"  ~{in_tok} input tokens/company (+~300 output)")
-        print(f"  token cost ~${tok_cost:.4f}/company + Perplexity's per-request fee (~$0.005-0.014)")
-        print(f"  estimated total for {len(companies)}: ~${(tok_cost + 0.009) * len(companies):.2f} "
-              f"(${(tok_cost + 0.005) * len(companies):.2f}-${(tok_cost + 0.014) * len(companies):.2f} range)")
+        print(f"  ~{in_tok} input tokens/fit-call (+~300 output), plus a smaller stage-resolution call")
+        print(f"  ~2 sonar calls/company (stage + fit); token cost ~${tok_cost:.4f} + 2x per-request fee (~$0.005-0.014 each)")
+        print(f"  estimated total for {len(companies)}: ~${(tok_cost + 0.018) * len(companies):.2f} "
+              f"(${(tok_cost + 0.010) * len(companies):.2f}-${(tok_cost + 0.028) * len(companies):.2f} range)")
         print("\nFirst 5 selected:")
         for c, vc in companies[:5]:
-            br = portfolio_timing.base_rate(c)
-            print(f"  {c.get('company'):<32} [{vc}]  round={c.get('latestRound') or '?'}  base_rate={br.band}")
+            print(f"  {c.get('company'):<32} [{vc}]  on-file round={c.get('latestRound') or '?'}")
         return
 
     results = asyncio.run(run(companies, parallel=args.parallel))

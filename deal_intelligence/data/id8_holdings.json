@@ -1,0 +1,15 @@
+{
+  "_note": "Companies ID8 has ALREADY invested in (standalone + Growth Opportunities Fund I). The Stage 0 portfolio scan (portfolio_fit.py) excludes these -- they are current holdings, not prospects to track for future access. Seeded 2026-07 from the 'Representative Investments and Performance' track-record slide; KEEP UPDATED as the portfolio grows (ideally sourced from Attio later, this hand-list will go stale). Match is on normalized name (lowercased, punctuation/spaces stripped), so 'Scale AI' matches 'scaleai'.",
+  "holdings": [
+    "Aven",
+    "Base Power",
+    "CoreWeave",
+    "Groq",
+    "Replit",
+    "Scale AI",
+    "Together AI",
+    "Reflection AI",
+    "Saronic",
+    "Polymarket"
+  ]
+}

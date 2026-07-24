@@ -129,36 +129,52 @@ def _months_between(earlier, later):
 
 
 def _parse_date(s):
-    """latestRoundDate is ISO 'YYYY-MM-DD' in this dataset. Returns a date or
-    None (never raises) -- a malformed/partial date is treated as no date."""
+    """Accepts ISO 'YYYY-MM-DD' (on-file dates) or the looser 'YYYY-MM' the
+    stage-resolution pass may return. Returns a date or None (never raises) --
+    a malformed/partial date is treated as no date; a 'YYYY-MM' defaults to the
+    1st of the month."""
     if not s:
         return None
-    m = re.match(r"(\d{4})-(\d{2})-(\d{2})", str(s).strip())
-    if not m:
-        return None
+    s = str(s).strip()
+    m = re.match(r"(\d{4})-(\d{2})-(\d{2})", s)
+    if m:
+        y, mo, d = m.groups()
+    else:
+        m = re.match(r"(\d{4})-(\d{2})$", s)
+        if not m:
+            return None
+        y, mo, d = m.group(1), m.group(2), "01"
     try:
-        return date(int(m.group(1)), int(m.group(2)), int(m.group(3)))
+        return date(int(y), int(mo), int(d))
     except ValueError:
         return None
 
 
-def base_rate(company, as_of=None):
+def base_rate(company, as_of=None, stage_override=None, date_override=None):
     """company: one portfolio dict (needs `latestRound`, `latestRoundDate`).
     as_of: reference date for "months since" -- defaults to today (this runs
     locally against the seed JSON, so real wall-clock today is correct); made
     injectable so tests are deterministic.
 
+    stage_override / date_override: the round + date the dedicated stage-
+    resolution pass researched (see portfolio_fit.resolve_current_stage). When
+    given, they take precedence over the on-file latestRound/latestRoundDate --
+    the whole point of that pass is that the on-file values are stale/generic,
+    so the timing baseline should be computed from the verified round, not the
+    snapshot. Either may be None/blank independently (e.g. stage found but date
+    not), in which case that field falls back to the on-file value.
+
     Returns a TimingBaseRate. Falls back to a band of 'medium' with an explicit
-    "no financing date on file" context when latestRoundDate is missing (~5%
-    of passing rows) -- the model then leans entirely on its qualitative
-    overlay rather than a fabricated baseline.
+    "no financing date on file" context when no usable date exists at all --
+    the model then leans entirely on its qualitative overlay rather than a
+    fabricated baseline.
     """
     as_of = as_of or date.today()
-    latest_round = company.get("latestRound") or ""
+    latest_round = (stage_override or company.get("latestRound") or "").strip()
     bucket = _classify_stage(latest_round)
     round_label = latest_round or "unknown round"
 
-    round_date = _parse_date(company.get("latestRoundDate"))
+    round_date = _parse_date(date_override) or _parse_date(company.get("latestRoundDate"))
     if round_date is None:
         return TimingBaseRate(
             band="medium",

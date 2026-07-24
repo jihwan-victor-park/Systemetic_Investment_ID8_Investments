@@ -72,6 +72,14 @@ PORTFOLIO_ENRICH_MODEL = os.getenv("DI_PORTFOLIO_ENRICH_MODEL", "sonar")
 # only search_context_size does, and it's "low" per the prompt's own note.
 PORTFOLIO_FIT_MODEL = os.getenv("DI_PORTFOLIO_FIT_MODEL", "sonar")
 PORTFOLIO_FIT_SEARCH_CONTEXT_SIZE = os.getenv("DI_PORTFOLIO_FIT_SEARCH_CONTEXT_SIZE", "low")
+# Stage-resolution pass (portfolio_fit.resolve_current_stage) -- the dedicated
+# FIRST sonar call whose only job is nailing the company's true current round,
+# before the fit call scores anything. Its own knob because accuracy on this
+# one fact matters more than on the fit call's broad read (getting the stage
+# wrong wrongly benches a live holding as too_early -- see Base Power), so it
+# gets a deeper search context ("medium") than the fit pass's "low". Same cheap
+# `sonar` model; it's the search depth, not the model, that's dialed up.
+PORTFOLIO_STAGE_SEARCH_CONTEXT_SIZE = os.getenv("DI_PORTFOLIO_STAGE_SEARCH_CONTEXT_SIZE", "medium")
 # Output is small and tightly capped (4 holistic dimension scores + short
 # rationale/raise-probability fields, no per-subcategory findings the way
 # Stage 1 has), so this can sit far below STAGE1_MAX_TOKENS -- but not so low
