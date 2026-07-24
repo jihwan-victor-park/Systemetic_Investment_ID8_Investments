@@ -121,6 +121,32 @@ def _has_any_enrichment(company):
     return any((company.get(f) or "").strip() for f in _ENRICHMENT_FIELDS)
 
 
+# ── Holding status ───────────────────────────────────────────────────────────
+
+# Stage 0's entire premise (see portfolio_fit.py) is that the partner VC
+# CURRENTLY HOLDS the company, so ID8 can ride that relationship into a future
+# round. A position the VC has already exited or sold gives us no such access
+# -- so it doesn't belong in the scan, regardless of how strong the company
+# is. investorStatus/exitType/exitDate are structured PitchBook fields on the
+# portfolio entry (the VC's relationship to the company), so this is a clean
+# deterministic exclusion, same as geography. ~29% of otherwise-passing rows
+# (793 of 2,724) are former/exited -- that's why a company 1789 secondaried
+# out of (Tucker Carlson Network) was still being scored.
+EXCLUDED_INVESTOR_STATUSES = {"former investor", "former"}
+
+
+def _partner_still_holds(company):
+    """False when the partner VC has exited/sold this position (former
+    investor, or any recorded exit), True otherwise. Ambiguous M&A roles
+    (Add-on Sponsor / Acquirer / Pending) are left as True for now -- small
+    in number and not clearly 'exited' -- see the count in run_all()'s output."""
+    if (company.get("investorStatus") or "").strip().lower() in EXCLUDED_INVESTOR_STATUSES:
+        return False
+    if (company.get("exitType") or company.get("exitDate")):
+        return False
+    return True
+
+
 # ── Business status ─────────────────────────────────────────────────────────
 
 # Only "Out of Business" is reliably excludable today -- see KNOWN GAP above
@@ -173,16 +199,33 @@ def _warn_embeddings_unavailable(exc):
     print(f"[portfolio_prefilter] embeddings tier unavailable, falling back to category-only: {exc}", file=sys.stderr)
 
 
-# Industry/category values observed in this dataset that are definitively
-# non-tech -- a company landing here with NO AI vertical/keyword hit anywhere
-# has no realistic path through portfolio_fit's AI hard-gate. Conservative by
-# design: only sectors with zero plausible tech/AI overlap. Extend as new
-# categories show up; when in doubt, leave a category OUT of this set (pass
-# it through) rather than risk excluding a real company.
+# Industry/category values observed in this dataset that are off-thesis for an
+# AI fund -- a company landing here with NO AI vertical/keyword hit anywhere
+# has no realistic path through portfolio_fit's AI hard-gate. This still only
+# excludes when there's ZERO AI signal (the `not keyword_hit` guard below), so
+# a genuine AI-healthcare or AI-fintech company whose description says
+# "machine learning" is NOT caught here -- it passes to the paid research pass.
+# The second block was added after a live run: without the (OpenAI) embeddings
+# tier, "insufficient data to exclude" was passing through 77 Media, 83
+# Healthcare Services, 37 Pharma/Biotech, 35 Retail, etc. companies with no AI
+# signal at all. Kept OUT deliberately (too thesis-adjacent to blocklist
+# wholesale, let the AI-keyword check decide): Software, Other Financial
+# Services (fintech), Computer Hardware, Semiconductors, Healthcare Technology
+# Systems, Communications and Networking, IT Services.
 NON_TECH_CATEGORIES = {
+    # original consumer/materials set
     "restaurants, hotels and leisure", "consumer non-durables",
     "metals, minerals and mining", "other materials", "consumer durables",
-    "apparel and accessories (b2c)", "food products", "beverages",
+    "apparel and accessories (b2c)", "apparel and accessories",
+    "food products", "beverages",
+    # media / content
+    "media",
+    # clinical / physical healthcare & life sciences (health-AI still passes
+    # via the AI-keyword guard; this only catches the no-AI-signal ones)
+    "healthcare services", "healthcare devices and supplies",
+    "pharmaceuticals and biotechnology",
+    # other clearly off-thesis physical/consumer/regulated sectors
+    "retail", "insurance", "transportation", "energy equipment",
 }
 
 
@@ -256,6 +299,11 @@ def evaluate(company, use_embeddings=True):
     if not _has_any_enrichment(company):
         return {"pass": False, "reasons": ["no enrichment data on file (no hqLocation/businessStatus/"
                                             "description/category/vertical) -- skipped, likely stale or dead"]}
+
+    if not _partner_still_holds(company):
+        return {"pass": False, "reasons": [f"partner VC no longer holds this position "
+                                            f"(investorStatus={company.get('investorStatus')!r}, "
+                                            f"exitType={company.get('exitType')!r}) -- no relationship to ride into a future round"]}
 
     status = (company.get("businessStatus") or "").strip().lower()
     if status in EXCLUDED_BUSINESS_STATUSES:
