@@ -33,23 +33,6 @@
 .fitTier[data-tier="drop"] { color: var(--id8-stale); background: rgba(242, 0, 15, 0.10); }
 .fitTier[data-tier="error"] { color: var(--id8-grey); background: var(--id8-hair); }
 
-/* Raise-probability band -- a small filled dot + label, hotter = more imminent. */
-.raiseBand {
-  font-family: 'Sora', sans-serif; font-size: 0.72rem; font-weight: 600; text-transform: capitalize; white-space: nowrap;
-  padding-left: 0.9rem; position: relative;
-}
-.raiseBand::before {
-  content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
-  width: 0.5rem; height: 0.5rem; border-radius: 50%;
-}
-.raiseBand[data-band="imminent"] { color: var(--id8-stale); }
-.raiseBand[data-band="imminent"]::before { background: var(--id8-stale-dot); }
-.raiseBand[data-band="high"] { color: var(--id8-aging); }
-.raiseBand[data-band="high"]::before { background: var(--id8-aging-dot); }
-.raiseBand[data-band="medium"] { color: var(--id8-soft); }
-.raiseBand[data-band="medium"]::before { background: var(--id8-grey); }
-.raiseBand[data-band="low"] { color: var(--id8-grey); }
-.raiseBand[data-band="low"]::before { background: var(--id8-hair); }
 .pipelineCell { display: flex; flex-direction: column; gap: 0.2rem; }
 .stageWithAction { display: flex; align-items: center; gap: 0.5rem; }
 .pipelineSelect {

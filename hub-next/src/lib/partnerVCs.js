@@ -59,6 +59,10 @@ function _mapPortfolioEntry(p) {
     fitCurrentStageEvidence: p.fitCurrentStageEvidence || '',
     fitRaiseProbabilityEvidence: p.fitRaiseProbabilityEvidence || '',
     fitResearchFlag: p.fitResearchFlag || '',
+    // The deterministic timing-only starting point (portfolio_timing.py),
+    // before the model's qualitative overlay -- fitRaiseProbability above is
+    // the final band after that overlay.
+    fitBaseRateBand: p.fitBaseRateBand || '',
   };
 }
 

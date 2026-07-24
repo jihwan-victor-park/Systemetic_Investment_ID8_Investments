@@ -6,6 +6,7 @@ import Link from 'next/link';
 import SortableTable from './SortableTable';
 import DescriptionPopover from './DescriptionPopover';
 import FitScorePopover from './FitScorePopover';
+import RaiseProbabilityPopover from './RaiseProbabilityPopover';
 import RunAnalysisButton from './RunAnalysisButton';
 import { companyHref, lookupFitScore, lookupStage, lookupSlug } from '@/lib/companyIndex';
 import { PUBLIC_STAGES, STAGE_LABELS } from '@/lib/stages';
@@ -178,9 +179,11 @@ export default function PortfolioTable({ endpoint, id, field, items, filterFn, c
         fitTier: p.fitTier
           ? <span className={styles.fitTier} data-tier={p.fitTier} title={p.fitRationale || ''}>{TIER_LABEL[p.fitTier] || p.fitTier}</span>
           : <span className={styles.muted}>Not scored</span>,
-        probability: raiseBand
-          ? <span className={styles.raiseBand} data-band={raiseBand}>{raiseBand}</span>
-          : <span className={styles.muted}>—</span>,
+        // Hovering the band explains what it means (fixed thresholds, same
+        // for every company) plus, when scored, the two-layer reasoning:
+        // the deterministic timing-only starting point and what the
+        // model's research moved it to and why.
+        probability: <RaiseProbabilityPopover company={p} />,
         // Hovering the score shows the full Stage 0 breakdown (per-dimension
         // evidence, rationale, confidence, current-stage/raise-probability
         // research) -- same depth Stage 1's own screen page shows, per

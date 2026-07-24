@@ -80,7 +80,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative moved it off the overdue timing base rate; no hiring surge, new finance hire, or raise talk surfaced.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Anduril Industries",
@@ -155,7 +156,8 @@
         "fitCurrentStageEvidence": "On-file label says Later Stage VC (14th Round), but recent reporting calls Anduril’s 2025-12-16 financing a Series F; newer than the label. | date: 2025-12-16 | confidence: low",
         "fitRaiseProbabilityEvidence": "No qualitative raise signal surfaced beyond timing; the only input is that it closed recently, which keeps near-term raise odds low.",
         "fitResearchFlag": "",
-        "latestRoundOnFile": "Later Stage VC (14th Round)"
+        "latestRoundOnFile": "Later Stage VC (14th Round)",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "AppliedXL",
@@ -229,7 +231,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No qualitative raise signal surfaced, but the company is 40 months past its last round, so timing alone keeps the base rate elevated.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Apptronik",
@@ -303,7 +306,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing in the research indicated an active raise, hiring surge, or new finance lead hire, so the timing-based low base rate stands.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Ash",
@@ -482,7 +486,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No hiring surge, fundraising talk, or distress signal surfaced; the deterministic medium base rate therefore stands unchanged.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "medium"
       },
       {
         "company": "Castelion",
@@ -556,7 +561,8 @@
         "fitHardPassReason": "AI dimension scored 1 (no meaningful AI component) -- rubric hard auto-pass, enforced in code",
         "fitCurrentStageEvidence": "On-file Series B dated 2025-12-05; no newer Castelion-specific round found in provided results. | date: 2025-12-05 | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing in the provided results suggests a hiring surge, fundraising chatter, or distress; the recent round timing keeps next-round urgency low.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Cerebras Systems",
@@ -665,7 +671,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "PitchBook last-snapshot shows Series E dated 2025-10-24; no newer Crusoe round was verified in the provided results, so on-file label stands. | date: 2025-10-24 | confidence: medium",
         "fitRaiseProbabilityEvidence": "Nothing in the research suggested imminent fundraising; the only timing signal is the already-low deterministic base rate.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "DataPlor",
@@ -739,7 +746,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "Series A on 2024-03-06 led by DataPower Capital; on-file label matches and no newer round found in provided sources. | date: 2024-03-06 | lead: DataPower Capital | confidence: low",
         "fitRaiseProbabilityEvidence": "No hiring, fundraising, or layoff signal surfaced; the band stays high mainly on the 29-month timing gap from last round.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Dodo",
@@ -814,7 +822,8 @@
         "fitCurrentStageEvidence": "Seed round on 2024-12-13 led by DataPower Capital; no newer round found, so PitchBook's seed label is not contradicted. | date: 2024-12-13 | lead: DataPower Capital | confidence: medium",
         "fitRaiseProbabilityEvidence": "No hiring surge or raise-in-talks signal surfaced; the timing-based medium base rate remains unchanged.",
         "fitResearchFlag": "",
-        "latestRoundOnFile": "Seed Round (2nd Round)"
+        "latestRoundOnFile": "Seed Round (2nd Round)",
+        "fitBaseRateBand": "medium"
       },
       {
         "company": "ElevenLabs",
@@ -888,7 +897,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "PitchBook’s latest snapshot shows Series C on 2024-11-08; no newer verified round found in the provided results. | date: 2024-11-08 | confidence: medium",
         "fitRaiseProbabilityEvidence": "No hiring, fundraising chatter, or layoff signal surfaced here; the timing base rate remains low.",
-        "fitResearchFlag": "Output names Series C as the subject of a funding claim, not ElevenLabs -- possible cross-company conflation, verify before trusting."
+        "fitResearchFlag": "Output names Series C as the subject of a funding claim, not ElevenLabs -- possible cross-company conflation, verify before trusting.",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Fakespot",
@@ -997,7 +1007,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing in the available evidence suggests an imminent hiring surge, fundraising chatter, or distress, so the timing-based low base rate stays low.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Groq",
@@ -1106,7 +1117,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No hiring surge, fundraising talks, or distress signal surfaced; the deterministic low baseline therefore remains largely unchanged.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Hebbia",
@@ -1180,7 +1192,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "PitchBook shows Series B on 2024-10-14; no newer verified round found, so on-file label stands. | date: 2024-10-14 | confidence: low",
         "fitRaiseProbabilityEvidence": "No hiring surge, fundraising chatter, or downside signal surfaced; the band stays at the timing-based medium baseline.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "medium"
       },
       {
         "company": "MRGN",
@@ -1254,7 +1267,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative emerged beyond the overdue timing signal, so the deterministic base rate remains the main driver.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Mach Industries",
@@ -1328,7 +1342,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "Crunchbase says Mach Industries raised $300M Series C on 2026-06-02, led by Ribbit Capital and Infinite Capital; matches on-file label. | date: 2026-06-02 | lead: Ribbit Capital and Infinite Capital | confidence: high",
         "fitRaiseProbabilityEvidence": "No hiring surge, fundraise rumor, or leadership-change signal surfaced; the only clear signal is the recent financing timing, which keeps urgency low.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Mosea Technologies",
@@ -1437,7 +1452,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative surfaced beyond being 56 months from the prior round, so the overdue timing alone keeps the next-raise signal elevated.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Nomad Data",
@@ -1511,7 +1527,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative surfaced, so the overdue timing alone keeps the next-round signal elevated rather than reducing it.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Nscale",
@@ -1620,7 +1637,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No fundraising-in-motion signal surfaced, but OpenAI’s scale and strategic importance make another raise plausible within the stage cadence.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "medium"
       },
       {
         "company": "Paragon Intel",
@@ -1694,7 +1712,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative surfaced on hiring, layoffs, or a new finance lead; the signal is mainly that it is 53 months past its last round.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Perplexity",
@@ -1768,7 +1787,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No hiring surge, fundraising chatter, or restructuring signal surfaced; the timing-based medium base rate stands unchanged.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "medium"
       },
       {
         "company": "Physical Intelligence",
@@ -1842,7 +1862,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "Series A on 2024-10-22 per on-file label; no newer, company-specific round found in provided results. | date: 2024-10-22 | confidence: low",
         "fitRaiseProbabilityEvidence": "No hiring surge, fundraising chatter, or layoff signal surfaced, so the timing-based medium base rate stands unchanged.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "medium"
       },
       {
         "company": "Planful",
@@ -1986,7 +2007,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "Series A on 2025-09-30 led by DataPower Capital in PitchBook; no newer round found, so on-file label appears current. | date: 2025-09-30 | lead: DataPower Capital | confidence: high",
         "fitRaiseProbabilityEvidence": "Nothing in the search suggested hiring acceleration or fundraising chatter, so the timing-only low baseline was not nudged up.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Revelio Labs",
@@ -2060,7 +2082,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative surfaced beyond the overdue timing signal; no layoffs, shutdown, or explicit fundraising chatter was found to move it lower.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Rippling",
@@ -2135,7 +2158,8 @@
         "fitCurrentStageEvidence": "PitchBook on-file label Series G (2025-05-06) is the newest verifiable round; no newer Rippling round found in provided sources. | date: 2025-05-06 | confidence: medium",
         "fitRaiseProbabilityEvidence": "No hiring surge, fundraising chatter, or distress signal surfaced; the only clear input remains that it closed recently enough to keep timing-based probability low.",
         "fitResearchFlag": "",
-        "latestRoundOnFile": "Series G"
+        "latestRoundOnFile": "Series G",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Safe Superintelligence",
@@ -2210,7 +2234,8 @@
         "fitCurrentStageEvidence": "Series A in July 2024, reported by the company/major coverage; newer than PitchBook's 2025-04-11 Early Stage VC label. | date: 2024-07-08 | lead: unknown | confidence: medium",
         "fitRaiseProbabilityEvidence": "Nothing qualitative surfaced on hiring, fundraising talks, or layoffs; the band stays high mainly because timing alone says it is due.",
         "fitResearchFlag": "",
-        "latestRoundOnFile": "Early Stage VC (2nd Round)"
+        "latestRoundOnFile": "Early Stage VC (2nd Round)",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Scoutr",
@@ -2354,7 +2379,8 @@
         "fitHardPassReason": "AI dimension scored 1 (no meaningful AI component) -- rubric hard auto-pass, enforced in code",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing in the prompt or visible evidence suggests hiring surges, raise chatter, or distress; the timing-based baseline stays low.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Sumatra",
@@ -2463,7 +2489,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "On-file label Series A dated 2025-05-14; no newer unambiguous TensorWave round found in provided results. | date: 2025-05-14 | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing in the provided research indicates a hiring surge, fundraising talk, CFO hire, or layoff signal; timing alone keeps it low.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Together AI",
@@ -2572,7 +2599,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "PitchBook on-file label remains Series C (2025-05-05); no newer True Anomaly round found in provided sources. | date: 2025-05-05 | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing in the available evidence suggests a hiring surge, fundraising talks, or distress; the deterministic timing baseline remains unchanged.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Unconventional AI",
@@ -2646,7 +2674,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative suggests an imminent raise; the only signal provided is timing, and it remains inside typical seed cadence.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       }
     ],
     "description": null,
@@ -2736,7 +2765,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "PitchBook on-file label is Series A dated 2023-12-28; no newer company-specific round found in provided results. | date: 2023-12-28 | confidence: low",
         "fitRaiseProbabilityEvidence": "Timing is already past the typical Series A cadence, and no layoffs, shutdown, or contrary signal surfaced to offset that base rate.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Cognitive Space",
@@ -2811,7 +2841,8 @@
         "fitCurrentStageEvidence": "On-file label remains Seed Round (11th Round), 2021-11-18, led by Ultratech Capital Partners; no newer Cognitive Space round was found in the provided results. | date: 2021-11-18 | lead: Ultratech Capital Partners | confidence: low",
         "fitRaiseProbabilityEvidence": "No hiring, fundraising chatter, or layoff signal was found; the overdue timing alone keeps the base rate elevated.",
         "fitResearchFlag": "",
-        "latestRoundOnFile": "Seed Round (11th Round)"
+        "latestRoundOnFile": "Seed Round (11th Round)",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Firehawk Aerospace",
@@ -2885,7 +2916,8 @@
         "fitHardPassReason": "AI dimension scored 1 (no meaningful AI component) -- rubric hard auto-pass, enforced in code",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Timing is already overdue, and no layoffs or shutdown signals appeared; I found no contrary qualitative evidence to reduce the base rate.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Great Lakes Crystal Technologies",
@@ -2994,7 +3026,8 @@
         "fitHardPassReason": "AI dimension scored 1 (no meaningful AI component) -- rubric hard auto-pass, enforced in code",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No hiring surge, fundraising chatter, or distress signal surfaced; the only signal is a recent round, which keeps near-term raise odds low.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Immaterial",
@@ -3173,7 +3206,8 @@
         "fitHardPassReason": "AI dimension scored 1 (no meaningful AI component) -- rubric hard auto-pass, enforced in code",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative surfaced on hiring, financing talks, or layoffs; the band stays high mainly on the 41-month timing overrun.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Neurable",
@@ -3247,7 +3281,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No hiring surge, fundraising talks, or layoff/shutdown signal surfaced, so the base-rate medium signal was left unchanged.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "medium"
       },
       {
         "company": "NextGO Epi",
@@ -3321,7 +3356,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing in public research suggests a hiring surge, new finance hire, or fundraising talks; the fresh seed timing keeps the band low.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Quantum Brilliance",
@@ -3430,7 +3466,8 @@
         "fitHardPassReason": "No meaningful AI component -- a thin wrapper around a third-party foundation-model API with no differentiation",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Timing alone makes a raise overdue; I found no hiring surge, fundraising chatter, or shutdown signal to move the base rate materially.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Stathera",
@@ -3539,7 +3576,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "Series A on 2023-03-21 led by Ultratech Capital Partners; no newer round found, so on-file label stands. | date: 2023-03-21 | lead: Ultratech Capital Partners | confidence: medium",
         "fitRaiseProbabilityEvidence": "Nothing qualitative shifted the timing-based signal; no hiring surge or fundraising chatter surfaced, but the 40-month gap keeps pressure high.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Sylvatex",
@@ -3613,7 +3651,8 @@
         "fitHardPassReason": "AI dimension scored 1 (no meaningful AI component) -- rubric hard auto-pass, enforced in code",
         "fitCurrentStageEvidence": "Series A in 2023-01-01 with Ultratech Capital Partners; no newer verified round found, so on-file label not contradicted. | date: 2023-01-01 | lead: Ultratech Capital Partners | confidence: low",
         "fitRaiseProbabilityEvidence": "Timing alone is already overdue, and I found no offsetting qualitative signal like layoffs or a fresh financing announcement.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Tidal Cyber",
@@ -3687,7 +3726,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "PitchBook snapshot shows Series A on 2025-09-03; no newer verified round found, so on-file label stands. | date: 2025-09-03 | lead: Ultratech Capital Partners | confidence: medium",
         "fitRaiseProbabilityEvidence": "Nothing in the research surfaced a hiring surge, financing talk, or strategic catalyst; the base rate stays low.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Trellis Data",
@@ -3895,7 +3935,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "Series A on 2025-05-23 led by Left Lane Capital; no newer round found, so it matches the on-file label. | date: 2025-05-23 | lead: Left Lane Capital | confidence: medium",
         "fitRaiseProbabilityEvidence": "Nothing qualitative suggests an imminent raise; the only signal provided is 14 months since last round, still short of typical Series A cadence.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Abound (Media and Information Services (B2B))",
@@ -4002,7 +4043,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No specific hiring, fundraising talk, or layoff signal surfaced, so the band stays driven mainly by the timing-based base rate.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Animaj",
@@ -4075,7 +4117,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing in the surfaced evidence suggests a hiring surge or imminent fundraise; the only timing signal remains the relatively recent round.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "AnswersNow",
@@ -4284,7 +4327,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Timing is already past a typical series C/D+ cadence, and I found no layoffs or shutdown signal to offset that base-rate pressure.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Black Crow AI",
@@ -4357,7 +4401,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "PitchBook label Series A at 2022-08-16 with Left Lane Capital; no newer Black Crow AI round verified, so on-file label stands. | date: 2022-08-16 | lead: Left Lane Capital | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative changed the base rate, but the company is still 47 months from its last round and appears active enough to merit another raise soon.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Blank Street",
@@ -4498,7 +4543,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No fresh hiring or fundraising chatter was surfaced, but the company is 41 months past its last round and still operating with revenue.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Brellium",
@@ -4571,7 +4617,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "PitchBook on-file label and investor match Series A on 2025-04-17; no newer Brellium round found in provided sources. | date: 2025-04-17 | lead: Left Lane Capital | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing surfaced about an active fundraise, hiring surge, or new finance leadership; the timing-based base rate remains the main signal.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Buena (Real Estate Services)",
@@ -4644,7 +4691,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "Series A on 2025-07-23 led by Left Lane Capital; no newer round found, so on-file label is not contradicted. | date: 2025-07-23 | lead: Left Lane Capital | confidence: medium",
         "fitRaiseProbabilityEvidence": "No hiring surge, fundraising chatter, or leadership changes surfaced; the only signal is timing, which still sits short of typical Series A cadence.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Calm",
@@ -4750,7 +4798,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No qualitative raise signal surfaced beyond the timing-based base rate, so the probability stays at the mid-band.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "medium"
       },
       {
         "company": "Choco",
@@ -4823,7 +4872,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Timing alone already indicates it is due; I found no layoffs or shutdown signals to offset that baseline.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Chowbus",
@@ -4896,7 +4946,8 @@
         "fitHardPassReason": "AI dimension scored 1 (no meaningful AI component) -- rubric hard auto-pass, enforced in code",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No hiring surge, fundraising chatter, or restructuring signal surfaced; the only timing input still points to a low near-term raise chance.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Clerkie",
@@ -4969,7 +5020,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "Series A on 2023-04-13 led by Left Lane Capital; no newer round found, so on-file label matches. | date: 2023-04-13 | lead: Left Lane Capital | confidence: low",
         "fitRaiseProbabilityEvidence": "No hiring, layoff, or fundraising chatter surfaced, so the overdue timing base rate was not offset downward.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Composer",
@@ -5076,7 +5128,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing in the research surfaced hiring acceleration, fundraising chatter, or a new finance/Corp Dev hire to lift the timing-only baseline.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Diamond Standard",
@@ -5149,7 +5202,8 @@
         "fitHardPassReason": "AI dimension scored 1 (no meaningful AI component) -- rubric hard auto-pass, enforced in code",
         "fitCurrentStageEvidence": "Series A on 2023-01-30 with Left Lane Capital; no newer round found, so PitchBook label is not contradicted. | date: 2023-01-30 | lead: Left Lane Capital | confidence: medium",
         "fitRaiseProbabilityEvidence": "Timing is already overdue, and I found no layoffs or shutdown signals; no strong qualitative catalyst was visible to offset that base rate.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "EXO Freight",
@@ -5324,7 +5378,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No hiring surge, fundraising chatter, or executive-hire signal appeared; only the recent financing timing keeps the near-term base rate low.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Commas",
@@ -5397,7 +5452,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "Series A on 2025-01-15 led by Left Lane Capital; no newer Commas funding found, so PitchBook label stands. | date: 2025-01-15 | lead: Left Lane Capital | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing in the surfaced results indicates hiring surge, fundraising talks, or distress; the timing-based medium base rate stands unchanged.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "medium"
       },
       {
         "company": "Fetcherr",
@@ -5538,7 +5594,8 @@
         "fitHardPassReason": "No meaningful AI component -- a thin wrapper around a third-party foundation-model API with no differentiation",
         "fitCurrentStageEvidence": "PitchBook label says Series A on 2024-11-06 with Left Lane Capital; no newer company-specific round was found. | date: 2024-11-06 | lead: Left Lane Capital | confidence: medium",
         "fitRaiseProbabilityEvidence": "No hiring surge, fundraising chatter, or layoff signal surfaced; timing alone supports the medium base rate.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "medium"
       },
       {
         "company": "Freestyle Chess",
@@ -5679,7 +5736,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative moved it down; the 46-month gap past Series B cadence keeps near-term raise pressure elevated.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "GoSite",
@@ -5752,7 +5810,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Timing is already overdue; I found no hiring surge or financing chatter to offset that baseline, so the elevated band stands unchanged.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "GoStudent",
@@ -5825,7 +5884,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No direct raise-in-talks signal surfaced, but the 36-month gap past typical cadence keeps the next-round probability elevated.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "HOLY Softdrinks",
@@ -6034,7 +6094,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No hiring, layoff, or fundraising announcement was surfaced; the timing-based overdue signal remains the main reason for a high band.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Just Russel",
@@ -6141,7 +6202,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing in the available research indicated a hiring surge, fundraising talk, or distress; the recent financing timing keeps near-term raise odds low.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Kings League",
@@ -6248,7 +6310,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "Series B on 2024-01-24 led by Left Lane Capital; matches on-file label, no newer round found in provided search results. | date: 2024-01-24 | lead: Left Lane Capital | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing in the research suggested layoffs or distress, and the company is already past the typical pre-Series C cadence.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Koltin",
@@ -6424,7 +6487,8 @@
         "fitCurrentStageEvidence": "LemFi’s most recent public round appears to be Series C on 2025-01-16; this is newer/more specific than the on-file Later Stage VC label. | date: 2025-01-16 | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing in the available research indicates a hiring surge, raise talk, or distress; the timing-based base rate therefore stays low.",
         "fitResearchFlag": "",
-        "latestRoundOnFile": "Later Stage VC (9th Round)"
+        "latestRoundOnFile": "Later Stage VC (9th Round)",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Lexroom",
@@ -6497,7 +6561,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "Series B on 2026-05-19 led by Left Lane Capital; this matches and does not contradict the on-file label. | date: 2026-05-19 | lead: Left Lane Capital | confidence: high",
         "fitRaiseProbabilityEvidence": "No hiring surge, financing talk, or distress signal appeared; the only signal is that it just raised, keeping near-term raise probability low.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Lightricks",
@@ -6604,7 +6669,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "Series A on 2026-04-28 led by Left Lane Capital; no newer round found, so on-file label is uncontradicted. | date: 2026-04-28 | lead: Left Lane Capital | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing in the search results indicated hiring surge, fundraise talks, or distress, so the low timing-based base rate was not nudged.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "M1",
@@ -6678,7 +6744,8 @@
         "fitCurrentStageEvidence": "Series E on 2025-04-29 led by Springcoast Partners; newer than on-file Series D 2021-03-09 in VC News Daily. | date: 2025-04-29 | lead: Springcoast Partners | confidence: high",
         "fitRaiseProbabilityEvidence": "No qualitative raise signal surfaced beyond timing alone; I found no hiring surge, fundraise talk, or distress indicators.",
         "fitResearchFlag": "",
-        "latestRoundOnFile": "Series D"
+        "latestRoundOnFile": "Series D",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Mars by GHC",
@@ -6785,7 +6852,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No hiring or fundraising-news signal surfaced; the band stays high mainly because the round is overdue on timing alone.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Memmo.me",
@@ -6891,7 +6959,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "The company is 40 months past its last round, and I found no offsetting hiring, fundraising, or shutdown signal to change that elevated base rate.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Mindspan",
@@ -6964,7 +7033,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing public indicated hiring surge, fundraising talks, or other near-term raise catalysts, so timing remains the only signal.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Modal",
@@ -7308,7 +7378,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "Series B on 2026-02-19 led by Left Lane Capital, matching the on-file label; no newer round found in provided results. | date: 2026-02-19 | lead: Left Lane Capital | confidence: high",
         "fitRaiseProbabilityEvidence": "Nothing in public search indicated a hiring surge, financing talks, or distress; the only clear signal is that it just raised recently.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Paytient",
@@ -7381,7 +7452,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "Series B on 2023-01-10 led by Left Lane Capital; no newer round found, so PitchBook label appears current. | date: 2023-01-10 | lead: Left Lane Capital | confidence: medium",
         "fitRaiseProbabilityEvidence": "No hiring or financing-announcement signal surfaced, but being 42 months past the last round keeps the timing-based raise pressure elevated.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Pearl (Decision/Risk Analysis)",
@@ -7454,7 +7526,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative surfaced beyond the deterministic timing signal; no hiring surge, fundraising chatter, or layoff signal was found.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "medium"
       },
       {
         "company": "Perry Health",
@@ -7629,7 +7702,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "Series A on 2024-02-07 led by Left Lane Capital; no newer round found, so on-file label stands. | date: 2024-02-07 | lead: Left Lane Capital | confidence: medium",
         "fitRaiseProbabilityEvidence": "Nothing qualitative moved the timing-based baseline; I found no layoffs, shutdown, or explicit fundraise signals to offset the due timing.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Prenuvo",
@@ -7702,7 +7776,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "Series B on 2025-02-13 led by Left Lane Capital in company/portfolio materials; no newer round found, so on-file label appears current. | date: 2025-02-13 | lead: Left Lane Capital | confidence: high",
         "fitRaiseProbabilityEvidence": "Nothing in the search results showed a hiring surge, fundraising talk, or distress signal, so timing-only low remains unchanged.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Pro Padel League",
@@ -7808,7 +7883,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative surfaced on hiring, financing talks, or layoffs; the band is driven mainly by being 50 months past the last round.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Real American Wrestling",
@@ -7982,7 +8058,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No hiring surge, fundraising chatter, or distress signal surfaced; the band stays at the timing-based medium baseline.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "medium"
       },
       {
         "company": "Riot Security",
@@ -8055,7 +8132,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "Series B on 2025-02-03 led by Left Lane Capital, matching the on-file label; no newer round found in provided results. | date: 2025-02-03 | lead: Left Lane Capital | confidence: high",
         "fitRaiseProbabilityEvidence": "No hiring surge, fundraising chatter, or other near-term catalyst surfaced; timing alone still points to a low three-month raise probability.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Ritual (Restaurants, Hotels and Leisure)",
@@ -8163,7 +8241,8 @@
         "fitCurrentStageEvidence": "Seed round on 2026-04-09 led by Left Lane Capital; Fundraise Insider lists Rork as Seed, newer/more specific than PitchBook's Seed Round (2nd Round). | date: 2026-04-09 | lead: Left Lane Capital | confidence: medium",
         "fitRaiseProbabilityEvidence": "Nothing in the research indicated hiring surges, fundraising talks, or distress; the 4-month timing also keeps the near-term raise probability low.",
         "fitResearchFlag": "",
-        "latestRoundOnFile": "Seed Round (2nd Round)"
+        "latestRoundOnFile": "Seed Round (2nd Round)",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Salad ( Business/Productivity Software)",
@@ -8304,7 +8383,8 @@
         "fitHardPassReason": "AI dimension scored 1 (no meaningful AI component) -- rubric hard auto-pass, enforced in code",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No hiring surge, fundraising chatter, or distress signal surfaced; timing alone supports a middling near-term raise chance.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "medium"
       },
       {
         "company": "Smalls",
@@ -8411,7 +8491,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "Series C on 2024-09-24 led by Left Lane Capital; no newer round found, so on-file label stands. | date: 2024-09-24 | lead: Left Lane Capital | confidence: medium",
         "fitRaiseProbabilityEvidence": "No hiring surge, fundraising chatter, CFO hire, or layoff signal surfaced; the deterministic timing base rate remains the main signal.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Spero",
@@ -8518,7 +8599,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing in the research showed hiring spikes, a new finance leader, or talk of a new raise; timing alone stays a low base rate.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "StudySmarter",
@@ -8591,7 +8673,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No new hiring or fundraising signal surfaced; the band stays high mainly because the company is 57 months past its last round.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Talkiatry",
@@ -8698,7 +8781,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative lowered the timing-driven signal; no layoffs or shutdown were surfaced, and the 61-month gap still suggests financing pressure or a strategic raise.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Tavrn",
@@ -8772,7 +8856,8 @@
         "fitCurrentStageEvidence": "Series A1 on file, but I could not verify a newer Tavrn round in provided sources; current label remains uncontradicted. | date: 2025-07-15 | lead: Left Lane Capital | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing in the research suggests a hiring surge, fundraising talk, or CFO-style signal; the deterministic timing base rate remains unmodified.",
         "fitResearchFlag": "",
-        "latestRoundOnFile": "Series A1"
+        "latestRoundOnFile": "Series A1",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "The Snow League",
@@ -8845,7 +8930,8 @@
         "fitHardPassReason": "No meaningful AI component -- a thin wrapper around a third-party foundation-model API with no differentiation, confirmed from the company's own description/product, not merely a thin PitchBook category label.",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing in the available results suggests hiring surge, fundraising talks, or distress; the only signal is the timing-based low base rate.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Tovala",
@@ -8952,7 +9038,8 @@
         "fitHardPassReason": "AI dimension scored 1 (no meaningful AI component) -- rubric hard auto-pass, enforced in code",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing in the research indicates a hiring surge, fundraising chatter, or distress; the only signal is that it just closed a round.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Ultra Pouches",
@@ -9093,7 +9180,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "Series B on 2025-06-23 led by Left Lane Capital; no newer round found, so on-file label appears current. | date: 2025-06-23 | lead: Left Lane Capital | confidence: medium",
         "fitRaiseProbabilityEvidence": "No qualitative signal of fundraising urgency appeared; the company only just closed a round 13 months ago, so timing still dominates.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Weezy (UK)",
@@ -9200,7 +9288,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "Series C on 2025-09-24 led by Left Lane Capital; matches on-file label, but I found no newer round to contradict it. | date: 2025-09-24 | lead: Left Lane Capital | confidence: medium",
         "fitRaiseProbabilityEvidence": "No hiring surge, fundraising chatter, or senior finance hire surfaced; only timing data supports a low near-term raise probability.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Willie's Remedy+",
@@ -9375,7 +9464,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "Series B on 2026-04-13, led by Left Lane Capital; aligns with on-file label, no newer round found in provided results. | date: 2026-04-13 | lead: Left Lane Capital | confidence: medium",
         "fitRaiseProbabilityEvidence": "No qualitative signal of an active raise, hiring surge, or distress surfaced, so the timing-based low base rate stays low.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "iTrustCapital",
@@ -9448,7 +9538,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "Series A on 2022-01-19 led by Left Lane Capital; no newer round found, so on-file label appears current. | date: 2022-01-19 | lead: Left Lane Capital | confidence: medium",
         "fitRaiseProbabilityEvidence": "Nothing qualitative surfaced, but the 54-month timing gap alone leaves it overdue for another financing attempt.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "rePurpose Global",
@@ -9521,7 +9612,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "Series A on 2023-04-07 led by Left Lane Capital in the provided PitchBook snapshot; no newer round found in the supplied results. | date: 2023-04-07 | lead: Left Lane Capital | confidence: low",
         "fitRaiseProbabilityEvidence": "No hiring or fundraising-news signal surfaced; the band stays high mainly because the company is roughly 40 months past its last round.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       }
     ],
     "description": null,
@@ -9712,7 +9804,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative surfaced on hiring, fundraising talks, or distress; the overdue timing alone keeps the base rate elevated.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "AI-Stroke",
@@ -9786,7 +9879,8 @@
         "fitCurrentStageEvidence": "Seed round on 2025-11-18 led by Newfund per on-file label; no newer verified round found in provided results. | date: 2025-11-18 | lead: Newfund | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing in the available evidence suggests hiring surges, new senior hires, or fundraising chatter, so the timing-based low base rate stands.",
         "fitResearchFlag": "",
-        "latestRoundOnFile": "Seed Round (5th Round)"
+        "latestRoundOnFile": "Seed Round (5th Round)",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "AdVitam",
@@ -9860,7 +9954,8 @@
         "fitCurrentStageEvidence": "Seed round on 2018-10-12 led by Newfund; no newer round found, so on-file label appears current. | date: 2018-10-12 | lead: Newfund | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative moved the timing-based signal; no hiring surge, fundraising chatter, or shutdown signal surfaced.",
         "fitResearchFlag": "",
-        "latestRoundOnFile": "Seed Round (6th Round)"
+        "latestRoundOnFile": "Seed Round (6th Round)",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Addidream",
@@ -10001,7 +10096,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No direct hiring or raise-in-talks signal surfaced; the timing alone keeps the base rate elevated despite limited qualitative upside.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Akoustic Arts",
@@ -10142,7 +10238,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing surfaced beyond the recent seed round; no hiring surge, fundraising chatter, or distress signal moved the timing-only baseline.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Apitic",
@@ -10215,7 +10312,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative moved the timing-based signal; no hiring surge, fundraising talk, or shutdown/layoff signal was surfaced.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Apptopia",
@@ -10288,7 +10386,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No hiring, financing, or turnaround signal surfaced, so the overdue timing alone keeps the probability elevated but not imminent.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Arenametrix",
@@ -10361,7 +10460,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No hiring surge, fundraise talk, or distress signal surfaced, so the timing-only low base rate was not pushed higher.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Arkhn",
@@ -10434,7 +10534,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "The company is 62 months from its last round, and no contrary signal like layoffs or shutdown surfaced to offset that overdue timing.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Astran",
@@ -10507,7 +10608,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative surfaced on hiring, fundraising talks, or layoffs; the only signal is timing, which leaves the overdue base case intact.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Atempo",
@@ -10580,7 +10682,8 @@
         "fitHardPassReason": "AI dimension scored 1 (no meaningful AI component) -- rubric hard auto-pass, enforced in code",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing in the research surfaced hiring surge, fundraising talk, or CFO/Corp Dev moves to lift the timing-only baseline.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Avanoo",
@@ -10687,7 +10790,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No hiring, financing-talk, or distress signal surfaced; the overdue timing alone keeps the next-round likelihood elevated.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Aveine",
@@ -10794,7 +10898,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "The timing base rate is already high, and I found no counter-signal like layoffs or shutdown; no concrete fundraising announcement was surfaced.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "BRÂAM",
@@ -10901,7 +11006,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No hiring surge, fundraising chatter, or distress signal surfaced; with no timing baseline, the qualitative signal stays neutral.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "medium"
       },
       {
         "company": "Beam for Music",
@@ -10974,7 +11080,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No hiring surge, fundraising chatter, or executive hiring signal surfaced, so the timing-only low base rate was not moved.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "BestOfArtisans",
@@ -11047,7 +11154,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative surfaced on hiring, fundraising talks, or layoffs; the band stays high mainly on the overdue timing signal.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Beyond Ratings",
@@ -11154,7 +11262,8 @@
         "fitCurrentStageEvidence": "Series E on 2021-03-31 led by Andreessen Horowitz in Reuters/Yahoo; newer than on-file 2020-12-28 Seed label. | date: 2021-03-31 | lead: Andreessen Horowitz | confidence: medium",
         "fitRaiseProbabilityEvidence": "Nothing qualitative surfaced beyond age and stage; the 64-month timing signal remains the main reason to expect a raise soon.",
         "fitResearchFlag": "researched stage 'Series E' disagrees with on-file 'Seed Round (3rd Round)' -- on-file data may be stale",
-        "latestRoundOnFile": "Seed Round (3rd Round)"
+        "latestRoundOnFile": "Seed Round (3rd Round)",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Blue Industry & Science",
@@ -11262,7 +11371,8 @@
         "fitCurrentStageEvidence": "Seed round on 2024-02-26 led by Newfund; no newer company-specific round found, and this matches the on-file label. | date: 2024-02-26 | lead: Newfund | confidence: medium",
         "fitRaiseProbabilityEvidence": "Nothing qualitative moved the timing-based signal; it remains simply due by cadence, with no layoffs or fundraising chatter found.",
         "fitResearchFlag": "",
-        "latestRoundOnFile": "Seed Round (2nd Round)"
+        "latestRoundOnFile": "Seed Round (2nd Round)",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Bornio",
@@ -11538,7 +11648,8 @@
         "fitHardPassReason": "No meaningful AI component -- a thin wrapper around a third-party foundation-model API with no differentiation, confirmed from the company's own description/product",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No hiring, financing talk, or restructuring signal surfaced; the band stays high only because the company is long overdue since its last round.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Castellum.AI",
@@ -11612,7 +11723,8 @@
         "fitCurrentStageEvidence": "Seed round on 2023-10-25 led by Newfund; no newer round found, so on-file label appears current. | date: 2023-10-25 | lead: Newfund | confidence: medium",
         "fitRaiseProbabilityEvidence": "Nothing qualitative surfaced on hiring, layoffs, or fundraising talks, so the band stays high on timing alone.",
         "fitResearchFlag": "",
-        "latestRoundOnFile": "Seed Round (2nd Round)"
+        "latestRoundOnFile": "Seed Round (2nd Round)",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Cents",
@@ -11719,7 +11831,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative surfaced beyond timing; no hiring surge, fundraising chatter, or major new executive hire was evident.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "CetteFamille",
@@ -11826,7 +11939,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Timing is already overdue at 41 months since the last round, and no contrary layoff or shutdown signal was found to push it lower.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Civ Robotics",
@@ -11899,7 +12013,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Timing alone is overdue; I found no specific hiring, fundraising talk, or distress signal to materially shift that baseline.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Cleaq",
@@ -12005,7 +12120,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative moved it off timing alone; no hiring surge, fundraise talk, or distress signal surfaced in the available sources.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Clever Carnivore",
@@ -12112,7 +12228,8 @@
         "fitHardPassReason": "AI dimension scored 1 (no meaningful AI component) -- rubric hard auto-pass, enforced in code",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative surfaced on hiring, new executives, or fundraising chatter, so the overdue timing alone keeps the band high rather than imminent.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "CoFi",
@@ -12185,7 +12302,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative surfaced on hiring, layoffs, or a raise process; the band stays high mainly because the company is far past its prior financing date.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Cocoon Space",
@@ -12258,7 +12376,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No qualitative raise signal surfaced, but timing alone is already past stage cadence, so the base rate stays high.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Comeen",
@@ -12399,7 +12518,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No hiring, layoff, or fundraising-news signal surfaced; the band stays high mainly from the 43-month timing overdue base rate.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Coverd",
@@ -12574,7 +12694,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "Series A on 2023-07-06 led by Newfund; no newer round found, so PitchBook label appears current. | date: 2023-07-06 | lead: Newfund | confidence: medium",
         "fitRaiseProbabilityEvidence": "Nothing qualitative moved the timing-based baseline; I found no layoffs, shutdown, or explicit fundraising signal either way.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Dejamobile",
@@ -12715,7 +12836,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No hiring surge, fundraising chatter, CFO hire, or distress signal surfaced; timing alone keeps the three-month raise probability low.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Digital Currency Council",
@@ -12822,7 +12944,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative surfaced beyond being 102 months past the last round, so the timing-based overdue signal was not offset.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Dolly",
@@ -12895,7 +13018,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative surfaced to offset the overdue timing signal; I found no hiring surge, fundraising talk, or shutdown/layoff signal.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Dux healthcare",
@@ -13002,7 +13126,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "No newer funding round verified in provided results; on-file Series A on 2022-08-18 led by Newfund remains uncontradicted. | date: 2022-08-18 | lead: Newfund | confidence: low",
         "fitRaiseProbabilityEvidence": "No qualitative raise signal surfaced, but the company is 47 months past its last round, so timing alone keeps the band elevated.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Edicia",
@@ -13075,7 +13200,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "Series A on 2013-11-21 with Newfund; no newer Edicia round found, so on-file label remains uncontradicted. | date: 2013-11-21 | lead: Newfund | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative emerged to offset the overdue timing signal; no hiring surge, fundraising chatter, or distress signal was found.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Embeddables",
@@ -13148,7 +13274,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative moved the timing-based baseline; I found no hiring surge, financing chatter, or distress signal either way.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Enroute AI",
@@ -13220,7 +13347,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No hiring surge, fundraising chatter, or distress signal surfaced; with no timing baseline, the qualitative signal stays neutral.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "medium"
       },
       {
         "company": "Eqinov",
@@ -13327,7 +13455,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No hiring surge, fundraising chatter, or layoff signal surfaced; the low timing base rate was not pushed materially higher.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Exa (Business/Productivity Software)",
@@ -13434,7 +13563,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "Series B on 2021-04-07 led by Newfund; no newer Fairmarkit round found, so on-file label is not contradicted by evidence. | date: 2021-04-07 | lead: Newfund | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative was surfaced, but the company is 64 months past its last round, so timing alone keeps the raise signal elevated.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Fairmoney Microfinance Bank",
@@ -13541,7 +13671,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Only three months have elapsed since the last round, and I found no hiring surge, raise talk, or distress signal to lift the base rate.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Finaho",
@@ -13648,7 +13779,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No fresh hiring or fundraising news surfaced; the band stays high mainly because it is 42 months past the last round and overdue.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Flexy (Business/Productivity Software)",
@@ -13721,7 +13853,8 @@
         "fitHardPassReason": "AI dimension scored 1 (no meaningful AI component) -- rubric hard auto-pass, enforced in code",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No fresh hiring, fundraising talk, or distress signal surfaced; timing alone keeps the overdue-raise signal high.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Frequentiel",
@@ -13794,7 +13927,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative like layoffs or fundraising chatter appeared; the only signal is being past typical series C/D+ cadence, which keeps it elevated.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "FuzeBox Software",
@@ -13950,7 +14084,8 @@
         "fitHardPassReason": "AI dimension scored 1 (no meaningful AI component) -- rubric hard auto-pass, enforced in code",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative moved the timing-based baseline; I found no hiring surge, fundraising chatter, or distress signal specific to Greenkub.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Greenscope",
@@ -14023,7 +14158,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative moved the timing-based base rate; no hiring surge, fundraising talk, or distress signal surfaced in the available results.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "HD Rain",
@@ -14096,7 +14232,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No hiring, fundraising-talk, or layoff signal was found; the band stays high mainly because the company is 68 months past its prior round.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Haiku",
@@ -14169,7 +14306,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing in the research suggested a hiring surge, fundraising chatter, or distress, so the timing-based low base rate stays low.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Happy Meal Takeaway",
@@ -14344,7 +14482,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative surfaced beyond the overdue timing signal, so the base-rate pressure remains high rather than being offset.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Hull",
@@ -14519,7 +14658,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No fresh hiring or fundraising chatter surfaced; the timing-based base rate stays high because the company is overdue for its next round.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Infinite Orbits",
@@ -14592,7 +14732,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing in the search results suggests a hiring surge, fundraising talks, or other catalyst that would offset the short 8-month timing base rate.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Info Brocantes",
@@ -14665,7 +14806,8 @@
         "fitHardPassReason": "No meaningful AI component -- a thin wrapper around a third-party foundation-model API with no differentiation",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative moved timing-based urgency; the only visible signal is an old buyout-era company with sparse public hiring or fundraising cues.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Inside Therapeutics",
@@ -14738,7 +14880,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No hiring surge, fundraising chatter, or executive-hire signal surfaced; the only clear signal remains timing-based and still below typical cadence.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Invoxia",
@@ -14879,7 +15022,8 @@
         "fitHardPassReason": "No meaningful AI component -- a thin wrapper around a third-party foundation-model API with no differentiation",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Timing alone is overdue, and I found no layoffs or shutdown signal to pull the base rate down.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Jobijoba",
@@ -14986,7 +15130,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative surfaced beyond age since last round, so the overdue timing remains the main signal and was not offset downward.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Joovence",
@@ -15093,7 +15238,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No hiring, fundraising, or shutdown signal surfaced; the overdue timing alone keeps the base rate elevated.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Kara.ai",
@@ -15200,7 +15346,8 @@
         "fitHardPassReason": "AI dimension scored 1 (no meaningful AI component) -- rubric hard auto-pass, enforced in code",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Timing is already overdue, and I found no hiring surge or new-financing chatter to push it above the deterministic baseline.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Keria (Business/Productivity Software)",
@@ -15273,7 +15420,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No hiring surge, fundraising talk, or distress signal surfaced; timing alone keeps the next-round probability low.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Kernel (Human Capital Services)",
@@ -15347,7 +15495,8 @@
         "fitCurrentStageEvidence": "Seed round on 2023-07-12 led by Newfund in on-file data; no newer unambiguous round found, so this does not contradict the label. | date: 2023-07-12 | lead: Newfund | confidence: medium",
         "fitRaiseProbabilityEvidence": "No hiring or raise-in-talks signal surfaced, but the round is well past typical Seed cadence, so timing alone keeps the band elevated.",
         "fitResearchFlag": "",
-        "latestRoundOnFile": "Seed Round (1st Round)"
+        "latestRoundOnFile": "Seed Round (1st Round)",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Keypup",
@@ -15420,7 +15569,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No hiring or fundraising announcement surfaced; the high band is driven only by being 56 months past the last round.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Kikleo",
@@ -15493,7 +15643,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative suggested an urgent raise; the only signal is a fresh Series A ten months ago, which supports the low base rate.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Kingsoft Network Technology",
@@ -15634,7 +15785,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "Series A on 2022-01-24 led by Newfund; no newer verified round found, so PitchBook label stands. | date: 2022-01-24 | lead: Newfund | confidence: low",
         "fitRaiseProbabilityEvidence": "No new hiring or fundraising signal surfaced, but the 54-month timing gap alone keeps next-round probability elevated.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Kopi AI",
@@ -15707,7 +15859,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No hiring, fundraising, or layoff signal surfaced; the band stays high mainly because 55 months since seed is materially overdue.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Kumo (Restaurants, Hotels and Leisure)",
@@ -15813,7 +15966,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "65 months since last round is already overdue, and no contrary slowdown signal appeared in this search.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Le Grand Dressing",
@@ -16090,7 +16244,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative was found, but the timing-based signal remains elevated because the company is far past typical pre-Series-C cadence.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "LoginChinese",
@@ -16231,7 +16386,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative suggests urgency; the only signal is timing, and it is just four months from the last round.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Maison-construction",
@@ -16337,7 +16493,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing in the search results indicated layoffs or shutdown; the only qualitative signal was its longstanding operating status, so timing remains the main bullish input.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Medtech (Montpellier)",
@@ -16546,7 +16703,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing in the available evidence suggests a hiring surge, fundraising talks, or distress, so the timing-based low baseline stands.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Moovd",
@@ -16619,7 +16777,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No hiring surge, raise chatter, CFO hire, or distress signal surfaced; timing alone keeps next-round probability low.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Mustard (Media and Information Services)",
@@ -16692,7 +16851,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative suggests a reset; the only signal is overdue timing, which keeps the band high rather than imminent.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Nanolike",
@@ -16799,7 +16959,8 @@
         "fitHardPassReason": "AI dimension scored 1 (no meaningful AI component) -- rubric hard auto-pass, enforced in code",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing in the provided results indicates hiring, fundraising talks, or CFO/corp-dev additions; timing alone stays the baseline low.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Nfinite",
@@ -16872,7 +17033,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No qualitative hiring or fundraising signal surfaced; the overdue Series A timing alone supports the existing high base-rate band.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Nopillo",
@@ -16945,7 +17107,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative changed the timing baseline; the company is simply past typical pre-Series-C cadence, with no layoffs or raise-in-talks signal found.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Noria Water Technologies",
@@ -17018,7 +17181,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No fresh hiring or fundraise talk surfaced, but the 74-month gap alone keeps the next-round signal elevated.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Nucleon Security",
@@ -17091,7 +17255,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No hiring surge, fundraising talk, or other near-term capital-raise signal surfaced beyond the low timing-based baseline.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Nurea",
@@ -17164,7 +17329,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative surfaced beyond the timing baseline; no hiring surge, financing chatter, or distress signal was found.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "medium"
       },
       {
         "company": "OCRvet",
@@ -17339,7 +17505,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative suggested an imminent raise; the only clear signal is that the last round was very recent, keeping timing-based urgency low.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Olimpe Technology",
@@ -17412,7 +17579,8 @@
         "fitHardPassReason": "AI dimension scored 1 (no meaningful AI component) -- rubric hard auto-pass, enforced in code",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing in the available research indicated a hiring surge, fundraising talks, or other near-term raise catalyst beyond the timing baseline.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Omnidoc",
@@ -17485,7 +17653,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "PitchBook on-file Series A (2024-12-03) led by Newfund; no newer Omnidoc round found in provided results, so label stands. | date: 2024-12-03 | lead: Newfund | confidence: low",
         "fitRaiseProbabilityEvidence": "No hiring surge, funding chatter, or distress signal surfaced, so the timing-based medium base rate was not meaningfully nudged.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "medium"
       },
       {
         "company": "One Zyme",
@@ -17558,7 +17727,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No hiring surge, new finance hire, or raise chatter surfaced; the deterministic timing signal remains the main support for a medium band.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "medium"
       },
       {
         "company": "Oplit",
@@ -17631,7 +17801,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No hiring surge, fundraising talk, or distress signal surfaced; the timing-based medium base rate therefore stands unchanged.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "medium"
       },
       {
         "company": "OppSience",
@@ -17806,7 +17977,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing in the available research suggests a hiring surge, financing process, or distress; the deterministic low base rate remains unchanged.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Oria Bioscience",
@@ -17981,7 +18153,8 @@
         "fitHardPassReason": "No meaningful AI component -- a thin wrapper around a third-party foundation-model API with no differentiation",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative surfaced on hiring, fundraising talks, or layoffs; the only signal is that the 131-month gap is already overdue.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "PharmaSimple",
@@ -18258,7 +18431,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No hiring surge, fundraising chatter, or distress signal surfaced; timing alone keeps the near-term raise probability low.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "PureNat",
@@ -18331,7 +18505,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing in the available material suggests a hiring surge, fundraising talks, or other near-term catalyst beyond timing alone.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "PyxiScience",
@@ -18404,7 +18579,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing beyond the recent round timing and generic product activity suggested an imminent raise; no hiring surge or fundraising signal surfaced.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "QRA",
@@ -18511,7 +18687,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative surfaced beyond age-overdue timing, so the band stays elevated on cadence alone rather than any hiring or fundraising signal.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Rabot",
@@ -18584,7 +18761,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No fresh hiring or raise-talk signal surfaced, but the company is 52 months from its last round, which keeps the timing-driven raise likelihood elevated.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Raidium",
@@ -18657,7 +18835,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing in the research surfaced hiring surge, fundraise chatter, or distress signals, so the timing-based base rate stays unchanged.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "medium"
       },
       {
         "company": "Ramify",
@@ -18730,7 +18909,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "Series A on 2024-06-18 led by Newfund in the provided record; no newer round found to contradict the on-file label. | date: 2024-06-18 | lead: Newfund | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative moved it materially, but the Series A timing is already past the typical pre-Series-C cadence, so a next raise remains likely.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Red Luxury Group",
@@ -18905,7 +19085,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No hiring, layoff, or fundraising-news signal surfaced; the overdue 45-month timing alone keeps the base-rate signal elevated.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Relimetrics",
@@ -18978,7 +19159,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative moved it off the timing-based baseline; I found no hiring surge, fundraising chatter, or shutdown signal.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Riva (Business/Productivity Software)",
@@ -19153,7 +19335,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No hiring surge, fundraising talk, or other near-term raise signal surfaced beyond the already recent financing timing.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "SBSG",
@@ -19464,7 +19647,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No hiring, layoff, or fundraising signal surfaced; the overdue timing alone supports a high but not imminent raise likelihood.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Shelterluv",
@@ -19537,7 +19721,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "Series A on 2018-08-02 led by Newfund in PitchBook; no newer round found, so on-file label is uncontradicted. | date: 2018-08-02 | lead: Newfund | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative surfaced on hiring, talks to raise, or layoffs; the band stays high mainly because the last round is far overdue.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Shotgun",
@@ -19745,7 +19930,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No hiring, fundraising chatter, or layoffs signal appeared; the overdue 40-month timing alone supports a high near-term raise probability.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Storey",
@@ -19886,7 +20072,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "The timing-only base rate is already high at 41 months since last round, and I found no qualitative signal to offset it.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "SunTrade Travel",
@@ -20027,7 +20214,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative moved the timing signal down; the company is revenue-generating and still appears active, consistent with a raised-again window.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Syntimacy",
@@ -20134,7 +20322,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No hiring, fundraising, or distress signal surfaced; the only signal is being far past the last round, which keeps the base rate elevated.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Tageos",
@@ -20242,7 +20431,8 @@
         "fitCurrentStageEvidence": "Seed round on 2020-06-26 led by Newfund; matches on-file label and no newer TeachFX round found in provided search results. | date: 2020-06-26 | lead: Newfund | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative offset the overdue timing; no clear hiring surge, fundraising talk, or shutdown signal appeared in the available results.",
         "fitResearchFlag": "",
-        "latestRoundOnFile": "Seed Round (2nd Round)"
+        "latestRoundOnFile": "Seed Round (2nd Round)",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Tellus (Telecommunications Service Providers)",
@@ -20451,7 +20641,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No hiring surge, fundraising chatter, or distress signal surfaced, so the timing-based medium base rate stands unchanged.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "medium"
       },
       {
         "company": "TradeIt (Financial Software)",
@@ -20558,7 +20749,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative moved the timing-driven baseline; I found no hiring surge, CFO hire, fundraising talk, or layoffs signal.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Urbanease",
@@ -20734,7 +20926,8 @@
         "fitCurrentStageEvidence": "Series A1 on 2021-03-18 with Newfund on on-file label; no newer verified round found for Visage. | date: 2021-03-18 | lead: Newfund | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative surfaced beyond the stale financing timing, so the overdue cadence remains the main signal.",
         "fitResearchFlag": "",
-        "latestRoundOnFile": "Series A1"
+        "latestRoundOnFile": "Series A1",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Visiblee",
@@ -20874,7 +21067,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No hiring surge, financing talk, or turnaround signal surfaced; the overdue timing alone keeps the base-rate-driven band high.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "WFHomie",
@@ -21049,7 +21243,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing qualitative was found on hiring, fundraising talks, or distress; the only signal is that it is 94 months past its last round.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "XOR.MOTORS",
@@ -21156,7 +21351,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing in the research changed the timing-based signal; I found no layoffs, shutdown, or fundraising report to offset the overdue cadence.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "high"
       },
       {
         "company": "Xotelia",
@@ -23735,7 +23931,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "Seed round on 2025-01-09 led by 1789 Capital; on-file label matches the verified round, with no newer round found in provided results. | date: 2025-01-09 | lead: 1789 Capital | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing in the provided results shows a hiring surge, fundraising talk, or distress signal, so the timing-based medium base rate stands.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "medium"
       },
       {
         "company": "Anduril Industries",
@@ -23810,7 +24007,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "Series H on Forge Global dated 2026-05-13 contradicts on-file Series G; newer than PitchBook label. | date: 2025-06-05 | lead: not found | confidence: medium",
         "fitRaiseProbabilityEvidence": "Nothing in the research suggests a fundraising push; the only signal is the recent 2025 Series G, which keeps near-term re-raise odds low.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Axiom Space",
@@ -23884,7 +24082,8 @@
         "fitHardPassReason": "No meaningful AI component -- a thin wrapper around a third-party foundation-model API with no differentiation",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing in the provided research indicates a hiring surge, fundraising talk, or other near-term financing catalyst; the timing base rate stays low.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Ayar Labs",
@@ -23959,7 +24158,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "On-file label and latest available result both indicate Series E on 2026-03-03; no newer Ayar Labs round found in provided results. | date: 2026-03-03 | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing in the surfaced research suggests hiring surge, fundraising talks, or distress; the base rate stays low.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Base Power",
@@ -24069,7 +24269,8 @@
         "fitHardPassReason": "AI dimension scored 1 (no meaningful AI component) -- rubric hard auto-pass, enforced in code",
         "fitCurrentStageEvidence": "Series D on 2024-06-10 led by 1789 Capital; no newer Blink Health round found, so on-file label stands. | date: 2024-06-10 | lead: 1789 Capital | confidence: medium",
         "fitRaiseProbabilityEvidence": "No hiring, fundraising chatter, or layoff signal surfaced, so the timing-based medium baseline was unchanged.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "medium"
       },
       {
         "company": "Cerebras Systems",
@@ -24179,7 +24380,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "Series E on 2025-10-24 led by 1789 Capital; matches on-file label, no newer round found in provided sources. | date: 2025-10-24 | lead: 1789 Capital | confidence: medium",
         "fitRaiseProbabilityEvidence": "Nothing qualitative suggests urgency; the only signal provided is timing, and it is still inside the typical late-stage cadence.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Databricks",
@@ -24253,7 +24455,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "Databricks raised a $10B late-stage round in Dec 2024 led by Thrive Capital; newer than the on-file Series K label. | date: 2024-12 | lead: Thrive Capital | confidence: high",
         "fitRaiseProbabilityEvidence": "No qualitative raise signal surfaced beyond timing; no reported hiring surge, financing chatter, or distress signal was found.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Deel",
@@ -24328,7 +24531,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "PitchBook label says Series E on 2025-10-16; no newer contradictory round found in provided results. | date: 2025-10-16 | confidence: high",
         "fitRaiseProbabilityEvidence": "No qualitative raise signal surfaced; the only evidence is timing, which stays inside the typical late-stage cadence and does not imply urgency.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Enhanced Games",
@@ -24437,7 +24641,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing in the provided results indicates a hiring surge, fundraising process, or distress; the 12-month-old Series C1 timing keeps the near-term raise probability low.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Groq",
@@ -24547,7 +24752,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "PitchBook on-file label is Series C dated 2026-01-09; no newer round verified in provided results. | date: 2026-01-09 | confidence: low",
         "fitRaiseProbabilityEvidence": "No hiring surge, fundraising chatter, or distress signal surfaced; the only timing signal is the recently closed Series C, which keeps near-term odds low.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Happy Dad",
@@ -24692,7 +24898,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "PitchBook records Neuralink’s latest round as Series E on 2025-06-02; no newer verified round found, so on-file label is not contradicted. | date: 2025-06-02 | confidence: medium",
         "fitRaiseProbabilityEvidence": "No hiring surge, fundraising talks, or distress signal surfaced; the only clear signal is a recent Series E, which suppresses near-term raise odds.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Plaid",
@@ -24766,7 +24973,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing in the provided results indicates a hiring surge, financing talks, or distress; timing alone leaves the 3-month raise signal low.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "PlusAI",
@@ -24840,7 +25048,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "No hiring, fundraising, or layoff signal surfaced; the band stays at the deterministic medium baseline.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "medium"
       },
       {
         "company": "Polymarket",
@@ -24950,7 +25159,8 @@
         "fitHardPassReason": "AI dimension scored 1 (no meaningful AI component) -- rubric hard auto-pass, enforced in code",
         "fitCurrentStageEvidence": "PitchBook’s on-file Series E label (2025-09-10) is not contradicted by the provided results; no newer PsiQuantum round found. | date: 2025-09-10 | confidence: low",
         "fitRaiseProbabilityEvidence": "No qualitative signal of hiring surge, fundraising talks, or distress appeared in the reviewed materials, so timing alone stays the main signal.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Ramp",
@@ -25025,7 +25235,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "Series F in July 2025, led by Fortress Investment Group, via company announcement/coverage; newer than on-file 2026-06-04 label. | date: 2025-07 | lead: Fortress Investment Group | confidence: high",
         "fitRaiseProbabilityEvidence": "No qualitative raise signal surfaced beyond timing; I found no reports of a fundraise, hiring surge, CFO change, or distress.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Reflection AI",
@@ -25170,7 +25381,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "Series C on 2026-01-14 led by 1789 Capital; newer than the on-file label if PitchBook was stale. | date: 2026-01-14 | lead: 1789 Capital | confidence: high",
         "fitRaiseProbabilityEvidence": "Nothing in the provided results suggests hiring, fundraising talks, or distress; the only signal is a recent financing cadence.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "SpaceX",
@@ -25280,7 +25492,8 @@
         "fitHardPassReason": "AI dimension scored 1 (no meaningful AI component) -- rubric hard auto-pass, enforced in code",
         "fitCurrentStageEvidence": "On-file label is Series A dated 2026-05-21; no newer Starlab Space funding announcement was verifiable from provided results. | date: 2026-05-21 | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing suggests imminent fundraising; the only signal is that it is just two months past the last round, which stays at the timing baseline.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "Substack",
@@ -25425,7 +25638,8 @@
         "fitHardPassReason": "AI dimension scored 1 (no meaningful AI component) -- rubric hard auto-pass, enforced in code",
         "fitCurrentStageEvidence": "PitchBook on-file label shows Series A1 dated 2025-08-07; no newer, company-specific round found in the provided results. | date: 2025-08-07 | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing in the surfaced record indicates hiring surge, fundraising chatter, or distress, so the timing-based low base rate was not nudged up.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "VulcanForms",
@@ -25499,7 +25713,8 @@
         "fitHardPassReason": "",
         "fitCurrentStageEvidence": "(pass 1 unknown; using on-file label) | confidence: low",
         "fitRaiseProbabilityEvidence": "Nothing in the search results suggests hiring surge, fundraising talks, layoffs, or distress; the timing-only baseline stays low.",
-        "fitResearchFlag": ""
+        "fitResearchFlag": "",
+        "fitBaseRateBand": "low"
       },
       {
         "company": "X (Social/Platform Software)",

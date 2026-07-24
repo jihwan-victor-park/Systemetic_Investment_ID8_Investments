@@ -535,6 +535,11 @@ def write_back(results, seed_path=_SEED_PATH):
         c["fitCurrentStageEvidence"] = r.current_stage_evidence
         c["fitRaiseProbabilityEvidence"] = r.raise_probability_evidence
         c["fitResearchFlag"] = r.research_flag
+        # The deterministic starting point (portfolio_timing.py) before the
+        # model's qualitative overlay -- lets the hub show "started at X
+        # because of timing alone, moved to Y because of this evidence"
+        # rather than just the final band with no context for where it came from.
+        c["fitBaseRateBand"] = r.base_rate_band
         # When pass 1 actually researched a current round, update the displayed
         # latestRound/latestRoundDate with it -- the stale/generic PitchBook
         # bucket ("Later Stage VC (4th Round)") gets replaced by the true series
