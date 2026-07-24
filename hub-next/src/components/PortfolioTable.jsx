@@ -5,7 +5,9 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import SortableTable from './SortableTable';
 import DescriptionPopover from './DescriptionPopover';
-import { companyHref, lookupFitScore, lookupStage } from '@/lib/companyIndex';
+import FitScorePopover from './FitScorePopover';
+import RunAnalysisButton from './RunAnalysisButton';
+import { companyHref, lookupFitScore, lookupStage, lookupSlug } from '@/lib/companyIndex';
 import { PUBLIC_STAGES, STAGE_LABELS } from '@/lib/stages';
 import styles from './PortfolioTable.module.css';
 
@@ -141,6 +143,7 @@ export default function PortfolioTable({ endpoint, id, field, items, filterFn, c
     const href = companyHref(companyIndex, p.company) || `/docs/vcs/company/${encodeURIComponent(p.company)}`;
     const fitScore = lookupFitScore(companyIndex, p.company);
     const stage = lookupStage(companyIndex, p.company);
+    const slug = lookupSlug(companyIndex, p.company);
     // Stage 0 Portfolio Fit results (deal_intelligence/portfolio_fit.py write_back).
     // latestRound is updated in place to the researched current round when the
     // stage pass found one; latestRoundOnFile then holds the original PitchBook
@@ -178,9 +181,20 @@ export default function PortfolioTable({ endpoint, id, field, items, filterFn, c
         probability: raiseBand
           ? <span className={styles.raiseBand} data-band={raiseBand}>{raiseBand}</span>
           : <span className={styles.muted}>—</span>,
-        score: p.fitScore != null ? `${p.fitScore.toFixed(1)} / 4` : (fitScore != null ? `${fitScore.toFixed(1)} / 4` : '—'),
+        // Hovering the score shows the full Stage 0 breakdown (per-dimension
+        // evidence, rationale, confidence, current-stage/raise-probability
+        // research) -- same depth Stage 1's own screen page shows, per
+        // Oscar's ask, but inline so you don't have to leave the portfolio
+        // table. A company not yet scored by Stage 0 falls back to the plain
+        // Stage 1 score (already-screened pipeline companies), if any.
+        score: p.fitScore != null
+          ? <FitScorePopover company={p} />
+          : (fitScore != null ? `${fitScore.toFixed(1)} / 4` : '—'),
         pipeline: stage ? (
-          <span className={styles.stageBadge}>{STAGE_LABELS[stage] || stage}</span>
+          <span className={styles.stageWithAction}>
+            <span className={styles.stageBadge}>{STAGE_LABELS[stage] || stage}</span>
+            {canEdit && slug && <RunAnalysisButton slug={slug} name={p.company} />}
+          </span>
         ) : canEdit ? (
           <div className={styles.pipelineCell}>
             <select

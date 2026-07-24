@@ -462,6 +462,35 @@ def select_companies(data, limit=100, vc_name=None, order="round-robin"):
 
 # ── Write results back into the seed JSON (for the hub) ───────────────────────
 
+_DIM_LABELS = {p["key"]: p["label"] for p in rubric_portfolio.PARAMS}
+
+
+def load_results(path):
+    """Reconstructs PortfolioFit/DimensionScore objects from a results JSON
+    file previously written by main() (portfolio_fit_results.json /
+    portfolio_fit_<vc>.json / portfolio_fit_batch200.json). Lets write_back()
+    backfill new fields (e.g. the dimension breakdown for the hover popover)
+    from ALREADY-PAID-FOR sonar calls -- no re-scoring, no additional cost.
+
+    Files written before stage_source/current_round_date existed on the schema
+    (batch runs from earlier in the same session) get stage_source inferred
+    here: "researched" if current_stage differs from the on-file label at scoring
+    time, else "on-file" -- so write_back()'s latestRound correction still
+    applies retroactively to old files, not just newly-scored ones."""
+    with open(path, encoding="utf-8") as f:
+        data = json.load(f)
+    results = []
+    for d in data["results"]:
+        d = dict(d)
+        d["dimensions"] = [DimensionScore(**dd) for dd in d.get("dimensions", [])]
+        if "stage_source" not in d:
+            cur = (d.get("current_stage") or "").strip().lower()
+            onf = (d.get("pitchbook_latest_round") or "").strip().lower()
+            d["stage_source"] = "researched" if cur and cur != "unknown" and cur != onf else "on-file"
+        results.append(PortfolioFit(**d))
+    return results
+
+
 def write_back(results, seed_path=_SEED_PATH):
     """Merge fit results onto the matching portfolio entries in
     partner-vcs-seed.json (matched by vc_source + normalized company name), so
@@ -493,6 +522,19 @@ def write_back(results, seed_path=_SEED_PATH):
         c["fitHardPass"] = r.hard_auto_pass
         c["fitRationale"] = r.rationale
         c["fitScoredAt"] = scored_at
+        # Full per-dimension breakdown (Oscar: "I need at least some level of
+        # analysis or rationale when hovering the score", same depth Stage 1
+        # shows) -- everything the hub's fit-score hover popover needs, no
+        # separate lookup required.
+        c["fitDimensions"] = [
+            {"key": dim.key, "label": _DIM_LABELS.get(dim.key, dim.key), "score": dim.score, "evidence": dim.evidence}
+            for dim in r.dimensions
+        ]
+        c["fitConfidence"] = r.confidence
+        c["fitHardPassReason"] = r.hard_auto_pass_reason
+        c["fitCurrentStageEvidence"] = r.current_stage_evidence
+        c["fitRaiseProbabilityEvidence"] = r.raise_probability_evidence
+        c["fitResearchFlag"] = r.research_flag
         # When pass 1 actually researched a current round, update the displayed
         # latestRound/latestRoundDate with it -- the stale/generic PitchBook
         # bucket ("Later Stage VC (4th Round)") gets replaced by the true series
@@ -567,7 +609,23 @@ def main():
     ap.add_argument("--dry-run", action="store_true",
                     help="select companies and build prompts but make NO API calls -- prints the "
                          "selection + a token/cost estimate so you can preview spend first")
+    ap.add_argument("--replay", metavar="RESULTS_JSON",
+                     help="skip scoring entirely -- reload a previously-written results JSON file "
+                          "(e.g. portfolio_fit_batch200.json) and write_back() it. Use this to backfill "
+                          "new fields (like the dimension breakdown) from already-paid-for sonar calls, "
+                          "at zero additional cost. Implies --write-back.")
     args = ap.parse_args()
+
+    if args.replay:
+        results = load_results(args.replay)
+        print(f"Replaying {len(results)} already-scored companies from {args.replay} (no API calls).")
+        _print_summary(results)
+        written, unmatched = write_back(results, seed_path=args.seed)
+        print(f"\nWrote fit results onto {written} companies in {os.path.basename(args.seed)}.")
+        print(f"  ({getattr(write_back, 'rounds_updated', 0)} had latestRound updated to the researched current round)")
+        if unmatched:
+            print(f"  ({len(unmatched)} results could not be matched back and were skipped)")
+        return
 
     data = _load_seed(args.seed)
     companies = select_companies(data, limit=args.limit, vc_name=args.vc,

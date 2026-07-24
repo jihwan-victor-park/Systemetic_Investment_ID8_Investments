@@ -45,6 +45,15 @@ export function lookupFitScore(index, name) {
   return entry ? entry.fitScore : null;
 }
 
+// The company's own doc slug if ID8 already tracks it, else null -- lets a
+// portfolio row that's already in the pipeline offer RunAnalysisButton
+// directly (same "Run Analysis" Stage 1 trigger the Watchlist/Pipeline/
+// Qualified Deals tables use) without navigating away from the VC's page.
+export function lookupSlug(index, name) {
+  const entry = index[(name || '').trim().toLowerCase()];
+  return entry ? entry.slug : null;
+}
+
 // The company's current pipeline stage if ID8 already tracks it, else null --
 // null is the "not in our pipeline yet" signal callers use to offer an
 // "Add to pipeline" action instead of a stage badge.

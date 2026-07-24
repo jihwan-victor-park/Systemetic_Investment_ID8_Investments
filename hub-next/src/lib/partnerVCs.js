@@ -49,6 +49,15 @@ function _mapPortfolioEntry(p) {
     fitTooEarly: p.fitTooEarly ?? null,
     fitRationale: p.fitRationale || '',
     fitScoredAt: p.fitScoredAt || null,
+    // Per-dimension breakdown (AI/Thesis, Founder/Team, Fundamentals, Stage &
+    // Backing) + the supporting evidence strings -- everything the fit-score
+    // hover popover shows, same depth as a Stage 1 screen.
+    fitDimensions: p.fitDimensions || [],
+    fitConfidence: p.fitConfidence || '',
+    fitHardPassReason: p.fitHardPassReason || '',
+    fitCurrentStageEvidence: p.fitCurrentStageEvidence || '',
+    fitRaiseProbabilityEvidence: p.fitRaiseProbabilityEvidence || '',
+    fitResearchFlag: p.fitResearchFlag || '',
   };
 }
 
