@@ -41,7 +41,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.2,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed Round (1st Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "AI is materially embedded in the product, but the moat reads more like applied ML than a clearly defensible data flywheel. Backing appears thin and the company remains very early, while fundamentals and team quality are not well evidenced.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Anduril Industries",
@@ -76,7 +84,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 4.0,
+        "fitTier": "track_priority",
+        "fitCurrentStage": "Series F",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Anduril fits the AI thesis strongly: AI is embedded in the product, not a wrapper. Fundamentals and backing are exceptional, with late-stage scale and elite capital supporting venture-scale upside.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "AppliedXL",
@@ -111,7 +127,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.2,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed Round (3rd Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "AppliedXL looks like a real AI company, but the moat evidence is moderate rather than clearly defensible, and the public team signal is thin. It fits the thesis on AI depth better than on backing quality, and the scale case is plausible but not well evidenced.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Apptronik",
@@ -146,7 +170,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 3.0,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Series A",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Apptronik fits the AI thesis well because autonomy is core, not a wrapper, but I found limited evidence of elite team pedigree or tier-1 cap-table depth. Fundamentals look plausible for a $1B+ outcome, though still early-stage and not yet strongly proven.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Ash",
@@ -286,7 +318,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.8,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed Round (3rd Round)",
+        "fitRaiseProbability": "medium",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Bazze fits the AI thesis strongly, but the rest of the signal is thinner: backing quality is modest and founder credibility is not publicly established. Fundamentals look promising for a venture-scale security/data platform, yet there is no clear evidence of breakout traction.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Castelion",
@@ -321,7 +361,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.2,
+        "fitTier": "drop",
+        "fitCurrentStage": "Series B",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": true,
+        "fitRationale": "Castelion scores as a credible, revenue-generating defense manufacturer with venture-scale ambition, but not an AI thesis fit. Backing looks real enough for Series B, yet only limited investor quality is confirmed publicly.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Cerebras Systems",
@@ -391,7 +439,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 3.5,
+        "fitTier": "track_priority",
+        "fitCurrentStage": "Series E",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Crusoe fits the AI thesis strongly and has clear scale, but the research set did not surface enough founder-detail to score that dimension above data-missing. Backing and stage look strong for a late-stage infrastructure company, with no thesis mismatch.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "DataPlor",
@@ -426,7 +482,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.8,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Series A",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "DataPlor looks thesis-aligned on AI/data defensibility, with proprietary location and foot-traffic data central to the product. Fundamentals appear credible for scale, but team pedigree and backing quality are not strongly verified from public evidence.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Dodo",
@@ -461,7 +525,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.2,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed",
+        "fitRaiseProbability": "medium",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Dodo fits the AI thesis as a real automation product, but the moat looks more feature-plus-software than deeply defensible AI. Fundamentals and backing are promising but mostly thinly evidenced, which keeps the score in monitor territory.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "ElevenLabs",
@@ -496,7 +568,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 3.5,
+        "fitTier": "track_priority",
+        "fitCurrentStage": "Series C",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "ElevenLabs fits the AI thesis very strongly and shows credible commercial traction, with fundamentals consistent with a venture-scale outcome. Backing is strong at Series C, while founder quality is credible but not fully verified to the top pedigree tier.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Fakespot",
@@ -566,7 +646,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.0,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed Round (1st Round)",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Groopit looks like a real software business, but the available evidence is too thin to justify more than middling scores on moat, team, and traction. AI depth is not evidenced, and backing quality appears early-stage rather than venture-pedigreed.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Groq",
@@ -636,7 +724,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 3.0,
+        "fitTier": "track",
+        "fitCurrentStage": "Series E",
+        "fitRaiseProbability": "medium",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Harvey scores as a strong AI-native legal software company with real revenue and late-stage backing, though founder pedigree is not verified from the available material. The AI thesis fits well; backing quality and scale are strong, but team evidence is only partial.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Hebbia",
@@ -671,7 +767,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 3.2,
+        "fitTier": "track",
+        "fitCurrentStage": "Series B",
+        "fitRaiseProbability": "medium",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Hebbia aligns strongly with the AI thesis because AI is the product core, not a wrapper. Fundamentals look credible for scale, while backing quality is solid but not clearly top-tier from the evidence provided.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "MRGN",
@@ -706,7 +810,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.2,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed Round (1st Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "MRGN appears to be a real AI-enabled SaaS budgeting tool, but the public record is thin on founders, traction, and investor quality. The thesis fit is credible, while backing quality looks modest and the scale ceiling remains plausible but unproven.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Mach Industries",
@@ -741,7 +853,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · keyword match: 'autonomous'"
+        "prefilterReason": "geography: NA · keyword match: 'autonomous'",
+        "fitScore": 2.8,
+        "fitTier": "monitor",
+        "fitCurrentStage": "Series C",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Mach Industries looks like a credible defense-tech company with real revenue and a plausible large-scale market, but public evidence on team depth and AI defensibility is limited. Thesis fit is moderate-to-strong, while backing quality is institutionally real but not clearly top-tier.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Mosea Technologies",
@@ -811,7 +931,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.5,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed Round (2nd Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Naya fits the AI thesis reasonably well, but the public record here is thin on founder pedigree and top-tier backing. Fundamentals look plausible for a scale business, yet the company remains early and not clearly Tier 1-supported.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Nomad Data",
@@ -846,7 +974,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.5,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed Round (2nd Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "AI is a real product ingredient, but not clearly a defensible moat from the public evidence. The company has some venture-scale logic and revenue, yet backing quality and team pedigree are not strong enough to lift it higher.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Nscale",
@@ -916,7 +1052,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 4.0,
+        "fitTier": "track_priority",
+        "fitCurrentStage": "Series B",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "OpenAI is a top-tier AI-native company with very strong scale potential and elite backing. The only softer point is that some team detail is public-facing rather than fully verified here, but thesis alignment is excellent.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Paragon Intel",
@@ -951,7 +1095,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.5,
+        "fitTier": "monitor",
+        "fitCurrentStage": "Later Stage VC (3rd Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Paragon Intel looks like a plausible venture-scale SaaS with some AI usage, but the moat appears more data-driven than deeply AI-defensible. Backing is credible and the stage is mature, yet I found no evidence of elite investor syndicate or standout founder pedigree.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Perplexity",
@@ -986,7 +1138,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 3.2,
+        "fitTier": "track",
+        "fitCurrentStage": "Early Stage VC (7th Round)",
+        "fitRaiseProbability": "medium",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Perplexity fits the thesis strongly because AI is the product, not a wrapper, and the business already shows meaningful scale. Backing looks credible, but founder pedigree is not substantiated from the available evidence, keeping the overall score below top tier.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Physical Intelligence",
@@ -1021,7 +1181,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 3.0,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Series A",
+        "fitRaiseProbability": "medium",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "AI thesis fit is strong because the product centers on foundation models for the physical world, not a thin wrapper. Backing is credible at Series A, but founder evidence is thin and public traction is limited beyond revenue status.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Planful",
@@ -1126,7 +1294,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 3.0,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Series A",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "The company looks strongly aligned to an AI-security thesis and has a plausible enterprise-scale market, but public evidence on team pedigree and traction is thin. Backing appears respectable at Series A, yet not clearly Tier 1-heavy.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Revelio Labs",
@@ -1161,7 +1337,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.8,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed Round (3rd Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Revelio Labs fits the AI thesis well because its core product depends on proprietary labor-market data standardization, but team pedigree and backing quality are not strongly evidenced. Fundamentals look credible for a venture-scale HR/data platform, yet the company remains early-stage.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Rippling",
@@ -1196,7 +1380,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 3.8,
+        "fitTier": "track_priority",
+        "fitCurrentStage": "Series G+",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Rippling fits the thesis well on AI depth and shows strong scale indicators for a venture outcome. Backing/stage are strong, but founder pedigree is credible rather than clearly elite from verified evidence alone.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Safe Superintelligence",
@@ -1231,7 +1423,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.5,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Series A",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "The company is a strong AI thesis fit because the product is the research lab and architecture itself, not a wrapper. The rest of the score is constrained by missing public evidence: team pedigree, operating fundamentals, and cap-table quality beyond one investor.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Scoutr",
@@ -1336,7 +1536,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 3.2,
+        "fitTier": "drop",
+        "fitCurrentStage": "Later Stage VC (26th Round)",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": true,
+        "fitRationale": "Stripe is fundamentally strong and already operating at massive scale, but its thesis is payments infrastructure rather than AI. Backing quality and founder pedigree are exceptional, making it a high-quality portfolio name despite weak AI alignment.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Sumatra",
@@ -1406,7 +1614,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.8,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Series A",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "TensorWave is a real AI infrastructure company, so thesis fit is strong, but the available evidence is thin on team pedigree and elite backing. Fundamentals look credible for a venture-scale outcome, though the current stage and confirmed investor quality are only moderate.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Together AI",
@@ -1476,7 +1692,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 3.0,
+        "fitTier": "track",
+        "fitCurrentStage": "Series C",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "True Anomaly fits the AI thesis strongly because AI is central to its spacecraft autonomy stack, but team pedigree is not well verified from available evidence. Fundamentals and backing look solid for a Series C company, though not enough is confirmed to call the cap table elite.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Unconventional AI",
@@ -1511,7 +1735,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.5,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed Round (2nd Round)",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Unconventional AI looks strongly thesis-aligned on AI hardware depth, but the rest of the case is thinly evidenced. Backing quality is unclear and fundamentals are not yet verified enough to support a higher call.",
+        "fitScoredAt": "2026-07-24"
       }
     ],
     "description": null,
@@ -1562,7 +1794,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.5,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Series A",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "The company looks like a real Series A hardware climate-tech business with some commercial traction, but AI thesis fit is weak and team evidence is thin. Backing is respectable but not elite, so the overall fit is moderate and below mandate for a stronger venture signal.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Cognitive Space",
@@ -1597,7 +1837,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.8,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Strong AI thesis and plausible scale support the case, but team pedigree and backing quality are not well evidenced. The company aligns well on AI depth, while cap-table support appears thin for a follow-on venture-quality signal.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Firehawk Aerospace",
@@ -1632,7 +1880,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.2,
+        "fitTier": "drop",
+        "fitCurrentStage": "Series B1",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": false,
+        "fitHardPass": true,
+        "fitRationale": "Overall, Firehawk looks like a real venture-scale hardware company, but not an AI thesis fit. Backing and stage are credible, while founder pedigree is unverified from available evidence.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Great Lakes Crystal Technologies",
@@ -1702,7 +1958,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.0,
+        "fitTier": "drop",
+        "fitCurrentStage": "Seed Round (4th Round)",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": true,
+        "fitHardPass": true,
+        "fitRationale": "Hybron looks like a real industrial venture with some revenue and a plausible scale path, but AI thesis fit is absent and backing quality is thin. Overall it fits the business more than the AI mandate, with no evidence of elite team pedigree or top-tier syndicate strength.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Immaterial",
@@ -1842,7 +2106,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.0,
+        "fitTier": "drop",
+        "fitCurrentStage": "Seed Round (15th Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": true,
+        "fitRationale": "This is a hardware materials business with credible niche demand, but no evidenced AI moat and only limited public team detail. Backing looks early and narrow, so thesis fit is weak despite plausible scale potential.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Neurable",
@@ -1877,7 +2149,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · keyword match: 'machine learning'"
+        "prefilterReason": "geography: NA · keyword match: 'machine learning'",
+        "fitScore": 3.0,
+        "fitTier": "track",
+        "fitCurrentStage": "Later Stage VC (18th Round)",
+        "fitRaiseProbability": "medium",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "AI/thesis fit is strong because the product’s core value depends on proprietary brain-signal interpretation, not a generic wrapper. Backing looks credible at a late stage, while fundamentals are promising but not fully evidenced publicly.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "NextGO Epi",
@@ -1912,7 +2192,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through",
+        "fitScore": 2.2,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed Round (5th Round)",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "NextGO Epi shows real AI embedded in its manufacturing workflow, but public evidence on leadership depth and backing quality is thin. Fundamentals are early, with modest revenue and headcount, so the thesis fits a specialized semiconductor venture but not yet a clearly proven breakout.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Quantum Brilliance",
@@ -1982,7 +2270,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · keyword match: 'autonomous'"
+        "prefilterReason": "geography: NA · keyword match: 'autonomous'",
+        "fitScore": 2.0,
+        "fitTier": "drop",
+        "fitCurrentStage": "Seed Round (4th Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": true,
+        "fitRationale": "Overall, Radian Aerospace looks like an early commercial space hardware company with plausible scale but limited verified traction data. The thesis fit is weak on AI depth, while backing quality appears modest rather than Tier 1-heavy.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Stathera",
@@ -2052,7 +2348,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.8,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Series A",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "The company fits the AI/advanced-computation thesis well, but team pedigree and cap-table quality are not strongly evidenced from the available sources. Fundamentals look plausible for a large outcome, though the disclosed traction is limited to revenue generation and early-stage status.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Sylvatex",
@@ -2087,7 +2391,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.0,
+        "fitTier": "drop",
+        "fitCurrentStage": "Series A",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": true,
+        "fitRationale": "Sylvatex looks like a real climate-tech materials business with some scale potential, but not an AI-native thesis. Backing quality appears limited from the evidence surfaced, and founder pedigree is not verified.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Tidal Cyber",
@@ -2122,7 +2434,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.8,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Series A",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Tidal Cyber fits the AI thesis well because its platform appears materially product-centered on adversary-behavior defense, not a thin AI veneer. Backing quality and founder pedigree are not well evidenced in the available data, while revenue status supports a credible but not yet proven scale path.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Trellis Data",
@@ -2291,7 +2611,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.5,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Series A",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "APFusion looks like a real revenue-generating vertical marketplace, but the AI thesis is weakly evidenced and the team signal is mostly opaque. Backing quality is solid for Series A, yet not multiple Tier 1 firms or later-stage momentum.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Abound (Media and Information Services (B2B))",
@@ -2359,7 +2687,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.8,
+        "fitTier": "monitor",
+        "fitCurrentStage": "Early Stage VC (3rd Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Aftershoot fits the thesis moderately well: AI is embedded in the product, but the moat looks more applied than deeply defensible. Backing is credible and the company appears to have real revenue traction, though founder pedigree remains unverified.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Animaj",
@@ -2393,7 +2729,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.8,
+        "fitTier": "monitor",
+        "fitCurrentStage": "Early Stage VC (5th Round)",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Animaj looks like a real revenue-generating AI-adjacent media company, but the moat appears more product-assisted than deeply defensible. Backing is credible, yet founder pedigree and evidence of a hard AI/data flywheel are not clearly established.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "AnswersNow",
@@ -2563,7 +2907,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.8,
+        "fitTier": "monitor",
+        "fitCurrentStage": "Later Stage VC (5th Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Bilt Technologies looks like a real scaled fintech with profitability and substantial revenue, but I found no evidence that AI is central to the moat. Backing quality is solid, though not enough public evidence here to call it top-tier syndicate depth.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Black Crow AI",
@@ -2597,7 +2949,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.8,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Series A",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "This looks like a real AI software company with meaningful product differentiation and plausible venture-scale upside, but not enough public evidence for elite team pedigree or breakout traction. Backing quality is solid, and the AI thesis aligns well with the business, though current stage keeps it too early for top-tier mandate.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Blank Street",
@@ -2699,7 +3059,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.8,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed Round (7th Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "BlueCargo looks like a real AI-enabled supply-chain software business with revenue and credible venture backing, but the team record is not verified from available sources. The thesis fits on AI depth and market potential, while backing quality is solid but still early-stage.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Brellium",
@@ -2733,7 +3101,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.8,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Series A",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Brellium looks like a real AI-enabled compliance software business with credible revenue traction and venture-scale market potential. AI depth is meaningful, backing quality is solid, but founder pedigree is not well evidenced from the available search results.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Buena (Real Estate Services)",
@@ -2767,7 +3143,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through",
+        "fitScore": 2.5,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Series A",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Buena looks like a credible early-stage proptech business, but the AI thesis is weakly evidenced and founder detail is thin. Backing quality is solid for Series A, while revenue status supports upside without proving breakout scale.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Calm",
@@ -2834,7 +3218,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.5,
+        "fitTier": "monitor",
+        "fitCurrentStage": "Series B1",
+        "fitRaiseProbability": "medium",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Carro looks like a credible B1 B2B commerce software company, but public evidence for AI depth and team pedigree is thin. Backing quality is solid via Left Lane Capital, and the business model plausibly supports venture-scale outcomes.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Choco",
@@ -2868,7 +3260,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 3.0,
+        "fitTier": "track",
+        "fitCurrentStage": "Later Stage VC (8th Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Choco looks like a real AI-enabled software business with credible scale potential, but founder quality is not well evidenced from available sources. The stage and Left Lane backing support a solid portfolio asset, though not an elite cap table signal.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Chowbus",
@@ -2902,7 +3302,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.2,
+        "fitTier": "drop",
+        "fitCurrentStage": "Series E",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": true,
+        "fitRationale": "Chowbus looks like a late-stage restaurant-software business with revenue and credible backing, but the available evidence does not show an AI moat. The thesis fits the company only weakly on AI depth, while backing quality is strong enough for mandate.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Clerkie",
@@ -2936,7 +3344,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.8,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Series A",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "AI is a real product input, but the evidence does not show an especially hard-to-replicate moat. Backing is strong enough for Series A, while fundamentals look plausible but not yet deeply evidenced for a billion-dollar outcome.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Composer",
@@ -3004,7 +3420,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 3.0,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Series A",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "ConverzAI fits the AI thesis strongly, with AI embedded in the product rather than a wrapper. Backing and stage are credible, but founder pedigree and durable scale evidence are limited from public signals.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Diamond Standard",
@@ -3038,7 +3462,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.2,
+        "fitTier": "drop",
+        "fitCurrentStage": "Series A",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": true,
+        "fitRationale": "The company has a credible early-stage setup and some revenue, but no evidence of meaningful AI depth. Backing quality is solid at Series A with Left Lane Capital, yet the moat appears more commodity-platform than AI-native.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "EXO Freight",
@@ -3174,7 +3606,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.8,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed Round (3rd Round)",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "F2 looks like a genuine AI-enabled workflow platform for private markets with credible investor support, but public evidence on team pedigree is thin. The business appears aligned on AI thesis and scale potential, while stage remains early and not yet in the Series B+ range.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Commas",
@@ -3208,7 +3648,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.8,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Series A",
+        "fitRaiseProbability": "medium",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Commas looks like a real software platform with some revenue and a plausible venture-scale market, but I found no evidence of a differentiated AI moat. Backing is credible for Series A, while founder pedigree is not well verified from the surfaced results.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Fetcherr",
@@ -3310,7 +3758,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.2,
+        "fitTier": "drop",
+        "fitCurrentStage": "Series A",
+        "fitRaiseProbability": "medium",
+        "fitTooEarly": true,
+        "fitHardPass": true,
+        "fitRationale": "The company scores as a credible early-stage fintech, but the moat is not AI-driven and public evidence on the team is thin. Backing is respectable at Series A, and the business could still scale meaningfully.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Freestyle Chess",
@@ -3412,7 +3868,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.8,
+        "fitTier": "monitor",
+        "fitCurrentStage": "Series B",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Genius AI looks aligned on AI thesis and commercially real, with revenue and scale already visible. Backing is credible but not top-heavy, and team pedigree is not evidenced from the available search.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "GoSite",
@@ -3446,7 +3910,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.8,
+        "fitTier": "monitor",
+        "fitCurrentStage": "Series B",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "GoSite looks moderately aligned with an AI-enabled SaaS thesis, but the moat evidence is not strong enough for a 4. Backing and stage are solid for mandate, while fundamentals appear viable; the main gap is limited verified team pedigree.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "GoStudent",
@@ -3480,7 +3952,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 3.0,
+        "fitTier": "track",
+        "fitCurrentStage": "Later Stage VC (11th Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "GoStudent looks like a real AI-enabled edtech business with meaningful revenue and scale, but not a clearly moat-dominant AI thesis. Backing quality is strong, while team quality is under-evidenced from the available search results.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "HOLY Softdrinks",
@@ -3650,7 +4130,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.8,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Series A",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Judy Security looks like a real, revenue-generating Series A cybersecurity company with plausible scale, but the AI differentiation is not clearly structural. Backing quality is credible, though founder pedigree is unverified and this is still below-Series-B.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Just Russel",
@@ -3718,7 +4206,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: unknown (passed through) · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: unknown (passed through) · insufficient data to exclude -- passed through",
+        "fitScore": 3.0,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Series A",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Kast shows real commercial traction and credible venture-scale potential, but the available evidence does not establish exceptional founder quality or an AI-native moat. Backing is solid for Series A, yet not elite enough for a top-tier stage score.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Kings League",
@@ -3786,7 +4282,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.8,
+        "fitTier": "monitor",
+        "fitCurrentStage": "Series B",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Kittl looks like a real AI-enabled SaaS business with credible revenue-stage momentum, but I found no elite founder evidence and only single-firm top-tier backing. Overall thesis fit is solid, with AI depth and backing quality better than average but not moat-defining.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Koltin",
@@ -3922,7 +4426,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.8,
+        "fitTier": "monitor",
+        "fitCurrentStage": "Series C",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "LemFi looks like a credible, revenue-generating fintech with meaningful scale potential, but I found no evidence that AI is core to the moat. Backing quality is strong; founder pedigree is not well evidenced from the available sources.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Lexroom",
@@ -3956,7 +4468,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.8,
+        "fitTier": "monitor",
+        "fitCurrentStage": "Series B",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Lexroom fits the AI/legal-tech thesis well, with real product-level AI rather than a thin wrapper. Fundamentals look credible but not yet breakout; backing quality is strong, while team pedigree remains unverified from available evidence.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Lightricks",
@@ -4024,7 +4544,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.8,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Series A",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Liquid is strongly thesis-aligned on crypto/fintech product depth, but the available evidence is thin on team pedigree and operating traction. Stage and backing are decent for a Series A portfolio company, but not yet Series B+ caliber.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "M1",
@@ -4058,7 +4586,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.8,
+        "fitTier": "monitor",
+        "fitCurrentStage": "Series E",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "M1 looks like a real venture-scale fintech with revenue traction and late-stage institutional backing, but AI depth is not clearly core from the available evidence. Founder quality remains unverified, so this is a solid but not elite fit.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Mars by GHC",
@@ -4126,7 +4662,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.5,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Series A",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Masterworks fits a venture-scale thesis more as a financial platform than an AI-native company, so AI alignment is weak. Backing quality is respectable for Series A, but the company’s moat and team pedigree are not strongly evidenced here.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Memmo.me",
@@ -4193,7 +4737,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through",
+        "fitScore": 2.5,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Series A2",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "MentorShow looks like a real revenue business with plausible scale, but public evidence for a defensible AI moat is thin. Backing is credible via Left Lane Capital, yet the company remains below Series B.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Mindspan",
@@ -4227,7 +4779,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.2,
+        "fitTier": "drop",
+        "fitCurrentStage": "Early Stage VC (1st Round)",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Mindspan looks like a plausible healthcare software business with some revenue, but public evidence is too thin to argue for a clear $1B+ path. Thesis alignment is weak on AI depth and moderate on backing quality because Left Lane is confirmed.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Modal",
@@ -4532,7 +5092,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.8,
+        "fitTier": "monitor",
+        "fitCurrentStage": "Series B",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Ownwell looks like a credible Series B services business with some tech-enabled differentiation, but not a clearly AI-native moat. Backing appears solid rather than elite, and the scale case is plausible but not yet strongly evidenced.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Paytient",
@@ -4566,7 +5134,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.5,
+        "fitTier": "monitor",
+        "fitCurrentStage": "Series B",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Paytient looks like a real fintech-healthtech business with plausible scale, but the available evidence does not show AI as a core moat. Backing is solid enough for Series B, though team pedigree is not well evidenced here.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Pearl (Decision/Risk Analysis)",
@@ -4600,7 +5176,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 3.2,
+        "fitTier": "track",
+        "fitCurrentStage": "Series B",
+        "fitRaiseProbability": "medium",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Pearl aligns strongly with the AI thesis and has credible revenue traction, but team pedigree is not well evidenced from this pass. Backing quality is solid at Series B, though not enough is visible to claim multiple top-tier firms.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Perry Health",
@@ -4736,7 +5320,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.8,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Series A",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Polycam fits the thesis moderately well: AI is real but not obviously a deep moat, and the business appears commercially viable with venture-scale potential. Backing is credible at Series A, while founder quality is not well evidenced from the available results.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Prenuvo",
@@ -4770,7 +5362,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.8,
+        "fitTier": "monitor",
+        "fitCurrentStage": "Series B",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Prenuvo fits the thesis reasonably well because its product is AI-adjacent, data-heavy medical imaging rather than a thin software wrapper. Fundamentals look solid, and Left Lane Capital supports quality, but founder pedigree is not well evidenced from this pass.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Pro Padel League",
@@ -4837,7 +5437,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.8,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Series A",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Project Solar looks aligned on AI thesis only at a moderate level, with visible AI usage but not a clearly defensible AI moat. Backing quality is respectable, while fundamentals appear plausible for scale, but team pedigree is not well evidenced.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Real American Wrestling",
@@ -4972,7 +5580,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.8,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Series A",
+        "fitRaiseProbability": "medium",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Revv fits the thesis well on AI depth and has credible early traction, but the team is not well-validated from public evidence. Backing looks strong enough for a Series A company, though not yet Series B-plus.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Riot Security",
@@ -5006,7 +5622,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.5,
+        "fitTier": "monitor",
+        "fitCurrentStage": "Series B",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Riot Security has credible operating traction and a plausible path to scale, but the available evidence does not establish a defensible AI moat. Backing quality is solid, yet only one Tier 1 firm is confirmed, not multiple elite backers.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Ritual (Restaurants, Hotels and Leisure)",
@@ -5074,7 +5698,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.8,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Rork is a strong AI thesis fit because the product centers on prompt-to-app generation, but the team and traction remain thinly evidenced. Backing is credible thanks to Left Lane Capital, yet the company is still Seed and not in a Series B+ quality regime.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Salad ( Business/Productivity Software)",
@@ -5176,7 +5808,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.2,
+        "fitTier": "drop",
+        "fitCurrentStage": "Seed Round (1st Round)",
+        "fitRaiseProbability": "medium",
+        "fitTooEarly": true,
+        "fitHardPass": true,
+        "fitRationale": "Serhant looks like a real revenue-generating business with credible institutional backing, but its AI thesis is weak and not clearly central. The company is aligned with our thesis mainly through scale and backing quality, not deep AI defensibility.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Smalls",
@@ -5244,7 +5884,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 3.0,
+        "fitTier": "track",
+        "fitCurrentStage": "Series C",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Smartcat fits the AI thesis strongly because automation and QA are core product functions, not a thin wrapper. Backing appears credible but not elite-dense, and fundamentals look strong enough for a venture-scale outcome.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Spero",
@@ -5312,7 +5960,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.5,
+        "fitTier": "monitor",
+        "fitCurrentStage": "Later Stage VC (6th Round)",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Steno looks like a real revenue business with meaningful venture scale potential, but I found no evidence that AI is core to the moat. Backing is solid and the confirmed stage is squarely later-stage, though team pedigree is not well verified.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "StudySmarter",
@@ -5346,7 +6002,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.8,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Series A",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "AI is genuinely embedded in the product, but not enough evidence suggests a uniquely defensible AI moat. The company has credible Series A backing and revenue signal, but founder quality remains unverifiable from available public data.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Talkiatry",
@@ -5414,7 +6078,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.5,
+        "fitTier": "monitor",
+        "fitCurrentStage": "Series B",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Tapcart looks like a real, revenue-generating software business with plausible scale, but the AI thesis is weakly evidenced and the team could not be verified from this pass. Backing quality is solid at Series B, but not enough to signal top-tier concentration.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Tavrn",
@@ -5448,7 +6120,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.8,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Series A",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Tavrn looks like a credible AI workflow company with real product specificity, but not yet a clearly defensible AI moat. Backing quality is strong enough for Series A, while team evidence is thin and fundamentals are only partially visible.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "The Snow League",
@@ -5482,7 +6162,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.2,
+        "fitTier": "drop",
+        "fitCurrentStage": "Series A2",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": true,
+        "fitHardPass": true,
+        "fitRationale": "The company looks commercially plausible but not AI-driven, so thesis fit is weak. Backing is respectable and the league/media model can scale, but fundamentals remain only moderately evidenced.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Tovala",
@@ -5550,7 +6238,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.2,
+        "fitTier": "drop",
+        "fitCurrentStage": "Series A",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": true,
+        "fitHardPass": true,
+        "fitRationale": "Trovy looks like a real fintech lender/platform with revenue and a plausible large-market ceiling, but the available evidence does not show AI as a moat. Backing is solid at Series A, yet founder pedigree is unverified from the supplied search context.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Ultra Pouches",
@@ -5652,7 +6348,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 3.0,
+        "fitTier": "track",
+        "fitCurrentStage": "Series B",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Wayflyer fits the AI thesis as a data-driven underwriting platform, though the moat looks more applied than frontier. Strong revenue and valuation support scale; backing quality is solid, but founder quality is not well evidenced from available results.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Weezy (UK)",
@@ -5720,7 +6424,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.5,
+        "fitTier": "monitor",
+        "fitCurrentStage": "Series C",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Wetravel looks like a real venture-scale SaaS/fintech business, but the AI thesis is weak and not evidently core. Backing quality is solid at Series C, while founder pedigree is not verified from the available sources.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Willie's Remedy+",
@@ -5856,7 +6568,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.8,
+        "fitTier": "monitor",
+        "fitCurrentStage": "Series B",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Equipifi looks like a credible fintech infrastructure company with some venture-scale potential, but the AI moat is not clearly structural from public materials. Backing is decent for a Series B, while team evidence remains thin and mostly unverifiable.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "iTrustCapital",
@@ -5890,7 +6610,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.5,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Series A",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "iTrustCapital looks like a real revenue-generating fintech with credible venture backing, but I found no evidence of AI defensibility or standout team pedigree. The business fits the thesis only weakly on AI depth, while backing quality is solid but early-stage.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "rePurpose Global",
@@ -5924,7 +6652,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.5,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Series A",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "The company looks like a credible climate-tech services platform with some revenue and room to scale, but the AI thesis appears more adjacent than core. Backing quality is respectable, yet the pre-Series-B stage keeps it earlier than mandate.",
+        "fitScoredAt": "2026-07-24"
       }
     ],
     "description": null,
@@ -6076,7 +6812,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through",
+        "fitScore": 2.5,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed Round (3rd Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "ADAXIS looks like a credible industrial robotics software company with some AI-adjacent depth and a reasonable scale ceiling, but evidence for team pedigree is thin. Backing is not clearly elite from the available data, and the company remains too early for Series-B-oriented mandate.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "AI-Stroke",
@@ -6110,7 +6854,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.8,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "AI-Stroke aligns well on AI depth and has credible early backing, but public evidence on team quality is thin. Revenue generation and a large acute-care market support venture-scale potential, while the current seed stage keeps it below mandate.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "AdVitam",
@@ -6144,7 +6896,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through",
+        "fitScore": 2.2,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "AdVitam looks like a real but early, non-AI-structural consumer service with limited public evidence of scale. Backing is credible via Newfund, but neither team pedigree nor growth evidence is strong enough to raise the thesis above middle ground.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Addidream",
@@ -6246,7 +7006,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.5,
+        "fitTier": "monitor",
+        "fitCurrentStage": "Series B",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Aircall looks like a real revenue business with credible scale potential, but the AI thesis appears more feature-level than defensible. Backing is institutional yet not clearly Tier 1-heavy from the evidence surfaced.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Akoustic Arts",
@@ -6348,7 +7116,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.2,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed Round (1st Round)",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "AmbuSun looks like a real AI-enabled workflow product, but the moat evidence is moderate rather than clearly defensible. Backing is early and limited, and public data did not establish team pedigree or traction; thesis fit is aligned, but not deeply differentiated.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Apitic",
@@ -6382,7 +7158,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through",
+        "fitScore": 2.0,
+        "fitTier": "drop",
+        "fitCurrentStage": "Later Stage VC (2nd Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Apitic looks like a small, non-AI restaurant software vendor with limited public evidence of venture-scale fundamentals. Backing quality is modest and the AI thesis is misaligned with the product description, while team pedigree is not well evidenced.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Apptopia",
@@ -6416,7 +7200,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.5,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Series A2",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Apptopia fits the thesis moderately well through proprietary mobile data and analytics, but the evidence does not support core AI defensibility. Fundamentals look credible for a venture-scale software business, while backing quality appears modest rather than elite.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Arenametrix",
@@ -6450,7 +7242,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.8,
+        "fitTier": "monitor",
+        "fitCurrentStage": "Later Stage VC (8th Round)",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Arenametrix looks like a genuine AI-enabled SaaS with credible late-stage financing, but public evidence is thin on team pedigree and operating traction detail. The thesis fits reasonably well on AI depth and backing quality, though not at a clearly elite moat level.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Arkhn",
@@ -6484,7 +7284,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.5,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed Round (2nd Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Arkhn looks like a real healthcare data infrastructure company with plausible AI adjacency, but not enough evidence of a defensible AI moat. Backing quality is solid but not top-tier, and the business appears early rather than mandate-ready.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Astran",
@@ -6518,7 +7326,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through",
+        "fitScore": 3.0,
+        "fitTier": "track",
+        "fitCurrentStage": "Early Stage VC (7th Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Astran looks like a real technical business with a differentiated cloud-security storage moat, but public evidence on founders and traction is thin. Backing is credible yet not Tier 1-heavy, and the company remains below Series B, so it fits as a monitored early-stage asset rather than a mandate company.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Atempo",
@@ -6552,7 +7368,15 @@
           "financingStatus": "Private Equity-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through",
+        "fitScore": 2.2,
+        "fitTier": "drop",
+        "fitCurrentStage": "Buyout/LBO (8th Round)",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": true,
+        "fitRationale": "Atempo looks like a credible B2B infrastructure software company with revenue and some institutional backing, but nothing here suggests an AI moat. The company is misaligned with AI thesis depth and only moderately strong on backing pedigree.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Avanoo",
@@ -6620,7 +7444,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.8,
+        "fitTier": "monitor",
+        "fitCurrentStage": "Early Stage VC (3rd Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Avanseo aligns moderately well with the AI thesis because AI is part of the product, but the moat is not clearly proven. Backing is credible, fundamentals are plausible, and the company is still too early for full mandate strength.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Aveine",
@@ -6688,7 +7520,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.0,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed Round (1st Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Aware Healthcare looks like an early, revenue-generating digital-health company with an outcomes-oriented care model, but public evidence for AI depth and team pedigree is thin. Backing quality appears modest, so it fits a monitored early-stage watchlist rather than a high-conviction thesis.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "BRÂAM",
@@ -6756,7 +7596,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.2,
+        "fitTier": "drop",
+        "fitCurrentStage": "Later Stage VC (4th Round)",
+        "fitRaiseProbability": "medium",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Bazze appears genuinely AI-native but not clearly moat-defensible from public evidence alone. Backing is credible but thinly documented, and fundamentals plus team quality remain under-verified.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Beam for Music",
@@ -6790,7 +7638,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through",
+        "fitScore": 2.0,
+        "fitTier": "drop",
+        "fitCurrentStage": "Early Stage VC (2nd Round)",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Beam for Music looks like a credible niche SaaS business, but the AI thesis is not structurally differentiated and the cap table quality is only partially visible. The evidence supports an early-stage monitoring posture, not a strong thesis-aligned conviction.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "BestOfArtisans",
@@ -6824,7 +7680,15 @@
           "financingStatus": "Formerly PE-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through",
+        "fitScore": 2.0,
+        "fitTier": "drop",
+        "fitCurrentStage": "Buyout/LBO (1st Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "BestOfArtisans looks like a small, non-AI marketplace with limited public evidence on team quality and traction, so the fit is mostly data-missing rather than strong. It is misaligned with the AI thesis, while the single confirmed investor does not yet indicate top-tier backing.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Beyond Ratings",
@@ -6891,7 +7755,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.0,
+        "fitTier": "drop",
+        "fitCurrentStage": "Series E",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": false,
+        "fitHardPass": true,
+        "fitRationale": "BillTrim looks like a real software business, but the research surface is thin on differentiated AI and operating evidence. Backing appears respectable and stage-appropriate, yet the public record does not support a stronger moat or founder call.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Blue Industry & Science",
@@ -6959,7 +7831,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.2,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Bolero looks like a real niche marketplace with some institutional backing, but public evidence for AI depth, team pedigree, and traction is thin. Thesis fit is weak on AI, while backing quality is acceptable and stage remains early.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Bornio",
@@ -7196,7 +8076,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · keyword match: 'autonomous'"
+        "prefilterReason": "geography: Europe · keyword match: 'autonomous'",
+        "fitScore": 2.0,
+        "fitTier": "drop",
+        "fitCurrentStage": "Early Stage VC (1st Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": false,
+        "fitHardPass": true,
+        "fitRationale": "Camping-Car Park is misaligned with the AI thesis because its core offering is operational infrastructure, not a defensible AI product. Backing quality is credible via Newfund, but the company looks early and the public evidence for venture-scale fundamentals is thin.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Castellum.AI",
@@ -7230,7 +8118,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 3.0,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Castellum.AI looks strongly aligned on AI thesis depth and plausibly venture-scale in a large compliance market, but team pedigree is not well evidenced. Stage/backing are solid for Seed, with Newfund supporting credibility but not elite density.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Cents",
@@ -7298,7 +8194,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.5,
+        "fitTier": "monitor",
+        "fitCurrentStage": "Early Stage VC (2nd Round)",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "CerberusAI fits the AI thesis strongly, but the rest of the evidence is thin and mostly unverified. Backing quality looks limited, and the current stage is early, so this is a promising but not yet well-proven company.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "CetteFamille",
@@ -7366,7 +8270,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through",
+        "fitScore": 2.2,
+        "fitTier": "drop",
+        "fitCurrentStage": "Early Stage VC (1st Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Chilli looks like a real climate engagement product with some traction, but the AI thesis is not evidenced and the revenue base remains very small. Backing is respectable with Newfund, but the stage is still too early for mandate and the team quality is unverified.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Civ Robotics",
@@ -7400,7 +8312,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.8,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed Round (10th Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Civ Robotics fits the thesis on AI/robotics substance, but the team evidence is thin and backing is not Tier 1-confirmed. Fundamentals look plausible for a large outcome, yet the company remains early relative to mandate.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Cleaq",
@@ -7467,7 +8387,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.5,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed Round (2nd Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Cleva looks like a real fintech business with some scale potential, but the public record does not show a differentiated AI moat or standout team pedigree. Backing is early and limited, which fits the current stage but not strong mandate-quality syndicate depth.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Clever Carnivore",
@@ -7535,7 +8463,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.0,
+        "fitTier": "drop",
+        "fitCurrentStage": "Seed Round (2nd Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": true,
+        "fitRationale": "Climb looks like a real, revenue-generating fintech but with no evidenced AI moat and only modest backing visibility. The thesis fits weakly on AI, while fundamentals are credible enough for venture relevance despite the very early stage.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "CoFi",
@@ -7569,7 +8505,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.2,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed Round (1st Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "CoFi looks like a real revenue-generating vertical software company, but the public record does not show a differentiated AI moat or standout team pedigree. Backing appears seed-stage and modest, so it fits better as an early monitored company than a high-conviction portfolio fit.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Cocoon Space",
@@ -7603,7 +8547,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · keyword match: 'autonomous'"
+        "prefilterReason": "geography: Europe · keyword match: 'autonomous'",
+        "fitScore": 2.2,
+        "fitTier": "drop",
+        "fitCurrentStage": "Later Stage VC (3rd Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Cocoon Space looks like a real, revenue-generating small business with some institutional backing, but the AI thesis is weak and public scale evidence is thin. It aligns poorly with an AI moat, while backing quality is credible but not yet top-tier by the evidence found.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Comeen",
@@ -7705,7 +8657,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through",
+        "fitScore": 2.5,
+        "fitTier": "monitor",
+        "fitCurrentStage": "Early Stage VC (3rd Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Covalt looks like a credible early-stage B2B fintech SaaS company, but public evidence for AI depth and founder pedigree is thin. Backing quality is respectable with Newfund, while fundamentals appear plausible rather than strongly proven.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Coverd",
@@ -7841,7 +8801,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through",
+        "fitScore": 2.5,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Series A",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "DataGalaxy looks like a real, revenue-generating enterprise software company with moderate scale potential, but the AI moat is not clearly evidenced. Backing appears credible yet not top-tier from the available data, and founder quality is unverified.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Dejamobile",
@@ -7943,7 +8911,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.8,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed Round (8th Round)",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Diagnoly looks like a real AI healthtech company with product-level clinical intelligence and credible seed backing, but public evidence on team pedigree is thin. The thesis aligns on AI depth and institutional quality, while scale is plausible rather than proven.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Digital Currency Council",
@@ -8011,7 +8987,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through",
+        "fitScore": 2.0,
+        "fitTier": "drop",
+        "fitCurrentStage": "Early Stage VC (1st Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Dipli looks like a plausible software business but not an AI-native moat case from the evidence available. Backing appears credible but thin, and the stage is early enough that scale and team quality remain only modestly evidenced.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Dolly",
@@ -8045,7 +9029,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through",
+        "fitScore": 2.0,
+        "fitTier": "drop",
+        "fitCurrentStage": "Early Stage VC (1st Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Dolly looks like a real early-stage consumer gaming company, but the public record is thin on AI defensibility, team pedigree, and traction. The cap table signal is respectable but not top-tier, and the company is clearly not an AI-first thesis fit.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Dux healthcare",
@@ -8113,7 +9105,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.5,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Series A",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Eano looks like a plausible venture-scale construction-tech service with revenue, but I found no evidence that AI is core or defensibly differentiated. Backing looks credible but early, so this is more monitor than strong track fit.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Edicia",
@@ -8147,7 +9147,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.2,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Series A",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Edicia looks like a plausible AI-enabled public-safety software business, but the evidence is thin on moat depth, team pedigree, and traction. That makes the thesis fit moderate, while backing quality appears limited to a single known institutional investor and no clear Tier 1 signal.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Embeddables",
@@ -8181,7 +9189,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.0,
+        "fitTier": "drop",
+        "fitCurrentStage": "Early Stage VC (4th Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Overall, Embeddables looks like a real but lightly evidenced early-stage software business with modest revenue and no clear moat signal. Its AI alignment is weak from the available description, and backing quality is limited to one confirmed investor rather than a strong tier-1 syndicate.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Enroute AI",
@@ -8214,7 +9230,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.2,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed Round (1st Round)",
+        "fitRaiseProbability": "medium",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Enroute AI appears thesis-aligned on AI depth and supply-chain automation, but the public record is too thin to upgrade team or fundamentals. Backing is real but not tier-1-dense, and the company remains below Series B.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Eqinov",
@@ -8282,7 +9306,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through",
+        "fitScore": 2.8,
+        "fitTier": "monitor",
+        "fitCurrentStage": "Later Stage VC (6th Round)",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Evera fits the AI thesis moderately well through analytics and forecasting, but not as a clearly defensible AI moat. Backing and stage are credible, while team evidence is thin and fundamentals look promising rather than exceptional.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Exa (Business/Productivity Software)",
@@ -8350,7 +9382,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.8,
+        "fitTier": "monitor",
+        "fitCurrentStage": "Series B",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Fairmarkit aligns reasonably well with an AI/procurement thesis: AI is real but not obviously a deep moat. Fundamentals look credible for venture scale, while backing quality is respectable at Series B without standout elite saturation.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Fairmoney Microfinance Bank",
@@ -8418,7 +9458,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.8,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed Round (5th Round)",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Fermeate fits the AI thesis strongly because the product itself uses AI/ML with optogenetic process control. Backing quality looks limited from available evidence, while fundamentals are promising but not yet proven at venture scale.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Finaho",
@@ -8486,7 +9534,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.8,
+        "fitTier": "monitor",
+        "fitCurrentStage": "Early Stage VC (3rd Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Fleeti looks like a real venture-backed SaaS/IoT business with revenue and a defensible product surface, but AI appears more enabling than core. Backing is decent and stage-appropriate, while founder pedigree remains unverified.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Flexy (Business/Productivity Software)",
@@ -8520,7 +9576,15 @@
           "financingStatus": "Corporate Backed or Acquired"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through",
+        "fitScore": 2.0,
+        "fitTier": "drop",
+        "fitCurrentStage": "Early Stage VC (2nd Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": false,
+        "fitHardPass": true,
+        "fitRationale": "Flexy looks like a real SaaS business with some scale potential, but there is no evidence of AI depth and team quality is opaque. Backing appears respectable but not top-tier, and the company remains below Series B.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Frequentiel",
@@ -8554,7 +9618,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through",
+        "fitScore": 2.5,
+        "fitTier": "monitor",
+        "fitCurrentStage": "Later Stage VC (3rd Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Frequentiel looks like a real revenue-generating industrial software company, but AI is not evidenced as core differentiation. Backing is decent and stage-appropriate, though the evidence for elite team pedigree is thin.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "FuzeBox Software",
@@ -8671,7 +9743,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through",
+        "fitScore": 2.2,
+        "fitTier": "drop",
+        "fitCurrentStage": "Later Stage VC (2nd Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": false,
+        "fitHardPass": true,
+        "fitRationale": "Greenkub looks like a real revenue-generating business, but not an AI-native one, so thesis fit is weak. Stage and backing are respectable, while fundamentals suggest execution but a likely sub-unicorn ceiling versus a software-like venture outcome.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Greenscope",
@@ -8705,7 +9785,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.8,
+        "fitTier": "monitor",
+        "fitCurrentStage": "Early Stage VC (7th Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Greenscope appears thesis-aligned on AI because analytics and intelligent data processing are central, but not clearly a hard moat. Fundamentals look credible for a sizable ESG software outcome, while team pedigree and cap-table strength are only moderately evidenced.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "HD Rain",
@@ -8739,7 +9827,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.2,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed Round (6th Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "HD Rain looks like a real AI-enabled climate-infrastructure business, but public evidence is thin on team pedigree, traction, and elite syndicate quality. That supports a credible thesis fit, yet it is below the strongest venture-monitoring tier on fundamentals and backing.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Haiku",
@@ -8773,7 +9869,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.8,
+        "fitTier": "monitor",
+        "fitCurrentStage": "Early Stage VC (3rd Round)",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Haiku looks like a real AI-native legal SaaS business with some traction, but the moat evidence is moderate rather than clearly defensible. Backing is credible and the company is still early, so it aligns better with watchlist monitoring than top-tier mandate fit.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Happy Meal Takeaway",
@@ -8909,7 +10013,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.2,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed Round (5th Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "HoopCare shows genuine AI in a clinical workflow, but the moat and team pedigree are not well evidenced publicly. Revenue is positive, yet scale ceiling and backing quality remain only modestly supported for a venture-scale thesis.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Hull",
@@ -9045,7 +10157,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 3.0,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed Round (5th Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Inarix looks strongly thesis-aligned on AI and plausibly venture-scale in agtech, but public evidence on leadership is thin. Backing is respectable via Newfund, yet the company remains Seed-stage, limiting maturity versus mandate.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Infinite Orbits",
@@ -9079,7 +10199,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.8,
+        "fitTier": "monitor",
+        "fitCurrentStage": "Later Stage VC (10th Round)",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Infinite Orbits looks like a credible space-tech company with genuine AI-adjacent autonomy and a plausible large-market thesis, but public evidence on team pedigree and capital quality is limited. The backing is decent and the stage is late, yet I could not confirm top-tier multi-fund support or exceptional founder credentials.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Info Brocantes",
@@ -9113,7 +10241,15 @@
           "financingStatus": "Formerly PE-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: unknown (passed through) · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: unknown (passed through) · insufficient data to exclude -- passed through",
+        "fitScore": 1.5,
+        "fitTier": "drop",
+        "fitCurrentStage": "Buyout/LBO (1st Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": false,
+        "fitHardPass": true,
+        "fitRationale": "This looks like a modest, non-AI portal business with limited visible venture-scale upside and sparse public operating detail. Backing quality appears light, and the AI thesis is misaligned with the product as described.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Inside Therapeutics",
@@ -9147,7 +10283,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through",
+        "fitScore": 2.8,
+        "fitTier": "monitor",
+        "fitCurrentStage": "Early Stage VC (3rd Round)",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Inside Therapeutics looks like a real deep-tech tools company with clear technical differentiation and revenue, but not an AI-first moat. Backing appears credible, yet team pedigree is unverified and the company remains below Series B.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Invoxia",
@@ -9249,7 +10393,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through",
+        "fitScore": 2.0,
+        "fitTier": "drop",
+        "fitCurrentStage": "Seed Round (1st Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": true,
+        "fitRationale": "Jinka looks like a real early-stage proptech business, but the AI thesis is effectively absent and team evidence is thin. Backing quality is decent via Newfund, while fundamentals appear plausible yet not strong enough to support a higher call.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Jobijoba",
@@ -9317,7 +10469,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through",
+        "fitScore": 2.0,
+        "fitTier": "drop",
+        "fitCurrentStage": "Early Stage VC (1st Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "JobyPepper looks like a real early-stage staffing/workforce platform, but the available evidence is too thin to justify more than middling scores. AI depth is not evidenced, and backing looks credible but not top-tier by rubric standards.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Joovence",
@@ -9385,7 +10545,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through",
+        "fitScore": 2.0,
+        "fitTier": "drop",
+        "fitCurrentStage": "Early Stage VC (4th Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Jooxter looks like an operational SaaS business with some revenue, but the available evidence does not show a strong AI moat or elite team signal. Backing quality is only modestly visible, and the company still appears below Series B despite being well past its prior financing date.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Kara.ai",
@@ -9453,7 +10621,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through",
+        "fitScore": 2.0,
+        "fitTier": "drop",
+        "fitCurrentStage": "Early Stage VC (3rd Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": false,
+        "fitHardPass": true,
+        "fitRationale": "Keenat scores as a real operating business with institutional early-stage backing, but the moat appears non-AI and public traction evidence is limited. Thesis fit is weak on AI depth, while backing quality is credible enough to keep it on a monitored track.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Keria (Business/Productivity Software)",
@@ -9487,7 +10663,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 3.0,
+        "fitTier": "track",
+        "fitCurrentStage": "Later Stage VC (3rd Round)",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Keria looks strongly aligned with an AI-native, regulated-fintech thesis, with revenue and a credible path to a large outcome. Team pedigree is not well evidenced publicly, but later-stage financing and Newfund support make the backing profile respectable.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Kernel (Human Capital Services)",
@@ -9521,7 +10705,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through",
+        "fitScore": 2.5,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Kernel appears to be a real, revenue-generating international recruitment platform, but the available evidence does not show a strong AI moat or standout founder pedigree. Backing is credible but early, so the fit is more promising on fundamentals than on thesis depth or mature cap-table quality.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Keypup",
@@ -9555,7 +10747,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.5,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed Round (3rd Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Keypup looks aligned with the thesis on AI-enabled DevOps/engineering intelligence, but the moat evidence is moderate rather than clearly defensible. Backing is real but not elite, and the business has only thinly evidenced fundamentals.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Kikleo",
@@ -9589,7 +10789,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.5,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Series A",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Kikleo fits the thesis through genuine AI embedded in waste-monitoring hardware, but the moat is more applied than deeply defensible. Fundamentals and stage are credible, yet backing quality and team pedigree are not strongly evidenced.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Kingsoft Network Technology",
@@ -9691,7 +10899,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 3.0,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Series A",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Klarity aligns strongly with AI thesis fit and has real but still early fundamentals. Backing looks credible at Series A, but founder pedigree is not well evidenced from the available sources.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Kopi AI",
@@ -9725,7 +10941,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.5,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed Round (1st Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Kopi AI aligns well with the AI thesis on product, but the moat appears more applied than deeply defensible. Backing quality and team pedigree are not strong enough from available evidence to lift it beyond a mid-tier monitor.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Kumo (Restaurants, Hotels and Leisure)",
@@ -9792,7 +11016,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.5,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed Round (3rd Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "LEAD. shows credible AI relevance and a plausible enterprise scale path, but public evidence is thin on moat depth and team pedigree. The cap table signal is limited to one known investor, so backing quality looks incomplete rather than strong; AI alignment is real but not clearly defensible.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Le Grand Dressing",
@@ -10030,7 +11262,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.5,
+        "fitTier": "monitor",
+        "fitCurrentStage": "Early Stage VC (3rd Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Locuta appears aligned with the AI thesis through a product centered on automation bots, but the moat evidence is modest. Backing is credible but not elite from available data, and fundamentals support a plausible scale story rather than a proven breakout.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "LoginChinese",
@@ -10132,7 +11372,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.5,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed Round (1st Round)",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "MXPilot fits the AI thesis strongly, but the public evidence for team pedigree and commercial traction is thin. Backing looks credible but not top-tier, so the company reads as an early, interesting seed-stage monitor rather than a proven breakout.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Maison-construction",
@@ -10199,7 +11447,15 @@
           "financingStatus": "Private Equity-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through",
+        "fitScore": 2.0,
+        "fitTier": "drop",
+        "fitCurrentStage": "Buyout/LBO (1st Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Managimm looks like a small, revenue-generating services business with limited evidence of venture-scale upside and no clear AI thesis. Backing is real but not strong by this rubric, and the company appears misaligned with an AI-centric mandate.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Medtech (Montpellier)",
@@ -10369,7 +11625,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.8,
+        "fitTier": "monitor",
+        "fitCurrentStage": "Later Stage VC (5th Round)",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Moodwork looks like a legitimate AI-enabled HR/wellness SaaS business with some venture durability, but the public record is thin on founders and traction. AI alignment is meaningful, while backing quality is solid rather than elite.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Moovd",
@@ -10403,7 +11667,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.2,
+        "fitTier": "drop",
+        "fitCurrentStage": "Later Stage VC (5th Round)",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Moovd has a real AI-adjacent product story through VR-enabled digital therapy, but the moat looks more product-led than AI-defensible. Backing quality and public operating evidence are thin, so the company reads as credible but not yet strongly proven.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Mustard (Media and Information Services)",
@@ -10437,7 +11709,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.2,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed Round (1st Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Mustard looks like a plausible AI-adjacent product with seed-stage support, but evidence for moat, team pedigree, and traction is thin. The thesis fits moderately on AI, while backing quality is limited to a single known investor and no clear scale proof.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Nanolike",
@@ -10505,7 +11785,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through",
+        "fitScore": 2.2,
+        "fitTier": "drop",
+        "fitCurrentStage": "Early Stage VC (4th Round)",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": true,
+        "fitRationale": "NeoEarth looks like a real but non-AI-against-thesis company: the moat is industrial biotechnology, not a defensible AI layer. Backing and stage are credible, but public evidence on the team is thin and the scale case is plausible rather than strongly proven.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Nfinite",
@@ -10539,7 +11827,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · keyword match: 'AI'"
+        "prefilterReason": "geography: Europe · keyword match: 'AI'",
+        "fitScore": 3.0,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Series A",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Nfinite looks strongly AI-native and plausibly venture-scale, but public evidence on team pedigree is thin. Backing is credible but not top-tier, and the company remains below Series B, so the signal is solid but not elite.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Nopillo",
@@ -10573,7 +11869,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through",
+        "fitScore": 2.5,
+        "fitTier": "monitor",
+        "fitCurrentStage": "Early Stage VC (3rd Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Nopillo looks like a real, revenue-generating vertical SaaS business with plausible scale, but the AI thesis is not evidenced and team pedigree is not well verified. Backing is solid enough for an early-stage portfolio company, though not yet Series B+ strength.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Noria Water Technologies",
@@ -10607,7 +11911,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 3.0,
+        "fitTier": "track",
+        "fitCurrentStage": "Later Stage VC (3rd Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "The company looks meaningfully AI-enabled and commercially relevant, but founder pedigree is not well evidenced. Stage and backing are solid but not top-tier by rubric standards, so the overall fit is good rather than elite.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Nucleon Security",
@@ -10641,7 +11953,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.8,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed Round (2nd Round)",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "The company is a real AI-native cybersecurity product, but the evidence base is thin on team pedigree and broader investor quality. AI depth aligns well with the thesis; backing looks respectable but not top-tier, and stage remains early.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Nurea",
@@ -10675,7 +11995,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.8,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed Round (11th Round)",
+        "fitRaiseProbability": "medium",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Nurea fits the AI thesis well because AI is embedded in the imaging workflow, but team pedigree and cap-table quality are only modestly evidenced. Fundamentals look plausible for scale, yet the company is still early and only lightly backed relative to mandate.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "OCRvet",
@@ -10811,7 +12139,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 3.0,
+        "fitTier": "track",
+        "fitCurrentStage": "Early Stage VC (2nd Round)",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Olden Labs fits the AI thesis strongly because AI-enabled monitoring is central to the product, not a wrapper. Backing is credible but not top-tier, and fundamentals look promising yet publicly thin for a $1B+ claim.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Olimpe Technology",
@@ -10845,7 +12181,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through",
+        "fitScore": 2.0,
+        "fitTier": "drop",
+        "fitCurrentStage": "Later Stage VC (6th Round)",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": true,
+        "fitRationale": "The company looks like a non-AI industrial Cleantech manufacturer, so thesis fit is weak for an AI-focused mandate. Backing and stage are respectable, but public evidence for team strength and venture-scale fundamentals is thin.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Omnidoc",
@@ -10879,7 +12223,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through",
+        "fitScore": 2.5,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Series A",
+        "fitRaiseProbability": "medium",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Omnidoc looks like a plausible venture-scale digital health workflow company, but the AI thesis is not clearly structural from public evidence. Backing is credible for Series A, yet team pedigree and traction depth are not well verified.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "One Zyme",
@@ -10913,7 +12265,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.5,
+        "fitTier": "monitor",
+        "fitCurrentStage": "Early Stage VC (1st Round)",
+        "fitRaiseProbability": "medium",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "One Zyme looks like a real AI product rather than a wrapper, but public evidence on team quality and cap-table strength is thin. The thesis fits well; backing quality is modest, and fundamentals support scale but not yet with strong traction proof.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Oplit",
@@ -10947,7 +12307,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.5,
+        "fitTier": "monitor",
+        "fitCurrentStage": "Early Stage VC (3rd Round)",
+        "fitRaiseProbability": "medium",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Oplit fits the AI thesis reasonably well and appears to have a credible software-with-data moat, but team pedigree and traction depth are not well evidenced. Backing is respectable but not clearly Tier 1-dense enough for a stronger stage score.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "OppSience",
@@ -11083,7 +12451,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · keyword match: 'AI'"
+        "prefilterReason": "geography: NA · keyword match: 'AI'",
+        "fitScore": 2.2,
+        "fitTier": "drop",
+        "fitCurrentStage": "Early Stage VC (3rd Round)",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "OraClaim fits the AI thesis credibly, but the moat looks product-level rather than clearly defensible. Backing quality is modestly supportive, while fundamentals and team quality remain under-verified, so this reads as an early-stage watch rather than a strong conviction name.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Oria Bioscience",
@@ -11219,7 +12595,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through",
+        "fitScore": 2.2,
+        "fitTier": "drop",
+        "fitCurrentStage": "Series A",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": true,
+        "fitRationale": "Paymium fits a credible fintech/crypto thesis on business model and institutional backing, but not AI depth. Fundamentals look viable enough for a larger outcome, yet public evidence on traction is sparse.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "PharmaSimple",
@@ -11457,7 +12841,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.5,
+        "fitTier": "monitor",
+        "fitCurrentStage": "Early Stage VC (1st Round)",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Provect AI fits the thesis moderately well: real AI appears product-relevant, but the moat is not yet clearly defensible. Backing quality is adequate but limited in visible pedigree, and the business still looks early and unproven.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "PureNat",
@@ -11491,7 +12883,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through",
+        "fitScore": 2.2,
+        "fitTier": "drop",
+        "fitCurrentStage": "Later Stage VC (8th Round)",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "PureNat looks like a real B2B cleantech operator, but the public record here is too thin to prove AI depth or breakout fundamentals. Stage and backing are credible, yet the thesis is only weakly aligned on AI and only moderately supported on team quality.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "PyxiScience",
@@ -11525,7 +12925,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.2,
+        "fitTier": "drop",
+        "fitCurrentStage": "Early Stage VC (1st Round)",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "PyxiScience looks like a real AI-enabled edtech product, but the moat appears more product-level than clearly defensible AI. Backing is credible but not elite, and the public record lacks strong team or traction evidence for a high-conviction scale call.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "QRA",
@@ -11593,7 +13001,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.2,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed Round (2nd Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Quasar appears to have genuine data/AI substance, but the available evidence does not show elite team pedigree or strong backing. Fundamentals are positive but very small, so thesis alignment is moderate rather than clearly venture-dominant.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Rabot",
@@ -11627,7 +13043,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.8,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed Round (3rd Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Rabot looks like a real AI-enabled warehouse automation business with credible seed-stage backing, but I found no strong public evidence of elite founders or breakout traction. The thesis fits reasonably well on AI depth and backing quality, while fundamentals appear plausible rather than proven.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Raidium",
@@ -11661,7 +13085,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.5,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed Round (9th Round)",
+        "fitRaiseProbability": "medium",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Raidium looks like a real AI healthtech product with some moat from workflow integration and imaging expertise, but the evidence for team pedigree and top-tier backing is thin. It aligns on AI depth and market ambition, while backing quality remains modest for a monitored portfolio company.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Ramify",
@@ -11695,7 +13127,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through",
+        "fitScore": 2.5,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Series A",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Ramify looks like a credible early fintech with some revenue and an institutional Series A, but AI depth is not evidenced and team pedigree is not well verified. Backing is decent, yet not enough to look like a top-tier, AI-led compounder.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Red Luxury Group",
@@ -11831,7 +13271,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.5,
+        "fitTier": "monitor",
+        "fitCurrentStage": "Early Stage VC (3rd Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Relevize looks like a legitimate B2B SaaS business with plausible venture scale, but I found no evidence of a defensible AI moat. Backing is credible and stage-appropriate, yet the team signal and public traction remain thin.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Relimetrics",
@@ -11865,7 +13313,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.2,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed Round (5th Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Relimetrics looks like a real AI product, but the public evidence is thin outside its industrial inspection use case. Backing quality is modest, and the company appears early despite having revenue, so the upside is plausible but not well evidenced.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Riva (Business/Productivity Software)",
@@ -12001,7 +13457,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.8,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Series A1",
+        "fitRaiseProbability": "low",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Rwazi appears strongly AI-native and plausibly venture-scalable, but the team record and cap-table quality are not well verified from the available sources. The thesis fits well on product moat, while backing quality looks unclear rather than elite.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "SBSG",
@@ -12273,7 +13737,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.8,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed Round (8th Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "ShareID looks strongly thesis-aligned on AI, with identity verification built around computer vision and PKI rather than a thin model wrapper. Fundamentals and team evidence are thin, but the Seed-stage backing from Newfund is credible.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Shelterluv",
@@ -12307,7 +13779,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.5,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Series A",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Shelterluv looks like a credible niche SaaS business with a plausible venture-scale ceiling, but there is no evidence of an AI moat. Backing is real but not clearly top-tier, and team pedigree is not well documented.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Shotgun",
@@ -12476,7 +13956,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.8,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed Round (1st Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Sonet.io looks like an enterprise cybersecurity SaaS company with some revenue signal and plausible scale, but no evidence of an AI moat. Backing is early and only one investor is confirmed, so the fit is promising but not yet premium.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Storey",
@@ -12578,7 +14066,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.0,
+        "fitTier": "drop",
+        "fitCurrentStage": "Early Stage VC (1st Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Subscribfy looks like a plausible SaaS business with revenue, but the available evidence is too thin to upgrade fundamentals or team quality beyond middle ground. AI depth is not evidenced, and backing is credible but not yet mandate-level strong.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "SunTrade Travel",
@@ -12680,7 +14176,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.8,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed Round (1st Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Synthpop looks like a real AI-native healthcare workflow company, but the public record here is thin on team pedigree and external validation. The cap table evidence is modest, so the thesis fits AI well but backing quality is not yet standout.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Syntimacy",
@@ -12748,7 +14252,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.8,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed Round (6th Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "AI depth is strong and central to the product, but team pedigree is opaque and backing quality is only modestly evidenced. Fundamentals look credible for a scaled outcome, yet the company remains early relative to Series B+ mandate.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Tageos",
@@ -12816,7 +14328,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.5,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "TeachFX looks like a real AI product with some moat from instructional feedback workflows, but the public record here leaves founder quality and traction depth only moderately supported. Backing quality appears early-stage and not yet Tier 1-heavy, aligning more with watchlist than high-priority.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Tellus (Telecommunications Service Providers)",
@@ -12986,7 +14506,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: Europe · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 3.0,
+        "fitTier": "track",
+        "fitCurrentStage": "Later Stage VC (4th Round)",
+        "fitRaiseProbability": "medium",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Touch Sensity looks like a real AI-adjacent hardware-software platform rather than a wrapper, but public evidence on team depth is thin. Revenue status and later-stage backing support the ceiling and mandate fit, though I found no Tier 1-heavy syndicate evidence.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "TradeIt (Financial Software)",
@@ -13054,7 +14582,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: NA · insufficient data to exclude -- passed through",
+        "fitScore": 2.2,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed Round (2nd Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Upkid looks like a real early-stage revenue business, but the moat and team evidence are thin. AI depth is not evidenced, and backing quality is not strong enough to score above middle ground.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Urbanease",
@@ -13190,7 +14726,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.0,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Series A",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Visage looks like a real, revenue-generating Series A company, but the AI thesis is not clearly structural from public evidence. Backing quality is modest and I found no strong founder pedigree or traction data supporting a higher score.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Visiblee",
@@ -13291,7 +14835,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through",
+        "fitScore": 2.0,
+        "fitTier": "drop",
+        "fitCurrentStage": "Early Stage VC (2nd Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": false,
+        "fitHardPass": false,
+        "fitRationale": "Volum looks like a real SaaS operator in proptech, but public evidence is too thin to rate fundamentals above data-missing. AI thesis fit is weak, while backing quality is respectable but not Tier 1-dense.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "WFHomie",
@@ -13427,7 +14979,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through"
+        "prefilterReason": "geography: Europe · insufficient data to exclude -- passed through",
+        "fitScore": 2.2,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed Round (2nd Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "WizVille looks like a credible early SaaS business with some revenue, but the evidence does not show an AI moat or standout team pedigree. Backing appears real but not top-tier, and the company is below Series B, so this is more monitor than track.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "XOR.MOTORS",
@@ -13495,7 +15055,15 @@
           "financingStatus": "Venture Capital-Backed"
         },
         "prefilterPass": true,
-        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning"
+        "prefilterReason": "geography: NA · vertical tag: artificial intelligence & machine learning",
+        "fitScore": 2.8,
+        "fitTier": "too_early",
+        "fitCurrentStage": "Seed Round (8th Round)",
+        "fitRaiseProbability": "high",
+        "fitTooEarly": true,
+        "fitHardPass": false,
+        "fitRationale": "Xen looks like a real AI-enabled fintech workflow business, but the moat appears more product/data-driven than deeply defensible AI. Backing is credible and the stage is early, yet founder pedigree and stronger traction evidence are not verified.",
+        "fitScoredAt": "2026-07-24"
       },
       {
         "company": "Xotelia",

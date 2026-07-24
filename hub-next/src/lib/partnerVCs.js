@@ -34,6 +34,17 @@ function _mapPortfolioEntry(p) {
     // deliberately deferred, see DEFAULT_MAX_FUND_SIZE), never inferred here.
     prefilterPass: p.prefilterPass ?? null,
     prefilterReason: p.prefilterReason || '',
+    // Stage 0 Portfolio Fit results, stamped by deal_intelligence/portfolio_fit.py's
+    // write_back() -- null until a company has actually been scored (only the
+    // subset run through the paid pass has these). fitCurrentStage is the round
+    // the dedicated stage-resolution pass researched, more current than latestRound.
+    fitScore: p.fitScore ?? null,
+    fitTier: p.fitTier || '',
+    fitCurrentStage: p.fitCurrentStage || '',
+    fitRaiseProbability: p.fitRaiseProbability || '',
+    fitTooEarly: p.fitTooEarly ?? null,
+    fitRationale: p.fitRationale || '',
+    fitScoredAt: p.fitScoredAt || null,
   };
 }
 

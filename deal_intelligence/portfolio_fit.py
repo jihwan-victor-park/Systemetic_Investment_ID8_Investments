@@ -265,8 +265,20 @@ async def score_company(company, vc_name=None, as_of=None, stage=None):
 
     fit_score = rubric_portfolio.weighted_score(dim_scores)
     hard_auto_pass = _truthy(parsed.get("hard_auto_pass", False))
+    hard_auto_pass_reason = parsed.get("hard_auto_pass_reason", "") or ""
     rationale = parsed.get("rationale", "") or ""
     raise_evidence = parsed.get("raise_probability_evidence", "") or ""
+
+    # AI hard-pass, enforced in code (Oscar's policy call): the rubric defines
+    # an ai_thesis_fit score of 1 as "no meaningful AI component -- hard auto-
+    # pass", but the model applied that inconsistently (SpaceX/Ramp flip-
+    # flopped between a 1 that dropped and a 2 that didn't across runs). Making
+    # it deterministic here removes that wobble: AI dimension == 1 always drops,
+    # no matter what the model set hard_auto_pass to.
+    if dim_scores.get("ai_thesis_fit") == 1 and not hard_auto_pass:
+        hard_auto_pass = True
+        hard_auto_pass_reason = ("AI dimension scored 1 (no meaningful AI component) -- "
+                                 "rubric hard auto-pass, enforced in code")
 
     # too_early (below Series B) is a threshold applied IN CODE over the
     # EFFECTIVE stage (pass-1 research when real, else the on-file label) --
@@ -307,7 +319,7 @@ async def score_company(company, vc_name=None, as_of=None, stage=None):
         confidence=parsed.get("confidence", "medium"),
         decision_tier=tier,
         hard_auto_pass=hard_auto_pass,
-        hard_auto_pass_reason=parsed.get("hard_auto_pass_reason", "") or "",
+        hard_auto_pass_reason=hard_auto_pass_reason,
         too_early=too_early,
         current_stage=effective_stage or "unknown",
         current_stage_evidence=" | ".join(f for f in (
@@ -357,14 +369,20 @@ def _load_seed(seed_path):
         return json.load(f)
 
 
-def select_companies(data, limit=100, vc_name=None):
+def select_companies(data, limit=100, vc_name=None, order="round-robin"):
     """Pick up to `limit` companies that passed the prefilter (prefilterPass
     is True) AND are not already ID8 holdings (data/id8_holdings.json -- we
     don't scan companies we already own as if they were prospects). With --vc,
-    only that fund. Otherwise round-robins across every evaluated fund so a
-    100-company test spans many portfolios instead of exhausting one
-    alphabetical fund -- more representative for QA. Deterministic (file order,
-    no randomness), returns [(company_dict, vc_name), ...]."""
+    only that fund.
+
+    order controls how the limit is spread when no single --vc is given:
+      "round-robin" -- one company from each fund in turn (a representative
+        sample across many portfolios; good for QA).
+      "sequential"  -- whole funds in file order, one fully before the next
+        (so you get complete per-VC portfolios up to the limit).
+    Funds over 500 companies never appear either way: they're deferred by the
+    prefilter (no prefilterPass=True), so nothing from them is ever selected.
+    Deterministic (file order, no randomness); returns [(company_dict, vc_name)]."""
     per_vc = []
     skipped_holdings = 0
     for vc in data:
@@ -393,6 +411,15 @@ def select_companies(data, limit=100, vc_name=None):
             selected.append((c, per_vc[0][0]))
         return selected
 
+    if order == "sequential":
+        # whole funds in file order, one fully before the next
+        for name, cs in per_vc:
+            for c in cs:
+                selected.append((c, name))
+                if len(selected) >= limit:
+                    return selected
+        return selected
+
     # round-robin across funds
     idx = 0
     while len(selected) < limit and any(idx < len(cs) for _, cs in per_vc):
@@ -403,6 +430,47 @@ def select_companies(data, limit=100, vc_name=None):
                     break
         idx += 1
     return selected
+
+
+# ── Write results back into the seed JSON (for the hub) ───────────────────────
+
+def write_back(results, seed_path=_SEED_PATH):
+    """Merge fit results onto the matching portfolio entries in
+    partner-vcs-seed.json (matched by vc_source + normalized company name), so
+    backfill-partner-vcs.mjs pushes them to Firestore and the hub can render
+    them. Only successful scores are written (decision_tier != 'error').
+    camelCase field names for the JS side. Returns (written, unmatched)."""
+    with open(seed_path, encoding="utf-8") as f:
+        data = json.load(f)
+
+    idx = {}
+    for vc in data:
+        for c in vc.get("portfolio", []):
+            idx[(vc["name"], _normalize_name(c.get("company", "")))] = c
+
+    scored_at = date.today().isoformat()
+    written, unmatched = 0, []
+    for r in results:
+        if r.decision_tier == "error":
+            continue
+        c = idx.get((r.vc_source, _normalize_name(r.company)))
+        if c is None:
+            unmatched.append((r.vc_source, r.company))
+            continue
+        c["fitScore"] = r.fit_score
+        c["fitTier"] = r.decision_tier
+        c["fitCurrentStage"] = r.current_stage
+        c["fitRaiseProbability"] = r.raise_probability_band
+        c["fitTooEarly"] = r.too_early
+        c["fitHardPass"] = r.hard_auto_pass
+        c["fitRationale"] = r.rationale
+        c["fitScoredAt"] = scored_at
+        written += 1
+
+    with open(seed_path, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2, ensure_ascii=False)
+        f.write("\n")
+    return written, unmatched
 
 
 # ── CLI ──────────────────────────────────────────────────────────────────────
@@ -445,13 +513,21 @@ def main():
                     help="where to write the JSON results (default: repo-root portfolio_fit_results.json)")
     ap.add_argument("--parallel", type=int, help=f"concurrent calls (default {config.PORTFOLIO_FIT_PARALLEL})")
     ap.add_argument("--seed", default=_SEED_PATH, help="path to partner-vcs-seed.json")
+    ap.add_argument("--sequential", action="store_true",
+                    help="fill whole funds in VC order (one fully before the next) instead of "
+                         "round-robin sampling across funds")
+    ap.add_argument("--write-back", action="store_true",
+                    help="after scoring, merge the fit results (fitScore/fitTier/fitCurrentStage/"
+                         "fitRaiseProbability/...) back onto partner-vcs-seed.json so the hub can "
+                         "show them and backfill-partner-vcs.mjs can push them to Firestore")
     ap.add_argument("--dry-run", action="store_true",
                     help="select companies and build prompts but make NO API calls -- prints the "
                          "selection + a token/cost estimate so you can preview spend first")
     args = ap.parse_args()
 
     data = _load_seed(args.seed)
-    companies = select_companies(data, limit=args.limit, vc_name=args.vc)
+    companies = select_companies(data, limit=args.limit, vc_name=args.vc,
+                                 order="sequential" if args.sequential else "round-robin")
     if not companies:
         raise SystemExit("No prefilter-passing companies selected -- run portfolio_prefilter --all --persist first.")
 
@@ -490,6 +566,14 @@ def main():
 
     _print_summary(results)
     print(f"\nFull results written to: {out_path}")
+
+    if args.write_back:
+        written, unmatched = write_back(results, seed_path=args.seed)
+        print(f"\nWrote fit results onto {written} companies in {os.path.basename(args.seed)}.")
+        if unmatched:
+            print(f"  ({len(unmatched)} results could not be matched back and were skipped)")
+        print("Next: push to Firestore -- (cd hub-next && node scripts/backfill-partner-vcs.mjs) "
+              "with FIRESTORE_EMULATOR_HOST (local) or GCP_PROJECT_ID (prod) set.")
 
 
 if __name__ == "__main__":

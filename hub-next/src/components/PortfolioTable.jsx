@@ -26,12 +26,22 @@ const COLUMNS = [
   { key: 'industry', label: 'Industry', sortable: true },
   { key: 'description', label: 'Description', sortable: false },
   { key: 'roundInvested', label: 'Round invested', sortable: true },
-  { key: 'latestRound', label: 'Latest round', sortable: true },
-  { key: 'probability', label: 'Raise prob. (3mo)', sortable: false },
+  { key: 'currentStage', label: 'Current stage', sortable: true },
+  { key: 'fitTier', label: 'Stage 0 fit', sortable: true, defaultDir: 'desc' },
+  { key: 'probability', label: 'Raise prob. (3mo)', sortable: true, defaultDir: 'desc' },
   { key: 'score', label: 'Fit score', sortable: true },
   { key: 'pipeline', label: 'Pipeline', sortable: true },
   { key: 'actions', label: '' },
 ];
+
+// Ordering for sorting the Stage 0 tier + raise-probability badges (higher =
+// more interesting, so a `desc` sort surfaces the best track candidates first).
+const TIER_RANK = { track_priority: 5, track: 4, monitor: 3, too_early: 2, drop: 1 };
+const RAISE_RANK = { imminent: 4, high: 3, medium: 2, low: 1 };
+const TIER_LABEL = {
+  track_priority: 'Track — priority', track: 'Track', monitor: 'Monitor',
+  too_early: 'Too early', drop: 'Drop',
+};
 
 // Portfolio, shown as the same sortable/searchable table every other deal
 // list in the hub uses (Watchlist/Pipeline/Qualified Deals) rather than a
@@ -131,6 +141,11 @@ export default function PortfolioTable({ endpoint, id, field, items, filterFn, c
     const href = companyHref(companyIndex, p.company) || `/docs/vcs/company/${encodeURIComponent(p.company)}`;
     const fitScore = lookupFitScore(companyIndex, p.company);
     const stage = lookupStage(companyIndex, p.company);
+    // Stage 0 Portfolio Fit results (deal_intelligence/portfolio_fit.py write_back).
+    // Only present on companies actually scored; the researched current stage
+    // falls back to the on-file latestRound so the column is never blank.
+    const currentStage = p.fitCurrentStage || p.latestRound || '';
+    const raiseBand = p.fitRaiseProbability || '';
     return {
       key: i,
       sort: {
@@ -138,24 +153,29 @@ export default function PortfolioTable({ endpoint, id, field, items, filterFn, c
         category: p.category || '',
         industry: p.industry || '',
         roundInvested: p.roundInvested || '',
-        latestRound: p.latestRound || '',
-        score: fitScore ?? -1,
+        currentStage,
+        fitTier: TIER_RANK[p.fitTier] ?? -1,
+        probability: RAISE_RANK[raiseBand] ?? -1,
+        score: p.fitScore ?? fitScore ?? -1,
         pipeline: stage || '',
       },
-      search: { company: p.company, category: p.category || '', industry: p.industry || '', description: p.description || '', roundInvested: p.roundInvested || '', latestRound: p.latestRound || '' },
+      search: { company: p.company, category: p.category || '', industry: p.industry || '', description: p.description || '', roundInvested: p.roundInvested || '', currentStage },
       cells: {
         company: <Link href={href}>{p.company}</Link>,
         category: p.category || '—',
         industry: p.industry || '—',
         description: <DescriptionPopover text={p.description} />,
         roundInvested: formatRoundsWithDates(p.roundInvested, p.investorSince),
-        latestRound: formatRoundsWithDates(p.latestRound, p.latestRoundDate),
-        // Not built yet -- this is a placeholder column so the layout/data
-        // shape is ready before the "probability to raise in 3 months"
-        // metric (heat/traffic/coolness indicators) is designed, per Oscar's
-        // explicit "don't worry about it yet" on this one.
-        probability: <span className={styles.muted}>Coming soon</span>,
-        score: fitScore != null ? `${fitScore.toFixed(1)} / 4` : '—',
+        currentStage: currentStage
+          ? <span title={p.fitCurrentStage ? 'Researched current round (Stage 0 pass)' : 'On-file PitchBook round'}>{currentStage}{!p.fitCurrentStage && p.latestRoundDate ? ` · ${p.latestRoundDate}` : ''}</span>
+          : '—',
+        fitTier: p.fitTier
+          ? <span className={styles.fitTier} data-tier={p.fitTier} title={p.fitRationale || ''}>{TIER_LABEL[p.fitTier] || p.fitTier}</span>
+          : <span className={styles.muted}>Not scored</span>,
+        probability: raiseBand
+          ? <span className={styles.raiseBand} data-band={raiseBand}>{raiseBand}</span>
+          : <span className={styles.muted}>—</span>,
+        score: p.fitScore != null ? `${p.fitScore.toFixed(1)} / 4` : (fitScore != null ? `${fitScore.toFixed(1)} / 4` : '—'),
         pipeline: stage ? (
           <span className={styles.stageBadge}>{STAGE_LABELS[stage] || stage}</span>
         ) : canEdit ? (
