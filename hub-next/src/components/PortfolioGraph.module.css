@@ -71,8 +71,24 @@
 .detailClose:hover { color: var(--id8-ink); }
 .detailName { font-family: 'Roboto Serif', Georgia, serif; font-size: 1.02rem; font-weight: 500; color: var(--id8-ink); padding-right: 16px; }
 .detailMeta { font-size: 0.78rem; color: var(--id8-grey); margin-top: 3px; }
-.detailScore { font-size: 0.84rem; color: var(--id8-soft); margin-top: 9px; display: flex; align-items: center; gap: 6px; }
+.detailScore { font-size: 0.84rem; color: var(--id8-soft); margin-top: 9px; display: flex; flex-direction: column; gap: 4px; }
+.scoreLine { display: flex; align-items: center; gap: 6px; }
 .notScored { font-size: 0.78rem; color: var(--id8-grey); font-style: italic; }
+
+/* Stage 0 Portfolio Fit tier badge -- same colors as PortfolioTable.jsx's
+   .fitTier so a company reads consistently whether you're looking at the
+   List or the Graph view. */
+.stage0Badge {
+  font-family: 'Sora', sans-serif; font-size: 0.64rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600;
+  padding: 0.12rem 0.4rem; border-radius: 2px; white-space: nowrap;
+}
+.stage0Badge[data-tier="track_priority"] { color: #fff; background: var(--id8-fresh); }
+.stage0Badge[data-tier="track"] { color: var(--id8-fresh); background: rgba(0, 158, 73, 0.12); }
+.stage0Badge[data-tier="monitor"] { color: var(--id8-aging); background: rgba(166, 124, 0, 0.12); }
+.stage0Badge[data-tier="too_early"] { color: var(--id8-aging); background: rgba(166, 124, 0, 0.12); }
+.stage0Badge[data-tier="drop"] { color: var(--id8-stale); background: rgba(242, 0, 15, 0.10); }
+.stage0Caption { font-size: 0.68rem; color: var(--id8-grey); font-style: italic; }
+.stage0Rationale { font-size: 0.76rem; color: var(--id8-soft); line-height: 1.35; }
 .detailLink { display: inline-block; margin-top: 10px; font-size: 0.82rem; font-weight: 600; }
 
 .label { font-family: 'Sora', sans-serif; font-size: 11.5px; font-weight: 600; fill: var(--id8-ink); }

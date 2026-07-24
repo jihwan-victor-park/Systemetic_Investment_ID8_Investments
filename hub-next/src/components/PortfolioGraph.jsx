@@ -9,6 +9,15 @@ import styles from './PortfolioGraph.module.css';
 const SERIES_OPTIONS = ['any', 'seed', 'series a', 'series b', 'series c'];
 const SERIES_LABEL = { any: 'Any', seed: 'Seed+', 'series a': 'Series A+', 'series b': 'Series B+', 'series c': 'Series C+' };
 
+// Stage 0 Portfolio Fit tiers (deal_intelligence/portfolio_fit.py) -- shown
+// in the detail card when a company has been through Stage 0 monitoring but
+// not (yet) a real Stage 1 deal screen. Same tier vocabulary/labels as
+// PortfolioTable.jsx's fit-tier badge.
+const TIER_LABEL = {
+  track_priority: 'Track — priority', track: 'Track', monitor: 'Monitor',
+  too_early: 'Too early', drop: 'Drop', error: 'Scoring error',
+};
+
 // Fixed viewport in local SVG units -- panning/zooming only ever moves the
 // inner <g> transform, never this. That's what lets the map hold 100+
 // companies without cramming: the world can be arbitrarily large, the
@@ -54,10 +63,14 @@ function clientToLocal(svgEl, clientX, clientY) {
 // +/- controls to zoom, click a company to select it (a detail card opens;
 // nothing navigates until you actually choose "View company") -- clicking
 // while mid-drag is suppressed so panning across a node never yanks you
-// away. Line weight + color-mix encode the company's own ID8 Stage 1 fit
-// score (1-4 rubric, gate at 3.0), cross-referenced live from `companyIndex`
-// (built server-side from the real companies/screens collection) -- never
-// invented. Not yet screened renders as a thin grey dashed line.
+// away. Line weight + color-mix encode a fit score on the same 1-4 rubric
+// scale both stages share: ID8's own Stage 1 deal screen when one exists
+// (cross-referenced live from `companyIndex`, built server-side from the
+// real companies/screens collection), else the portfolio company's own
+// Stage 0 fitScore (deal_intelligence/portfolio_fit.py, stamped directly onto
+// the portfolio entry -- see PortfolioTable.jsx's FitScorePopover for the
+// same fallback). Stage 1 wins when both exist -- it's the deeper, real-deal
+// read. Not yet screened by either renders as a thin grey dashed line.
 export default function PortfolioGraph({ vcName, portfolio, companyIndex }) {
   const svgRef = useRef(null);
   const dragRef = useRef({ dragging: false, startX: 0, startY: 0, startViewX: 0, startViewY: 0, moved: 0 });
@@ -86,11 +99,21 @@ export default function PortfolioGraph({ vcName, portfolio, companyIndex }) {
   }, [vcName]);
 
   const nodes = useMemo(() => {
-    const enriched = portfolio.map((p) => ({
-      ...p,
-      fitScore: lookupFitScore(companyIndex, p.company),
-      href: companyHref(companyIndex, p.company) || `/docs/vcs/company/${encodeURIComponent(p.company)}`,
-    }));
+    const enriched = portfolio.map((p) => {
+      const stage1Score = lookupFitScore(companyIndex, p.company);
+      // Stage 1 (a real deal screen) wins when it exists; otherwise fall back
+      // to this portfolio entry's own Stage 0 monitoring score, already
+      // present on `p` via _mapPortfolioEntry (p.fitScore/fitTier/fitRationale).
+      // scoreSource drives the detail card below, since the two stages use
+      // different verdict vocabulary (gate/no-gate vs. track/monitor/drop).
+      const scoreSource = stage1Score != null ? 'stage1' : p.fitScore != null ? 'stage0' : null;
+      return {
+        ...p,
+        fitScore: stage1Score ?? p.fitScore ?? null,
+        scoreSource,
+        href: companyHref(companyIndex, p.company) || `/docs/vcs/company/${encodeURIComponent(p.company)}`,
+      };
+    });
     const minRank = minSeries === 'any' ? -1 : SERIES_ORDER[minSeries];
     const visible = enriched.filter((p) => {
       if (p.industry && !activeIndustries.has(p.industry)) return false;
@@ -227,7 +250,7 @@ export default function PortfolioGraph({ vcName, portfolio, companyIndex }) {
         <div className={styles.legend}>
           <div className={styles.legendBar}><div className={styles.legendGate} /></div>
           <div className={styles.legendScale}><span>1.0</span><span>4.0</span></div>
-          <div className={styles.legendCaption}>Gate at 3.0 · grey = not yet screened</div>
+          <div className={styles.legendCaption}>Gate at 3.0 · Stage 1 screen or Stage 0 monitoring score · grey = not yet screened</div>
         </div>
       </div>
 
@@ -346,12 +369,23 @@ export default function PortfolioGraph({ vcName, portfolio, companyIndex }) {
                 <div className={styles.detailName}>{shown.company}</div>
                 <div className={styles.detailMeta}>{[shown.category, shown.industry, shown.roundInvested].filter(Boolean).join(' · ') || 'No detail recorded'}</div>
                 <div className={styles.detailScore}>
-                  {shown.hasScore ? (
-                    <>
+                  {shown.scoreSource === 'stage1' ? (
+                    <span className={styles.scoreLine}>
                       <span className={`badge ${shown.fitScore >= 3 ? 'badge--gate' : 'badge--below'}`}>
                         {shown.fitScore >= 3 ? 'Clears gate' : 'Below gate'}
-                      </span>{' '}
+                      </span>
                       {shown.fitScore.toFixed(1)} / 4
+                    </span>
+                  ) : shown.scoreSource === 'stage0' ? (
+                    <>
+                      <span className={styles.scoreLine}>
+                        <span className={styles.stage0Badge} data-tier={shown.fitTier}>
+                          {TIER_LABEL[shown.fitTier] || shown.fitTier}
+                        </span>
+                        {shown.fitScore.toFixed(1)} / 4
+                      </span>
+                      <span className={styles.stage0Caption}>Stage 0 portfolio-fit monitoring, not a live deal screen</span>
+                      {shown.fitRationale && <span className={styles.stage0Rationale}>{shown.fitRationale}</span>}
                     </>
                   ) : (
                     <span className={styles.notScored}>Not yet screened against our rubric</span>
