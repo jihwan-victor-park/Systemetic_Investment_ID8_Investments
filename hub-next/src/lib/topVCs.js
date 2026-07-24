@@ -1,7 +1,12 @@
 import 'server-only';
+import { unstable_cache, revalidateTag } from 'next/cache';
 import { db, isoDate } from './firestore';
 
 const COLLECTION = 'topVCs';
+// Same force-dynamic/no-route-cache reasoning as partnerVCs.js's own
+// CACHE_SECONDS comment -- fetched alongside listPartnerVCs() on nearly
+// every page.
+const CACHE_SECONDS = 60;
 
 // Every field beyond the original {name, tier, sector, website, note} is
 // optional and defaults to empty/null here -- rows created before this
@@ -26,15 +31,15 @@ function _mapVC(doc) {
   };
 }
 
-export async function listTopVCs() {
+export const listTopVCs = unstable_cache(async () => {
   const snap = await db().collection(COLLECTION).orderBy('tier').orderBy('name').get();
   return snap.docs.map(_mapVC);
-}
+}, ['list-top-vcs'], { tags: ['top-vcs'], revalidate: CACHE_SECONDS });
 
-export async function getTopVC(id) {
+export const getTopVC = unstable_cache(async (id) => {
   const doc = await db().collection(COLLECTION).doc(id).get();
   return doc.exists ? _mapVC(doc) : null;
-}
+}, ['get-top-vc'], { tags: ['top-vcs'], revalidate: CACHE_SECONDS });
 
 export async function addTopVC({ name, tier, sector, website, note }) {
   const ref = await db().collection(COLLECTION).add({
@@ -45,6 +50,7 @@ export async function addTopVC({ name, tier, sector, website, note }) {
     note: note || '',
     createdAt: new Date(),
   });
+  revalidateTag('top-vcs');
   return ref.id;
 }
 
@@ -58,9 +64,11 @@ export async function updateTopVC(id, patch) {
   const snap = await ref.get();
   if (!snap.exists) throw new Error('vc-not-found');
   await ref.set(patch, { merge: true });
+  revalidateTag('top-vcs');
   return { id };
 }
 
 export async function deleteTopVC(id) {
   await db().collection(COLLECTION).doc(id).delete();
+  revalidateTag('top-vcs');
 }

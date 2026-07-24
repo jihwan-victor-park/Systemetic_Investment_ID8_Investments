@@ -1,8 +1,21 @@
 import 'server-only';
+import { unstable_cache, revalidateTag } from 'next/cache';
 import { db, isoDate } from './firestore';
 import { dimensionScore, fitScore } from './rubricMath';
 import { STAGES } from './stages';
 import { companySlug } from './companySlug';
+
+// Every /docs/* route is force-dynamic (see DocsShell/layout.jsx's own
+// comment on why -- sidebar freshness), which disables Next's route-level
+// cache entirely, so without this every one of those page loads re-ran
+// listCompanies()'s N+1 (one Firestore read per company, on top of the full
+// collection read) from scratch. CACHE_SECONDS trades a little staleness
+// for everyone ELSE'S view (your own edits still show immediately via
+// revalidateTag('companies') below, from every write function in this file)
+// for a large cut in Firestore reads/latency -- this was the single biggest
+// contributor to "the site is slow" once portfolios grew past a few hundred
+// companies with real Stage 0 fit data attached.
+const CACHE_SECONDS = 60;
 
 // Firestore Timestamp fields don't survive JSON.stringify as anything
 // useful on their own (see isoDate) -- normalize the whole origin map here
@@ -27,7 +40,7 @@ function _mapOrigin(o) {
   };
 }
 
-export async function listCompanies() {
+export const listCompanies = unstable_cache(async () => {
   const snap = await db().collection('companies').orderBy('name').get();
   // One Firestore round trip per company for its latest screen -- run them
   // concurrently (Promise.all preserves snap.docs' name-sorted order in the
@@ -76,7 +89,7 @@ export async function listCompanies() {
         : null,
     };
   }));
-}
+}, ['list-companies'], { tags: ['companies'], revalidate: CACHE_SECONDS });
 
 // Moves a company between Watchlist / Pipeline / Qualified Deals -- the
 // dropdown on each stage table's row calls this via the /api/companies/
@@ -87,6 +100,7 @@ export async function updateCompanyStage(slug, stage) {
   const snap = await ref.get();
   if (!snap.exists) throw new Error('company-not-found');
   await ref.set({ stage }, { merge: true });
+  revalidateTag('companies');
   return { slug, stage };
 }
 
@@ -101,6 +115,7 @@ export async function updateCompanyRound(slug, round) {
   if (!snap.exists) throw new Error('company-not-found');
   const value = String(round ?? '').trim() || null;
   await ref.set({ round: value }, { merge: true });
+  revalidateTag('companies');
   return { slug, round: value };
 }
 
@@ -114,6 +129,7 @@ export async function updateCompanyRadarCategory(slug, radarCategory) {
   if (!snap.exists) throw new Error('company-not-found');
   const value = String(radarCategory ?? '').trim() || null;
   await ref.set({ radarCategory: value }, { merge: true });
+  revalidateTag('companies');
   return { slug, radarCategory: value };
 }
 
@@ -125,6 +141,7 @@ export async function updateCompanyPitchbookUrl(slug, pitchbookUrl) {
   if (!snap.exists) throw new Error('company-not-found');
   const value = String(pitchbookUrl ?? '').trim() || null;
   await ref.set({ pitchbookUrl: value }, { merge: true });
+  revalidateTag('companies');
   return { slug, pitchbookUrl: value };
 }
 
@@ -150,6 +167,7 @@ export async function createCompanyFromPortfolio({ name, stage, sourceVCName }) 
     stage,
     origin: { source: 'partner-vc-portfolio', leadInvestors: sourceVCName || null, importedAt: new Date() },
   });
+  revalidateTag('companies');
   return { slug, stage };
 }
 
@@ -209,6 +227,7 @@ export async function createAdditionalRound(baseSlug, { round, stage }) {
   });
   if (!baseData.companyKey) await baseRef.set({ companyKey }, { merge: true });
 
+  revalidateTag('companies');
   return { slug: newSlug, companyKey, round: roundValue, stage };
 }
 
@@ -234,7 +253,7 @@ function _mapScreen(slug, screenId, d) {
   };
 }
 
-export async function getCompany(slug) {
+export const getCompany = unstable_cache(async (slug) => {
   const doc = await db().collection('companies').doc(slug).get();
   if (!doc.exists) return null;
   const data = doc.data();
@@ -256,7 +275,7 @@ export async function getCompany(slug) {
     origin: _mapOrigin(data.origin),
     screens,
   };
-}
+}, ['get-company'], { tags: ['companies'], revalidate: CACHE_SECONDS });
 
 // Edits a single field on a screen -- a subcategory's score or finding, a
 // dimension's evidence, or the deal-level rationale -- and, when a
@@ -274,6 +293,7 @@ export async function updateScreenField(slug, screenId, patch) {
 
   if (field === 'rationale') {
     await ref.set({ rationale: String(value ?? '') }, { merge: true });
+    revalidateTag('companies');
     return _mapScreen(slug, screenId, { ...data, rationale: String(value ?? '') });
   }
 
@@ -306,6 +326,7 @@ export async function updateScreenField(slug, screenId, patch) {
   const newFitScore = fitScore(newDimensions);
   const update = { dimensions: newDimensions, fitScore: newFitScore, rawScore: newFitScore };
   await ref.set(update, { merge: true });
+  revalidateTag('companies');
   return _mapScreen(slug, screenId, { ...data, ...update });
 }
 
@@ -322,9 +343,10 @@ export async function deleteCompany(slug) {
   screensSnap.docs.forEach((doc) => batch.delete(doc.ref));
   batch.delete(ref);
   await batch.commit();
+  revalidateTag('companies');
 }
 
-export async function listCompanySlugsForSidebar() {
+export const listCompanySlugsForSidebar = unstable_cache(async () => {
   const snap = await db().collection('companies').orderBy('name').get();
   return snap.docs.map((doc) => {
     const data = doc.data();
@@ -334,4 +356,4 @@ export async function listCompanySlugsForSidebar() {
       stage: STAGES.includes(data.stage) ? data.stage : 'qualified',
     };
   });
-}
+}, ['list-company-slugs-sidebar'], { tags: ['companies'], revalidate: CACHE_SECONDS });

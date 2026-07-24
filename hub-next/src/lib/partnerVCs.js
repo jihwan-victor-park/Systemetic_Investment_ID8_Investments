@@ -1,4 +1,5 @@
 import 'server-only';
+import { unstable_cache, revalidateTag } from 'next/cache';
 import { db, isoDate } from './firestore';
 import { matchContacts } from './contactMatch';
 
@@ -94,15 +95,27 @@ function _mapVC(doc) {
   };
 }
 
-export async function listPartnerVCs() {
+// force-dynamic on every /docs/* route (see DocsShell/layout.jsx) means no
+// route-level cache -- listPartnerVCs() fetches ALL 74 VC docs (7+MB and
+// growing as Stage 0 scoring adds fields to each portfolio company) on nearly
+// every page in the hub (Watchlist/Pipeline/Qualified/Radar/Invested, every
+// company detail page's investor cross-reference, Hot Deals, the VCs
+// directory, search...). CACHE_SECONDS trades a little staleness (an edit
+// shows up for OTHER viewers within this window; your own always shows
+// immediately via revalidateTag('partner-vcs') below) for a large cut in
+// Firestore reads -- this was the single biggest "site is slow" contributor
+// once portfolios grew past a few hundred scored companies.
+const CACHE_SECONDS = 60;
+
+export const listPartnerVCs = unstable_cache(async () => {
   const snap = await db().collection(COLLECTION).orderBy('name').get();
   return snap.docs.map(_mapVC);
-}
+}, ['list-partner-vcs'], { tags: ['partner-vcs'], revalidate: CACHE_SECONDS });
 
-export async function getPartnerVC(id) {
+export const getPartnerVC = unstable_cache(async (id) => {
   const doc = await db().collection(COLLECTION).doc(id).get();
   return doc.exists ? _mapVC(doc) : null;
-}
+}, ['get-partner-vc'], { tags: ['partner-vcs'], revalidate: CACHE_SECONDS });
 
 export async function addPartnerVC({ name, trackedBy, contact, sector, website, note }) {
   const ref = await db().collection(COLLECTION).add({
@@ -116,6 +129,7 @@ export async function addPartnerVC({ name, trackedBy, contact, sector, website, 
     news: [],
     createdAt: new Date(),
   });
+  revalidateTag('partner-vcs');
   return ref.id;
 }
 
@@ -126,9 +140,11 @@ export async function updatePartnerVC(id, patch) {
   const snap = await ref.get();
   if (!snap.exists) throw new Error('vc-not-found');
   await ref.set(patch, { merge: true });
+  revalidateTag('partner-vcs');
   return { id };
 }
 
 export async function deletePartnerVC(id) {
   await db().collection(COLLECTION).doc(id).delete();
+  revalidateTag('partner-vcs');
 }
