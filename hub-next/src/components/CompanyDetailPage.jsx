@@ -5,6 +5,7 @@ import { listTopVCs } from '@/lib/topVCs';
 import { listPartnerVCs } from '@/lib/partnerVCs';
 import { findInvestorMatches } from '@/lib/companyIndex';
 import ScreenView from '@/components/ScreenView';
+import FitScoreDetail from '@/components/FitScoreDetail';
 import TrackNewRoundForm from '@/components/TrackNewRoundForm';
 import CompanyInlineField from '@/components/CompanyInlineField';
 import InvestorRelationships from '@/components/InvestorRelationships';
@@ -78,6 +79,7 @@ export default async function CompanyDetailPage({ params }) {
           {' — Latest round: '}{fit.fitCurrentStage || fit.latestRound || '—'}
         </p>
       )}
+      {fit && <FitScoreDetail fit={fit} bordered />}
       {/* Same "Run Analysis" trigger the stage-table rows already have
           (companyStageColumns.jsx) -- there it's always available (first run
           or re-run), so it is here too. A company promoted straight from a

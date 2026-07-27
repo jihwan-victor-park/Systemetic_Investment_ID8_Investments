@@ -55,6 +55,7 @@ function _mapPortfolioEntry(p) {
     // hover popover shows, same depth as a Stage 1 screen.
     fitDimensions: p.fitDimensions || [],
     fitConfidence: p.fitConfidence || '',
+    fitHardPass: p.fitHardPass ?? null,
     fitHardPassReason: p.fitHardPassReason || '',
     fitCurrentStageEvidence: p.fitCurrentStageEvidence || '',
     fitRaiseProbabilityEvidence: p.fitRaiseProbabilityEvidence || '',

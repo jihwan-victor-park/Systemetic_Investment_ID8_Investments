@@ -7,6 +7,7 @@ import { listPartnerVCs } from '@/lib/partnerVCs';
 import { buildCompanyIndex, companyHref, findInvestorMatches } from '@/lib/companyIndex';
 import InvestorRelationships from '@/components/InvestorRelationships';
 import PromoteToPipeline from '@/components/PromoteToPipeline';
+import FitScoreDetail from '@/components/FitScoreDetail';
 import { TIER_LABEL, TIER_BADGE_CLASS } from '@/lib/fitTier';
 
 export const dynamic = 'force-dynamic';
@@ -94,6 +95,7 @@ export default async function VCPortfolioCompanyPage({ params }) {
           {' — Latest round: '}{fit.fitCurrentStage || fit.latestRound || '—'}
         </p>
       )}
+      {fit && <FitScoreDetail fit={fit} bordered />}
 
       {canEdit && (
         <PromoteToPipeline companyName={companyName} sourceVCName={sourceVCName} defaultRound={defaultRound} />
