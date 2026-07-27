@@ -44,15 +44,16 @@ export function isSectorInScope(entry) {
 // PORTFOLIO_TRACK_THRESHOLD (the "track" cutoff; below it is "monitor"/"drop"),
 // so this mirrors the deal list's identical sub-3.0 hide rule at the same
 // semantic boundary. A company not yet scored (fitScore missing/undefined --
-// large funds over the per-fund cap are deferred, never evaluated) is not
-// hidden by this check; only a real sub-3.0 score is a hide reason.
+// either a large fund over the per-fund cap that's deferred and never
+// evaluated, or a company that just hasn't been reached by a scoring batch
+// yet) is not hidden by this check; only a real sub-3.0 score is a hide reason.
 const MIN_FIT_SCORE = 3.0;
 
-function isFitScoreInScope(entry) {
+export function isFitScoreInScope(entry) {
   return typeof entry?.fitScore !== 'number' || entry.fitScore >= MIN_FIT_SCORE;
 }
 
-// Portfolio-company scope check -- layers the real deterministic prefilter
+// Thesis-scope check -- layers the real deterministic prefilter
 // (deal_intelligence/portfolio_prefilter.py: geography NA/Europe, business
 // status, no-enrichment-data, AI-relevance keyword+embeddings) on top of this
 // file's own lighter keyword check. That Python pass stamps `prefilterPass`/
@@ -61,10 +62,14 @@ function isFitScoreInScope(entry) {
 // truth stays the Python side. `prefilterPass === false` hides the company;
 // `true` or missing (funds over 500 companies are deferred, not evaluated,
 // so they carry no field at all -- see run_all()'s DEFAULT_MAX_FUND_SIZE)
-// falls back to the plain keyword check, same as before this existed. A real
-// sub-3.0 fitScore hides it too, same threshold the deal list uses.
-export function isPortfolioCompanyInScope(entry) {
+// falls back to the plain keyword check, same as before this existed.
+//
+// Deliberately separate from isFitScoreInScope -- Oscar wants "off-thesis /
+// wrong geography" and "fit score under 3.0" as two independently toggleable
+// reasons in the UI, not one combined "show all" switch, since they're
+// answering different questions (is this even in our market vs. is this a
+// strong company in our market).
+export function isThesisInScope(entry) {
   if (entry?.prefilterPass === false) return false;
-  if (!isFitScoreInScope(entry)) return false;
   return isSectorInScope(entry);
 }

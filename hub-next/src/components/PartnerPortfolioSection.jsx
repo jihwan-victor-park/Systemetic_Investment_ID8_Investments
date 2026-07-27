@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react';
 import PortfolioTable from './PortfolioTable';
 import PortfolioGraph from './PortfolioGraph';
-import { isPortfolioCompanyInScope } from '@/lib/sectorRelevance';
+import { isThesisInScope, isFitScoreInScope } from '@/lib/sectorRelevance';
 import styles from './PartnerPortfolioSection.module.css';
 
 // Portfolio tile on a Partner VC's page -- List (the same sortable/
@@ -13,26 +13,41 @@ import styles from './PartnerPortfolioSection.module.css';
 // PortfolioGraph, never typed in here). Editing only ever happens in List
 // view.
 //
-// The scope toggle defaults OFF (i.e. showing the filtered, in-thesis view)
-// -- per Oscar's "biotech shouldn't be here" ask, a portfolio is assumed to
-// contain off-thesis companies until proven otherwise. isPortfolioCompanyInScope
-// (sectorRelevance.js) is this file's own keyword check layered on top of the
-// real prefilterPass verdict deal_intelligence/portfolio_prefilter.py stamps
-// onto each company (geography, business status, AI-relevance) -- funds over
-// 500 companies haven't been run through that yet, so they fall back to the
-// keyword check alone until they are. Graph gets a plain
-// pre-filtered array (read-only, nothing to persist); List gets the full
-// unfiltered array plus a filterFn, since PortfolioTable's add/remove needs
-// the true underlying array to persist correctly (see PortfolioTable.jsx).
+// Two independent scope toggles, both OFF by default (i.e. showing the
+// filtered, in-thesis + track-worthy view) -- per Oscar's "biotech shouldn't
+// be here" ask, a portfolio is assumed to contain off-thesis companies until
+// proven otherwise, and a sub-3.0 fit score is the same "not worth tracking"
+// bar the deal lists use. They're kept separate rather than one combined
+// "show all" switch because they answer different questions (is this even in
+// our market vs. is this a strong company in our market) -- collapsing them
+// hid the reason a specific company was missing.
+// isThesisInScope/isFitScoreInScope (sectorRelevance.js): the former layers
+// this file's own keyword check on top of the real prefilterPass verdict
+// deal_intelligence/portfolio_prefilter.py stamps onto each company
+// (geography, business status, AI-relevance) -- funds over 500 companies
+// haven't been run through that yet, so they fall back to the keyword check
+// alone until they are. Graph gets a plain pre-filtered array (read-only,
+// nothing to persist); List gets the full unfiltered array plus a filterFn,
+// since PortfolioTable's add/remove needs the true underlying array to
+// persist correctly (see PortfolioTable.jsx).
 export default function PartnerPortfolioSection({ vcId, vcName, portfolio, companyIndex, canEdit }) {
   const [view, setView] = useState('list');
-  const [showAll, setShowAll] = useState(false);
+  const [showOffThesis, setShowOffThesis] = useState(false);
+  const [showLowFit, setShowLowFit] = useState(false);
 
-  const { visiblePortfolio, hiddenCount } = useMemo(() => {
-    if (showAll) return { visiblePortfolio: portfolio, hiddenCount: 0 };
-    const visible = portfolio.filter(isPortfolioCompanyInScope);
-    return { visiblePortfolio: visible, hiddenCount: portfolio.length - visible.length };
-  }, [portfolio, showAll]);
+  const filterFn = useMemo(
+    () => (entry) => (showOffThesis || isThesisInScope(entry)) && (showLowFit || isFitScoreInScope(entry)),
+    [showOffThesis, showLowFit]
+  );
+
+  // Each toggle's hidden count is independent of the OTHER toggle's current
+  // state -- it always answers "how many would flipping just this switch
+  // reveal", not "how many are hidden right now for this reason and no other".
+  const { visiblePortfolio, offThesisHiddenCount, lowFitHiddenCount } = useMemo(() => ({
+    visiblePortfolio: portfolio.filter(filterFn),
+    offThesisHiddenCount: portfolio.filter((p) => !isThesisInScope(p)).length,
+    lowFitHiddenCount: portfolio.filter((p) => !isFitScoreInScope(p)).length,
+  }), [portfolio, filterFn]);
 
   return (
     <div>
@@ -45,10 +60,17 @@ export default function PartnerPortfolioSection({ vcId, vcName, portfolio, compa
       </div>
 
       <label className={styles.scopeToggle}>
-        <input type="checkbox" checked={showAll} onChange={(e) => setShowAll(e.target.checked)} />
-        Show all portfolio companies
-        {!showAll && hiddenCount > 0 && (
-          <span className={styles.scopeHint}>({hiddenCount} hidden — off-thesis sector, wrong geography, inactive, fit score under 3.0, or no data on file)</span>
+        <input type="checkbox" checked={showOffThesis} onChange={(e) => setShowOffThesis(e.target.checked)} />
+        Show off-thesis / wrong-geography / inactive companies
+        {!showOffThesis && offThesisHiddenCount > 0 && (
+          <span className={styles.scopeHint}>({offThesisHiddenCount} hidden)</span>
+        )}
+      </label>
+      <label className={styles.scopeToggle}>
+        <input type="checkbox" checked={showLowFit} onChange={(e) => setShowLowFit(e.target.checked)} />
+        Show fit score under 3.0
+        {!showLowFit && lowFitHiddenCount > 0 && (
+          <span className={styles.scopeHint}>({lowFitHiddenCount} hidden)</span>
         )}
       </label>
 
@@ -58,7 +80,7 @@ export default function PartnerPortfolioSection({ vcId, vcName, portfolio, compa
           id={vcId}
           field="portfolio"
           items={portfolio}
-          filterFn={showAll ? null : isPortfolioCompanyInScope}
+          filterFn={filterFn}
           companyIndex={companyIndex}
           canEdit={canEdit}
           addLabel="Add company"

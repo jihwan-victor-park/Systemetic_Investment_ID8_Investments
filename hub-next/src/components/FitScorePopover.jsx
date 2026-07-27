@@ -37,10 +37,24 @@ export default function FitScorePopover({ company }) {
   // viewport -- the plain "below + left-aligned" guess above regularly ran
   // the panel (up to 70vh tall) off the bottom or right edge of the screen,
   // with no way to scroll it back into view since `position: fixed` doesn't
-  // respond to page scroll. Flips above the trigger when there's more room
-  // there, and caps max-height to whatever space is actually available on
-  // whichever side gets used, so the panel's own scrollbar kicks in instead
-  // of the browser window clipping it.
+  // respond to page scroll.
+  //
+  // This used to pick a side (above/below the trigger) and cap max-height to
+  // ONLY the sliver of room on that one side -- but FitScoreDetail's content
+  // (4 dimensions + evidence + rationale + stage/raise-probability reads) is
+  // routinely 500-600px tall, and on a normal laptop viewport that sliver is
+  // smaller than that for almost every row except the very first/last on
+  // screen (measured: on a 550px-tall viewport, every row but the top/bottom
+  // edge got clamped to a fraction of its real height). The result was a
+  // near-empty, barely-scrollable little box for most hovers -- "illegible"
+  // was the accurate word for it, not a bug in a few edge cases.
+  //
+  // Fix: don't measure the sliver directly above/below the trigger at all.
+  // Try to place the whole panel, at its full natural height, ANYWHERE it
+  // fits in the viewport -- prefer just below the trigger (normal reading
+  // direction), but slide it up as far as needed to keep its bottom edge
+  // on-screen. Only when the panel is taller than the entire viewport does
+  // it fall back to a clamped height with its own internal scrollbar.
   useLayoutEffect(() => {
     if (!open) return;
     const trigger = triggerRef.current;
@@ -52,19 +66,21 @@ export default function FitScorePopover({ company }) {
     // scrollHeight, not the rect -- the rect reflects whatever max-height
     // constrained a *previous* render (the CSS 70vh default on first open),
     // not how tall the panel will actually be once the max-height computed
-    // below is applied. Anchoring the flip-up case against the stale rect
-    // height under-anchored the panel, letting it grow past the viewport's
-    // top edge once it expanded to fill the real (larger) budget.
+    // below is applied.
     const naturalHeight = panel.scrollHeight;
 
-    const spaceBelow = window.innerHeight - triggerRect.bottom - PANEL_MARGIN;
-    const spaceAbove = triggerRect.top - PANEL_MARGIN;
-    const flipUp = naturalHeight > spaceBelow && spaceAbove > spaceBelow;
-    const maxHeight = Math.max(120, flipUp ? spaceAbove : spaceBelow);
+    const viewportSpace = window.innerHeight - 2 * PANEL_MARGIN;
+    const fits = naturalHeight <= viewportSpace;
+    const maxHeight = fits ? naturalHeight : viewportSpace;
 
-    const top = flipUp
-      ? Math.max(PANEL_MARGIN, triggerRect.top - Math.min(naturalHeight, maxHeight) - 4)
-      : triggerRect.bottom + 4;
+    let top;
+    if (fits) {
+      const preferredTop = triggerRect.bottom + 4;
+      top = Math.min(preferredTop, window.innerHeight - PANEL_MARGIN - naturalHeight);
+      top = Math.max(PANEL_MARGIN, top);
+    } else {
+      top = PANEL_MARGIN;
+    }
 
     let left = triggerRect.left;
     left = Math.min(left, window.innerWidth - panelRect.width - PANEL_MARGIN);
