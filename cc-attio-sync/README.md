@@ -60,10 +60,28 @@ services: `id8-investments` (project `137750788450`), `us-east4`.
    ```bash
    ./deploy.sh        # prints the webhook URL
    ```
+   `deploy.sh` passes `--allow-unauthenticated`, but this org's Domain
+   Restricted Sharing policy blocks an `allUsers` binding on Cloud Run
+   outright — that flag doesn't actually make the service publicly
+   reachable, it just doesn't error. The service stays IAM-private
+   regardless. See [gateway/](gateway/) for the actual public front door.
+
+**6b. Deploy the API Gateway that fronts it:**
+   ```bash
+   cd gateway && ./deploy-gateway.sh
+   ```
+   Provisions a dedicated invoker service account, grants it `run.invoker` on
+   the private Cloud Run service, and stands up (or updates) an API Gateway
+   that authenticates to the backend on your behalf. Prints the real public
+   base URL (`https://<gateway-id>-<hash>.<region-code>.gateway.dev`) — use
+   **that** URL in step 7/8 below, not the raw `.run.app` one from step 6.
+   See `gateway/openapi.yaml` for exactly what's exposed (`/health`,
+   `/attio-webhook`, `/attio-delete-webhook` — `/reconcile` deliberately
+   isn't, see "Reconciling removals" below).
 
 **7. Build the Attio automation(s)** (one per list, or one keyed by list):
    - Trigger: **Record enters list** → your target list.
-   - Action: **Send webhook** (HTTP request) → `https://<service-url>/attio-webhook`
+   - Action: **Send webhook** (HTTP request) → `https://<gateway-url>/attio-webhook`
    - Header: `X-Webhook-Secret: <the WEBHOOK_SECRET from step 3>`
    - JSON body, templated from the record:
      ```json
@@ -76,7 +94,7 @@ services: `id8-investments` (project `137750788450`), `us-east4`.
 
 **8. (Optional) Build the delete automation**, one, not per-list:
    - Trigger: **Record deleted**.
-   - Action: **Send webhook** → `https://<service-url>/attio-delete-webhook`
+   - Action: **Send webhook** → `https://<gateway-url>/attio-delete-webhook`
    - Header: same `X-Webhook-Secret`.
    - JSON body: `{ "email": "{{ record.email_addresses.0 }}" }`
    - **This permanently deletes the Constant Contact contact** (CC's
