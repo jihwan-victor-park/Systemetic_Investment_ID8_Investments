@@ -1,11 +1,17 @@
 import 'server-only';
 import { Storage } from '@google-cloud/storage';
+import { unstable_cache, revalidateTag } from 'next/cache';
 import { db } from './firestore';
 
 // Reuses the docx bucket by default so a fresh market-map feature doesn't need
 // its own bucket + IAM grant provisioned before it can store images — set
 // MARKET_MAP_BUCKET explicitly if it should live somewhere else.
 const BUCKET = process.env.MARKET_MAP_BUCKET || process.env.DI_DOCX_BUCKET;
+
+// Same force-dynamic/no-route-cache reasoning as companies.js's own
+// CACHE_SECONDS comment -- every /docs/* page load was re-running this full
+// collection read from scratch.
+const CACHE_SECONDS = 60;
 
 let _storage;
 function storage() {
@@ -21,7 +27,7 @@ const EXT_FOR_TYPE = {
   'application/pdf': 'pdf',
 };
 
-export async function listMarketMapEntries() {
+export const listMarketMapEntries = unstable_cache(async () => {
   const snap = await db().collection('marketMapEntries').orderBy('createdAt', 'desc').get();
   return snap.docs.map((doc) => {
     const d = doc.data();
@@ -42,7 +48,7 @@ export async function listMarketMapEntries() {
       imageIsDoc: d.imageContentType === 'application/pdf',
     };
   });
-}
+}, ['list-market-map-entries'], { tags: ['market-map'], revalidate: CACHE_SECONDS });
 
 export async function addMarketMapEntry({ firm, title, category, url, ym, dateLabel, note, imageBuffer, imageContentType }) {
   const ref = db().collection('marketMapEntries').doc();
@@ -72,6 +78,7 @@ export async function addMarketMapEntry({ firm, title, category, url, ym, dateLa
     imageContentType: imagePath ? imageContentType : null,
     createdAt: new Date(),
   });
+  revalidateTag('market-map');
   return { id: ref.id, hasImage: !!imagePath };
 }
 
@@ -106,6 +113,7 @@ export async function updateMarketMapEntry(id, { title, imageBuffer, imageConten
   if (Object.keys(update).length === 0) return { ok: false, error: 'nothing-to-update' };
 
   await ref.update(update);
+  revalidateTag('market-map');
   return {
     ok: true,
     id,
@@ -129,6 +137,7 @@ export async function deleteMarketMapEntry(id) {
   }
 
   await ref.delete();
+  revalidateTag('market-map');
   return { ok: true };
 }
 
