@@ -2,22 +2,7 @@ import NextAuth from 'next-auth';
 import Google from 'next-auth/providers/google';
 import { authConfig } from './auth.config';
 import { getOrCreateAccessRecord } from './lib/investorAccess';
-
-// id8investments.com accounts are auto-approved internal users. Anyone else
-// (investors) gets an investorAccess record created on first sign-in and
-// stays gated to /pending until an internal user approves them from /docs/admin.
-const ALLOWED_HD = process.env.ALLOWED_HD || 'id8investments.com';
-
-// Explicit safety-net allowlist, in case ALLOWED_HD ever drifts from the
-// deployed env var or an email needs internal access outside the domain check.
-const EXPLICIT_INTERNAL_EMAILS = new Set([
-  'mussadiq@id8investments.com',
-  'hannah@id8investments.com',
-]);
-
-function isInternal(email) {
-  return email.endsWith('@' + ALLOWED_HD) || EXPLICIT_INTERNAL_EMAILS.has(email);
-}
+import { isInternal } from './lib/authInternal';
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,

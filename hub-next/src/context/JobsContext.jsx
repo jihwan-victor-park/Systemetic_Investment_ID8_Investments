@@ -1,11 +1,7 @@
 'use client';
 
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
-
-const POLL_MS = 5000;
-// Terminal jobs (complete/error) stay visible this long after they finish so
-// Oscar actually sees the result instead of it vanishing on the next poll.
-const TERMINAL_DISMISS_MS = 10000;
+import { TERMINAL_DISMISS_MS, pollDelayMs } from '@/lib/jobsPolling';
 
 const JobsContext = createContext(null);
 
@@ -48,6 +44,8 @@ export function JobsProvider({ enabled, children }) {
   useEffect(() => {
     if (!enabled) return;
     let cancelled = false;
+    let timer = null;
+    let nextDelay = pollDelayMs([]);
 
     async function poll() {
       try {
@@ -56,6 +54,7 @@ export function JobsProvider({ enabled, children }) {
         const data = await res.json();
         if (cancelled) return;
         const serverJobs = data.jobs || [];
+        nextDelay = pollDelayMs(serverJobs);
         setJobs((prev) => {
           const next = { ...prev };
           const serverIds = new Set();
@@ -83,9 +82,14 @@ export function JobsProvider({ enabled, children }) {
       }
     }
 
-    poll();
-    const interval = setInterval(poll, POLL_MS);
-    return () => { cancelled = true; clearInterval(interval); };
+    async function tick() {
+      await poll();
+      if (cancelled) return;
+      timer = setTimeout(tick, nextDelay);
+    }
+
+    tick();
+    return () => { cancelled = true; if (timer) clearTimeout(timer); };
   }, [enabled, clearDismissTimer, scheduleDismiss]);
 
   // A job that flips to complete/error (reported via startJob from a
