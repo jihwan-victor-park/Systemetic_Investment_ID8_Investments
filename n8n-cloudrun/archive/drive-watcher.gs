@@ -1,4 +1,9 @@
 /**
+ * ⚠️ ABANDONED (Jul 2026) — see ../archive/WEBHOOK_SETUP.md for why this was
+ * reverted, and ../deploy.sh's header comment for the current architecture
+ * (native Drive/Sheets Trigger polling nodes, n8n kept warm with
+ * --min-instances=1). Not deployed. Kept for reference only.
+ *
  * Google Apps Script — Drive folder watcher + Sheet change watcher for n8n
  *
  * Replaces all four Google Drive Trigger nodes in the n8n workflow. Runs free

@@ -11,6 +11,13 @@ tweak in the Cloud Run console later.
 > directly. Execution history is also pruned now via `EXECUTIONS_DATA_PRUNE=true`,
 > `EXECUTIONS_DATA_MAX_AGE=336`, `EXECUTIONS_DATA_PRUNE_MAX_COUNT=10000` — not
 > documented in the table below, also added straight to `deploy.sh`.
+>
+> Also stale below: `N8N_RUNNERS_ENABLED` is actually set to `false` in
+> `deploy.sh`, not `true` (corrected in the table). And as of the 2026-07-14
+> audit, Cloud Run is **not publicly reachable at all** — it's deployed with
+> `--no-allow-unauthenticated --iap`, gated to the Google accounts listed in
+> `deploy.sh`'s `ALLOWED_IAP_USERS`. Nothing external hits this service; see
+> `deploy.sh`'s deploy flags comment for the full reasoning.
 
 ## Database (Cloud SQL Postgres — see update note above)
 
@@ -46,7 +53,7 @@ instance comfortably covers it.
 
 | Variable | Value | Notes |
 |---|---|---|
-| `N8N_RUNNERS_ENABLED` | `true` | Enables task runners (recommended/required in recent n8n for Code nodes). |
+| `N8N_RUNNERS_ENABLED` | `false` | Task runners disabled — see Update note above. |
 | `N8N_DIAGNOSTICS_ENABLED` | `false` | Opt out of telemetry. Optional. |
 
 ## Cloud Run flags that matter (not env vars)
