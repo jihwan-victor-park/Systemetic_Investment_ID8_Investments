@@ -7,14 +7,6 @@
   color: var(--id8-ink);
 }
 
-/* Static page placement (CompanyDetailPage / VCPortfolioCompanyPage) --
-   the popover panel supplies its own border/shadow box instead. */
-.bordered {
-  border-top: 1px solid var(--id8-hair);
-  padding-top: 12px;
-  margin: 4px 0 12px;
-}
-
 .header { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 /* Dot + colored text, same restrained pattern as PortfolioTable's fitTier /
    RaiseProbabilityPopover -- no filled pill. */

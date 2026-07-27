@@ -7,13 +7,11 @@ const TIER_LABEL = {
 
 // The full Stage 0 Portfolio Fit breakdown -- per-dimension score + evidence,
 // overall rationale, confidence, current-stage research, raise-probability
-// read. Shared by FitScorePopover (hover, inside portfolio/pipeline tables)
-// and the company detail pages (static, once a company already has a fit
-// score but no live Stage 1 screen yet) -- same data, same depth, just two
-// different shells around it. `bordered` adds the top divider/spacing the
-// static page placement needs to separate it from the page's own summary
-// line; the popover panel supplies its own box chrome instead, so it omits it.
-export default function FitScoreDetail({ fit, bordered }) {
+// read -- shown on hover inside portfolio/pipeline tables (FitScorePopover).
+// The company detail pages render the same data in ScreenView's own format
+// instead (FitScoreScreenView), to look like the same kind of document as a
+// Stage 1 screen rather than this compact popover style.
+export default function FitScoreDetail({ fit }) {
   const {
     fitTier, fitDimensions, fitRationale, fitConfidence,
     fitCurrentStage, fitCurrentStageEvidence, fitRaiseProbability,
@@ -22,7 +20,7 @@ export default function FitScoreDetail({ fit, bordered }) {
   } = fit;
 
   return (
-    <div className={bordered ? `${styles.root} ${styles.bordered}` : styles.root}>
+    <div className={styles.root}>
       <div className={styles.header}>
         <span className={styles.tierBadge} data-tier={fitTier}>{TIER_LABEL[fitTier] || fitTier}</span>
         {fitConfidence && <span className={styles.confidence}>confidence: {fitConfidence}</span>}

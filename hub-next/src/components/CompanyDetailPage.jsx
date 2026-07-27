@@ -5,12 +5,11 @@ import { listTopVCs } from '@/lib/topVCs';
 import { listPartnerVCs } from '@/lib/partnerVCs';
 import { findInvestorMatches } from '@/lib/companyIndex';
 import ScreenView from '@/components/ScreenView';
-import FitScoreDetail from '@/components/FitScoreDetail';
+import FitScoreScreenView from '@/components/FitScoreScreenView';
 import TrackNewRoundForm from '@/components/TrackNewRoundForm';
 import CompanyInlineField from '@/components/CompanyInlineField';
 import InvestorRelationships from '@/components/InvestorRelationships';
 import RunAnalysisButton from '@/components/RunAnalysisButton';
-import { TIER_LABEL, TIER_BADGE_CLASS } from '@/lib/fitTier';
 
 // Shared by the Watchlist / Pipeline / Qualified Deals detail routes -- a
 // company's screen history looks identical regardless of which stage it's
@@ -70,16 +69,7 @@ export default async function CompanyDetailPage({ params }) {
           linkLabel="PitchBook ↗"
         />
       </p>
-      {fit && (
-        <p>
-          <strong>Fit score: {fit.fitScore.toFixed(1)} / 4.0</strong>{' '}
-          <span className={`badge ${TIER_BADGE_CLASS[fit.fitTier] || 'badge--borderline'}`}>
-            {TIER_LABEL[fit.fitTier] || fit.fitTier}
-          </span>
-          {' — Latest round: '}{fit.fitCurrentStage || fit.latestRound || '—'}
-        </p>
-      )}
-      {fit && <FitScoreDetail fit={fit} bordered />}
+      {fit && <FitScoreScreenView fit={fit} />}
       {/* Same "Run Analysis" trigger the stage-table rows already have
           (companyStageColumns.jsx) -- there it's always available (first run
           or re-run), so it is here too. A company promoted straight from a

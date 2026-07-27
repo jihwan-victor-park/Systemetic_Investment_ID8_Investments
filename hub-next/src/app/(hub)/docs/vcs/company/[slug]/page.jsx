@@ -7,8 +7,7 @@ import { listPartnerVCs } from '@/lib/partnerVCs';
 import { buildCompanyIndex, companyHref, findInvestorMatches } from '@/lib/companyIndex';
 import InvestorRelationships from '@/components/InvestorRelationships';
 import PromoteToPipeline from '@/components/PromoteToPipeline';
-import FitScoreDetail from '@/components/FitScoreDetail';
-import { TIER_LABEL, TIER_BADGE_CLASS } from '@/lib/fitTier';
+import FitScoreScreenView from '@/components/FitScoreScreenView';
 
 export const dynamic = 'force-dynamic';
 
@@ -86,16 +85,7 @@ export default async function VCPortfolioCompanyPage({ params }) {
       </p>
       {repDescription && <p>{repDescription}</p>}
 
-      {fit && (
-        <p>
-          <strong>Fit score: {fit.fitScore.toFixed(1)} / 4.0</strong>{' '}
-          <span className={`badge ${TIER_BADGE_CLASS[fit.fitTier] || 'badge--borderline'}`}>
-            {TIER_LABEL[fit.fitTier] || fit.fitTier}
-          </span>
-          {' — Latest round: '}{fit.fitCurrentStage || fit.latestRound || '—'}
-        </p>
-      )}
-      {fit && <FitScoreDetail fit={fit} bordered />}
+      {fit && <FitScoreScreenView fit={fit} />}
 
       {canEdit && (
         <PromoteToPipeline companyName={companyName} sourceVCName={sourceVCName} defaultRound={defaultRound} />
