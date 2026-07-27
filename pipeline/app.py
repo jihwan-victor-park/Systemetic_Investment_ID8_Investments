@@ -1099,6 +1099,57 @@ def fix_radar_stages():
                     "skipped_count": len(skipped), "errors": errors})
 
 
+# hub-next stage key -> Attio's "stage" status-attribute title. Inverse of
+# deal_intelligence.config.ATTIO_STAGE_MAP (which maps Attio's raw title,
+# lowercased, back onto these same keys for the read/import direction) --
+# see hub-next/src/lib/stages.js's STAGES for where these keys come from.
+HUB_STAGE_TO_ATTIO_TITLE = {
+    "watchlist": "Watchlist",
+    "pipeline": "Pipeline",
+    "qualified": "Qualified",
+    "radar": "Radar",
+    "invested": "Invested",
+}
+
+
+@app.route("/update-deal-stage", methods=["POST"])
+def update_deal_stage():
+    """Push a stage change made by hand in hub-next (the per-row dropdown --
+    see hub-next/src/lib/companies.js's updateCompanyStage) back onto the
+    matching Attio Deal record, so the two don't silently drift apart. This
+    is the one direction that previously didn't exist at all -- Attio ->
+    hub-next sync (push_company_from_attio) has existed for a while, but a
+    stage edit made directly in hub-next used to stay siloed in Firestore
+    forever. Body: {"record_id": "<attio deal record id>", "stage": "<hub-next
+    stage key, e.g. 'qualified'>"}. Same write shape fix_radar_stages already
+    uses above (status attribute -> [{"status": "<Title>"}]) -- see
+    hub-next/src/app/(hub)/docs/projects/pitchbook-attio/page.jsx's "Write
+    values are not read values" note for why that shape matters.
+    Best-effort by design: hub-next's own PATCH call treats a failure here as
+    non-fatal (Firestore is hub-next's own source of truth regardless of
+    whether the Attio mirror succeeds), so this returns a normal error
+    response rather than anything hub-next needs to retry on its own."""
+    if not _require_internal_secret():
+        return jsonify({"error": "forbidden"}), 403
+    body = request.get_json(silent=True) or {}
+    record_id = (body.get("record_id") or "").strip()
+    stage_key = (body.get("stage") or "").strip().lower()
+    if not record_id:
+        return jsonify({"error": "'record_id' is required"}), 400
+    title = HUB_STAGE_TO_ATTIO_TITLE.get(stage_key)
+    if not title:
+        return jsonify({"error": f"unknown stage {stage_key!r}, must be one of {sorted(HUB_STAGE_TO_ATTIO_TITLE)}"}), 400
+
+    resp = requests.patch(
+        f"{ATTIO_API_BASE}/objects/deals/records/{record_id}",
+        headers=attio_headers(),
+        json={"data": {"values": {"stage": [{"status": title}]}}},
+    )
+    if resp.status_code not in (200, 201):
+        return jsonify({"error": f"Attio PATCH failed: {resp.text[:300]}"}), 502
+    return jsonify({"ok": True, "record_id": record_id, "stage": title})
+
+
 @app.route("/fix-attio-import-stages", methods=["POST"])
 def fix_attio_import_stages():
     """One-time correction for hub-next companies the bulk Attio import

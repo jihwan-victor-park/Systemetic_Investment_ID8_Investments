@@ -91,6 +91,43 @@ export const listCompanies = unstable_cache(async () => {
   }));
 }, ['list-companies'], { tags: ['companies'], revalidate: CACHE_SECONDS });
 
+function backendHeaders() {
+  const headers = { 'Content-Type': 'application/json' };
+  if (process.env.PIPELINE_INTERNAL_SECRET) headers['X-Internal-Secret'] = process.env.PIPELINE_INTERNAL_SECRET;
+  return headers;
+}
+
+// Mirrors a hand-made stage change back onto the matching Attio Deal record
+// via pipeline/app.py's /update-deal-stage (see that route's own docstring
+// for the write-format details). Attio -> hub-next sync has existed for a
+// while (push_company_from_attio); this is the direction that didn't exist
+// at all until now -- a stage edit made directly in hub-next used to stay
+// siloed in Firestore forever, silently drifting from whatever Attio still
+// showed. Best-effort and non-blocking: the Firestore write above is
+// hub-next's own source of truth regardless of whether this succeeds, and a
+// company with no origin.attioRecordId (created directly in the hub, never
+// synced from Attio) has nothing to push back to -- skipped, not an error.
+async function pushStageToAttio(slug, stage, attioRecordId) {
+  if (!attioRecordId) return;
+  if (!process.env.PIPELINE_BASE_URL) {
+    console.warn(`pushStageToAttio(${slug}): PIPELINE_BASE_URL not configured -- skipping Attio write-back`);
+    return;
+  }
+  try {
+    const res = await fetch(`${process.env.PIPELINE_BASE_URL}/update-deal-stage`, {
+      method: 'POST',
+      headers: backendHeaders(),
+      body: JSON.stringify({ record_id: attioRecordId, stage }),
+    });
+    if (!res.ok) {
+      const text = await res.text().catch(() => '');
+      console.error(`pushStageToAttio(${slug}): pipeline returned ${res.status}: ${text.slice(0, 300)}`);
+    }
+  } catch (e) {
+    console.error(`pushStageToAttio(${slug}): request failed:`, e);
+  }
+}
+
 // Moves a company between Watchlist / Pipeline / Qualified Deals -- the
 // dropdown on each stage table's row calls this via the /api/companies/
 // [slug]/stage route. Internal-role-only; enforced by the API route.
@@ -101,6 +138,7 @@ export async function updateCompanyStage(slug, stage) {
   if (!snap.exists) throw new Error('company-not-found');
   await ref.set({ stage }, { merge: true });
   revalidateTag('companies');
+  await pushStageToAttio(slug, stage, snap.data()?.origin?.attioRecordId);
   return { slug, stage };
 }
 

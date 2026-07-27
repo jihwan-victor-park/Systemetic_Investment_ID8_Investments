@@ -68,6 +68,24 @@ export default function PitchbookAttioPage() {
         option errors, so <code>ensure_select_option</code> creates it first.
       </Note>
 
+      <H2>hub-next stage changes push back to Attio</H2>
+      <p>
+        Moving a company between stages via the dropdown on a pipeline table row (<code>updateCompanyStage</code> in{' '}
+        <code>hub-next/src/lib/companies.js</code>) mirrors that change onto the matching Attio Deal record through{' '}
+        <code>pipeline/app.py</code>&apos;s <code>/update-deal-stage</code> endpoint, using the same <code>status</code>{' '}
+        write shape as everywhere else on this page (<code>[{'{'}&quot;status&quot;: &quot;Qualified&quot;{'}'}]</code>).
+        This is the direction that used to not exist at all — Attio → hub-next sync (<code>push_company_from_attio</code>)
+        has existed for a while, but a stage edit made by hand in hub-next previously stayed siloed in Firestore and
+        silently drifted from whatever Attio still showed.
+      </p>
+      <Note>
+        Best-effort and non-blocking by design: the Firestore write is hub-next&apos;s own source of truth regardless
+        of whether the Attio mirror succeeds, and a company with no <code>origin.attioRecordId</code> (created
+        directly in the hub, never synced from Attio) has nothing to push back to — skipped, not an error. A failed
+        push logs server-side (<code>console.error</code>) rather than surfacing to the user, since the stage change
+        itself already succeeded in hub-next.
+      </Note>
+
       <H2>Investor linking</H2>
       <p>The Deals object links VC firms to Company records through reference attributes. The link slugs, held in INVESTOR_REF_MAP, are below.</p>
       <table>
