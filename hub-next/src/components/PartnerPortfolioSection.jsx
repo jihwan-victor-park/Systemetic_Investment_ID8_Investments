@@ -48,7 +48,7 @@ export default function PartnerPortfolioSection({ vcId, vcName, portfolio, compa
         <input type="checkbox" checked={showAll} onChange={(e) => setShowAll(e.target.checked)} />
         Show all portfolio companies
         {!showAll && hiddenCount > 0 && (
-          <span className={styles.scopeHint}>({hiddenCount} hidden — off-thesis sector, wrong geography, inactive, or no data on file)</span>
+          <span className={styles.scopeHint}>({hiddenCount} hidden — off-thesis sector, wrong geography, inactive, fit score under 3.0, or no data on file)</span>
         )}
       </label>
 
