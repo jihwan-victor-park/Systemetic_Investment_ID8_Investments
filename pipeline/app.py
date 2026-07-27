@@ -515,12 +515,28 @@ def build_attio_values(row, company_record_id, stage="Watchlist", source=None, t
 
     return values
 
+# Series A or earlier -> Radar. Matched by pattern, not by an exact set: the
+# old exact-match set ({'Seed', 'Pre-Seed', 'Pre-A', 'Series A'}) missed every
+# real-world variant PitchBook actually sends -- 'Series A1'/'Series A2' (see
+# ensure_select_option's own docstring, which cites 'Series A2' as a value that
+# shows up and isn't in the picklist yet), 'Seed Round', 'Angel', and any
+# casing other than Title Case. Those all silently fell through to the caller's
+# default stage (Qualified/Watchlist) instead of landing on Radar.
+#
+# Anchored at the start so 'Series A' matches but 'Series B' never does, and
+# \d* after the letter covers the A1/A2/A3 tranche naming. The trailing
+# boundary stops 'Series AA'-style values from matching on the 'A'.
+_EARLY_SERIES_RE = re.compile(
+    r'^\s*(?:pre[-\s]?seed|seed|angel|pre[-\s]?a|series\s*a\d*)\b',
+    re.IGNORECASE)
+
+
 def determine_stage(series, default_stage):
-    """If series is A or earlier, move to Radar; otherwise use the provided stage."""
-    early_series = {'Seed', 'Pre-Seed', 'Pre-A', 'Series A'}
-    if series.strip() in early_series:
-        return 'Radar'
-    return default_stage
+    """If series is A or earlier, move to Radar; otherwise use the provided stage.
+
+    A blank/unknown series is NOT treated as early -- we can't tell, so it keeps
+    the caller's default rather than being silently demoted to Radar."""
+    return 'Radar' if _EARLY_SERIES_RE.match(str(series or '')) else default_stage
 
 def upsert_deal(row, company_record_id, stage="Watchlist", source=None, top10=False):
     company_name = str(row.get('Companies', '')).strip()
