@@ -152,6 +152,35 @@ def _foreign_company_warning(deal: DealInput, params: list, rationale: str) -> s
     return ""
 
 
+def _dimension_hard_gate(param_scores: dict) -> str:
+    """Narrow, safety-net-only check for the two hard-auto-pass triggers that
+    map cleanly onto a whole dimension bottoming out (prompts/rubric.md's
+    "Hard auto-pass vs. soft pass" section, and the AI Score / Lead-Round
+    Dynamics anchor-1 text): AI Score == 1.0 ("no meaningful AI component")
+    and Lead/Round Dynamics == 1.0 ("no credible access path"). dim_score is
+    the mean of a dimension's subcategories (rubric.dimension_score), so a
+    dimension only reads exactly 1.0 when every one of its subcategories
+    bottomed out -- not from one weak subcategory dragging down an otherwise
+    fine dimension.
+
+    Deliberately does NOT try to infer the other two documented triggers
+    (founder red flags; confirmed weak fundamentals/return) here -- those are
+    judgment calls about *which* subcategories were confirmed-bad together,
+    not "this whole dimension hit its floor", and rubric.py's own module
+    docstring is explicit that hard_auto_pass inference from raw scores is
+    deliberately avoided everywhere else so a single mis-scored dimension
+    can't silently auto-kill an otherwise strong deal. This exists only to
+    catch the model failing to set hard_auto_pass when its own subcategory
+    scores already imply one of these two specific, unambiguous gates --
+    it never contradicts a hard_auto_pass the model already set.
+    """
+    if param_scores.get("ai_score") == 1.0:
+        return "No meaningful AI component (AI Score dimension floored at 1) -- ID8's mandate is AI-focused. [code-enforced gate]"
+    if param_scores.get("lead_round_dynamics") == 1.0:
+        return "No credible access path (Lead / Round Dynamics dimension floored at 1). [code-enforced gate]"
+    return ""
+
+
 def _truthy(v) -> bool:
     """Defensive bool coercion -- Perplexity is a text model producing JSON, not
     a strict function-calling API, so hard_auto_pass/watch_list occasionally
@@ -250,6 +279,11 @@ async def score_deal(deal: DealInput) -> DealFit:
     raw_avg = rubric.raw_score(param_scores)
     hard_auto_pass = _truthy(parsed.get("hard_auto_pass", False))
     hard_auto_pass_reason = parsed.get("hard_auto_pass_reason", "") or ""
+    if not hard_auto_pass:
+        gate_reason = _dimension_hard_gate(param_scores)
+        if gate_reason:
+            hard_auto_pass = True
+            hard_auto_pass_reason = gate_reason
     watch_list = _truthy(parsed.get("watch_list", False))
     rationale = parsed.get("rationale", "")
     research_flag = (_round_mismatch_warning(deal, params, rationale)
