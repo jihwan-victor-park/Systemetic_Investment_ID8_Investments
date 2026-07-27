@@ -10,7 +10,17 @@
 
 .panel {
   position: fixed;
-  z-index: 40;
+  /* Highest z-index in the app on purpose -- above JobsTray (fixed
+     bottom-right, z-index: 1000), the sticky Navbar (100), and every modal
+     tier (200). This is a `position: fixed`, mouse-driven overlay: wherever
+     it overlaps another fixed/sticky element with a HIGHER z-index, THAT
+     element -- not the panel -- receives the pointer there (stacking order
+     governs hit-testing, not DOM nesting). That silently fired a real
+     mouseleave on the trigger the moment the cursor crossed into the
+     eclipsed region, closing the panel before it could be reached/read --
+     "the popup hides under the header", "it closes before I can touch it".
+     Bump this again if a future overlay needs to sit above it too. */
+  z-index: 1100;
   width: 340px;
   max-height: 70vh;
   overflow-y: auto;
