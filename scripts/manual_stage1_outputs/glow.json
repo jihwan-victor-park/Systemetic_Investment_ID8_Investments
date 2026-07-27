@@ -1,0 +1,548 @@
+{
+  "slug": "glow",
+  "company": {
+    "name": "Glow",
+    "website": "glow.io"
+  },
+  "screen": {
+    "date": "2026-07-27",
+    "roundStage": "Series B",
+    "fitScore": 2.8,
+    "rawScore": 2.8,
+    "verdict": "more diligence",
+    "hardAutoPassNote": null,
+    "dimensions": [
+      {
+        "key": "lead_round_dynamics",
+        "name": "Lead / Round Dynamics",
+        "score": 3.4,
+        "evidence": "Tier-1+ Sequoia is present but re-upping, not new money; the only new-money co-lead, Redpoint, isn't Tier-1 — thesis pattern only partially met.",
+        "subcategories": [
+          {
+            "key": "lead_tier",
+            "name": "Lead tier",
+            "score": 4.0,
+            "finding": "Sequoia (Tier 1+) co-leads with CyberStarts, Greenoaks, Redpoint at Series B[[1]](https://www.calcalistech.com/ctechnews/article/hky511mc4gx).",
+            "anchors": {
+              "1": "No credible institutional lead -- insider bridge, anonymous SPV, or a CVC/regional fund with no strategic relevance.",
+              "2": "Non-Tier-1 VC leading the round.",
+              "3": "Tier 1 VC (per the Tier 1 list) or a qualifying Domain-Strategic lead -- genuine category asymmetry, not a generic corporate CVC.",
+              "4": "Tier 1+ VC (per the Tier 1+ list) leading the round."
+            }
+          },
+          {
+            "key": "new_vs_reup",
+            "name": "New vs re-up",
+            "score": 3.0,
+            "finding": "Sequoia/CyberStarts re-up from Seed; Redpoint new but non-Tier-1[[2]](https://my.pitchbook.com/profile/1459926-10/company/profile).",
+            "anchors": {
+              "1": "Re-up claim taken at face value with no cap-table or prior-round corroboration -- unverifiable, treated as unconfirmed.",
+              "2": "Confirmed re-up -- an existing investor increasing its position, not new money.",
+              "3": "Re-up verified via cap table/prior-round disclosure, from a Tier 1+ firm, with strong stated conviction.",
+              "4": "Verified new money -- the lead is on the cap table for the first time, ID8's strongest backtested predictor of returns."
+            }
+          },
+          {
+            "key": "stage_fit",
+            "name": "Stage fit",
+            "score": 4.0,
+            "finding": "$1.2B post-money Series B/B-1, clean up-round primary[[2]](https://my.pitchbook.com/profile/1459926-10/company/profile).",
+            "anchors": {
+              "1": "Pre-seed or Seed -- well outside mandate, no near-term path to Series B+.",
+              "2": "Series A -- out of mandate for now but on a plausible path to Series B; file to Watch List.",
+              "3": "Series B/C/D but the round has mixed characteristics (bridge-to-B, extension round) vs. a clean primary.",
+              "4": "Clean primary round at Series B, C, or D -- squarely in mandate."
+            }
+          },
+          {
+            "key": "domain_strategic",
+            "name": "Domain-strategic",
+            "score": 2.0,
+            "finding": "Leads are financial VCs, not domain operators; no strategic asymmetry.",
+            "anchors": {
+              "1": "Lead claims domain relevance but is a generic corporate CVC or regional fund with no genuine category asymmetry.",
+              "2": "Lead is a traditional financial VC -- domain-strategic signal not applicable to this deal.",
+              "3": "Lead has adjacent domain relevance but the asymmetry is partial (e.g. a fintech-adjacent bank, not a direct incumbent).",
+              "4": "Lead is a large institutional player whose core business IS the company's market (NYSE/ICE-Polymarket precedent) -- genuine, direct asymmetry."
+            }
+          },
+          {
+            "key": "lead_conviction",
+            "name": "Lead conviction",
+            "score": 4.0,
+            "finding": "Sequoia's Shaun Maguire[[3]](https://www.globenewswire.com/news-release/2026/07/22/3331154/0/en/glow-emerges-from-stealth-with-180-million-to-reinvent-endpoint-security-in-the-ai-era.html) and CyberStarts' Gili Raanan (Wiz, Cyera) drove deal[[4]](https://www.calcalistech.com/ctechnews/article/b1a1jn00hc).",
+            "anchors": {
+              "1": "Deal sourced/led by a junior associate or scout check with no partner-level sponsorship visible.",
+              "2": "A named partner is involved but with no visible personal track record or reputational stake disclosed.",
+              "3": "The leading GP has a credible prior-fund track record and is the named partner driving the deal.",
+              "4": "The leading GP is personally/reputationally committed -- strong prior-fund performance, personal co-invest, or a bio establishing direct conviction."
+            }
+          },
+          {
+            "key": "institutional_momentum",
+            "name": "Institutional momentum",
+            "score": 4.0,
+            "finding": "Sequoia, CyberStarts, Greenoaks all followed on from Seed/A[[2]](https://my.pitchbook.com/profile/1459926-10/company/profile).",
+            "anchors": {
+              "1": "Existing investors from prior rounds are confirmed NOT participating -- a negative signal, insiders passing.",
+              "2": "No visible signal either way on prior-round investor participation in this round.",
+              "3": "Some prior-round investors are following on, but participation is partial or unconfirmed beyond a press mention.",
+              "4": "Existing Tier-1 investors from prior rounds are confirmed following on alongside the new lead -- a distinct, corroborating signal."
+            }
+          },
+          {
+            "key": "existing_tier_1",
+            "name": "Existing Tier 1",
+            "score": 4.0,
+            "finding": "Sequoia (Tier 1+) and Greenoaks (Tier 1) pre-round[[2]](https://my.pitchbook.com/profile/1459926-10/company/profile).",
+            "anchors": {
+              "1": "No Tier 1 or Tier 1+ investors anywhere on the pre-round cap table.",
+              "2": "Cap table history is unclear/unverifiable, or only lower-tier/angel investors are confirmed.",
+              "3": "At least one Tier 1 firm is confirmed on the pre-round cap table.",
+              "4": "Multiple Tier 1/Tier 1+ firms are confirmed on the pre-round cap table -- a strong pre-existing pedigree signal."
+            }
+          },
+          {
+            "key": "timing_motivation",
+            "name": "Timing/motivation",
+            "score": 2.0,
+            "finding": "No disclosed term-sheet competition; rapid 3x re-rate suggests momentum.",
+            "anchors": {
+              "1": "Defensive raise -- runway extension, down-round pressure, or limited alternatives visible.",
+              "2": "Motivation is unclear or undisclosed; no evidence either of opportunistic strength or defensive need.",
+              "3": "Opportunistic raise with at least one credible alternative term sheet or investor reported.",
+              "4": "Clearly opportunistic -- positive inflection point, multiple credible term sheet options, company controlling the process."
+            }
+          }
+        ]
+      },
+      {
+        "key": "founder_team_quality",
+        "name": "Founder / Team Quality",
+        "score": 3.5,
+        "evidence": "Deep, complementary security pedigree (Snowflake, Claroty, Unit 8200) and a real prior exit; Tiger's Onavo carries an unresolved privacy-scandal shadow.",
+        "subcategories": [
+          {
+            "key": "prior_exit",
+            "name": "Prior exit",
+            "score": 4.0,
+            "finding": "Tiger co-founded Onavo, acquired by Meta for ~$120-200M[[5]](https://techfundingnews.com/glow-180m-series-a-1-2b-valuation-ai-endpoint-security/).",
+            "anchors": {
+              "1": "First-time founder(s) with no prior scaling or exit track record at all.",
+              "2": "Some operating experience but nothing scaled meaningfully (no $100M+ ARR company, no exit).",
+              "3": "First-time founder with elite pedigree (FAANG, top-tier academic, relevant domain leadership) but no exit yet.",
+              "4": "Serial founder with a meaningful prior exit or a company scaled to $100M+ ARR."
+            }
+          },
+          {
+            "key": "domain_authority",
+            "name": "Domain authority",
+            "score": 4.0,
+            "finding": "Singer led Snowflake security strategy; Arie ran Claroty R&D, Unit 8200[[1]](https://www.calcalistech.com/ctechnews/article/hky511mc4gx).",
+            "anchors": {
+              "1": "No prior experience in this market -- founders are entering a domain they've never operated in.",
+              "2": "Adjacent but not direct domain experience (a related market, not this exact one).",
+              "3": "Meaningful prior operating time in this exact market, though not in a senior/executive capacity.",
+              "4": "Deep domain authority -- years as a practitioner, executive, or technical lead in this exact market before founding."
+            }
+          },
+          {
+            "key": "team_complement",
+            "name": "Team complement",
+            "score": 4.0,
+            "finding": "CEO/CTO/R&D founders plus ex-Meta CPO, ex-CISO COO cover functions[[1]](https://www.calcalistech.com/ctechnews/article/hky511mc4gx)[[6]](https://techcrunch.com/2026/07/22/glow-emerges-from-stealth-at-1-2b-valuation-to-challenge-endpoint-security-in-the-ai-era/).",
+            "anchors": {
+              "1": "Solo founder or a founding team with duplicated skillsets and no coverage of a critical function.",
+              "2": "Founding team has partial coverage but a visible, material gap (e.g. no technical co-founder for a deep-tech company).",
+              "3": "Founding team covers the critical functions with reasonable but not ideal complementarity.",
+              "4": "Clean technical/GTM/operational complementarity with no material coverage gap."
+            }
+          },
+          {
+            "key": "recruiting_power",
+            "name": "Recruiting power (as in team growth)",
+            "score": 4.0,
+            "finding": "~100 hires in a year, incl. ex-CISO and ex-Meta leaders[[1]](https://www.calcalistech.com/ctechnews/article/hky511mc4gx)[[6]](https://techcrunch.com/2026/07/22/glow-emerges-from-stealth-at-1-2b-valuation-to-challenge-endpoint-security-in-the-ai-era/).",
+            "anchors": {
+              "1": "Headcount flat or shrinking; visible attrition among early/senior hires.",
+              "2": "Headcount growth is slow or unverifiable from LinkedIn/public signal.",
+              "3": "Steady headcount growth with some credible senior hires.",
+              "4": "Strong LinkedIn headcount growth trend with notable senior hires and retention of early employees."
+            }
+          },
+          {
+            "key": "public_presence",
+            "name": "Public presence",
+            "score": 3.0,
+            "finding": "Singer/Tiger have prior press and blog visibility; Glow itself was stealth[[5]](https://techfundingnews.com/glow-180m-series-a-1-2b-valuation-ai-endpoint-security/).",
+            "anchors": {
+              "1": "No public footprint at all for the founders -- cannot assess reputation.",
+              "2": "Minimal public presence; thin press, no conference/technical presence found.",
+              "3": "Regular press mentions or some conference/technical writing presence.",
+              "4": "Strong, consistent public presence -- press, conference talks, technical writing, or open-source contributions hard to fabricate."
+            }
+          },
+          {
+            "key": "integrity",
+            "name": "Integrity",
+            "score": 2.0,
+            "finding": "Onavo later used in Meta's 'Ghostbusters' spying scheme; Tiger not personally named[[5]](https://techfundingnews.com/glow-180m-series-a-1-2b-valuation-ai-endpoint-security/)[[7]](https://www.theregister.com/2024/03/27/meta_snapchat_data/).",
+            "anchors": {
+              "1": "Verified negative history -- litigation, fraud allegations, regulatory action, or confirmed toxic-culture signals.",
+              "2": "Background is genuinely unverifiable after real search effort -- flag [unverified], a gap, not a red flag.",
+              "3": "Background verified with no red flags found, though the search surface was limited.",
+              "4": "Background thoroughly verified across multiple independent sources with no red flags found."
+            }
+          }
+        ]
+      },
+      {
+        "key": "ai_score",
+        "name": "AI Score",
+        "score": 2.0,
+        "evidence": "AI is central to the pitch but currently an orchestration/context layer atop rented foundation models, not an owned architecture or proven data flywheel.",
+        "subcategories": [
+          {
+            "key": "ownership_of_models",
+            "name": "Ownership of models",
+            "score": 2.0,
+            "finding": "Runs Anthropic/Gemini via Bedrock plus a proprietary context layer[[6]](https://techcrunch.com/2026/07/22/glow-emerges-from-stealth-at-1-2b-valuation-to-challenge-endpoint-security-in-the-ai-era/)[[8]](https://hyper.ai/en/stories/e75398f513acc1c9ad15406e428733df).",
+            "anchors": {
+              "1": "No proprietary model or fine-tune of any kind -- a thin wrapper calling a third-party foundation-model API with no differentiation.",
+              "2": "Some fine-tuning or prompt/pipeline engineering on top of a third-party model, but no owned architecture.",
+              "3": "A meaningfully customized or fine-tuned model with real engineering investment, though not a from-scratch architecture.",
+              "4": "Proprietary architecture, training pipeline, or deeply fine-tuned model that is defensible and hard to replicate with a foundation-model update."
+            }
+          },
+          {
+            "key": "data_flywheel",
+            "name": "Data flywheel / Recurssion",
+            "score": 2.0,
+            "finding": "Claims cross-device 'single source of truth'; no usage-compounding evidence public[[8]](https://hyper.ai/en/stories/e75398f513acc1c9ad15406e428733df).",
+            "anchors": {
+              "1": "No evidence usage data feeds back into the product at all.",
+              "2": "A plausible data flywheel is claimed but with no concrete evidence (no stated improvement cadence or proprietary dataset).",
+              "3": "Some concrete evidence of a data flywheel (a proprietary dataset or a stated retraining cycle), though the compounding effect isn't yet demonstrated.",
+              "4": "Strong, evidenced data flywheel -- usage data demonstrably compounds product quality over time via a proprietary dataset and an active retraining cycle."
+            }
+          }
+        ]
+      },
+      {
+        "key": "terms",
+        "name": "Terms",
+        "score": 3.0,
+        "evidence": "No public information on ID8's specific terms; assume standard 0/0/10 economics absent any disclosed adverse signal.",
+        "subcategories": [
+          {
+            "key": "assume_good_absent_evidence",
+            "name": "Just assume they are good (unless there's something public)",
+            "score": 3.0,
+            "finding": "Primary Series B co-invest; no adverse terms reported publicly.",
+            "anchors": {
+              "1": "Confirmed bad terms -- a recurring annual management fee (any amount), or carry >15% with an upfront fee >2%, or carry >20% regardless of fee.",
+              "2": "Some public evidence of elevated but not disqualifying terms -- carry 10-15%, upfront access fee at or below 2% (the Polymarket standard), or limited information rights/multi-layer SPV.",
+              "3": "Standard 0/0/10 terms confirmed, or no public evidence either way -- assume standard/good absent any adverse public signal.",
+              "4": "Better than standard -- carry below 10% with pro-rata confirmed, full information rights, clean single-layer SPV or direct co-invest, no upfront fee."
+            }
+          }
+        ]
+      },
+      {
+        "key": "fundamentals",
+        "name": "Fundamentals",
+        "score": 2.3,
+        "evidence": "No disclosed financials; [ESTIMATED] ~$10-20M ARR via Cyera comp implies a very rich entry multiple despite a large, still-forming TAM.",
+        "subcategories": [
+          {
+            "key": "revenue_growth",
+            "name": "Revenue/growth",
+            "score": 2.0,
+            "finding": "[ESTIMATED] ~$10-20M ARR via Cyera's 80x comp multiple[[9]](https://techcrunch.com/2026/06/02/cyera-eyes-12b-valuation-at-80x-arr-multiple-despite-operating-losses/)[[10]](https://www.calcalistech.com/ctechnews/article/b1jfu8d002).",
+            "anchors": {
+              "1": "Confirmed sub-$5M ARR and sub-40% YoY growth -- a real, disclosed weak number, not a data gap.",
+              "2": "No disclosed revenue/growth and no usable [ESTIMATED] triangulation exists, or an [ESTIMATED] figure lands below the $25M ARR / 70% growth bar.",
+              "3": "$25M+ ARR with >70% YoY growth, confirmed or [ESTIMATED] via triangulation.",
+              "4": "$50M+ ARR with 100%+ YoY growth, confirmed or [ESTIMATED] via triangulation."
+            }
+          },
+          {
+            "key": "ndr",
+            "name": "NDR",
+            "score": 2.0,
+            "finding": "NDR not disclosed; no comparable-peer estimate found.",
+            "anchors": {
+              "1": "Confirmed NDR below 100% -- shrinking accounts.",
+              "2": "NDR not disclosed and no usable estimate exists.",
+              "3": "NDR above 110%, confirmed or credibly estimated from comparable-stage peers.",
+              "4": "NDR above 130%, confirmed or credibly estimated from comparable-stage peers."
+            }
+          },
+          {
+            "key": "margins_unit_econ",
+            "name": "Margins/unit econ",
+            "score": 2.0,
+            "finding": "LTV/CAC and gross margin undisclosed; no usable estimate.",
+            "anchors": {
+              "1": "Confirmed LTV/CAC below 2x -- growth is value-destroying.",
+              "2": "Gross margin/unit economics not disclosed and no usable estimate exists.",
+              "3": "LTV/CAC above 3x with reasonable gross margin -- growth is value-creating.",
+              "4": "LTV/CAC above 5x with strong gross and contribution margin."
+            }
+          },
+          {
+            "key": "burn_runway",
+            "name": "Burn/runway",
+            "score": 2.0,
+            "finding": "Burn undisclosed; $178M raised to date, no runway data[[2]](https://my.pitchbook.com/profile/1459926-10/company/profile).",
+            "anchors": {
+              "1": "Confirmed burn above 100% of revenue -- burning faster than it earns with no offsetting signal.",
+              "2": "Burn/runway not disclosed and no usable estimate exists.",
+              "3": "Burn below 50% of revenue with a credible runway at current spend.",
+              "4": "Burn below 20% of revenue -- strong capital discipline relative to revenue."
+            }
+          },
+          {
+            "key": "customer_concentration",
+            "name": "Customer concentration",
+            "score": 2.0,
+            "finding": "Customers span healthcare, retail, finance; concentration % undisclosed[[1]](https://www.calcalistech.com/ctechnews/article/hky511mc4gx)[[6]](https://techcrunch.com/2026/07/22/glow-emerges-from-stealth-at-1-2b-valuation-to-challenge-endpoint-security-in-the-ai-era/).",
+            "anchors": {
+              "1": "Confirmed whale-contract risk -- a single customer or a small handful account for the clear majority of revenue.",
+              "2": "Customer concentration not disclosed and cannot be estimated.",
+              "3": "Some concentration in the top customers, but diversified enough that no single loss would be existential.",
+              "4": "Broad, diversified customer base with no material single-customer or top-N concentration risk."
+            }
+          },
+          {
+            "key": "pref_stack",
+            "name": "Pref stack",
+            "score": 2.0,
+            "finding": "Cap table shows pari passu prefs; full stack undisclosed[[2]](https://my.pitchbook.com/profile/1459926-10/company/profile).",
+            "anchors": {
+              "1": "Confirmed stacked, senior-heavy liquidation preference structure ahead of this round.",
+              "2": "Cap table/pref stack structure not disclosed and cannot be estimated.",
+              "3": "Preferred stack is reasonably lean, with no material senior-preference overhang identified.",
+              "4": "Lean preferred stack confirmed -- clean capital structure that protects downside and signals capital discipline."
+            }
+          },
+          {
+            "key": "moat_durability",
+            "name": "Moat durability",
+            "score": 2.0,
+            "finding": "Cross-device data/telemetry moat claimed; no usage evidence published[[8]](https://hyper.ai/en/stories/e75398f513acc1c9ad15406e428733df).",
+            "anchors": {
+              "1": "Moat is purely narrative (\"great team,\" \"we move fast\") with no structural defensibility identified.",
+              "2": "Some structural elements claimed but not clearly evidenced (e.g. asserted network effects with no usage data).",
+              "3": "Real but moderate structural moat -- some combination of switching costs, early network effects, or a regulatory edge.",
+              "4": "Strong structural moat -- durable network effects, a genuine regulatory barrier, or high switching costs, clearly evidenced."
+            }
+          },
+          {
+            "key": "market_tam",
+            "name": "Market/TAM",
+            "score": 4.0,
+            "finding": "Endpoint security ~$40B now, $119B by 2035; AI-agent layer emerging[[11]](https://www.openpr.com/news/4586626/endpoint-security-market-to-reach-us-119-04-billion-by-2035-as).",
+            "anchors": {
+              "1": "Current market is not venture-scale and no credible adjacent expansion path exists.",
+              "2": "Market size or expansion path is unclear/undisclosed and cannot be credibly estimated.",
+              "3": "Current market alone is venture-scale, though the adjacent expansion path is more aspirational than in-motion.",
+              "4": "Current market is venture-scale and a credible, already-in-motion adjacent expansion path is evidenced."
+            }
+          },
+          {
+            "key": "valuation_vs_comps",
+            "name": "Valuation vs comps",
+            "score": 2.0,
+            "finding": "[ESTIMATED] multiple (~60-120x ARR) richer than Cyera's already-frothy 80x[[9]](https://techcrunch.com/2026/06/02/cyera-eyes-12b-valuation-at-80x-arr-multiple-despite-operating-losses/).",
+            "anchors": {
+              "1": "Entry valuation is confirmed materially rich vs. growth-adjusted public/private comps.",
+              "2": "No public revenue multiple available and no usable [ESTIMATED]/comp-set triangulation exists -- write [NOT PUBLIC].",
+              "3": "Entry multiple is defensible vs. public/private comps on a growth-adjusted (Rule-of-40-style) basis, confirmed or [ESTIMATED].",
+              "4": "Entry multiple is favorable vs. growth-adjusted comps -- priced at a discount to what the growth/margin profile would justify."
+            }
+          },
+          {
+            "key": "sector_risk",
+            "name": "Sector risk",
+            "score": 3.0,
+            "finding": "CrowdStrike/Microsoft/SentinelOne shipping rival AI features fast; real but not fatal[[12]](https://www.marketscale.com/industries/software-and-technology/sentinelones-singularity-platform-moves-to-close-the-gap-with-crowdstrike-in-ai-driven-endpoint-security).",
+            "anchors": {
+              "1": "Confirmed acute disruption risk -- foundational-model capability creep, pending regulatory action, or macro cyclicality that could impair the business within the hold period.",
+              "2": "Sector risk is unclear or unassessed from available evidence.",
+              "3": "Some sector exposure identified but manageable -- not an acute, near-term threat.",
+              "4": "Sector is not at acute disruption risk -- durable position against foundational-model creep, regulatory shifts, and macro cyclicality."
+            }
+          }
+        ]
+      },
+      {
+        "key": "return_potential",
+        "name": "Return Potential",
+        "score": 2.8,
+        "evidence": "Strong exit precedent (Wiz, Cyera, CrowdStrike) and modelable dilution, but a rich unconfirmed entry multiple caps realistic base-case MOIC below 6x.",
+        "subcategories": [
+          {
+            "key": "entry_multiple",
+            "name": "Entry multiple",
+            "score": 2.0,
+            "finding": "Growth/margin trajectory unconfirmed; entry multiple can't be judged.",
+            "anchors": {
+              "1": "Entry multiple is not justified even after accounting for growth and margin trajectory.",
+              "2": "Entry multiple cannot be assessed -- insufficient data on growth/margin trajectory to judge.",
+              "3": "Entry multiple is justified once growth and margin trajectory are factored in, though not favorable.",
+              "4": "Entry multiple is well justified -- growth-adjusted pricing is attractive relative to trajectory."
+            }
+          },
+          {
+            "key": "base_case_moic",
+            "name": "Base-case MOIC",
+            "score": 2.0,
+            "finding": "Rich entry vs. estimated ARR caps realistic base-case upside.",
+            "anchors": {
+              "1": "Below 2x MOIC / below 10% IRR as the realistic base case.",
+              "2": "2-3x MOIC / 10-20% IRR -- below venture scale in the base case.",
+              "3": "3-6x MOIC / 20-30% IRR as a realistic base case, with some execution risk.",
+              "4": "6x+ MOIC / 30%+ IRR as the base case (not the bull case), with a credible path shown."
+            }
+          },
+          {
+            "key": "exit_path",
+            "name": "Exit path",
+            "score": 4.0,
+            "finding": "Sector precedent: Wiz-Google $32B[[13]](https://www.cybersecuritydive.com/news/google-32-billion-acquisition-wiz/814437/), Cyera $12B[[10]](https://www.calcalistech.com/ctechnews/article/b1jfu8d002), CrowdStrike/SentinelOne IPOs.",
+            "anchors": {
+              "1": "No credible exit path identified -- no IPO readiness signal, no M&A appetite, no comparable precedent exits.",
+              "2": "Exit path is unclear or speculative, with only weak precedent.",
+              "3": "A reasonable exit path exists (IPO readiness or active M&A appetite in the sector) with some precedent support.",
+              "4": "Clear exit path -- strong IPO readiness or active M&A appetite in the sector, with genuinely comparable precedent exits."
+            }
+          },
+          {
+            "key": "dilution",
+            "name": "Dilution",
+            "score": 3.0,
+            "finding": "Modeled 2 rounds at ~20-25% each; case stays viable.",
+            "anchors": {
+              "1": "Dilution modeling was not attempted, or the deal isn't viable even under a favorable dilution assumption.",
+              "2": "Dilution is modeled loosely or with unsupported assumptions.",
+              "3": "At least two future financing rounds (~20-25% each) are explicitly modeled before exit, with a viable resulting MOIC.",
+              "4": "Dilution is rigorously modeled across multiple future rounds and the return case holds up well even under conservative assumptions."
+            }
+          },
+          {
+            "key": "time_to_liquidity",
+            "name": "Time to liquidity",
+            "score": 3.0,
+            "finding": "Comps (Cyera) moved Series B to $12B in 3yrs[[10]](https://www.calcalistech.com/ctechnews/article/b1jfu8d002).",
+            "anchors": {
+              "1": "Time to liquidity is long with no offsetting IRR -- the modeled MOIC only works over an unrealistically extended hold.",
+              "2": "Time to liquidity is unclear or unmodeled.",
+              "3": "A reasonable time-to-liquidity estimate exists and the resulting IRR is acceptable, even if not exceptional.",
+              "4": "Time to liquidity is modeled explicitly and the resulting IRR is strong -- the same MOIC compressed into a shorter, credible hold."
+            }
+          },
+          {
+            "key": "downside_protection",
+            "name": "Downside protection",
+            "score": 3.0,
+            "finding": "Pari passu, non-participating preferred, weighted-average anti-dilution confirmed[[2]](https://my.pitchbook.com/profile/1459926-10/company/profile).",
+            "anchors": {
+              "1": "No meaningful downside protection -- weak or absent liquidation preference, pro-rata, or seniority; for secondaries, a premium paid vs. last priced round.",
+              "2": "Downside protection terms are undisclosed or unclear.",
+              "3": "Standard downside protection in place -- reasonable liquidation preference, pro-rata rights, and seniority.",
+              "4": "Strong downside protection -- favorable liquidation preference/seniority, or for secondaries, a confirmed discount vs. last priced round."
+            }
+          },
+          {
+            "key": "exit_multiples",
+            "name": "Exit multiples",
+            "score": 3.0,
+            "finding": "Same-category comps exist but may reflect cycle-peak AI pricing[[9]](https://techcrunch.com/2026/06/02/cyera-eyes-12b-valuation-at-80x-arr-multiple-despite-operating-losses/)[[10]](https://www.calcalistech.com/ctechnews/article/b1jfu8d002).",
+            "anchors": {
+              "1": "Exit-multiple assumptions rely on aspirational comps from a different category or a cycle peak, not a genuinely comparable precedent set.",
+              "2": "No genuinely comparable exit precedent set could be identified.",
+              "3": "Exit-multiple assumptions are anchored to a reasonably comparable precedent set.",
+              "4": "Exit-multiple assumptions are anchored to a genuinely comparable, well-evidenced precedent set."
+            }
+          },
+          {
+            "key": "secondary_demand",
+            "name": "Secondary demand",
+            "score": 2.0,
+            "finding": "Too new post-stealth for any secondary market signal yet.",
+            "anchors": {
+              "1": "No secondary market signal found, or the company is reported as actively avoided/discounted in secondary trading.",
+              "2": "Secondary market activity/demand could not be assessed from available sources.",
+              "3": "Some secondary market interest signal exists but not on a named tracked list (Setter 30) or major marketplace.",
+              "4": "Company appears on the Setter Capital \"Setter 30\" or is reported as actively traded by Forge/Caplight/EquityZen or similar -- external corroboration of the exit thesis."
+            }
+          }
+        ]
+      }
+    ],
+    "rationale": "Elite Israeli security team and Sequoia/CyberStarts backing are real, but Sequoia is a re-up, not new money, and new-money co-lead Redpoint is non-Tier-1 — missing ID8's core predictor. AI still runs atop rented Anthropic/Gemini models, priced richly against undisclosed revenue.",
+    "confidence": "medium",
+    "sources": [
+      {
+        "number": 1,
+        "url": "https://www.calcalistech.com/ctechnews/article/hky511mc4gx"
+      },
+      {
+        "number": 2,
+        "url": "https://my.pitchbook.com/profile/1459926-10/company/profile"
+      },
+      {
+        "number": 3,
+        "url": "https://www.globenewswire.com/news-release/2026/07/22/3331154/0/en/glow-emerges-from-stealth-with-180-million-to-reinvent-endpoint-security-in-the-ai-era.html"
+      },
+      {
+        "number": 4,
+        "url": "https://www.calcalistech.com/ctechnews/article/b1a1jn00hc"
+      },
+      {
+        "number": 5,
+        "url": "https://techfundingnews.com/glow-180m-series-a-1-2b-valuation-ai-endpoint-security/"
+      },
+      {
+        "number": 6,
+        "url": "https://techcrunch.com/2026/07/22/glow-emerges-from-stealth-at-1-2b-valuation-to-challenge-endpoint-security-in-the-ai-era/"
+      },
+      {
+        "number": 7,
+        "url": "https://www.theregister.com/2024/03/27/meta_snapchat_data/"
+      },
+      {
+        "number": 8,
+        "url": "https://hyper.ai/en/stories/e75398f513acc1c9ad15406e428733df"
+      },
+      {
+        "number": 9,
+        "url": "https://techcrunch.com/2026/06/02/cyera-eyes-12b-valuation-at-80x-arr-multiple-despite-operating-losses/"
+      },
+      {
+        "number": 10,
+        "url": "https://www.calcalistech.com/ctechnews/article/b1jfu8d002"
+      },
+      {
+        "number": 11,
+        "url": "https://www.openpr.com/news/4586626/endpoint-security-market-to-reach-us-119-04-billion-by-2035-as"
+      },
+      {
+        "number": 12,
+        "url": "https://www.marketscale.com/industries/software-and-technology/sentinelones-singularity-platform-moves-to-close-the-gap-with-crowdstrike-in-ai-driven-endpoint-security"
+      },
+      {
+        "number": 13,
+        "url": "https://www.cybersecuritydive.com/news/google-32-billion-acquisition-wiz/814437/"
+      }
+    ]
+  },
+  "_computed": {
+    "fit_score": 2.8,
+    "raw_score": 2.8,
+    "quality_tier": "more_diligence",
+    "gate": false,
+    "hard_auto_pass": false
+  }
+}

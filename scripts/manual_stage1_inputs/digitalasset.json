@@ -1,0 +1,99 @@
+{
+  "deal": {"record_id": "manual-digitalasset", "name": "Digital Asset", "domain": "digitalasset.com", "round": "Series F", "lead_investors": "Andreessen Horowitz", "hq": "New York, NY"},
+  "model_output": {
+    "params": [
+      {
+        "key": "lead_round_dynamics",
+        "subcategories": [
+          {"label": "Lead tier", "score": 3, "finding": "a16z (Tier 1 list) is sole named lead; not Tier 1+."},
+          {"label": "New vs re-up", "score": 4, "finding": "PB cap table: a16z investor-since 2026-07-21, no prior entry -- new [1]."},
+          {"label": "Stage fit", "score": 4, "finding": "Clean Series F primary, 8th round, $365M add-on close, not a bridge."},
+          {"label": "Domain-strategic", "score": 2, "finding": "Lead is a16z, a crypto VC -- not a bank/exchange domain-strategic lead."},
+          {"label": "Lead conviction", "score": 3, "finding": "Named GP Ali Yahya, a16z crypto GP since 2017, $2.2B fund [2]."},
+          {"label": "Institutional momentum", "score": 3, "finding": "11 follow-ons incl. Tradeweb, Citadel Securities, Optiver -- none Tier 1 VCs."},
+          {"label": "Existing Tier 1", "score": 1, "finding": "Pre-round cap table: banks/exchanges/strategics only, zero Tier 1/1+ VC firms."},
+          {"label": "Timing/motivation", "score": 4, "finding": "Round expanded $300M target to $365M on demand; no distress signal."}
+        ],
+        "evidence": "a16z (Tier 1) is genuine new money on a clean Series F primary, but no Tier-1 predecessor and a crypto-VC (not domain-strategic) lead."
+      },
+      {
+        "key": "founder_team_quality",
+        "subcategories": [
+          {"label": "Prior exit", "score": 4, "finding": "Co-founder Hirani sold Creditex to ICE for $513M in 2008 [3]."},
+          {"label": "Domain authority", "score": 4, "finding": "Founders: DRW/Citadel/Creditex/JPMorgan trading and clearing pedigree, all in this market."},
+          {"label": "Team complement", "score": 4, "finding": "Full C-suite: CTO PhD, CFO, COO, Chief Legal, Chief Strategy, Product."},
+          {"label": "Recruiting power (as in team growth)", "score": 3, "finding": "Headcount conflicting: 319 (2023, PB) vs 262-351 (2026, Latka/Tracxn), unclear trend."},
+          {"label": "Public presence", "score": 4, "finding": "Rooz: WEF contributor, Milken speaker; Wilson: Milken speaker, extensive trade press."},
+          {"label": "Integrity", "score": 4, "finding": "No litigation/fraud signal found across founders in extensive multi-source search."}
+        ],
+        "evidence": "Founding bench (Hirani's $513M Creditex exit, Wilson's DRW/Cumberland) is exceptionally strong; current CEO Rooz lacks his own prior exit but has 11+ years domain depth."
+      },
+      {
+        "key": "ai_score",
+        "subcategories": [
+          {"label": "Ownership of models", "score": 1, "finding": "No proprietary model; core tech is Daml smart-contract language, not ML."},
+          {"label": "Data flywheel / Recurssion", "score": 1, "finding": "Network effect is institutional/transaction-volume based, not AI/ML data compounding [4]."}
+        ],
+        "evidence": "Homepage and press make zero core AI/ML claims; 'AgenticLedger' is a third-party ecosystem use case, not Digital Asset's own moat."
+      },
+      {
+        "key": "terms",
+        "subcategories": [
+          {"label": "Just assume they are good (unless there's something public)", "score": 3, "finding": "No public terms disclosed for ID8 access; assume standard 0/0/10 absent signal."}
+        ],
+        "evidence": "No adverse public signal on fees/carry; ID8's actual access path into this a16z-led consortium round is itself unconfirmed."
+      },
+      {
+        "key": "fundamentals",
+        "subcategories": [
+          {"label": "Revenue/growth", "score": 2, "finding": "[ESTIMATED] $29-85M ARR range (Latka vs. multiple carry-forward); growth rate unconfirmed [5]."},
+          {"label": "NDR", "score": 2, "finding": "Not disclosed; no comparable-peer estimate exists for enterprise DLT licensing model."},
+          {"label": "Margins/unit econ", "score": 2, "finding": "LTV/CAC not disclosed; no public unit economics for network licensing model."},
+          {"label": "Burn/runway", "score": 2, "finding": "Not disclosed; $365M raise implies runway, but burn rate itself unconfirmed."},
+          {"label": "Customer concentration", "score": 4, "finding": "700+ ecosystem participants incl. DTCC, BNY, Goldman, Nasdaq [2]."},
+          {"label": "Pref stack", "score": 2, "finding": "Cap table/pref structure not disclosed for this round; cannot be estimated."},
+          {"label": "Moat durability", "score": 4, "finding": "Privacy-preserving sync protocol + deep bank network effects, hard to replicate [6]."},
+          {"label": "Market/TAM", "score": 4, "finding": "Multi-trillion RWA tokenization TAM; bonds/repos/insurance expansion already in motion, not aspirational."},
+          {"label": "Valuation vs comps", "score": 2, "finding": "Implied revenue multiple 24x-70x range across estimates -- too wide to confirm."},
+          {"label": "Sector risk", "score": 3, "finding": "Bank consortium lock-in offsets real crypto-cycle and tokenization-regulation exposure; not acute."}
+        ],
+        "evidence": "Revenue is genuinely undisclosed and triangulation diverges widely ([ESTIMATED] $29-85M); moat and diversified 700+-participant base are real, but valuation-to-revenue is unverifiable."
+      },
+      {
+        "key": "return_potential",
+        "subcategories": [
+          {"label": "Entry multiple", "score": 2, "finding": "Cannot confirm growth-adjusted fairness given wide $29-85M revenue estimate range."},
+          {"label": "Base-case MOIC", "score": 2, "finding": "Late Series F entry, rich multiple; realistic base case near 2-3x."},
+          {"label": "Exit path", "score": 3, "finding": "IPO plausible given scale + public-company investors (Nasdaq, Goldman); no confirmed timeline."},
+          {"label": "Dilution", "score": 2, "finding": "Not explicitly modeled; historical rounds diluted 18-32% each, consistent with assumption."},
+          {"label": "Time to liquidity", "score": 2, "finding": "No IPO/M&A timeline signaled; likely multi-year hold given late entry stage."},
+          {"label": "Downside protection", "score": 2, "finding": "Liquidation preference/seniority terms for this round not publicly disclosed."},
+          {"label": "Exit multiples", "score": 2, "finding": "No genuinely comparable public exit precedent exists for enterprise DLT-as-a-service."},
+          {"label": "Secondary demand", "score": 3, "finding": "$57M secondary in 2025 confirms liquidity demand; not on Setter 30 [7]."}
+        ],
+        "evidence": "At this late, rich entry the realistic base case is 2-3x MOIC, not ID8's 6x threshold, despite plausible IPO/M&A exit and real secondary liquidity."
+      }
+    ],
+    "rationale": "Digital Asset is not an AI company: Canton is privacy-preserving DLT infrastructure with no AI-driven moat, tripping ID8's AI hard-auto-pass. A genuine new-money Tier 1 lead (a16z) and elite founder exits (Creditex, DRW) don't override that mandate miss.",
+    "confidence": "medium",
+    "hard_auto_pass": true,
+    "hard_auto_pass_reason": "No AI component -- AI Score subcategories (Ownership of models, Data flywheel) both score 1; Canton Network is privacy-preserving DLT infrastructure, not an AI/ML product.",
+    "watch_list": false
+  },
+  "citations": [
+    "https://my.pitchbook.com/profile/118818-37/company/profile",
+    "https://www.prnewswire.com/news-releases/digital-asset-raises-355-million-to-accelerate-cantons-role-as-onchain-infrastructure-for-capital-markets-302797427.html",
+    "https://www.marketswiki.com/wiki/Sunil_Hirani",
+    "https://www.cantor8.io/official-blog/worlds-first-private-ai-agent-payment-settles-on-canton-network",
+    "https://getlatka.com/companies/digitalasset.com",
+    "https://www.cypherock.com/blogs/canton-network-vs-r3-corda-vs-hyperledger",
+    "https://my.pitchbook.com/profile/118818-37/company/deals#deal-293813-83T",
+    "https://www.digitalasset.com",
+    "https://www.coindesk.com/business/2026/05/11/canton-network-s-digital-asset-targets-usd2-billion-valuation-in-a16z-crypto-led-raise-bloomberg",
+    "https://a16zcrypto.com/team/ali-yahya/",
+    "https://en.wikipedia.org/wiki/Digital_Asset_Holdings",
+    "https://blockeden.xyz/blog/2026/01/14/canton-network-jpmorgan-wall-street-blockchain-tradfi/",
+    "https://www.institutionalinvestor.com/article/b17m4yzm8d0tv2/sunil-hirani-and-don-wilson---co-founders,-digital-asset-holdings",
+    "https://www.kucoin.com/blog/a16z-crypto-leads-300m-digital-asset-funding-round-at-2b-valuation-what-it-means-for-canton-network"
+  ]
+}

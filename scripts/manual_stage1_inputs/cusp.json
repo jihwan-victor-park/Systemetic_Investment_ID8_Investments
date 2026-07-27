@@ -1,0 +1,78 @@
+{
+  "deal": {"record_id": "manual-cuspai", "name": "CuspAI", "domain": "cusp.ai", "round": "Series B", "lead_investors": "Kleiner Perkins(Joshua Coyne), New Enterprise Associates(Lila Tretikov)", "hq": "Cambridge, United Kingdom"},
+  "model_output": {
+    "params": [
+      {"key": "lead_round_dynamics", "subcategories": [
+        {"label": "Lead tier", "score": 3, "finding": "NEA and Kleiner Perkins are both Tier 1 firms [7]"},
+        {"label": "New vs re-up", "score": 3, "finding": "NEA re-upped (led Series A [1]); Kleiner Perkins is genuinely new money [2]"},
+        {"label": "Stage fit", "score": 4, "finding": "Series B primary, up round, $445M at $2.53B post-money [1]"},
+        {"label": "Domain-strategic", "score": 2, "finding": "Both leads are traditional financial VCs, no category asymmetry"},
+        {"label": "Lead conviction", "score": 4, "finding": "Named partners Coyne (KP) and Tretikov (NEA) have strong track records [7][8]"},
+        {"label": "Institutional momentum", "score": 4, "finding": "NEA, Temasek, Prosus, Basis Set, Northzone all followed on from prior rounds [1]"},
+        {"label": "Existing Tier 1", "score": 4, "finding": "Sequoia and Lightspeed (Tier 1+) held pre-round stakes since Seed [1]"},
+        {"label": "Timing/motivation", "score": 4, "finding": "Valuation went ~$520M to $2.6B in under a year, oversubscribed [4][10]"}
+      ], "evidence": "Co-lead splits ID8's core signal: NEA re-ups, Kleiner Perkins is genuine new money; both are large, uncapacity-constrained funds, not forced sellers of access."},
+      {"key": "founder_team_quality", "subcategories": [
+        {"label": "Prior exit", "score": 4, "finding": "Edwards co-founded CQC, merged into Quantinuum, now leading quantum computing firm [5]"},
+        {"label": "Domain authority", "score": 3, "finding": "Edwards: chemistry PhD; Welling: AI4Science research, not materials-specific pre-founding [6]"},
+        {"label": "Team complement", "score": 4, "finding": "CEO (commercial), CTO (AI), CSO Walsh (materials science, Imperial) cover functions [12]"},
+        {"label": "Recruiting power (as in team growth)", "score": 4, "finding": "Grew 3 to 100+ staff in 2 years; hired Hinton, LeCun [9]"},
+        {"label": "Public presence", "score": 4, "finding": "Press profiles (GBx, NEA, Imperial) plus academic/conference visibility for founders [5][6][12]"},
+        {"label": "Integrity", "score": 4, "finding": "No red flags across CQC/Quantinuum, Imperial, NEA, press histories"}
+      ], "evidence": "Founders bring a genuine prior exit (Quantinuum) and elite AI pedigree, complemented by a materials-science CSO hire; recruiting and public credibility are exceptionally strong."},
+      {"key": "ai_score", "subcategories": [
+        {"label": "Ownership of models", "score": 4, "finding": "Proprietary generative + physics-based models built by VAE co-inventor Welling [6]"},
+        {"label": "Data flywheel / Recurssion", "score": 3, "finding": "45+ partner Foundry feeds lab-validation data back into models [3][11]"}
+      ], "evidence": "Genuinely structural AI: proprietary architecture from a top ML researcher, reinforced by a named-partner data loop, though compounding improvement isn't yet quantified publicly."},
+      {"key": "terms", "subcategories": [
+        {"label": "Just assume they are good (unless there's something public)", "score": 3, "finding": "No public ID8-specific terms found; assume standard 0/0/10 absent signal"}
+      ], "evidence": "No adverse public signal on carry, fees, or SPV structure for this round; standard ID8 terms assumed by default, not independently confirmed."},
+      {"key": "fundamentals", "subcategories": [
+        {"label": "Revenue/growth", "score": 2, "finding": "[ESTIMATED] $3.8-7.5M ARR (3rd-party); below $25M bar despite 20x contract growth [13][14]"},
+        {"label": "NDR", "score": 2, "finding": "Not disclosed; no subscription NDR metric found or estimable"},
+        {"label": "Margins/unit econ", "score": 2, "finding": "Gross margin/unit economics not disclosed; no usable estimate exists"},
+        {"label": "Burn/runway", "score": 2, "finding": "Burn not disclosed; 4Q2025 cash ($28.5M) looked low vs. capital raised"},
+        {"label": "Customer concentration", "score": 3, "finding": "Multi-industry partners (Nvidia, Meta, Samsung, Hyundai, ASML, Kemira) suggest diversification [3][11]"},
+        {"label": "Pref stack", "score": 2, "finding": "Prior rounds show senior participating preferred; Series B terms undisclosed"},
+        {"label": "Moat durability", "score": 4, "finding": "45+ enterprise Foundry partners plus Hinton/LeCun advisors form real moat [3][11]"},
+        {"label": "Market/TAM", "score": 4, "finding": "Materials R&D spans semis, batteries, carbon capture, clean energy -- venture-scale"},
+        {"label": "Valuation vs comps", "score": 2, "finding": "Implied 347-684x revenue vs. XtalPi's public 26.8x multiple -- rich [13][16]"},
+        {"label": "Sector risk", "score": 3, "finding": "DeepMind/Microsoft open materials-gen models compete; physical-synthesis partnerships differentiate [15][17]"}
+      ], "evidence": "No confirmed revenue; a thin third-party ARR estimate implies a rich multiple, but named enterprise partnerships and TAM breadth are genuinely strong offsetting signals."},
+      {"key": "return_potential", "subcategories": [
+        {"label": "Entry multiple", "score": 2, "finding": "Rich vs. estimated revenue and nascent-sector comps; hard to justify confidently [13][16]"},
+        {"label": "Base-case MOIC", "score": 2, "finding": "6x needs ~$15B+ exit; largest public comp (XtalPi) is $4B [16]"},
+        {"label": "Exit path", "score": 3, "finding": "XtalPi's public listing is a sector precedent; strategic acquirers among partners [16]"},
+        {"label": "Dilution", "score": 2, "finding": "No future-round dilution modeling available at this stage of screen"},
+        {"label": "Time to liquidity", "score": 2, "finding": "Series B, early; liquidity likely 5+ years out, unmodeled precisely"},
+        {"label": "Downside protection", "score": 2, "finding": "No disclosed downside terms for a hypothetical ID8 co-invest structure"},
+        {"label": "Exit multiples", "score": 2, "finding": "XtalPi is the closest comp but differs (pharma/robotics hybrid, China) [16]"},
+        {"label": "Secondary demand", "score": 2, "finding": "No Setter 30 or Forge/Caplight listing found; too new to trade"}
+      ], "evidence": "Base-case 6x is a stretch at this entry: sector's only public comp trades far smaller; some exit optionality exists via strategics and an IPO precedent."}
+    ],
+    "rationale": "CuspAI mostly aligns with ID8's thesis: genuine new-money Tier 1 (Kleiner Perkins) co-leads alongside a verified NEA re-up, and AI is structurally the moat, not a feature. But undisclosed revenue and a fast, rich re-rating temper conviction on return potential.",
+    "confidence": "medium",
+    "hard_auto_pass": false,
+    "hard_auto_pass_reason": "",
+    "watch_list": false
+  },
+  "citations": [
+    "https://my.pitchbook.com/profile/606299-50/company/deals",
+    "https://my.pitchbook.com/profile/606299-50/company/profile",
+    "https://www.vestbee.com/insights/articles/cusp-ai-raises-450-m",
+    "https://techfundingnews.com/cuspai-400m-series-b-2-6b-valuation-bezos-materials-search/",
+    "https://gbxglobal.org/cuspais-dr-chad-edwards-on-building-two-unicorns-before-turning-35/",
+    "https://www.nea.com/blog/algorithms-to-atoms-our-investment-in-cuspai",
+    "https://www.kleinerperkins.com/people/josh-coyne/",
+    "https://www.nea.com/news/press-releases/nea-appoints-lila-tretikov-partner-head-of-ai-strategy",
+    "https://www.aicerts.ai/news/bezos-bets-400m-on-materials-discovery-ai-pioneer-cuspai/",
+    "https://www.businesstimes.com.sg/startups-tech/temasek-backed-cuspai-talks-boost-value-above-us1-billion-sources",
+    "https://seekingalpha.com/news/4615149-cuspai-nvidia-meta-join-bezos-backed-alliance-for-chipmaking-materials",
+    "https://www.imperial.ac.uk/news/articles/engineering/materials/2026/imperial-expert-leads-science-at-2-billion-ai-materials-company-cuspai/",
+    "https://newmarketpitch.com/blogs/news/generative-ai-cusp-ai-overvalued",
+    "https://www.eweek.com/news/cuspai-ai-materials-funding/",
+    "https://www.technologyreview.com/2025/12/15/1129210/ai-materials-science-discovery-startups-investment/",
+    "https://multiples.vc/public-comps/xtalpi-valuation-multiples",
+    "https://pitchbook.com/news/articles/discovering-new-materials-with-ai-has-a-winding-road-to-vc-returns"
+  ]
+}
