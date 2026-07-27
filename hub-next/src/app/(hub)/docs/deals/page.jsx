@@ -4,7 +4,7 @@ import SortableTable from '@/components/SortableTable';
 import DeleteButton from '@/components/DeleteButton';
 import { listDealResearchDecks } from '@/lib/dealResearchDecks';
 
-export const metadata = { title: 'Deal Summaries', description: 'Companies ID8 has done real research work on.' };
+export const metadata = { title: 'Deal Screening', description: 'Companies ID8 has done real research work on.' };
 
 export const dynamic = 'force-dynamic';
 
@@ -51,7 +51,7 @@ export default async function DealsPage() {
 
   return (
     <>
-      <h1>Deal Summaries</h1>
+      <h1>Deal Screening</h1>
       <p>
         Companies ID8 has done real diligence work on. Looking for a full investment memo instead?
         See <a href="/docs/investment-memos">Investment Memo</a>, under Docs.

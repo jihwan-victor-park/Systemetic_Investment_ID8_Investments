@@ -9,7 +9,7 @@ import { STAGE_BASEPATH } from './stages';
 // below. Keep in sync with sidebarConfig.js when tabs are added/removed.
 const STATIC_ENTRIES = [
   { type: 'Tab', label: 'Capabilities', href: '/docs/overview' },
-  { type: 'Tab', label: 'Deal Summaries', href: '/docs/deals' },
+  { type: 'Tab', label: 'Deal Screening', href: '/docs/deals' },
   { type: 'Tab', label: 'Investment Memo', href: '/docs/investment-memos' },
   { type: 'Tab', label: 'Watchlist', href: '/docs/watchlist' },
   { type: 'Tab', label: 'Deal Pipeline', href: '/docs/pipeline' },

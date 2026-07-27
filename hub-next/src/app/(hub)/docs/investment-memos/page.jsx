@@ -44,7 +44,7 @@ function toRow(d, canEdit) {
   };
 }
 
-// Same underlying `dealResearchDecks` collection as Deal Summaries, filtered
+// Same underlying `dealResearchDecks` collection as Deal Screening, filtered
 // to docType === 'investment-memo' -- see lib/dealResearchDecks.js for why
 // this is a split of one collection rather than a separate one.
 export default async function InvestmentMemosPage() {
@@ -55,7 +55,7 @@ export default async function InvestmentMemosPage() {
   return (
     <>
       <h1>Investment Memo</h1>
-      <p>Full investment memos ID8 has written — the deeper counterpart to a <a href="/docs/deals">Deal Summary</a>.</p>
+      <p>Full investment memos ID8 has written — the deeper counterpart to a <a href="/docs/deals">Deal Screening</a>.</p>
       <SortableTable
         columns={COLUMNS}
         rows={decks.map((d) => toRow(d, canEdit))}

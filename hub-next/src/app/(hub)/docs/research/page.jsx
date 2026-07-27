@@ -10,7 +10,7 @@ export default async function ResearchIndexPage() {
       <h1>Research</h1>
       <p>
         Market maps and reference material. Deal-specific research lives under{' '}
-        <Link href="/docs/deals">Deal Summaries</Link> and <Link href="/docs/qualified-deals">Qualified Deals</Link> now.
+        <Link href="/docs/deals">Deal Screening</Link> and <Link href="/docs/qualified-deals">Qualified Deals</Link> now.
       </p>
 
       <H2>Market maps</H2>

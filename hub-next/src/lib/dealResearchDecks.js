@@ -2,7 +2,7 @@ import 'server-only';
 import { db, isoDate } from './firestore';
 
 // `docType` splits this one collection into the Hub's two "Docs" sub-tabs
-// (Deal Summaries / Investment Memo) -- 'deal-summary' | 'investment-memo'.
+// (Deal Screening / Investment Memo) -- 'deal-summary' | 'investment-memo'.
 // Missing/anything else defaults to 'deal-summary', matching how every entry
 // behaved before this field existed, so nothing already in the collection
 // needs re-tagging to keep showing up where it always has. Whatever

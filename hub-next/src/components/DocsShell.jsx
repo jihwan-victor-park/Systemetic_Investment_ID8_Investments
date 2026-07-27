@@ -26,7 +26,7 @@ function SidebarItem({ item, pathname }) {
 
   const isActiveBranch = containsPath(item, pathname);
 
-  // Flat categories (Deal Summaries/Watchlist/Pipeline/Qualified Deals) skip
+  // Flat categories (Deal Screening/Watchlist/Pipeline/Qualified Deals) skip
   // the chevron/expand entirely -- their item lists grow with every company
   // and would dump a long, ever-changing name list into the sidebar. They
   // still carry `items` (used above for breadcrumbs/prev-next/active-rail),
