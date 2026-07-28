@@ -28,16 +28,26 @@
   display: block;
 }
 
+/* Investor-view-only wordmark (see Navbar.jsx's hideInternalNav gate) --
+   matches the public marketing site's logo+wordmark header treatment. */
+.brandName {
+  margin-left: 0.6rem;
+  font-family: 'Roboto Serif', Georgia, serif;
+  font-size: 1.15rem;
+  letter-spacing: -0.01em;
+  color: var(--id8-ink);
+}
+
 .hubLink {
   margin-left: 0.9rem;
   font-family: 'Sora', sans-serif;
-  font-size: 0.72rem;
+  font-size: 0.74rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--id8-paper);
   background: var(--id8-ink);
-  padding: 6px 14px;
+  padding: 8px 22px;
   border-radius: 2px;
   text-decoration: none;
   transition: background-color 0.15s ease;
@@ -67,10 +77,11 @@
 }
 
 .link {
-  font-size: 0.78rem;
+  font-family: 'Sora', sans-serif;
+  font-size: 0.8rem;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-weight: 500;
+  letter-spacing: 0.1em;
+  font-weight: 600;
   color: var(--id8-soft);
   text-decoration: none;
 }

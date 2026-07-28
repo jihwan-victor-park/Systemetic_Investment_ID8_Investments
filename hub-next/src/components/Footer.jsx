@@ -7,7 +7,8 @@ export default function Footer() {
       <div className={styles.inner}>
         <div className={styles.top}>
           <Link href="/" className={styles.brand}>
-            <img src="/img/logo_white.png" alt="ID8 Investments" className={styles.logo} />
+            <img src="/img/logo_white.png" alt="" className={styles.logo} />
+            <span className={styles.brandName}>ID8 Investments</span>
           </Link>
         </div>
 

@@ -237,7 +237,7 @@ export default function ResearchChat() {
           Research a company
         </button>
         <button type="button" className={mode === 'search' ? styles.modeActive : ''} onClick={() => setMode('search')}>
-          Search the Hub
+          Search the Dashboard
         </button>
       </div>
 
@@ -252,8 +252,8 @@ export default function ResearchChat() {
             Results are saved to the hub and show up in Qualified Deals.
             Stage 2 (deep research memo) still needs the company name typed directly; that gets
             smarter later. Both run the real research pipeline at max depth — expect several
-            minutes per company. Looking for something already in the Hub instead? Switch to
-            "Search the Hub" above.
+            minutes per company. Looking for something already tracked instead? Switch to
+            "Search the Dashboard" above.
           </div>
         )}
         {messages.map((msg) => (msg.role === 'user'
