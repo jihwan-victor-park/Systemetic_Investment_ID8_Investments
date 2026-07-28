@@ -1,0 +1,122 @@
+.wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  padding: 2px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+.trigger:hover {
+  background: color-mix(in srgb, var(--id8-ink) 4%, transparent);
+}
+.trigger:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
+.empty {
+  color: var(--id8-grey);
+}
+
+.addLabel {
+  font-family: 'Sora', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--id8-grey);
+  letter-spacing: 0.02em;
+}
+.trigger:hover .addLabel {
+  color: var(--id8-accent);
+}
+
+.pills {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  font-family: 'Sora', sans-serif;
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 3px 8px;
+  border-radius: 999px;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+.pill_qualified {
+  color: var(--id8-fresh);
+  background: color-mix(in srgb, var(--id8-fresh) 14%, transparent);
+}
+.pill_radar {
+  color: var(--id8-accent);
+  background: var(--id8-accent-bg);
+}
+
+/* Popover -- same fixed-position/scrollWrap-escape pattern as
+   PartnerVcPopover.module.css, plus the same card/hair-border/shadow
+   language used everywhere else in the hub. */
+.panel {
+  position: fixed;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  min-width: 180px;
+  padding: 8px;
+  gap: 2px;
+  background: var(--id8-card);
+  border: 1px solid var(--id8-hair);
+  border-radius: 6px;
+  box-shadow: var(--id8-shadow-hover);
+  animation: panelIn 0.12s ease-out;
+}
+
+@keyframes panelIn {
+  from { opacity: 0; transform: translateY(-2px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 6px;
+  border-radius: 4px;
+  font-family: 'Sora', sans-serif;
+  font-size: 0.78rem;
+  color: var(--id8-ink);
+  cursor: pointer;
+}
+.option:hover {
+  background: color-mix(in srgb, var(--id8-ink) 5%, var(--id8-card));
+}
+.option input[type='checkbox'] {
+  accent-color: var(--id8-accent);
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+}
+
+.swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+.swatch.pill_qualified {
+  background: var(--id8-fresh);
+}
+.swatch.pill_radar {
+  background: var(--id8-accent);
+}

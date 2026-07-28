@@ -51,3 +51,24 @@ export const STAGE_BASEPATH = {
   radar: '/docs/radar',
   invested: '/docs/invested',
 };
+
+// Additive tags (2026-07-28) -- independent of `stage`, which stays the one
+// place a company primarily lives. A company can ALSO carry either of these
+// and show up in that tab too, on top of wherever `stage` already has it --
+// e.g. a company sitting in Pipeline as its real working stage that also
+// clears the Stage 1 gate shows up on Qualified Deals too, or a Series B
+// company being watched for its next round shows up on Radar (hot/cold, see
+// radar_state.py) while its real stage stays wherever it actually is.
+// Auto-added server-side (deal_intelligence/firestore_push.py stamps
+// `qualified` on any screen with gate=true; radar_state.py stamps `radar`
+// on any company that passes the mandate screen) but removable by hand from
+// the multiselect editor (TagsSelect.jsx) if a human decides a company
+// shouldn't show there -- a later screen that clears the gate again (or a
+// later mandate re-pass) re-adds it, same "it keeps qualifying" semantics
+// either way.
+export const TAGS = ['qualified', 'radar'];
+
+export const TAG_LABELS = {
+  qualified: 'Qualified Deals',
+  radar: 'Radar',
+};

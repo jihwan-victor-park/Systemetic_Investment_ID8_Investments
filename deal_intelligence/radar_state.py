@@ -204,5 +204,17 @@ def recompute_and_write(slug, fields, tier1_index, entry_source, db=None, apollo
         last_scan_at, scan_count, today, advance_scan,
     )
     radar_data["entrySource"] = entry_source
-    company_ref.set({"radar": radar_data}, merge=True)
+    write = {"radar": radar_data}
+    # Additive `tags` (2026-07-28) -- same mechanism firestore_push.py's
+    # push_company_screen_firestore uses for the `qualified` tag on a
+    # gate-cleared screen. A company that passes the mandate screen shows up
+    # on the Radar tab via this tag REGARDLESS of its actual `stage` (see
+    # hub-next's radar/page.jsx, which now ORs stage=='radar' with
+    # tags.includes('radar')) -- so a company can sit in Pipeline as its real
+    # working stage and still show up on Radar as a "watch for the next
+    # round" signal at the same time, which is the whole point of the tag
+    # model over the old single-stage exclusivity.
+    if radar_data["mandate"]["pass"]:
+        write["tags"] = firestore.ArrayUnion(["radar"])
+    company_ref.set(write, merge=True)
     return radar_data

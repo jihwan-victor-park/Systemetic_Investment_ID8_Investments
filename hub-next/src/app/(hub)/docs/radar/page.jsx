@@ -29,7 +29,14 @@ export default async function RadarPage() {
     listCompanies(), listTopVCs(), listPartnerVCs(), auth(), getRadarRules(),
   ]);
   const canEdit = session?.user?.role === 'internal';
-  const radarCompanies = companies.filter((c) => c.stage === 'radar');
+  // Additive: a company shows up here either because its primary stage IS
+  // Radar (the old, still-supported behavior) OR because it's carrying the
+  // `radar` tag independently -- auto-added by deal_intelligence/
+  // radar_state.py whenever a company passes the mandate screen, regardless
+  // of whatever stage it actually lives in (e.g. a company parked in
+  // Pipeline that's ALSO being watched for its next round shows up here
+  // too, hot/cold from the capital clock). See lib/stages.js's TAGS comment.
+  const radarCompanies = companies.filter((c) => c.stage === 'radar' || c.tags?.includes('radar'));
   const keepAnywaySlugs = (rules.keepAnyway || []).map((k) => k.slug);
   const visible = radarCompanies.filter((c) => !matchExclusionRule(c, rules, keepAnywaySlugs));
   const hiddenCount = radarCompanies.length - visible.length;

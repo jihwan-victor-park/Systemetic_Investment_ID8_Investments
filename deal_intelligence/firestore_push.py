@@ -101,6 +101,23 @@ def push_company_screen_firestore(fit: DealFit, deal: DealInput, slug: str, docx
             "gate": fit.gate,
         },
     }
+    # Additive, independent-of-stage tag -- 2026-07-28. A company's `stage`
+    # is still the one place it primarily lives (Watchlist/Pipeline/
+    # Qualified/Radar/Invested), but Oscar wants a deal to be able to show
+    # up in Qualified Deals on the strength of its OWN score clearing the
+    # gate, regardless of whatever stage it's actually parked in (e.g. a
+    # company sitting in Pipeline that also clears the gate should still
+    # show up on Qualified Deals). `tags` is a small array (currently just
+    # `qualified`/`radar`, see radar_state.py for the other one) that every
+    # stage-table page ORs into its normal `stage`-based filter -- see
+    # hub-next/src/app/(hub)/docs/qualified-deals/page.jsx. Uses
+    # ArrayUnion so a re-screen that clears the gate again doesn't wipe out
+    # a `radar` tag radar_state.py added independently, and a human who
+    # manually removed the tag (they don't want it shown there) only gets
+    # it re-added by a FRESH gate-clearing screen, not merely by this
+    # merge write running again with no new fit result.
+    if fit.gate:
+        company_payload["tags"] = firestore.ArrayUnion(["qualified"])
     # Same "only when we actually have one" guard as push_company_from_attio --
     # a merge write with an explicit None would overwrite an already-known
     # description with nothing.

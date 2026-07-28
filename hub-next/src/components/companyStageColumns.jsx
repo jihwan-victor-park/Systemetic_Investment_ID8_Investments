@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import StageSelect from './StageSelect';
+import TagsSelect from './TagsSelect';
 import RoundInput from './RoundInput';
 import CompanyInlineField from './CompanyInlineField';
 import PartnerVcPopover from './PartnerVcPopover';
@@ -38,6 +39,10 @@ export const STAGE_TABLE_COLUMNS = [
   { key: 'radarCategory', label: 'Radar Category', sortable: true },
   { key: 'score', label: 'Score', sortable: true },
   { key: 'stage', label: 'Stage', sortable: true },
+  // Additive, independent of `stage` -- also_in Qualified Deals/Radar
+  // regardless of wherever `stage` actually has the company parked. See
+  // lib/stages.js's TAGS comment for the full auto-add mechanism.
+  { key: 'tags', label: 'Also In', sortable: false },
   { key: 'date', label: 'Screened', sortable: true },
   { key: 'report', label: 'Report' },
   { key: 'actions', label: '' },
@@ -111,6 +116,7 @@ export function companyToRow(c, { basePath, canEdit, investorIndex = {} }) {
       ),
       score: score != null ? `${score.toFixed(1)} / 4` : '—',
       stage: <StageSelect slug={c.slug} stage={c.stage} canEdit={canEdit} />,
+      tags: <TagsSelect slug={c.slug} tags={c.tags} canEdit={canEdit} />,
       date: c.latestScreen ? c.latestScreen.date.slice(0, 10) : '—',
       report: <Link href={`${resolvedBasePath}/${c.slug}`}>View screen →</Link>,
       actions: canEdit ? (

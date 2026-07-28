@@ -2,7 +2,7 @@ import 'server-only';
 import { unstable_cache, revalidateTag } from 'next/cache';
 import { db, isoDate } from './firestore';
 import { dimensionScore, fitScore } from './rubricMath';
-import { STAGES } from './stages';
+import { STAGES, TAGS } from './stages';
 import { companySlug } from './companySlug';
 
 // Every /docs/* route is force-dynamic (see DocsShell/layout.jsx's own
@@ -128,6 +128,9 @@ export const listCompanies = unstable_cache(async () => {
       // import hook or the next backfill/scan-runner pass touches it).
       // Read-only here; see hub-next/src/lib/radar.js for formatters.
       radar: data.radar || null,
+      // Additive tags (see stages.js's TAGS comment) -- 'qualified'/'radar'
+      // membership independent of `stage`.
+      tags: Array.isArray(data.tags) ? data.tags : [],
     };
   }));
 }, ['list-companies'], { tags: ['companies'], revalidate: CACHE_SECONDS });
@@ -181,6 +184,22 @@ export async function updateCompanyStage(slug, stage) {
   revalidateTag('companies');
   await pushStageToAttio(slug, stage, snap.data()?.origin?.attioRecordId);
   return { slug, stage };
+}
+
+// Sets a company's full `tags` array from the multiselect editor
+// (TagsSelect.jsx) -- overwrite, not arrayUnion, since the UI already shows
+// (and the user is explicitly choosing) the complete resulting set,
+// including removing a tag the server auto-added. See stages.js's TAGS
+// comment for the auto-add mechanism this can override. Internal-role-only;
+// enforced by the API route.
+export async function updateCompanyTags(slug, tags) {
+  const clean = Array.from(new Set((tags || []).filter((t) => TAGS.includes(t))));
+  const ref = db().collection('companies').doc(slug);
+  const snap = await ref.get();
+  if (!snap.exists) throw new Error('company-not-found');
+  await ref.set({ tags: clean }, { merge: true });
+  revalidateTag('companies');
+  return { slug, tags: clean };
 }
 
 // Updates the hub's own editable Series value -- independent of
@@ -363,6 +382,7 @@ export const getCompany = unstable_cache(async (slug) => {
     pitchbookUrl: data.pitchbookUrl || null,
     origin: _mapOrigin(data.origin),
     radar: data.radar || null,
+    tags: Array.isArray(data.tags) ? data.tags : [],
     screens,
   };
 }, ['get-company'], { tags: ['companies'], revalidate: CACHE_SECONDS });

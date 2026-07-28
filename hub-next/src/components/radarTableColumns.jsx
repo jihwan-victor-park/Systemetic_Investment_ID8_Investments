@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import StageSelect from './StageSelect';
+import TagsSelect from './TagsSelect';
 import PartnerVcPopover from './PartnerVcPopover';
 import DeleteButton from './DeleteButton';
 import { investorMatchesFromIndex } from '@/lib/companyIndex';
@@ -25,6 +26,7 @@ export const RADAR_TABLE_COLUMNS = [
   { key: 'hotness', label: 'Hot / Cold', sortable: true },
   { key: 'partnerVc', label: 'Partner VC', sortable: true },
   { key: 'stage', label: 'Stage', sortable: true },
+  { key: 'tags', label: 'Also In', sortable: false },
   { key: 'report', label: 'Report' },
   { key: 'actions', label: '' },
 ];
@@ -83,6 +85,7 @@ export function radarCompanyToRow(c, { canEdit, investorIndex = {} }) {
       ) : '—',
       partnerVc: matches.length === 0 ? '—' : <PartnerVcPopover matches={matches} />,
       stage: <StageSelect slug={c.slug} stage={c.stage} canEdit={canEdit} />,
+      tags: <TagsSelect slug={c.slug} tags={c.tags} canEdit={canEdit} />,
       report: <Link href={`${basePath}/${c.slug}`}>View screen →</Link>,
       actions: canEdit ? (
         <span className={styles.actions}>
