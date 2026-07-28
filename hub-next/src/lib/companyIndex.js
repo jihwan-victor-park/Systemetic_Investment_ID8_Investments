@@ -71,33 +71,52 @@ export function lookupStage(index, name) {
 // detail, not something to surface next to a company row. Not persisted:
 // recomputed on every page load from whatever's currently in topVCs/
 // partnerVCs, so a portfolio added after a company was already in the
-// pipeline still attributes correctly on the next view. Returns [] when no
-// VC's recorded portfolio contains this company.
-export function findInvestorSources(companyName, tier1, partners) {
-  const nameLc = (companyName || '').trim().toLowerCase();
-  if (!nameLc) return [];
-  const matches = [];
+// pipeline still attributes correctly on the next view.
+//
+// Every stage table (Watchlist/Pipeline/Qualified/Radar/Invested/Admin/
+// Top 10 VC/Hot Deals/hubSearch) used to call this once PER ROW/company,
+// each call rescanning every Tier 1 firm's deals[] and every partner's
+// portfolio[] from scratch -- O(rows x total portfolio entries), which
+// crossed a million comparisons on the bigger stage tables once partner
+// portfolios grew past ~2,850 companies (see
+// project_partner_vc_portfolio_backfill_jul2026 memory). This walks
+// tier1/partners exactly once and builds a name -> matches[] map instead,
+// so every row after that is an O(1) lookup via investorMatchesFromIndex.
+// A firm only ever contributes one match per company name, even if its
+// portfolio data has an accidental duplicate entry for it.
+export function buildInvestorIndex(tier1, partners) {
+  const index = {};
+  const add = (nameLc, entry) => {
+    if (!nameLc) return;
+    (index[nameLc] || (index[nameLc] = [])).push(entry);
+  };
   for (const firm of tier1 || []) {
-    if ((firm.deals || []).some((d) => d.company.toLowerCase() === nameLc)) {
-      matches.push({ source: 'Tier 1 VC', via: firm.name, viaHref: `/docs/vcs/tier1/${firm.id}` });
+    const seen = new Set();
+    for (const d of firm.deals || []) {
+      const nameLc = (d.company || '').trim().toLowerCase();
+      if (!nameLc || seen.has(nameLc)) continue;
+      seen.add(nameLc);
+      add(nameLc, { source: 'Tier 1 VC', via: firm.name, viaHref: `/docs/vcs/tier1/${firm.id}` });
     }
   }
   for (const p of partners || []) {
-    if ((p.portfolio || []).some((x) => x.company.toLowerCase() === nameLc)) {
-      matches.push({ source: 'Partner VC', via: p.name, viaHref: `/docs/vcs/partner/${p.id}` });
+    const seen = new Set();
+    for (const entry of p.portfolio || []) {
+      const nameLc = (entry.company || '').trim().toLowerCase();
+      if (!nameLc || seen.has(nameLc)) continue;
+      seen.add(nameLc);
+      add(nameLc, { source: 'Partner VC', via: p.name, viaHref: `/docs/vcs/partner/${p.id}` });
     }
   }
-  return matches;
+  return index;
 }
 
-// Single-match convenience wrapper for callers (Hot Deals) that only ever
-// attribute a company to one VC -- picks the first match, same priority
-// order as findInvestorSources (Tier 1 before Partner).
-export function findInvestorSource(companyName, tier1, partners) {
-  return findInvestorSources(companyName, tier1, partners)[0] || null;
+// O(1) lookup into an index built once by buildInvestorIndex.
+export function investorMatchesFromIndex(index, companyName) {
+  return index[(companyName || '').trim().toLowerCase()] || [];
 }
 
-// Full-detail version of findInvestorSources -- same case-insensitive match
+// Full-detail version of buildInvestorIndex's match, for a single company --
 // against Tier 1 deals[] and partner portfolio[], but keeps the raw deal/
 // portfolio-entry and firm objects (not just source/via/viaHref) so callers
 // can render the same "Deals recorded" / "Partner relationships" tables

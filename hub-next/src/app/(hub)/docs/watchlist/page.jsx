@@ -3,6 +3,7 @@ import DealsListSection from '@/components/DealsListSection';
 import { listCompanies } from '@/lib/companies';
 import { listTopVCs } from '@/lib/topVCs';
 import { listPartnerVCs } from '@/lib/partnerVCs';
+import { buildInvestorIndex } from '@/lib/companyIndex';
 
 export const metadata = { title: 'Watchlist', description: 'Companies ID8 is keeping an eye on but isn\'t actively working yet.' };
 
@@ -12,6 +13,11 @@ export default async function WatchlistPage() {
   const [companies, tier1, partners, session] = await Promise.all([listCompanies(), listTopVCs(), listPartnerVCs(), auth()]);
   const canEdit = session?.user?.role === 'internal';
   const watchlist = companies.filter((c) => c.stage === 'watchlist');
+  // Built once server-side and handed down as a small name -> matches map --
+  // NOT the raw tier1/partners arrays, which would ship the entire multi-MB
+  // portfolio dataset to the browser just for this cross-reference (see
+  // buildInvestorIndex's own comment in lib/companyIndex.js).
+  const investorIndex = buildInvestorIndex(tier1, partners);
 
   return (
     <>
@@ -21,8 +27,7 @@ export default async function WatchlistPage() {
         companies={watchlist}
         basePath="/docs/watchlist"
         canEdit={canEdit}
-        tier1={tier1}
-        partners={partners}
+        investorIndex={investorIndex}
         defaultSort={{ key: 'company', dir: 'asc' }}
         searchPlaceholder="Filter by company or series…"
         emptyMessage="Nothing on the watchlist yet."

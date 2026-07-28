@@ -7,6 +7,7 @@ import { listTopVCs } from '@/lib/topVCs';
 import { listPartnerVCs } from '@/lib/partnerVCs';
 import { getRadarRules } from '@/lib/radarRules';
 import { matchExclusionRule } from '@/lib/radarRuleMatch';
+import { buildInvestorIndex } from '@/lib/companyIndex';
 
 export const metadata = {
   title: 'Radar',
@@ -32,7 +33,8 @@ export default async function RadarPage() {
   const keepAnywaySlugs = (rules.keepAnyway || []).map((k) => k.slug);
   const visible = radarCompanies.filter((c) => !matchExclusionRule(c, rules, keepAnywaySlugs));
   const hiddenCount = radarCompanies.length - visible.length;
-  const rows = visible.map((c) => companyToRow(c, { basePath: '/docs/radar', canEdit, tier1, partners }));
+  const investorIndex = buildInvestorIndex(tier1, partners);
+  const rows = visible.map((c) => companyToRow(c, { basePath: '/docs/radar', canEdit, investorIndex }));
 
   return (
     <>

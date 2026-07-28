@@ -4,6 +4,7 @@ import { STAGE_TABLE_COLUMNS, companyToRow } from '@/components/companyStageColu
 import { listCompanies } from '@/lib/companies';
 import { listTopVCs } from '@/lib/topVCs';
 import { listPartnerVCs } from '@/lib/partnerVCs';
+import { buildInvestorIndex } from '@/lib/companyIndex';
 
 export const metadata = { title: 'Invested', description: 'Companies ID8 has actually put money into.' };
 
@@ -12,9 +13,10 @@ export const dynamic = 'force-dynamic';
 export default async function InvestedPage() {
   const [companies, tier1, partners, session] = await Promise.all([listCompanies(), listTopVCs(), listPartnerVCs(), auth()]);
   const canEdit = session?.user?.role === 'internal';
+  const investorIndex = buildInvestorIndex(tier1, partners);
   const rows = companies
     .filter((c) => c.stage === 'invested')
-    .map((c) => companyToRow(c, { basePath: '/docs/invested', canEdit, tier1, partners }));
+    .map((c) => companyToRow(c, { basePath: '/docs/invested', canEdit, investorIndex }));
 
   return (
     <>

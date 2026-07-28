@@ -10,6 +10,7 @@ import { STAGE_TABLE_COLUMNS, companyToRow } from '@/components/companyStageColu
 import { listCompanies } from '@/lib/companies';
 import { listTopVCs } from '@/lib/topVCs';
 import { listPartnerVCs } from '@/lib/partnerVCs';
+import { buildInvestorIndex } from '@/lib/companyIndex';
 import { auth } from '@/auth';
 
 export const metadata = { title: 'Admin', description: 'Capture ideas and suggestions, plus working notes.' };
@@ -19,9 +20,10 @@ export const dynamic = 'force-dynamic';
 export default async function AdminPage() {
   const [session, companies, tier1, partners] = await Promise.all([auth(), listCompanies(), listTopVCs(), listPartnerVCs()]);
   const canEdit = session?.user?.role === 'internal';
+  const investorIndex = buildInvestorIndex(tier1, partners);
   const needsTriageRows = companies
     .filter((c) => c.stage === 'new')
-    .map((c) => companyToRow(c, { basePath: '/docs/new-deals', canEdit, tier1, partners }));
+    .map((c) => companyToRow(c, { basePath: '/docs/new-deals', canEdit, investorIndex }));
   const radarCompanies = companies
     .filter((c) => c.stage === 'radar')
     .map((c) => ({ slug: c.slug, name: c.name, description: c.description, radarCategory: c.radarCategory }));

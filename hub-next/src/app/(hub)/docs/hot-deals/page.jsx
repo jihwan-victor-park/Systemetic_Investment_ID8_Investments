@@ -5,7 +5,7 @@ import StageSelect from '@/components/StageSelect';
 import { listCompanies } from '@/lib/companies';
 import { listTopVCs } from '@/lib/topVCs';
 import { listPartnerVCs } from '@/lib/partnerVCs';
-import { findInvestorSource } from '@/lib/companyIndex';
+import { buildInvestorIndex, investorMatchesFromIndex } from '@/lib/companyIndex';
 import { STAGE_BASEPATH } from '@/lib/stages';
 
 export const metadata = { title: 'Top Deals', description: 'Every company that cleared the Stage 1 gate this week.' };
@@ -25,10 +25,10 @@ const COLUMNS = [
 ];
 
 // "Qualified screen" is Top Deals' own fallback label for the "no VC
-// portfolio match" case (shared findInvestorSource just returns null there;
-// the stage tables render that as a plain "—" instead).
-function findSource(companyName, tier1, partners) {
-  return findInvestorSource(companyName, tier1, partners) || { source: 'Qualified screen', via: 'Weekly automated screen', viaHref: null };
+// portfolio match" case (an empty investorIndex lookup; the stage tables
+// render that as a plain "—" instead).
+function findSource(investorIndex, companyName) {
+  return investorMatchesFromIndex(investorIndex, companyName)[0] || { source: 'Qualified screen', via: 'Weekly automated screen', viaHref: null };
 }
 
 export default async function HotDealsPage() {
@@ -48,8 +48,9 @@ export default async function HotDealsPage() {
     return Number.isFinite(t) && t >= cutoff;
   });
 
+  const investorIndex = buildInvestorIndex(tier1, partners);
   const rows = gated.map((c) => {
-    const { source, via, viaHref } = findSource(c.name, tier1, partners);
+    const { source, via, viaHref } = findSource(investorIndex, c.name);
     const basePath = STAGE_BASEPATH[c.stage] || STAGE_BASEPATH.qualified;
     const score = c.latestScreen.fitScore;
     return {

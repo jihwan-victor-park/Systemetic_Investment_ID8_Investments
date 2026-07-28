@@ -4,6 +4,7 @@ import { STAGE_TABLE_COLUMNS, companyToRow } from '@/components/companyStageColu
 import { listCompanies } from '@/lib/companies';
 import { listTopVCs } from '@/lib/topVCs';
 import { listPartnerVCs } from '@/lib/partnerVCs';
+import { buildInvestorIndex } from '@/lib/companyIndex';
 
 export const metadata = { title: 'Top 10 VCs', description: 'Every company on ID8’s Top 10 VC list, across every stage.' };
 
@@ -28,9 +29,10 @@ export default async function Top10VCPage() {
     auth(),
   ]);
   const canEdit = session?.user?.role === 'internal';
+  const investorIndex = buildInvestorIndex(tier1, partners);
   const rows = companies
     .filter((c) => c.top10VC)
-    .map((c) => companyToRow(c, { canEdit, tier1, partners }));
+    .map((c) => companyToRow(c, { canEdit, investorIndex }));
 
   return (
     <>

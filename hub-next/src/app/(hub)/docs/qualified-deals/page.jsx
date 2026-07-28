@@ -4,6 +4,7 @@ import DealsListSection from '@/components/DealsListSection';
 import { listCompanies } from '@/lib/companies';
 import { listTopVCs } from '@/lib/topVCs';
 import { listPartnerVCs } from '@/lib/partnerVCs';
+import { buildInvestorIndex } from '@/lib/companyIndex';
 
 export const metadata = { title: 'Qualified Deals', description: 'Every deal that has cleared the Stage 1 rubric screen.' };
 
@@ -13,6 +14,7 @@ export default async function QualifiedDealsPage() {
   const [companies, tier1, partners, session] = await Promise.all([listCompanies(), listTopVCs(), listPartnerVCs(), auth()]);
   const canEdit = session?.user?.role === 'internal';
   const qualified = companies.filter((c) => c.stage === 'qualified');
+  const investorIndex = buildInvestorIndex(tier1, partners);
 
   return (
     <>
@@ -27,8 +29,7 @@ export default async function QualifiedDealsPage() {
         companies={qualified}
         basePath="/docs/qualified-deals"
         canEdit={canEdit}
-        tier1={tier1}
-        partners={partners}
+        investorIndex={investorIndex}
         defaultSort={{ key: 'date', dir: 'desc' }}
         searchPlaceholder="Filter by company or series…"
         emptyMessage="No qualified deals yet."

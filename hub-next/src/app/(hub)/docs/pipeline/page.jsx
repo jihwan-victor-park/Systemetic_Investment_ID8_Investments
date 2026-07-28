@@ -3,6 +3,7 @@ import DealsListSection from '@/components/DealsListSection';
 import { listCompanies } from '@/lib/companies';
 import { listTopVCs } from '@/lib/topVCs';
 import { listPartnerVCs } from '@/lib/partnerVCs';
+import { buildInvestorIndex } from '@/lib/companyIndex';
 
 export const metadata = { title: 'Deal Pipeline', description: 'Companies ID8 is actively working right now.' };
 
@@ -12,6 +13,7 @@ export default async function PipelinePage() {
   const [companies, tier1, partners, session] = await Promise.all([listCompanies(), listTopVCs(), listPartnerVCs(), auth()]);
   const canEdit = session?.user?.role === 'internal';
   const pipeline = companies.filter((c) => c.stage === 'pipeline');
+  const investorIndex = buildInvestorIndex(tier1, partners);
 
   return (
     <>
@@ -21,8 +23,7 @@ export default async function PipelinePage() {
         companies={pipeline}
         basePath="/docs/pipeline"
         canEdit={canEdit}
-        tier1={tier1}
-        partners={partners}
+        investorIndex={investorIndex}
         defaultSort={{ key: 'company', dir: 'asc' }}
         searchPlaceholder="Filter by company or series…"
         emptyMessage="Nothing in the pipeline yet."

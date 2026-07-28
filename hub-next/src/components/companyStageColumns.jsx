@@ -5,7 +5,7 @@ import CompanyInlineField from './CompanyInlineField';
 import PartnerVcPopover from './PartnerVcPopover';
 import DeleteButton from './DeleteButton';
 import RunAnalysisButton from './RunAnalysisButton';
-import { findInvestorSources } from '@/lib/companyIndex';
+import { investorMatchesFromIndex } from '@/lib/companyIndex';
 import { STAGE_BASEPATH } from '@/lib/stages';
 import styles from './companyStageColumns.module.css';
 
@@ -47,7 +47,7 @@ export const STAGE_TABLE_COLUMNS = [
 // Deal Pipeline, Qualified Deals, Radar, Invested, or Admin's Needs Triage
 // table) pass their own page's path; a cross-cutting view spanning multiple
 // stages could omit it and let each row resolve its own via c.stage instead.
-export function companyToRow(c, { basePath, canEdit, tier1 = [], partners = [] }) {
+export function companyToRow(c, { basePath, canEdit, investorIndex = {} }) {
   const name = displayName(c);
   const resolvedBasePath = basePath || STAGE_BASEPATH[c.stage] || STAGE_BASEPATH.qualified;
   const score = c.latestScreen?.fitScore ?? null;
@@ -58,8 +58,10 @@ export function companyToRow(c, { basePath, canEdit, tier1 = [], partners = [] }
   // stays blank for the vast majority of companies that arrive through the
   // regular Deal Intelligence email screen. A company can sit in more than
   // one tracked firm's portfolio at once (e.g. Anduril), so this returns
-  // every match, not just the first.
-  const matches = findInvestorSources(c.name, tier1, partners);
+  // every match, not just the first. `investorIndex` is built once per page
+  // load by buildInvestorIndex (see callers) instead of rescanning every
+  // firm's portfolio on every row -- see that function's own comment for why.
+  const matches = investorMatchesFromIndex(investorIndex, c.name);
   const partnerVc = matches.length ? matches.map((m) => m.via).join(', ') : null;
   return {
     key: c.slug,

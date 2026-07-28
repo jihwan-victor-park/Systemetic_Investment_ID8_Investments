@@ -2,7 +2,7 @@ import 'server-only';
 import { listCompanies } from './companies';
 import { listTopVCs } from './topVCs';
 import { listPartnerVCs } from './partnerVCs';
-import { findInvestorSources } from './companyIndex';
+import { buildInvestorIndex, investorMatchesFromIndex } from './companyIndex';
 import { STAGE_BASEPATH, STAGES, STAGE_LABELS } from './stages';
 
 // Deliberately NOT an LLM call -- same house rule as Deal Intelligence Stage
@@ -21,9 +21,10 @@ export async function searchHub({ vc, round, radarCategory, stage, minFitScore }
   const categoryQuery = (radarCategory || '').trim().toLowerCase();
   const stageFilter = STAGES.includes(stage) ? stage : null;
   const minScore = minFitScore != null && minFitScore !== '' ? Number(minFitScore) : null;
+  const investorIndex = buildInvestorIndex(tier1, partners);
 
   return companies
-    .map((c) => ({ c, matches: findInvestorSources(c.name, tier1, partners) }))
+    .map((c) => ({ c, matches: investorMatchesFromIndex(investorIndex, c.name) }))
     .filter(({ c, matches }) => {
       if (stageFilter && c.stage !== stageFilter) return false;
       if (roundQuery && !(c.round || '').toLowerCase().includes(roundQuery)) return false;

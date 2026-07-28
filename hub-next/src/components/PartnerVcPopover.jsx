@@ -6,7 +6,7 @@ import styles from './PartnerVcPopover.module.css';
 
 // Real click-through popover for a deal row that matches more than one
 // tracked VC's portfolio (a company like Anduril can legitimately sit in
-// several firms' portfolios at once -- see findInvestorSources) -- replaces
+// several firms' portfolios at once -- see buildInvestorIndex) -- replaces
 // the old native `title` tooltip, which could show the names but never let
 // you click through to a firm's page. Fixed-position (not absolute): the
 // stage tables render inside SortableTable's .scrollWrap, which sets
