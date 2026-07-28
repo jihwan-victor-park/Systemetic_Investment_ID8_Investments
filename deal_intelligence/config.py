@@ -245,6 +245,22 @@ READ_SLUGS = {
     # headcount. Added 2026-07-28 alongside attio_io._value()'s new
     # currency_value handling, which this slug is the first reader of.
     "deal_size": os.getenv("DI_SLUG_DEAL_SIZE", "deal_size"),
+    # "Top 10 VC" is a select (Yes/No) attribute, not a fixed-slug text/
+    # currency field like the others above -- pipeline/app.py's own
+    # TOP10_VC_TITLE comment already flagged that its api_slug should be
+    # resolved by TITLE at write time (deal_attr_slug()), since Attio
+    # auto-generates slugs from titles and they can drift. This default is
+    # a guess at what that auto-generated slug actually is ("Top 10 VC" ->
+    # likely "top10_vc") -- unlike the others, NOT yet confirmed against a
+    # real `GET /debug/attributes` response (same "first-implementation-day
+    # check" caveat as apollo_org.py's Apollo field-name guess). Override
+    # with DI_SLUG_TOP10_VC if it's wrong. Added 2026-07-28, alongside
+    # wiring pipeline/app.py's /process-top10 `top10=True` signal all the
+    # way through to Attio for the first time -- it was computed correctly
+    # at import time but silently dropped before this fix, so no company
+    # sourced from the Top 10 VC PitchBook search ever actually got
+    # top10VC=true on its Firestore doc.
+    "top10": os.getenv("DI_SLUG_TOP10_VC", "top10_vc"),
 }
 
 # Attio Deal `stage` status values that correspond 1:1 to a hub-next stage

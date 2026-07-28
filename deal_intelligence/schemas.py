@@ -20,6 +20,13 @@ class DealInput:
     deal_size: Optional[float] = None  # the round's size in real dollars, off Attio's 'deal_size'
                                         # currency slug -- Radar's capital clock (RADAR_PLAN.md Part III)
                                         # needs this as `roundSize`, its other burn-math input besides headcount
+    top10: Optional[bool] = None       # Attio's "Top 10 VC" select attribute (Yes/No) -- None means
+                                        # "not read/unknown", not "confirmed No". pipeline/app.py's
+                                        # /process-top10 pathway writes this at intake as of 2026-07-28
+                                        # (it always computed the signal, just never wrote it to Attio
+                                        # before now); feeds top10VC on the Firestore company doc, which
+                                        # Radar's mandate screen S3 uses as one of two ways to confirm a
+                                        # Tier 1 is on the cap table
     raw: dict = field(default_factory=dict)   # full Attio values, for reference
 
 

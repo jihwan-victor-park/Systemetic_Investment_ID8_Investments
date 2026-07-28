@@ -284,6 +284,18 @@ def push_company_from_attio(deal: DealInput, attio_stage: str | None, tier1_inde
     # nothing, unlike an absent key (which merge=True leaves untouched).
     if deal.description:
         payload["description"] = deal.description
+    # Only ever write True, never False -- same "confirmed Yes sticks
+    # forever" rule as the Attio-side write in pipeline/app.py's
+    # build_attio_values/upsert_deal (2026-07-28, see that comment for the
+    # full story: this signal was always computed correctly at
+    # /process-top10 intake time, just silently dropped before reaching
+    # Attio, so top10VC read false for every company sourced from the Top
+    # 10 VC PitchBook search until now). Refreshed on every push like
+    # `description`, not gated to is_new like round/roundDate/roundSize --
+    # an existing company re-imported through the top10 pathway for the
+    # first time should still pick up the flag.
+    if deal.top10:
+        payload["top10VC"] = True
     if is_new:
         payload["name"] = deal.name
         payload["website"] = normalize_domain(deal.domain) or None

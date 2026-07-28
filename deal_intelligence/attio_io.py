@@ -52,6 +52,16 @@ def _company_domain(record_id: str):
     return domains[0].get("domain") if domains and isinstance(domains[0], dict) else None
 
 
+def _parse_top10(raw_value):
+    """The Top 10 VC slug is a select attribute -- _value() returns its
+    option title as a plain string ('Yes'/'No'), not a bool. None means the
+    option was never set (unknown), distinct from a confirmed 'No' -- see
+    DealInput.top10's own docstring on why that distinction matters."""
+    if raw_value is None:
+        return None
+    return str(raw_value).strip().lower() == "yes"
+
+
 def _parse_deal_record(rec: dict) -> DealInput:
     """Turn one raw Attio Deal record into a DealInput, resolving domain via
     the linked Company record when the deal itself has none (see
@@ -78,6 +88,7 @@ def _parse_deal_record(rec: dict) -> DealInput:
         round_date=_value(values, s["round_date"]),
         description=_value(values, s["description"]),
         deal_size=_value(values, s["deal_size"]),
+        top10=_parse_top10(_value(values, s["top10"])),
         raw=values,
     )
 

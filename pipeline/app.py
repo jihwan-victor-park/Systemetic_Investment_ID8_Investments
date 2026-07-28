@@ -503,6 +503,25 @@ def build_attio_values(row, company_record_id, stage="Watchlist", source=None, t
     }
     if source:
         values["source"] = [{"value": source}]
+    # Top 10 VC flag -- 2026-07-28. `top10` has been a parameter on this
+    # function since it was written, but nothing ever actually wrote it to
+    # Attio (the docstring at upsert_deal's existing-deal branch even
+    # claimed "the Top 10 VC flow also stamps its flag", which wasn't
+    # true -- confirmed by grepping TOP10_VC_TITLE's only other reference,
+    # its own definition). That's why every company sourced from the
+    # /process-top10 pathway (PitchBook's own "Top 10 VC" saved search --
+    # by construction, every one of these deals genuinely has a Top 10 VC
+    # on the cap table) still read top10VC=false in hub-next: the signal
+    # was computed correctly at import time and then silently dropped.
+    # Only ever write "Yes" -- never write "No" here, since a deal
+    # re-imported later through the regular (non-top10) pathway shouldn't
+    # retroactively un-flag a company that a PRIOR top10 import already
+    # confirmed is Top 10 VC-backed (this field means "confirmed Top 10 VC
+    # at some point", not "this specific import run said so").
+    if top10:
+        top10_slug = deal_attr_slug(TOP10_VC_TITLE, default='top10_vc')
+        ensure_select_option('deals', top10_slug, 'Yes')
+        values[top10_slug] = 'Yes'
     for csv_col, (slug, field_type) in FIELD_MAP.items():
         val = row.get(csv_col)
         if val is None or (isinstance(val, float) and pd.isna(val)):
@@ -589,6 +608,13 @@ def upsert_deal(row, company_record_id, stage="Watchlist", source=None, top10=Fa
             patch_vals["associated_company"] = [{
                 "target_object": "companies", "target_record_id": company_record_id,
             }]
+        # See build_attio_values' own comment -- only ever stamp "Yes", never
+        # "No", so a later non-top10 re-import can't un-flag a company a
+        # PRIOR top10 sweep already confirmed.
+        if top10:
+            top10_slug = deal_attr_slug(TOP10_VC_TITLE, default='top10_vc')
+            ensure_select_option('deals', top10_slug, 'Yes')
+            patch_vals[top10_slug] = 'Yes'
         if patch_vals:
             pr = requests.patch(
                 f"{ATTIO_API_BASE}/objects/deals/records/{existing_id}",
