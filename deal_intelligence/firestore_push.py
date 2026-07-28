@@ -21,7 +21,7 @@ from datetime import date
 
 from google.cloud import firestore, storage
 
-from . import config, rubric
+from . import config, radar_mandate, radar_state, rubric
 from .fit_note import PARAM_LABELS, _badge_text, _linkify_md, company_id, normalize_domain
 from .schemas import DealFit, DealInput
 
@@ -118,6 +118,7 @@ def push_company_screen_firestore(fit: DealFit, deal: DealInput, slug: str, docx
             "attioStage": None,
             "round": deal.round,
             "roundDate": deal.round_date,
+            "roundSize": deal.deal_size,
             "hq": deal.hq,
             "leadInvestors": deal.lead_investors,
             "importedAt": firestore.SERVER_TIMESTAMP,
@@ -172,7 +173,7 @@ def push_company_screen_firestore(fit: DealFit, deal: DealInput, slug: str, docx
     return {"slug": slug, "screen_id": screen_id, "docx_uploaded": docx_path is not None}
 
 
-def push_company_from_attio(deal: DealInput, attio_stage: str | None) -> dict:
+def push_company_from_attio(deal: DealInput, attio_stage: str | None, tier1_index: dict | None = None) -> dict:
     """Metadata-only upsert for the bulk Attio import -- no Stage 1 score, no
     docx, no screens subcollection write, just enough to make the deal show
     up for Oscar to triage. On a brand-new company: lands in the hub tab that
@@ -200,7 +201,16 @@ def push_company_from_attio(deal: DealInput, attio_stage: str | None) -> dict:
     Firestore with no description on file) gets backfilled on its next
     import rather than staying blank forever. Feeds the relevance-exclusion
     list (RADAR_PLAN.md §1.6), which needs real description text to match
-    keywords against -- radarCategory alone is too sparse."""
+    keywords against -- radarCategory alone is too sparse.
+
+    `tier1_index` (optional): a pre-built radar_mandate.build_tier1_index()
+    result, for a caller processing many deals in one loop (the bulk Attio
+    import) to build ONCE outside the loop and pass through -- avoids
+    re-reading the whole topVCs collection on every single deal. A caller
+    with no index handy (a one-off Run Analysis rerun, say) can omit it;
+    this function builds one lazily on the rare occasion it's actually
+    needed (a company resolving to the Radar stage), never unconditionally.
+    """
     slug = company_id(deal)
     company_ref = _firestore().collection("companies").document(slug)
     origin = {
@@ -209,11 +219,13 @@ def push_company_from_attio(deal: DealInput, attio_stage: str | None) -> dict:
         "attioStage": attio_stage,
         "round": deal.round,
         "roundDate": deal.round_date,
+        "roundSize": deal.deal_size,
         "hq": deal.hq,
         "leadInvestors": deal.lead_investors,
         "importedAt": firestore.SERVER_TIMESTAMP,
     }
-    is_new = not company_ref.get().exists
+    existing_snap = company_ref.get()
+    is_new = not existing_snap.exists
     payload = {"origin": origin}
     # Only ever set when Attio actually has one -- a merge write with an
     # explicit None WOULD overwrite an already-known description with
@@ -225,8 +237,36 @@ def push_company_from_attio(deal: DealInput, attio_stage: str | None) -> dict:
         payload["website"] = normalize_domain(deal.domain) or None
         payload["round"] = deal.round or None
         payload["roundDate"] = deal.round_date or None
+        payload["roundSize"] = deal.deal_size or None
         payload["stage"] = config.ATTIO_STAGE_MAP.get((attio_stage or "").strip().lower(), "new")
     company_ref.set(payload, merge=True)
+
+    # Radar clock recompute (RADAR_PLAN.md Part I/III/IV/VI) -- only for
+    # companies actually resolving to the Radar stage, and only a best-effort
+    # side effect: the write above is this function's own source of truth
+    # regardless of whether this succeeds, same non-blocking convention
+    # companies.js's pushStageToAttio write-back uses on the hub-next side.
+    resolved_stage = payload.get("stage") if is_new else (existing_snap.to_dict() or {}).get("stage")
+    if resolved_stage == "radar":
+        try:
+            index = tier1_index if tier1_index is not None else radar_mandate.build_tier1_index(radar_state.list_top_vcs())
+            # Re-read rather than reconstruct from `payload`/`existing_snap`
+            # branches -- this always reflects exactly what's now persisted
+            # (top-level roundDate/roundSize/round are don't-clobber fields
+            # on an existing company, so the freshest deal.* values aren't
+            # necessarily what's actually on the doc).
+            current = company_ref.get().to_dict() or {}
+            fields = {
+                "name": current.get("name"), "hq": deal.hq, "series": current.get("round"),
+                "top10VC": current.get("top10VC", False),
+                "roundSize": current.get("roundSize"), "roundDate": current.get("roundDate"),
+                "radarCategory": current.get("radarCategory"), "description": current.get("description"),
+                "website": current.get("website"),
+            }
+            radar_state.recompute_and_write(slug, fields, index, "attio-import")
+        except Exception as e:
+            print(f"push_company_from_attio({slug}): radar recompute failed (non-blocking): {e}")
+
     return {"slug": slug, "created": is_new}
 
 

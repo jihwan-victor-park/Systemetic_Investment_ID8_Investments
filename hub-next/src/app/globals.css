@@ -142,6 +142,12 @@ h1, h2, h3, h4 { font-family: var(--ifm-heading-font-family); letter-spacing: -0
 .badge--co { color: var(--id8-fresh); background: color-mix(in srgb, var(--id8-fresh) 16%, transparent); }
 .badge--pipe { color: var(--id8-accent); background: var(--id8-accent-bg); }
 .badge--hot { color: var(--id8-stale); background: color-mix(in srgb, var(--id8-stale) 16%, transparent); }
+/* Radar tab's Hot/Cold column (radarTableColumns.jsx) -- badge--hot above is
+   reused as-is for "hot" (same visual urgency cue InvestorRelationships/
+   VCsDirectory already use it for); badge--cold is new, a neutral/muted
+   read rather than a second alarm color, since "cold" here just means
+   "comfortably far from its predicted raise window," not a warning. */
+.badge--cold { color: var(--id8-grey); background: color-mix(in srgb, var(--id8-grey) 14%, transparent); }
 
 .status-pill { display: inline-flex; align-items: center; white-space: nowrap; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 600; color: var(--id8-ink); }
 .status-pill::before { content: ''; display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 6px; }

@@ -23,7 +23,11 @@ def _value(values, slug):
         return None
     if isinstance(v, list) and v:
         cell = v[0]
-        for k in ("value", "option", "status", "target_record_id", "full_name"):
+        # currency_value added 2026-07-28 for deal_size (Radar's capital-clock
+        # roundSize input) -- pipeline/app.py's build_attio_values already
+        # stores the real dollar amount there (source $millions * MILLION),
+        # not millions, so no unit conversion is needed on the way back out.
+        for k in ("value", "option", "status", "target_record_id", "full_name", "currency_value"):
             if isinstance(cell, dict) and k in cell:
                 inner = cell[k]
                 return inner.get("title") if isinstance(inner, dict) else inner
@@ -73,6 +77,7 @@ def _parse_deal_record(rec: dict) -> DealInput:
         lead_investors=_value(values, s["lead_investors"]),
         round_date=_value(values, s["round_date"]),
         description=_value(values, s["description"]),
+        deal_size=_value(values, s["deal_size"]),
         raw=values,
     )
 

@@ -22,6 +22,13 @@ ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
 # stateless/deterministic (same text -> same vector, always), which is why
 # they can sit inside an otherwise-deterministic Phase 1 filter at all.
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+# Radar's capital clock (apollo_org.py) -- one bounded org-enrichment call
+# per Radar company for a headcount estimate. Already used elsewhere
+# (pipeline/attio_apollo_sync.py's "Apollo Reach Out" contact sync, a
+# separate feature/script) but never read into this package's own config
+# before now; same env var, already registered in _secrets.py's Secret
+# Manager mapping.
+APOLLO_API_KEY = os.getenv("APOLLO_API_KEY")
 
 # ── GitHub hub push (Cloud Run) ───────────────────────────────────────────────
 # GH_TOKEN: fine-grained PAT with Contents: Read & Write on GH_REPO.
@@ -230,6 +237,14 @@ READ_SLUGS = {
     # off-thesis sectors (e.g. "wealth management" rarely survives into a
     # one-word category tag). Added 2026-07-28.
     "description": os.getenv("DI_SLUG_DESCRIPTION", "description"),
+    # Same story as round_date/description -- FIELD_MAP already writes
+    # PitchBook's 'Deal Size' onto every deal's 'deal_size' currency slug
+    # (pipeline/app.py's build_attio_values), but nothing read it back before
+    # now. Radar's capital clock (RADAR_PLAN.md Part III) needs the round's
+    # size as `roundSize`, its one input for burn/cash-out math besides
+    # headcount. Added 2026-07-28 alongside attio_io._value()'s new
+    # currency_value handling, which this slug is the first reader of.
+    "deal_size": os.getenv("DI_SLUG_DEAL_SIZE", "deal_size"),
 }
 
 # Attio Deal `stage` status values that correspond 1:1 to a hub-next stage

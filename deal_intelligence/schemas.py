@@ -17,6 +17,9 @@ class DealInput:
     description: Optional[str] = None  # PitchBook's company description, off Attio's 'description'
                                         # text slug -- Radar's relevance-exclusion list (RADAR_PLAN.md
                                         # §1.6) matches keywords against this, not just radarCategory
+    deal_size: Optional[float] = None  # the round's size in real dollars, off Attio's 'deal_size'
+                                        # currency slug -- Radar's capital clock (RADAR_PLAN.md Part III)
+                                        # needs this as `roundSize`, its other burn-math input besides headcount
     raw: dict = field(default_factory=dict)   # full Attio values, for reference
 
 

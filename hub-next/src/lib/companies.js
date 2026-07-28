@@ -35,6 +35,13 @@ function _mapOrigin(o) {
     // runway/cash-out. Same don't-clobber relationship to the top-level
     // `roundDate` (below) that origin.round already has with `round`.
     roundDate: o.roundDate || null,
+    // The round's size in real dollars, off Attio's 'deal_size' currency
+    // slug (see deal_intelligence/firestore_push.py) -- added 2026-07-28,
+    // Radar's capital clock (RADAR_PLAN.md Part III) needs this as
+    // `roundSize`, its other burn-math input besides headcount. Same
+    // don't-clobber relationship to the top-level `roundSize` (below) that
+    // origin.round already has with `round`.
+    roundSize: o.roundSize || null,
     hq: o.hq || null,
     leadInvestors: o.leadInvestors || null,
     // Attio's own "Radar Category" field -- the category a Top 10 VC deal
@@ -95,6 +102,7 @@ export const listCompanies = unstable_cache(async () => {
       stage: STAGES.includes(data.stage) ? data.stage : 'qualified',
       round: data.round || null,
       roundDate: data.roundDate || null,
+      roundSize: data.roundSize || null,
       // PitchBook's company description, off Attio -- refreshed on every
       // import/screen (see deal_intelligence/firestore_push.py), not a
       // hub-editable field like round/radarCategory. Feeds the
@@ -113,6 +121,13 @@ export const listCompanies = unstable_cache(async () => {
       top10VC: !!data.top10VC,
       origin: _mapOrigin(data.origin),
       latestScreen,
+      // Mandate screen + capital clock + scan schedule (RADAR_PLAN.md Part
+      // VIII), written by deal_intelligence/radar_state.py -- null for
+      // every non-Radar company, and for a Radar company that hasn't had
+      // its first recompute yet (a brand-new arrival, before the Attio-
+      // import hook or the next backfill/scan-runner pass touches it).
+      // Read-only here; see hub-next/src/lib/radar.js for formatters.
+      radar: data.radar || null,
     };
   }));
 }, ['list-companies'], { tags: ['companies'], revalidate: CACHE_SECONDS });
@@ -342,9 +357,12 @@ export const getCompany = unstable_cache(async (slug) => {
     website: data.website,
     stage: STAGES.includes(data.stage) ? data.stage : 'qualified',
     round: data.round || null,
+    roundDate: data.roundDate || null,
+    roundSize: data.roundSize || null,
     radarCategory: data.radarCategory || null,
     pitchbookUrl: data.pitchbookUrl || null,
     origin: _mapOrigin(data.origin),
+    radar: data.radar || null,
     screens,
   };
 }, ['get-company'], { tags: ['companies'], revalidate: CACHE_SECONDS });

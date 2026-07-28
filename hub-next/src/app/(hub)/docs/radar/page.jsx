@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { auth } from '@/auth';
 import SortableTable from '@/components/SortableTable';
-import { STAGE_TABLE_COLUMNS, companyToRow } from '@/components/companyStageColumns';
+import { RADAR_TABLE_COLUMNS, radarCompanyToRow } from '@/components/radarTableColumns';
 import { listCompanies } from '@/lib/companies';
 import { listTopVCs } from '@/lib/topVCs';
 import { listPartnerVCs } from '@/lib/partnerVCs';
@@ -34,7 +34,7 @@ export default async function RadarPage() {
   const visible = radarCompanies.filter((c) => !matchExclusionRule(c, rules, keepAnywaySlugs));
   const hiddenCount = radarCompanies.length - visible.length;
   const investorIndex = buildInvestorIndex(tier1, partners);
-  const rows = visible.map((c) => companyToRow(c, { basePath: '/docs/radar', canEdit, investorIndex }));
+  const rows = visible.map((c) => radarCompanyToRow(c, { canEdit, investorIndex }));
 
   return (
     <>
@@ -46,7 +46,7 @@ export default async function RadarPage() {
         </p>
       )}
       <SortableTable
-        columns={STAGE_TABLE_COLUMNS}
+        columns={RADAR_TABLE_COLUMNS}
         rows={rows}
         defaultSort={{ key: 'company', dir: 'asc' }}
         searchPlaceholder="Filter by company or series…"
