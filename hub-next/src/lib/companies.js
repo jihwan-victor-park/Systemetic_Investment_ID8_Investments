@@ -46,24 +46,45 @@ function _mapOrigin(o) {
   };
 }
 
+// Reads the same {date, roundStage, fitScore, gate} shape listCompanies()
+// has always returned, preferring the denormalized copy on the company doc
+// itself (written at screen-creation time by
+// deal_intelligence/firestore_push.py as of 2026-07-28) over a subcollection
+// query. `gate` falls back to parsing `verdict` only for the pre-2026-07-28
+// subcollection shape, which never had a `gate` field of its own.
+function _mapLatestScreen(raw) {
+  if (!raw) return null;
+  return {
+    date: isoDate(raw.date),
+    roundStage: raw.roundStage || null,
+    fitScore: raw.fitScore ?? null,
+    gate: raw.gate ?? (raw.verdict || '').startsWith('clears gate'),
+  };
+}
+
 export const listCompanies = unstable_cache(async () => {
   const snap = await db().collection('companies').orderBy('name').get();
-  // One Firestore round trip per company for its latest screen -- run them
-  // concurrently (Promise.all preserves snap.docs' name-sorted order in the
-  // result regardless of which query resolves first) instead of sequentially,
-  // which used to serialize one network round trip per company and got
-  // dramatically slower as the company count grew (300+ after the Attio
-  // bulk import).
+  // Denormalized fast path (see _mapLatestScreen above): a company screened
+  // since 2026-07-28 carries its own latest-screen summary right on this
+  // doc, so most companies need zero extra reads here. Only a company that
+  // predates that change (or hasn't been re-screened since) falls through to
+  // the slow path below -- one Firestore round trip per such company, same
+  // as this whole function used to do for every company before the fix.
+  // That fallback population shrinks to zero once
+  // scripts/backfill-latest-screen.mjs has run once in production.
   return Promise.all(snap.docs.map(async (doc) => {
     const data = doc.data();
-    const latestSnap = await db()
-      .collection('companies')
-      .doc(doc.id)
-      .collection('screens')
-      .orderBy('date', 'desc')
-      .limit(1)
-      .get();
-    const latest = latestSnap.empty ? null : latestSnap.docs[0].data();
+    let latestScreen = _mapLatestScreen(data.latestScreen);
+    if (latestScreen === null && data.latestScreen === undefined) {
+      const latestSnap = await db()
+        .collection('companies')
+        .doc(doc.id)
+        .collection('screens')
+        .orderBy('date', 'desc')
+        .limit(1)
+        .get();
+      latestScreen = latestSnap.empty ? null : _mapLatestScreen(latestSnap.docs[0].data());
+    }
     return {
       slug: doc.id,
       name: data.name,
@@ -91,14 +112,7 @@ export const listCompanies = unstable_cache(async () => {
       // above): it should always mirror whatever Attio currently says.
       top10VC: !!data.top10VC,
       origin: _mapOrigin(data.origin),
-      latestScreen: latest
-        ? {
-            date: isoDate(latest.date),
-            roundStage: latest.roundStage || null,
-            fitScore: latest.fitScore ?? null,
-            gate: latest.gate ?? (latest.verdict || '').startsWith('clears gate'),
-          }
-        : null,
+      latestScreen,
     };
   }));
 }, ['list-companies'], { tags: ['companies'], revalidate: CACHE_SECONDS });
