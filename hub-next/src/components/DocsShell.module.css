@@ -27,13 +27,52 @@
   max-width: var(--ifm-container-width-xl);
   padding: 0 2rem;
   display: grid;
-  grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+  /* TOC is nav links, not body copy -- it doesn't need to scale with the
+     container the way prose would, so it gets a fixed width and every extra
+     pixel from a wider container (or a wider viewport) goes to main instead.
+     That matters most on pages like a Partner VC's Portfolio table, which
+     eats into this same "with a TOC" budget via its News section heading. */
+  grid-template-columns: minmax(0, 1fr) 240px;
   gap: 2.5rem;
   align-items: start;
 }
 
+/* Pages with no headings (the New Deals/Watchlist/Pipeline/Qualified Deals
+   tables, which are just an <h1> and a table) never render the "On this
+   page" aside, but the grid still reserved its 1fr track as empty space --
+   give main the full width instead of leaving a quarter of the page blank
+   next to a wide table. */
+.contentInner[data-has-toc="false"] {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 .category {
   margin-bottom: 0.2rem;
+}
+
+/* Draggable wrapper around each top-level tab -- a grab affordance only
+   shows up on hover so the sidebar doesn't look interactive-everywhere at
+   rest; dragging itself is native HTML5 DnD (draggable + onDragStart/Over/
+   Drop in DocsShell.jsx), no library needed for a single-axis list this
+   short. */
+.topLevelItem {
+  cursor: grab;
+}
+.topLevelItem:active {
+  cursor: grabbing;
+}
+
+.renameInput {
+  width: calc(100% - 1rem);
+  margin: 2px 0.5rem;
+  font-family: 'Sora', sans-serif;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--id8-ink);
+  background: var(--id8-card);
+  border: 1px solid var(--id8-accent);
+  border-radius: 2px;
+  padding: 3px 6px;
 }
 
 /* Wraps the category's own row plus only the children on the path to the
@@ -283,4 +322,16 @@
     margin-bottom: 1rem;
     cursor: pointer;
   }
+}
+
+.navBadge {
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--id8-fresh);
+  background: color-mix(in srgb, var(--id8-fresh) 16%, transparent);
+  padding: 1px 5px;
+  border-radius: 2px;
+  margin-left: 8px;
+  vertical-align: 1px;
 }

@@ -4,12 +4,30 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import InlineMarkdown from './InlineMarkdown';
 import BlockMarkdown from './BlockMarkdown';
+import HubSearchPanel from './HubSearchPanel';
+import { useJobs } from '@/context/JobsContext';
 import styles from './ResearchChat.module.css';
 
 const POLL_MS = 5000;
 
 function newId() {
   return (typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() : `${Date.now()}-${Math.random()}`;
+}
+
+// Collapsed by default -- this is raw model chain-of-thought / per-angle
+// research, kept for QA (e.g. catching a cross-company fact conflation before
+// trusting a score) rather than as something to read on every result.
+function ReasoningPanel({ label, text }) {
+  const [open, setOpen] = useState(false);
+  if (!text) return null;
+  return (
+    <div className={styles.reasoning}>
+      <button type="button" className={styles.moreToggle} onClick={() => setOpen((v) => !v)}>
+        {open ? 'Hide' : 'Show'} {label}
+      </button>
+      {open && <pre className={styles.reasoningBox}>{text}</pre>}
+    </div>
+  );
 }
 
 // Renders the Stage 1 fit result the same way the hub's own company pages do
@@ -24,6 +42,9 @@ function Stage1Result({ data }) {
         {fit.raw_score != null && <span className={styles.resultScoreRaw}> (raw {fit.raw_score.toFixed(1)})</span>}
         {data.verdict && <span className={styles.resultVerdict}> — {data.verdict}</span>}
       </p>
+      {fit.research_flag && (
+        <p className={styles.integrityWarning}>⚠ {fit.research_flag}</p>
+      )}
       {fit.hard_auto_pass && fit.hard_auto_pass_reason && (
         <p className={styles.resultNote}><em>Hard auto-pass: {fit.hard_auto_pass_reason}</em></p>
       )}
@@ -34,6 +55,7 @@ function Stage1Result({ data }) {
       {data.hub_path && (
         <Link href={data.hub_path} className={styles.resultLink}>View full screen (all dimensions + evidence) →</Link>
       )}
+      <ReasoningPanel label="reasoning (chain of thought)" text={fit.reasoning} />
     </div>
   );
 }
@@ -57,6 +79,7 @@ function Stage2Result({ data }) {
           </ol>
         </>
       )}
+      <ReasoningPanel label="raw per-angle research (chain of thought)" text={memo.sections?.raw_research} />
     </div>
   );
 }
@@ -65,6 +88,7 @@ function AssistantBubble({ msg }) {
   return (
     <div className={styles.row} data-role="assistant">
       <div className={styles.bubble} data-role="assistant">
+        <div className={styles.bubbleLabel}>ID8 Research</div>
         {msg.status === 'pending' && (
           <div className={styles.pending}>
             <span className={styles.spinner} aria-hidden="true" />
@@ -96,6 +120,7 @@ function UserBubble({ msg }) {
 }
 
 export default function ResearchChat() {
+  const [mode, setMode] = useState('research');
   const [messages, setMessages] = useState([]);
   const [text, setText] = useState('');
   const [stage, setStage] = useState(1);
@@ -107,6 +132,7 @@ export default function ResearchChat() {
   const [sending, setSending] = useState(false);
   const cancelledRef = useRef(false);
   const endRef = useRef(null);
+  const { startJob, reportTerminal } = useJobs();
 
   useEffect(() => () => { cancelledRef.current = true; }, []);
   useEffect(() => { endRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' }); }, [messages]);
@@ -129,8 +155,16 @@ export default function ResearchChat() {
         patchMessage(msgId, { status: 'error', error: err.message });
         return;
       }
-      if (data.status === 'complete') { patchMessage(msgId, { ...data }); return; }
-      if (data.status === 'error') { patchMessage(msgId, { status: 'error', error: data.error || 'research failed' }); return; }
+      if (data.status === 'complete') {
+        patchMessage(msgId, { ...data });
+        reportTerminal(jobId, { status: 'complete', verdict: data.verdict });
+        return;
+      }
+      if (data.status === 'error') {
+        patchMessage(msgId, { status: 'error', error: data.error || 'research failed' });
+        reportTerminal(jobId, { status: 'error', error: data.error || 'research failed' });
+        return;
+      }
       // still running — keep polling
     }
   }
@@ -184,6 +218,10 @@ export default function ResearchChat() {
         return;
       }
       if (data.name) patchMessage(pendingId, { label: data.name });
+      startJob(data.job_id, {
+        status: 'running', type: 'chat', label: `${data.name || input} — Stage ${stage}`,
+        createdAt: new Date().toISOString(),
+      });
       await poll(data.job_id, pendingId);
     } catch (err) {
       patchMessage(pendingId, { status: 'error', error: err.message });
@@ -194,6 +232,19 @@ export default function ResearchChat() {
 
   return (
     <div className={styles.chat}>
+      <div className={styles.modeTabs}>
+        <button type="button" className={mode === 'research' ? styles.modeActive : ''} onClick={() => setMode('research')}>
+          Research a company
+        </button>
+        <button type="button" className={mode === 'search' ? styles.modeActive : ''} onClick={() => setMode('search')}>
+          Search the Hub
+        </button>
+      </div>
+
+      {mode === 'search' ? (
+        <HubSearchPanel />
+      ) : (
+        <>
       <div className={styles.history}>
         {messages.length === 0 && (
           <div className={styles.empty}>
@@ -201,7 +252,8 @@ export default function ResearchChat() {
             Results are saved to the hub and show up in Qualified Deals.
             Stage 2 (deep research memo) still needs the company name typed directly; that gets
             smarter later. Both run the real research pipeline at max depth — expect several
-            minutes per company.
+            minutes per company. Looking for something already in the Hub instead? Switch to
+            "Search the Hub" above.
           </div>
         )}
         {messages.map((msg) => (msg.role === 'user'
@@ -243,6 +295,8 @@ export default function ResearchChat() {
           </>
         )}
       </form>
+        </>
+      )}
     </div>
   );
 }

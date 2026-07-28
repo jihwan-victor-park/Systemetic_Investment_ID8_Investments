@@ -16,6 +16,12 @@ from deal_intelligence import _secrets  # noqa: F401, E402
 ATTIO_API_KEY = os.getenv("ATTIO_API_KEY")
 PERPLEXITY_API_KEY = os.getenv("PERPLEXITY_API_KEY")
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
+# Embeddings only (deal_intelligence/ai_relevance_embeddings.py, used by
+# portfolio_prefilter.py) -- not used anywhere else in this package. No
+# generation/chat calls made with this key, deliberately: embeddings are
+# stateless/deterministic (same text -> same vector, always), which is why
+# they can sit inside an otherwise-deterministic Phase 1 filter at all.
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 # ── GitHub hub push (Cloud Run) ───────────────────────────────────────────────
 # GH_TOKEN: fine-grained PAT with Contents: Read & Write on GH_REPO.
@@ -48,6 +54,40 @@ SCORE_MODEL = os.getenv("DI_SCORE_MODEL", "claude-haiku-4-5-20251001")  # rubric
 # that module), so this defaults to Perplexity's cheapest model. Deliberately
 # a Perplexity model, not a Claude one -- Stage 1 has no Anthropic dependency.
 CHAT_INTENT_MODEL = os.getenv("DI_CHAT_INTENT_MODEL", "sonar")
+# portfolio_enrich.py's bulk Phase 0 pass over partner VC portfolio rows
+# (category/industry/description/hqLocation/businessStatus/vertical) -- same
+# reasoning as CHAT_INTENT_MODEL: a real web-search lookup, but a short,
+# tightly-scoped one, so the cheapest Perplexity tier is the right fit at
+# 1,000-9,000+ company scale. Kept as its own knob (not reused from
+# CHAT_INTENT_MODEL) since the two call sites may need to diverge later even
+# though they share a default today -- same convention as every other model
+# knob in this file.
+PORTFOLIO_ENRICH_MODEL = os.getenv("DI_PORTFOLIO_ENRICH_MODEL", "sonar")
+# Stage 0 Portfolio Fit scoring (portfolio_fit.py) -- the lighter-than-Stage-1
+# monitoring pass over a partner VC's portfolio companies. Deliberately `sonar`
+# (non-reasoning, cheap tier), NOT sonar-deep-research: portfolio_fit.md is
+# written to run one shallow research call per company at 100s-1,000s-of-
+# company scale inside a ~$30-60 budget (see that prompt's header). `sonar`
+# is not a reasoning model, so STAGE1_REASONING_EFFORT does not apply here --
+# only search_context_size does, and it's "low" per the prompt's own note.
+PORTFOLIO_FIT_MODEL = os.getenv("DI_PORTFOLIO_FIT_MODEL", "sonar")
+PORTFOLIO_FIT_SEARCH_CONTEXT_SIZE = os.getenv("DI_PORTFOLIO_FIT_SEARCH_CONTEXT_SIZE", "low")
+# Stage-resolution pass (portfolio_fit.resolve_current_stage) -- the dedicated
+# FIRST sonar call whose only job is nailing the company's true current round,
+# before the fit call scores anything. Its own knob because accuracy on this
+# one fact matters more than on the fit call's broad read (getting the stage
+# wrong wrongly benches a live holding as too_early -- see Base Power), so it
+# gets a deeper search context ("medium") than the fit pass's "low". Same cheap
+# `sonar` model; it's the search depth, not the model, that's dialed up.
+PORTFOLIO_STAGE_SEARCH_CONTEXT_SIZE = os.getenv("DI_PORTFOLIO_STAGE_SEARCH_CONTEXT_SIZE", "medium")
+# Output is small and tightly capped (4 holistic dimension scores + short
+# rationale/raise-probability fields, no per-subcategory findings the way
+# Stage 1 has), so this can sit far below STAGE1_MAX_TOKENS -- but not so low
+# it truncates the JSON mid-object (which surfaces as "no usable dimensions").
+PORTFOLIO_FIT_MAX_TOKENS = int(os.getenv("DI_PORTFOLIO_FIT_MAX_TOKENS", "2000"))
+# `sonar` answers in seconds, not the minutes sonar-deep-research takes, so
+# this is a fraction of STAGE1_TIMEOUT_SECONDS.
+PORTFOLIO_FIT_TIMEOUT_SECONDS = int(os.getenv("DI_PORTFOLIO_FIT_TIMEOUT_SECONDS", "120"))
 
 # sonar-deep-research runs iterative multi-step search and can take several
 # minutes per deal -- both knobs below only apply to Stage 1's perplexity()
@@ -62,6 +102,16 @@ CHAT_INTENT_MODEL = os.getenv("DI_CHAT_INTENT_MODEL", "sonar")
 # it's broken. "medium" is still far deeper than the original sonar-pro
 # baseline and actually completes.
 STAGE1_REASONING_EFFORT = os.getenv("DI_STAGE1_REASONING_EFFORT", "medium")
+# Tried raising this to "high" on 2026-07-15 on the theory that v4's 35-item
+# checklist needed more page content per search than "medium" was returning.
+# Reverted same day -- Research Chat (same score_deal() call, see
+# chat_intent.py/pipeline/app.py's /research-chat) stopped completing at all
+# after that change, consistent with the exact failure mode documented above
+# for reasoning_effort="high": more content pulled per search plus v4's
+# already-larger prompt pushes total token usage past the point where the
+# model ever gets to writing the JSON answer within STAGE1_TIMEOUT_SECONDS/
+# STAGE1_MAX_TOKENS. "medium" is the confirmed-working value; do not raise
+# this without a live way to test it first.
 STAGE1_SEARCH_CONTEXT_SIZE = os.getenv("DI_STAGE1_SEARCH_CONTEXT_SIZE", "medium")
 STAGE1_TIMEOUT_SECONDS = int(os.getenv("DI_STAGE1_TIMEOUT_SECONDS", "600"))
 # The three-tier rationale (point -> dimension -> deal) asks for 35 grounded
@@ -113,6 +163,15 @@ FIT_THRESHOLD = float(os.getenv("DI_FIT_THRESHOLD", "3.0"))
 STRONG_GO_THRESHOLD = float(os.getenv("DI_STRONG_GO_THRESHOLD", "3.5"))
 MORE_DILIGENCE_THRESHOLD = float(os.getenv("DI_MORE_DILIGENCE_THRESHOLD", "2.5"))
 
+# Stage 0 Portfolio Fit decision tiers (rubric_portfolio.decision_tier) -- the
+# numeric boundaries prompts/portfolio_fit_rubric.md's "Decision tiers" section
+# names explicitly. They coincide with the Stage 1 bands above at v1, but are
+# kept as their own knobs since the two rubrics are free to diverge: Stage 0
+# gates to a Hub watchlist, Stage 1 gates to paid deep research.
+PORTFOLIO_TRACK_PRIORITY_THRESHOLD = float(os.getenv("DI_PORTFOLIO_TRACK_PRIORITY_THRESHOLD", "3.5"))
+PORTFOLIO_TRACK_THRESHOLD = float(os.getenv("DI_PORTFOLIO_TRACK_THRESHOLD", "3.0"))
+PORTFOLIO_MONITOR_THRESHOLD = float(os.getenv("DI_PORTFOLIO_MONITOR_THRESHOLD", "2.5"))
+
 # ── Concurrency ──────────────────────────────────────────────────────────────
 # sonar-deep-research has a much tighter rate limit than sonar-pro (as low as
 # 5 requests/min on a fresh Perplexity account, scaling with usage tier) --
@@ -120,19 +179,76 @@ MORE_DILIGENCE_THRESHOLD = float(os.getenv("DI_MORE_DILIGENCE_THRESHOLD", "2.5")
 # Raise via env var once the account's actual Perplexity tier is confirmed.
 STAGE1_PARALLEL = int(os.getenv("DI_STAGE1_PARALLEL", "2"))
 STAGE2_PARALLEL = int(os.getenv("DI_STAGE2_PARALLEL", "3"))
+# attio_io.list_all_deals()'s per-deal Company domain lookups -- plain GETs
+# against Attio's API, not an LLM call, so this can run much higher than the
+# Stage 1/2 knobs above without hitting a research-model rate limit.
+ATTIO_IMPORT_PARALLEL = int(os.getenv("DI_ATTIO_IMPORT_PARALLEL", "8"))
+# portfolio_enrich.py -- `sonar` (non-reasoning, cheap tier) has a much looser
+# rate limit than sonar-deep-research, but it's still a real web-search call,
+# not a plain GET like ATTIO_IMPORT_PARALLEL's target -- start conservative,
+# raise once a real run confirms the account's actual sonar rate limit.
+PORTFOLIO_ENRICH_PARALLEL = int(os.getenv("DI_PORTFOLIO_ENRICH_PARALLEL", "5"))
+# portfolio_fit.py -- same reasoning as PORTFOLIO_ENRICH_PARALLEL: `sonar` has
+# a far looser rate limit than sonar-deep-research, but it's still a real
+# web-search call. Start conservative; raise once a real run confirms the
+# account's actual sonar rate limit without 429s.
+PORTFOLIO_FIT_PARALLEL = int(os.getenv("DI_PORTFOLIO_FIT_PARALLEL", "5"))
 
 # ── Attio Deals schema ───────────────────────────────────────────────────────
 DEALS_OBJECT = os.getenv("DI_DEALS_OBJECT", "deals")
 STAGE_SLUG = os.getenv("DI_STAGE_SLUG", "stage")          # the deal-stage attribute
 QUALIFIED_VALUE = os.getenv("DI_QUALIFIED_VALUE", "Qualified")
 
-# Value slugs to read off a deal for research context. Confirm against Attio.
+# Value slugs to read off a deal for research context.
+# Confirmed against pipeline/app.py's FIELD_MAP/build_attio_values -- the code
+# that actually writes these Deal records, so it's ground truth for what the
+# real api_slugs are. round/hq were wrong here (guessed "round"/"hq_location",
+# real slugs are "series"/"location") -- every deal re-screened via
+# attio_io.get_qualified_deals() (the /screen-deals backlog path, as opposed to
+# a brand-new deal scored fresh off n8n via pipeline/app.py's own dict, which
+# was never affected by this) got round=None/hq=None every single time,
+# starving Stage 1 of the two facts its Stage/Geography gate needs most.
+# domain has no fix here -- see get_qualified_deals(), it isn't a Deal
+# attribute at all, it only exists on the linked Company record.
 READ_SLUGS = {
     "name": os.getenv("DI_SLUG_NAME", "name"),
-    "domain": os.getenv("DI_SLUG_DOMAIN", "domain"),       # TODO confirm
-    "round": os.getenv("DI_SLUG_ROUND", "round"),          # TODO confirm
-    "hq": os.getenv("DI_SLUG_HQ", "hq_location"),          # TODO confirm
+    "domain": os.getenv("DI_SLUG_DOMAIN", "domain"),       # not a real Deal attribute; see get_qualified_deals()
+    "round": os.getenv("DI_SLUG_ROUND", "series"),
+    "hq": os.getenv("DI_SLUG_HQ", "location"),
     "lead_investors": "lead_investors",                    # text slug (see memory)
+    # Written by pipeline/app.py's build_attio_values (FIELD_MAP: 'Deal Date'
+    # -> 'deal_date') on every deal, but never read back anywhere until now --
+    # RADAR_PLAN.md Part I flags this as the one blocking gap for Radar's
+    # capital-clock math, which needs the round's close date to estimate
+    # runway/cash-out. Added 2026-07-28.
+    "round_date": os.getenv("DI_SLUG_ROUND_DATE", "deal_date"),
+    # Same story as round_date -- FIELD_MAP already writes PitchBook's
+    # 'Description' onto every deal's 'description' text slug, but nothing
+    # read it back into the hub before now. Radar's relevance-exclusion list
+    # (RADAR_PLAN.md §1.6) needs real description text to match keywords
+    # against -- radarCategory alone is too short/sparse to catch most
+    # off-thesis sectors (e.g. "wealth management" rarely survives into a
+    # one-word category tag). Added 2026-07-28.
+    "description": os.getenv("DI_SLUG_DESCRIPTION", "description"),
+}
+
+# Attio Deal `stage` status values that correspond 1:1 to a hub-next stage
+# bucket (hub-next/src/lib/stages.js's STAGES). Keys are lowercased for a
+# case-insensitive match. "radar" is Attio's own classification for Series
+# A-or-earlier deals sourced from a Top 10 VC's portfolio (see
+# determine_stage in pipeline/app.py) -- it maps to hub-next's own Radar
+# stage, a real tab there, not a derived filter. "invested" maps the same way
+# for deals Attio has marked as an actual ID8 investment. Any Attio stage not
+# in this map (unset, or anything else) leaves a brand-new company at
+# hub-next's 'new' stage -- an internal-only holding bucket with no public
+# tab, surfaced instead in the hub's Admin page ("Needs Triage") for manual
+# assignment (see firestore_push.push_company_from_attio).
+ATTIO_STAGE_MAP = {
+    "watchlist": "watchlist",
+    "pipeline": "pipeline",
+    "qualified": "qualified",
+    "radar": "radar",
+    "invested": "invested",
 }
 
 # Write-back slugs. Leave unset (None) to skip that write until the field exists.

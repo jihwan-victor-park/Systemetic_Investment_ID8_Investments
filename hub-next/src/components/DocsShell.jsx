@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
-import { getSidebarTree, getBreadcrumbs, containsPath, getPrevNext } from '@/data/sidebarConfig';
+import { getSidebarTree, getBreadcrumbs, containsPath, getPrevNext, applyUserPrefs } from '@/data/sidebarConfig';
 import styles from './DocsShell.module.css';
 
 function SidebarItem({ item, pathname }) {
@@ -19,13 +19,14 @@ function SidebarItem({ item, pathname }) {
     return (
       <Link href={item.href} className={`menu__link ${active ? 'menu__link--active' : ''}`}>
         {item.label}
+        {item.badge && <span className={styles.navBadge}>{item.badge}</span>}
       </Link>
     );
   }
 
   const isActiveBranch = containsPath(item, pathname);
 
-  // Flat categories (Deal Summaries/Watchlist/Pipeline/Qualified Deals) skip
+  // Flat categories (Deal Screening/Watchlist/Pipeline/Qualified Deals) skip
   // the chevron/expand entirely -- their item lists grow with every company
   // and would dump a long, ever-changing name list into the sidebar. They
   // still carry `items` (used above for breadcrumbs/prev-next/active-rail),
@@ -99,7 +100,15 @@ function SidebarItem({ item, pathname }) {
 
 export default function DocsShell({ companies = [], deals = [], children }) {
   const pathname = usePathname();
-  const tree = getSidebarTree(companies, deals);
+  // Per-user tab customization (Notion-style reorder/rename, see
+  // lib/userPrefs.js) -- loaded once on mount and applied to the top-level
+  // tree only; falls back to the built-in order/labels until it loads (or
+  // for a user who's never customized anything).
+  const [prefs, setPrefs] = useState({ tabOrder: [], labels: {} });
+  const [editingId, setEditingId] = useState(null);
+  const [editValue, setEditValue] = useState('');
+  const dragIdRef = useRef(null);
+  const tree = applyUserPrefs(getSidebarTree(companies, deals), prefs);
   const breadcrumbs = getBreadcrumbs(pathname, tree);
   const { prev, next } = getPrevNext(pathname, tree);
   const contentRef = useRef(null);
@@ -108,6 +117,66 @@ export default function DocsShell({ companies = [], deals = [], children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => setSidebarOpen(false), [pathname]);
+
+  useEffect(() => {
+    fetch('/api/user-prefs').then((r) => r.json()).then(setPrefs).catch(() => {});
+  }, []);
+
+  function commitTabOrder(nextOrder) {
+    setPrefs((p) => ({ ...p, tabOrder: nextOrder }));
+    fetch('/api/user-prefs', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ tabOrder: nextOrder }),
+    }).catch(() => {});
+  }
+
+  function handleDrop(targetId) {
+    const draggedId = dragIdRef.current;
+    dragIdRef.current = null;
+    if (!draggedId || draggedId === targetId) return;
+    const currentOrder = tree.filter((n) => n.id).map((n) => n.id);
+    const from = currentOrder.indexOf(draggedId);
+    const to = currentOrder.indexOf(targetId);
+    if (from === -1 || to === -1) return;
+    const nextOrder = [...currentOrder];
+    nextOrder.splice(from, 1);
+    nextOrder.splice(to, 0, draggedId);
+    commitTabOrder(nextOrder);
+  }
+
+  function startRename(item) {
+    if (!item.id) return;
+    setEditingId(item.id);
+    setEditValue(item.label);
+  }
+
+  function commitRename() {
+    const id = editingId;
+    setEditingId(null);
+    if (!id) return;
+    const trimmed = editValue.trim();
+    const current = tree.find((n) => n.id === id);
+    if (!trimmed || trimmed === current?.label) return;
+    const nextLabels = { ...prefs.labels, [id]: trimmed };
+    setPrefs((p) => ({ ...p, labels: nextLabels }));
+    fetch('/api/user-prefs', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ labels: nextLabels }),
+    }).catch(() => {});
+  }
+
+  // Without this, the page behind the mobile drawer stays scrollable --
+  // touch-scrolling the (fixed-position, so visually static) menu instead
+  // scrolls the body underneath it, which is what reads as the menu
+  // "moving" rather than staying put while it's open.
+  useEffect(() => {
+    if (!sidebarOpen) return undefined;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = prevOverflow; };
+  }, [sidebarOpen]);
 
   useEffect(() => {
     const container = contentRef.current;
@@ -132,7 +201,32 @@ export default function DocsShell({ companies = [], deals = [], children }) {
       <aside className={styles.sidebar} data-open={sidebarOpen}>
         <nav>
           {tree.map((item) => (
-            <SidebarItem key={item.href || item.label} item={item} pathname={pathname} />
+            <div
+              key={item.id || item.href || item.label}
+              draggable={Boolean(item.id)}
+              onDragStart={() => { dragIdRef.current = item.id; }}
+              onDragOver={(e) => { if (item.id) e.preventDefault(); }}
+              onDrop={() => item.id && handleDrop(item.id)}
+              className={styles.topLevelItem}
+            >
+              {editingId === item.id ? (
+                <input
+                  autoFocus
+                  className={styles.renameInput}
+                  value={editValue}
+                  onChange={(e) => setEditValue(e.target.value)}
+                  onBlur={commitRename}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') e.currentTarget.blur();
+                    if (e.key === 'Escape') setEditingId(null);
+                  }}
+                />
+              ) : (
+                <div onDoubleClick={() => startRename(item)} title={item.id ? 'Double-click to rename' : undefined}>
+                  <SidebarItem item={item} pathname={pathname} />
+                </div>
+              )}
+            </div>
           ))}
         </nav>
       </aside>
@@ -148,7 +242,7 @@ export default function DocsShell({ companies = [], deals = [], children }) {
           right of the fixed-width sidebar — it isn't packed flush against the
           sidebar, and it isn't centered on the full viewport either. */}
       <div className={styles.contentArea}>
-        <div className={styles.contentInner}>
+        <div className={styles.contentInner} data-has-toc={toc.length > 0}>
           <main className={styles.main}>
             <button
               type="button"

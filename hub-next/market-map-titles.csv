@@ -1,0 +1,76 @@
+category,id,current_title,actual_map_title,note
+AI Agents,TOx4XdMkFcAqCnhf1fAh,Agentic Commerce: The Rise of the Delegated Buyer,Agentic Commerce Market Map,
+AI Agents,RZ9SCrP0xLDZEe0PpWZj,AI Agent App & Infrastructure Market Map,(no visible title),chart has no printed title — leave as-is
+AI Agents,mITtExN31iG0hf4tD0g8,From Click to Command: The Shift to Agentic Payments,Agentic Payments: Where Is the Opportunity for Startups?,
+AI Agents,1kI3h7WlZFMKgIPMuCTf,IAM in the Age of AI Agents,Increasing Enterprise Security Capability Maturity,
+AI Agents,FXF8VRDQ5xCGab4xKmmT,The AI Agent Market Map,The AI Agent Market Map (400+ promising companies across core enterprise use cases & industry applications),"already correct, has a subtitle too"
+AI Agents,1T8WL3O8Xs1TGtWKGM1e,Your Data Agents Need Context,Data Agent Market Map,
+AI Compute & Data Centers,5c2HA1300lhhwpGdR5TV,AI Infrastructure: Compute — Sizing the Market,Our View on AI Infrastructure,
+AI Compute & Data Centers,RJZwsa9MUHBM1VDtxMz2,"ClusterMAX 2.0 Market View, November 2025",AI Neocloud Providers by Type,
+AI Compute & Data Centers,1nFW0Hcr3PSHevA1Svyr,Roadmap: The AI Data Center Stack,The AI Data Center Stack,
+AI Compute & Data Centers,cM0fVlK4yccMVQpYUQxq,The Big Data Center Squeeze,AI in Datacenters,
+AI Compute & Data Centers,uzIe2587YUy31zRR3aMw,The Data Center Value Chain Market Map,The Data Center Value Chain Market Map,already correct
+AI Compute & Data Centers,oqa1XB7OMvBdx8vbGtyE,The InfraRed Report 2026,(no image uploaded),"this entry has no image in GCS at all — separate issue from titles, flagged in the original corrections research as a bot-blocked/whole-PDF source"
+AI Infrastructure,1LhYJTwNJzlNKSnidjkf,AI Infrastructure,(no visible title),chart has no printed title — leave as-is
+AI Infrastructure,lvKS5Z1vzvvxcOv753Jl,AI Infrastructure Roadmap: Five Frontiers for 2026,Five Frontiers for the Next Gen of AI Infrastructure in 2026,
+AI Infrastructure,esaNXOzRaG6MAuh5xpMM,Roadmap: AI Infrastructure,The New Data + AI Infrastructure Market Map,
+AI Infrastructure,EeDZs6s7oneSoIOfhA9Z,The Continual Learning Startup Landscape,Continual Learning Startup Landscape,"near-identical, just drop leading ""The"""
+AI Infrastructure,G5AFqsNRO9jvH4JlLzkB,The Duality of Infrastructure Software Investing in an AI World,"""Infra of AI"" Market",
+AI Infrastructure,VHtuXSG0Fji6yTqmxIcH,The Rise of AI Agent Infrastructure,Emerging AI Agents Infrastructure,"NOTE: Madrona reused this exact title on a 2nd, different chart too (wtsMFvlzGnJcUltLZRMc) — visually confirmed these are two distinct charts, not a duplicate-image bug. Consider a distinguishing suffix like ""(June 2024)"" when renaming."
+Content Generation,w9ue9ezZy5O2fbzSXWTV,AI Creative Market Map: Tools of the New Craft,AI Creative Market Map — Q2 2026,
+Content Generation,fffaH385JJugDBiy4RfU,AI Image Generation,(no visible title),chart has no printed title — leave as-is
+Content Generation,eECfcSSAZv0I10RjdQc5,Content Generation & Editing,Content Generation & Content Editing,"near-identical, minor wording diff"
+Cross-Industry Apps,5GdjoQgGY4PWIc9VnxnH,AI and the End of the Productivity Bundle,AI-Native Employee Productivity Application Landscape,
+Cross-Industry Apps,MhlKquHN7HcuduoCc4HY,AI Enterprise Market Map: Cutting Through the Hype,AI Enterprise Application Snapshot,
+Cross-Industry Apps,m7rIjtcqYnNqE9aqlXIU,AI x Productivity Tools,(no visible title),chart has no printed title — leave as-is
+Cross-Industry Apps,xfkG9Ib2Jjxwx8BgXEve,Computer Vision,(no visible title),chart has no printed title — leave as-is
+Cross-Industry Apps,Y7lEpp48WYJMXc2zWyjA,Departmental AI (State of Enterprise AI 2025),Departmental AI Market Map,
+Cross-Industry Apps,Kq2X92pyxrBxl4q533mG,Generative AI's Act Two,The Generative AI Market Map v3 (A work in progress),
+Cross-Industry Apps,x5llsKfD64WZFSYKKbv3,The AI Application Spending Report,AI Apps 50: Where Startups Spend on AI,
+Cross-Industry Apps,paYrLiRDrMKIPUVwr1WS,The Top 100 Gen AI Consumer Apps (6th Ed.),"The Top 50 Gen AI Web Products, by Unique Monthly Visits","NOTE: DB title says ""Top 100"" but chart says ""Top 50"" — possible mismatch, worth a manual look"
+Cybersecurity,YSbzPSavgwr3zmUmRoLm,Agentic AI Security Innovator Market Map,Agentic AI Security Innovator Market Map,already correct
+Cybersecurity,e2B5vmlypDzOxEr5KMpV,Agents for Security: The Tipping Point for Offensive AI,Offensive Security Market Map,
+Cybersecurity,pbxUjFICSkeVWYwevgRb,AI Cybersecurity,(no visible title),chart has no printed title — leave as-is
+Cybersecurity,3ojUEcAHkeXqm8qNaLz3,Rethinking Security for the Age of Autonomy,(no visible title),chart has no printed title — leave as-is
+Cybersecurity,gh1zgZoWiDKTFiV5ulnQ,Roadmap: Data Privacy Engineering,Bessemer's Data Privacy Stack,
+Cybersecurity,JwzAz52Et6Gt4skNck87,"State of Cybersecurity: Growth, Risk, and Resilience",Cybersecurity Market Map,
+Defense Tech,otV6JPt0RMvcxmTwzSEF,Defense Tech,(no visible title),chart has no printed title — leave as-is
+Defense Tech,V0FhYvNBqmjm14jcHq4i,Defense Tech Market Map,(no visible title),chart has no printed title — leave as-is
+Defense Tech,f27qdkJfgTOouGIQoziR,Defense Tech Roadmap: Five Frontiers for 2026,Bessemer's Defense Tech Roadmap: Frontiers for 2026,
+Defense Tech,NHCZhdtl7hfp7oXyIPfU,Space: A Market Map,(no visible title),chart has no printed title — leave as-is
+Developer Tools,guLZQrKVzZ2RvlTAY9B7,A Deep Dive Into MCP and the Future of AI Tooling,MCP Market Map,
+Developer Tools,Xzx8jpmHcFzkExlGwUVO,AI DevTools,(no visible title),chart has no printed title — leave as-is
+Developer Tools,urb3X1OR45rgtgQH4O3s,Roadmap: Developer Tooling for Software 3.0,Roadmap: Developer Tooling for Software 3.0,already correct
+Developer Tools,nfqbATGMlkVEmPL3lkz7,The AI Software Development Market Map,The AI Software Development Market Map,already correct
+Developer Tools,jW1mbuwfkwJi7CUUhRKM,The Trillion Dollar AI Software Development Stack,(no visible title),chart has no printed title — leave as-is
+Energy AI,ghhBLDHpZwEaR83rgD9q,The State of the Energy Management Market,AI x Energy Management Startup Landscape,
+Fintech,CohpxKJeSOKyMrecqY3p,Agentic Payments & AI Financial Infrastructure,(no visible title),chart has no printed title — leave as-is
+Fintech,2LS3fTLPs16ry3vWw836,AI in Financial Services Is Here,(no visible title),chart has no printed title — leave as-is
+Fintech,hsasPaYwK4qfi9OoQIBC,Finance AI: Reinventing the Modern Finance Stack,The Finance AI Landscape,
+Fintech,XIBPdARH5qtDQ7oPHIyP,Finance's Back Office Upgrade Cycle,(no visible title),chart has no printed title — leave as-is
+Fintech,IzgJWjVSsyhGAEvFIPzJ,Fintech Infrastructure (Living Landscape),(no visible title),chart has no printed title — leave as-is
+Fintech,A7RUfCggwTTIWSrkakfQ,Fintech Venture Map 2025,Mandalore Fintech Venture Map 2025,
+Fintech,LMyxQJ4EalNrqG8CQnZg,Market Map: Reimagining the CFO Software Stack,Market Map: Global Office of the CFO Software Stack,
+Fintech,el7ZbQT9GxaOqiBHmlmK,Supercharging Financial Advisors: AI in Wealth Management,(no visible title),chart has no printed title — leave as-is
+Fintech,YtUbeJGKQ7NXkH2KEq5a,The Fraud Prevention Market Map for the AI Era,The Fraud Prevention Market Map for the AI Era,already correct
+Healthcare,dQqypcu9GFPaZFPI0W78,2025: The State of AI in Healthcare,Healthcare AI Market Map,
+Healthcare,eS3eti7FhLF8WRa47axf,Brain Computer Interface,(no visible title),chart has no printed title — leave as-is
+Healthcare,NhNyGjggVWJ9DIsM6sym,Health Benefits Tech Market Map,Benefits Tech Market Map,
+Healthcare,cLyRFPIPnLxQgov9J2GR,Healthcare's Trillion-Dollar Admin Problem,Healthcare AI Admin Landscape,
+Healthcare,woWVZi5skBBiOg2VfQ2m,The AI Healthcare Stack,Healthcare AI Market Map,
+Healthcare,2HdNuWhqxtZB62yb10F9,Vertical AI (Healthcare): Software Finally Gets to Work,Vertical AI Market Map,
+Legal,POCx3iT7j6s4UZWSThRh,Legal AI,(no visible title),chart has no printed title — leave as-is
+Legal,KnTAIFjagrZKpDiHb14T,Legal AI: The New Code of Law,Legal AI Market Map,
+Legal,kxLUlfVmY621vKaLiodl,LTH GenAI Legal Tech Map: June 2026,GenAI / LLM in Legal Tech,
+Robotics & Physical AI,beQf2afuVU1TsVFT31LM,50 Startups Transforming Industries With Physical AI,50 Startups Transforming Industries With Physical AI,already correct
+Robotics & Physical AI,mLGq6SlTvdImQsYI2KaM,Bessemer Predicts: Robotics and Physical AI,(no visible title),chart has no printed title — leave as-is
+Robotics & Physical AI,Pqfh0kCYIsP1ygSBnxhb,FOV Robotics Market Map 2026 (Europe),FOV Ventures European Robotics Market Map 2026,
+Robotics & Physical AI,ZonGnl5xmXTLPq4lPtbb,The Global Robotics Race,Market Map,"chart's only printed label is generic ""Market Map"" — recommend keeping current DB title, it's more descriptive"
+Robotics & Physical AI,XEBM36FNTWB8AcKdUlLu,The Humanoid 100: Mapping the Value Chain,The Humanoid 100: Morgan Stanley's List of Global Humanoid Enablers,
+Robotics & Physical AI,D5Q5ZsggCnOYrOudoQUD,The Physical AI Models Market Map,The Physical AI Models Market Map,already correct
+Robotics & Physical AI,gxqg2ZpoydFzw17vARvr,The State of the Robotics Ecosystem,(no visible title),chart has no printed title — leave as-is
+Semiconductors & Photonics,dslW3PQIT0Kmp4CmYWpm,Semiconductor Startup Funding Landscape 2025–2026,Who Are the Top Companies in the Semiconductor Industry?,
+Voice AI,ecE3MiQPJgkGsNdC6S8s,AI Voice Agents: 2025 Update,Voice Agents Market Map – B2B,
+Voice AI,gRzlsC5wCwd7OepBUBYd,The Future of Voice AI,Voice AI Market Map,
+Voice AI,IMbQ9iLIpSPsdcVxL8mO,Transforming Voice: Market Map of 150+ Voice AI Companies,Voice AI Market Map,
+Voice AI,wtsMFvlzGnJcUltLZRMc,Voice Is Going Vertical,Emerging AI Agents Infrastructure,"NOTE: Madrona reused this exact title on a 2nd, different chart too (VHtuXSG0Fji6yTqmxIcH) — visually confirmed these are two distinct charts. Consider a distinguishing suffix like ""(Voice, 2025)"" when renaming."

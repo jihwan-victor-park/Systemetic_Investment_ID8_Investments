@@ -229,6 +229,62 @@ const DEAL_RESEARCH_DECKS = [
     stage: 'Series A closed, Mar 2026, San Francisco',
     deckPath: '/research/Gimlet_Labs_Deal_Draft.pptx',
   },
+  {
+    companyName: 'Kalshi',
+    thesis: 'The only CFTC-regulated prediction market exchange in the U.S., growing revenue 60x in 2025 behind a structural regulatory moat. Traction and risk analysis — including a ~9x forward-revenue valuation read — on the $11B founder-secondary transaction.',
+    stage: 'Founder secondary, Mar 2026, New York NY',
+    deckPath: '/research/Kalshi_Deal_Summary.pptx',
+    docType: 'deal-summary',
+  },
+  {
+    companyName: 'Together AI',
+    thesis: 'AI-native cloud for open-model inference, training, and GPU infrastructure at scale, built on a systems-research lab behind FlashAttention. Comps and a bull, base, bear at the $8.3B Series C post.',
+    stage: 'Series C closed, Mar 2026, San Francisco',
+    deckPath: '/research/Together_AI_Deal_Screen.pdf',
+    docType: 'deal-summary',
+  },
+  {
+    companyName: 'Nous Research',
+    thesis: 'Open-source AI lab building frontier open-weight models, a self-improving agent platform, and decentralized training infrastructure. Comps and a bull, base, bear at the ~$1.5B rumored mark.',
+    stage: 'New financing rumored, Jul 2026, Austin TX',
+    deckPath: '/research/Nous_Research_Deal_Screen.pdf',
+    docType: 'deal-summary',
+  },
+  {
+    companyName: 'Commure',
+    thesis: 'AI back-office software for U.S. hospitals, bundling revenue cycle management, ambient AI clinical notes, and practice management into one platform. Comps and a bull, base, bear on the $7.0B post-money entry.',
+    stage: 'Later Stage VC closed, May 2026, Mountain View CA',
+    deckPath: '/research/Commure_Deal_Summary.pdf',
+    docType: 'deal-summary',
+  },
+  {
+    companyName: 'Assort Health',
+    thesis: "AI voice agents that replace the front-desk phone system at doctors' offices, now across 22 specialties. Comps and a bull, base, bear at the ~$1.2Bn Series C post.",
+    stage: 'Series C in progress, May 2026, San Francisco',
+    deckPath: '/research/Assort_Health_Deal_Summary.pdf',
+    docType: 'deal-summary',
+  },
+  {
+    companyName: 'Ayar Labs',
+    thesis: 'Optical interconnect chiplets replacing copper with light inside AI servers, easing the bandwidth and power bottleneck as GPU clusters scale. Comps and a bull, base, bear at the $3.75B post-money mark on the new Neuberger Berman-led Series E.',
+    stage: 'Series E closed, Mar 2026, San Jose CA',
+    deckPath: '/research/Ayar_Labs_Deal_Summary.pdf',
+    docType: 'deal-summary',
+  },
+  {
+    companyName: 'Warp',
+    thesis: 'AI-native, Rust-based terminal turning the command line into an agentic development environment, with 700K+ devs and 19x YoY ARR growth. Comps and entry-pricing analysis against Cursor and Claude Code frame the in-progress Series C at an implied $400–500M post-money ceiling.',
+    stage: 'Series C in progress, May 2026, New York NY',
+    deckPath: '/research/Warp_Deal_Summary.pdf',
+    docType: 'deal-summary',
+  },
+  {
+    companyName: 'Polymarket',
+    thesis: 'The largest global prediction market, now entering the United States under CFTC regulatory clearance. Comps against Kalshi and valuation analysis on the ~$10.25Bn founder secondary.',
+    stage: 'Founder secondary in progress, Mar 2026, New York NY',
+    deckPath: '/research/Polymarket_Deal_Summary.pdf',
+    docType: 'deal-summary',
+  },
 ];
 
 async function seedMarketMap() {

@@ -57,7 +57,7 @@ Phase 2 roadmap (documented, not yet built): **Thesis Radar** — a broader sign
 | Perplexity | AI research for LP enrichment & news summarization | Pay-as-you-go API |
 | Anthropic (Claude) | AI scoring & deep research for Deal Intelligence | Pay-as-you-go API |
 | Google Cloud Run | Hosts the automation engine (n8n) and the data pipeline | New — ID8's own infrastructure |
-| Neon | Database for automation config and run history | Free tier |
+| Cloud SQL (Postgres) | Database for automation config and run history | `db-f1-micro`, ~$9/mo |
 | Google Workspace (Drive / Sheets / Gmail / Apps Script) | Triggers and delivery | Existing, free |
 
 ---

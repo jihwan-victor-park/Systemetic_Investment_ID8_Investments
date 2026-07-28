@@ -1,0 +1,48 @@
+.card { max-width: 260px; text-align: right; flex: none; }
+
+.header { display: flex; align-items: baseline; justify-content: flex-end; gap: 8px; }
+.title {
+  font-family: 'Sora', sans-serif; font-size: 0.66rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.08em; color: var(--id8-grey);
+}
+.attioLink {
+  font-family: 'Sora', sans-serif; font-size: 0.7rem; font-weight: 600;
+  color: var(--id8-accent); text-decoration: none; text-underline-offset: 2px;
+}
+.attioLink:hover { text-decoration: underline; }
+
+.names {
+  margin: 0.35rem 0 0; font-family: 'Sora', sans-serif; font-size: 0.85rem;
+  font-weight: 600; line-height: 1.4; color: var(--id8-ink);
+}
+.names a { color: var(--id8-accent); text-decoration: none; text-underline-offset: 2px; }
+.names a:hover { text-decoration: underline; }
+.empty { margin: 0.35rem 0 0; font-size: 0.85rem; color: var(--id8-grey); }
+
+.tracked { margin: 0.35rem 0 0; font-size: 0.72rem; color: var(--id8-grey); }
+.tracked input {
+  font: inherit; color: inherit; background: transparent; border: none;
+  border-bottom: 1px dashed transparent; padding: 0 1px;
+  text-align: right; cursor: text; transition: border-color 0.15s ease;
+}
+.tracked input:hover { border-bottom-color: var(--id8-hair); }
+.tracked input:focus { outline: none; border-bottom-color: var(--id8-grey); }
+
+.editBtn {
+  margin-top: 0.35rem; background: none; border: none; padding: 0; cursor: pointer;
+  font-family: 'Sora', sans-serif; font-size: 0.68rem; color: var(--id8-grey);
+  text-decoration: underline; text-underline-offset: 2px;
+}
+.editBtn:hover { color: var(--id8-ink); }
+
+.editRow { margin-top: 0.35rem; display: flex; align-items: baseline; justify-content: flex-end; gap: 8px; }
+.editRow input {
+  font-family: 'Sora', sans-serif; font-size: 0.8rem; color: var(--id8-ink);
+  background: transparent; border: none; border-bottom: 1px dashed var(--id8-hair);
+  padding: 1px; min-width: 140px; text-align: right; cursor: text;
+}
+.editRow input:focus { outline: none; border-bottom-color: var(--id8-ink); }
+.doneBtn {
+  background: none; border: none; padding: 0; cursor: pointer;
+  font-family: 'Sora', sans-serif; font-size: 0.68rem; font-weight: 600; color: var(--id8-accent);
+}

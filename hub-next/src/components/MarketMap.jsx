@@ -1,7 +1,8 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import styles from './MarketMap.module.css';
+import DeleteButton from '@/components/DeleteButton';
 import {
   CAT_CODE, freshness, firmCode, domainOf,
   ymFromMonthInput, firmsList, firmForDomain,
@@ -28,11 +29,31 @@ function sortItems(items) {
   });
 }
 
-function Card({ item, mode }) {
+// Clicking anywhere on the card opens the lightbox -- to view the map image
+// if it has one, or to drop one in if it doesn't yet. The arrow is its own
+// link so it can still take you straight to the original source without
+// stealing the click.
+function Card({ item, mode, onOpen, onDelete }) {
   const fr = freshness(item.ym);
   const sub = mode === 'cat' ? item.firm : item.cat;
+
+  const activate = () => onOpen(item);
+
+  const onKeyDown = (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      activate();
+    }
+  };
+
   return (
-    <a className={styles.card} href={item.url} target="_blank" rel="noopener noreferrer">
+    <div
+      className={styles.card}
+      role="button"
+      tabIndex={0}
+      onClick={activate}
+      onKeyDown={onKeyDown}
+    >
       <div className={styles.cardTop}>
         <span className={styles.cardSub}>{sub}</span>
         <span className={`${styles.date} ${styles[`d-${fr}`]}`}><i className={styles.dot} />{item.date}</span>
@@ -41,13 +62,173 @@ function Card({ item, mode }) {
       {item.note && <span className={styles.note}>{item.note}</span>}
       <div className={styles.cardFoot}>
         <span className={styles.domain}>{domainOf(item.url)}</span>
-        {ARROW}
+        <span className={styles.cardActions}>
+          {item.id && (
+            <DeleteButton
+              className={styles.delBtn}
+              title="Remove from directory"
+              url={`/api/market-map?id=${encodeURIComponent(item.id)}`}
+              confirmMessage={`Remove "${item.title}" from the Market Map directory?`}
+              onDeleted={() => onDelete(item.id)}
+            />
+          )}
+          <a
+            className={styles.arrowLink}
+            href={item.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            aria-label="Open original source"
+          >
+            {ARROW}
+          </a>
+        </span>
       </div>
-    </a>
+    </div>
   );
 }
 
-function Section({ id, code, isFirm, title, items, mode }) {
+// The image area itself is the drop target -- click it (with an image
+// already there, or nothing yet) and pick a file to save it as this entry's
+// photo. No separate edit button; wrong photo or missing photo, same click.
+function Lightbox({ item, onClose, onReplace }) {
+  const inputRef = useRef(null);
+  const [busy, setBusy] = useState(false);
+  const [editingTitle, setEditingTitle] = useState(false);
+  const [titleDraft, setTitleDraft] = useState('');
+
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === 'Escape') onClose(); };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [onClose]);
+
+  // Reset draft/editing state whenever a different entry is opened.
+  useEffect(() => {
+    setTitleDraft(item ? item.title : '');
+    setEditingTitle(false);
+  }, [item?.id]);
+
+  if (!item) return null;
+
+  const onFileChange = async (e) => {
+    const file = e.target.files?.[0];
+    e.target.value = '';
+    if (!file || !item.id) return;
+    setBusy(true);
+    try {
+      const body = new FormData();
+      body.set('photo', file);
+      const res = await fetch(`/api/market-map?id=${encodeURIComponent(item.id)}`, { method: 'PATCH', body });
+      if (!res.ok) throw new Error('replace-failed');
+      const result = await res.json();
+      onReplace(item.id, result);
+    } catch {
+      window.alert('Upload failed — try again.');
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const saveTitle = async () => {
+    setEditingTitle(false);
+    const trimmed = titleDraft.trim();
+    if (!trimmed || trimmed === item.title || !item.id) {
+      setTitleDraft(item.title);
+      return;
+    }
+    try {
+      const body = new FormData();
+      body.set('title', trimmed);
+      const res = await fetch(`/api/market-map?id=${encodeURIComponent(item.id)}`, { method: 'PATCH', body });
+      if (!res.ok) throw new Error('rename-failed');
+      const result = await res.json();
+      onReplace(item.id, result);
+    } catch {
+      window.alert('Rename failed — try again.');
+      setTitleDraft(item.title);
+    }
+  };
+
+  const noImage = !item.image;
+  const isCentered = noImage || item.imageIsDoc;
+
+  return (
+    <div className={styles.lbOverlay} onClick={onClose}>
+      <div className={styles.lbPanel} onClick={(e) => e.stopPropagation()}>
+        <button className={styles.lbClose} onClick={onClose} aria-label="Close">×</button>
+        <div
+          className={`${styles.lbImgWrap} ${isCentered ? styles.lbImgWrapCenter : ''}`}
+          role="button"
+          tabIndex={0}
+          onClick={() => inputRef.current?.click()}
+          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); inputRef.current?.click(); } }}
+        >
+          {item.image ? (
+            item.imageIsDoc ? (
+              <div className={styles.lbDoc}>
+                <a href={item.image} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
+                  Open document
+                </a>
+                <span className={styles.lbHint}>Click anywhere here to replace it</span>
+              </div>
+            ) : (
+              // Long/tall market maps render at full width and scroll inside
+              // this wrap instead of being squeezed down to fit -- shrinking
+              // a 6000px-tall chart to 72vh makes every label unreadable.
+              <>
+                <img className={styles.lbImg} src={item.image} alt={item.title} />
+                <span className={styles.lbReplaceHint}>Click to replace</span>
+              </>
+            )
+          ) : (
+            <span className={styles.lbEmpty}>Click to drop in a photo</span>
+          )}
+          {busy && <span className={styles.lbBusyOverlay}>Uploading…</span>}
+          <input
+            ref={inputRef}
+            className={styles.hiddenFileInput}
+            type="file"
+            accept="image/*,application/pdf"
+            onChange={onFileChange}
+          />
+        </div>
+        <div className={styles.lbFoot}>
+          <div className={styles.lbTitleWrap}>
+            {editingTitle ? (
+              <input
+                className={styles.lbTitleInput}
+                value={titleDraft}
+                autoFocus
+                onChange={(e) => setTitleDraft(e.target.value)}
+                onBlur={saveTitle}
+                onClick={(e) => e.stopPropagation()}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') { e.preventDefault(); e.currentTarget.blur(); }
+                  if (e.key === 'Escape') { setTitleDraft(item.title); setEditingTitle(false); }
+                }}
+              />
+            ) : (
+              <div
+                className={styles.lbTitle}
+                onClick={(e) => { e.stopPropagation(); setEditingTitle(true); }}
+                title="Click to rename"
+              >
+                {item.title}
+              </div>
+            )}
+            <div className={styles.lbSub}>{item.firm} · {item.date}</div>
+          </div>
+          <a className={styles.lbSource} href={item.url} target="_blank" rel="noopener noreferrer">
+            Original source {ARROW}
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Section({ id, code, isFirm, title, items, mode, onOpen, onDelete }) {
   const sorted = sortItems(items);
   return (
     <section className={styles.section} id={id}>
@@ -57,13 +238,13 @@ function Section({ id, code, isFirm, title, items, mode }) {
         <span className={styles.secCount}>{sorted.length} {sorted.length === 1 ? 'map' : 'maps'}</span>
       </div>
       <div className={styles.grid}>
-        {sorted.map((it, i) => <Card key={i} item={it} mode={mode} />)}
+        {sorted.map((it, i) => <Card key={i} item={it} mode={mode} onOpen={onOpen} onDelete={onDelete} />)}
       </div>
     </section>
   );
 }
 
-const EMPTY_FORM = { url: '', firm: '', cat: '', title: '', month: todayMonthValue(), note: '' };
+const EMPTY_FORM = { url: '', firm: '', cat: '', title: '', month: todayMonthValue(), note: '', photo: null };
 
 function AddMapForm({ entries, onAdded }) {
   const [form, setForm] = useState(EMPTY_FORM);
@@ -82,22 +263,36 @@ function AddMapForm({ entries, onAdded }) {
     if (suggested) setForm((f) => ({ ...f, firm: suggested }));
   };
 
+  const onPhotoChange = (e) => {
+    setForm((f) => ({ ...f, photo: e.target.files?.[0] || null }));
+  };
+
   const add = async (e) => {
     e.preventDefault();
-    if (!form.url.trim() || !form.firm.trim() || !form.cat.trim() || !form.title.trim()) return;
+    if (!form.url.trim() || !form.firm.trim() || !form.cat.trim() || !form.title.trim() || !form.photo) return;
     const { ym, date } = ymFromMonthInput(form.month);
     setStatus('saving');
     try {
-      const res = await fetch('/api/market-map', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          firm: form.firm.trim(), title: form.title.trim(), category: form.cat.trim(),
-          url: form.url.trim(), ym, dateLabel: date, note: form.note.trim(),
-        }),
-      });
+      const body = new FormData();
+      body.set('firm', form.firm.trim());
+      body.set('title', form.title.trim());
+      body.set('category', form.cat.trim());
+      body.set('url', form.url.trim());
+      body.set('ym', String(ym));
+      body.set('dateLabel', date);
+      body.set('note', form.note.trim());
+      body.set('photo', form.photo);
+
+      const res = await fetch('/api/market-map', { method: 'POST', body });
       if (!res.ok) throw new Error('save-failed');
-      onAdded({ firm: form.firm.trim(), title: form.title.trim(), cat: form.cat.trim(), url: form.url.trim(), ym, date, note: form.note.trim() || undefined });
+      const saved = await res.json();
+      onAdded({
+        id: saved.id,
+        firm: form.firm.trim(), title: form.title.trim(), cat: form.cat.trim(), url: form.url.trim(),
+        ym, date, note: form.note.trim() || undefined,
+        image: saved.hasImage ? `/api/market-map/image/${saved.id}` : null,
+        imageIsDoc: form.photo.type === 'application/pdf',
+      });
       setForm({ ...EMPTY_FORM, month: form.month });
       setStatus('idle');
     } catch (err) {
@@ -109,11 +304,26 @@ function AddMapForm({ entries, onAdded }) {
     <div className={styles.addWrap}>
       <form className={styles.addForm} onSubmit={add}>
         <div className={styles.addFull}>
+          <div className={styles.addLabel}>Photo</div>
+          <input
+            className={styles.addFile}
+            type="file"
+            accept="image/*,application/pdf"
+            onChange={onPhotoChange}
+            required
+          />
+          {form.photo && <span className={styles.hint}>{form.photo.name}</span>}
+        </div>
+        <div className={styles.addFull}>
           <div className={styles.addLabel}>Link</div>
           <input {...field('url')} onBlur={onUrlBlur} className={styles.addInput} type="url" placeholder="https://…" required />
         </div>
         <div>
-          <div className={styles.addLabel}>Firm</div>
+          <div className={styles.addLabel}>Name</div>
+          <input {...field('title')} className={styles.addInput} placeholder="e.g. Defense Tech Landscape" required />
+        </div>
+        <div>
+          <div className={styles.addLabel}>VC</div>
           <input {...field('firm')} className={styles.addInput} list="mm-firm-list" placeholder="Autocompletes from the link" required />
           <datalist id="mm-firm-list">{firms.map((f) => <option key={f} value={f} />)}</datalist>
         </div>
@@ -122,15 +332,11 @@ function AddMapForm({ entries, onAdded }) {
           <input {...field('cat')} className={styles.addInput} list="mm-cat-list" placeholder="Existing or new" required />
           <datalist id="mm-cat-list">{cats.map((c) => <option key={c} value={c} />)}</datalist>
         </div>
-        <div className={styles.addFull}>
-          <div className={styles.addLabel}>Title</div>
-          <input {...field('title')} className={styles.addInput} placeholder="Report title" required />
-        </div>
         <div>
           <div className={styles.addLabel}>Published</div>
           <input {...field('month')} className={styles.addInput} type="month" required />
         </div>
-        <div>
+        <div className={styles.addFull}>
           <div className={styles.addLabel}>Note (optional)</div>
           <input {...field('note')} className={styles.addInput} placeholder="e.g. Refreshed" />
         </div>
@@ -156,8 +362,19 @@ export default function MarketMap({ initialEntries = [] }) {
   const [mode, setMode] = useState('cat');
   const [frFilter, setFrFilter] = useState('all');
   const [q, setQ] = useState('');
+  const [lightbox, setLightbox] = useState(null);
 
   useEffect(() => setEntries(initialEntries), [initialEntries]);
+
+  const removeEntry = (id) => setEntries((prev) => prev.filter((e) => e.id !== id));
+
+  const replaceEntry = (id, result) => {
+    const patch = {};
+    if (result.title !== undefined) patch.title = result.title;
+    if (result.image !== undefined) { patch.image = result.image; patch.imageIsDoc = !!result.imageIsDoc; }
+    setEntries((prev) => prev.map((e) => (e.id === id ? { ...e, ...patch } : e)));
+    setLightbox((prev) => (prev && prev.id === id ? { ...prev, ...patch } : prev));
+  };
 
   const rows = useMemo(() => {
     const query = q.trim().toLowerCase();
@@ -258,11 +475,15 @@ export default function MarketMap({ initialEntries = [] }) {
                 title={key}
                 items={items}
                 mode={mode}
+                onOpen={setLightbox}
+                onDelete={removeEntry}
               />
             ))
           )}
         </>
       )}
+
+      <Lightbox item={lightbox} onClose={() => setLightbox(null)} onReplace={replaceEntry} />
     </div>
   );
 }

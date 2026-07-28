@@ -1,0 +1,98 @@
+{
+  "deal": {"record_id": "manual-glow", "name": "Glow", "domain": "glow.io", "round": "Series B", "lead_investors": "CyberStarts(Gili Raanan), Greenoaks, Redpoint Ventures, Sequoia Capital(Shaun Maguire)", "hq": "Palo Alto, CA"},
+  "model_output": {
+    "params": [
+      {
+        "key": "lead_round_dynamics",
+        "subcategories": [
+          {"label": "Lead tier", "score": 4, "finding": "Sequoia (Tier 1+) co-leads with CyberStarts, Greenoaks, Redpoint at Series B[1]."},
+          {"label": "New vs re-up", "score": 3, "finding": "Sequoia/CyberStarts re-up from Seed; Redpoint new but non-Tier-1[2]."},
+          {"label": "Stage fit", "score": 4, "finding": "$1.2B post-money Series B/B-1, clean up-round primary[2]."},
+          {"label": "Domain-strategic", "score": 2, "finding": "Leads are financial VCs, not domain operators; no strategic asymmetry."},
+          {"label": "Lead conviction", "score": 4, "finding": "Sequoia's Shaun Maguire[3] and CyberStarts' Gili Raanan (Wiz, Cyera) drove deal[4]."},
+          {"label": "Institutional momentum", "score": 4, "finding": "Sequoia, CyberStarts, Greenoaks all followed on from Seed/A[2]."},
+          {"label": "Existing Tier 1", "score": 4, "finding": "Sequoia (Tier 1+) and Greenoaks (Tier 1) pre-round[2]."},
+          {"label": "Timing/motivation", "score": 2, "finding": "No disclosed term-sheet competition; rapid 3x re-rate suggests momentum."}
+        ],
+        "evidence": "Tier-1+ Sequoia is present but re-upping, not new money; the only new-money co-lead, Redpoint, isn't Tier-1 — thesis pattern only partially met."
+      },
+      {
+        "key": "founder_team_quality",
+        "subcategories": [
+          {"label": "Prior exit", "score": 4, "finding": "Tiger co-founded Onavo, acquired by Meta for ~$120-200M[5]."},
+          {"label": "Domain authority", "score": 4, "finding": "Singer led Snowflake security strategy; Arie ran Claroty R&D, Unit 8200[1]."},
+          {"label": "Team complement", "score": 4, "finding": "CEO/CTO/R&D founders plus ex-Meta CPO, ex-CISO COO cover functions[1][6]."},
+          {"label": "Recruiting power (as in team growth)", "score": 4, "finding": "~100 hires in a year, incl. ex-CISO and ex-Meta leaders[1][6]."},
+          {"label": "Public presence", "score": 3, "finding": "Singer/Tiger have prior press and blog visibility; Glow itself was stealth[5]."},
+          {"label": "Integrity", "score": 2, "finding": "Onavo later used in Meta's 'Ghostbusters' spying scheme; Tiger not personally named[5][7]."}
+        ],
+        "evidence": "Deep, complementary security pedigree (Snowflake, Claroty, Unit 8200) and a real prior exit; Tiger's Onavo carries an unresolved privacy-scandal shadow."
+      },
+      {
+        "key": "ai_score",
+        "subcategories": [
+          {"label": "Ownership of models", "score": 2, "finding": "Runs Anthropic/Gemini via Bedrock plus a proprietary context layer[6][8]."},
+          {"label": "Data flywheel / Recurssion", "score": 2, "finding": "Claims cross-device 'single source of truth'; no usage-compounding evidence public[8]."}
+        ],
+        "evidence": "AI is central to the pitch but currently an orchestration/context layer atop rented foundation models, not an owned architecture or proven data flywheel."
+      },
+      {
+        "key": "terms",
+        "subcategories": [
+          {"label": "Just assume they are good (unless there's something public)", "score": 3, "finding": "Primary Series B co-invest; no adverse terms reported publicly."}
+        ],
+        "evidence": "No public information on ID8's specific terms; assume standard 0/0/10 economics absent any disclosed adverse signal."
+      },
+      {
+        "key": "fundamentals",
+        "subcategories": [
+          {"label": "Revenue/growth", "score": 2, "finding": "[ESTIMATED] ~$10-20M ARR via Cyera's 80x comp multiple[9][10]."},
+          {"label": "NDR", "score": 2, "finding": "NDR not disclosed; no comparable-peer estimate found."},
+          {"label": "Margins/unit econ", "score": 2, "finding": "LTV/CAC and gross margin undisclosed; no usable estimate."},
+          {"label": "Burn/runway", "score": 2, "finding": "Burn undisclosed; $178M raised to date, no runway data[2]."},
+          {"label": "Customer concentration", "score": 2, "finding": "Customers span healthcare, retail, finance; concentration % undisclosed[1][6]."},
+          {"label": "Pref stack", "score": 2, "finding": "Cap table shows pari passu prefs; full stack undisclosed[2]."},
+          {"label": "Moat durability", "score": 2, "finding": "Cross-device data/telemetry moat claimed; no usage evidence published[8]."},
+          {"label": "Market/TAM", "score": 4, "finding": "Endpoint security ~$40B now, $119B by 2035; AI-agent layer emerging[11]."},
+          {"label": "Valuation vs comps", "score": 2, "finding": "[ESTIMATED] multiple (~60-120x ARR) richer than Cyera's already-frothy 80x[9]."},
+          {"label": "Sector risk", "score": 3, "finding": "CrowdStrike/Microsoft/SentinelOne shipping rival AI features fast; real but not fatal[12]."}
+        ],
+        "evidence": "No disclosed financials; [ESTIMATED] ~$10-20M ARR via Cyera comp implies a very rich entry multiple despite a large, still-forming TAM."
+      },
+      {
+        "key": "return_potential",
+        "subcategories": [
+          {"label": "Entry multiple", "score": 2, "finding": "Growth/margin trajectory unconfirmed; entry multiple can't be judged."},
+          {"label": "Base-case MOIC", "score": 2, "finding": "Rich entry vs. estimated ARR caps realistic base-case upside."},
+          {"label": "Exit path", "score": 4, "finding": "Sector precedent: Wiz-Google $32B[13], Cyera $12B[10], CrowdStrike/SentinelOne IPOs."},
+          {"label": "Dilution", "score": 3, "finding": "Modeled 2 rounds at ~20-25% each; case stays viable."},
+          {"label": "Time to liquidity", "score": 3, "finding": "Comps (Cyera) moved Series B to $12B in 3yrs[10]."},
+          {"label": "Downside protection", "score": 3, "finding": "Pari passu, non-participating preferred, weighted-average anti-dilution confirmed[2]."},
+          {"label": "Exit multiples", "score": 3, "finding": "Same-category comps exist but may reflect cycle-peak AI pricing[9][10]."},
+          {"label": "Secondary demand", "score": 2, "finding": "Too new post-stealth for any secondary market signal yet."}
+        ],
+        "evidence": "Strong exit precedent (Wiz, Cyera, CrowdStrike) and modelable dilution, but a rich unconfirmed entry multiple caps realistic base-case MOIC below 6x."
+      }
+    ],
+    "rationale": "Elite Israeli security team and Sequoia/CyberStarts backing are real, but Sequoia is a re-up, not new money, and new-money co-lead Redpoint is non-Tier-1 — missing ID8's core predictor. AI still runs atop rented Anthropic/Gemini models, priced richly against undisclosed revenue.",
+    "confidence": "medium",
+    "hard_auto_pass": false,
+    "hard_auto_pass_reason": "",
+    "watch_list": false
+  },
+  "citations": [
+    "https://www.calcalistech.com/ctechnews/article/hky511mc4gx",
+    "https://my.pitchbook.com/profile/1459926-10/company/profile",
+    "https://www.globenewswire.com/news-release/2026/07/22/3331154/0/en/glow-emerges-from-stealth-with-180-million-to-reinvent-endpoint-security-in-the-ai-era.html",
+    "https://www.calcalistech.com/ctechnews/article/b1a1jn00hc",
+    "https://techfundingnews.com/glow-180m-series-a-1-2b-valuation-ai-endpoint-security/",
+    "https://techcrunch.com/2026/07/22/glow-emerges-from-stealth-at-1-2b-valuation-to-challenge-endpoint-security-in-the-ai-era/",
+    "https://www.theregister.com/2024/03/27/meta_snapchat_data/",
+    "https://hyper.ai/en/stories/e75398f513acc1c9ad15406e428733df",
+    "https://techcrunch.com/2026/06/02/cyera-eyes-12b-valuation-at-80x-arr-multiple-despite-operating-losses/",
+    "https://www.calcalistech.com/ctechnews/article/b1jfu8d002",
+    "https://www.openpr.com/news/4586626/endpoint-security-market-to-reach-us-119-04-billion-by-2035-as",
+    "https://www.marketscale.com/industries/software-and-technology/sentinelones-singularity-platform-moves-to-close-the-gap-with-crowdstrike-in-ai-driven-endpoint-security",
+    "https://www.cybersecuritydive.com/news/google-32-billion-acquisition-wiz/814437/"
+  ]
+}

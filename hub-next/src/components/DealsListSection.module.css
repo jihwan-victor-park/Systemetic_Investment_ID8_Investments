@@ -1,0 +1,13 @@
+.scopeToggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Sora', sans-serif;
+  font-size: 0.8rem;
+  color: var(--id8-soft);
+  margin: 0.7rem 0 0.4rem;
+  cursor: pointer;
+  user-select: none;
+}
+.scopeToggle input { cursor: pointer; }
+.scopeHint { color: var(--id8-grey); }

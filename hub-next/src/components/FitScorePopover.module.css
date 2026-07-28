@@ -1,0 +1,38 @@
+.trigger {
+  cursor: default;
+  border-bottom: 1px dashed var(--id8-hair);
+  outline: none;
+}
+.trigger:focus-visible {
+  border-bottom-color: var(--id8-accent);
+}
+.muted { color: var(--id8-grey); font-size: 0.8rem; }
+
+.panel {
+  position: fixed;
+  /* Highest z-index in the app on purpose -- above JobsTray (fixed
+     bottom-right, z-index: 1000), the sticky Navbar (100), and every modal
+     tier (200). This is a `position: fixed`, mouse-driven overlay: wherever
+     it overlaps another fixed/sticky element with a HIGHER z-index, THAT
+     element -- not the panel -- receives the pointer there (stacking order
+     governs hit-testing, not DOM nesting). That silently fired a real
+     mouseleave on the trigger the moment the cursor crossed into the
+     eclipsed region, closing the panel before it could be reached/read --
+     "the popup hides under the header", "it closes before I can touch it".
+     Bump this again if a future overlay needs to sit above it too. */
+  z-index: 1100;
+  width: 340px;
+  max-height: 70vh;
+  overflow-y: auto;
+  padding: 12px 14px;
+  background: var(--id8-card);
+  border: 1px solid var(--id8-hair);
+  border-radius: 2px;
+  box-shadow: var(--id8-shadow-hover);
+  white-space: normal;
+  animation: panelIn 0.12s ease-out;
+}
+@keyframes panelIn {
+  from { opacity: 0; transform: translateY(-2px); }
+  to { opacity: 1; transform: translateY(0); }
+}

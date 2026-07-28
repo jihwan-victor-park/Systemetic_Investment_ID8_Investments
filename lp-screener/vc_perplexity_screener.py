@@ -206,15 +206,22 @@ def write_csv(results: list, output_path: str):
             w.writerow({k: out.get(k, "") for k in fieldnames})
 
 
-def main():
-    input_csv = "/Users/oscar/Downloads/apollo_list_vcs.csv"
-    output_csv = "/Users/oscar/Downloads/id8_nyc_vc_warm_leads_scored.csv"
-    output_json = "/Users/oscar/Downloads/id8_nyc_vc_warm_leads_scored.json"
+DEFAULT_INPUT_CSV = "/Users/oscar/Downloads/apollo_list_vcs.csv"
+DEFAULT_OUTPUT_CSV = "/Users/oscar/Downloads/id8_nyc_vc_warm_leads_scored.csv"
 
-    if len(sys.argv) > 1:
-        input_csv = sys.argv[3]
-    if len(sys.argv) > 2:
-        output_csv = sys.argv[4]
+
+def parse_args(argv):
+    """argv: sys.argv (argv[0] is the script path, real args start at [1]).
+    Returns (input_csv, output_csv), falling back to the Downloads defaults
+    when an argument wasn't given."""
+    input_csv = argv[1] if len(argv) > 1 else DEFAULT_INPUT_CSV
+    output_csv = argv[2] if len(argv) > 2 else DEFAULT_OUTPUT_CSV
+    return input_csv, output_csv
+
+
+def main():
+    input_csv, output_csv = parse_args(sys.argv)
+    output_json = "/Users/oscar/Downloads/id8_nyc_vc_warm_leads_scored.json"
 
     if not Path(input_csv).exists():
         print(f"Input CSV not found: {input_csv}")

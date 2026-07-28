@@ -26,7 +26,7 @@ export const authConfig = {
       if (auth.user.role === 'internal') return true;
 
       if (auth.user.role === 'investor') {
-        if (pathname.startsWith('/investors/research')) return true;
+        if (pathname.startsWith('/investors/research') || pathname.startsWith('/investors/materials')) return true;
         return Response.redirect(new URL('/investors/research', origin));
       }
 

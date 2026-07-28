@@ -151,6 +151,13 @@ and encryption key remain in Cloud SQL / Secret Manager for the next attempt.
 
 ## Rough monthly cost (verify against current GCP pricing)
 
+> **✅ Update (Jul 2026):** The "cheaper levers" below were actually taken.
+> Real billing showed Cloud Run at ~$17/mo (1 vCPU / 1Gi, not the 2GB assumed
+> here) and Cloud SQL at ~$46/mo on `db-custom-1-3840` — switched to
+> `db-f1-micro` (~$9/mo quoted in-console) since this instance only ever holds
+> n8n's own control-plane data (workflows/creds/execution history), plus
+> `EXECUTIONS_DATA_PRUNE` to keep it that way long-term. **Real total: ~$28/mo.**
+
 | Item | Config | Est. /mo (USD) |
 |---|---|---|
 | Cloud Run | 1 vCPU, 2 GB, min=1, CPU always on (~730 hrs) | ~$25–45 |

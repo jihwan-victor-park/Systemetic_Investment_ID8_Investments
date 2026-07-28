@@ -1,0 +1,94 @@
+'use client';
+
+import { useMemo, useState } from 'react';
+import PortfolioTable from './PortfolioTable';
+import PortfolioGraph from './PortfolioGraph';
+import { isThesisInScope, isFitScoreInScope } from '@/lib/sectorRelevance';
+import styles from './PartnerPortfolioSection.module.css';
+
+// Portfolio tile on a Partner VC's page -- List (the same sortable/
+// searchable table every other deal list in the hub uses, and the source
+// of truth for this data) and Graph (read-only network view; fit scores
+// are cross-referenced live from ID8's own companies/screens in
+// PortfolioGraph, never typed in here). Editing only ever happens in List
+// view.
+//
+// Two independent scope toggles, both OFF by default (i.e. showing the
+// filtered, in-thesis + track-worthy view) -- per Oscar's "biotech shouldn't
+// be here" ask, a portfolio is assumed to contain off-thesis companies until
+// proven otherwise, and a sub-3.0 fit score is the same "not worth tracking"
+// bar the deal lists use. They're kept separate rather than one combined
+// "show all" switch because they answer different questions (is this even in
+// our market vs. is this a strong company in our market) -- collapsing them
+// hid the reason a specific company was missing.
+// isThesisInScope/isFitScoreInScope (sectorRelevance.js): the former layers
+// this file's own keyword check on top of the real prefilterPass verdict
+// deal_intelligence/portfolio_prefilter.py stamps onto each company
+// (geography, business status, AI-relevance) -- funds over 500 companies
+// haven't been run through that yet, so they fall back to the keyword check
+// alone until they are. Graph gets a plain pre-filtered array (read-only,
+// nothing to persist); List gets the full unfiltered array plus a filterFn,
+// since PortfolioTable's add/remove needs the true underlying array to
+// persist correctly (see PortfolioTable.jsx).
+export default function PartnerPortfolioSection({ vcId, vcName, portfolio, companyIndex, canEdit }) {
+  const [view, setView] = useState('list');
+  const [showOffThesis, setShowOffThesis] = useState(false);
+  const [showLowFit, setShowLowFit] = useState(false);
+
+  const filterFn = useMemo(
+    () => (entry) => (showOffThesis || isThesisInScope(entry)) && (showLowFit || isFitScoreInScope(entry)),
+    [showOffThesis, showLowFit]
+  );
+
+  // Each toggle's hidden count is independent of the OTHER toggle's current
+  // state -- it always answers "how many would flipping just this switch
+  // reveal", not "how many are hidden right now for this reason and no other".
+  const { visiblePortfolio, offThesisHiddenCount, lowFitHiddenCount } = useMemo(() => ({
+    visiblePortfolio: portfolio.filter(filterFn),
+    offThesisHiddenCount: portfolio.filter((p) => !isThesisInScope(p)).length,
+    lowFitHiddenCount: portfolio.filter((p) => !isFitScoreInScope(p)).length,
+  }), [portfolio, filterFn]);
+
+  return (
+    <div>
+      <div className={styles.head}>
+        <h2>Portfolio</h2>
+        <div className={styles.subtabs}>
+          <button type="button" className={view === 'list' ? styles.active : ''} onClick={() => setView('list')}>List</button>
+          <button type="button" className={view === 'graph' ? styles.active : ''} onClick={() => setView('graph')}>Graph</button>
+        </div>
+      </div>
+
+      <label className={styles.scopeToggle}>
+        <input type="checkbox" checked={showOffThesis} onChange={(e) => setShowOffThesis(e.target.checked)} />
+        Show off-thesis / wrong-geography / inactive companies
+        {!showOffThesis && offThesisHiddenCount > 0 && (
+          <span className={styles.scopeHint}>({offThesisHiddenCount} hidden)</span>
+        )}
+      </label>
+      <label className={styles.scopeToggle}>
+        <input type="checkbox" checked={showLowFit} onChange={(e) => setShowLowFit(e.target.checked)} />
+        Show fit score under 3.0
+        {!showLowFit && lowFitHiddenCount > 0 && (
+          <span className={styles.scopeHint}>({lowFitHiddenCount} hidden)</span>
+        )}
+      </label>
+
+      {view === 'list' ? (
+        <PortfolioTable
+          endpoint="/api/partner-vcs"
+          id={vcId}
+          field="portfolio"
+          items={portfolio}
+          filterFn={filterFn}
+          companyIndex={companyIndex}
+          canEdit={canEdit}
+          addLabel="Add company"
+          vcName={vcName}
+        />
+      ) : (
+        <PortfolioGraph vcName={vcName} portfolio={visiblePortfolio} companyIndex={companyIndex} />
+      )}
+    </div>
+  );
+}

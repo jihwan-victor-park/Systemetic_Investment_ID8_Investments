@@ -3,17 +3,34 @@
 These are set by `deploy.sh`. Listed here so you understand each one and can
 tweak in the Cloud Run console later.
 
-## Database (Neon serverless Postgres — free)
+> **⚠️ Update (Jul 2026):** The Neon plan below was never what got deployed —
+> `deploy.sh` connects to **Cloud SQL Postgres 16** instead (instance `n8n-db`,
+> tier `db-f1-micro` as of Jul 2026, mounted via Unix socket
+> `--add-cloudsql-instances`, ~$9/mo). See the actual variable names
+> (`DB_POSTGRESDB_HOST=/cloudsql/<connection-name>`, etc.) in `deploy.sh`
+> directly. Execution history is also pruned now via `EXECUTIONS_DATA_PRUNE=true`,
+> `EXECUTIONS_DATA_MAX_AGE=336`, `EXECUTIONS_DATA_PRUNE_MAX_COUNT=10000` — not
+> documented in the table below, also added straight to `deploy.sh`.
+>
+> Also stale below: `N8N_RUNNERS_ENABLED` is actually set to `false` in
+> `deploy.sh`, not `true` (corrected in the table). And as of the 2026-07-14
+> audit, Cloud Run is **not publicly reachable at all** — it's deployed with
+> `--no-allow-unauthenticated --iap`, gated to the Google accounts listed in
+> `deploy.sh`'s `ALLOWED_IAP_USERS`. Nothing external hits this service; see
+> `deploy.sh`'s deploy flags comment for the full reasoning.
 
-Free tier at https://neon.tech. n8n's DB is tiny (workflow configs, credentials,
-execution logs) — Neon's 0.5GB free tier is more than enough indefinitely.
+## Database (Cloud SQL Postgres — see update note above)
+
+n8n's DB is tiny (workflow configs, credentials, execution logs, and since Jul
+2026 that history is pruned to 14 days / 10k rows) — a shared-core `db-f1-micro`
+instance comfortably covers it.
 
 | Variable | Value | Notes |
 |---|---|---|
 | `DB_TYPE` | `postgresdb` | Switches n8n off its default SQLite (lost on every Cloud Run restart). |
-| `DB_POSTGRESDB_URL` | *(secret)* | Full Neon connection string. Stored in Secret Manager as `n8n-database-url`. Format: `postgres://user:pass@host/dbname?sslmode=require` |
-
-No Cloud SQL instance needed. No `--add-cloudsql-instances` flag. No $25/mo bill.
+| `DB_POSTGRESDB_HOST` | `/cloudsql/<connection-name>` | Unix socket path, set via `--add-cloudsql-instances`. |
+| `DB_POSTGRESDB_DATABASE` / `DB_POSTGRESDB_USER` | `n8n` / `n8n` | |
+| `DB_POSTGRESDB_PASSWORD` | *(secret)* | Stored in Secret Manager as `n8n-db-password`. |
 
 ## Identity & security
 
@@ -36,7 +53,7 @@ No Cloud SQL instance needed. No `--add-cloudsql-instances` flag. No $25/mo bill
 
 | Variable | Value | Notes |
 |---|---|---|
-| `N8N_RUNNERS_ENABLED` | `true` | Enables task runners (recommended/required in recent n8n for Code nodes). |
+| `N8N_RUNNERS_ENABLED` | `false` | Task runners disabled — see Update note above. |
 | `N8N_DIAGNOSTICS_ENABLED` | `false` | Opt out of telemetry. Optional. |
 
 ## Cloud Run flags that matter (not env vars)

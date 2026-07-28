@@ -1,67 +1,112 @@
 #!/usr/bin/env python3
 """
 LP Prospect Screener using Perplexity API
-Batch researches firms and outputs scored CSV for import
+Batch researches firms and outputs scored CSV for import.
+
+Reads either an Apollo contacts export or a plain "Company/Contact Name/Title/City/State"
+CSV (columns are auto-detected). Writes results incrementally to a JSONL checkpoint as
+each batch completes, so a crash or interrupted run never loses completed work -- rerun
+the same command and it picks up where it left off. Failed/missing firms get a single
+individual retry pass at the end.
 """
 
+import argparse
 import csv
 import json
 import os
+import re
 import sys
-import requests
+import threading
+import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
-# Configuration
-PERPLEXITY_API_KEY = "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"
+import requests
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
+
 PERPLEXITY_API_URL = "https://api.perplexity.ai/chat/completions"
-MODEL = "sonar"  # or "sonar-pro" for better results, "sonar-reasoning" for complex reasoning
 
-def extract_firms_from_csv(csv_path: str, batch_size: int = 20) -> list:
-    """Extract distinct firms from Apollo CSV, grouped into batches."""
+# Column aliases so the same script works on an Apollo export or our own attendee-list CSV.
+COLUMN_ALIASES = {
+    'company': ['Company Name', 'Company'],
+    'website': ['Website'],
+    'city': ['Company City', 'City'],
+    'state': ['Company State', 'State'],
+    'country': ['Country'],
+    'contact_name': ['Contact Name', 'Name'],  # used if First/Last aren't present
+    'first_name': ['First Name'],
+    'last_name': ['Last Name'],
+    'contact_title': ['Title', 'Contact Title'],
+    'contact_email': ['Email', 'Contact Email'],
+    'phone': ['Phone', 'Contact Phone'],
+}
+
+
+def pick(row: dict, key: str) -> str:
+    for name in COLUMN_ALIASES[key]:
+        if name in row and row[name]:
+            return row[name].strip()
+    return ''
+
+
+def norm_name(s: str) -> str:
+    return re.sub(r'[^a-z0-9]', '', (s or '').lower())
+
+
+def find_orig(batch: list, returned_firm: str):
+    """Match a returned 'firm' string back to its source record, tolerating models that
+    echo extra text (e.g. the whole 'name | website | location' input line) instead of
+    just the name."""
+    key = norm_name(returned_firm)
+    if not key:
+        return None
+    for f in batch:
+        ok = norm_name(f['firm'])
+        if ok and (ok == key or ok in key or key in ok):
+            return f
+    return None
+
+
+def extract_firms(csv_path: str) -> list:
+    """Extract one record per distinct company from the input CSV (order preserved)."""
     rows = list(csv.DictReader(open(csv_path, encoding='utf-8')))
-    seen = {}
-    order = []
-
+    seen = set()
+    firms = []
     for r in rows:
-        co = (r.get('Company Name') or '').strip()
-        if not co or co in seen:
+        co = pick(r, 'company')
+        if not co or co.lower() in seen:
             continue
+        seen.add(co.lower())
 
-        seen[co] = {
+        contact_name = pick(r, 'contact_name')
+        if not contact_name:
+            contact_name = f"{pick(r, 'first_name')} {pick(r, 'last_name')}".strip()
+
+        loc = ', '.join(x for x in [pick(r, 'city'), pick(r, 'state')] if x)
+        firms.append({
             'firm': co,
-            'website': r.get('Website', ''),
-            'location': f"{r.get('Company City') or ''},{r.get('Company State') or ''}".rstrip(','),
-            'contact_name': f"{r.get('First Name', '')} {r.get('Last Name', '')}".strip(),
-            'contact_title': r.get('Title', ''),
-            'contact_email': r.get('Email', ''),
-        }
-        order.append(co)
+            'website': pick(r, 'website'),
+            'location': loc,
+            'country': pick(r, 'country'),
+            'contact_name': contact_name,
+            'contact_title': pick(r, 'contact_title'),
+            'contact_email': pick(r, 'contact_email'),
+            'phone': pick(r, 'phone'),
+        })
+    return firms
 
-    # Group into batches
-    batches = []
-    for i in range(0, len(order), batch_size):
-        batch = [seen[co] for co in order[i:i+batch_size]]
-        batches.append(batch)
 
-    return batches
+PROMPT_HEADER = """You are an LP-prospecting analyst evaluating prospective Limited Partners for ID8 Growth Opportunities Fund I ($50M Series B–D growth-stage tech/AI fund, $500k min LP commitment).
 
-def format_batch_prompt(firms: list) -> str:
-    """Format a batch of firms into the Perplexity prompt."""
-    firms_text = "\n".join([
-        f"{i+1}. {f['firm']} | {f['website']} | {f['location']}"
-        for i, f in enumerate(firms)
-    ])
+Research each firm below on the web. Be skeptical: absence of venture/alts evidence = cap score low. Never fabricate AUM or activity.
 
-    prompt = f"""You are an LP-prospecting analyst evaluating prospective Limited Partners for ID8 Growth Opportunities Fund I ($50M Series B–D growth-stage tech/AI fund, $500k min LP commitment).
-
-Research these firms on the web. Be skeptical: absence of venture/alts evidence = cap score low. Never fabricate AUM or activity. Return ONLY valid JSON array (no markdown, no prose).
-
-FIRMS TO RESEARCH:
+FIRMS TO RESEARCH (format is "index. Company Name | website | location" -- the "firm" field in your output must be ONLY the Company Name, never the website or location):
 {firms_text}
 
 For each firm, research:
 1. Is it a family office, RIA, or something else?
-2. Do they invest in venture/private markets/alternatives? (search for fund commitments, direct deals, SEC Form ADV)
+2. Do they invest in venture/private markets/alternatives? (fund commitments, direct deals, SEC Form ADV)
 3. Can they write $500k+ checks?
 4. Tech/AI sector interest?
 
@@ -72,180 +117,266 @@ SCORING RUBRIC (0–100):
 - Type fit (genuine FO or alts RIA): max 15 points
 - Emerging-manager openness: max 10 points
 
-DISQUALIFIERS (subtract points):
-- Pure public-market wealth managers with no alts
-- Retail-only RIAs with small minimums
-- Not actually an FO or RIA (operating companies, healthcare, etc.)
+DISQUALIFIERS (subtract points): pure public-market wealth managers with no alts; retail-only RIAs with small minimums; not actually an FO or RIA (operating companies, healthcare, etc.)
 
-TIERS:
-- A (50-70+): contact now
-- B (40-49): maybe
-- C (<40): skip
+TIERS: A (50-70+) contact now | B (40-49) maybe | C (<40) skip
 
-OUTPUT FORMAT: Return ONLY this JSON array (no other text):
+Keep each field terse -- rationale and alts_venture_evidence under 30 words each, this matters for output budget. Return ONLY this JSON array, no markdown, no prose:
 [
   {{
-    "firm": "Name",
-    "website": "URL",
+    "firm": "<exact name from input>",
+    "website": "URL or ''",
     "location": "City, State",
     "type": "family_office|RIA|other",
     "score": <integer 0-100>,
     "tier": "A|B|C",
-    "alts_venture_evidence": "1 sentence + source URL or 'none found'",
-    "estimated_check_capacity": "$500k-2M plausible or 'unknown'",
-    "rationale": "2-3 sentences citing what you found",
+    "alts_venture_evidence": "<short sentence + source URL, or 'none found'>",
+    "estimated_check_capacity": "<e.g. '$500k-2M plausible' or 'unknown'>",
+    "rationale": "<short, concrete, cite what you found>",
     "confidence": "high|medium|low",
-    "contact_hint": "Most senior contact name/title/email from research"
-  }},
-  ...
-]
+    "contact_hint": "<most senior contact name/title if found>"
+  }}
+]"""
 
-Be concrete. Cite what you actually found. Return valid JSON only."""
 
-    return prompt
+def format_batch_prompt(firms: list) -> str:
+    firms_text = "\n".join(
+        f"{i+1}. {f['firm']} | {f['website']} | {f['location']}"
+        for i, f in enumerate(firms)
+    )
+    return PROMPT_HEADER.format(firms_text=firms_text)
 
-def call_perplexity(prompt: str, model: str = "sonar") -> str:
-    """Call Perplexity API and return response."""
-    if not PERPLEXITY_API_KEY:
-        raise ValueError("PERPLEXITY_API_KEY environment variable not set")
 
+def make_session() -> requests.Session:
+    session = requests.Session()
+    retry = Retry(
+        total=4,
+        backoff_factor=2,  # 2s, 4s, 8s, 16s
+        status_forcelist=[429, 500, 502, 503, 504],
+        allowed_methods=['POST'],
+        raise_on_status=False,
+    )
+    session.mount('https://', HTTPAdapter(max_retries=retry))
+    return session
+
+
+def call_perplexity(session: requests.Session, api_key: str, prompt: str,
+                     model: str, max_tokens: int) -> str:
     headers = {
-        "Authorization": f"Bearer {PERPLEXITY_API_KEY}",
+        "Authorization": f"Bearer {api_key}",
         "Content-Type": "application/json",
     }
-
     payload = {
         "model": model,
-        "messages": [
-            {"role": "user", "content": prompt}
-        ],
-        "max_tokens": 4000,
-        "temperature": 0.2,  # Low temp for consistency
+        "messages": [{"role": "user", "content": prompt}],
+        "max_tokens": max_tokens,
+        "temperature": 0.2,
     }
-
-    print(f"  Calling Perplexity ({model})...", end=" ", flush=True)
-    response = requests.post(PERPLEXITY_API_URL, json=payload, headers=headers, timeout=60)
-    response.raise_for_status()
-
-    result = response.json()
-    print(f"✓ (tokens: {result.get('usage', {}).get('total_tokens', '?')})")
-
+    resp = session.post(PERPLEXITY_API_URL, json=payload, headers=headers, timeout=90)
+    resp.raise_for_status()
+    result = resp.json()
+    finish_reason = result["choices"][0].get("finish_reason")
+    if finish_reason == "length":
+        print("   ⚠️  response hit max_tokens -- output likely truncated, consider a smaller batch size")
     return result["choices"][0]["message"]["content"]
 
+
 def parse_json_response(text: str) -> list:
-    """Extract JSON array from response, handling markdown code blocks."""
+    """Extract a JSON array from the response, tolerating markdown fences and stray prose."""
     text = text.strip()
-
-    # Remove markdown code blocks if present
-    if text.startswith("```json"):
-        text = text[7:]
     if text.startswith("```"):
-        text = text[3:]
-    if text.endswith("```"):
-        text = text[:-3]
-
+        text = re.sub(r'^```(json)?', '', text)
+        text = re.sub(r'```$', '', text)
     text = text.strip()
-    return json.loads(text)
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError:
+        # fall back: grab the outermost [...] substring
+        start = text.find('[')
+        end = text.rfind(']')
+        if start != -1 and end != -1 and end > start:
+            return json.loads(text[start:end + 1])
+        raise
 
-def process_batches(batches: list, output_csv: str = "lp_prospects_scored.csv"):
-    """Process all batches and write to CSV."""
-    all_results = []
 
-    for i, batch in enumerate(batches, 1):
-        print(f"\n📊 Batch {i}/{len(batches)} ({len(batch)} firms)")
-        print(f"   Firms: {', '.join([f['firm'][:30] for f in batch])}")
+class Checkpoint:
+    """Append-only JSONL of completed firm results, keyed by normalized firm name."""
 
-        prompt = format_batch_prompt(batch)
+    def __init__(self, path: str):
+        self.path = path
+        self.lock = threading.Lock()
+        self.done = {}
+        if os.path.exists(path):
+            with open(path, encoding='utf-8') as f:
+                for line in f:
+                    line = line.strip()
+                    if not line:
+                        continue
+                    try:
+                        rec = json.loads(line)
+                    except json.JSONDecodeError:
+                        continue
+                    self.done[norm_name(rec.get('firm', ''))] = rec
 
-        try:
-            response = call_perplexity(prompt)
-            results = parse_json_response(response)
+    def has(self, firm_name: str) -> bool:
+        return norm_name(firm_name) in self.done
 
-            # Validate and attach original contact info
-            for result in results:
-                # Find original firm data to get best contact
-                orig = next((f for f in batch if f['firm'] == result.get('firm')), {})
-                if orig and not result.get('contact_hint'):
-                    if orig['contact_name'] and orig['contact_email']:
-                        result['contact_hint'] = f"{orig['contact_name']} ({orig['contact_title']}) {orig['contact_email']}"
-                all_results.append(result)
+    def append(self, records: list):
+        with self.lock:
+            with open(self.path, 'a', encoding='utf-8') as f:
+                for rec in records:
+                    f.write(json.dumps(rec) + "\n")
+                    self.done[norm_name(rec.get('firm', ''))] = rec
 
-            print(f"   ✓ Received {len(results)} results")
+    def all_records(self) -> list:
+        return list(self.done.values())
 
-        except json.JSONDecodeError as e:
-            print(f"   ✗ JSON parse error: {e}")
-            print(f"   Response: {response[:200]}")
-        except Exception as e:
-            print(f"   ✗ Error: {e}")
 
-    # Write to CSV
-    if all_results:
-        write_csv(all_results, output_csv)
-        print(f"\n✅ Wrote {len(all_results)} firms to {output_csv}")
+def process_one_batch(session, api_key, model, max_tokens, batch, checkpoint, batch_label):
+    prompt = format_batch_prompt(batch)
+    try:
+        response = call_perplexity(session, api_key, prompt, model, max_tokens)
+        results = parse_json_response(response)
+    except json.JSONDecodeError as e:
+        print(f"   ✗ {batch_label}: JSON parse error ({e}) -- {len(batch)} firms unresolved, will retry individually")
+        return set()
+    except Exception as e:
+        print(f"   ✗ {batch_label}: {e} -- {len(batch)} firms unresolved, will retry individually")
+        return set()
 
-        # Summary stats
-        tiers = {}
-        for r in all_results:
-            tier = r.get('tier', 'unknown')[0]  # Extract A/B/C
-            tiers[tier] = tiers.get(tier, 0) + 1
+    matched_keys = set()
+    for result in results:
+        orig = find_orig(batch, result.get('firm', ''))
+        if orig:
+            matched_keys.add(norm_name(orig['firm']))
+            result['firm'] = orig['firm']  # normalize to our canonical name, discard any echoed suffix
+            if not result.get('contact_hint'):
+                bits = [orig['contact_name'], orig['contact_title'], orig['contact_email']]
+                result['contact_hint'] = ' / '.join(x for x in bits if x)
+        else:
+            # keep only the part before a stray '|' so unmatched rows don't pollute the CSV
+            result['firm'] = result.get('firm', '').split('|')[0].strip()
+    checkpoint.append(results)
+    missing = len(batch) - len(matched_keys)
+    print(f"   ✓ {batch_label}: {len(results)} returned ({missing} unmatched)")
+    return matched_keys
 
-        print(f"\n📈 Summary:")
-        print(f"   A-tier (contact now): {tiers.get('A', 0)}")
-        print(f"   B-tier (maybe): {tiers.get('B', 0)}")
-        print(f"   C-tier (skip): {tiers.get('C', 0)}")
-    else:
-        print("❌ No results collected")
 
-def write_csv(results: list, output_path: str):
-    """Write results to CSV."""
-    if not results:
+def run(firms: list, checkpoint: Checkpoint, api_key: str, model: str,
+        max_tokens: int, batch_size: int, concurrency: int):
+    pending = [f for f in firms if not checkpoint.has(f['firm'])]
+    if not pending:
+        print("✓ Nothing pending -- all firms already in checkpoint")
         return
 
-    # Sort by score descending
-    results.sort(key=lambda x: x.get('score', 0), reverse=True)
+    batches = [pending[i:i + batch_size] for i in range(0, len(pending), batch_size)]
+    print(f"\n🔍 {len(pending)} firms pending in {len(batches)} batches "
+          f"(batch_size={batch_size}, concurrency={concurrency}, model={model})")
 
+    session = make_session()
+    with ThreadPoolExecutor(max_workers=concurrency) as pool:
+        futures = {
+            pool.submit(process_one_batch, session, api_key, model, max_tokens,
+                        batch, checkpoint, f"batch {i+1}/{len(batches)}"): batch
+            for i, batch in enumerate(batches)
+        }
+        for fut in as_completed(futures):
+            fut.result()  # exceptions already caught inside process_one_batch
+
+    # Mop-up pass: anything still missing gets one individual retry.
+    still_missing = [f for f in pending if not checkpoint.has(f['firm'])]
+    if still_missing:
+        print(f"\n🔁 Retrying {len(still_missing)} unresolved firms individually...")
+        with ThreadPoolExecutor(max_workers=concurrency) as pool:
+            futures = [
+                pool.submit(process_one_batch, session, api_key, model, max_tokens,
+                            [f], checkpoint, f"retry: {f['firm'][:30]}")
+                for f in still_missing
+            ]
+            for fut in as_completed(futures):
+                fut.result()
+
+    final_missing = [f['firm'] for f in still_missing if not checkpoint.has(f['firm'])]
+    if final_missing:
+        print(f"\n⚠️  {len(final_missing)} firms still unresolved after retry:")
+        for name in final_missing:
+            print(f"   - {name}")
+
+
+def write_csv(records: list, output_path: str):
+    records = sorted(records, key=lambda x: x.get('score', 0), reverse=True)
     fieldnames = [
         'firm', 'website', 'location', 'type', 'score', 'tier',
         'alts_venture_evidence', 'estimated_check_capacity',
-        'rationale', 'confidence', 'contact_hint'
+        'rationale', 'confidence', 'contact_hint',
     ]
-
     with open(output_path, 'w', newline='', encoding='utf-8') as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
-        for row in results:
+        for row in records:
             writer.writerow({k: row.get(k, '') for k in fieldnames})
 
+
 def main():
-    # Get input CSV
-    input_csv = "/Users/oscar/Downloads/apollo-contacts-export (3).csv"
-    output_csv = "/Users/oscar/Downloads/lp_prospects_scored.csv"
+    parser = argparse.ArgumentParser(description="Screen LP prospect firms via Perplexity API")
+    parser.add_argument('input_csv')
+    parser.add_argument('output_csv')
+    parser.add_argument('--batch-size', type=int, default=12,
+                         help="firms per API call (default 12 -- keeps output well under max-tokens)")
+    parser.add_argument('--concurrency', type=int, default=4, help="parallel API calls (default 4)")
+    parser.add_argument('--model', default='sonar', help="sonar | sonar-pro | sonar-reasoning")
+    parser.add_argument('--max-tokens', type=int, default=6000)
+    parser.add_argument('--test', type=int, default=0,
+                         help="only process the first N firms, to validate the key/prompt/parsing before a full run")
+    parser.add_argument('--checkpoint', default=None,
+                         help="path to the JSONL checkpoint (default: <output_csv>.checkpoint.jsonl)")
+    parser.add_argument('--fresh', action='store_true', help="ignore any existing checkpoint and start over")
+    args = parser.parse_args()
 
-    if len(sys.argv) > 1:
-        input_csv = sys.argv[1]
-    if len(sys.argv) > 2:
-        output_csv = sys.argv[2]
-
-    if not Path(input_csv).exists():
-        print(f"❌ Input CSV not found: {input_csv}")
+    api_key = os.getenv("PERPLEXITY_API_KEY")
+    if not api_key:
+        print("❌ PERPLEXITY_API_KEY environment variable not set")
         sys.exit(1)
 
-    print(f"📁 Input: {input_csv}")
-    print(f"📁 Output: {output_csv}")
-    print(f"🔑 API Key: {'✓ set' if PERPLEXITY_API_KEY else '✗ NOT SET'}")
-
-    if not PERPLEXITY_API_KEY:
-        print("\n❌ Set PERPLEXITY_API_KEY environment variable:")
-        print("   export PERPLEXITY_API_KEY='pplx_...'")
+    if not Path(args.input_csv).exists():
+        print(f"❌ Input CSV not found: {args.input_csv}")
         sys.exit(1)
 
-    # Extract and batch
-    print(f"\n🔍 Extracting distinct firms...")
-    batches = extract_firms_from_csv(input_csv, batch_size=20)
-    print(f"✓ Found {sum(len(b) for b in batches)} distinct firms in {len(batches)} batches")
+    checkpoint_path = args.checkpoint or f"{args.output_csv}.checkpoint.jsonl"
+    if args.fresh and os.path.exists(checkpoint_path):
+        os.remove(checkpoint_path)
 
-    # Process
-    process_batches(batches, output_csv)
+    firms = extract_firms(args.input_csv)
+    print(f"📁 Input: {args.input_csv} ({len(firms)} distinct firms)")
+    print(f"📁 Output: {args.output_csv}")
+    print(f"💾 Checkpoint: {checkpoint_path}")
+
+    if args.test:
+        firms = firms[:args.test]
+        print(f"🧪 TEST MODE: only processing first {len(firms)} firms")
+
+    checkpoint = Checkpoint(checkpoint_path)
+    if checkpoint.done:
+        print(f"⚙️  Resuming: {len(checkpoint.done)} firms already in checkpoint")
+
+    run(firms, checkpoint, api_key, args.model, args.max_tokens, args.batch_size, args.concurrency)
+
+    records = checkpoint.all_records()
+    # only write rows for firms actually in this run's input set
+    wanted = {norm_name(f['firm']) for f in firms}
+    records = [r for r in records if norm_name(r.get('firm', '')) in wanted]
+
+    if records:
+        write_csv(records, args.output_csv)
+        tiers = {}
+        for r in records:
+            t = (r.get('tier') or '?')[0]
+            tiers[t] = tiers.get(t, 0) + 1
+        print(f"\n✅ Wrote {len(records)} firms to {args.output_csv}")
+        print(f"📈 A-tier: {tiers.get('A', 0)}  B-tier: {tiers.get('B', 0)}  C-tier: {tiers.get('C', 0)}")
+    else:
+        print("❌ No results collected")
+
 
 if __name__ == "__main__":
     main()

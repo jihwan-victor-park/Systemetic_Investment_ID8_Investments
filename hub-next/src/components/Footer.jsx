@@ -1,14 +1,6 @@
 import Link from 'next/link';
 import styles from './Footer.module.css';
 
-const LINKS = [
-  { to: '/docs/deals', label: 'Deal Summaries' },
-  { to: '/docs/qualified-deals', label: 'Qualified Deals' },
-  { to: '/docs/top-vcs', label: 'Top 10 VCs' },
-  { to: '/docs/overview', label: 'Capabilities' },
-  { to: '/docs/admin', label: 'Admin' },
-];
-
 export default function Footer() {
   return (
     <footer className={styles.footer}>
@@ -17,13 +9,6 @@ export default function Footer() {
           <Link href="/" className={styles.brand}>
             <img src="/img/logo_white.png" alt="ID8 Investments" className={styles.logo} />
           </Link>
-          <nav className={styles.nav}>
-            {LINKS.map((l) => (
-              <Link key={l.to} href={l.to} className={styles.navLink}>
-                {l.label}
-              </Link>
-            ))}
-          </nav>
         </div>
 
         <div className={styles.contact}>

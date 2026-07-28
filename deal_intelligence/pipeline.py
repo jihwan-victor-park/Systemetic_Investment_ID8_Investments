@@ -66,7 +66,7 @@ async def screen(deals: list, dry_run: bool = False, publish: bool = False) -> d
             # hub-next (Firestore + Cloud Storage) -- independent of the old
             # hub's git-commit path above; dynamic, no rebuild required.
             try:
-                firestore_push.push_company_screen_firestore(f, d, slug, docx_bytes)
+                firestore_push.push_company_screen_firestore(f, d, slug, docx_bytes, source="attio")
             except Exception as exc:
                 print(f"[firestore_push] {slug}: {exc}")
 

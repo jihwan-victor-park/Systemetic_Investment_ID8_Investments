@@ -5,6 +5,8 @@ Write-back uses Attio's write value formats (see project memory): number is
 skipped for any field whose slug is not configured, so this is safe to run before
 the Attio fields exist.
 """
+from concurrent.futures import ThreadPoolExecutor
+
 from . import config
 from .net import session
 from .schemas import DealInput, DealFit, DealMemo
@@ -29,6 +31,52 @@ def _value(values, slug):
     return v
 
 
+def _company_domain(record_id: str):
+    """Deals don't carry domain directly -- pipeline/app.py's build_attio_values
+    links each Deal to a Company record via `associated_company`, and domain
+    lives on that Company's `domains` field. Best-effort: a lookup failure
+    just means no domain, not a hard error, since domain is enrichment
+    (helps the model disambiguate a company name) rather than something
+    Stage 1 can't function without."""
+    if not record_id:
+        return None
+    url = f"{config.ATTIO_BASE}/objects/companies/records/{record_id}"
+    r = session.get(url, headers=_headers(), timeout=30)
+    if not r.ok:
+        return None
+    domains = r.json().get("data", {}).get("values", {}).get("domains") or []
+    return domains[0].get("domain") if domains and isinstance(domains[0], dict) else None
+
+
+def _parse_deal_record(rec: dict) -> DealInput:
+    """Turn one raw Attio Deal record into a DealInput, resolving domain via
+    the linked Company record when the deal itself has none (see
+    _company_domain's docstring). Shared by get_qualified_deals() and
+    list_all_deals() so the two don't drift."""
+    values = rec.get("values", {})
+    rid = rec.get("id", {}).get("record_id")
+    s = config.READ_SLUGS
+    domain = _value(values, s["domain"])
+    if not domain:
+        company_ref = values.get("associated_company")
+        company_rid = None
+        if isinstance(company_ref, list) and company_ref:
+            cell = company_ref[0]
+            company_rid = cell.get("target_record_id") if isinstance(cell, dict) else None
+        domain = _company_domain(company_rid)
+    return DealInput(
+        record_id=rid,
+        name=_value(values, s["name"]) or "(unnamed deal)",
+        domain=domain,
+        round=_value(values, s["round"]),
+        hq=_value(values, s["hq"]),
+        lead_investors=_value(values, s["lead_investors"]),
+        round_date=_value(values, s["round_date"]),
+        description=_value(values, s["description"]),
+        raw=values,
+    )
+
+
 def get_qualified_deals(limit: int = 500) -> list:
     """Query the Deals object for records at the Qualified stage."""
     if not config.ATTIO_API_KEY:
@@ -37,21 +85,45 @@ def get_qualified_deals(limit: int = 500) -> list:
     body = {"filter": {config.STAGE_SLUG: config.QUALIFIED_VALUE}, "limit": limit}
     r = session.post(url, json=body, headers=_headers(), timeout=60)
     r.raise_for_status()
-    deals = []
-    for rec in r.json().get("data", []):
-        values = rec.get("values", {})
-        rid = rec.get("id", {}).get("record_id")
-        s = config.READ_SLUGS
-        deals.append(DealInput(
-            record_id=rid,
-            name=_value(values, s["name"]) or "(unnamed deal)",
-            domain=_value(values, s["domain"]),
-            round=_value(values, s["round"]),
-            hq=_value(values, s["hq"]),
-            lead_investors=_value(values, s["lead_investors"]),
-            raw=values,
-        ))
-    return deals
+    return [_parse_deal_record(rec) for rec in r.json().get("data", [])]
+
+
+def list_all_deals(limit: int = 500, max_workers: int = None) -> list:
+    """Query every Deal record regardless of stage, paginated (no filter),
+    same offset-pagination shape as pipeline/app.py's backfill_investors().
+    Returns (DealInput, attio_stage) pairs -- the raw Attio stage string is
+    kept separate from DealInput since it's import/origin metadata, not
+    research context score_deal() needs.
+
+    Domain resolution is one extra Attio GET per deal that lacks a `domain`
+    Deal attribute (i.e. most of them -- see _company_domain's docstring),
+    so this runs those lookups through a bounded thread pool rather than
+    sequentially -- otherwise a few hundred deals means a few hundred
+    sequential round trips."""
+    if not config.ATTIO_API_KEY:
+        raise RuntimeError("ATTIO_API_KEY not set")
+    if max_workers is None:
+        max_workers = config.ATTIO_IMPORT_PARALLEL
+    url = f"{config.ATTIO_BASE}/objects/{config.DEALS_OBJECT}/records/query"
+    records = []
+    offset = 0
+    while True:
+        body = {"limit": limit, "offset": offset}
+        r = session.post(url, json=body, headers=_headers(), timeout=60)
+        r.raise_for_status()
+        batch = r.json().get("data", [])
+        records.extend(batch)
+        if len(batch) < limit:
+            break
+        offset += limit
+
+    def _parse_with_stage(rec):
+        deal = _parse_deal_record(rec)
+        attio_stage = _value(rec.get("values", {}), config.STAGE_SLUG)
+        return deal, attio_stage
+
+    with ThreadPoolExecutor(max_workers=max_workers) as pool:
+        return list(pool.map(_parse_with_stage, records))
 
 
 def _patch(record_id: str, attio_values: dict):

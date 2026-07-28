@@ -83,6 +83,13 @@ is in `requirements.txt`.
 
 ## Phase 2 — Migrate n8n to Cloud Run
 
+> **✅ Done (superseded, Jul 2026):** This already happened, and not quite this
+> way — n8n runs on **Cloud SQL Postgres** (`n8n-db`, `db-f1-micro`), not Neon;
+> there was never a `NEON_DATABASE_URL` in practice. Triggers are native
+> Google Drive/Sheets polling nodes, not the webhook import described below.
+> `deploy.sh` no longer needs the `NEON_DATABASE_URL` env var at all. Kept here
+> for historical context only.
+
 Follow `n8n-cloudrun/MIGRATION_PLAN.md`. Condensed:
 
 - [ ] Free Neon Postgres project → copy the connection string.
@@ -181,17 +188,44 @@ daily cron triggers at the new n8n webhook URLs once Phase 2 is live.
 Not related to the pipeline/n8n/hub above — a separate small Cloud Run service.
 Full steps in `cc-attio-sync/README.md`; condensed:
 
-- [ ] Register a Constant Contact developer app → `CC_CLIENT_ID`/`CC_CLIENT_SECRET`.
-- [ ] `python get_refresh_token.py` (one-time OAuth grant) → `CC_REFRESH_TOKEN`.
-- [ ] `./setup_secrets.sh` → creates the 4 secrets + grants the runtime service
+- [x] Register a Constant Contact developer app → `CC_CLIENT_ID`/`CC_CLIENT_SECRET`.
+- [x] `python get_refresh_token.py` (one-time OAuth grant) → `CC_REFRESH_TOKEN`.
+- [x] `./setup_secrets.sh` → creates the 4 secrets + grants the runtime service
       account read access and `secretVersionAdder` on `CC_REFRESH_TOKEN`.
-- [ ] `python list_cc_lists.py` → real CC list UUIDs; paste into `CC_LIST_MAP`
+- [x] `python list_cc_lists.py` → real CC list UUIDs; paste into `CC_LIST_MAP`
       in `deploy.sh`.
-- [ ] `./deploy.sh` → prints the webhook URL.
-- [ ] Build the Attio automation(s): **Record enters list → Send webhook** →
-      `<service-url>/attio-webhook`, header `X-Webhook-Secret`.
+- [x] `./deploy.sh` → deployed, but the Cloud Run service is **not** directly
+      public — see the IAM note below.
+- [x] Build the Attio automation(s): **Record enters list → Send webhook** →
+      the API Gateway URL below, header `X-Webhook-Secret`.
 - **Done when:** adding someone to an Attio list makes them appear in the
-  matching Constant Contact list within a few seconds.
+  matching Constant Contact list within a few seconds. Confirmed working
+  2026-07-13.
+
+> **⚠️ Cloud Run's `--allow-unauthenticated` does not work in this org.** A
+> Domain Restricted Sharing org policy (`iam.allowedPolicyMemberDomains`,
+> allowed value `C03y3a2wj` only) blocks granting `allUsers` on *any*
+> resource — `deploy.sh`'s `--allow-unauthenticated` silently fails to bind,
+> and `cc-attio-sync` stayed IAM-private (401/403 for every caller) despite
+> looking deployed. Nobody currently holds `roles/orgpolicy.policyAdmin` or
+> even org-level IAM read access on this org (id `238943261662`), so
+> loosening the policy isn't a quick fix.
+>
+> **Fix used:** front the private Cloud Run service with **API Gateway**,
+> which exposes a public endpoint through its own (non-IAM) access model and
+> calls the backend using a dedicated service account
+> (`cc-attio-gateway-invoker@...iam.gserviceaccount.com`, granted
+> `roles/run.invoker` — an in-project principal, so the org policy doesn't
+> block it). `cc-attio-sync` itself never gets `allUsers`.
+>
+> Public webhook URL is now the **Gateway** hostname, not the raw
+> `*.run.app` URL: `https://cc-attio-sync-gw-1ra59gma.uk.gateway.dev/attio-webhook`.
+> Setup: `gcloud beta services identity create --service=apigateway.googleapis.com`
+> → `iam.serviceAccountTokenCreator` binding for that agent on the dedicated SA
+> → `api-gateway apis create` → `api-configs create --backend-auth-service-account=...`
+> → `gateways create`. **Any future service that needs to be public-facing in
+> this GCP project will hit the same wall and needs the same pattern** (or
+> someone getting org-policy-admin rights first).
 
 ---
 

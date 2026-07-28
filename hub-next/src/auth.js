@@ -2,15 +2,7 @@ import NextAuth from 'next-auth';
 import Google from 'next-auth/providers/google';
 import { authConfig } from './auth.config';
 import { getOrCreateAccessRecord } from './lib/investorAccess';
-
-// id8investments.com accounts are auto-approved internal users. Anyone else
-// (investors) gets an investorAccess record created on first sign-in and
-// stays gated to /pending until an internal user approves them from /docs/admin.
-const ALLOWED_HD = process.env.ALLOWED_HD || 'id8investments.com';
-
-function isInternal(email) {
-  return email.endsWith('@' + ALLOWED_HD);
-}
+import { isInternal } from './lib/authInternal';
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
@@ -29,9 +21,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     async signIn({ profile }) {
       const email = (profile?.email || '').toLowerCase();
       if (!email) return false;
-      if (isInternal(email)) return true;
+      if (isInternal(email)) {
+        console.log(`[auth] signIn allowed (internal): ${email}`);
+        return true;
+      }
 
       const record = await getOrCreateAccessRecord(email, profile?.name);
+      console.log(`[auth] signIn for ${email}: status=${record.status}`);
       if (record.status === 'approved') return true;
       if (record.status === 'denied') return '/denied';
       return '/pending';

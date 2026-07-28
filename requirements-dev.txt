@@ -1,0 +1,4 @@
+# Test-only dependencies -- not installed in the production image (see
+# Dockerfile, which installs from requirements.txt alone). Install with:
+#   pip install -r requirements.txt -r requirements-dev.txt
+pytest==8.3.4

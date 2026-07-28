@@ -1,0 +1,45 @@
+.board { margin: 1.2rem 0 2rem; }
+
+.form { display: flex; gap: 0.8rem; align-items: center; margin-bottom: 0.6rem; }
+.input {
+  flex: 1; font-family: 'Sora', sans-serif; font-size: 0.9rem; color: var(--id8-ink);
+  background: transparent; border: none; border-bottom: 1px solid var(--id8-hair); padding: 0.4rem 0; border-radius: 0;
+}
+.input:focus { outline: none; border-bottom: 1.5px solid var(--id8-ink); }
+.add {
+  font-family: 'Sora', sans-serif; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 600;
+  color: var(--id8-paper); background: var(--id8-ink); border: none; padding: 0.5rem 1.1rem; cursor: pointer; border-radius: 2px;
+  white-space: nowrap;
+}
+.add:hover { opacity: 0.85; }
+.add:disabled { background: var(--id8-grey); cursor: not-allowed; opacity: 0.6; }
+
+.previewLine { font-size: 0.82rem; min-height: 1.3em; margin-bottom: 1rem; color: var(--id8-grey); }
+.previewLine[data-state="hit"] { color: #B3261E; }
+.previewLine[data-state="clear"] { color: #1E7A34; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.2rem; }
+.chip {
+  display: inline-flex; align-items: center; gap: 0.4rem; background: var(--id8-accent-bg); color: var(--id8-accent);
+  font-size: 0.78rem; font-weight: 600; padding: 4px 6px 4px 10px; border-radius: 2px;
+}
+.chip button {
+  all: unset; cursor: pointer; width: 14px; height: 14px; display: flex; align-items: center; justify-content: center;
+  border-radius: 50%; font-size: 0.72rem; line-height: 1;
+}
+.chip button:hover { background: rgba(0, 0, 0, 0.12); }
+
+.excludedBox { margin-top: 1rem; border-top: 1px dashed var(--id8-hair); padding-top: 0.8rem; }
+.excludedBox summary { cursor: pointer; font-size: 0.8rem; font-weight: 600; color: var(--id8-grey); }
+.excludedRow {
+  display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+  font-size: 0.85rem; padding: 0.55rem 0; border-bottom: 1px solid var(--id8-hair);
+}
+.itemTitle { color: var(--id8-ink); font-weight: 500; }
+.itemNote { font-size: 0.76rem; color: var(--id8-grey); margin-top: 0.1rem; }
+.keepBtn {
+  background: none; border: none; color: var(--id8-accent); cursor: pointer; font-size: 0.78rem; font-weight: 600;
+  white-space: nowrap;
+}
+.keepBtn:hover { text-decoration: underline; }
+.empty { font-size: 0.85rem; color: var(--id8-grey); padding: 0.4rem 0; }

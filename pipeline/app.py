@@ -30,6 +30,7 @@ from deal_intelligence import stage2_research as di_stage2_research
 from deal_intelligence import fit_note as di_fit_note
 from deal_intelligence import firestore_push as di_firestore_push
 from deal_intelligence import chat_intent as di_chat_intent
+from deal_intelligence import attio_io as di_attio_io
 
 app = Flask(__name__)
 
@@ -437,6 +438,29 @@ def find_or_create_company(company_name, domain, description=None):
         return None
     return resp.json().get("data", {}).get("id", {}).get("record_id")
 
+def _attio_post_retry(url, json_body, attempts=3, backoff=2.0):
+    """POST to Attio with retries on 5xx/network errors. Attio's create endpoint
+    threw a one-off 500 in production (Chai Discovery, 2026-07-20) that silently
+    dropped a brand-new deal from the whole run -- no retry, and nothing surfaced
+    the failure anywhere the team would see it. A 4xx is a real validation
+    problem a retry won't fix, so only 5xx/network errors are retried."""
+    resp = None
+    last_exc = None
+    for attempt in range(1, attempts + 1):
+        try:
+            resp = requests.post(url, headers=attio_headers(), json=json_body)
+        except requests.RequestException as exc:
+            last_exc = exc
+            resp = None
+        if resp is not None and resp.status_code < 500:
+            return resp
+        if attempt < attempts:
+            time.sleep(backoff * attempt)
+    if resp is not None:
+        return resp
+    raise last_exc
+
+
 def find_deal(company_name, series):
     """Return existing deal record_id if this company+series already exists."""
     resp = requests.post(
@@ -515,12 +539,36 @@ def build_attio_values(row, company_record_id, stage="Watchlist", source=None, t
 
     return values
 
+# Series B or earlier -> Radar. Matched by pattern, not by an exact set: the
+# old exact-match set ({'Seed', 'Pre-Seed', 'Pre-A', 'Series A'}) missed every
+# real-world variant PitchBook actually sends -- 'Series A1'/'Series A2' (see
+# ensure_select_option's own docstring, which cites 'Series A2' as a value that
+# shows up and isn't in the picklist yet), 'Seed Round', 'Angel', and any
+# casing other than Title Case. Those all silently fell through to the caller's
+# default stage (Qualified/Watchlist) instead of landing on Radar.
+#
+# Widened from "Series A or earlier" to "Series B or earlier" 2026-07-28
+# (Oscar: "Radar should include Series B") -- see RADAR_PLAN.md Part I. ID8
+# invests at Series B+, so a company that just closed a B can't raise again
+# for 18-24 months: it isn't a live opportunity, it's a company to watch
+# until its *next* round (the one actually in mandate). Renamed from
+# _EARLY_SERIES_RE since "early" stopped being accurate once B was in scope
+# -- this is "below where we'd write a check today", not "early-stage".
+#
+# Anchored at the start so 'Series B' matches but 'Series C' never does, and
+# \d* after the letter covers the A1/A2/B1/B2 tranche naming. The trailing
+# boundary stops 'Series BB'-style values from matching on the 'B'.
+_BELOW_MANDATE_SERIES_RE = re.compile(
+    r'^\s*(?:pre[-\s]?seed|seed|angel|pre[-\s]?a|series\s*[ab]\d*)\b',
+    re.IGNORECASE)
+
+
 def determine_stage(series, default_stage):
-    """If series is A or earlier, move to Radar; otherwise use the provided stage."""
-    early_series = {'Seed', 'Pre-Seed', 'Pre-A', 'Series A'}
-    if series.strip() in early_series:
-        return 'Radar'
-    return default_stage
+    """If series is B or earlier, move to Radar; otherwise use the provided stage.
+
+    A blank/unknown series is NOT treated as early -- we can't tell, so it keeps
+    the caller's default rather than being silently demoted to Radar."""
+    return 'Radar' if _BELOW_MANDATE_SERIES_RE.match(str(series or '')) else default_stage
 
 def upsert_deal(row, company_record_id, stage="Watchlist", source=None, top10=False):
     company_name = str(row.get('Companies', '')).strip()
@@ -550,11 +598,11 @@ def upsert_deal(row, company_record_id, stage="Watchlist", source=None, top10=Fa
         return "skipped"
 
     values = build_attio_values(row, company_record_id, stage, source, top10)
-    resp = requests.post(
-        f"{ATTIO_API_BASE}/objects/deals/records",
-        headers=attio_headers(),
-        json={"data": {"values": values}},
-    )
+    try:
+        resp = _attio_post_retry(f"{ATTIO_API_BASE}/objects/deals/records", {"data": {"values": values}})
+    except requests.RequestException as exc:
+        print(f"DEAL CREATE {company_name} top10={top10}: network error after retries: {exc}")
+        return f"error:network:{exc}"
     print(f"DEAL CREATE {company_name} top10={top10}: "
           f"{resp.status_code} {resp.text[:200]}")
     if resp.status_code in (200, 201):
@@ -634,10 +682,16 @@ def _start_pipeline(stage, source, top10=False):
 
     # Block until the whole pipeline (ingest + Perplexity screening) finishes, so
     # the single n8n HTTP node gets deals + fit scores + email_html in one response.
-    # gunicorn --timeout is 300s; we stop polling a touch before that. If a large
-    # upload doesn't finish in time, we return the partial state and the caller can
-    # poll /process/status for the rest.
-    deadline = time.time() + 280
+    # gunicorn --timeout is 1800s (see Dockerfile); we stop polling a touch before
+    # that. This used to be 280s, calibrated to a 300s gunicorn timeout that's
+    # since been raised for /screen's sake -- left stale here, this endpoint kept
+    # bailing at 280s regardless, so any batch whose Stage 1 scoring ran past that
+    # (routine with sonar-deep-research's per-deal timeout) got its /process
+    # response -- and the n8n deal-intake email built straight from it -- with no
+    # fit_score on any deal, even though scoring finished normally moments later.
+    # If a large upload still doesn't finish in time, we return the partial state
+    # and the caller can poll /process/status for the rest.
+    deadline = time.time() + 1700
     while time.time() < deadline:
         with _pipeline_lock:
             s = _pipeline_state.get("status")
@@ -1069,6 +1123,92 @@ def fix_radar_stages():
                     "skipped_count": len(skipped), "errors": errors})
 
 
+# hub-next stage key -> Attio's "stage" status-attribute title. Inverse of
+# deal_intelligence.config.ATTIO_STAGE_MAP (which maps Attio's raw title,
+# lowercased, back onto these same keys for the read/import direction) --
+# see hub-next/src/lib/stages.js's STAGES for where these keys come from.
+HUB_STAGE_TO_ATTIO_TITLE = {
+    "watchlist": "Watchlist",
+    "pipeline": "Pipeline",
+    "qualified": "Qualified",
+    "radar": "Radar",
+    "invested": "Invested",
+}
+
+
+@app.route("/update-deal-stage", methods=["POST"])
+def update_deal_stage():
+    """Push a stage change made by hand in hub-next (the per-row dropdown --
+    see hub-next/src/lib/companies.js's updateCompanyStage) back onto the
+    matching Attio Deal record, so the two don't silently drift apart. This
+    is the one direction that previously didn't exist at all -- Attio ->
+    hub-next sync (push_company_from_attio) has existed for a while, but a
+    stage edit made directly in hub-next used to stay siloed in Firestore
+    forever. Body: {"record_id": "<attio deal record id>", "stage": "<hub-next
+    stage key, e.g. 'qualified'>"}. Same write shape fix_radar_stages already
+    uses above (status attribute -> [{"status": "<Title>"}]) -- see
+    hub-next/src/app/(hub)/docs/projects/pitchbook-attio/page.jsx's "Write
+    values are not read values" note for why that shape matters.
+    Best-effort by design: hub-next's own PATCH call treats a failure here as
+    non-fatal (Firestore is hub-next's own source of truth regardless of
+    whether the Attio mirror succeeds), so this returns a normal error
+    response rather than anything hub-next needs to retry on its own."""
+    if not _require_internal_secret():
+        return jsonify({"error": "forbidden"}), 403
+    body = request.get_json(silent=True) or {}
+    record_id = (body.get("record_id") or "").strip()
+    stage_key = (body.get("stage") or "").strip().lower()
+    if not record_id:
+        return jsonify({"error": "'record_id' is required"}), 400
+    title = HUB_STAGE_TO_ATTIO_TITLE.get(stage_key)
+    if not title:
+        return jsonify({"error": f"unknown stage {stage_key!r}, must be one of {sorted(HUB_STAGE_TO_ATTIO_TITLE)}"}), 400
+
+    resp = requests.patch(
+        f"{ATTIO_API_BASE}/objects/deals/records/{record_id}",
+        headers=attio_headers(),
+        json={"data": {"values": {"stage": [{"status": title}]}}},
+    )
+    if resp.status_code not in (200, 201):
+        return jsonify({"error": f"Attio PATCH failed: {resp.text[:300]}"}), 502
+    return jsonify({"ok": True, "record_id": record_id, "stage": title})
+
+
+@app.route("/fix-attio-import-stages", methods=["POST"])
+def fix_attio_import_stages():
+    """One-time correction for hub-next companies the bulk Attio import
+    mis-bucketed into New Deals before push_company_from_attio's stage
+    mapping existed -- see deal_intelligence.firestore_push.backfill_attio_stages.
+    Synchronous (a Firestore-only scan, no external API calls), same style as
+    /fix-radar-stages above."""
+    if not _require_internal_secret():
+        return jsonify({"error": "forbidden"}), 403
+    return jsonify(di_firestore_push.backfill_attio_stages())
+
+
+@app.route("/fix-company-rounds", methods=["POST"])
+def fix_company_rounds():
+    """One-time backfill: seeds `round` from origin.round for companies that
+    existed before the round field was added -- see
+    deal_intelligence.firestore_push.backfill_company_rounds."""
+    if not _require_internal_secret():
+        return jsonify({"error": "forbidden"}), 403
+    return jsonify(di_firestore_push.backfill_company_rounds())
+
+
+@app.route("/backfill-top10-vc", methods=["POST"])
+def backfill_top10_vc():
+    """One-time seed for hub-next's `top10VC` field from a pasted snapshot of
+    Attio's "Top 10 VC" Deals-object view -- see
+    deal_intelligence.firestore_push.backfill_top10_vc. Body: {"names": [...]}."""
+    if not _require_internal_secret():
+        return jsonify({"error": "forbidden"}), 403
+    names = (request.get_json(silent=True) or {}).get("names") or []
+    if not isinstance(names, list) or not names:
+        return jsonify({"error": "'names' must be a non-empty array"}), 400
+    return jsonify(di_firestore_push.backfill_top10_vc(names))
+
+
 _apollo_state = {"status": "idle"}
 _apollo_lock  = threading.Lock()
 
@@ -1139,18 +1279,25 @@ def sync_apollo_status():
         return jsonify(dict(_apollo_state))
 
 
-_screen_deals_state = {"status": "idle"}
-_screen_deals_lock = threading.Lock()
+# Fixed job_id (not a fresh uuid per run) -- this endpoint is a singleton,
+# n8n-triggered-on-a-schedule job, so "is one already running" is answered by
+# reading one well-known doc rather than tracking multiple ids.
+_SCREEN_DEALS_JOB_ID = "screen-deals-backlog"
 
 
-def _run_screen_deals(dry_run, stage1_only, publish):
+def _run_screen_deals(job_id, dry_run, stage1_only, publish):
     try:
         result = asyncio.run(di_pipeline.run(dry_run=dry_run, stage1_only=stage1_only, publish=publish))
-        with _screen_deals_lock:
-            _screen_deals_state.update({"status": "complete", **result})
+        # email_html/email_text can run well past Firestore's 1MiB document
+        # cap for a large qualified pool, and nothing reads them back off this
+        # status doc -- n8n reads results from Attio directly and posts its
+        # own Slack summary (see deal_intelligence/README.md's "n8n wiring"),
+        # it never consumed this field from the JSON body. Drop both, keep
+        # every small summary field (counts, stage1 list, memos).
+        result = {k: v for k, v in result.items() if k not in ("email_html", "email_text")}
+        _set_chat_job(job_id, {"status": "complete", **result})
     except Exception as e:
-        with _screen_deals_lock:
-            _screen_deals_state.update({"status": "error", "error": str(e)})
+        _set_chat_job(job_id, {"status": "error", "error": str(e)})
 
 
 @app.route("/screen-deals", methods=["POST"])
@@ -1165,6 +1312,12 @@ def screen_deals():
     dry_run skips the Attio write-back. stage1_only defaults true so triggering
     this with no body never spends an Anthropic call or writes a memo; pass
     stage1_only: false once the Attio write-back fields exist and stage 2 is wired.
+
+    State lives in the same Firestore chat_jobs mechanism as /research-chat
+    (a fixed doc id, not a fresh one per run) instead of an in-process dict --
+    the in-process version could route a start-POST and a status-GET to two
+    different Cloud Run instances and 404 a job that was actually running
+    fine; this endpoint's request/response shape is unchanged either way.
     """
     missing = [v for v in ("ATTIO_API_KEY", "PERPLEXITY_API_KEY") if not os.environ.get(v)]
     if missing:
@@ -1177,19 +1330,22 @@ def screen_deals():
     # pages must be generated where they can be committed to git (local/CI), not
     # in this container. The endpoint always returns email_html regardless.
     publish = bool(body.get("publish", False))
-    with _screen_deals_lock:
-        if _screen_deals_state.get("status") == "running":
-            return jsonify({"error": "already running", "state": dict(_screen_deals_state)}), 409
-        _screen_deals_state.clear()
-        _screen_deals_state.update({"status": "running"})
-    threading.Thread(target=_run_screen_deals, args=(dry_run, stage1_only, publish), daemon=True).start()
+    current = _get_chat_job(_SCREEN_DEALS_JOB_ID)
+    if current and current.get("status") == "running":
+        return jsonify({"error": "already running", "state": current}), 409
+    _start_chat_job(_SCREEN_DEALS_JOB_ID, {
+        "status": "running", "type": "screen_deals_backlog", "label": "Attio qualified backlog",
+        "createdAt": datetime.utcnow().isoformat() + "Z",
+    })
+    threading.Thread(target=_run_screen_deals, args=(_SCREEN_DEALS_JOB_ID, dry_run, stage1_only, publish),
+                      daemon=True).start()
     return jsonify({"status": "started", "poll": "/screen-deals/status"})
 
 
 @app.route("/screen-deals/status", methods=["GET"])
 def screen_deals_status():
-    with _screen_deals_lock:
-        return jsonify(dict(_screen_deals_state))
+    job = _get_chat_job(_SCREEN_DEALS_JOB_ID)
+    return jsonify(job or {"status": "idle"})
 
 
 @app.route("/screen", methods=["POST"])
@@ -1261,13 +1417,61 @@ def _chat_jobs_firestore():
     return _chat_jobs_db
 
 
-def _set_chat_job(job_id: str, data: dict):
+def _start_chat_job(job_id: str, data: dict):
+    """First write of a job's life -- a full (non-merge) overwrite, so a
+    reused fixed job_id (see /screen-deals below) can't leak result fields
+    from a previous run into the new one."""
     _chat_jobs_firestore().collection(_CHAT_JOBS_COLLECTION).document(job_id).set(data)
+
+
+def _set_chat_job(job_id: str, data: dict):
+    # merge=True: every phase transition AFTER the start write only ADDS
+    # fields (fit/slug/verdict, memo, error, counters) -- it never needs to
+    # remove one, so a merge write lets createdAt/label/type survive a job's
+    # whole lifecycle instead of getting wiped by the next .set().
+    _chat_jobs_firestore().collection(_CHAT_JOBS_COLLECTION).document(job_id).set(data, merge=True)
 
 
 def _get_chat_job(job_id: str):
     doc = _chat_jobs_firestore().collection(_CHAT_JOBS_COLLECTION).document(job_id).get()
     return doc.to_dict() if doc.exists else None
+
+
+_STALE_JOB_MINUTES = 30
+
+
+def _list_active_jobs():
+    """Every chat_jobs doc currently 'running' -- single-field equality
+    filter, no composite index needed. Backs the hub-next jobs tray.
+
+    A background thread's job doc is the ONLY record that it's alive --
+    there's no separate heartbeat. If the Cloud Run container that was
+    running it gets recycled mid-job (a deploy, a scale-down, an OOM), the
+    thread just dies and the doc is stuck at status='running' forever; the
+    tray would otherwise show it as active indefinitely. Anything older than
+    _STALE_JOB_MINUTES (comfortably past STAGE1_TIMEOUT_SECONDS, the longest
+    single call any job type here makes) gets flipped to 'error' here and
+    dropped from the list, rather than trusting 'running' at face value.
+    Jobs from before this field existed (no createdAt at all) count as stale
+    immediately -- there's no way to tell how old they are, so don't guess.
+    """
+    now = datetime.utcnow()
+    active = []
+    for doc in _chat_jobs_firestore().collection(_CHAT_JOBS_COLLECTION).where("status", "==", "running").stream():
+        data = doc.to_dict()
+        created_at = data.get("createdAt")
+        stale = True
+        if created_at:
+            try:
+                age_minutes = (now - datetime.fromisoformat(created_at.rstrip("Z"))).total_seconds() / 60
+                stale = age_minutes > _STALE_JOB_MINUTES
+            except ValueError:
+                stale = True
+        if stale:
+            _set_chat_job(doc.id, {"status": "error", "error": "stale — job never completed (likely interrupted by a deploy or restart)"})
+        else:
+            active.append({"job_id": doc.id, **data})
+    return active
 
 
 def _require_internal_secret():
@@ -1336,7 +1540,18 @@ def research_chat():
     message = (body.get("message") or "").strip()
     context = (body.get("context") or "").strip() or None
     if stage == 1 and message and not name:
-        parsed = di_chat_intent.parse_investigate_message(message, context=context)
+        # Synchronous, inline in the request (unlike the actual research
+        # below, which is backgrounded) -- so an unhandled exception here
+        # (bad/expired PERPLEXITY_API_KEY, a transient Perplexity 429/500,
+        # a network blip) would otherwise propagate past Flask's default
+        # error handler as a plain HTML 500 page. hub-next's route.js can
+        # only do `res.json()` on whatever comes back, so an HTML body
+        # surfaces as an opaque "invalid response from pipeline service" --
+        # catch it here and return real JSON with the actual cause instead.
+        try:
+            parsed = di_chat_intent.parse_investigate_message(message, context=context)
+        except Exception as e:
+            return jsonify({"error": f"chat-intent parsing failed: {e}"}), 502
         if parsed["needs_clarification"] or not parsed["name"]:
             return jsonify({
                 "status": "needs_clarification",
@@ -1357,7 +1572,10 @@ def research_chat():
         domain=domain, round=round_, lead_investors=lead_investors, hq=hq,
     )
     job_id = uuid.uuid4().hex
-    _set_chat_job(job_id, {"status": "running", "stage": stage})
+    _start_chat_job(job_id, {
+        "status": "running", "stage": stage, "type": "chat",
+        "label": f"{name} — Stage {stage}", "createdAt": datetime.utcnow().isoformat() + "Z",
+    })
     target = _run_chat_stage1 if stage == 1 else _run_chat_stage2
     threading.Thread(target=target, args=(job_id, deal), daemon=True).start()
     # "name" echoed back so the frontend can show the resolved company name
@@ -1373,6 +1591,122 @@ def research_chat_status(job_id):
     if not job:
         return jsonify({"error": "not found"}), 404
     return jsonify(job)
+
+
+# ── Generic job listing/status (hub-next's global jobs tray) ─────────────────
+# Every background job in this service (chat Stage 1/2, a per-row rerun, the
+# Attio bulk import, and the qualified-deal backlog below) writes through
+# _set_chat_job into the same chat_jobs collection -- these two routes are a
+# type-agnostic way to list/poll any of them, so the tray doesn't need to know
+# which specific endpoint started a given job.
+@app.route("/jobs", methods=["GET"])
+def list_jobs():
+    if not _require_internal_secret():
+        return jsonify({"error": "forbidden"}), 403
+    return jsonify({"jobs": _list_active_jobs()})
+
+
+@app.route("/jobs/<job_id>", methods=["GET"])
+def job_status(job_id):
+    if not _require_internal_secret():
+        return jsonify({"error": "forbidden"}), 403
+    job = _get_chat_job(job_id)
+    if not job:
+        return jsonify({"error": "not found"}), 404
+    return jsonify({"job_id": job_id, **job})
+
+
+def _run_company_screen(job_id: str, slug: str, deal: "di_schemas.DealInput"):
+    """Same chain as _run_chat_stage1 (score -> docx -> Firestore push), but
+    for an EXISTING company row: `slug` is pinned from the caller rather than
+    recomputed from the deal, so results land back on the same doc the
+    "Run Analysis" button was clicked on instead of risking a second,
+    differently-slugged company doc if company_id(deal) drifts from what's
+    already stored (e.g. a manually-edited name/domain)."""
+    try:
+        fit = asyncio.run(di_stage1_fit.score_deal(deal))
+        docx_bytes = di_fit_note.build_docx_bytes(fit, deal)
+        di_firestore_push.push_company_screen_firestore(fit, deal, slug, docx_bytes, source="chat")
+        _set_chat_job(job_id, {
+            "status": "complete", "fit": fit.to_dict(), "slug": slug,
+            "verdict": di_fit_note._badge_text(fit),
+        })
+    except Exception as e:
+        _set_chat_job(job_id, {"status": "error", "error": str(e)})
+
+
+@app.route("/screen-company/<slug>", methods=["POST"])
+def screen_company(slug):
+    """Run Analysis for one specific, already-known company row. Body:
+      {"name": "Acme", "domain": "acme.com", "round": "Series C",
+       "hq": "SF, CA", "lead_investors": "Accel"}
+    hub-next supplies these (pulled from the company's own stored `origin`
+    fields when present) rather than this endpoint re-reading Firestore
+    itself, keeping it stateless-per-request like /research-chat."""
+    if not _require_internal_secret():
+        return jsonify({"error": "forbidden"}), 403
+    missing = [v for v in ("PERPLEXITY_API_KEY",) if not os.environ.get(v)]
+    if missing:
+        return jsonify({"error": f"missing env vars: {', '.join(missing)}"}), 400
+    body = request.get_json(silent=True) or {}
+    name = (body.get("name") or "").strip()
+    if not name:
+        return jsonify({"error": "'name' is required"}), 400
+    deal = di_schemas.DealInput(
+        record_id=f"rerun-{slug}-{uuid.uuid4().hex[:8]}", name=name,
+        domain=body.get("domain") or None, round=body.get("round") or None,
+        lead_investors=body.get("lead_investors") or None, hq=body.get("hq") or None,
+    )
+    job_id = uuid.uuid4().hex
+    _start_chat_job(job_id, {
+        "status": "running", "type": "stage1_rerun", "companySlug": slug,
+        "label": f"{name} — Run Analysis", "createdAt": datetime.utcnow().isoformat() + "Z",
+    })
+    threading.Thread(target=_run_company_screen, args=(job_id, slug, deal), daemon=True).start()
+    return jsonify({"job_id": job_id, "status": "started", "poll": f"/jobs/{job_id}"})
+
+
+def _run_attio_import(job_id: str):
+    try:
+        pairs = di_attio_io.list_all_deals()
+        total = len(pairs)
+        created = skipped = errors = 0
+        for i, (deal, attio_stage) in enumerate(pairs):
+            try:
+                result = di_firestore_push.push_company_from_attio(deal, attio_stage)
+                created += 1 if result.get("created") else 0
+                skipped += 0 if result.get("created") else 1
+            except Exception:
+                errors += 1
+            if (i + 1) % 10 == 0 or (i + 1) == total:
+                _set_chat_job(job_id, {"processed": i + 1, "total": total,
+                                        "created": created, "skipped": skipped, "errors": errors})
+        _set_chat_job(job_id, {"status": "complete", "processed": total, "total": total,
+                                "created": created, "skipped": skipped, "errors": errors})
+    except Exception as e:
+        _set_chat_job(job_id, {"status": "error", "error": str(e)})
+
+
+@app.route("/import-attio-deals", methods=["POST"])
+def import_attio_deals():
+    """Pull every Attio deal regardless of stage and upsert a metadata-only
+    company stub for each into hub-next's Firestore (stage='new' on brand-new
+    companies, origin refresh only on existing ones -- see
+    push_company_from_attio). No Stage 1 scoring here; that's the separate
+    per-row "Run Analysis" trigger (POST /screen-company/<slug>) once Oscar
+    has triaged a deal himself."""
+    if not _require_internal_secret():
+        return jsonify({"error": "forbidden"}), 403
+    missing = [v for v in ("ATTIO_API_KEY",) if not os.environ.get(v)]
+    if missing:
+        return jsonify({"error": f"missing env vars: {', '.join(missing)}"}), 400
+    job_id = uuid.uuid4().hex
+    _start_chat_job(job_id, {
+        "status": "running", "type": "attio_import", "label": "Attio import",
+        "createdAt": datetime.utcnow().isoformat() + "Z", "processed": 0, "total": 0,
+    })
+    threading.Thread(target=_run_attio_import, args=(job_id,), daemon=True).start()
+    return jsonify({"job_id": job_id, "status": "started", "poll": f"/jobs/{job_id}"})
 
 
 # ── Hub publish (rebuild + deploy the Firebase site) ──────────────────────────

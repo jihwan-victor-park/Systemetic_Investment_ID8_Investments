@@ -1,0 +1,9 @@
+.wrap { display: inline-block; }
+.input {
+  font: inherit; color: inherit; background: transparent; border: none; border-bottom: 1px dashed transparent;
+  padding: 0 1px; min-width: 60px; cursor: text; transition: border-color 0.15s ease;
+}
+.input:hover { border-bottom-color: var(--id8-hair); }
+.input:focus { outline: none; border-bottom-color: var(--id8-ink); }
+.input:disabled { opacity: 0.6; cursor: default; }
+.error { display: block; color: #B3261E; font-size: 0.72rem; margin-top: 2px; }

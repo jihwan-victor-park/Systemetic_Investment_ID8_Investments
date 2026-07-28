@@ -5,6 +5,12 @@
 # Prerequisite: ./setup_secrets.sh has been run once already (creates the 4
 # secrets and grants this service's runtime service account access to them).
 # See README.md for the full one-time setup order.
+#
+# NOTE: --allow-unauthenticated below does NOT make this service publicly
+# reachable -- this org's Domain Restricted Sharing policy blocks an
+# allUsers binding on Cloud Run outright, so the service stays IAM-private
+# regardless. The actual public front door is the API Gateway in gateway/ --
+# run gateway/deploy-gateway.sh after this script, and see README.md's step 6b.
 set -euo pipefail
 
 PROJECT="${PROJECT:-molten-crowbar-498920-q8}"   # gcloud run deploy requires the project ID, not the number

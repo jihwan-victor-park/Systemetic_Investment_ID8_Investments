@@ -1,0 +1,51 @@
+.form { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; margin-top: 0.9rem; }
+.input {
+  font-family: 'Sora', sans-serif; font-size: 0.85rem; color: var(--id8-ink); background: transparent;
+  border: none; border-bottom: 1px solid var(--id8-hair); padding: 0.35rem 0.2rem; flex: 1 1 140px; min-width: 100px;
+}
+.input:focus { outline: none; border-bottom: 1.5px solid var(--id8-ink); }
+.add {
+  font-family: 'Sora', sans-serif; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 600;
+  color: var(--id8-paper); background: var(--id8-ink); border: none; padding: 0.4rem 0.9rem; cursor: pointer; border-radius: 2px;
+}
+.add:hover { opacity: 0.85; }
+.del { background: none; border: none; color: var(--id8-grey); cursor: pointer; font-size: 0.95rem; line-height: 1; }
+.del:hover { color: var(--id8-ink); }
+.error { color: #B3261E; font-size: 0.72rem; width: 100%; }
+
+.stageBadge {
+  font-family: 'Sora', sans-serif; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600;
+  color: var(--id8-ink); background: var(--id8-hair); padding: 0.15rem 0.5rem; border-radius: 2px; white-space: nowrap;
+}
+.muted { color: var(--id8-grey); font-size: 0.8rem; }
+
+/* Stage 0 decision-tier -- dot + colored text, same restrained pattern as
+   the Raise-probability column right next to it (and the graph's own
+   color-as-signal language: a gradient bar + marker, never a filled pill). */
+.fitTier {
+  font-family: 'Sora', sans-serif; font-size: 0.72rem; font-weight: 600; text-transform: capitalize; white-space: nowrap;
+  padding-left: 0.9rem; position: relative; cursor: default;
+}
+.fitTier::before {
+  content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+  width: 0.5rem; height: 0.5rem; border-radius: 50%;
+}
+.fitTier[data-tier="track_priority"] { color: var(--id8-accent); }
+.fitTier[data-tier="track_priority"]::before { background: var(--id8-accent); }
+.fitTier[data-tier="track"] { color: var(--id8-accent); }
+.fitTier[data-tier="track"]::before { background: var(--id8-accent); opacity: 0.55; }
+.fitTier[data-tier="monitor"] { color: var(--id8-aging); }
+.fitTier[data-tier="monitor"]::before { background: var(--id8-aging-dot); }
+.fitTier[data-tier="too_early"] { color: var(--id8-grey); }
+.fitTier[data-tier="too_early"]::before { background: var(--id8-hair); }
+.fitTier[data-tier="drop"] { color: var(--id8-stale); }
+.fitTier[data-tier="drop"]::before { background: var(--id8-stale-dot); }
+.fitTier[data-tier="error"] { color: var(--id8-grey); }
+.fitTier[data-tier="error"]::before { background: var(--id8-hair); }
+
+.pipelineCell { display: flex; flex-direction: column; gap: 0.2rem; }
+.stageWithAction { display: flex; align-items: center; gap: 0.5rem; }
+.pipelineSelect {
+  font-family: 'Sora', sans-serif; font-size: 0.72rem; color: var(--id8-ink); background: transparent;
+  border: 1px solid var(--id8-hair); border-radius: 2px; padding: 0.2rem 0.35rem; cursor: pointer;
+}

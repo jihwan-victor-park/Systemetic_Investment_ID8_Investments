@@ -1,0 +1,96 @@
+{
+  "deal": {"record_id": "manual-etched", "name": "Etched", "domain": "etched.com", "round": "Series C", "lead_investors": "Sequoia Capital(Sonya Huang)", "hq": "San Jose, CA"},
+  "model_output": {
+    "params": [
+      {
+        "key": "lead_round_dynamics",
+        "subcategories": [
+          {"label": "Lead tier", "score": 4, "finding": "Sequoia Capital led the round — Tier 1+ per PitchBook.[1]"},
+          {"label": "New vs re-up", "score": 4, "finding": "PitchBook confirms Sequoia is a brand-new investor this round.[1]"},
+          {"label": "Stage fit", "score": 4, "finding": "Clean Series C primary, up round — squarely in mandate.[1]"},
+          {"label": "Domain-strategic", "score": 2, "finding": "Sequoia is a generalist financial VC, not domain-strategic.[3]"},
+          {"label": "Lead conviction", "score": 4, "finding": "Sonya Huang: led OpenAI/Anthropic bets, authored the deal thesis.[2][8]"},
+          {"label": "Institutional momentum", "score": 3, "finding": "Jane Street, 4 angels re-up; no Tier-1 VC follow-on confirmed.[1]"},
+          {"label": "Existing Tier 1", "score": 3, "finding": "Ribbit Capital (Tier 1) joined the cap table Dec 2025.[1]"},
+          {"label": "Timing/motivation", "score": 4, "finding": "Oversubscribed, record-setting round after $1B+ signed customer contracts.[3][4][5]"}
+        ],
+        "evidence": "Verified new-money Tier 1+ lead (Sequoia) on a clean Series C with strong partner conviction; follow-on momentum limited to non-Tier-1 backers.[1][2]"
+      },
+      {
+        "key": "founder_team_quality",
+        "subcategories": [
+          {"label": "Prior exit", "score": 3, "finding": "First-time founders; Thiel Fellows, no prior $100M+ ARR exit.[6]"},
+          {"label": "Domain authority", "score": 3, "finding": "Ex-OctoML/Xnor.ai backgrounds are adjacent ML systems, not chip design.[6]"},
+          {"label": "Team complement", "score": 4, "finding": "Veteran semiconductor CTO Mark Ross hired to close hardware gap.[7]"},
+          {"label": "Recruiting power (as in team growth)", "score": 4, "finding": "Headcount grew from 35 to 400 employees in two years.[1]"},
+          {"label": "Public presence", "score": 4, "finding": "Extensive coverage: TechCrunch, Sequoia feature, Fast Company since 2024.[2][6]"},
+          {"label": "Integrity", "score": 4, "finding": "No red flags found across multiple independent press sources.[6]"}
+        ],
+        "evidence": "First-time but elite-pedigree founders complemented by a veteran chip-industry CTO; strong recruiting and press, no integrity red flags found.[6][7]"
+      },
+      {
+        "key": "ai_score",
+        "subcategories": [
+          {"label": "Ownership of models", "score": 4, "finding": "Purpose-built ASIC hardwired for transformer inference; architecture itself is the moat.[11]"},
+          {"label": "Data flywheel / Recurssion", "score": 2, "finding": "No evidence found of any usage-data flywheel; none found.[11]"}
+        ],
+        "evidence": "AI is the literal moat: silicon physically encodes transformer math; no data-flywheel evidence found, though the architecture bet is hard to copy.[11]"
+      },
+      {
+        "key": "terms",
+        "subcategories": [
+          {"label": "Just assume they are good (unless there's something public)", "score": 3, "finding": "No public evidence of adverse terms; standard 0/0/10 assumed."}
+        ],
+        "evidence": "No public disclosure of ID8's specific access terms for this round; standard 0/0/10 economics assumed absent any adverse signal."
+      },
+      {
+        "key": "fundamentals",
+        "subcategories": [
+          {"label": "Revenue/growth", "score": 3, "finding": "[ESTIMATED] $1B+ signed contracts disclosed; no shipped-product ARR confirmed yet.[5]"},
+          {"label": "NDR", "score": 2, "finding": "Not disclosed; NDR doesn't cleanly apply to hardware sales."},
+          {"label": "Margins/unit econ", "score": 2, "finding": "Gross margin and LTV/CAC undisclosed; no usable estimate exists."},
+          {"label": "Burn/runway", "score": 2, "finding": "Undisclosed burn despite capital-intensive fab and datacenter buildout.[5]"},
+          {"label": "Customer concentration", "score": 2, "finding": "No customer names disclosed; concentration cannot be assessed."},
+          {"label": "Pref stack", "score": 4, "finding": "Cap table shows pari passu, non-participating preferred — lean structure.[1]"},
+          {"label": "Moat durability", "score": 3, "finding": "Hardwired single-architecture bet is defensible but concentration risk real.[10][11]"},
+          {"label": "Market/TAM", "score": 4, "finding": "Inference is 'the largest market in the world' per lead.[2]"},
+          {"label": "Valuation vs comps", "score": 3, "finding": "[ESTIMATED] $10.3B roughly tracks rich comp-set multiples (Cerebras ~45x).[9]"},
+          {"label": "Sector risk", "score": 3, "finding": "Fierce Nvidia/Cerebras/Groq competition; single-architecture concentration risk genuine.[9][10]"}
+        ],
+        "evidence": "[ESTIMATED]: $1B+ contracted revenue and a lean cap table support the score, but no confirmed ARR exists pre-shipment and sector risk is real.[5][9]"
+      },
+      {
+        "key": "return_potential",
+        "subcategories": [
+          {"label": "Entry multiple", "score": 3, "finding": "Valuation defensible vs. sector comps, but not clearly discounted.[9]"},
+          {"label": "Base-case MOIC", "score": 3, "finding": "Comparable late-stage AI-infra deals show a realistic 2-5x MOIC.[10]"},
+          {"label": "Exit path", "score": 4, "finding": "Cerebras IPO'd ~$23B; Groq licensed to Nvidia for ~$20B.[9][10]"},
+          {"label": "Dilution", "score": 2, "finding": "Future-round dilution not explicitly modeled in this research pass."},
+          {"label": "Time to liquidity", "score": 3, "finding": "Sector comps show 1-2 year paths to IPO/M&A liquidity.[10]"},
+          {"label": "Downside protection", "score": 2, "finding": "ID8's specific entry-term seniority/protection undisclosed for this round."},
+          {"label": "Exit multiples", "score": 4, "finding": "Anchored to genuinely comparable, very recent Cerebras/Groq exits.[9][10]"},
+          {"label": "Secondary demand", "score": 2, "finding": "No Forge/EquityZen/Setter 30 listing or secondary signal found."}
+        ],
+        "evidence": "Rich entry valuation caps base-case MOIC near 2-5x, but genuinely comparable, very recent sector exits (Cerebras, Groq) support a credible path.[9][10]"
+      }
+    ],
+    "rationale": "Etched fits ID8's thesis: Sequoia is verified new money leading a clean Series C, and AI is genuinely structural, hardwired into silicon. Fundamentals and returns rest on estimates given pre-shipment revenue and a rich $10.3B valuation.",
+    "confidence": "medium",
+    "hard_auto_pass": false,
+    "hard_auto_pass_reason": "",
+    "watch_list": false
+  },
+  "citations": [
+    "https://my.pitchbook.com/profile/522872-02/company/profile",
+    "https://sequoiacap.com/article/partnering-with-etched-building-the-inference-machine/",
+    "https://techcrunch.com/2026/07/23/ai-chip-startup-etched-defies-skeptics-hits-10-3b-valuation-from-big-name-investors/",
+    "https://techfundingnews.com/etched-10-3b-series-c-sequoia-record/",
+    "https://www.globenewswire.com/news-release/2026/06/30/3319922/0/en/Etched-Emerges-From-Stealth-With-Working-Chip-800M-Raised-and-Over-1B-in-Customer-Contracts.html",
+    "https://techcrunch.com/2024/06/25/etched-is-building-an-ai-chip-that-only-runs-transformer-models/",
+    "https://theorg.com/org/etched/org-chart/mark-ross",
+    "https://www.fastcompany.com/91550837/sonya-huang-is-betting-on-the-builders-of-the-agentic-ai-era",
+    "https://tech-insider.org/cerebras-ipo-filing-510m-revenue-openai-deal-23b-valuation-2026/",
+    "https://hashrateindex.com/blog/independent-ai-chip-companies-ai-asic-market-part-3/",
+    "https://en.wikipedia.org/wiki/Etched_(company)"
+  ]
+}

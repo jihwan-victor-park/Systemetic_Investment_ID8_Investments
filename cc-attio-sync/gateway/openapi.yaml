@@ -1,0 +1,66 @@
+swagger: '2.0'
+info:
+  title: cc-attio-sync-api
+  description: >
+    Public front door for the Attio -> Constant Contact list-sync webhook.
+    This org's Domain Restricted Sharing policy blocks an `allUsers` binding
+    on Cloud Run outright (see project memory
+    project_gcp_org_policy_blocks_public_cloud_run) -- so `--allow-unauthenticated`
+    on the cc-attio-sync Cloud Run service itself is a no-op, and the service
+    is IAM-private regardless of that flag. This Gateway is the actual public
+    entry point: it authenticates to the private backend as the dedicated
+    cc-attio-gateway-invoker service account (see deploy-gateway.sh), while
+    the Gateway's own public endpoint has no auth of its own -- the app-level
+    X-Webhook-Secret header check in main.py is what protects the two webhook
+    paths below, unchanged either way.
+  version: '1.0.0'
+schemes:
+  - https
+produces:
+  - application/json
+x-google-backend:
+  # Placeholder -- deploy-gateway.sh substitutes the real Cloud Run URL
+  # (`gcloud run services describe cc-attio-sync --format='value(status.url)'`)
+  # before generating the API config from this file. Don't hand-edit this
+  # line; it gets overwritten on every deploy.
+  address: https://REPLACE_WITH_CLOUD_RUN_URL
+  protocol: h2
+paths:
+  /health:
+    get:
+      summary: Health check + configured CC list keys
+      operationId: health
+      responses:
+        '200':
+          description: OK
+  /attio-webhook:
+    post:
+      summary: >
+        Attio "record added to list" trigger -> adds/updates the matching
+        Constant Contact contact via CC's sign_up_form endpoint.
+      operationId: attioWebhook
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: missing/invalid X-Webhook-Secret
+        '422':
+          description: no CC list mapped for the given list key
+        '502':
+          description: Constant Contact rejected the request
+  /attio-delete-webhook:
+    post:
+      summary: >
+        Attio "record deleted" trigger -> permanently deletes the matching CC
+        contact across every list (GDPR-style). Not reversible.
+      operationId: attioDeleteWebhook
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: missing/invalid X-Webhook-Secret
+
+# /reconcile is deliberately NOT exposed here. It's a machine-to-machine
+# endpoint meant to be called by Cloud Scheduler directly against the private
+# Cloud Run URL with OIDC auth, not through this public Gateway -- see
+# reconcile_endpoint() in main.py and README.md's "Reconciling removals".
