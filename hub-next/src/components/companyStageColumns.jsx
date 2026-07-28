@@ -29,6 +29,11 @@ const displayName = (c) => COMPANY_SHORT_NAME[c.slug] || c.name;
 export const STAGE_TABLE_COLUMNS = [
   { key: 'company', label: 'Company', sortable: true },
   { key: 'series', label: 'Series', sortable: true },
+  // The round's close date, off Attio's 'deal_date' slug (see
+  // deal_intelligence/firestore_push.py / lib/companies.js's `roundDate`) --
+  // distinct from the 'Screened' column below, which is when WE looked at
+  // the deal, not when it actually closed. Added 2026-07-28 per Oscar's ask.
+  { key: 'dealDate', label: 'Deal Date', sortable: true },
   { key: 'partnerVc', label: 'Partner VC', sortable: true },
   { key: 'radarCategory', label: 'Radar Category', sortable: true },
   { key: 'score', label: 'Score', sortable: true },
@@ -61,6 +66,7 @@ export function companyToRow(c, { basePath, canEdit, tier1 = [], partners = [] }
     sort: {
       company: name.toLowerCase(),
       series: c.round || '',
+      dealDate: c.roundDate || '',
       partnerVc: partnerVc || '',
       radarCategory: c.radarCategory || '',
       score,
@@ -89,6 +95,7 @@ export function companyToRow(c, { basePath, canEdit, tier1 = [], partners = [] }
         </>
       ),
       series: <RoundInput slug={c.slug} round={c.round} canEdit={canEdit} />,
+      dealDate: c.roundDate ? c.roundDate.slice(0, 10) : '—',
       partnerVc: matches.length === 0 ? '—' : <PartnerVcPopover matches={matches} />,
       radarCategory: (
         <CompanyInlineField

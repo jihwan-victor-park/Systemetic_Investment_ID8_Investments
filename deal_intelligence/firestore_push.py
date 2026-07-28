@@ -80,7 +80,27 @@ def push_company_screen_firestore(fit: DealFit, deal: DealInput, slug: str, docx
     so hub-next's Origin column can show *how a company first showed up*
     rather than how its latest screen happened to run."""
     company_ref = _firestore().collection("companies").document(slug)
-    company_payload = {"name": deal.name, "website": normalize_domain(deal.domain) or None}
+    screen_id = date.today().isoformat()
+    company_payload = {
+        "name": deal.name,
+        "website": normalize_domain(deal.domain) or None,
+        # Denormalized copy of this screen's headline fields, straight onto
+        # the company doc -- added 2026-07-28. hub-next's listCompanies()
+        # used to run one Firestore query PER company to fetch this from the
+        # screens subcollection (a real N+1: 100+ companies meant 100+ round
+        # trips on every cache-miss page load, the exact "Hub Perf Fix"
+        # pattern documented in project memory). Writing it here once, at the
+        # one place a screen is ever created, means the list view never has
+        # to ask again. `gate` comes straight from `fit.gate` -- the real
+        # boolean the scoring pass computed, not parsed back out of the
+        # verdict string the way the old subcollection-read fallback did.
+        "latestScreen": {
+            "date": screen_id,
+            "roundStage": deal.round,
+            "fitScore": fit.fit_score,
+            "gate": fit.gate,
+        },
+    }
     # Same "only when we actually have one" guard as push_company_from_attio --
     # a merge write with an explicit None would overwrite an already-known
     # description with nothing.
@@ -106,7 +126,6 @@ def push_company_screen_firestore(fit: DealFit, deal: DealInput, slug: str, docx
 
     docx_path = _upload_docx(slug, docx_bytes)
     cites = fit.citations
-    screen_id = date.today().isoformat()
     screen_doc = {
         "date": screen_id,
         "roundStage": deal.round,
