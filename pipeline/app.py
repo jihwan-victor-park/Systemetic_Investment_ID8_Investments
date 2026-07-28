@@ -1190,9 +1190,11 @@ def fix_attio_import_stages():
 
 @app.route("/fix-company-rounds", methods=["POST"])
 def fix_company_rounds():
-    """One-time backfill: seeds `round` from origin.round for companies that
-    existed before the round field was added -- see
-    deal_intelligence.firestore_push.backfill_company_rounds."""
+    """One-time backfill: seeds round/roundDate/roundSize from their
+    origin.* counterparts for companies that existed before those top-level
+    fields were written (roundDate/roundSize as of 2026-07-28 -- see
+    deal_intelligence.firestore_push.backfill_company_rounds for why a
+    re-screen alone doesn't fix an existing company's blank Deal Date)."""
     if not _require_internal_secret():
         return jsonify({"error": "forbidden"}), 403
     return jsonify(di_firestore_push.backfill_company_rounds())

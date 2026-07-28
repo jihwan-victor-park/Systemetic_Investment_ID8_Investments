@@ -59,6 +59,21 @@ def load_deals(path):
         def g(col):
             v = row.get(col)
             return str(v).strip() if pd.notna(v) and str(v).strip() else None
+        # `Deal Date`/`Deal Size` were never read here before 2026-07-28 --
+        # every company that entered the hub through this standalone path
+        # (as opposed to the Attio-backed pipeline, which now reads the same
+        # two columns back via attio_io.py) ended up with a permanently
+        # blank Deal Date/Series-size, even though the export had the data
+        # the whole time. Same fix, same day, as the Attio-side gap.
+        round_date_val = row.get("Deal Date") if "Deal Date" in df.columns else None
+        round_date = round_date_val.strftime("%Y-%m-%d") if pd.notna(round_date_val) else None
+        deal_size_val = row.get("Deal Size") if "Deal Size" in df.columns else None
+        # Export gives $millions (e.g. 30.41 == $30.41M) -- same unit
+        # PitchBook exports use everywhere in this codebase (see
+        # pipeline/app.py's build_attio_values: "Source value is in
+        # $millions -> store the real amount"); DealInput.deal_size is
+        # documented as real dollars, so convert here, once.
+        deal_size = float(deal_size_val) * 1_000_000 if pd.notna(deal_size_val) else None
         deals.append(DealInput(
             record_id=f"pb-{i}",
             name=str(row["Companies"]).strip(),
@@ -66,6 +81,8 @@ def load_deals(path):
             round=g("Series"),
             hq=g("HQ Location"),
             lead_investors=g("Lead/Sole Investors"),
+            round_date=round_date,
+            deal_size=deal_size,
         ))
     return deals
 

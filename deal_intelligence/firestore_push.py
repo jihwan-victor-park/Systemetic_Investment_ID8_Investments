@@ -106,23 +106,58 @@ def push_company_screen_firestore(fit: DealFit, deal: DealInput, slug: str, docx
     # description with nothing.
     if deal.description:
         company_payload["description"] = deal.description
-    # Only stamp a stage on brand-new companies (defaulting to "qualified",
-    # where every screened deal has always shown up) -- never on a re-screen
-    # of an existing company, so it doesn't silently undo Oscar re-filing it
-    # into Watchlist/Pipeline via the hub's Stage dropdown.
-    if not company_ref.get().exists:
+    is_new = not company_ref.get().exists
+    # origin.round/roundDate/roundSize/hq/leadInvestors always refresh, on
+    # every screen (new or re-screen) -- same "origin mirrors the latest
+    # known source value" convention push_company_from_attio already uses
+    # unconditionally, added here 2026-07-28. Without this, a company
+    # screened once via the standalone screen_pitchbook.py path (before
+    # 2026-07-28, when load_deals() didn't read Deal Date/Size at all) has a
+    # permanently blank origin.roundDate/roundSize no matter how many times
+    # it gets re-screened later -- re-screening alone can't fix it unless
+    # origin actually gets rewritten with the freshly-parsed values.
+    # origin.source/attioRecordId/attioStage/importedAt stay sticky --
+    # set once at creation only, preserving "how this company first showed
+    # up" (the reason this split exists at all, see this function's
+    # docstring) rather than being overwritten by whatever screened it most
+    # recently.
+    origin_patch = {
+        "round": deal.round,
+        "roundDate": deal.round_date,
+        "roundSize": deal.deal_size,
+        "hq": deal.hq,
+        "leadInvestors": deal.lead_investors,
+    }
+    if is_new:
+        # Only stamp a stage on brand-new companies (defaulting to
+        # "qualified", where every screened deal has always shown up) --
+        # never on a re-screen of an existing company, so it doesn't
+        # silently undo Oscar re-filing it into Watchlist/Pipeline via the
+        # hub's Stage dropdown.
         company_payload["stage"] = "qualified"
+        # Top-level round/roundDate/roundSize -- same three fields
+        # push_company_from_attio has always set on a brand-new company,
+        # missing here until 2026-07-28 (this function only ever wrote them
+        # into `origin`, never top-level). hub-next's RoundInput/
+        # updateCompanyRound make `round` independently hand-editable
+        # afterward, same don't-clobber relationship to origin.round as
+        # everywhere else -- unlike origin (above), these are NEVER
+        # refreshed on a re-screen of an existing company. A company still
+        # missing these after a re-screen needs the one-time
+        # backfill_company_rounds() pass below, which copies from the
+        # now-freshly-refreshed origin.
+        company_payload["round"] = deal.round or None
+        company_payload["roundDate"] = deal.round_date or None
+        company_payload["roundSize"] = deal.deal_size or None
         company_payload["origin"] = {
             "source": source,
             "attioRecordId": deal.record_id if source == "attio" else None,
             "attioStage": None,
-            "round": deal.round,
-            "roundDate": deal.round_date,
-            "roundSize": deal.deal_size,
-            "hq": deal.hq,
-            "leadInvestors": deal.lead_investors,
             "importedAt": firestore.SERVER_TIMESTAMP,
+            **origin_patch,
         }
+    else:
+        company_payload["origin"] = origin_patch
     company_ref.set(company_payload, merge=True)
 
     docx_path = _upload_docx(slug, docx_bytes)
@@ -314,24 +349,43 @@ def backfill_attio_stages() -> dict:
 
 def backfill_company_rounds() -> dict:
     """One-time backfill for companies that existed before the top-level
-    `round` field was introduced -- copies origin.round (stamped by both
-    push_company_from_attio and push_company_screen_firestore since before
-    this field existed) onto `round` wherever `round` is still unset and
-    origin.round has a value. Never overwrites an already-set `round`, so an
-    edit already made from the hub's Series field is untouched."""
-    updated, skipped = [], []
+    round/roundDate/roundSize fields were introduced -- copies each from its
+    origin.* counterpart (stamped by push_company_from_attio and, as of
+    2026-07-28, push_company_screen_firestore too -- see that function's own
+    comment on the gap this closes) wherever the top-level field is still
+    unset and origin has a value. Each of the three is backfilled
+    independently (a company might be missing roundDate but already have a
+    hand-corrected round, say) and never overwrites an already-set value, so
+    an edit already made from the hub's Series field (or a Radar-clock write
+    to roundSize -- there isn't one, roundSize has no hub-editable UI, but
+    the principle is the same) is untouched.
+
+    This is what actually fixes a company already sitting in the hub with a
+    blank Deal Date -- re-screening it doesn't help, since
+    push_company_screen_firestore only ever sets the top-level fields on a
+    BRAND-NEW company, never on a re-screen of an existing one."""
+    updated_round, updated_date, updated_size, touched = [], [], [], set()
     for doc in _firestore().collection("companies").stream():
         data = doc.to_dict()
-        if data.get("round"):
-            skipped.append(doc.id)
-            continue
-        origin_round = (data.get("origin") or {}).get("round")
-        if origin_round:
-            doc.reference.set({"round": origin_round}, merge=True)
-            updated.append(doc.id)
-        else:
-            skipped.append(doc.id)
-    return {"updated": len(updated), "skipped": len(skipped), "updated_slugs": updated}
+        origin = data.get("origin") or {}
+        patch = {}
+        if not data.get("round") and origin.get("round"):
+            patch["round"] = origin["round"]
+            updated_round.append(doc.id)
+        if not data.get("roundDate") and origin.get("roundDate"):
+            patch["roundDate"] = origin["roundDate"]
+            updated_date.append(doc.id)
+        if not data.get("roundSize") and origin.get("roundSize"):
+            patch["roundSize"] = origin["roundSize"]
+            updated_size.append(doc.id)
+        if patch:
+            doc.reference.set(patch, merge=True)
+            touched.add(doc.id)
+    return {
+        "touched": len(touched), "touched_slugs": sorted(touched),
+        "updated_round": len(updated_round), "updated_round_date": len(updated_date),
+        "updated_round_size": len(updated_size),
+    }
 
 
 def backfill_top10_vc(names: list) -> dict:
