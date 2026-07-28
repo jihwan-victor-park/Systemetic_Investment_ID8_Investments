@@ -539,7 +539,7 @@ def build_attio_values(row, company_record_id, stage="Watchlist", source=None, t
 
     return values
 
-# Series A or earlier -> Radar. Matched by pattern, not by an exact set: the
+# Series B or earlier -> Radar. Matched by pattern, not by an exact set: the
 # old exact-match set ({'Seed', 'Pre-Seed', 'Pre-A', 'Series A'}) missed every
 # real-world variant PitchBook actually sends -- 'Series A1'/'Series A2' (see
 # ensure_select_option's own docstring, which cites 'Series A2' as a value that
@@ -547,20 +547,28 @@ def build_attio_values(row, company_record_id, stage="Watchlist", source=None, t
 # casing other than Title Case. Those all silently fell through to the caller's
 # default stage (Qualified/Watchlist) instead of landing on Radar.
 #
-# Anchored at the start so 'Series A' matches but 'Series B' never does, and
-# \d* after the letter covers the A1/A2/A3 tranche naming. The trailing
-# boundary stops 'Series AA'-style values from matching on the 'A'.
-_EARLY_SERIES_RE = re.compile(
-    r'^\s*(?:pre[-\s]?seed|seed|angel|pre[-\s]?a|series\s*a\d*)\b',
+# Widened from "Series A or earlier" to "Series B or earlier" 2026-07-28
+# (Oscar: "Radar should include Series B") -- see RADAR_PLAN.md Part I. ID8
+# invests at Series B+, so a company that just closed a B can't raise again
+# for 18-24 months: it isn't a live opportunity, it's a company to watch
+# until its *next* round (the one actually in mandate). Renamed from
+# _EARLY_SERIES_RE since "early" stopped being accurate once B was in scope
+# -- this is "below where we'd write a check today", not "early-stage".
+#
+# Anchored at the start so 'Series B' matches but 'Series C' never does, and
+# \d* after the letter covers the A1/A2/B1/B2 tranche naming. The trailing
+# boundary stops 'Series BB'-style values from matching on the 'B'.
+_BELOW_MANDATE_SERIES_RE = re.compile(
+    r'^\s*(?:pre[-\s]?seed|seed|angel|pre[-\s]?a|series\s*[ab]\d*)\b',
     re.IGNORECASE)
 
 
 def determine_stage(series, default_stage):
-    """If series is A or earlier, move to Radar; otherwise use the provided stage.
+    """If series is B or earlier, move to Radar; otherwise use the provided stage.
 
     A blank/unknown series is NOT treated as early -- we can't tell, so it keeps
     the caller's default rather than being silently demoted to Radar."""
-    return 'Radar' if _EARLY_SERIES_RE.match(str(series or '')) else default_stage
+    return 'Radar' if _BELOW_MANDATE_SERIES_RE.match(str(series or '')) else default_stage
 
 def upsert_deal(row, company_record_id, stage="Watchlist", source=None, top10=False):
     company_name = str(row.get('Companies', '')).strip()

@@ -3,6 +3,7 @@ import IdeaBoard from '@/components/IdeaBoard';
 import AccessRequests from '@/components/AccessRequests';
 import TopVCsAdmin from '@/components/TopVCsAdmin';
 import PartnerVCsAdmin from '@/components/PartnerVCsAdmin';
+import RadarRulesAdmin from '@/components/RadarRulesAdmin';
 import AttioImportButton from '@/components/AttioImportButton';
 import SortableTable from '@/components/SortableTable';
 import { STAGE_TABLE_COLUMNS, companyToRow } from '@/components/companyStageColumns';
@@ -21,6 +22,9 @@ export default async function AdminPage() {
   const needsTriageRows = companies
     .filter((c) => c.stage === 'new')
     .map((c) => companyToRow(c, { basePath: '/docs/new-deals', canEdit, tier1, partners }));
+  const radarCompanies = companies
+    .filter((c) => c.stage === 'radar')
+    .map((c) => ({ slug: c.slug, name: c.name, description: c.description, radarCategory: c.radarCategory }));
   return (
     <>
       <h1>Admin</h1>
@@ -51,6 +55,10 @@ export default async function AdminPage() {
       <H2>Partner VCs</H2>
       <p>A partner's own personal contact into a VC firm — separate from the curated Tier 1 list above, also shown on the <a href="/docs/vcs">VCs</a> tab. Not Attio-synced yet; everything here is typed in by hand.</p>
       <PartnerVCsAdmin defaultTrackedBy={session?.user?.name || ''} />
+
+      <H2>Radar relevance rules</H2>
+      <p>Some companies arrive through the Top 10 VC or Qualified Deals workflows legitimately, but are obviously off-thesis once you read what they do (a wealth-management or financial-advisory platform, for example). Add a keyword or phrase below and it applies to the <a href="/docs/radar">Radar</a> tab immediately — preview shows exactly who it would drop before you save it. Nothing is ever deleted; an excluded company can always be pinned back with &ldquo;Keep anyway.&rdquo;</p>
+      <RadarRulesAdmin radarCompanies={radarCompanies} />
 
       <H2>Capture</H2>
       <IdeaBoard />

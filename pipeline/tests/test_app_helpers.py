@@ -33,11 +33,12 @@ class TestCleanNumber:
 
 class TestDetermineStage:
     def test_early_series_moves_to_radar(self):
-        for series in ("Seed", "Pre-Seed", "Pre-A", "Series A"):
+        # Widened from Series A to Series B 2026-07-28 -- RADAR_PLAN.md Part I.
+        for series in ("Seed", "Pre-Seed", "Pre-A", "Series A", "Series B"):
             assert determine_stage(series, "Watchlist") == "Radar"
 
     def test_later_series_keeps_the_provided_default(self):
-        assert determine_stage("Series B", "Qualified") == "Qualified"
+        assert determine_stage("Series C", "Qualified") == "Qualified"
         assert determine_stage("Series D", "Watchlist") == "Watchlist"
 
     def test_strips_whitespace_before_matching(self):

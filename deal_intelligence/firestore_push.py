@@ -81,6 +81,11 @@ def push_company_screen_firestore(fit: DealFit, deal: DealInput, slug: str, docx
     rather than how its latest screen happened to run."""
     company_ref = _firestore().collection("companies").document(slug)
     company_payload = {"name": deal.name, "website": normalize_domain(deal.domain) or None}
+    # Same "only when we actually have one" guard as push_company_from_attio --
+    # a merge write with an explicit None would overwrite an already-known
+    # description with nothing.
+    if deal.description:
+        company_payload["description"] = deal.description
     # Only stamp a stage on brand-new companies (defaulting to "qualified",
     # where every screened deal has always shown up) -- never on a re-screen
     # of an existing company, so it doesn't silently undo Oscar re-filing it
@@ -92,6 +97,7 @@ def push_company_screen_firestore(fit: DealFit, deal: DealInput, slug: str, docx
             "attioRecordId": deal.record_id if source == "attio" else None,
             "attioStage": None,
             "round": deal.round,
+            "roundDate": deal.round_date,
             "hq": deal.hq,
             "leadInvestors": deal.lead_investors,
             "importedAt": firestore.SERVER_TIMESTAMP,
@@ -159,13 +165,23 @@ def push_company_from_attio(deal: DealInput, attio_stage: str | None) -> dict:
     Oscar wants unmapped deals visibly flagged for manual assignment, not
     quietly mixed in with everything else). On an existing company: only
     refreshes `origin` (Attio is the source of truth for
-    round/hq/leadInvestors/attioStage) -- never touches `stage`, `name`,
-    `website`, or `round`, extending push_company_screen_firestore's same
-    don't-clobber-stage rule to this path. `round` is a brand-new company's
-    initial Series value, seeded from Attio but independently editable
-    afterward from the hub (see hub-next's RoundInput/updateCompanyRound) --
-    unlike `origin.round`, which keeps tracking Attio's own value on every
-    re-import, this top-level copy is never overwritten once set."""
+    round/roundDate/hq/leadInvestors/attioStage) plus the top-level
+    `description` -- never touches `stage`, `name`, `website`, or `round`,
+    extending push_company_screen_firestore's same don't-clobber-stage rule
+    to this path. `round` is a brand-new company's initial Series value,
+    seeded from Attio but independently editable afterward from the hub (see
+    hub-next's RoundInput/updateCompanyRound) -- unlike `origin.round`, which
+    keeps tracking Attio's own value on every re-import, this top-level copy
+    is never overwritten once set. `roundDate` mirrors that same relationship
+    (added 2026-07-28, RADAR_PLAN.md Part I -- Radar's capital-clock math
+    needs the round's close date). `description` is different: nothing in
+    the hub hand-edits it, so unlike round/roundDate it's refreshed on EVERY
+    push, new or existing company alike -- an already-imported company (like
+    the case that motivated this: a real Top 10 VC deal already sitting in
+    Firestore with no description on file) gets backfilled on its next
+    import rather than staying blank forever. Feeds the relevance-exclusion
+    list (RADAR_PLAN.md §1.6), which needs real description text to match
+    keywords against -- radarCategory alone is too sparse."""
     slug = company_id(deal)
     company_ref = _firestore().collection("companies").document(slug)
     origin = {
@@ -173,16 +189,23 @@ def push_company_from_attio(deal: DealInput, attio_stage: str | None) -> dict:
         "attioRecordId": deal.record_id,
         "attioStage": attio_stage,
         "round": deal.round,
+        "roundDate": deal.round_date,
         "hq": deal.hq,
         "leadInvestors": deal.lead_investors,
         "importedAt": firestore.SERVER_TIMESTAMP,
     }
     is_new = not company_ref.get().exists
     payload = {"origin": origin}
+    # Only ever set when Attio actually has one -- a merge write with an
+    # explicit None WOULD overwrite an already-known description with
+    # nothing, unlike an absent key (which merge=True leaves untouched).
+    if deal.description:
+        payload["description"] = deal.description
     if is_new:
         payload["name"] = deal.name
         payload["website"] = normalize_domain(deal.domain) or None
         payload["round"] = deal.round or None
+        payload["roundDate"] = deal.round_date or None
         payload["stage"] = config.ATTIO_STAGE_MAP.get((attio_stage or "").strip().lower(), "new")
     company_ref.set(payload, merge=True)
     return {"slug": slug, "created": is_new}

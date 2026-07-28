@@ -71,6 +71,8 @@ def _parse_deal_record(rec: dict) -> DealInput:
         round=_value(values, s["round"]),
         hq=_value(values, s["hq"]),
         lead_investors=_value(values, s["lead_investors"]),
+        round_date=_value(values, s["round_date"]),
+        description=_value(values, s["description"]),
         raw=values,
     )
 

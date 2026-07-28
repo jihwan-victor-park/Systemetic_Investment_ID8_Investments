@@ -9,19 +9,15 @@ import { STAGE_BASEPATH } from './stages';
 // below. Keep in sync with sidebarConfig.js when tabs are added/removed.
 const STATIC_ENTRIES = [
   { type: 'Tab', label: 'Capabilities', href: '/docs/overview' },
-  { type: 'Tab', label: 'Deal Screening', href: '/docs/deals' },
-  { type: 'Tab', label: 'Investment Memo', href: '/docs/investment-memos' },
   { type: 'Tab', label: 'Watchlist', href: '/docs/watchlist' },
   { type: 'Tab', label: 'Deal Pipeline', href: '/docs/pipeline' },
   { type: 'Tab', label: 'Qualified Deals', href: '/docs/qualified-deals' },
   { type: 'Tab', label: 'Radar', href: '/docs/radar' },
   { type: 'Tab', label: 'Invested', href: '/docs/invested' },
-  { type: 'Tab', label: 'Top Deals', href: '/docs/hot-deals' },
   { type: 'Tab', label: 'VCs', href: '/docs/vcs' },
   { type: 'Tab', label: 'Research', href: '/docs/research' },
   { type: 'Tab', label: 'Market Map Directory', href: '/docs/research/market-map' },
   { type: 'Tab', label: 'Research Chat', href: '/docs/research-chat' },
-  { type: 'Tab', label: 'Admin', href: '/docs/admin' },
 ];
 
 // Everything the global search (Cmd+K) can jump straight to: static tabs,

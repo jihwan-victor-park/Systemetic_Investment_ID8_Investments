@@ -11,8 +11,8 @@
 //
 // There's no "New Deals" tab here -- 'new' is an internal-only holding stage
 // for companies the bulk Attio import couldn't map to a real stage (see
-// lib/stages.js's STAGES comment). Those surface in the Admin page's "Needs
-// Triage" table instead of a public nav tab.
+// lib/stages.js's STAGES comment). Those surface on /docs/admin's "Needs
+// Triage" table, reachable by direct URL only -- see the Admin note below.
 //
 // The five stage lists live nested one level down, inside a single non-flat
 // "Deals" category -- clicking "Deals" itself just toggles the dropdown open
@@ -20,12 +20,12 @@
 // matching Oscar's ask for one Deals tab with a dropdown instead of five
 // separate top-level tabs.
 //
-// "Docs" is the equivalent dropdown for generated research documents: Deal
-// Screening and Investment Memo are both views over the same
-// `dealResearchDecks` collection, split by an optional `docType` field
-// (missing/anything else defaults to Deal Screening, matching how every
-// entry behaved before this field existed -- nothing already in there needs
-// re-tagging to keep showing up where it always has).
+// Three tabs were dropped from this tree on 2026-07-28 (Oscar: "admin, top
+// deals, docs tabs eliminate") -- 'docs' (the Deal Screening / Investment
+// Memo dropdown), 'hot-deals' ("Top Deals"), and 'admin'. Their pages
+// (/docs/deals, /docs/investment-memos, /docs/hot-deals, /docs/admin) still
+// exist and still work -- only the nav entries pointing at them are gone, so
+// anyone who needs one still reaches it by direct URL/bookmark.
 //
 // Each stage/doc-type entry is still marked `flat: true`: it carries its full
 // `items` list (needed so breadcrumbs/prev-next still resolve correctly on a
@@ -41,32 +41,8 @@
 // customization off this, never off the label text itself, so renaming a
 // tab doesn't orphan its saved position and vice versa.
 export function getSidebarTree(companies = [], deals = []) {
-  const dealSummaries = deals.filter((d) => (d.docType || 'deal-summary') !== 'investment-memo');
-  const investmentMemos = deals.filter((d) => d.docType === 'investment-memo');
   return [
     { id: 'capabilities', type: 'doc', href: '/docs/overview', label: 'Capabilities' },
-    {
-      id: 'docs',
-      type: 'category',
-      label: 'Docs',
-      collapsed: true,
-      items: [
-        {
-          type: 'category',
-          label: 'Deal Screening',
-          flat: true,
-          href: '/docs/deals',
-          items: dealSummaries.map((d) => ({ type: 'doc', href: `/docs/deals/${d.id}`, label: d.companyName })),
-        },
-        {
-          type: 'category',
-          label: 'Investment Memo',
-          flat: true,
-          href: '/docs/investment-memos',
-          items: investmentMemos.map((d) => ({ type: 'doc', href: `/docs/investment-memos/${d.id}`, label: d.companyName })),
-        },
-      ],
-    },
     {
       id: 'deals',
       type: 'category',
@@ -118,7 +94,6 @@ export function getSidebarTree(companies = [], deals = []) {
         { type: 'doc', href: '/docs/top10-vc', label: 'Top 10 VCs' },
       ],
     },
-    { id: 'hot-deals', type: 'doc', href: '/docs/hot-deals', label: 'Top Deals' },
     { id: 'vcs', type: 'doc', href: '/docs/vcs', label: 'VCs' },
     // Fund I One-Pager lives in the top Navbar now, not here -- see
     // components/Navbar.jsx.
@@ -146,7 +121,6 @@ export function getSidebarTree(companies = [], deals = []) {
         { type: 'doc', href: '/docs/projects/hub-docs', label: 'Documentation System' },
       ],
     },
-    { id: 'admin', type: 'doc', href: '/docs/admin', label: 'Admin' },
   ];
 }
 

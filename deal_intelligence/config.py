@@ -216,6 +216,20 @@ READ_SLUGS = {
     "round": os.getenv("DI_SLUG_ROUND", "series"),
     "hq": os.getenv("DI_SLUG_HQ", "location"),
     "lead_investors": "lead_investors",                    # text slug (see memory)
+    # Written by pipeline/app.py's build_attio_values (FIELD_MAP: 'Deal Date'
+    # -> 'deal_date') on every deal, but never read back anywhere until now --
+    # RADAR_PLAN.md Part I flags this as the one blocking gap for Radar's
+    # capital-clock math, which needs the round's close date to estimate
+    # runway/cash-out. Added 2026-07-28.
+    "round_date": os.getenv("DI_SLUG_ROUND_DATE", "deal_date"),
+    # Same story as round_date -- FIELD_MAP already writes PitchBook's
+    # 'Description' onto every deal's 'description' text slug, but nothing
+    # read it back into the hub before now. Radar's relevance-exclusion list
+    # (RADAR_PLAN.md §1.6) needs real description text to match keywords
+    # against -- radarCategory alone is too short/sparse to catch most
+    # off-thesis sectors (e.g. "wealth management" rarely survives into a
+    # one-word category tag). Added 2026-07-28.
+    "description": os.getenv("DI_SLUG_DESCRIPTION", "description"),
 }
 
 # Attio Deal `stage` status values that correspond 1:1 to a hub-next stage

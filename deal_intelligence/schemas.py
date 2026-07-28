@@ -11,6 +11,12 @@ class DealInput:
     round: Optional[str] = None
     lead_investors: Optional[str] = None
     hq: Optional[str] = None
+    round_date: Optional[str] = None   # the round's close date, off Attio's 'deal_date' slug --
+                                        # RADAR_PLAN.md's capital-clock math (runway/cash-out
+                                        # estimation) needs this; nothing else did before it existed
+    description: Optional[str] = None  # PitchBook's company description, off Attio's 'description'
+                                        # text slug -- Radar's relevance-exclusion list (RADAR_PLAN.md
+                                        # §1.6) matches keywords against this, not just radarCategory
     raw: dict = field(default_factory=dict)   # full Attio values, for reference
 
 

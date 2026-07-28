@@ -29,6 +29,12 @@ function _mapOrigin(o) {
     attioRecordId: o.attioRecordId || null,
     attioStage: o.attioStage || null,
     round: o.round || null,
+    // The round's close date, off Attio's 'deal_date' slug (see
+    // deal_intelligence/firestore_push.py) -- added 2026-07-28 for Radar's
+    // capital-clock math (RADAR_PLAN.md Part I), which needs it to estimate
+    // runway/cash-out. Same don't-clobber relationship to the top-level
+    // `roundDate` (below) that origin.round already has with `round`.
+    roundDate: o.roundDate || null,
     hq: o.hq || null,
     leadInvestors: o.leadInvestors || null,
     // Attio's own "Radar Category" field -- the category a Top 10 VC deal
@@ -67,6 +73,12 @@ export const listCompanies = unstable_cache(async () => {
       // where they were all shown before these buckets existed.
       stage: STAGES.includes(data.stage) ? data.stage : 'qualified',
       round: data.round || null,
+      roundDate: data.roundDate || null,
+      // PitchBook's company description, off Attio -- refreshed on every
+      // import/screen (see deal_intelligence/firestore_push.py), not a
+      // hub-editable field like round/radarCategory. Feeds the
+      // relevance-exclusion list (RADAR_PLAN.md §1.6, lib/radarRules.js).
+      description: data.description || null,
       // Hub-editable copies -- same relationship to their Attio-synced
       // origin.* counterpart as `round` has to `origin.round` (see
       // updateCompanyRadarCategory below): once set here, a re-import never
