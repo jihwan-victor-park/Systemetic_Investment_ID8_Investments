@@ -12,17 +12,6 @@ export function radarHotness(c) {
   return c.radar?.hotness ?? null;
 }
 
-// A short label for the mandate-screen verdict column -- not yet screened
-// (no radar object at all -- a company just moved to Radar, or backfill/
-// the Attio-import hook hasn't run for it yet), Pass, or Fail with its
-// reason.
-export function mandateVerdictLabel(c) {
-  const mandate = c.radar?.mandate;
-  if (!mandate) return 'Not yet screened';
-  if (mandate.pass) return 'Pass';
-  return `Fail — ${mandate.failReason || 'unknown reason'}`;
-}
-
 export function formatPredictedWindow(c) {
   const open = c.radar?.clock?.predictedWindowOpen;
   return open ? open.slice(0, 7) : '—'; // YYYY-MM, a window not a single day

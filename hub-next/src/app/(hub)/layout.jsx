@@ -3,6 +3,7 @@ import Footer from '@/components/Footer';
 import JobsTray from '@/components/JobsTray';
 import { JobsProvider } from '@/context/JobsContext';
 import { auth } from '@/auth';
+import styles from './layout.module.css';
 
 // Every route except the Growth Opportunities Fund I overview lives inside
 // this group -- that page renders its own header/footer from the LP fund
@@ -19,9 +20,11 @@ export default async function HubLayout({ children }) {
 
   return (
     <JobsProvider enabled={isInternal}>
-      <Navbar isSignedIn={!!session?.user} />
-      {children}
-      <Footer />
+      <div className={styles.shell}>
+        <Navbar isSignedIn={!!session?.user} />
+        <div className={styles.main}>{children}</div>
+        <Footer />
+      </div>
       <JobsTray />
     </JobsProvider>
   );

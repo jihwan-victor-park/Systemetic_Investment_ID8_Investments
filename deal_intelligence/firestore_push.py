@@ -23,7 +23,7 @@ from google.cloud import firestore, storage
 
 from . import config, radar_mandate, radar_state, rubric
 from .fit_note import PARAM_LABELS, _badge_text, _linkify_md, company_id, normalize_domain
-from .schemas import DealFit, DealInput
+from .schemas import DealFit, DealInput, DealMemo
 
 _db = None
 _gcs_client = None
@@ -225,6 +225,27 @@ def push_company_screen_firestore(fit: DealFit, deal: DealInput, slug: str, docx
     return {"slug": slug, "screen_id": screen_id, "docx_uploaded": docx_path is not None}
 
 
+def push_company_memo_firestore(memo: DealMemo, slug: str) -> dict:
+    """Persist a Stage 2 deep-research memo against an existing company doc --
+    previously this only ever lived in the ad-hoc chat_jobs doc (pipeline/
+    app.py's _run_chat_stage2), gone the moment that job aged out, with no way
+    to view it again after leaving the Research Chat page it started from.
+    Same same-day-replace convention as push_company_screen_firestore's
+    `screens` subcollection: a same-day re-run overwrites rather than
+    duplicates. Mirrors that function's schema comment -- hub-next's
+    lib/companies.js reads this at companies/{slug}/memos/{YYYY-MM-DD}."""
+    company_ref = _firestore().collection("companies").document(slug)
+    memo_id = date.today().isoformat()
+    memo_doc = {
+        "date": memo_id,
+        "finalScore": memo.final_score,
+        "sections": memo.sections,
+        "sources": memo.sources,
+    }
+    company_ref.collection("memos").document(memo_id).set(memo_doc, merge=True)
+    return {"slug": slug, "memo_id": memo_id}
+
+
 def push_company_from_attio(deal: DealInput, attio_stage: str | None, tier1_index: dict | None = None) -> dict:
     """Metadata-only upsert for the bulk Attio import -- no Stage 1 score, no
     docx, no screens subcollection write, just enough to make the deal show
@@ -284,6 +305,14 @@ def push_company_from_attio(deal: DealInput, attio_stage: str | None, tier1_inde
     # nothing, unlike an absent key (which merge=True leaves untouched).
     if deal.description:
         payload["description"] = deal.description
+    # Same "refresh on every push, new or existing company alike" rule as
+    # description -- a company's cap table can pick up new investors between
+    # imports, and there's no hub-next hand-edit path for this to clobber.
+    # Feeds hub-next's Partner VC column (companyIndex.js's
+    # domainMatchesFromIndex) alongside the existing name-match against a
+    # VC's own recorded portfolio. Added 2026-07-28.
+    if deal.investor_domains:
+        payload["investorDomains"] = deal.investor_domains
     # Only ever write True, never False -- same "confirmed Yes sticks
     # forever" rule as the Attio-side write in pipeline/app.py's
     # build_attio_values/upsert_deal (2026-07-28, see that comment for the

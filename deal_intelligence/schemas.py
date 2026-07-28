@@ -27,6 +27,14 @@ class DealInput:
                                         # before now); feeds top10VC on the Firestore company doc, which
                                         # Radar's mandate screen S3 uses as one of two ways to confirm a
                                         # Tier 1 is on the cap table
+    investor_domains: list = field(default_factory=list)  # domains of every company linked via the
+                                        # deal's full 'Investors' reference field (pipeline/app.py's
+                                        # INVESTOR_REF_MAP['Investors'] -> 'investors_5', resolved at
+                                        # intake by resolve_investor_links) -- read back by
+                                        # attio_io._investor_domains(). Lets hub-next check whether any
+                                        # of THIS incoming company's own investors is already one of our
+                                        # partner VCs by domain, distinct from investorMatchesFromIndex's
+                                        # name-match against a VC's own recorded portfolio. Added 2026-07-28.
     raw: dict = field(default_factory=dict)   # full Attio values, for reference
 
 

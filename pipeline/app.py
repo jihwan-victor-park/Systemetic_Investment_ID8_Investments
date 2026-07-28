@@ -1696,6 +1696,50 @@ def screen_company(slug):
     return jsonify({"job_id": job_id, "status": "started", "poll": f"/jobs/{job_id}"})
 
 
+def _run_company_stage2(job_id: str, slug: str, deal: "di_schemas.DealInput"):
+    """Same idea as _run_company_screen, but for Stage 2 (deep research memo)
+    on an already-known, already-Stage-1-screened company row -- pins `slug`
+    so the memo is persisted against this company's own doc (see
+    firestore_push.push_company_memo_firestore) instead of only living in the
+    ephemeral chat_jobs doc the way a Research Chat-started Stage 2 still does."""
+    try:
+        memo = asyncio.run(di_stage2_research.deep_research(deal))
+        di_firestore_push.push_company_memo_firestore(memo, slug)
+        _set_chat_job(job_id, {"status": "complete", "stage": 2, "memo": memo.to_dict(), "slug": slug})
+    except Exception as e:
+        _set_chat_job(job_id, {"status": "error", "stage": 2, "error": str(e)})
+
+
+@app.route("/company-stage2/<slug>", methods=["POST"])
+def company_stage2(slug):
+    """Start Stage 2 (deep research memo) for one specific, already-known
+    company row -- the table-row equivalent of Research Chat's Stage 2, for a
+    company that already cleared Stage 1. Body:
+      {"name": "Acme", "domain": "acme.com", "round": "Series C", "hq": "SF, CA",
+       "lead_investors": "Accel"}"""
+    if not _require_internal_secret():
+        return jsonify({"error": "forbidden"}), 403
+    missing = [v for v in ("PERPLEXITY_API_KEY", "ANTHROPIC_API_KEY") if not os.environ.get(v)]
+    if missing:
+        return jsonify({"error": f"missing env vars: {', '.join(missing)}"}), 400
+    body = request.get_json(silent=True) or {}
+    name = (body.get("name") or "").strip()
+    if not name:
+        return jsonify({"error": "'name' is required"}), 400
+    deal = di_schemas.DealInput(
+        record_id=f"stage2-{slug}-{uuid.uuid4().hex[:8]}", name=name,
+        domain=body.get("domain") or None, round=body.get("round") or None,
+        lead_investors=body.get("lead_investors") or None, hq=body.get("hq") or None,
+    )
+    job_id = uuid.uuid4().hex
+    _start_chat_job(job_id, {
+        "status": "running", "stage": 2, "type": "stage2", "companySlug": slug,
+        "label": f"{name} — Stage 2", "createdAt": datetime.utcnow().isoformat() + "Z",
+    })
+    threading.Thread(target=_run_company_stage2, args=(job_id, slug, deal), daemon=True).start()
+    return jsonify({"job_id": job_id, "status": "started", "poll": f"/jobs/{job_id}"})
+
+
 def _run_attio_import(job_id: str):
     try:
         pairs = di_attio_io.list_all_deals()

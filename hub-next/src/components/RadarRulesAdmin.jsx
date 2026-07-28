@@ -140,6 +140,7 @@ export default function RadarRulesAdmin({ radarCompanies = [] }) {
             <div>
               <span className={styles.itemTitle}>{company.name}</span>
               <div className={styles.itemNote}>matched {hit.type} &ldquo;{hit.term}&rdquo;</div>
+              {company.description && <div className={styles.itemDescription}>{company.description}</div>}
             </div>
             <button className={styles.keepBtn} type="button" onClick={() => keepAnywayAdd(company)}>Keep anyway</button>
           </div>

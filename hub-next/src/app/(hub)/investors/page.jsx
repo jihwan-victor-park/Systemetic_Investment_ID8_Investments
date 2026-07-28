@@ -9,7 +9,7 @@ export const metadata = { title: 'For Investors', description: 'How ID8 uses AI 
 export default function Investors() {
   return (
     <main className={styles.page}>
-      <div className={styles.kicker}>ID8 Investments&nbsp;&nbsp;|&nbsp;&nbsp;Applied AI</div>
+      <div className={styles.kicker}>Applied AI</div>
       <h1 className={styles.headline}>Sourcing,<br /><em>run by AI.</em></h1>
       <p className={styles.lede}>
         Good returns start with good sourcing, and good sourcing is a system, not luck. AI agents work

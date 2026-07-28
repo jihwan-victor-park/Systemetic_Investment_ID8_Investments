@@ -39,14 +39,7 @@ export default function Navbar({ isSignedIn = false }) {
       <div className={styles.inner}>
         <div className={styles.left}>
           <Link href="/" className={styles.brand}>
-            <img src="/img/logo_charcoal.png" alt={hideInternalNav ? '' : 'ID8 Investments'} className={styles.logo} />
-            {/* Wordmark only on the investor-facing header (and auth pages,
-                same hideInternalNav gate) -- matches the public marketing
-                site's header treatment (logo + "ID8 Investments" in Roboto
-                Serif) for the audience that never sees the internal
-                Dashboard chrome. The internal view keeps the icon-only mark
-                since the Dashboard pill already occupies that visual slot. */}
-            {hideInternalNav && <span className={styles.brandName}>ID8 Investments</span>}
+            <img src="/img/logo_charcoal.png" alt="ID8 Investments" className={styles.logo} />
           </Link>
           {!hideInternalNav && (
             <Link href="/docs/overview" className={`${styles.hubLink} ${isInDocs ? styles.hubLinkActive : ''}`}>

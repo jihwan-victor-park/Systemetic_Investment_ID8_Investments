@@ -4,7 +4,8 @@ import { STAGE_TABLE_COLUMNS, companyToRow } from '@/components/companyStageColu
 import { listCompanies } from '@/lib/companies';
 import { listTopVCs } from '@/lib/topVCs';
 import { listPartnerVCs } from '@/lib/partnerVCs';
-import { buildInvestorIndex } from '@/lib/companyIndex';
+import { buildInvestorIndex, partnerDomainIndex } from '@/lib/companyIndex';
+import { TAG_OPTIONS } from '@/lib/stages';
 
 export const metadata = { title: 'Top 10 VCs', description: 'Every company on ID8’s Top 10 VC list, across every stage.' };
 
@@ -30,9 +31,10 @@ export default async function Top10VCPage() {
   ]);
   const canEdit = session?.user?.role === 'internal';
   const investorIndex = buildInvestorIndex(tier1, partners);
+  const domainIndex = partnerDomainIndex(partners);
   const rows = companies
     .filter((c) => c.top10VC)
-    .map((c) => companyToRow(c, { canEdit, investorIndex }));
+    .map((c) => companyToRow(c, { canEdit, investorIndex, domainIndex }));
 
   return (
     <>
@@ -45,9 +47,10 @@ export default async function Top10VCPage() {
       <SortableTable
         columns={STAGE_TABLE_COLUMNS}
         rows={rows}
-        defaultSort={{ key: 'company', dir: 'asc' }}
+        defaultSort={{ key: 'dealDate', dir: 'desc' }}
         searchPlaceholder="Filter by company or series…"
         emptyMessage="No companies matched to the Top 10 VC list yet."
+        tagFilterOptions={TAG_OPTIONS}
       />
     </>
   );

@@ -10,7 +10,7 @@ export const metadata = { title: 'Research', description: "ID8's research view f
 export default function InvestorResearch() {
   return (
     <main className={styles.page}>
-      <div className={styles.kicker}>ID8 Investments&nbsp;&nbsp;|&nbsp;&nbsp;Applied AI</div>
+      <div className={styles.kicker}>Applied AI</div>
       <h1 className={styles.headline}>You&apos;re in.</h1>
       <p className={styles.lede}>
         Thanks for your patience — this is where ID8&apos;s deal summaries, company list, and

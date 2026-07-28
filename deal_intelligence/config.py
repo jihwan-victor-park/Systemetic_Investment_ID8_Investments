@@ -261,6 +261,17 @@ READ_SLUGS = {
     # sourced from the Top 10 VC PitchBook search ever actually got
     # top10VC=true on its Firestore doc.
     "top10": os.getenv("DI_SLUG_TOP10_VC", "top10_vc"),
+    # The full-list investor reference field (record-reference type, not the
+    # plain-text 'investors_5' comma list) -- pipeline/app.py's
+    # INVESTOR_REF_MAP['Investors'] writes it as 'investors_5' at intake via
+    # resolve_investor_links, so that's the guessed default here too; same
+    # "first-implementation-day, not yet confirmed against a real
+    # GET /debug/attributes response" caveat as top10_vc above. Override with
+    # DI_SLUG_INVESTORS_REF if it's wrong. attio_io._investor_domains() reads
+    # this to resolve each linked investor Company record's own domain, for
+    # the cap-table/partner-VC-domain match (schemas.DealInput.investor_domains,
+    # added 2026-07-28).
+    "investors_ref": os.getenv("DI_SLUG_INVESTORS_REF", "investors_5"),
 }
 
 # Attio Deal `stage` status values that correspond 1:1 to a hub-next stage

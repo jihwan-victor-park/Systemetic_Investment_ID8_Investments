@@ -1,12 +1,12 @@
 import Link from 'next/link';
 import StageSelect from './StageSelect';
-import TagsSelect from './TagsSelect';
 import RoundInput from './RoundInput';
 import CompanyInlineField from './CompanyInlineField';
 import PartnerVcPopover from './PartnerVcPopover';
 import DeleteButton from './DeleteButton';
 import RunAnalysisButton from './RunAnalysisButton';
-import { investorMatchesFromIndex } from '@/lib/companyIndex';
+import StartStage2Button from './StartStage2Button';
+import { allInvestorMatches } from '@/lib/companyIndex';
 import { STAGE_BASEPATH } from '@/lib/stages';
 import styles from './companyStageColumns.module.css';
 
@@ -39,10 +39,6 @@ export const STAGE_TABLE_COLUMNS = [
   { key: 'radarCategory', label: 'Radar Category', sortable: true },
   { key: 'score', label: 'Score', sortable: true },
   { key: 'stage', label: 'Stage', sortable: true },
-  // Additive, independent of `stage` -- also_in Qualified Deals/Radar
-  // regardless of wherever `stage` actually has the company parked. See
-  // lib/stages.js's TAGS comment for the full auto-add mechanism.
-  { key: 'tags', label: 'Also In', sortable: false },
   { key: 'date', label: 'Screened', sortable: true },
   { key: 'report', label: 'Report' },
   { key: 'actions', label: '' },
@@ -52,7 +48,7 @@ export const STAGE_TABLE_COLUMNS = [
 // Deal Pipeline, Qualified Deals, Radar, Invested, or Admin's Needs Triage
 // table) pass their own page's path; a cross-cutting view spanning multiple
 // stages could omit it and let each row resolve its own via c.stage instead.
-export function companyToRow(c, { basePath, canEdit, investorIndex = {} }) {
+export function companyToRow(c, { basePath, canEdit, investorIndex = {}, domainIndex = {} }) {
   const name = displayName(c);
   const resolvedBasePath = basePath || STAGE_BASEPATH[c.stage] || STAGE_BASEPATH.qualified;
   const score = c.latestScreen?.fitScore ?? null;
@@ -66,10 +62,20 @@ export function companyToRow(c, { basePath, canEdit, investorIndex = {} }) {
   // every match, not just the first. `investorIndex` is built once per page
   // load by buildInvestorIndex (see callers) instead of rescanning every
   // firm's portfolio on every row -- see that function's own comment for why.
-  const matches = investorMatchesFromIndex(investorIndex, c.name);
+  // Merged with a domain-match against this company's OWN cap table
+  // (c.investorDomains, off Attio -- see companyIndex.js's
+  // domainMatchesFromIndex) -- a different question (does this company
+  // already have one of our partner VCs as an investor) that feeds the same
+  // column. `domainIndex` is built once per page load by partnerDomainIndex,
+  // same reasoning as investorIndex.
+  const matches = allInvestorMatches(investorIndex, c.name, domainIndex, c.investorDomains);
   const partnerVc = matches.length ? matches.map((m) => m.via).join(', ') : null;
   return {
     key: c.slug,
+    // Used by SortableTable's tagFilterOptions (see lib/stages.js's
+    // TAG_OPTIONS) to filter rows by "Also in" -- not rendered as its own
+    // column anymore; per-row editing lives on the company detail page.
+    tags: c.tags || [],
     sort: {
       company: name.toLowerCase(),
       series: c.round || '',
@@ -116,12 +122,17 @@ export function companyToRow(c, { basePath, canEdit, investorIndex = {} }) {
       ),
       score: score != null ? `${score.toFixed(1)} / 4` : '—',
       stage: <StageSelect slug={c.slug} stage={c.stage} canEdit={canEdit} />,
-      tags: <TagsSelect slug={c.slug} tags={c.tags} canEdit={canEdit} />,
       date: c.latestScreen ? c.latestScreen.date.slice(0, 10) : '—',
       report: <Link href={`${resolvedBasePath}/${c.slug}`}>View screen →</Link>,
       actions: canEdit ? (
         <span className={styles.actions}>
-          <RunAnalysisButton slug={c.slug} name={name} />
+          {/* Run Analysis (Stage 1) only while there's no screen yet -- once
+              one exists, re-running Stage 1 from here no longer applies;
+              Start Stage 2 (deep research) takes its place instead. Same
+              gate CompanyDetailPage.jsx uses. */}
+          {c.latestScreen == null
+            ? <RunAnalysisButton slug={c.slug} name={name} />
+            : <StartStage2Button slug={c.slug} name={name} />}
           <DeleteButton
             url={`/api/companies/${c.slug}`}
             confirmMessage={`Remove ${name} from the directory? This also deletes its screen history.`}

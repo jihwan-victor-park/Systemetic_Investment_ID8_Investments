@@ -131,6 +131,12 @@ export const listCompanies = unstable_cache(async () => {
       // Additive tags (see stages.js's TAGS comment) -- 'qualified'/'radar'
       // membership independent of `stage`.
       tags: Array.isArray(data.tags) ? data.tags : [],
+      // This company's own cap table, by domain (Attio's investors_ref
+      // reference field, see deal_intelligence/attio_io.py's
+      // _investor_domains) -- feeds companyIndex.js's domainMatchesFromIndex,
+      // a different check than the name-match above (does this company
+      // already have one of OUR partner VCs as an investor). Added 2026-07-28.
+      investorDomains: Array.isArray(data.investorDomains) ? data.investorDomains : [],
     };
   }));
 }, ['list-companies'], { tags: ['companies'], revalidate: CACHE_SECONDS });
@@ -359,17 +365,26 @@ function _mapScreen(slug, screenId, d) {
   };
 }
 
+function _mapMemo(memoId, d) {
+  return {
+    id: memoId,
+    date: isoDate(d.date),
+    finalScore: d.finalScore ?? null,
+    sections: d.sections || {},
+    sources: d.sources || [],
+  };
+}
+
 export const getCompany = unstable_cache(async (slug) => {
   const doc = await db().collection('companies').doc(slug).get();
   if (!doc.exists) return null;
   const data = doc.data();
-  const screensSnap = await db()
-    .collection('companies')
-    .doc(slug)
-    .collection('screens')
-    .orderBy('date', 'desc')
-    .get();
+  const [screensSnap, memosSnap] = await Promise.all([
+    db().collection('companies').doc(slug).collection('screens').orderBy('date', 'desc').get(),
+    db().collection('companies').doc(slug).collection('memos').orderBy('date', 'desc').get(),
+  ]);
   const screens = screensSnap.docs.map((s) => _mapScreen(slug, s.id, s.data()));
+  const memos = memosSnap.docs.map((m) => _mapMemo(m.id, m.data()));
   return {
     slug,
     name: data.name,
@@ -384,6 +399,7 @@ export const getCompany = unstable_cache(async (slug) => {
     radar: data.radar || null,
     tags: Array.isArray(data.tags) ? data.tags : [],
     screens,
+    memos,
   };
 }, ['get-company'], { tags: ['companies'], revalidate: CACHE_SECONDS });
 

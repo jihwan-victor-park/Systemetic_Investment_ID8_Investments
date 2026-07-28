@@ -1,10 +1,9 @@
 import Link from 'next/link';
 import StageSelect from './StageSelect';
-import TagsSelect from './TagsSelect';
 import PartnerVcPopover from './PartnerVcPopover';
 import DeleteButton from './DeleteButton';
-import { investorMatchesFromIndex } from '@/lib/companyIndex';
-import { radarHotness, mandateVerdictLabel, formatPredictedWindow, formatNextScan, nextScanReason } from '@/lib/radar';
+import { allInvestorMatches } from '@/lib/companyIndex';
+import { radarHotness, formatPredictedWindow, formatNextScan, nextScanReason } from '@/lib/radar';
 import { STAGE_BASEPATH } from '@/lib/stages';
 import styles from './companyStageColumns.module.css';
 
@@ -20,13 +19,11 @@ export const RADAR_TABLE_COLUMNS = [
   { key: 'company', label: 'Company', sortable: true },
   { key: 'series', label: 'Series', sortable: true },
   { key: 'dealDate', label: 'Deal Date', sortable: true },
-  { key: 'mandate', label: 'Mandate', sortable: true },
   { key: 'predictedWindow', label: 'Predicted Window', sortable: true },
   { key: 'nextScan', label: 'Next Scan', sortable: true },
   { key: 'hotness', label: 'Hot / Cold', sortable: true },
   { key: 'partnerVc', label: 'Partner VC', sortable: true },
   { key: 'stage', label: 'Stage', sortable: true },
-  { key: 'tags', label: 'Also In', sortable: false },
   { key: 'report', label: 'Report' },
   { key: 'actions', label: '' },
 ];
@@ -37,21 +34,20 @@ export const RADAR_TABLE_COLUMNS = [
 // round instead), and Series is Attio-sourced/read-only context on this
 // table rather than a hand-edited field the way it is on the live-pipeline
 // stage tables.
-export function radarCompanyToRow(c, { canEdit, investorIndex = {} }) {
+export function radarCompanyToRow(c, { canEdit, investorIndex = {}, domainIndex = {} }) {
   const basePath = STAGE_BASEPATH.radar;
-  const matches = investorMatchesFromIndex(investorIndex, c.name);
+  const matches = allInvestorMatches(investorIndex, c.name, domainIndex, c.investorDomains);
   const partnerVc = matches.length ? matches.map((m) => m.via).join(', ') : null;
   const hotness = radarHotness(c);
-  const mandate = c.radar?.mandate;
   const reason = nextScanReason(c);
 
   return {
     key: c.slug,
+    tags: c.tags || [],
     sort: {
       company: c.name.toLowerCase(),
       series: c.round || '',
       dealDate: c.roundDate || '',
-      mandate: mandate ? (mandate.pass ? 'pass' : 'fail') : '',
       predictedWindow: c.radar?.clock?.predictedWindowOpen || '',
       nextScan: c.radar?.schedule?.nextScanAt || '',
       hotness: hotness || '',
@@ -77,7 +73,6 @@ export function radarCompanyToRow(c, { canEdit, investorIndex = {} }) {
       ),
       series: c.round || '—',
       dealDate: c.roundDate ? c.roundDate.slice(0, 10) : '—',
-      mandate: <span title={mandate?.reasoning || ''}>{mandateVerdictLabel(c)}</span>,
       predictedWindow: formatPredictedWindow(c),
       nextScan: <span title={reason || ''}>{formatNextScan(c)}</span>,
       hotness: hotness ? (
@@ -85,7 +80,6 @@ export function radarCompanyToRow(c, { canEdit, investorIndex = {} }) {
       ) : '—',
       partnerVc: matches.length === 0 ? '—' : <PartnerVcPopover matches={matches} />,
       stage: <StageSelect slug={c.slug} stage={c.stage} canEdit={canEdit} />,
-      tags: <TagsSelect slug={c.slug} tags={c.tags} canEdit={canEdit} />,
       report: <Link href={`${basePath}/${c.slug}`}>View screen →</Link>,
       actions: canEdit ? (
         <span className={styles.actions}>

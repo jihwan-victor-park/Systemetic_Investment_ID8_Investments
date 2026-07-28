@@ -52,6 +52,26 @@ def _company_domain(record_id: str):
     return domains[0].get("domain") if domains and isinstance(domains[0], dict) else None
 
 
+def _investor_domains(values):
+    """Domains of every company linked via the deal's full 'Investors'
+    reference field (config.READ_SLUGS['investors_ref'], set at intake by
+    pipeline/app.py's resolve_investor_links) -- one Attio GET per linked
+    investor, same best-effort pattern _company_domain already uses for the
+    deal's own domain. A lookup failure for one investor just means that one
+    is skipped, not a hard error, same reasoning as _company_domain's own
+    docstring."""
+    refs = values.get(config.READ_SLUGS["investors_ref"])
+    if not isinstance(refs, list):
+        return []
+    domains = []
+    for cell in refs:
+        rid = cell.get("target_record_id") if isinstance(cell, dict) else None
+        d = _company_domain(rid)
+        if d and d not in domains:
+            domains.append(d)
+    return domains
+
+
 def _parse_top10(raw_value):
     """The Top 10 VC slug is a select attribute -- _value() returns its
     option title as a plain string ('Yes'/'No'), not a bool. None means the
@@ -89,6 +109,7 @@ def _parse_deal_record(rec: dict) -> DealInput:
         description=_value(values, s["description"]),
         deal_size=_value(values, s["deal_size"]),
         top10=_parse_top10(_value(values, s["top10"])),
+        investor_domains=_investor_domains(values),
         raw=values,
     )
 

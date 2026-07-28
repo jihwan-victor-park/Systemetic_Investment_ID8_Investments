@@ -11,7 +11,6 @@ export default function Footer() {
       <div className={styles.inner}>
         <Link href="/" className={styles.brand}>
           <img src="/img/logo_white.png" alt="ID8 Investments" className={styles.logo} />
-          <span className={styles.brandName}>ID8 Investments</span>
         </Link>
         <span className={styles.copyright}>&copy; {new Date().getFullYear()} ID8 Investments</span>
       </div>

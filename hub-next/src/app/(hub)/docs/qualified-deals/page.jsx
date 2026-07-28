@@ -4,7 +4,8 @@ import DealsListSection from '@/components/DealsListSection';
 import { listCompanies } from '@/lib/companies';
 import { listTopVCs } from '@/lib/topVCs';
 import { listPartnerVCs } from '@/lib/partnerVCs';
-import { buildInvestorIndex } from '@/lib/companyIndex';
+import { buildInvestorIndex, partnerDomainIndex } from '@/lib/companyIndex';
+import { TAG_OPTIONS } from '@/lib/stages';
 
 export const metadata = { title: 'Qualified Deals', description: 'Every deal that has cleared the Stage 1 rubric screen.' };
 
@@ -22,6 +23,7 @@ export default async function QualifiedDealsPage() {
   // too). See lib/stages.js's TAGS comment.
   const qualified = companies.filter((c) => c.stage === 'qualified' || c.tags?.includes('qualified'));
   const investorIndex = buildInvestorIndex(tier1, partners);
+  const domainIndex = partnerDomainIndex(partners);
 
   return (
     <>
@@ -37,9 +39,11 @@ export default async function QualifiedDealsPage() {
         basePath="/docs/qualified-deals"
         canEdit={canEdit}
         investorIndex={investorIndex}
-        defaultSort={{ key: 'date', dir: 'desc' }}
+        domainIndex={domainIndex}
+        defaultSort={{ key: 'dealDate', dir: 'desc' }}
         searchPlaceholder="Filter by company or series…"
         emptyMessage="No qualified deals yet."
+        tagFilterOptions={TAG_OPTIONS}
       />
     </>
   );

@@ -1,13 +1,14 @@
-import Link from 'next/link';
 import { auth } from '@/auth';
 import SortableTable from '@/components/SortableTable';
+import RadarRulesAdmin from '@/components/RadarRulesAdmin';
 import { RADAR_TABLE_COLUMNS, radarCompanyToRow } from '@/components/radarTableColumns';
 import { listCompanies } from '@/lib/companies';
 import { listTopVCs } from '@/lib/topVCs';
 import { listPartnerVCs } from '@/lib/partnerVCs';
 import { getRadarRules } from '@/lib/radarRules';
 import { matchExclusionRule } from '@/lib/radarRuleMatch';
-import { buildInvestorIndex } from '@/lib/companyIndex';
+import { buildInvestorIndex, partnerDomainIndex } from '@/lib/companyIndex';
+import { TAG_OPTIONS } from '@/lib/stages';
 
 export const metadata = {
   title: 'Radar',
@@ -41,23 +42,25 @@ export default async function RadarPage() {
   const visible = radarCompanies.filter((c) => !matchExclusionRule(c, rules, keepAnywaySlugs));
   const hiddenCount = radarCompanies.length - visible.length;
   const investorIndex = buildInvestorIndex(tier1, partners);
-  const rows = visible.map((c) => radarCompanyToRow(c, { canEdit, investorIndex }));
+  const domainIndex = partnerDomainIndex(partners);
+  const rows = visible.map((c) => radarCompanyToRow(c, { canEdit, investorIndex, domainIndex }));
 
   return (
     <>
       <h1>Radar</h1>
       <p>Series B-or-earlier deals sourced from the Top 10 VC and Qualified Deals workflows &mdash; watched until their next round, which is where ID8 actually invests.</p>
+      <p>Some companies arrive through those workflows legitimately, but are obviously off-thesis once you read what they do (a wealth-management or financial-advisory platform, for example). Add a keyword or phrase below and it applies here immediately — preview shows exactly who it would drop before you save it. Nothing is ever deleted; an excluded company can always be pinned back with &ldquo;Keep anyway.&rdquo;</p>
+      <RadarRulesAdmin radarCompanies={radarCompanies} />
       {hiddenCount > 0 && (
-        <p>
-          {hiddenCount} {hiddenCount === 1 ? 'company' : 'companies'} hidden by the relevance-exclusion list (off-thesis by category or description) &mdash; manage it from <Link href="/docs/admin">Admin</Link>.
-        </p>
+        <p>{hiddenCount} {hiddenCount === 1 ? 'company' : 'companies'} hidden by the relevance-exclusion list above (off-thesis by category or description).</p>
       )}
       <SortableTable
         columns={RADAR_TABLE_COLUMNS}
         rows={rows}
-        defaultSort={{ key: 'company', dir: 'asc' }}
+        defaultSort={{ key: 'dealDate', dir: 'desc' }}
         searchPlaceholder="Filter by company or series…"
         emptyMessage="Nothing on Radar yet."
+        tagFilterOptions={TAG_OPTIONS}
       />
     </>
   );

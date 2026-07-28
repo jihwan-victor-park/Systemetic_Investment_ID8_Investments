@@ -3,7 +3,8 @@ import DealsListSection from '@/components/DealsListSection';
 import { listCompanies } from '@/lib/companies';
 import { listTopVCs } from '@/lib/topVCs';
 import { listPartnerVCs } from '@/lib/partnerVCs';
-import { buildInvestorIndex } from '@/lib/companyIndex';
+import { buildInvestorIndex, partnerDomainIndex } from '@/lib/companyIndex';
+import { TAG_OPTIONS } from '@/lib/stages';
 
 export const metadata = { title: 'Watchlist', description: 'Companies ID8 is keeping an eye on but isn\'t actively working yet.' };
 
@@ -18,6 +19,7 @@ export default async function WatchlistPage() {
   // portfolio dataset to the browser just for this cross-reference (see
   // buildInvestorIndex's own comment in lib/companyIndex.js).
   const investorIndex = buildInvestorIndex(tier1, partners);
+  const domainIndex = partnerDomainIndex(partners);
 
   return (
     <>
@@ -28,9 +30,11 @@ export default async function WatchlistPage() {
         basePath="/docs/watchlist"
         canEdit={canEdit}
         investorIndex={investorIndex}
-        defaultSort={{ key: 'company', dir: 'asc' }}
+        domainIndex={domainIndex}
+        defaultSort={{ key: 'dealDate', dir: 'desc' }}
         searchPlaceholder="Filter by company or series…"
         emptyMessage="Nothing on the watchlist yet."
+        tagFilterOptions={TAG_OPTIONS}
       />
     </>
   );

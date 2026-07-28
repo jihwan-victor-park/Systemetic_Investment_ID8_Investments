@@ -116,6 +116,65 @@ export function investorMatchesFromIndex(index, companyName) {
   return index[(companyName || '').trim().toLowerCase()] || [];
 }
 
+// www.assorthealth.com / https://assorthealth.com/ -> assorthealth.com --
+// mirrors deal_intelligence/fit_note.py's normalize_domain exactly, so a
+// domain written by the Python side and one typed into a partner VC's
+// `website` field here compare equal.
+function normalizeDomain(domain) {
+  if (!domain) return '';
+  return domain.trim().replace(/^https?:\/\//i, '').replace(/^www\./i, '').replace(/\/+$/, '').toLowerCase();
+}
+
+// Partner-VC-by-domain index, a DIFFERENT cross-reference than
+// buildInvestorIndex's name-match: that one asks "is this incoming
+// company's NAME already in a VC's recorded portfolio"; this one asks "is
+// any of THIS incoming company's OWN investors (by domain, off Attio's
+// investors_ref reference field -- see attio_io._investor_domains) already
+// one of our partner VCs." Tier 1 VCs aren't included -- unlike partners,
+// listTopVCs() has no `website` field on file to match against. Added
+// 2026-07-28 alongside DealInput.investor_domains.
+export function partnerDomainIndex(partners) {
+  const index = {};
+  for (const p of partners || []) {
+    const domain = normalizeDomain(p.website);
+    if (!domain) continue;
+    index[domain] = { source: 'Partner VC', via: p.name, viaHref: `/docs/vcs/partner/${p.id}` };
+  }
+  return index;
+}
+
+// Every partner VC whose domain appears in `investorDomains` (a company's
+// own cap table) -- deduped, in case the same domain is typo-duplicated in
+// investorDomains itself.
+export function domainMatchesFromIndex(index, investorDomains) {
+  const seen = new Set();
+  const out = [];
+  for (const raw of investorDomains || []) {
+    const entry = index[normalizeDomain(raw)];
+    if (entry && !seen.has(entry.via)) {
+      seen.add(entry.via);
+      out.push(entry);
+    }
+  }
+  return out;
+}
+
+// Merges buildInvestorIndex's name-match with partnerDomainIndex's
+// cap-table domain-match into one list for a single company -- the two ask
+// different questions (see partnerDomainIndex's own comment) but both feed
+// the same "Partner VC" column, so a firm that hits both only shows once.
+export function allInvestorMatches(nameIndex, companyName, domainIdx, investorDomains) {
+  const matches = investorMatchesFromIndex(nameIndex, companyName);
+  const seen = new Set(matches.map((m) => m.via));
+  for (const m of domainMatchesFromIndex(domainIdx, investorDomains)) {
+    if (!seen.has(m.via)) {
+      seen.add(m.via);
+      matches.push(m);
+    }
+  }
+  return matches;
+}
+
 // Full-detail version of buildInvestorIndex's match, for a single company --
 // against Tier 1 deals[] and partner portfolio[], but keeps the raw deal/
 // portfolio-entry and firm objects (not just source/via/viaHref) so callers

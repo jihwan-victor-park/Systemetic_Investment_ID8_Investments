@@ -8,6 +8,7 @@ import DescriptionPopover from './DescriptionPopover';
 import FitScorePopover from './FitScorePopover';
 import RaiseProbabilityPopover from './RaiseProbabilityPopover';
 import RunAnalysisButton from './RunAnalysisButton';
+import StartStage2Button from './StartStage2Button';
 import { companyHref, lookupFitScore, lookupStage, lookupSlug } from '@/lib/companyIndex';
 import { PUBLIC_STAGES, STAGE_LABELS } from '@/lib/stages';
 import styles from './PortfolioTable.module.css';
@@ -206,7 +207,9 @@ export default function PortfolioTable({ endpoint, id, field, items, filterFn, c
         pipeline: stage ? (
           <span className={styles.stageWithAction}>
             <span className={styles.stageBadge}>{STAGE_LABELS[stage] || stage}</span>
-            {canEdit && slug && <RunAnalysisButton slug={slug} name={p.company} />}
+            {canEdit && slug && (fitScore == null
+              ? <RunAnalysisButton slug={slug} name={p.company} />
+              : <StartStage2Button slug={slug} name={p.company} />)}
           </span>
         ) : canEdit ? (
           <div className={styles.pipelineCell}>

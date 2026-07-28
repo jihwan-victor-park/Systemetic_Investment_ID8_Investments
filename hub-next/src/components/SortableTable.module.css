@@ -2,11 +2,19 @@
   margin: 1.2rem 0;
 }
 
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.8rem;
+  margin: 0 0 0.8rem;
+}
+
 .search {
   display: block;
   width: 100%;
   max-width: 320px;
-  margin: 0 0 0.8rem;
+  margin: 0;
   padding: 0.45rem 0.7rem;
   font-size: 0.85rem;
   font-family: inherit;
@@ -14,6 +22,52 @@
   background: var(--id8-card);
   border: 1px solid var(--id8-hair);
   border-radius: 4px;
+}
+
+.tagFilter {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.tagFilterLabel {
+  font-family: 'Sora', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--id8-grey);
+}
+
+.tagFilterBtn {
+  font-family: 'Sora', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--id8-hair);
+  background: var(--id8-card);
+  color: var(--id8-grey);
+  cursor: pointer;
+}
+
+.tagFilterBtn:hover {
+  color: var(--id8-ink);
+}
+
+.tagFilterBtn[data-active="true"][data-tag="qualified"] {
+  color: var(--id8-fresh);
+  background: color-mix(in srgb, var(--id8-fresh) 14%, transparent);
+  border-color: transparent;
+}
+
+.tagFilterBtn[data-active="true"][data-tag="radar"] {
+  color: var(--id8-accent);
+  background: var(--id8-accent-bg);
+  border-color: transparent;
 }
 
 .search:focus-visible {
@@ -92,7 +146,7 @@
   left: 0;
   z-index: 1;
   background: var(--id8-paper);
-  box-shadow: 1px 0 0 0 var(--id8-hair);
+  box-shadow: 1px 0 0 0 var(--id8-hair), 6px 0 10px -6px rgba(17, 17, 17, 0.18);
 }
 
 .sortableHeader {

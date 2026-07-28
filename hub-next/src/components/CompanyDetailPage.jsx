@@ -10,6 +10,9 @@ import TrackNewRoundForm from '@/components/TrackNewRoundForm';
 import CompanyInlineField from '@/components/CompanyInlineField';
 import InvestorRelationships from '@/components/InvestorRelationships';
 import RunAnalysisButton from '@/components/RunAnalysisButton';
+import StartStage2Button from '@/components/StartStage2Button';
+import MemoView from '@/components/MemoView';
+import TagsSelect from '@/components/TagsSelect';
 
 // Shared by the Watchlist / Pipeline / Qualified Deals detail routes -- a
 // company's screen history looks identical regardless of which stage it's
@@ -56,8 +59,6 @@ export default async function CompanyDetailPage({ params }) {
       <p>
         <a href={`https://${company.website}`} target="_blank" rel="noopener noreferrer">{company.website}</a>
         {' · '}
-        <a href={company.screens[0]?.docxPath || `/research/companies/${company.slug}.docx`}>Download latest screen (Word) →</a>
-        {' · '}
         <CompanyInlineField
           slug={company.slug}
           apiSegment="pitchbook"
@@ -69,14 +70,31 @@ export default async function CompanyDetailPage({ params }) {
           linkLabel="PitchBook ↗"
         />
       </p>
+      {/* Per-row editing moved here from the stage tables' old "Also In"
+          column (2026-07-28) -- the tables now use this same tag data as a
+          page-level filter (SortableTable's tagFilterOptions) instead of a
+          per-row cell. See lib/stages.js's TAGS comment for the auto-add
+          mechanism this overrides by hand. */}
+      {(canEdit || company.tags.length > 0) && (
+        <p><strong>Also in:</strong> <TagsSelect slug={company.slug} tags={company.tags} canEdit={canEdit} /></p>
+      )}
       {fit && <FitScoreScreenView fit={fit} />}
-      {/* Same "Run Analysis" trigger the stage-table rows already have
-          (companyStageColumns.jsx) -- there it's always available (first run
-          or re-run), so it is here too. A company promoted straight from a
-          VC portfolio (PromoteToPipeline) lands on this exact page with zero
-          screens yet, and this is what starts Stage 1 without going back to
-          a list first. */}
-      {canEdit && <p><RunAnalysisButton slug={company.slug} name={company.name} /></p>}
+      {/* Run Analysis (Stage 1) only while there's no screen yet -- once one
+          exists, this becomes Start Stage 2 (deep research) instead. Same
+          gate the stage tables' actions cell uses (companyStageColumns.jsx).
+          A company promoted straight from a VC portfolio (PromoteToPipeline)
+          lands on this exact page with zero screens yet, and Run Analysis is
+          what starts Stage 1 without going back to a list first. */}
+      {canEdit && (
+        <p>
+          {company.screens.length === 0
+            ? <RunAnalysisButton slug={company.slug} name={company.name} />
+            : <StartStage2Button slug={company.slug} name={company.name} />}
+        </p>
+      )}
+      {company.memos.map((memo) => (
+        <MemoView key={memo.id} memo={memo} />
+      ))}
       {company.screens.map((screen) => (
         <ScreenView key={screen.id} screen={screen} canEdit={canEdit} slug={company.slug} />
       ))}

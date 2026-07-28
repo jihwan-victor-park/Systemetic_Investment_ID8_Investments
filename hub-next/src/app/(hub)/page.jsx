@@ -16,7 +16,7 @@ export const metadata = { title: 'AI Intelligence', description: 'ID8 Investment
 export default function Home() {
   return (
     <main className={styles.page}>
-      <div className={styles.kicker}>ID8 Investments&nbsp;&nbsp;|&nbsp;&nbsp;Applied AI</div>
+      <div className={styles.kicker}>Applied AI</div>
       <h1 className={styles.headline}>Ambitious ideas,<br /><em>made legible.</em></h1>
       <p className={styles.lede}>
         The AI and automation systems ID8 runs across sourcing, diligence, and outreach.

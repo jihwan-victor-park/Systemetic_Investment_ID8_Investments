@@ -28,13 +28,6 @@
   opacity: 0.85;
 }
 
-.brandName {
-  font-family: 'Sora', sans-serif;
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-}
-
 .logo {
   height: 13px;
   width: auto;

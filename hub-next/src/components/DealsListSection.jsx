@@ -20,7 +20,7 @@ function isInScope(c) {
 // scope toggle PartnerPortfolioSection uses for a VC's portfolio, applied
 // here to hide sub-3.0 fit scores by default so the list opens on what's
 // actually worth a look rather than the full unfiltered feed.
-export default function DealsListSection({ companies, basePath, canEdit, investorIndex = {}, defaultSort, searchPlaceholder, emptyMessage }) {
+export default function DealsListSection({ companies, basePath, canEdit, investorIndex = {}, domainIndex = {}, defaultSort, searchPlaceholder, emptyMessage, tagFilterOptions }) {
   const [showAll, setShowAll] = useState(false);
 
   const { visible, hiddenCount } = useMemo(() => {
@@ -30,8 +30,8 @@ export default function DealsListSection({ companies, basePath, canEdit, investo
   }, [companies, showAll]);
 
   const rows = useMemo(
-    () => visible.map((c) => companyToRow(c, { basePath, canEdit, investorIndex })),
-    [visible, basePath, canEdit, investorIndex],
+    () => visible.map((c) => companyToRow(c, { basePath, canEdit, investorIndex, domainIndex })),
+    [visible, basePath, canEdit, investorIndex, domainIndex],
   );
 
   return (
@@ -49,6 +49,7 @@ export default function DealsListSection({ companies, basePath, canEdit, investo
         defaultSort={defaultSort}
         searchPlaceholder={searchPlaceholder}
         emptyMessage={emptyMessage}
+        tagFilterOptions={tagFilterOptions}
       />
     </>
   );

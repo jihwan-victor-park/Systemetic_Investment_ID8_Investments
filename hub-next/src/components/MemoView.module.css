@@ -1,0 +1,34 @@
+.memo {
+  margin: 1.4rem 0;
+  padding: 1rem 1.2rem;
+  background: var(--id8-card);
+  border: 1px solid var(--id8-hair);
+  border-radius: 6px;
+}
+
+.score {
+  font-family: 'Roboto Serif', Georgia, serif;
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: var(--id8-ink);
+  margin: 0 0 0.5rem;
+}
+
+.sourcesLabel {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--id8-grey);
+  margin: 0.8rem 0 0.3rem;
+}
+
+.sourcesList {
+  margin: 0;
+  padding-left: 1.15rem;
+  font-size: 0.78rem;
+}
+
+.sourcesList li {
+  margin-bottom: 0.2rem;
+  word-break: break-all;
+}

@@ -10,21 +10,27 @@ import styles from './SortableTable.module.css';
 // (primitives to compare on), optional `search` strings (falls back to
 // `sort` when omitted), and `cells` (already-rendered React nodes to
 // display) -- the caller does all the row -> cell mapping server-side.
-export default function SortableTable({ columns, rows, defaultSort, searchPlaceholder, emptyMessage }) {
+export default function SortableTable({ columns, rows, defaultSort, searchPlaceholder, emptyMessage, tagFilterOptions }) {
   const [sortKey, setSortKey] = useState(defaultSort?.key ?? null);
   const [sortDir, setSortDir] = useState(defaultSort?.dir ?? 'asc');
   const [query, setQuery] = useState('');
+  const [activeTags, setActiveTags] = useState([]);
+
+  function toggleTag(key) {
+    setActiveTags((prev) => (prev.includes(key) ? prev.filter((t) => t !== key) : [...prev, key]));
+  }
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    if (!q) return rows;
-    return rows.filter((row) =>
-      columns.some((c) => {
+    return rows.filter((row) => {
+      if (activeTags.length && !activeTags.some((t) => row.tags?.includes(t))) return false;
+      if (!q) return true;
+      return columns.some((c) => {
         const v = row.search?.[c.key] ?? row.sort?.[c.key];
         return v != null && String(v).toLowerCase().includes(q);
-      }),
-    );
-  }, [rows, query, columns]);
+      });
+    });
+  }, [rows, query, columns, activeTags]);
 
   const sorted = useMemo(() => {
     const col = columns.find((c) => c.key === sortKey && c.sortable);
@@ -54,15 +60,34 @@ export default function SortableTable({ columns, rows, defaultSort, searchPlaceh
 
   return (
     <div className={styles.wrap}>
-      {searchPlaceholder !== false && (
-        <input
-          type="text"
-          className={styles.search}
-          placeholder={searchPlaceholder || 'Filter…'}
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-        />
-      )}
+      <div className={styles.controls}>
+        {searchPlaceholder !== false && (
+          <input
+            type="text"
+            className={styles.search}
+            placeholder={searchPlaceholder || 'Filter…'}
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+        )}
+        {tagFilterOptions?.length > 0 && (
+          <div className={styles.tagFilter}>
+            <span className={styles.tagFilterLabel}>Also in</span>
+            {tagFilterOptions.map((opt) => (
+              <button
+                key={opt.key}
+                type="button"
+                className={styles.tagFilterBtn}
+                data-tag={opt.key}
+                data-active={activeTags.includes(opt.key)}
+                onClick={() => toggleTag(opt.key)}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
       <div className={styles.scrollWrap}>
         <table>
           <thead>

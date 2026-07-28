@@ -29,7 +29,7 @@
 }
 .chip button:hover { background: rgba(0, 0, 0, 0.12); }
 
-.excludedBox { margin-top: 1rem; border-top: 1px dashed var(--id8-hair); padding-top: 0.8rem; }
+.excludedBox { margin-top: 1rem; padding-top: 0.8rem; }
 .excludedBox summary { cursor: pointer; font-size: 0.8rem; font-weight: 600; color: var(--id8-grey); }
 .excludedRow {
   display: flex; justify-content: space-between; align-items: center; gap: 1rem;
@@ -37,6 +37,7 @@
 }
 .itemTitle { color: var(--id8-ink); font-weight: 500; }
 .itemNote { font-size: 0.76rem; color: var(--id8-grey); margin-top: 0.1rem; }
+.itemDescription { font-size: 0.78rem; color: var(--id8-soft); margin-top: 0.3rem; max-width: 60ch; }
 .keepBtn {
   background: none; border: none; color: var(--id8-accent); cursor: pointer; font-size: 0.78rem; font-weight: 600;
   white-space: nowrap;

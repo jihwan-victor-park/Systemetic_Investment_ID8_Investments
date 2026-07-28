@@ -6,7 +6,7 @@ import DeleteButton from '@/components/DeleteButton';
 import { listCompanies } from '@/lib/companies';
 import { listTopVCs } from '@/lib/topVCs';
 import { listPartnerVCs } from '@/lib/partnerVCs';
-import { buildInvestorIndex, investorMatchesFromIndex } from '@/lib/companyIndex';
+import { buildInvestorIndex, partnerDomainIndex, allInvestorMatches } from '@/lib/companyIndex';
 import { STAGE_BASEPATH } from '@/lib/stages';
 import styles from '@/components/companyStageColumns.module.css';
 
@@ -28,10 +28,11 @@ const COLUMNS = [
 ];
 
 // "Qualified screen" is Top Deals' own fallback label for the "no VC
-// portfolio match" case (an empty investorIndex lookup; the stage tables
-// render that as a plain "—" instead).
-function findSource(investorIndex, companyName) {
-  return investorMatchesFromIndex(investorIndex, companyName)[0] || { source: 'Qualified screen', via: 'Weekly automated screen', viaHref: null };
+// portfolio match" case (an empty investorIndex/domainIndex lookup; the
+// stage tables render that as a plain "—" instead).
+function findSource(investorIndex, domainIndex, company) {
+  return allInvestorMatches(investorIndex, company.name, domainIndex, company.investorDomains)[0]
+    || { source: 'Qualified screen', via: 'Weekly automated screen', viaHref: null };
 }
 
 export default async function HotDealsPage() {
@@ -52,8 +53,9 @@ export default async function HotDealsPage() {
   });
 
   const investorIndex = buildInvestorIndex(tier1, partners);
+  const domainIndex = partnerDomainIndex(partners);
   const rows = gated.map((c) => {
-    const { source, via, viaHref } = findSource(investorIndex, c.name);
+    const { source, via, viaHref } = findSource(investorIndex, domainIndex, c);
     const basePath = STAGE_BASEPATH[c.stage] || STAGE_BASEPATH.qualified;
     const score = c.latestScreen.fitScore;
     return {
