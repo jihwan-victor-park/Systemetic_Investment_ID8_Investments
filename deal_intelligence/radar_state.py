@@ -1,6 +1,7 @@
 """Radar's orchestrator (RADAR_PLAN.md Parts I/III/IV/VI/VIII) -- the sole
 writer of `companies/{slug}.radar`. Ties radar_mandate.screen() +
-capital_clock.compute() + radar_schedule.next_scan_at() together.
+capital_clock.compute() + radar_schedule.next_scan_at() +
+radar_hazard.compute() together.
 
 Seasonality shifting of the clock's raw dates happens HERE, not inside
 capital_clock.compute() -- see that module's own docstring for why.
@@ -8,17 +9,40 @@ predictedWindowOpen shifts LATER (never predicts a launch into a dead
 zone); contactByDate shifts EARLIER (never lets our own deadline chase a
 dead zone); alertAtDate is re-derived from the SHIFTED contactByDate, not
 capital_clock's raw one.
+
+Auto-drop-from-view (RADAR_SIGNAL_ENGINE.md's own "nothing is ever
+deleted" principle, Oscar 2026-07-29 "auto-remove from Radar view, not
+auto-delete the record"): a company whose heatPoints sits below the
+hub-editable watch floor for DROP_STREAK_THRESHOLD consecutive scans gets
+`radar.droppedAt` stamped, ONCE, and never touched again by this module --
+a human restores it by hand. hub-next's radar/page.jsx filter is what
+actually hides a dropped company; a company whose real `stage` is literally
+'radar' can't have that stage removed by a tag operation, so droppedAt is
+the only signal that matters there too.
 """
 from datetime import date, timedelta
 
 from google.cloud import firestore
 
-from . import apollo_org, capital_clock, config, radar_mandate, radar_schedule
+from . import apollo_org, capital_clock, config, radar_hazard, radar_jobs, radar_mandate, radar_schedule, radar_signal_series
 
 _db = None
 SCHEMA_VERSION = 1
 APOLLO_STALENESS_DAYS = 30
 CRITICAL_ZONE_MONTHS = 5  # matches radar_schedule.base_interval_weeks' own 3-5mo critical-zone band
+
+DEFAULT_WATCH_FLOOR = 2.5  # RADAR_SIGNAL_ENGINE.md §11 default; hub-editable via radarConfig/current, same doc RadarHeatSettings.jsx writes hotThreshold to
+DROP_STREAK_THRESHOLD = 3  # consecutive below-floor scans before auto-drop -- matches radar_schedule's own dwell-time spirit (don't flicker on one bad week)
+
+# Maps radar_jobs.classify_postings' bucket names onto radar_hazard.
+# SIGNAL_KERNELS' hiring-composition rows -- 1:1, this IS the wiring
+# between "what the job-board sensor found" and "which kernel fires."
+_BUCKET_TO_KERNEL = {
+    "rolesSeniorFinance": "senior_finance_role",
+    "rolesCorpDev": "corp_dev_role",
+    "rolesExecGTM": "senior_gtm_burst",
+    "rolesRecruiting": "recruiter_hiring",
+}
 
 
 def _firestore():
@@ -80,14 +104,61 @@ def _hotness(months_until_window):
     return "hot" if months_until_window <= CRITICAL_ZONE_MONTHS else "cold"
 
 
+def _active_signals(headcount_growth, job_signals, today):
+    """Turns this scan's raw sensor reads into radar_hazard.compute()'s
+    `active_signals` list.
+
+    `job_signals`: {bucket: {"firstSeenDate": iso}} for buckets currently
+    holding at least one open posting -- recompute_and_write's I/O layer
+    tracks firstSeenDate across scans (a kernel's age is "months since
+    first seen," not "is it new this exact scan"), so this stays pure: it
+    only converts an already-resolved date into an age.
+
+    `headcount_growth`: annualized rate from radar_signal_series.
+    growth_rate(), or None with too little history. Concurrent signals
+    (headcount growth/decline) are always passed monthsSinceEvent=0 --
+    they're re-evaluated fresh every scan rather than aged from an event
+    date, see radar_hazard.py's own docstring.
+
+    'layoffs' has a defined kernel in radar_hazard.SIGNAL_KERNELS but no
+    sensor this pass (needs a news/press feed) -- it never appears here,
+    same as the doc's other not-yet-built rows (press rumor, board member
+    added, founder cadence, ...)."""
+    signals = []
+    for bucket, kernel_key in _BUCKET_TO_KERNEL.items():
+        info = (job_signals or {}).get(bucket)
+        if not info or not info.get("firstSeenDate"):
+            continue
+        first_seen = _parse_date(info["firstSeenDate"])
+        months_since = round((today - first_seen).days / 30.44, 1) if first_seen else None
+        signals.append({"key": kernel_key, "monthsSinceEvent": months_since})
+    if headcount_growth is not None:
+        if headcount_growth >= 0.40:
+            signals.append({"key": "headcount_growth_40", "monthsSinceEvent": 0})
+        elif headcount_growth <= -0.10:
+            signals.append({"key": "headcount_decline_10", "monthsSinceEvent": 0})
+    return signals
+
+
 def compute_radar_state(fields, tier1_index, headcount, headcount_checked_at,
-                         last_scan_at, scan_count, today=None, advance_scan=True):
+                         last_scan_at, scan_count, today=None, advance_scan=True,
+                         headcount_growth=None, job_signals=None,
+                         low_score_streak=0, watch_floor=DEFAULT_WATCH_FLOOR):
     """Pure orchestration -- no I/O, unit-testable with fabricated inputs.
 
     fields: {name, hq, series, top10VC, roundSize, roundDate, radarCategory,
-    description}. Short-circuits on mandate failure: no clock/schedule
-    computed at all, matching Part IV guardrail #1 ("mandatePass = false ->
-    no sensing, no escalation, ever").
+    description}. Short-circuits on mandate failure: no clock/schedule/
+    hazard computed at all, matching Part IV guardrail #1 ("mandatePass =
+    false -> no sensing, no escalation, ever").
+
+    `headcount_growth`/`job_signals`: this scan's sensor reads, already
+    fetched by the caller (recompute_and_write) -- see _active_signals()
+    for their shape. `low_score_streak`/`watch_floor` drive auto-drop
+    tracking (RADAR_SIGNAL_ENGINE.md's own "nothing is ever deleted"
+    principle) -- this function only computes the NEW streak value; the
+    caller decides whether crossing DROP_STREAK_THRESHOLD actually stamps
+    `droppedAt`, since that's a once-only, never-reset write this function
+    (stateless, called fresh every time) has no business owning.
 
     `advance_scan`: True when this call represents an actual scan happening
     now (the daily scan runner, or the initial backfill) -- scanCount
@@ -110,6 +181,8 @@ def compute_radar_state(fields, tier1_index, headcount, headcount_checked_at,
             "clock": None,
             "schedule": None,
             "hotness": None,
+            "hazard": None,
+            "lowScoreStreak": 0,
         }
 
     region = radar_mandate.classify_region(fields.get("hq"))
@@ -135,9 +208,23 @@ def compute_radar_state(fields, tier1_index, headcount, headcount_checked_at,
         window_date = date.fromisoformat(clock["predictedWindowOpen"])
         months_until_window = round((window_date - today).days / 30.44, 1)
 
+    active_signals = _active_signals(headcount_growth, job_signals, today)
+    h0 = radar_hazard.baseline_hazard(months_until_window)
+    hazard = radar_hazard.compute(h0, active_signals)
+    hazard["computedAt"] = today.isoformat()
+
+    heat_points = hazard["heatPoints"]
+    low_score_streak_out = 0 if heat_points >= watch_floor else low_score_streak + 1
+
+    # Any active F2 signal -> radar_schedule's own "preparation signal
+    # active" 6-week floor, finally wired now that a sensor exists to set
+    # it True (previously every caller passed False -- see that module's
+    # docstring).
+    preparation_signal_active = bool(active_signals)
     next_scan_date, next_scan_reason = radar_schedule.next_scan_at(
         last_scan_at, _parse_date(fields.get("roundDate")), scan_count,
         months_until_window, clock["capitalIntensity"], today,
+        preparation_signal_active=preparation_signal_active,
     )
 
     return {
@@ -152,6 +239,8 @@ def compute_radar_state(fields, tier1_index, headcount, headcount_checked_at,
             "lastScanAt": today.isoformat() if advance_scan else (last_scan_at.isoformat() if last_scan_at else None),
         },
         "hotness": _hotness(months_until_window),
+        "hazard": hazard,
+        "lowScoreStreak": low_score_streak_out,
     }
 
 
@@ -162,7 +251,22 @@ def _is_stale(checked_at, today):
     return (today - parsed).days > APOLLO_STALENESS_DAYS
 
 
-def recompute_and_write(slug, fields, tier1_index, entry_source, db=None, apollo_lookup=None, today=None):
+def _get_watch_floor(db):
+    """Reads the same radarConfig/current doc RadarHeatSettings.jsx (hub-
+    next) writes `watchFloor` to -- one hub-editable knob shared by both
+    languages, same doc lib/radarConfig.js already reads hotThreshold/
+    hotWindowMonths from. Missing doc/field falls back to
+    DEFAULT_WATCH_FLOOR, mirroring lib/radarConfig.js's own DEFAULTS
+    convention."""
+    doc = db.collection("radarConfig").doc("current").get()
+    data = doc.to_dict() or {}
+    try:
+        return float(data.get("watchFloor", DEFAULT_WATCH_FLOOR))
+    except (TypeError, ValueError):
+        return DEFAULT_WATCH_FLOOR
+
+
+def recompute_and_write(slug, fields, tier1_index, entry_source, db=None, apollo_lookup=None, today=None, watch_floor=None):
     """The one function both the Attio-import hook and the scan runner call.
     Reads the company's existing radar.clock.headcountCheckedAt off
     Firestore first; only calls Apollo if missing or >30 days stale -- keeps
@@ -174,17 +278,26 @@ def recompute_and_write(slug, fields, tier1_index, entry_source, db=None, apollo
     audit, and also decides `advance_scan` (see compute_radar_state):
     'backfill'/'scan-runner' count as a real scan, 'attio-import' does not.
 
+    `watch_floor`: pass explicitly (radar_backfill.py does, once, the same
+    way it already reuses one tier1_index across a whole run) to avoid a
+    radarConfig read per company; None reads it here.
+
     Writes via `company_ref.set({'radar': {...}}, merge=True)` -- same
     convention as the rest of firestore_push.py."""
     db = db or _firestore()
     apollo_lookup = apollo_lookup or apollo_org.get_org_headcount
     today = today or date.today()
+    if watch_floor is None:
+        watch_floor = _get_watch_floor(db)
 
     company_ref = db.collection("companies").document(slug)
     existing = company_ref.get().to_dict() or {}
     existing_radar = existing.get("radar") or {}
     existing_clock = existing_radar.get("clock") or {}
     existing_schedule = existing_radar.get("schedule") or {}
+    existing_hazard = existing_radar.get("hazard") or {}
+    existing_job_signals = existing_radar.get("jobSignals") or {}
+    already_dropped = existing_radar.get("droppedAt")
 
     headcount = existing_clock.get("headcount")
     headcount_checked_at = existing_clock.get("headcountCheckedAt")
@@ -195,15 +308,71 @@ def recompute_and_write(slug, fields, tier1_index, entry_source, db=None, apollo
             headcount = result["headcount"]
             headcount_checked_at = result["checkedAt"]
 
+    # Time-series storage (RADAR_SIGNAL_ENGINE.md §5: "every sensor stores a
+    # time series, the prediction reads derivatives"). Appended every call,
+    # not just on a fresh Apollo hit -- a repeated cached reading between
+    # refreshes is itself informative (flat headcount = a real, honest
+    # zero-growth read, not a gap), and append_sample already dedupes
+    # same-day entries so a bulk Attio-import burst doesn't spam the series.
+    headcount_series = []
+    if headcount is not None:
+        headcount_series = radar_signal_series.append_sample(db, slug, "headcount", today, headcount)
+    headcount_growth = radar_signal_series.growth_rate(headcount_series) if headcount_series else None
+
+    # Job-board sensor (F2) -- gated on the watch floor
+    # (RADAR_SIGNAL_ENGINE.md §6 Clock 2's attention-tier idea, simplified
+    # to one on/off gate rather than a full tier suite): a company whose
+    # last computed heat never cleared watchFloor isn't worth the extra
+    # HTTP round-trips. A company with no hazard reading yet (its very
+    # first scan) still gets one look, to seed the series.
+    prior_heat = existing_hazard.get("heatPoints")
+    run_jobs_sensor = prior_heat is None or prior_heat >= watch_floor
+    ats = existing_radar.get("ats")
+    job_signals = dict(existing_job_signals)
+    if run_jobs_sensor:
+        if not ats:
+            website = fields.get("website")
+            ats = radar_jobs.detect_ats(website) if website else None
+        if ats:
+            postings = radar_jobs.fetch_postings(ats["provider"], ats["token"])
+            classification = radar_jobs.classify_postings(postings)
+            job_signals = {}
+            for bucket, count in classification["counts"].items():
+                if count > 0:
+                    prior_first_seen = existing_job_signals.get(bucket, {}).get("firstSeenDate")
+                    job_signals[bucket] = {"firstSeenDate": prior_first_seen or today.isoformat(), "count": count}
+            # buckets that dropped to 0 postings fall out of job_signals
+            # entirely -- the role was filled or pulled, so its kernel
+            # stops contributing; if a same-titled role reopens later it
+            # gets a fresh firstSeenDate, which is correct (we're
+            # re-observing a new instance of preparation, not the old one).
+
     scan_count = existing_schedule.get("scanCount", 0)
     last_scan_at = _parse_date(existing_schedule.get("lastScanAt"))
     advance_scan = entry_source in ("backfill", "scan-runner")
+    low_score_streak = existing_radar.get("lowScoreStreak", 0)
 
     radar_data = compute_radar_state(
         fields, tier1_index, headcount, headcount_checked_at,
         last_scan_at, scan_count, today, advance_scan,
+        headcount_growth=headcount_growth, job_signals=job_signals,
+        low_score_streak=low_score_streak, watch_floor=watch_floor,
     )
     radar_data["entrySource"] = entry_source
+    radar_data["jobSignals"] = job_signals
+    if ats:
+        radar_data["ats"] = ats
+
+    # Auto-drop-from-view: stamp once, never touch again once set -- a
+    # human restores it by hand (no automatic un-drop on a later score
+    # recovery this pass; see this module's own docstring).
+    if already_dropped:
+        radar_data["droppedAt"] = already_dropped
+        radar_data["dropReason"] = existing_radar.get("dropReason")
+    elif radar_data.get("lowScoreStreak", 0) >= DROP_STREAK_THRESHOLD:
+        radar_data["droppedAt"] = today.isoformat()
+        radar_data["dropReason"] = f"heatPoints below watch floor ({watch_floor}) for {DROP_STREAK_THRESHOLD} consecutive scans"
+
     write = {"radar": radar_data}
     # Additive `tags` (2026-07-28) -- same mechanism firestore_push.py's
     # push_company_screen_firestore uses for the `qualified` tag on a
@@ -215,6 +384,15 @@ def recompute_and_write(slug, fields, tier1_index, entry_source, db=None, apollo
     # round" signal at the same time, which is the whole point of the tag
     # model over the old single-stage exclusivity.
     if radar_data["mandate"]["pass"]:
-        write["tags"] = firestore.ArrayUnion(["radar"])
+        if radar_data.get("droppedAt") and not already_dropped:
+            # Just crossed the drop threshold THIS scan -- pull the tag so a
+            # tag-only company (not literally stage=='radar') stops
+            # surfacing immediately. A company whose real `stage` IS
+            # 'radar' can't lose that stage via a tag op -- hub-next's
+            # radar/page.jsx filter (keyed off radar.droppedAt directly) is
+            # what actually hides those.
+            write["tags"] = firestore.ArrayRemove(["radar"])
+        elif not radar_data.get("droppedAt"):
+            write["tags"] = firestore.ArrayUnion(["radar"])
     company_ref.set(write, merge=True)
     return radar_data

@@ -1,0 +1,202 @@
+"""Radar's hazard model (RADAR_SIGNAL_ENGINE.md §4 "The prediction model:
+hazard, not score"). Replaces a flat additive score with peak-effect-delay
+kernels -- a signal is worth more months after it fires than the week it
+appears, and the model naturally forgets a company that's gone quiet,
+because an inactive signal simply isn't in the product at all.
+
+Same pure-function idiom as rubric.py/radar_mandate.py/capital_clock.py/
+radar_schedule.py: plain data in, plain data out, no I/O, no Firestore.
+radar_state.py is the only caller and owns resolving each signal's
+months-since-event from its own stored dates before calling compute() here.
+
+Every prior in SIGNAL_KERNELS and baseline_hazard() is hand-set from
+RADAR_SIGNAL_ENGINE.md §4.1/§3 and stated as such in the doc itself --
+"wrong in detail," to be replaced by fitted coefficients once §9's
+calibration loop has enough closed rounds to work with. Stating them
+explicitly here is what makes them correctable.
+"""
+import math
+
+# Mirrors RADAR_SIGNAL_ENGINE.md §4.1's table -- peak month, peak multiplier,
+# rise/fade shape. Only signals this pass can actually detect are wired
+# (finance-role/corp-dev postings via radar_jobs.py, headcount growth/decline
+# via radar_signal_series.py); the rest of the doc's table (press rumor,
+# board member added, founder cadence, etc.) stays undefined here until
+# their sensors exist -- a legible, extendable table, not a guess disguised
+# as a smaller one.
+#
+# `fade_month` is this module's own addition (the doc names a shape in
+# words -- "sharp, fades by 6mo" -- this is that shape as a number).
+# `concurrent: True` signals (headcount growth/decline) are re-evaluated
+# fresh every scan rather than aged from a stored event date -- the caller
+# always passes monthsSinceEvent=0 for these, which is what "holds flat
+# while true, drops out the scan it stops being true" means in practice;
+# `fade_month` on those two rows is unused (kept for schema consistency).
+SIGNAL_KERNELS = {
+    "senior_finance_role":  {"peak_month": 4, "fade_month": 12, "peak_mult": 2.5, "family": "F2"},
+    "corp_dev_role":        {"peak_month": 2, "fade_month": 6,  "peak_mult": 2.2, "family": "F2"},
+    "headcount_growth_40":  {"peak_month": 0, "fade_month": 0,  "peak_mult": 1.6, "family": "F2", "concurrent": True},
+    "senior_gtm_burst":     {"peak_month": 3, "fade_month": 9,  "peak_mult": 1.4, "family": "F2"},
+    "recruiter_hiring":     {"peak_month": 3, "fade_month": 9,  "peak_mult": 1.3, "family": "F2"},
+    "headcount_decline_10": {"peak_month": 0, "fade_month": 0,  "peak_mult": 0.4, "family": "negative", "concurrent": True},
+    "layoffs":              {"peak_month": 0, "fade_month": 6,  "peak_mult": 0.6, "family": "negative"},
+}
+
+COMPOSITE_CAP = 8.0  # §4.2 "composite cap"
+
+
+def baseline_hazard(months_until_window):
+    """h₀: baseline annualized hazard from the capital clock (§3), the only
+    always-present term. Bucketed off `months_until_window` -- the same
+    quantity radar_state.py already derives from capital_clock.py's
+    predictedWindowOpen and passes to radar_schedule.next_scan_at() -- so
+    this reuses that computation rather than re-deriving runway itself, and
+    the bucket edges intentionally match radar_schedule.base_interval_weeks'
+    own breakpoints (>12 / 8-12 / 5-8 / 3-5 critical zone / <3) so the two
+    modules never disagree about what "far out" vs "critical zone" means.
+
+    `None` (no clock estimate yet -- no headcount lookup has succeeded) uses
+    §1's stated base rate for an unscored company (~5-8% in 90 days, i.e.
+    ~20-30% annualized) rather than 0, since absence of a clock reading is
+    not evidence the company is far from raising."""
+    if months_until_window is None:
+        return 0.20
+    if months_until_window > 12:
+        return 0.15
+    if months_until_window >= 8:
+        return 0.35
+    if months_until_window >= 5:
+        return 0.55
+    if months_until_window >= 3:
+        return 0.85
+    if months_until_window >= 0:
+        return 1.10
+    return 1.30  # past the predicted window -- elevated baseline; distress
+    # signals pull this back down via a sub-1.0 composite multiplier, not by
+    # capping h0 itself (see §2.2's distress discriminator).
+
+
+def signal_multiplier(kernel, months_since_event):
+    """One signal's multiplier at its current age. Triangular: rises
+    linearly from 1.0 (no effect) at t=0 to `peak_mult` at `peak_month`,
+    holds nothing extra, then fades linearly back to 1.0 by `fade_month`.
+    `peak_month == 0` (an immediate-effect signal, or a concurrent signal
+    always called with monthsSinceEvent=0) returns peak_mult outright at
+    t=0 rather than a degenerate 0/0 rise.
+
+    `months_since_event=None` (never detected) or negative (shouldn't
+    happen, defends anyway) returns 1.0 -- no effect, matching "inactive
+    signals aren't in the product at all"."""
+    if months_since_event is None or months_since_event < 0:
+        return 1.0
+    peak_month, peak_mult = kernel["peak_month"], kernel["peak_mult"]
+    if months_since_event <= peak_month:
+        if peak_month == 0:
+            return peak_mult
+        return 1.0 + (peak_mult - 1.0) * (months_since_event / peak_month)
+    fade_month = kernel["fade_month"]
+    if months_since_event >= fade_month:
+        return 1.0
+    span = fade_month - peak_month
+    progress = (months_since_event - peak_month) / span
+    return peak_mult - (peak_mult - 1.0) * progress
+
+
+def combine_multipliers(multipliers):
+    """Product of every active signal's resolved multiplier, capped at
+    COMPOSITE_CAP (§4.2). No entry for an inactive signal -- there is no
+    "1.0 baseline" placeholder to include; this is `Πᵢ` over active i only,
+    same as the doc's own formula in §4."""
+    product = 1.0
+    for m in multipliers:
+        product *= m
+    return min(product, COMPOSITE_CAP)
+
+
+def hazard_p90(h0_annualized, composite_multiplier):
+    """P(raise within 90 days) = 1 − exp(−h0 × composite × 0.25) -- §4's
+    formula, 0.25 = 90/360 of a year."""
+    return 1 - math.exp(-h0_annualized * composite_multiplier * 0.25)
+
+
+def hazard_p180(h0_annualized, composite_multiplier):
+    """Same shape as hazard_p90, 0.5 = 180/360 of a year -- §8's action
+    trigger is P180, not P90 (contact-by lead time needs the longer
+    horizon; P90 stays the urgency read)."""
+    return 1 - math.exp(-h0_annualized * composite_multiplier * 0.5)
+
+
+def heat_points(p180):
+    """P180 rescaled to the familiar 0-10ish number the hub's Heat column /
+    RadarHeatSettings already display -- NOT a new scale, just a legible
+    display mapping. This is display sugar; the model's real unit is
+    probability."""
+    return round(p180 * 10, 1)
+
+
+def two_family_guardrail(active_families):
+    """§4.2 rule 1: 'hot' requires active signals from ≥2 distinct families.
+    Four job postings is one signal (family F2) -- this pass only wires F2
+    sensors, so this deliberately returns False until F1/F3/F4/F5 also
+    contribute active (non-baseline) signals. Surfaced as `twoFamilyPass` on
+    the written hazard doc as confidence-relevant data, not (this pass) used
+    to hard-block heatPoints/hot display -- see radar_state.py's docstring
+    on why."""
+    return len(set(active_families)) >= 2
+
+
+def confidence_level(active_families, newest_signal_age_months):
+    """§4.3: confidence is reported separately from probability -- a 30%
+    from one stale sensor means less than a 30% from multiple fresh,
+    independent families. Simplified to what's computable this pass (only
+    F2 sensor coverage exists, so "sensor coverage of this company" isn't
+    yet a separate axis from family count)."""
+    n = len(set(active_families))
+    if n == 0:
+        return "low"
+    if n >= 2:
+        return "high"
+    if newest_signal_age_months is not None and newest_signal_age_months <= 6:
+        return "medium"
+    return "low"
+
+
+def compute(h0_annualized, active_signals):
+    """The pipeline radar_state.py actually calls -- one function, same
+    convention as capital_clock.compute()/radar_mandate.screen(), rather
+    than five sub-functions wired by hand at every call site.
+
+    active_signals: [{"key": <a SIGNAL_KERNELS key>, "monthsSinceEvent":
+    float|None}, ...] -- radar_state.py resolves each signal's age from its
+    own stored first-seen date before calling this (or passes
+    monthsSinceEvent=0 for a `concurrent` kernel, re-evaluated fresh every
+    scan rather than aged). Only signals currently active belong in this
+    list at all.
+
+    Returns {p90, p180, heatPoints, compositeMultiplier, familiesActive,
+    twoFamilyPass, confidence} -- the shape radar_state.py writes onto
+    radar.hazard, plus computedAt stamped by the caller."""
+    multipliers = []
+    families = []
+    ages = []
+    for sig in active_signals:
+        kernel = SIGNAL_KERNELS[sig["key"]]
+        age = sig.get("monthsSinceEvent")
+        multipliers.append(signal_multiplier(kernel, age))
+        families.append(kernel["family"])
+        if age is not None:
+            ages.append(age)
+
+    composite = combine_multipliers(multipliers)
+    p90 = hazard_p90(h0_annualized, composite)
+    p180 = hazard_p180(h0_annualized, composite)
+
+    return {
+        "p90": round(p90, 4),
+        "p180": round(p180, 4),
+        "heatPoints": heat_points(p180),
+        "compositeMultiplier": round(composite, 3),
+        "familiesActive": sorted(set(families)),
+        "twoFamilyPass": two_family_guardrail(families),
+        "confidence": confidence_level(families, min(ages) if ages else None),
+    }

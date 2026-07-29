@@ -33,7 +33,17 @@ export default async function RadarPage() {
   // Nothing is hidden from here anymore (2026-07-29) -- the old
   // keyword-exclusion admin panel silently dropped rows that matched a saved
   // term; that's gone, keywords are click-to-filter chips now (RadarBoard).
-  const radarCompanies = companies.filter((c) => c.stage === 'radar' || c.tags?.includes('radar'));
+  //
+  // The one exception: `radar.droppedAt` (2026-07-29) -- radar_state.py's
+  // auto-drop, stamped once a company's heat has sat below the watch floor
+  // for a few consecutive scans. Reversible and never deletes anything (see
+  // that module's own docstring); a company whose real `stage` is literally
+  // 'radar' can't have that stage cleared by radar_state.py's tag op, so
+  // this filter is what actually hides it here. Still fully findable/
+  // restorable from its own company page.
+  const radarCompanies = companies.filter(
+    (c) => (c.stage === 'radar' || c.tags?.includes('radar')) && !c.radar?.droppedAt
+  );
   const investorIndex = buildInvestorIndex(tier1, partners);
   const domainIndex = investorDomainIndex(tier1, partners);
 

@@ -11,7 +11,14 @@ import { db } from './firestore';
 // next page load instead of waiting for the next scan run or a redeploy.
 const DOC_REF = () => db().collection('radarConfig').doc('current');
 
-const DEFAULTS = { hotWindowMonths: 3, hotThreshold: 5 };
+// `watchFloor` (2026-07-29): the Python pipeline's own auto-drop threshold
+// (deal_intelligence/radar_state.py's DEFAULT_WATCH_FLOOR) -- a company
+// whose real, Python-computed `radar.hazard.heatPoints` sits below this for
+// a few consecutive scans stops surfacing on Radar at all. Same doc, same
+// "hub-editable, no redeploy" convention as hotWindowMonths/hotThreshold;
+// radar_state.py reads this Firestore doc directly (see its own
+// _get_watch_floor()), it isn't pushed to Python any other way.
+const DEFAULTS = { hotWindowMonths: 3, hotThreshold: 5, watchFloor: 2.5 };
 
 export const getRadarConfig = unstable_cache(
   async () => {
@@ -21,6 +28,7 @@ export const getRadarConfig = unstable_cache(
     return {
       hotWindowMonths: Number(data.hotWindowMonths) || DEFAULTS.hotWindowMonths,
       hotThreshold: Number(data.hotThreshold) || DEFAULTS.hotThreshold,
+      watchFloor: Number(data.watchFloor) || DEFAULTS.watchFloor,
     };
   },
   ['radar-config'],
@@ -38,6 +46,11 @@ export async function updateRadarConfig(patch, updatedBy) {
     const v = Number(patch.hotThreshold);
     if (!Number.isFinite(v) || v <= 0) throw new Error('invalid-hot-threshold');
     next.hotThreshold = v;
+  }
+  if (patch.watchFloor != null) {
+    const v = Number(patch.watchFloor);
+    if (!Number.isFinite(v) || v <= 0) throw new Error('invalid-watch-floor');
+    next.watchFloor = v;
   }
   next.updatedAt = new Date().toISOString();
   next.updatedBy = updatedBy || null;

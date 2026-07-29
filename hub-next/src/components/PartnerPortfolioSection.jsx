@@ -1,6 +1,7 @@
 'use client';
 
 import { Suspense, useMemo, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import PortfolioTable from './PortfolioTable';
 import PortfolioGraph from './PortfolioGraph';
 import { isThesisInScope, isFitScoreInScope } from '@/lib/sectorRelevance';
@@ -13,14 +14,17 @@ import styles from './PartnerPortfolioSection.module.css';
 // PortfolioGraph, never typed in here). Editing only ever happens in List
 // view.
 //
-// Two independent scope toggles, both OFF by default (i.e. showing the
-// filtered, in-thesis + track-worthy view) -- per Oscar's "biotech shouldn't
-// be here" ask, a portfolio is assumed to contain off-thesis companies until
-// proven otherwise, and a sub-3.0 fit score is the same "not worth tracking"
-// bar the deal lists use. They're kept separate rather than one combined
-// "show all" switch because they answer different questions (is this even in
-// our market vs. is this a strong company in our market) -- collapsing them
-// hid the reason a specific company was missing.
+// Two independent scope toggles, OFF by default (i.e. showing the filtered,
+// in-thesis + track-worthy view) -- per Oscar's "biotech shouldn't be here"
+// ask, a portfolio is assumed to contain off-thesis companies until proven
+// otherwise, and a sub-3.0 fit score is the same "not worth tracking" bar the
+// deal lists use. They're kept separate rather than one combined "show all"
+// switch because they answer different questions (is this even in our market
+// vs. is this a strong company in our market) -- collapsing them hid the
+// reason a specific company was missing. Both default ON instead when
+// arriving via the qualified/radar pipeline link (see
+// PartnerPortfolioSectionInner's own comment) -- that's the one case where
+// hiding by default works against the reason the visit happened.
 // isThesisInScope/isFitScoreInScope (sectorRelevance.js): the former layers
 // this file's own keyword check on top of the real prefilterPass verdict
 // deal_intelligence/portfolio_prefilter.py stamps onto each company
@@ -30,10 +34,20 @@ import styles from './PartnerPortfolioSection.module.css';
 // nothing to persist); List gets the full unfiltered array plus a filterFn,
 // since PortfolioTable's add/remove needs the true underlying array to
 // persist correctly (see PortfolioTable.jsx).
-export default function PartnerPortfolioSection({ vcId, vcName, portfolio, companyIndex, canEdit }) {
+function PartnerPortfolioSectionInner({ vcId, vcName, portfolio, companyIndex, canEdit }) {
+  // Arriving via the VCs directory's "N qualified/radar →" link
+  // (?pipeline=qualified,radar, see VCsDirectory.jsx's PipelineCell) means
+  // these specific companies are already known-relevant -- the off-thesis/
+  // low-fit scope toggles below exist to hide noise in the OTHER 99% of a
+  // portfolio ID8 hasn't screened, and shouldn't also hide the very
+  // companies that link was built to surface. Bypass both by default in
+  // that case; a plain visit to the Portfolio tab keeps the original
+  // hide-by-default behavior.
+  const searchParams = useSearchParams();
+  const arrivedViaPipelineLink = Boolean(searchParams.get('pipeline'));
   const [view, setView] = useState('list');
-  const [showOffThesis, setShowOffThesis] = useState(false);
-  const [showLowFit, setShowLowFit] = useState(false);
+  const [showOffThesis, setShowOffThesis] = useState(arrivedViaPipelineLink);
+  const [showLowFit, setShowLowFit] = useState(arrivedViaPipelineLink);
 
   const filterFn = useMemo(
     () => (entry) => (showOffThesis || isThesisInScope(entry)) && (showLowFit || isFitScoreInScope(entry)),
@@ -95,5 +109,13 @@ export default function PartnerPortfolioSection({ vcId, vcName, portfolio, compa
         <PortfolioGraph vcName={vcName} portfolio={visiblePortfolio} companyIndex={companyIndex} />
       )}
     </div>
+  );
+}
+
+export default function PartnerPortfolioSection(props) {
+  return (
+    <Suspense fallback={null}>
+      <PartnerPortfolioSectionInner {...props} />
+    </Suspense>
   );
 }

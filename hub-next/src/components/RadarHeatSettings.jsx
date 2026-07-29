@@ -14,6 +14,7 @@ export default function RadarHeatSettings({ config, canEdit }) {
   const router = useRouter();
   const [hotWindowMonths, setHotWindowMonths] = useState(config.hotWindowMonths);
   const [hotThreshold, setHotThreshold] = useState(config.hotThreshold);
+  const [watchFloor, setWatchFloor] = useState(config.watchFloor);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const [dirty, setDirty] = useState(false);
@@ -21,7 +22,7 @@ export default function RadarHeatSettings({ config, canEdit }) {
   if (!canEdit) {
     return (
       <p className={styles.readonly}>
-        Hot: within {config.hotWindowMonths} {config.hotWindowMonths === 1 ? 'month' : 'months'} of its predicted raise window, or a heat score of {config.hotThreshold}+.
+        Hot: within {config.hotWindowMonths} {config.hotWindowMonths === 1 ? 'month' : 'months'} of its predicted raise window, or a heat score of {config.hotThreshold}+. Dropped from view below {config.watchFloor} for a few scans running.
       </p>
     );
   }
@@ -34,7 +35,7 @@ export default function RadarHeatSettings({ config, canEdit }) {
       const res = await fetch('/api/radar-config', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ hotWindowMonths, hotThreshold }),
+        body: JSON.stringify({ hotWindowMonths, hotThreshold, watchFloor }),
       });
       if (!res.ok) throw new Error('save-failed');
       setDirty(false);
@@ -61,6 +62,14 @@ export default function RadarHeatSettings({ config, canEdit }) {
         type="number" min="0.5" step="0.5" className={styles.input}
         value={hotThreshold}
         onChange={(e) => { setHotThreshold(e.target.value); setDirty(true); }}
+      />
+      <span className={styles.unit}>pts</span>
+      <span className={styles.sep}>·</span>
+      <span className={styles.label}>Watch floor</span>
+      <input
+        type="number" min="0.5" step="0.5" className={styles.input}
+        value={watchFloor}
+        onChange={(e) => { setWatchFloor(e.target.value); setDirty(true); }}
       />
       <span className={styles.unit}>pts</span>
       {dirty && <button className={styles.save} type="submit" disabled={saving}>{saving ? 'Saving…' : 'Save'}</button>}

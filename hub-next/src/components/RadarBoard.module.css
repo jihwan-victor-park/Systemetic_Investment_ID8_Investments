@@ -2,3 +2,12 @@
   font-size: 1rem;
   margin: 1.6rem 0 0.4rem;
 }
+
+.excludedBox {
+  margin: 0 0 1rem;
+  font-size: 0.82rem;
+  color: var(--id8-grey);
+}
+.excludedBox summary { cursor: pointer; font-weight: 600; }
+.excludedList { margin: 0.5rem 0 0; padding-left: 1.1rem; }
+.excludedList li { padding: 0.15rem 0; }

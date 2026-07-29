@@ -5,13 +5,15 @@ import { useRouter } from 'next/navigation';
 import { MIN_KEYWORD_LENGTH } from '@/lib/radarRuleMatch';
 import styles from './RadarKeywordFilter.module.css';
 
-// Click-to-filter keyword chips for the Radar tab -- replaces the old
+// Click-to-EXCLUDE keyword chips for the Radar tab -- replaces the old
 // RadarRulesAdmin.jsx board (live preview, "Excluded from Radar"/"Pinned
-// past every rule" panels). Clicking a chip no longer hides anything on its
-// own; RadarBoard.jsx (the parent) filters the Hot/Cold tables down to
-// whichever chips are active. The keyword LIST itself is still a persisted,
-// growing store (lib/radarRules.js) -- Oscar's boss keeps adding new
-// off-thesis terms over time -- so this also carries a minimal inline
+// past every rule" panels) with the same net effect (off-thesis companies
+// drop out of the Hot/Cold tables) minus the boxed admin UI. RadarBoard.jsx
+// (the parent) hides whichever rows match an active chip and names them in
+// an "Excluded by keyword" list right below -- un-toggling the chip is the
+// restore, no separate pin needed. The keyword LIST itself is still a
+// persisted, growing store (lib/radarRules.js) -- Oscar's boss keeps adding
+// new off-thesis terms over time -- so this also carries a minimal inline
 // add/remove for that store, gated the same `canEdit` way every other
 // editable control in the hub is.
 export default function RadarKeywordFilter({ keywords, active, onToggle, canEdit }) {
