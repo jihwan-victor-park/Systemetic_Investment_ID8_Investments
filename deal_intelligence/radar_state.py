@@ -412,20 +412,20 @@ def recompute_and_write(slug, fields, tier1_index, entry_source, db=None, apollo
     low_score_streak = existing_radar.get("lowScoreStreak", 0)
 
     # Most recent Stage 1 screen -- the source for F1/F3/F4 timing signals
-    # and the growth tier (radar_timing_signals.py). Screen doc ids ARE their
-    # date (firestore_push.py uses the ISO date as the id), so ordering by
-    # document id descending is the same as ordering by date descending, and
-    # one bounded read gets it.
+    # and the growth tier (radar_timing_signals.py). `company.latestScreen.
+    # date` already points at it (firestore_push.py denormalizes this on
+    # every screen write, screen doc ids ARE their date) -- fetching that
+    # one document directly avoids an order_by("__name__", DESCENDING) query
+    # on the screens subcollection, which needs a composite index Firestore
+    # doesn't auto-create for descending __name__ ordering. One doc get,
+    # not a query, so nothing to index.
     latest_screen = None
-    screens = list(
-        company_ref.collection("screens")
-        .order_by("__name__", direction=firestore.Query.DESCENDING)
-        .limit(1)
-        .stream()
-    )
-    if screens:
-        latest_screen = screens[0].to_dict() or {}
-        latest_screen.setdefault("date", screens[0].id)
+    latest_screen_date = (existing.get("latestScreen") or {}).get("date")
+    if latest_screen_date:
+        screen_doc = company_ref.collection("screens").document(latest_screen_date).get()
+        if screen_doc.exists:
+            latest_screen = screen_doc.to_dict() or {}
+            latest_screen.setdefault("date", latest_screen_date)
 
     radar_data = compute_radar_state(
         fields, tier1_index, headcount, headcount_checked_at,

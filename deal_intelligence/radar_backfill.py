@@ -63,17 +63,19 @@ def run(dry_run=False, limit=None):
             existing_schedule = existing_radar.get("schedule") or {}
             headcount_series = radar_signal_series.read_series(db, slug, "headcount")
             headcount_growth = radar_signal_series.growth_rate(headcount_series) if headcount_series else None
-            # Latest Stage 1 screen -- same read recompute_and_write does, so
-            # --dry-run previews the real timing signals/growth tier rather
-            # than a version of the company with no screen at all.
+            # Latest Stage 1 screen -- same direct-by-id fetch
+            # recompute_and_write does (see that function's own comment on
+            # why: avoids a composite index an order_by("__name__",
+            # DESCENDING) query would need), so --dry-run previews the real
+            # timing signals/growth tier rather than a version of the
+            # company with no screen at all.
             latest_screen = None
-            screens = list(
-                db.collection("companies").document(slug).collection("screens")
-                .order_by("__name__", direction=firestore.Query.DESCENDING).limit(1).stream()
-            )
-            if screens:
-                latest_screen = screens[0].to_dict() or {}
-                latest_screen.setdefault("date", screens[0].id)
+            latest_screen_date = (data.get("latestScreen") or {}).get("date")
+            if latest_screen_date:
+                screen_doc = db.collection("companies").document(slug).collection("screens").document(latest_screen_date).get()
+                if screen_doc.exists:
+                    latest_screen = screen_doc.to_dict() or {}
+                    latest_screen.setdefault("date", latest_screen_date)
             radar_data = radar_state.compute_radar_state(
                 fields, tier1_index,
                 existing_clock.get("headcount"), existing_clock.get("headcountCheckedAt"),
