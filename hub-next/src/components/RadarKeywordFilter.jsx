@@ -16,6 +16,12 @@ import styles from './RadarKeywordFilter.module.css';
 // new off-thesis terms over time -- so this also carries a minimal inline
 // add/remove for that store, gated the same `canEdit` way every other
 // editable control in the hub is.
+//
+// Closed by default (Oscar, 2026-07-29: "not visible right when you open
+// the thing") -- a plain <details>/<summary> disclosure, same lightweight
+// pattern RadarBoard.jsx's own "Excluded by keyword" results list already
+// uses, no extra JS state needed. The summary line itself doubles as a live
+// count of how many exclusions are currently active.
 export default function RadarKeywordFilter({ keywords, active, onToggle, canEdit }) {
   const router = useRouter();
   const [term, setTerm] = useState('');
@@ -61,8 +67,11 @@ export default function RadarKeywordFilter({ keywords, active, onToggle, canEdit
   if (!keywords.length && !canEdit) return null;
 
   return (
-    <div className={styles.row}>
-      <span className={styles.label}>Keywords</span>
+    <details className={styles.details}>
+      <summary className={styles.summary}>
+        Excluded keywords{active.length > 0 ? ` (${active.length} active)` : ''}
+      </summary>
+      <div className={styles.row}>
       {keywords.map((k) => (
         <span key={k.term} className={styles.chip} data-active={active.includes(k.term)}>
           <button type="button" className={styles.chipBtn} onClick={() => onToggle(k.term)}>{k.term}</button>
@@ -92,6 +101,7 @@ export default function RadarKeywordFilter({ keywords, active, onToggle, canEdit
         </form>
       )}
       {error && <span className={styles.error}>{error}</span>}
-    </div>
+      </div>
+    </details>
   );
 }
