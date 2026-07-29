@@ -98,3 +98,27 @@ def test_distress_like_company_still_computes_but_stays_cold_far_out(): # RADAR_
     assert result["mandate"]["pass"] is True
     assert result["clock"]["runwayMonths"] == 0.0  # long since exhausted
     assert result["hotness"] == "hot"  # past-window reads hot in v1 -- no distress branch to suppress it yet
+
+
+def test_default_watch_floor_never_catches_a_company_with_zero_active_signals():
+    # Regression: 2026-07-29 production incident -- DEFAULT_WATCH_FLOOR
+    # shipped at 25, but a company with NO active signals (no headcount
+    # growth, no job-board hits -- the normal state for a brand-new or
+    # genuinely-quiet-but-fine company) can only ever reach ~7-9.5
+    # heatPoints off the baseline hazard alone. Every passing company on
+    # Radar auto-dropped within DROP_STREAK_THRESHOLD scans, same day. This
+    # asserts the invariant directly: the worst-case (furthest-out, i.e.
+    # months_until_window=None -> baseline_hazard's lowest bucket)
+    # zero-signal company must clear the default floor, so lowScoreStreak
+    # never starts climbing for a company that simply hasn't been sensed
+    # yet.
+    index = rm.build_tier1_index(TIER1)
+    result = rs.compute_radar_state(
+        {"name": "Northwind Systems", "hq": "Boston, MA", "series": "Series A",
+         "roundSize": 30_000_000, "roundDate": "2026-07-01", "top10VC": True},
+        tier1_index=index, headcount=None, headcount_checked_at=None,  # no Apollo data -> months_until_window None -> lowest baseline bucket
+        last_scan_at=None, scan_count=0, today=date(2026, 8, 5),
+        headcount_growth=None, job_signals=None,  # zero active signals
+    )
+    assert result["hazard"]["heatPoints"] >= rs.DEFAULT_WATCH_FLOOR
+    assert result["lowScoreStreak"] == 0

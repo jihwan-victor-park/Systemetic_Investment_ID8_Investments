@@ -28,7 +28,12 @@ const DOC_REF = () => db().collection('radarConfig').doc('current');
 // simply never clear an 80-point threshold, which is the correct,
 // conservative behavior for a company that hasn't been scanned yet, not a
 // bug.
-const DEFAULTS = { hotWindowMonths: 3, hotThreshold: 80, watchFloor: 25 };
+// watchFloor: 5, not a rounder-looking number -- matches
+// deal_intelligence/radar_state.py's DEFAULT_WATCH_FLOOR exactly (see that
+// constant's own comment for why 25 auto-dropped every passing company in
+// production the same day it shipped). Keep these two defaults in sync by
+// hand; there's no single source of truth across the language boundary.
+const DEFAULTS = { hotWindowMonths: 3, hotThreshold: 80, watchFloor: 5 };
 
 export const getRadarConfig = unstable_cache(
   async () => {

@@ -31,7 +31,16 @@ SCHEMA_VERSION = 1
 APOLLO_STALENESS_DAYS = 30
 CRITICAL_ZONE_MONTHS = 5  # matches radar_schedule.base_interval_weeks' own 3-5mo critical-zone band
 
-DEFAULT_WATCH_FLOOR = 25  # 0-100 scale (Oscar, 2026-07-29); hub-editable via radarConfig/current, same doc RadarHeatSettings.jsx writes hotThreshold to
+DEFAULT_WATCH_FLOOR = 5  # 0-100 scale (Oscar, 2026-07-29, corrected same day -- 25 was above what ANY
+# company can reach with zero active signals ever fired: baseline_hazard's own lowest bucket (no
+# clock data, or window >12mo out) with no active signal produces heatPoints ~7-9.5, so a floor of
+# 25 auto-dropped every single passing company within DROP_STREAK_THRESHOLD scans regardless of
+# whether anything was actually wrong -- happened in production the same day this was built. 5 sits
+# BELOW that "no signal yet" floor (~7.2 minimum) and ABOVE what a genuine negative signal (headcount
+# decline/layoffs, composite multiplier <1) pulls a company down to (~2-4.5) -- see radar_hazard.py's
+# SIGNAL_KERNELS negative-family rows. Auto-drop should only fire on real quiet/declining evidence,
+# never on "hasn't been scanned yet." Hub-editable via radarConfig/current, same doc
+# RadarHeatSettings.jsx writes hotThreshold to.
 DROP_STREAK_THRESHOLD = 3  # consecutive below-floor scans before auto-drop -- matches radar_schedule's own dwell-time spirit (don't flicker on one bad week)
 
 # Maps radar_jobs.classify_postings' bucket names onto radar_hazard.
