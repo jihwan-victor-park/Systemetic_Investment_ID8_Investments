@@ -281,7 +281,7 @@ def _get_watch_floor(db):
     hotWindowMonths from. Missing doc/field falls back to
     DEFAULT_WATCH_FLOOR, mirroring lib/radarConfig.js's own DEFAULTS
     convention."""
-    doc = db.collection("radarConfig").doc("current").get()
+    doc = db.collection("radarConfig").document("current").get()
     data = doc.to_dict() or {}
     try:
         return float(data.get("watchFloor", DEFAULT_WATCH_FLOOR))
