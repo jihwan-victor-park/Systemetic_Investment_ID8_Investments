@@ -63,6 +63,17 @@ def run(dry_run=False, limit=None):
             existing_schedule = existing_radar.get("schedule") or {}
             headcount_series = radar_signal_series.read_series(db, slug, "headcount")
             headcount_growth = radar_signal_series.growth_rate(headcount_series) if headcount_series else None
+            # Latest Stage 1 screen -- same read recompute_and_write does, so
+            # --dry-run previews the real timing signals/growth tier rather
+            # than a version of the company with no screen at all.
+            latest_screen = None
+            screens = list(
+                db.collection("companies").document(slug).collection("screens")
+                .order_by("__name__", direction=firestore.Query.DESCENDING).limit(1).stream()
+            )
+            if screens:
+                latest_screen = screens[0].to_dict() or {}
+                latest_screen.setdefault("date", screens[0].id)
             radar_data = radar_state.compute_radar_state(
                 fields, tier1_index,
                 existing_clock.get("headcount"), existing_clock.get("headcountCheckedAt"),
@@ -70,25 +81,35 @@ def run(dry_run=False, limit=None):
                 existing_schedule.get("scanCount", 0), advance_scan=False,
                 headcount_growth=headcount_growth, job_signals=existing_radar.get("jobSignals"),
                 low_score_streak=existing_radar.get("lowScoreStreak", 0), watch_floor=watch_floor,
-                partner_index=partner_index,
+                partner_index=partner_index, latest_screen=latest_screen,
             )
         else:
             radar_data = radar_state.recompute_and_write(slug, fields, tier1_index, "backfill", db=db, watch_floor=watch_floor, partner_index=partner_index)
         mandate = radar_data["mandate"]
         hazard = radar_data.get("hazard") or {}
         access = radar_data.get("access") or {}
+        clock = radar_data.get("clock") or {}
         results.append((
             slug, fields["name"], mandate["pass"], mandate.get("failReason"),
             hazard.get("heatPoints"), hazard.get("familiesActive"), access.get("level"),
+            hazard.get("growthTier"), clock.get("windowBasis"), clock.get("predictedWindowOpen"),
+            hazard.get("distressFlag"),
         ))
 
     passed = [r for r in results if r[2]]
     failed = [r for r in results if not r[2]]
     print(f"\n{'DRY RUN -- ' if dry_run else ''}{len(passed)} pass, {len(failed)} fail the mandate screen.\n")
-    for slug, name, ok, reason, heat_points, families, access_level in results:
+    for (slug, name, ok, reason, heat_points, families, access_level,
+         growth_tier, window_basis, window_open, distress) in results:
         status = "PASS" if ok else f"FAIL  ({reason})"
-        heat_desc = f"heat={heat_points} families={','.join(families) if families else 'none'} access={access_level}" if ok else ""
-        print(f"  {status:<45} {heat_desc:<52} {name or slug}")
+        if ok:
+            desc = (f"heat={heat_points:<5} growth={growth_tier or '-':<11} "
+                    f"window={window_open or '-'} ({window_basis or '-'}) "
+                    f"fam={','.join(families) if families else 'none':<10} access={access_level}"
+                    + ("  [DISTRESS]" if distress else ""))
+        else:
+            desc = ""
+        print(f"  {status:<42} {desc}  {name or slug}")
 
     return {"total": len(docs), "passed": len(passed), "failed": len(failed)}
 

@@ -136,6 +136,70 @@ def test_compute_does_not_mention_cap_when_runway_is_reasonable():
     assert "capped" not in result["assumptions"]
 
 
+def test_cadence_window_open_is_tighter_for_hypergrowth_than_for_no_signal():
+    round_date = date(2026, 1, 1)
+    hyper = cc.cadence_window_open(round_date, "hypergrowth")
+    strong = cc.cadence_window_open(round_date, "strong")
+    none_tier = cc.cadence_window_open(round_date, None)
+    assert hyper < strong < none_tier
+
+
+def test_cadence_window_open_needs_a_round_date():
+    assert cc.cadence_window_open(None, "hypergrowth") is None
+
+
+def test_no_growth_signal_cadence_respects_the_lengthening_median(): # research: ~20mo trending 28, NOT compressed
+    assert cc.CADENCE_MONTHS_BY_GROWTH[None] >= 20
+
+
+def test_hypergrowth_cadence_pulls_the_window_in_ahead_of_runway():
+    # Big round, small team -> runway model says "years from now". A
+    # hypergrowth signal must override that: these companies raise on
+    # strength long before cash runs low (Anthropic/Cyera/Cursor pattern).
+    fields = {"roundSize": 200_000_000, "roundDate": "2026-06-01", "region": "NA",
+              "radarCategory": "B2B software"}
+    runway_only = cc.compute(fields, headcount=60, as_of=date(2026, 7, 29))
+    hypergrowth = cc.compute(fields, headcount=60, as_of=date(2026, 7, 29), growth_tier="hypergrowth")
+    assert hypergrowth["windowBasis"] == "cadence"
+    assert hypergrowth["predictedWindowOpen"] < runway_only["predictedWindowOpen"]
+    assert hypergrowth["growthTier"] == "hypergrowth"
+    assert "raising on strength" in hypergrowth["assumptions"]
+
+
+def test_quiet_company_keeps_the_runway_answer_unchanged():
+    # No growth signal + a short runway -> the runway model should still win,
+    # so this change can't silently pull every window earlier.
+    fields = {"roundSize": 10_000_000, "roundDate": "2026-01-01", "region": "NA"}
+    result = cc.compute(fields, headcount=40, as_of=date(2026, 7, 29))
+    assert result["windowBasis"] == "runway"
+
+
+def test_both_window_estimates_are_reported_for_transparency():
+    result = cc.compute(
+        {"roundSize": 50_000_000, "roundDate": "2026-01-01", "region": "NA"},
+        headcount=40, as_of=date(2026, 6, 1), growth_tier="strong",
+    )
+    assert result["runwayWindowOpen"] is not None
+    assert result["cadenceWindowOpen"] is not None
+    assert result["windowBasis"] in ("runway", "cadence")
+
+
+def test_missing_headcount_still_gets_a_cadence_window(): # was a blank "—" in the hub before 2026-07-29
+    result = cc.compute(
+        {"roundSize": 30_000_000, "roundDate": "2026-03-01", "region": "NA"},
+        headcount=None, as_of=date(2026, 7, 29), growth_tier="hypergrowth",
+    )
+    assert result["predictedWindowOpen"] is not None
+    assert result["windowBasis"] == "cadence"
+    assert result["runwayMonths"] is None  # still honestly reports no burn estimate
+
+
+def test_missing_round_date_and_headcount_still_returns_no_window():
+    result = cc.compute({"roundSize": 30_000_000, "roundDate": None, "region": "NA"},
+                        headcount=None, as_of=date(2026, 7, 29))
+    assert result["predictedWindowOpen"] is None
+
+
 def test_compute_runway_floors_at_zero_capital_remaining():
     # Round long since exhausted at this burn rate -- capitalRemaining should
     # floor at 0, not go negative.

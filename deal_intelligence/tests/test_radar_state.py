@@ -26,7 +26,13 @@ def test_mandate_fail_short_circuits_no_clock_or_schedule(): # RADAR_PLAN.md §7
     assert result["hotness"] is None
 
 
-def test_mandate_pass_no_headcount_yet_leaves_hotness_unknown():
+def test_mandate_pass_no_headcount_still_gets_a_cadence_window():
+    # CHANGED 2026-07-29: this used to assert hotness is None, because a
+    # company with no Apollo headcount had no window estimate at all. The
+    # cadence model (capital_clock.cadence_window_open) needs only a round
+    # date, so such a company now gets a real window -- and therefore a real
+    # hot/cold classification -- off round cadence alone. Strictly better
+    # than the old blank; burn/runway are still honestly reported as None.
     index = rm.build_tier1_index(TIER1)
     result = rs.compute_radar_state(
         {"name": "Northwind Systems", "hq": "Boston, MA", "series": "Series B",
@@ -35,9 +41,26 @@ def test_mandate_pass_no_headcount_yet_leaves_hotness_unknown():
         last_scan_at=None, scan_count=0, today=date(2026, 8, 5),
     )
     assert result["mandate"]["pass"] is True
-    assert result["clock"]["estMonthlyBurn"] is None  # no headcount -> no burn estimate
-    assert result["hotness"] is None  # can't classify without a window estimate
+    assert result["clock"]["estMonthlyBurn"] is None  # no headcount -> still no burn estimate
+    assert result["clock"]["runwayMonths"] is None
+    assert result["clock"]["predictedWindowOpen"] is not None  # ...but a cadence window exists
+    assert result["clock"]["windowBasis"] == "cadence"
+    assert result["hotness"] in ("hot", "cold")  # classifiable now, not unknown
     assert result["schedule"]["nextScanAt"] is not None  # opening sequence still computable off roundDate alone
+
+
+def test_hotness_still_unknown_with_neither_headcount_nor_round_date():
+    # The genuine no-information case -- nothing to anchor either model to,
+    # so hotness must stay None rather than guessing.
+    index = rm.build_tier1_index(TIER1)
+    result = rs.compute_radar_state(
+        {"name": "Northwind Systems", "hq": "Boston, MA", "series": "Series B",
+         "roundSize": 32_000_000, "roundDate": None, "top10VC": True},
+        tier1_index=index, headcount=None, headcount_checked_at=None,
+        last_scan_at=None, scan_count=0, today=date(2026, 8, 5),
+    )
+    assert result["clock"]["predictedWindowOpen"] is None
+    assert result["hotness"] is None
 
 
 def test_full_pass_northwind_worked_example(): # RADAR_PLAN.md §7.1, approximately
@@ -98,6 +121,87 @@ def test_distress_like_company_still_computes_but_stays_cold_far_out(): # RADAR_
     assert result["mandate"]["pass"] is True
     assert result["clock"]["runwayMonths"] == 0.0  # long since exhausted
     assert result["hotness"] == "hot"  # past-window reads hot in v1 -- no distress branch to suppress it yet
+
+
+def test_end_to_end_hypergrowth_screen_beats_an_identical_quiet_company():
+    """The framework's whole point, end to end (2026-07-29). Two companies
+    identical in every deterministic input -- same round, same size, same
+    date, same headcount -- differing ONLY in what their Stage 1 screen
+    found. The hypergrowth one must come out hotter AND with an earlier
+    window, driven by evidence the fit rubric scored as a 2.
+
+    Modeled on the real Paper screen: revenue_growth scored 2 (the rubric's
+    "no disclosed figure" anchor) with finding text "ARR grew 25x".
+    """
+    index = rm.build_tier1_index(TIER1)
+    fields = {"name": "Northwind Systems", "hq": "Boston, MA", "series": "Series B",
+              "roundSize": 60_000_000, "roundDate": "2026-05-01", "top10VC": True}
+    common = dict(tier1_index=index, headcount=70, headcount_checked_at="2026-07-20",
+                  last_scan_at=None, scan_count=0, today=date(2026, 7, 29))
+
+    quiet_screen = {
+        "date": "2026-07-29",
+        "dimensions": [{"key": "fundamentals", "evidence": "", "subcategories": [
+            {"key": "revenue_growth", "score": 2, "finding": "No revenue disclosed; no usable estimate."},
+        ]}],
+        "rationale": "Solid company, thin disclosure.",
+    }
+    hypergrowth_screen = {
+        "date": "2026-07-29",
+        "dimensions": [
+            {"key": "fundamentals", "evidence": "", "subcategories": [
+                # SAME score as the quiet company -- the difference is the text.
+                {"key": "revenue_growth", "score": 2, "finding": "ARR grew 25x post-launch; no $ figure."},
+            ]},
+            {"key": "lead_round_dynamics", "evidence": "", "subcategories": [
+                {"key": "timing_motivation", "score": 4, "finding": "Multiple term sheets, company controlling process."},
+            ]},
+        ],
+        "rationale": "Hypergrowth, raising opportunistically.",
+    }
+
+    quiet = rs.compute_radar_state(fields, latest_screen=quiet_screen, **common)
+    hot = rs.compute_radar_state(fields, latest_screen=hypergrowth_screen, **common)
+
+    # Hotter, on identical deterministic inputs.
+    assert hot["hazard"]["heatPoints"] > quiet["hazard"]["heatPoints"]
+    # And meaningfully so -- not a rounding difference.
+    assert hot["hazard"]["heatPoints"] > quiet["hazard"]["heatPoints"] * 2
+    # Growth tier was recovered from text the rubric scored as a 2.
+    assert hot["hazard"]["growthTier"] == "hypergrowth"
+    assert quiet["hazard"]["growthTier"] is None
+    # Multiple independent families -> the guardrail passes and confidence rises.
+    assert hot["hazard"]["twoFamilyPass"] is True
+    assert hot["hazard"]["confidence"] == "high"
+    # Window pulled in by the cadence model, not the runway model.
+    assert hot["clock"]["predictedWindowOpen"] < quiet["clock"]["predictedWindowOpen"]
+    assert hot["clock"]["windowBasis"] == "cadence"
+    # Evidence is carried so the hub can explain the number.
+    assert hot["hazard"]["growthEvidence"]
+    # Neither is distressed.
+    assert hot["hazard"]["distressFlag"] is False
+
+
+def test_end_to_end_defensive_raise_is_flagged_not_celebrated():
+    # §2.2's distress discriminator, end to end: a company whose screen says
+    # the raise is defensive must be flagged, even though "raising soon" is
+    # technically true -- never escalated as an opportunity.
+    index = rm.build_tier1_index(TIER1)
+    result = rs.compute_radar_state(
+        {"name": "Northwind Systems", "hq": "Boston, MA", "series": "Series B",
+         "roundSize": 20_000_000, "roundDate": "2025-06-01", "top10VC": True},
+        tier1_index=index, headcount=45, headcount_checked_at="2026-07-20",
+        last_scan_at=None, scan_count=0, today=date(2026, 7, 29),
+        latest_screen={
+            "date": "2026-07-29",
+            "dimensions": [{"key": "lead_round_dynamics", "evidence": "", "subcategories": [
+                {"key": "timing_motivation", "score": 1, "finding": "Defensive raise; runway extension pressure."},
+            ]}],
+            "rationale": "Down-round risk.",
+        },
+    )
+    assert result["hazard"]["distressFlag"] is True
+    assert "defensive_raise" in result["hazard"]["distressSignals"]
 
 
 def test_default_watch_floor_never_catches_a_company_with_zero_active_signals():

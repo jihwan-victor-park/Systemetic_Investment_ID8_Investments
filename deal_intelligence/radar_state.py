@@ -24,7 +24,8 @@ from datetime import date, timedelta
 
 from google.cloud import firestore
 
-from . import apollo_org, capital_clock, config, radar_access, radar_hazard, radar_jobs, radar_mandate, radar_schedule, radar_signal_series
+from . import (apollo_org, capital_clock, config, radar_access, radar_hazard, radar_jobs,
+               radar_mandate, radar_schedule, radar_signal_series, radar_timing_signals)
 
 _db = None
 SCHEMA_VERSION = 1
@@ -163,7 +164,7 @@ def compute_radar_state(fields, tier1_index, headcount, headcount_checked_at,
                          last_scan_at, scan_count, today=None, advance_scan=True,
                          headcount_growth=None, job_signals=None,
                          low_score_streak=0, watch_floor=DEFAULT_WATCH_FLOOR,
-                         partner_index=None):
+                         partner_index=None, latest_screen=None):
     """Pure orchestration -- no I/O, unit-testable with fabricated inputs.
 
     fields: {name, hq, series, top10VC, roundSize, roundDate, radarCategory,
@@ -213,11 +214,23 @@ def compute_radar_state(fields, tier1_index, headcount, headcount_checked_at,
         }
 
     region = radar_mandate.classify_region(fields.get("hq"))
+
+    # Timing signals extracted from the company's own Stage 1 screen
+    # (radar_timing_signals.py) -- BEFORE the clock, because the growth tier
+    # it produces is a clock input (it drives the cadence model, see
+    # capital_clock.CADENCE_MONTHS_BY_GROWTH). Kernel ages are measured from
+    # the screen's date: a "process is visible" read off a six-month-old
+    # screen genuinely is staler than one from today, and the kernels
+    # already know how to decay that.
+    screen_date = _parse_date((latest_screen or {}).get("date"))
+    months_since_screen = round((today - screen_date).days / 30.44, 1) if screen_date else 0
+    timing = radar_timing_signals.extract(latest_screen, months_since_screen)
+
     clock = capital_clock.compute(
         {"roundSize": fields.get("roundSize"), "roundDate": fields.get("roundDate"), "region": region,
          "radarCategory": fields.get("radarCategory"), "description": fields.get("description"),
          "headcountCheckedAt": headcount_checked_at},
-        headcount, today,
+        headcount, today, growth_tier=timing["growthTier"],
     )
 
     predicted_window_open = clock["predictedWindowOpen"]
@@ -235,10 +248,19 @@ def compute_radar_state(fields, tier1_index, headcount, headcount_checked_at,
         window_date = date.fromisoformat(clock["predictedWindowOpen"])
         months_until_window = round((window_date - today).days / 30.44, 1)
 
-    active_signals = _active_signals(headcount_growth, job_signals, today)
+    # F2 (hiring/headcount, sensed here) + F1/F3/F4 (extracted from the
+    # Stage 1 screen above). Combining them is what finally makes
+    # radar_hazard's two-family guardrail reachable -- until this pass every
+    # available signal was F2, so `twoFamilyPass` could never be True and
+    # §4.2's main defense against a single noisy sensor manufacturing
+    # conviction was inert.
+    active_signals = _active_signals(headcount_growth, job_signals, today) + timing["signals"]
     h0 = radar_hazard.baseline_hazard(months_until_window)
     hazard = radar_hazard.compute(h0, active_signals)
     hazard["computedAt"] = today.isoformat()
+    hazard["growthTier"] = timing["growthTier"]
+    hazard["growthEvidence"] = timing["growthEvidence"]
+    hazard["sourceScreenDate"] = timing["sourceScreenDate"]
 
     access = radar_access.resolve_access(
         fields.get("name"), mandate.get("tier1Firms"), mandate.get("top10VCFlag"), partner_index or {}
@@ -389,12 +411,28 @@ def recompute_and_write(slug, fields, tier1_index, entry_source, db=None, apollo
     advance_scan = entry_source in ("backfill", "scan-runner")
     low_score_streak = existing_radar.get("lowScoreStreak", 0)
 
+    # Most recent Stage 1 screen -- the source for F1/F3/F4 timing signals
+    # and the growth tier (radar_timing_signals.py). Screen doc ids ARE their
+    # date (firestore_push.py uses the ISO date as the id), so ordering by
+    # document id descending is the same as ordering by date descending, and
+    # one bounded read gets it.
+    latest_screen = None
+    screens = list(
+        company_ref.collection("screens")
+        .order_by("__name__", direction=firestore.Query.DESCENDING)
+        .limit(1)
+        .stream()
+    )
+    if screens:
+        latest_screen = screens[0].to_dict() or {}
+        latest_screen.setdefault("date", screens[0].id)
+
     radar_data = compute_radar_state(
         fields, tier1_index, headcount, headcount_checked_at,
         last_scan_at, scan_count, today, advance_scan,
         headcount_growth=headcount_growth, job_signals=job_signals,
         low_score_streak=low_score_streak, watch_floor=watch_floor,
-        partner_index=partner_index,
+        partner_index=partner_index, latest_screen=latest_screen,
     )
     radar_data["entrySource"] = entry_source
     radar_data["jobSignals"] = job_signals

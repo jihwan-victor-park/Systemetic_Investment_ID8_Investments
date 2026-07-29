@@ -116,6 +116,62 @@ def test_compute_pipeline_single_f2_signal_at_peak_scores_higher_than_no_signal(
     assert with_signal["twoFamilyPass"] is False  # still only F2 -- matches this pass's known limitation
 
 
+def test_two_family_guardrail_is_now_actually_reachable(): # 2026-07-29 -- was inert while every signal was F2
+    # F3 (growth, from the Stage 1 screen) + F2 (hiring) are distinct
+    # families, so a company with both finally passes the guardrail §4.2
+    # designed as the main defense against one noisy sensor.
+    result = rh.compute(0.5, [
+        {"key": "hypergrowth_revenue", "monthsSinceEvent": 2},
+        {"key": "senior_finance_role", "monthsSinceEvent": 4},
+    ])
+    assert result["twoFamilyPass"] is True
+    assert set(result["familiesActive"]) == {"F2", "F3"}
+    assert result["confidence"] == "high"
+
+
+def test_hypergrowth_outweighs_a_single_hiring_signal():
+    # The research point in code form: for the AI tier, revenue momentum is
+    # stronger timing evidence than hiring preparation.
+    growth = rh.compute(0.5, [{"key": "hypergrowth_revenue", "monthsSinceEvent": 2}])
+    hiring = rh.compute(0.5, [{"key": "senior_gtm_burst", "monthsSinceEvent": 3}])
+    assert growth["p180"] > hiring["p180"]
+
+
+def test_process_visible_is_the_strongest_single_signal():
+    # F4 process leakage -- "very high" precision, 0-3mo lead (§2's table).
+    process = rh.compute(0.5, [{"key": "process_visible", "monthsSinceEvent": 0}])
+    growth = rh.compute(0.5, [{"key": "hypergrowth_revenue", "monthsSinceEvent": 2}])
+    assert process["p180"] > growth["p180"]
+
+
+def test_process_visible_fades_fast():
+    kernel = rh.SIGNAL_KERNELS["process_visible"]
+    assert rh.signal_multiplier(kernel, 0) == kernel["peak_mult"]
+    assert rh.signal_multiplier(kernel, 6) == 1.0  # worthless half a year later
+
+
+def test_distress_flag_set_by_a_defensive_raise():
+    result = rh.compute(0.5, [{"key": "defensive_raise", "monthsSinceEvent": 0}])
+    assert result["distressFlag"] is True
+    assert "defensive_raise" in result["distressSignals"]
+
+
+def test_distress_flag_absent_on_a_healthy_company():
+    result = rh.compute(0.5, [{"key": "hypergrowth_revenue", "monthsSinceEvent": 2}])
+    assert result["distressFlag"] is False
+    assert result["distressSignals"] == []
+
+
+def test_distress_flag_survives_alongside_positive_signals():
+    # §2.2: a growing-but-defensive company must still be flagged, not
+    # laundered clean by its positive signals.
+    result = rh.compute(0.5, [
+        {"key": "hypergrowth_revenue", "monthsSinceEvent": 2},
+        {"key": "layoffs", "monthsSinceEvent": 1},
+    ])
+    assert result["distressFlag"] is True
+
+
 def test_compute_pipeline_heat_points_present_and_matches_p180():
     result = rh.compute(0.5, [{"key": "senior_finance_role", "monthsSinceEvent": 4}])
     assert result["heatPoints"] == rh.heat_points(result["p180"])

@@ -33,14 +33,65 @@ import math
 # while true, drops out the scan it stops being true" means in practice;
 # `fade_month` on those two rows is unused (kept for schema consistency).
 SIGNAL_KERNELS = {
+    # ── F2: organizational preparation (hiring composition) ──────────────
+    # Sensed by radar_jobs.py + headcount series. NOTE (2026-07-29 research):
+    # this family structurally UNDER-detects AI-native companies, which hit
+    # 2-5x higher ARR-per-employee because AI replaces the hiring that used
+    # to signal scaling -- see radar_timing_signals.py's research grounding.
+    # F3 below is the higher-value family for ID8's AI mandate.
     "senior_finance_role":  {"peak_month": 4, "fade_month": 12, "peak_mult": 2.5, "family": "F2"},
     "corp_dev_role":        {"peak_month": 2, "fade_month": 6,  "peak_mult": 2.2, "family": "F2"},
     "headcount_growth_40":  {"peak_month": 0, "fade_month": 0,  "peak_mult": 1.6, "family": "F2", "concurrent": True},
     "senior_gtm_burst":     {"peak_month": 3, "fade_month": 9,  "peak_mult": 1.4, "family": "F2"},
     "recruiter_hiring":     {"peak_month": 3, "fade_month": 9,  "peak_mult": 1.3, "family": "F2"},
+
+    # ── F3: growth momentum (2026-07-29) ─────────────────────────────────
+    # Extracted from Stage 1 screen findings by radar_timing_signals.py, NOT
+    # from the fit rubric's revenue_growth SCORE -- that score reads 2 ("no
+    # disclosed figure") for undisclosed hypergrowth, which would invert the
+    # signal on exactly the companies this family exists to catch. See that
+    # module's docstring for the Paper/25x-ARR proof case.
+    #
+    # Multipliers sit between F2's hiring signals and F4's process leakage:
+    # a 25x ARR ramp is stronger evidence of an imminent raise than a CFO
+    # hire (the research tier raising back-to-back does so on growth, not
+    # preparation) but weaker than a visibly-running process. Slow fade
+    # (12mo) because growth momentum persists in a way an event does not.
+    "hypergrowth_revenue":   {"peak_month": 2, "fade_month": 12, "peak_mult": 3.0, "family": "F3"},
+    "strong_revenue_growth": {"peak_month": 2, "fade_month": 12, "peak_mult": 1.8, "family": "F3"},
+
+    # ── F4: process leakage ──────────────────────────────────────────────
+    # The raise is already visible/in motion. §2's table puts this family at
+    # "very high" precision, 0-3mo lead. Peaks immediately and fades fast --
+    # a "term sheets in hand" read is worthless nine months later. Set below
+    # the doc's x6.0 for a hard press leak ("in talks to raise"): this is
+    # inferred from our own research pass, which is good evidence but not the
+    # same as a reporter confirming a live process.
+    "process_visible":      {"peak_month": 0, "fade_month": 4,  "peak_mult": 4.0, "family": "F4"},
+
+    # ── F1-adjacent: insider conviction ──────────────────────────────────
+    # Existing Tier-1 investors confirmed following on -- parties with an
+    # information advantage committing more capital. Flat-ish while true,
+    # same shape as the doc's "existing lead closed a new fund" row.
+    "insiders_following":   {"peak_month": 0, "fade_month": 12, "peak_mult": 1.5, "family": "F1"},
+
+    # ── Negative / distress ──────────────────────────────────────────────
+    # §2.2's distress discriminator, as an explicit branch (never an
+    # emergent weighting). `defensive_raise` is the subtle one: a company
+    # raising defensively probably IS raising, but it is not an opportunity
+    # -- the doc is explicit that distress should LOWER escalation, so this
+    # both damps the multiplier and sets distressFlag for the caller.
     "headcount_decline_10": {"peak_month": 0, "fade_month": 0,  "peak_mult": 0.4, "family": "negative", "concurrent": True},
     "layoffs":              {"peak_month": 0, "fade_month": 6,  "peak_mult": 0.6, "family": "negative"},
+    "defensive_raise":      {"peak_month": 0, "fade_month": 9,  "peak_mult": 0.7, "family": "negative"},
 }
+
+# Families whose presence means "this company is in trouble", not "this
+# company is about to raise on strength" -- surfaced as `distressFlag` so
+# the hub and the partner brief can refuse to escalate them as
+# opportunities regardless of what the composite multiplier says (§2.2:
+# "Flag, never escalate as an opportunity").
+DISTRESS_KERNELS = ("headcount_decline_10", "layoffs", "defensive_raise")
 
 COMPOSITE_CAP = 8.0  # §4.2 "composite cap"
 
@@ -179,11 +230,15 @@ def compute(h0_annualized, active_signals):
     multipliers = []
     families = []
     ages = []
+    distress = []
     for sig in active_signals:
-        kernel = SIGNAL_KERNELS[sig["key"]]
+        key = sig["key"]
+        kernel = SIGNAL_KERNELS[key]
         age = sig.get("monthsSinceEvent")
         multipliers.append(signal_multiplier(kernel, age))
         families.append(kernel["family"])
+        if key in DISTRESS_KERNELS:
+            distress.append(key)
         if age is not None:
             ages.append(age)
 
@@ -199,4 +254,10 @@ def compute(h0_annualized, active_signals):
         "familiesActive": sorted(set(families)),
         "twoFamilyPass": two_family_guardrail(families),
         "confidence": confidence_level(families, min(ages) if ages else None),
+        # §2.2: "overdue" is equally a sign of imminent raise and of dying,
+        # and treating the second as the first is how a partner's attention
+        # gets spent on a corpse. An explicit flag, never inferred from the
+        # score alone.
+        "distressFlag": bool(distress),
+        "distressSignals": sorted(set(distress)),
     }
