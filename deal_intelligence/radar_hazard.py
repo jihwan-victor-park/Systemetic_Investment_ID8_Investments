@@ -127,11 +127,11 @@ def hazard_p180(h0_annualized, composite_multiplier):
 
 
 def heat_points(p180):
-    """P180 rescaled to the familiar 0-10ish number the hub's Heat column /
-    RadarHeatSettings already display -- NOT a new scale, just a legible
-    display mapping. This is display sugar; the model's real unit is
+    """P180 rescaled to a 0-100 number (Oscar, 2026-07-29) -- roughly "P180
+    as a percent," which is what makes a threshold like "hot at 80+"
+    legible at a glance. This is display sugar; the model's real unit is
     probability."""
-    return round(p180 * 10, 1)
+    return round(p180 * 100, 1)
 
 
 def two_family_guardrail(active_families):

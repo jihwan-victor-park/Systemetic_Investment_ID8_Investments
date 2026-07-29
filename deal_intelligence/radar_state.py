@@ -24,14 +24,14 @@ from datetime import date, timedelta
 
 from google.cloud import firestore
 
-from . import apollo_org, capital_clock, config, radar_hazard, radar_jobs, radar_mandate, radar_schedule, radar_signal_series
+from . import apollo_org, capital_clock, config, radar_access, radar_hazard, radar_jobs, radar_mandate, radar_schedule, radar_signal_series
 
 _db = None
 SCHEMA_VERSION = 1
 APOLLO_STALENESS_DAYS = 30
 CRITICAL_ZONE_MONTHS = 5  # matches radar_schedule.base_interval_weeks' own 3-5mo critical-zone band
 
-DEFAULT_WATCH_FLOOR = 2.5  # RADAR_SIGNAL_ENGINE.md §11 default; hub-editable via radarConfig/current, same doc RadarHeatSettings.jsx writes hotThreshold to
+DEFAULT_WATCH_FLOOR = 25  # 0-100 scale (Oscar, 2026-07-29); hub-editable via radarConfig/current, same doc RadarHeatSettings.jsx writes hotThreshold to
 DROP_STREAK_THRESHOLD = 3  # consecutive below-floor scans before auto-drop -- matches radar_schedule's own dwell-time spirit (don't flicker on one bad week)
 
 # Maps radar_jobs.classify_postings' bucket names onto radar_hazard.
@@ -82,6 +82,16 @@ def list_top_vcs(db=None):
     should call this ONCE and reuse the result, never per company."""
     db = db or _firestore()
     return [doc.to_dict() for doc in db.collection("topVCs").stream()]
+
+
+def list_partner_vcs(db=None):
+    """Reads the same `partnerVCs` Firestore collection hub-next's
+    listPartnerVCs() reads -- {name, portfolio: [{company, ...}], ...} per
+    doc. Feeds radar_access.build_partner_index() the same way
+    list_top_vcs() feeds radar_mandate.build_tier1_index() -- call ONCE per
+    bulk operation, reuse the result."""
+    db = db or _firestore()
+    return [doc.to_dict() for doc in db.collection("partnerVCs").stream()]
 
 
 def _parse_date(value):
@@ -143,13 +153,14 @@ def _active_signals(headcount_growth, job_signals, today):
 def compute_radar_state(fields, tier1_index, headcount, headcount_checked_at,
                          last_scan_at, scan_count, today=None, advance_scan=True,
                          headcount_growth=None, job_signals=None,
-                         low_score_streak=0, watch_floor=DEFAULT_WATCH_FLOOR):
+                         low_score_streak=0, watch_floor=DEFAULT_WATCH_FLOOR,
+                         partner_index=None):
     """Pure orchestration -- no I/O, unit-testable with fabricated inputs.
 
     fields: {name, hq, series, top10VC, roundSize, roundDate, radarCategory,
     description}. Short-circuits on mandate failure: no clock/schedule/
-    hazard computed at all, matching Part IV guardrail #1 ("mandatePass =
-    false -> no sensing, no escalation, ever").
+    hazard/access computed at all, matching Part IV guardrail #1
+    ("mandatePass = false -> no sensing, no escalation, ever").
 
     `headcount_growth`/`job_signals`: this scan's sensor reads, already
     fetched by the caller (recompute_and_write) -- see _active_signals()
@@ -159,6 +170,12 @@ def compute_radar_state(fields, tier1_index, headcount, headcount_checked_at,
     caller decides whether crossing DROP_STREAK_THRESHOLD actually stamps
     `droppedAt`, since that's a once-only, never-reset write this function
     (stateless, called fresh every time) has no business owning.
+
+    `partner_index`: radar_access.build_partner_index()'s output (or None,
+    treated as empty -- no co-invest match, degrades to institutional/none
+    only). A SEPARATE gate from `hazard`, deliberately -- see
+    radar_access.py's own module docstring for why timing and access don't
+    get blended into one number.
 
     `advance_scan`: True when this call represents an actual scan happening
     now (the daily scan runner, or the initial backfill) -- scanCount
@@ -182,6 +199,7 @@ def compute_radar_state(fields, tier1_index, headcount, headcount_checked_at,
             "schedule": None,
             "hotness": None,
             "hazard": None,
+            "access": None,
             "lowScoreStreak": 0,
         }
 
@@ -213,6 +231,10 @@ def compute_radar_state(fields, tier1_index, headcount, headcount_checked_at,
     hazard = radar_hazard.compute(h0, active_signals)
     hazard["computedAt"] = today.isoformat()
 
+    access = radar_access.resolve_access(
+        fields.get("name"), mandate.get("tier1Firms"), mandate.get("top10VCFlag"), partner_index or {}
+    )
+
     heat_points = hazard["heatPoints"]
     low_score_streak_out = 0 if heat_points >= watch_floor else low_score_streak + 1
 
@@ -240,6 +262,7 @@ def compute_radar_state(fields, tier1_index, headcount, headcount_checked_at,
         },
         "hotness": _hotness(months_until_window),
         "hazard": hazard,
+        "access": access,
         "lowScoreStreak": low_score_streak_out,
     }
 
@@ -266,7 +289,7 @@ def _get_watch_floor(db):
         return DEFAULT_WATCH_FLOOR
 
 
-def recompute_and_write(slug, fields, tier1_index, entry_source, db=None, apollo_lookup=None, today=None, watch_floor=None):
+def recompute_and_write(slug, fields, tier1_index, entry_source, db=None, apollo_lookup=None, today=None, watch_floor=None, partner_index=None):
     """The one function both the Attio-import hook and the scan runner call.
     Reads the company's existing radar.clock.headcountCheckedAt off
     Firestore first; only calls Apollo if missing or >30 days stale -- keeps
@@ -281,6 +304,11 @@ def recompute_and_write(slug, fields, tier1_index, entry_source, db=None, apollo
     `watch_floor`: pass explicitly (radar_backfill.py does, once, the same
     way it already reuses one tier1_index across a whole run) to avoid a
     radarConfig read per company; None reads it here.
+
+    `partner_index`: radar_access.build_partner_index()'s output -- pass
+    explicitly (same reuse-across-a-run convention as tier1_index) or leave
+    None to degrade gracefully (access resolves to institutional/none only,
+    never co-invest) rather than reading partnerVCs per company.
 
     Writes via `company_ref.set({'radar': {...}}, merge=True)` -- same
     convention as the rest of firestore_push.py."""
@@ -357,6 +385,7 @@ def recompute_and_write(slug, fields, tier1_index, entry_source, db=None, apollo
         last_scan_at, scan_count, today, advance_scan,
         headcount_growth=headcount_growth, job_signals=job_signals,
         low_score_streak=low_score_streak, watch_floor=watch_floor,
+        partner_index=partner_index,
     )
     radar_data["entrySource"] = entry_source
     radar_data["jobSignals"] = job_signals

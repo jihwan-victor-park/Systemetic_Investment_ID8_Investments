@@ -73,8 +73,8 @@ def test_hazard_zero_multiplier_and_zero_h0_is_zero():
     assert rh.hazard_p90(0.0, 1.0) == 0.0
 
 
-def test_heat_points_rescales_p180_to_0_10():
-    assert rh.heat_points(0.5) == 5.0
+def test_heat_points_rescales_p180_to_0_100():
+    assert rh.heat_points(0.5) == 50.0
     assert rh.heat_points(0.0) == 0.0
 
 

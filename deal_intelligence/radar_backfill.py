@@ -23,7 +23,7 @@ import argparse
 
 from google.cloud import firestore
 
-from . import config, radar_mandate, radar_signal_series, radar_state
+from . import config, radar_access, radar_mandate, radar_signal_series, radar_state
 
 
 def _iter_radar_companies(db, limit=None):
@@ -40,6 +40,8 @@ def run(dry_run=False, limit=None):
 
     tier1_index = radar_mandate.build_tier1_index(radar_state.list_top_vcs(db))
     print(f"Tier 1 index built from {len(tier1_index)} distinct company names across the Top 10 VC list.")
+    partner_index = radar_access.build_partner_index(radar_state.list_partner_vcs(db))
+    print(f"Partner index built from {len(partner_index)} distinct company names across the Partner VC list.")
     # Fetched once and reused across every company, same convention as
     # tier1_index -- avoids a radarConfig read per company.
     watch_floor = radar_state._get_watch_floor(db)
@@ -68,23 +70,25 @@ def run(dry_run=False, limit=None):
                 existing_schedule.get("scanCount", 0), advance_scan=False,
                 headcount_growth=headcount_growth, job_signals=existing_radar.get("jobSignals"),
                 low_score_streak=existing_radar.get("lowScoreStreak", 0), watch_floor=watch_floor,
+                partner_index=partner_index,
             )
         else:
-            radar_data = radar_state.recompute_and_write(slug, fields, tier1_index, "backfill", db=db, watch_floor=watch_floor)
+            radar_data = radar_state.recompute_and_write(slug, fields, tier1_index, "backfill", db=db, watch_floor=watch_floor, partner_index=partner_index)
         mandate = radar_data["mandate"]
         hazard = radar_data.get("hazard") or {}
+        access = radar_data.get("access") or {}
         results.append((
             slug, fields["name"], mandate["pass"], mandate.get("failReason"),
-            hazard.get("heatPoints"), hazard.get("familiesActive"),
+            hazard.get("heatPoints"), hazard.get("familiesActive"), access.get("level"),
         ))
 
     passed = [r for r in results if r[2]]
     failed = [r for r in results if not r[2]]
     print(f"\n{'DRY RUN -- ' if dry_run else ''}{len(passed)} pass, {len(failed)} fail the mandate screen.\n")
-    for slug, name, ok, reason, heat_points, families in results:
+    for slug, name, ok, reason, heat_points, families, access_level in results:
         status = "PASS" if ok else f"FAIL  ({reason})"
-        heat_desc = f"heat={heat_points} families={','.join(families) if families else 'none'}" if ok else ""
-        print(f"  {status:<45} {heat_desc:<38} {name or slug}")
+        heat_desc = f"heat={heat_points} families={','.join(families) if families else 'none'} access={access_level}" if ok else ""
+        print(f"  {status:<45} {heat_desc:<52} {name or slug}")
 
     return {"total": len(docs), "passed": len(passed), "failed": len(failed)}
 

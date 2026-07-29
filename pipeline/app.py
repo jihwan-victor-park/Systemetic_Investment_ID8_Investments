@@ -31,6 +31,7 @@ from deal_intelligence import fit_note as di_fit_note
 from deal_intelligence import firestore_push as di_firestore_push
 from deal_intelligence import chat_intent as di_chat_intent
 from deal_intelligence import attio_io as di_attio_io
+from deal_intelligence import radar_access as di_radar_access
 from deal_intelligence import radar_mandate as di_radar_mandate
 from deal_intelligence import radar_state as di_radar_state
 
@@ -1746,14 +1747,16 @@ def _run_attio_import(job_id: str):
         total = len(pairs)
         created = skipped = errors = 0
         # Built ONCE for the whole loop -- push_company_from_attio would
-        # otherwise re-read the entire topVCs collection on every single
-        # deal that resolves to Radar (RADAR_PLAN.md's own S3 mandate-screen
-        # check), the same per-row-refetch mistake the hub-perf fix already
-        # corrected for listCompanies()'s investor cross-reference.
+        # otherwise re-read the entire topVCs/partnerVCs collections on
+        # every single deal that resolves to Radar (RADAR_PLAN.md's own S3
+        # mandate-screen check / radar_access.py's syndicate gate), the same
+        # per-row-refetch mistake the hub-perf fix already corrected for
+        # listCompanies()'s investor cross-reference.
         tier1_index = di_radar_mandate.build_tier1_index(di_radar_state.list_top_vcs())
+        partner_index = di_radar_access.build_partner_index(di_radar_state.list_partner_vcs())
         for i, (deal, attio_stage) in enumerate(pairs):
             try:
-                result = di_firestore_push.push_company_from_attio(deal, attio_stage, tier1_index)
+                result = di_firestore_push.push_company_from_attio(deal, attio_stage, tier1_index, partner_index)
                 created += 1 if result.get("created") else 0
                 skipped += 0 if result.get("created") else 1
             except Exception:

@@ -24,7 +24,7 @@ from datetime import date
 
 from google.cloud import firestore
 
-from . import config, radar_mandate, radar_state
+from . import config, radar_access, radar_mandate, radar_state
 
 
 def _due_companies(db, today):
@@ -48,6 +48,7 @@ def run(today=None):
     print(f"[radar-scan-runner] {today.isoformat()}: {len(due)} companies due for a scan.")
 
     tier1_index = radar_mandate.build_tier1_index(radar_state.list_top_vcs(db))
+    partner_index = radar_access.build_partner_index(radar_state.list_partner_vcs(db))
 
     processed = errors = 0
     for doc in due:
@@ -55,7 +56,7 @@ def run(today=None):
         try:
             data = doc.to_dict()
             fields = radar_state.fields_from_company_doc(data)
-            radar_data = radar_state.recompute_and_write(slug, fields, tier1_index, "scan-runner", db=db, today=today)
+            radar_data = radar_state.recompute_and_write(slug, fields, tier1_index, "scan-runner", db=db, today=today, partner_index=partner_index)
             processed += 1
             print(f"[radar-scan-runner]   {slug}: hotness={radar_data.get('hotness')} "
                   f"nextScanAt={(radar_data.get('schedule') or {}).get('nextScanAt')}")

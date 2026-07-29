@@ -18,7 +18,17 @@ const DOC_REF = () => db().collection('radarConfig').doc('current');
 // "hub-editable, no redeploy" convention as hotWindowMonths/hotThreshold;
 // radar_state.py reads this Firestore doc directly (see its own
 // _get_watch_floor()), it isn't pushed to Python any other way.
-const DEFAULTS = { hotWindowMonths: 3, hotThreshold: 5, watchFloor: 2.5 };
+//
+// `hotThreshold`/`watchFloor` are on a 0-100 scale as of 2026-07-29
+// (radar_hazard.heat_points() rescaled from 0-10 -- "heat score of 80+"
+// reads as roughly "P180 as a percent, 80%+"). Only meaningful once a
+// company has been through the real Python hazard pipeline
+// (`radar.hazard.heatPoints`) -- the old live-JS fallback score
+// (lib/radarHeatScore.js) stays on its own small 0-12 scale and will
+// simply never clear an 80-point threshold, which is the correct,
+// conservative behavior for a company that hasn't been scanned yet, not a
+// bug.
+const DEFAULTS = { hotWindowMonths: 3, hotThreshold: 80, watchFloor: 25 };
 
 export const getRadarConfig = unstable_cache(
   async () => {

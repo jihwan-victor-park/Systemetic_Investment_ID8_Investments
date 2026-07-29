@@ -22,7 +22,7 @@ export default function RadarHeatSettings({ config, canEdit }) {
   if (!canEdit) {
     return (
       <p className={styles.readonly}>
-        Hot: within {config.hotWindowMonths} {config.hotWindowMonths === 1 ? 'month' : 'months'} of its predicted raise window, or a heat score of {config.hotThreshold}+. Dropped from view below {config.watchFloor} for a few scans running.
+        Hot: heat score {config.hotThreshold}+ (0-100) AND a syndicate access route on file. Before a company's first real scan, falls back to: within {config.hotWindowMonths} {config.hotWindowMonths === 1 ? 'month' : 'months'} of its predicted raise window, or a heat score of {config.hotThreshold}+. Dropped from view below {config.watchFloor} for a few scans running.
       </p>
     );
   }

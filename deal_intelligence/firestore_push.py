@@ -21,7 +21,7 @@ from datetime import date
 
 from google.cloud import firestore, storage
 
-from . import config, radar_mandate, radar_state, rubric
+from . import config, radar_access, radar_mandate, radar_state, rubric
 from .fit_note import PARAM_LABELS, _badge_text, _linkify_md, company_id, normalize_domain
 from .schemas import DealFit, DealInput, DealMemo
 
@@ -246,7 +246,7 @@ def push_company_memo_firestore(memo: DealMemo, slug: str) -> dict:
     return {"slug": slug, "memo_id": memo_id}
 
 
-def push_company_from_attio(deal: DealInput, attio_stage: str | None, tier1_index: dict | None = None) -> dict:
+def push_company_from_attio(deal: DealInput, attio_stage: str | None, tier1_index: dict | None = None, partner_index: dict | None = None) -> dict:
     """Metadata-only upsert for the bulk Attio import -- no Stage 1 score, no
     docx, no screens subcollection write, just enough to make the deal show
     up for Oscar to triage. On a brand-new company: lands in the hub tab that
@@ -276,13 +276,15 @@ def push_company_from_attio(deal: DealInput, attio_stage: str | None, tier1_inde
     list (RADAR_PLAN.md §1.6), which needs real description text to match
     keywords against -- radarCategory alone is too sparse.
 
-    `tier1_index` (optional): a pre-built radar_mandate.build_tier1_index()
-    result, for a caller processing many deals in one loop (the bulk Attio
+    `tier1_index`/`partner_index` (both optional): pre-built
+    radar_mandate.build_tier1_index()/radar_access.build_partner_index()
+    results, for a caller processing many deals in one loop (the bulk Attio
     import) to build ONCE outside the loop and pass through -- avoids
-    re-reading the whole topVCs collection on every single deal. A caller
-    with no index handy (a one-off Run Analysis rerun, say) can omit it;
-    this function builds one lazily on the rare occasion it's actually
-    needed (a company resolving to the Radar stage), never unconditionally.
+    re-reading the whole topVCs/partnerVCs collections on every single deal.
+    A caller with no index handy (a one-off Run Analysis rerun, say) can
+    omit either; this function builds them lazily on the rare occasion
+    they're actually needed (a company resolving to the Radar stage), never
+    unconditionally.
     """
     slug = company_id(deal)
     company_ref = _firestore().collection("companies").document(slug)
@@ -343,6 +345,7 @@ def push_company_from_attio(deal: DealInput, attio_stage: str | None, tier1_inde
     if resolved_stage == "radar":
         try:
             index = tier1_index if tier1_index is not None else radar_mandate.build_tier1_index(radar_state.list_top_vcs())
+            p_index = partner_index if partner_index is not None else radar_access.build_partner_index(radar_state.list_partner_vcs())
             # Re-read rather than reconstruct from `payload`/`existing_snap`
             # branches -- this always reflects exactly what's now persisted
             # (top-level roundDate/roundSize/round are don't-clobber fields
@@ -356,7 +359,7 @@ def push_company_from_attio(deal: DealInput, attio_stage: str | None, tier1_inde
                 "radarCategory": current.get("radarCategory"), "description": current.get("description"),
                 "website": current.get("website"),
             }
-            radar_state.recompute_and_write(slug, fields, index, "attio-import")
+            radar_state.recompute_and_write(slug, fields, index, "attio-import", partner_index=p_index)
         except Exception as e:
             print(f"push_company_from_attio({slug}): radar recompute failed (non-blocking): {e}")
 
