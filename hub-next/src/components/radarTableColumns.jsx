@@ -14,13 +14,17 @@ import { matchedKeywords } from '@/lib/radarRuleMatch';
 // Actions, which the old bespoke column set explicitly omitted.
 const STAGE_COL_INDEX = STAGE_TABLE_COLUMNS.findIndex((c) => c.key === 'stage');
 
+// `radarCategory` dropped from Radar's own table (Oscar, 2026-07-29 notes:
+// "eliminate radar category column") -- scoped to Radar only via this
+// filter, not removed from STAGE_TABLE_COLUMNS itself, so Watchlist/
+// Pipeline/Qualified Deals (which share that same column list) keep it.
 export const RADAR_TABLE_COLUMNS = [
   ...STAGE_TABLE_COLUMNS.slice(0, STAGE_COL_INDEX),
   { key: 'predictedWindow', label: 'Predicted Window', sortable: true },
   { key: 'nextScan', label: 'Next Scan', sortable: true },
   { key: 'heat', label: 'Heat', sortable: true, defaultDir: 'desc' },
   ...STAGE_TABLE_COLUMNS.slice(STAGE_COL_INDEX),
-];
+].filter((c) => c.key !== 'radarCategory');
 
 // `radarConfig` ({hotWindowMonths, hotThreshold, watchFloor},
 // lib/radarConfig.js) and `keywords` ([{term}], lib/radarRules.js) come

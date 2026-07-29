@@ -51,6 +51,36 @@ DEFAULT_COST_PER_HEAD = 240_000  # unknown region -- falls back to the NA/medium
 # RADAR_SIGNAL_ENGINE.md §3 argues for -- never a silently-adjusted number.
 MAX_RUNWAY_MONTHS = 36
 
+# Second, tighter cap for `capital_intensity == "high"` (AI-heavy/compute/
+# hardware/deeptech/defense, classify_capital_intensity() below) -- Oscar,
+# 2026-07-29: "ai startups are raising rounds so fast and so close to each
+# other." Real research, not assumption (2026-07-29):
+#   - The MEDIAN company's timeline has actually gotten LONGER, not shorter
+#     -- seed-to-Series-A stretched to ~20mo, trending toward 28mo
+#     (eqvista.com/ai-startup-fundraising-trends). MAX_RUNWAY_MONTHS=36
+#     stays the right cap for medium/low intensity companies; the fix here
+#     is deliberately narrow, not a blanket "AI is faster now" change.
+#   - The companies that genuinely DO raise back-to-back are a specific,
+#     identifiable tier: Anthropic (3 rounds/9mo), Cyera ($3B->$12B across
+#     4 steps/18mo), Cursor ($100M->$2B ARR in 13mo) -- all compute-heavy,
+#     all raising to FUND GROWTH, not because nominal cash is running low
+#     (qubit.capital/blog/ai-startup-fundraising-trends,
+#     fastaijobs.com/career-hacks/biggest-ai-funding-rounds-2026).
+#   - Notably this fast tier's growth is REVENUE-driven, not headcount-
+#     driven -- AI-native companies now run 2-5x higher ARR-per-employee
+#     than traditional startups because AI automates work that used to
+#     need hiring (runway.com/blog/burn-multiple-benchmarks-for-2026). That
+#     means the existing hiring-based signal kernels (radar_hazard.py's F2
+#     family) are structurally weak for exactly this tier -- a company
+#     burning through compute toward $2B ARR can show flat headcount the
+#     whole way. Capital intensity (already classified below, from
+#     radarCategory/description keywords) is the input this pipeline
+#     already has that actually tracks with the fast-raising tier; a
+#     revenue-growth signal would be the more direct fix but there's no
+#     reliable revenue field feeding this pipeline yet (Stage 1 screens do
+#     estimate it, per-deal, in free text -- not wired in here).
+MAX_RUNWAY_MONTHS_HIGH_INTENSITY = 18
+
 # Sector-keyword proxy only -- v1 has no reliable revenue/burn-efficiency
 # data to test the plan's real "efficient SaaS, near-breakeven, revenue-
 # funded" definition of "low" against. See the plan's risk #3: the scan-
@@ -143,8 +173,9 @@ def compute(fields, headcount, as_of=None):
     capital_consumed = est_monthly_burn * months_since_round
     capital_remaining = max(round_size - capital_consumed, 0)
     runway_months_raw = round(capital_remaining / est_monthly_burn, 1) if est_monthly_burn else None
-    runway_capped = runway_months_raw is not None and runway_months_raw > MAX_RUNWAY_MONTHS
-    runway_months = min(runway_months_raw, MAX_RUNWAY_MONTHS) if runway_months_raw is not None else None
+    runway_cap = MAX_RUNWAY_MONTHS_HIGH_INTENSITY if capital_intensity == "high" else MAX_RUNWAY_MONTHS
+    runway_capped = runway_months_raw is not None and runway_months_raw > runway_cap
+    runway_months = min(runway_months_raw, runway_cap) if runway_months_raw is not None else None
     est_cash_out_date = _add_months(today, round(runway_months)) if runway_months is not None else None
     predicted_window_open = _add_months(est_cash_out_date, -12) if est_cash_out_date else None
     contact_by_date = _add_months(predicted_window_open, -3) if predicted_window_open else None
@@ -155,8 +186,11 @@ def compute(fields, headcount, as_of=None):
         f"{region or 'unknown region'} {intensity_label}-intensity class @ ${cph:,}/head/yr; "
         f"gross burn (no revenue-offset data); flat current-headcount rate (no history yet); "
         f"headcount from Apollo{' ' + fields['headcountCheckedAt'] if fields.get('headcountCheckedAt') else ''}"
-        + (f"; runway capped at {MAX_RUNWAY_MONTHS}mo for date math (raw estimate {runway_months_raw:.0f}mo -- "
-           f"flat headcount-burn is unreliable this far out, round size is large relative to current headcount)"
+        + (f"; runway capped at {runway_cap}mo for date math (raw estimate {runway_months_raw:.0f}mo -- "
+           + ("high capital-intensity companies raise on a much tighter cycle than nominal cash position "
+              "suggests, see capital_clock.py's MAX_RUNWAY_MONTHS_HIGH_INTENSITY" if capital_intensity == "high"
+              else "flat headcount-burn is unreliable this far out, round size is large relative to current headcount")
+           + ")"
            if runway_capped else "")
     )
 

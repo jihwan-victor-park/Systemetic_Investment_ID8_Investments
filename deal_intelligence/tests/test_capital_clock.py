@@ -104,6 +104,30 @@ def test_compute_caps_runway_and_dates_for_an_outsized_round(): # Oscar, 2026-07
     assert "capped" in result["assumptions"]
 
 
+def test_compute_high_intensity_gets_a_tighter_runway_cap(): # Oscar, 2026-07-29 -- research-grounded, see MAX_RUNWAY_MONTHS_HIGH_INTENSITY's own comment
+    result = cc.compute(
+        {"roundSize": 400_000_000, "roundDate": "2026-06-01", "region": "NA",
+         "radarCategory": "AI infrastructure", "description": "foundation model training"},
+        headcount=120, as_of=date(2026, 7, 29),
+    )
+    assert result["capitalIntensity"] == "high"
+    assert result["runwayMonths"] == cc.MAX_RUNWAY_MONTHS_HIGH_INTENSITY
+    assert result["runwayMonths"] < cc.MAX_RUNWAY_MONTHS  # meaningfully tighter than the general cap
+    assert "high capital-intensity" in result["assumptions"]
+
+
+def test_compute_medium_intensity_still_uses_the_general_cap_not_the_tight_one():
+    # Same outsized-round shape as the Atoms regression test, but classified
+    # medium (no high-intensity keywords) -- must NOT get the tight cap.
+    result = cc.compute(
+        {"roundSize": 1_700_000_000, "roundDate": "2026-07-23", "region": "NA",
+         "radarCategory": "industrial automation"},
+        headcount=690, as_of=date(2026, 7, 29),
+    )
+    assert result["capitalIntensity"] == "medium"
+    assert result["runwayMonths"] == cc.MAX_RUNWAY_MONTHS
+
+
 def test_compute_does_not_mention_cap_when_runway_is_reasonable():
     result = cc.compute(
         {"roundSize": 32_000_000, "roundDate": "2026-02-10", "region": "NA"},
