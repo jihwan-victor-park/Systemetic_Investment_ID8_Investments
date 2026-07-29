@@ -89,6 +89,29 @@ def test_compute_dates_are_correctly_ordered_backwards_from_cash_out():
     assert alert_at < contact_by
 
 
+def test_compute_caps_runway_and_dates_for_an_outsized_round(): # Oscar, 2026-07-29 -- Atoms: $1.7B round / 690 heads computed a 2035 window
+    result = cc.compute(
+        {"roundSize": 1_700_000_000, "roundDate": "2026-07-23", "region": "NA",
+         "radarCategory": "industrial automation"},
+        headcount=690, as_of=date(2026, 7, 29),
+    )
+    assert result["runwayMonths"] == cc.MAX_RUNWAY_MONTHS
+    window_open = date.fromisoformat(result["predictedWindowOpen"])
+    # Capped runway (36mo) minus the 12mo window-open offset -> at most ~24
+    # months out, nowhere near the ~112 months (9+ years) the raw, uncapped
+    # arithmetic would have produced.
+    assert (window_open - date(2026, 7, 29)).days < 900
+    assert "capped" in result["assumptions"]
+
+
+def test_compute_does_not_mention_cap_when_runway_is_reasonable():
+    result = cc.compute(
+        {"roundSize": 32_000_000, "roundDate": "2026-02-10", "region": "NA"},
+        headcount=81, as_of=date(2026, 8, 5),
+    )
+    assert "capped" not in result["assumptions"]
+
+
 def test_compute_runway_floors_at_zero_capital_remaining():
     # Round long since exhausted at this burn rate -- capitalRemaining should
     # floor at 0, not go negative.

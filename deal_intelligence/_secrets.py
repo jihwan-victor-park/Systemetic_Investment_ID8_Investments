@@ -28,7 +28,19 @@ def _load():
         # Library not installed — local dev without the GCP SDK, rely on .env
         return
 
-    client = secretmanager.SecretManagerServiceClient()
+    try:
+        client = secretmanager.SecretManagerServiceClient()
+    except Exception as exc:  # noqa: BLE001
+        # The library being installed doesn't mean Application Default
+        # Credentials are configured -- a contributor who installed
+        # requirements.txt but never ran `gcloud auth application-default
+        # login` (or any other local dev environment without ADC) would
+        # otherwise crash on every single import of deal_intelligence.config,
+        # not just fail to load secrets. Same "rely on .env" fallback as the
+        # ImportError branch above -- this is a degraded-but-working local
+        # state, not a fatal one.
+        print(f"[secrets] could not build Secret Manager client, falling back to .env: {exc}")
+        return
     for env_var, resource in _SECRETS.items():
         if os.environ.get(env_var):
             # Already set (e.g. injected by Cloud Run secret env-var binding or .env)

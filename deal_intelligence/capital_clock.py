@@ -36,6 +36,21 @@ COST_PER_HEAD = {
 }
 DEFAULT_COST_PER_HEAD = 240_000  # unknown region -- falls back to the NA/medium figure
 
+# The flat current-headcount burn rate (no revenue offset, no trajectory --
+# see this module's own docstring) is a reasonable approximation for a
+# normal-sized round, but breaks completely for an outsized round relative
+# to current headcount: a $1.7B round against a 690-person org "computes" a
+# 10-year runway and a predicted raise window in 2035 -- not wrong per the
+# formula, just outside the range this crude a burn model has any business
+# making a date prediction over. Oscar, 2026-07-29 ("the dates ... are so
+# stupid"). Capping runway (not just the derived dates) keeps
+# estCashOutDate/predictedWindowOpen/runwayMonths internally consistent
+# rather than having runwayMonths say one thing and the dates say another.
+# The cap is stated on the face of `assumptions` when it fires, same
+# "carries its assumptions on the face of the card" principle
+# RADAR_SIGNAL_ENGINE.md §3 argues for -- never a silently-adjusted number.
+MAX_RUNWAY_MONTHS = 36
+
 # Sector-keyword proxy only -- v1 has no reliable revenue/burn-efficiency
 # data to test the plan's real "efficient SaaS, near-breakeven, revenue-
 # funded" definition of "low" against. See the plan's risk #3: the scan-
@@ -127,7 +142,9 @@ def compute(fields, headcount, as_of=None):
     est_monthly_burn = round(headcount * cph / 12)
     capital_consumed = est_monthly_burn * months_since_round
     capital_remaining = max(round_size - capital_consumed, 0)
-    runway_months = round(capital_remaining / est_monthly_burn, 1) if est_monthly_burn else None
+    runway_months_raw = round(capital_remaining / est_monthly_burn, 1) if est_monthly_burn else None
+    runway_capped = runway_months_raw is not None and runway_months_raw > MAX_RUNWAY_MONTHS
+    runway_months = min(runway_months_raw, MAX_RUNWAY_MONTHS) if runway_months_raw is not None else None
     est_cash_out_date = _add_months(today, round(runway_months)) if runway_months is not None else None
     predicted_window_open = _add_months(est_cash_out_date, -12) if est_cash_out_date else None
     contact_by_date = _add_months(predicted_window_open, -3) if predicted_window_open else None
@@ -138,6 +155,9 @@ def compute(fields, headcount, as_of=None):
         f"{region or 'unknown region'} {intensity_label}-intensity class @ ${cph:,}/head/yr; "
         f"gross burn (no revenue-offset data); flat current-headcount rate (no history yet); "
         f"headcount from Apollo{' ' + fields['headcountCheckedAt'] if fields.get('headcountCheckedAt') else ''}"
+        + (f"; runway capped at {MAX_RUNWAY_MONTHS}mo for date math (raw estimate {runway_months_raw:.0f}mo -- "
+           f"flat headcount-burn is unreliable this far out, round size is large relative to current headcount)"
+           if runway_capped else "")
     )
 
     return {
