@@ -6,8 +6,8 @@ import DeleteButton from '@/components/DeleteButton';
 import { listCompanies } from '@/lib/companies';
 import { listTopVCs } from '@/lib/topVCs';
 import { listPartnerVCs } from '@/lib/partnerVCs';
-import { buildInvestorIndex, partnerDomainIndex, allInvestorMatches } from '@/lib/companyIndex';
-import { STAGE_BASEPATH } from '@/lib/stages';
+import { buildInvestorIndex, investorDomainIndex, allInvestorMatches } from '@/lib/companyIndex';
+import { STAGE_BASEPATH, PUBLIC_STAGES, STAGE_LABELS } from '@/lib/stages';
 import styles from '@/components/companyStageColumns.module.css';
 
 export const metadata = { title: 'Top Deals', description: 'Every company that cleared the Stage 1 gate this week.' };
@@ -53,13 +53,14 @@ export default async function HotDealsPage() {
   });
 
   const investorIndex = buildInvestorIndex(tier1, partners);
-  const domainIndex = partnerDomainIndex(partners);
+  const domainIndex = investorDomainIndex(tier1, partners);
   const rows = gated.map((c) => {
     const { source, via, viaHref } = findSource(investorIndex, domainIndex, c);
     const basePath = STAGE_BASEPATH[c.stage] || STAGE_BASEPATH.qualified;
     const score = c.latestScreen.fitScore;
     return {
       key: c.slug,
+      filterValues: { stage: c.stage },
       sort: { company: c.name.toLowerCase(), score, source, stage: c.stage, date: c.latestScreen.date },
       search: { company: c.name, source, via },
       cells: {
@@ -101,6 +102,7 @@ export default async function HotDealsPage() {
         defaultSort={{ key: 'date', dir: 'desc' }}
         searchPlaceholder="Filter by company or source…"
         emptyMessage={`No companies have cleared the gate in the last ${WINDOW_DAYS} days.`}
+        filterGroups={[{ key: 'stage', label: 'Stage', options: PUBLIC_STAGES.map((s) => ({ key: s, label: STAGE_LABELS[s] })) }]}
       />
     </>
   );

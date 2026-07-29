@@ -8,6 +8,7 @@ import { buildCompanyIndex, companyHref } from '@/lib/companyIndex';
 import GroupFieldEditor from '@/components/GroupFieldEditor';
 import ArrayFieldEditor from '@/components/ArrayFieldEditor';
 import InlineTextField from '@/components/InlineTextField';
+import TierDealsTable from '@/components/TierDealsTable';
 
 export const dynamic = 'force-dynamic';
 
@@ -94,6 +95,8 @@ export default async function Tier1VCPage({ params }) {
           ? ` — showing ${vc.deals.length} recorded below`
           : ''}
       </p>
+      <TierDealsTable deals={vc.deals} companyIndex={companyIndex} />
+      <p><em>Edit the raw list below to add, remove, or correct an investment.</em></p>
       <ArrayFieldEditor
         endpoint="/api/top-vcs"
         id={vc.id}

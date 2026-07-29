@@ -66,16 +66,29 @@ export function companyToRow(c, { basePath, canEdit, investorIndex = {}, domainI
   // (c.investorDomains, off Attio -- see companyIndex.js's
   // domainMatchesFromIndex) -- a different question (does this company
   // already have one of our partner VCs as an investor) that feeds the same
-  // column. `domainIndex` is built once per page load by partnerDomainIndex,
+  // column. `domainIndex` is built once per page load by investorDomainIndex,
   // same reasoning as investorIndex.
   const matches = allInvestorMatches(investorIndex, c.name, domainIndex, c.investorDomains);
   const partnerVc = matches.length ? matches.map((m) => m.via).join(', ') : null;
+  // Best available portfolio-level fit score across every matched firm
+  // (Stage 0 Portfolio Fit, Partner VCs only -- see buildInvestorIndex) --
+  // exposed via `meta` (not `sort`/`cells`/`filterValues`, which SortableTable
+  // itself reads) purely so radarTableColumns.jsx's radarCompanyToRow can
+  // reuse this same already-computed `matches` pass for its heat score
+  // instead of re-scanning every VC's portfolio a second time per row.
+  const bestInvestorFitScore = matches.reduce(
+    (best, m) => (m.fitScore != null && (best == null || m.fitScore > best) ? m.fitScore : best),
+    null
+  );
   return {
     key: c.slug,
-    // Used by SortableTable's tagFilterOptions (see lib/stages.js's
-    // TAG_OPTIONS) to filter rows by "Also in" -- not rendered as its own
-    // column anymore; per-row editing lives on the company detail page.
-    tags: c.tags || [],
+    // Consumed by SortableTable's filterGroups (see lib/stages.js's
+    // PUBLIC_STAGES) on cross-stage tables like Top 10 VCs/Hot Deals; a
+    // no-op on the single-stage tables (Watchlist/Pipeline/...) that don't
+    // wire a stage filterGroup in. Per-row stage editing still lives in the
+    // `stage` cell below (StageSelect) and on the company detail page.
+    filterValues: { stage: c.stage },
+    meta: { fitScore: score, bestInvestorFitScore },
     sort: {
       company: name.toLowerCase(),
       series: c.round || '',

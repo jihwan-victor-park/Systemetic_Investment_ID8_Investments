@@ -148,6 +148,22 @@ h1, h2, h3, h4 { font-family: var(--ifm-heading-font-family); letter-spacing: -0
    read rather than a second alarm color, since "cold" here just means
    "comfortably far from its predicted raise window," not a warning. */
 .badge--cold { color: var(--id8-grey); background: color-mix(in srgb, var(--id8-grey) 14%, transparent); }
+/* Radar's Hot table heat badge (radarTableColumns.jsx) -- its own class, NOT
+   a change to .badge--hot above: that one is a different, unrelated concept
+   (a Tier 1 VC's own per-deal "hot" flag, InvestorRelationships.jsx/
+   VCsDirectory.jsx) that has to stay static. Only a company actually inside
+   the Hot table should call attention to itself. */
+@keyframes radarHotPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+.badge--radar-hot {
+  color: var(--id8-stale); background: color-mix(in srgb, var(--id8-stale) 16%, transparent);
+  animation: radarHotPulse 1.4s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .badge--radar-hot { animation: none; }
+}
 
 .status-pill { display: inline-flex; align-items: center; white-space: nowrap; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 600; color: var(--id8-ink); }
 .status-pill::before { content: ''; display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 6px; }

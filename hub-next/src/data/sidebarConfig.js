@@ -75,7 +75,12 @@ export function getSidebarTree(companies = [], deals = []) {
           label: 'Radar',
           flat: true,
           href: '/docs/radar',
-          items: companies.filter((c) => c.stage === 'radar').map((c) => ({ type: 'doc', href: `/docs/radar/${c.slug}`, label: c.name })),
+          // Matches docs/radar/page.jsx's own filter -- additive `radar` tag
+          // included, not just stage === 'radar' -- else a company that only
+          // reached Radar via the tag (e.g. still sitting in Pipeline as its
+          // real stage while ALSO being watched for its next round) shows on
+          // the Radar page's table but never in the sidebar's own item list.
+          items: companies.filter((c) => c.stage === 'radar' || c.tags?.includes('radar')).map((c) => ({ type: 'doc', href: `/docs/radar/${c.slug}`, label: c.name })),
         },
         {
           type: 'category',
@@ -166,15 +171,21 @@ export function containsPath(node, pathname) {
   return node.items.some((child) => containsPath(child, pathname));
 }
 
-// Flattens the tree into the same linear doc order Docusaurus uses to
-// generate its Previous/Next pagination — depth-first, including a
-// category's own link (e.g. "Research") at the point it's encountered.
+// Flattens the tree into linear Previous/Next order — depth-first,
+// including a category's own link (e.g. "Research") at the point it's
+// encountered. Deliberately does NOT descend into a `flat: true` node's
+// `items` (2026-07-29, Oscar: "should take to next or previous section, not
+// ... the previous or next company") — those items are per-company detail
+// pages (Watchlist/Pipeline/Qualified Deals/Radar/Invested), not
+// sub-sections, so Previous/Next from inside one now always lands on the
+// neighboring SECTION link (the next stage, Top 10 VCs, VCs, Research, ...)
+// instead of alphabetically walking every company in between.
 export function flattenDocs(tree) {
   const out = [];
   function walk(nodes) {
     for (const node of nodes) {
       if (node.href) out.push({ href: node.href, label: node.label });
-      if (node.items) walk(node.items);
+      if (node.items && !node.flat) walk(node.items);
     }
   }
   walk(tree);

@@ -84,6 +84,11 @@ export function lookupStage(index, name) {
 // so every row after that is an O(1) lookup via investorMatchesFromIndex.
 // A firm only ever contributes one match per company name, even if its
 // portfolio data has an accidental duplicate entry for it.
+// `fitScore` is carried on each entry when the underlying deal/portfolio row
+// has one (Partner VCs' Stage 0 Portfolio Fit -- Tier 1's deals[] has no
+// equivalent field) -- lets a caller pick the best "do we like it" signal
+// off matches it already computed for the Partner VC column, instead of a
+// second per-row pass (see radarHeatScore.js / companyStageColumns.jsx).
 export function buildInvestorIndex(tier1, partners) {
   const index = {};
   const add = (nameLc, entry) => {
@@ -96,7 +101,7 @@ export function buildInvestorIndex(tier1, partners) {
       const nameLc = (d.company || '').trim().toLowerCase();
       if (!nameLc || seen.has(nameLc)) continue;
       seen.add(nameLc);
-      add(nameLc, { source: 'Tier 1 VC', via: firm.name, viaHref: `/docs/vcs/tier1/${firm.id}` });
+      add(nameLc, { source: 'Tier 1 VC', via: firm.name, viaHref: `/docs/vcs/tier1/${firm.id}`, fitScore: null });
     }
   }
   for (const p of partners || []) {
@@ -105,7 +110,7 @@ export function buildInvestorIndex(tier1, partners) {
       const nameLc = (entry.company || '').trim().toLowerCase();
       if (!nameLc || seen.has(nameLc)) continue;
       seen.add(nameLc);
-      add(nameLc, { source: 'Partner VC', via: p.name, viaHref: `/docs/vcs/partner/${p.id}` });
+      add(nameLc, { source: 'Partner VC', via: p.name, viaHref: `/docs/vcs/partner/${p.id}`, fitScore: entry.fitScore ?? null });
     }
   }
   return index;
@@ -125,16 +130,22 @@ function normalizeDomain(domain) {
   return domain.trim().replace(/^https?:\/\//i, '').replace(/^www\./i, '').replace(/\/+$/, '').toLowerCase();
 }
 
-// Partner-VC-by-domain index, a DIFFERENT cross-reference than
+// Investor-by-domain index, a DIFFERENT cross-reference than
 // buildInvestorIndex's name-match: that one asks "is this incoming
 // company's NAME already in a VC's recorded portfolio"; this one asks "is
 // any of THIS incoming company's OWN investors (by domain, off Attio's
 // investors_ref reference field -- see attio_io._investor_domains) already
-// one of our partner VCs." Tier 1 VCs aren't included -- unlike partners,
-// listTopVCs() has no `website` field on file to match against. Added
-// 2026-07-28 alongside DealInput.investor_domains.
-export function partnerDomainIndex(partners) {
+// one of our tracked VCs." Covers both Partner VCs and Tier 1 VCs -- both
+// `_mapVC` mappers (partnerVCs.js / topVCs.js) carry a `website` field, so
+// there's no reason to only match one side. Added 2026-07-28 alongside
+// DealInput.investor_domains; widened to Tier 1 2026-07-29.
+export function investorDomainIndex(tier1, partners) {
   const index = {};
+  for (const firm of tier1 || []) {
+    const domain = normalizeDomain(firm.website);
+    if (!domain) continue;
+    index[domain] = { source: 'Tier 1 VC', via: firm.name, viaHref: `/docs/vcs/tier1/${firm.id}` };
+  }
   for (const p of partners || []) {
     const domain = normalizeDomain(p.website);
     if (!domain) continue;

@@ -13,16 +13,56 @@ function statusBadge(status) {
   return null;
 }
 
+// How many of this firm's recorded companies are currently `qualified` or
+// `radar` in ID8's own pipeline -- the subset worth linking to, not the raw
+// portfolio size (Oscar: "eliminate the number of Portfolio ... a list of
+// qualified/radar companies in which they have invested, not their whole
+// portfolio"). `nameKey` differs between Partner VCs' `portfolio[].company`
+// and Tier 1's `deals[].company`.
+function qualifiedRadarCount(companyIndex, items, nameKey) {
+  let n = 0;
+  for (const item of items || []) {
+    const stage = lookupStage(companyIndex, item[nameKey]);
+    if (stage === 'qualified' || stage === 'radar') n += 1;
+  }
+  return n;
+}
+
+function contactNames(contacts) {
+  return (contacts || []).map((c) => c.name).join(', ');
+}
+
+function ContactsCell({ contacts }) {
+  if (!contacts?.length) return '—';
+  return (
+    <span className={styles.contactList}>
+      {contacts.map((c, i) => (
+        <span key={c.name}>
+          {i > 0 && ', '}
+          {c.email ? <a href={`mailto:${c.email}`}>{c.name}</a> : c.name}
+        </span>
+      ))}
+    </span>
+  );
+}
+
+function PipelineCell({ count, href }) {
+  if (!count) return '—';
+  return <Link href={href}>{count} qualified/radar →</Link>;
+}
+
 const PARTNER_COLUMNS = [
   { key: 'name', label: 'VC', sortable: true },
   { key: 'trackedBy', label: 'Tracked by', sortable: true },
-  { key: 'portfolio', label: 'Portfolio', sortable: true },
+  { key: 'contacts', label: 'Contacts', sortable: true },
+  { key: 'pipeline', label: 'Qualified/Radar', sortable: true, defaultDir: 'desc' },
 ];
 
 const TIER1_COLUMNS = [
   { key: 'name', label: 'VC', sortable: true },
   { key: 'sector', label: 'Sector focus', sortable: true },
-  { key: 'portfolio', label: 'Portfolio', sortable: true },
+  { key: 'contacts', label: 'Contacts', sortable: true },
+  { key: 'pipeline', label: 'Qualified/Radar', sortable: true, defaultDir: 'desc' },
 ];
 
 const INVESTMENT_COLUMNS = [
@@ -33,30 +73,35 @@ const INVESTMENT_COLUMNS = [
   { key: 'pipeline', label: 'Pipeline', sortable: true },
 ];
 
-function partnerToRow(v) {
-  const count = (v.portfolio || []).length;
+function partnerToRow(v, companyIndex) {
+  const count = qualifiedRadarCount(companyIndex, v.portfolio, 'company');
   return {
     key: v.id,
-    sort: { name: v.name.toLowerCase(), trackedBy: v.trackedBy || '', portfolio: count },
-    search: { name: v.name, trackedBy: v.trackedBy || '' },
+    sort: { name: v.name.toLowerCase(), trackedBy: v.trackedBy || '', contacts: contactNames(v.contacts), pipeline: count },
+    search: { name: v.name, trackedBy: v.trackedBy || '', contacts: contactNames(v.contacts) },
     cells: {
       name: <Link href={`/docs/vcs/partner/${v.id}`}>{v.name}</Link>,
       trackedBy: v.trackedBy || '—',
-      portfolio: count > 0 ? `${count} ${count === 1 ? 'company' : 'companies'}` : 'No data yet',
+      contacts: <ContactsCell contacts={v.contacts} />,
+      pipeline: <PipelineCell count={count} href={`/docs/vcs/partner/${v.id}?pipeline=qualified,radar`} />,
     },
   };
 }
 
-function tier1ToRow(v) {
-  const count = v.totalInvestments ?? (v.deals || []).length;
+function tier1ToRow(v, companyIndex) {
+  const count = qualifiedRadarCount(companyIndex, v.deals, 'company');
   return {
     key: v.id,
-    sort: { name: v.name.toLowerCase(), sector: (v.sector || ''), portfolio: count },
+    sort: { name: v.name.toLowerCase(), sector: (v.sector || ''), contacts: '', pipeline: count },
     search: { name: v.name, sector: v.sector || '' },
     cells: {
       name: <Link href={`/docs/vcs/tier1/${v.id}`}>{v.name}</Link>,
       sector: v.sector || '—',
-      portfolio: count > 0 ? `${count} ${count === 1 ? 'company' : 'companies'}` : 'No data yet',
+      // Tier 1 VCs have no contact field on file -- unlike Partner VCs, this
+      // data model never tracks a personal relationship into the firm (see
+      // topVCs.js's _mapVC).
+      contacts: '—',
+      pipeline: <PipelineCell count={count} href={`/docs/vcs/tier1/${v.id}?pipeline=qualified,radar`} />,
     },
   };
 }
@@ -113,8 +158,8 @@ function investmentToRow(inv, i, companyIndex) {
 export default function VCsDirectory({ tier1, partners, companyIndex }) {
   const [subtab, setSubtab] = useState('byvc');
 
-  const partnerRows = partners.map(partnerToRow);
-  const tier1Rows = tier1.map(tier1ToRow);
+  const partnerRows = partners.map((v) => partnerToRow(v, companyIndex));
+  const tier1Rows = tier1.map((v) => tier1ToRow(v, companyIndex));
   const investmentRows = allInvestments(tier1, partners).map((inv, i) => investmentToRow(inv, i, companyIndex));
 
   return (

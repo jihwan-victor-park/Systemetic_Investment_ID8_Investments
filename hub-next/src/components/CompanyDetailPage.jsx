@@ -71,10 +71,11 @@ export default async function CompanyDetailPage({ params }) {
         />
       </p>
       {/* Per-row editing moved here from the stage tables' old "Also In"
-          column (2026-07-28) -- the tables now use this same tag data as a
-          page-level filter (SortableTable's tagFilterOptions) instead of a
-          per-row cell. See lib/stages.js's TAGS comment for the auto-add
-          mechanism this overrides by hand. */}
+          column (2026-07-28) -- those tables briefly used this same tag data
+          as a page-level filter (SortableTable's old tagFilterOptions),
+          removed 2026-07-29 in favor of the generic filterGroups (Stage,
+          Radar's keyword chips). See lib/stages.js's TAGS comment for the
+          auto-add mechanism this overrides by hand. */}
       {(canEdit || company.tags.length > 0) && (
         <p><strong>Also in:</strong> <TagsSelect slug={company.slug} tags={company.tags} canEdit={canEdit} /></p>
       )}

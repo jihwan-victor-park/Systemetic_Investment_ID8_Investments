@@ -17,7 +17,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, '..', '..');
 const COMPANIES_DIR = path.join(REPO_ROOT, 'hub', 'docs', 'research', 'companies');
 
-const db = new Firestore({ projectId: process.env.GCP_PROJECT_ID || undefined });
+const db = new Firestore({ projectId: process.env.GCP_PROJECT_ID || undefined, ignoreUndefinedProperties: true });
 
 // Pulls the lines between two predicates (inclusive start, exclusive end) out
 // of a line array, starting the search at `from`.

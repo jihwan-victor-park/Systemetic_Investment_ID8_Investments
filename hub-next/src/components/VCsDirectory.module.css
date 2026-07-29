@@ -12,3 +12,5 @@
 .subtabs button:not(.active):hover { background: rgba(0,0,0,0.04); }
 
 .tag { font-size: 0.68rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; border: 1px solid var(--id8-hair); border-radius: 2px; padding: 2px 8px; color: var(--id8-soft); display: inline-block; }
+
+.contactList { white-space: normal; }

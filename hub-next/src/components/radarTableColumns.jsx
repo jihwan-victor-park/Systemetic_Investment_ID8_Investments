@@ -1,94 +1,61 @@
-import Link from 'next/link';
-import StageSelect from './StageSelect';
-import PartnerVcPopover from './PartnerVcPopover';
-import DeleteButton from './DeleteButton';
-import { allInvestorMatches } from '@/lib/companyIndex';
-import { radarHotness, formatPredictedWindow, formatNextScan, nextScanReason } from '@/lib/radar';
-import { STAGE_BASEPATH } from '@/lib/stages';
-import styles from './companyStageColumns.module.css';
+import { companyToRow, STAGE_TABLE_COLUMNS } from './companyStageColumns';
+import { radarHeatBreakdown, bestFitScore, radarHotnessFromScore } from '@/lib/radarHeatScore';
+import { formatPredictedWindow, formatNextScan, nextScanReason } from '@/lib/radar';
+import { matchedKeywords } from '@/lib/radarRuleMatch';
 
-// A SEPARATE column set from companyStageColumns.jsx's STAGE_TABLE_COLUMNS/
-// companyToRow, not a modification of them -- every other stage table
-// (Watchlist/Pipeline/Qualified/Invested/Admin/Top10VC/Hot Deals) still
-// imports that original pair unchanged. Radar drops Radar Category/Score/
-// Screened (a Radar-stage company usually has no Stage 1 screen yet -- see
-// radar/page.jsx's own header copy -- so those are mostly "—" here) in
-// favor of the new mandate/clock/schedule columns radar_state.py computes
-// (RADAR_PLAN.md Parts I/III/VI/VIII).
+// Radar's table is now the SAME shape every other stage table uses
+// (STAGE_TABLE_COLUMNS/companyToRow from companyStageColumns.jsx) instead of
+// a fully separate, bespoke column set -- Oscar: "make the radar table as
+// all the rest of the tables but just with the stuff we've said to add on
+// radar." Three Radar-only columns get inserted before Stage: Predicted
+// Window, Next Scan, and Heat (the hub-configurable score behind the
+// Hot/Cold split -- see lib/radarHeatScore.js). Reusing companyToRow also
+// means Radar rows automatically pick up Run Analysis / Start Stage 2 in
+// Actions, which the old bespoke column set explicitly omitted.
+const STAGE_COL_INDEX = STAGE_TABLE_COLUMNS.findIndex((c) => c.key === 'stage');
+
 export const RADAR_TABLE_COLUMNS = [
-  { key: 'company', label: 'Company', sortable: true },
-  { key: 'series', label: 'Series', sortable: true },
-  { key: 'dealDate', label: 'Deal Date', sortable: true },
+  ...STAGE_TABLE_COLUMNS.slice(0, STAGE_COL_INDEX),
   { key: 'predictedWindow', label: 'Predicted Window', sortable: true },
   { key: 'nextScan', label: 'Next Scan', sortable: true },
-  { key: 'hotness', label: 'Hot / Cold', sortable: true },
-  { key: 'partnerVc', label: 'Partner VC', sortable: true },
-  { key: 'stage', label: 'Stage', sortable: true },
-  { key: 'report', label: 'Report' },
-  { key: 'actions', label: '' },
+  { key: 'heat', label: 'Heat', sortable: true, defaultDir: 'desc' },
+  ...STAGE_TABLE_COLUMNS.slice(STAGE_COL_INDEX),
 ];
 
-// No RunAnalysisButton/RoundInput/radarCategory inline-edit here -- a
-// Radar-stage company doesn't have a Stage 1 screen to (re)run in the usual
-// sense (it arrives cold per RADAR_PLAN.md §1.5a, watched for its NEXT
-// round instead), and Series is Attio-sourced/read-only context on this
-// table rather than a hand-edited field the way it is on the live-pipeline
-// stage tables.
-export function radarCompanyToRow(c, { canEdit, investorIndex = {}, domainIndex = {} }) {
-  const basePath = STAGE_BASEPATH.radar;
-  const matches = allInvestorMatches(investorIndex, c.name, domainIndex, c.investorDomains);
-  const partnerVc = matches.length ? matches.map((m) => m.via).join(', ') : null;
-  const hotness = radarHotness(c);
-  const reason = nextScanReason(c);
+// `radarConfig` ({hotWindowMonths, hotThreshold}, lib/radarConfig.js) and
+// `keywords` ([{term}], lib/radarRules.js) come from the Radar page/board,
+// alongside the same investorIndex/domainIndex every stage table already
+// builds once per page load.
+export function radarCompanyToRow(c, opts) {
+  const { radarConfig, keywords = [] } = opts;
+  const base = companyToRow(c, opts);
+  const fitScore = bestFitScore(c, base.meta?.bestInvestorFitScore);
+  const { timing, fit, total: score } = radarHeatBreakdown(c, radarConfig, fitScore);
+  const hot = radarHotnessFromScore(score, radarConfig) === 'hot';
+  const scanReason = nextScanReason(c);
 
   return {
-    key: c.slug,
-    tags: c.tags || [],
+    ...base,
+    filterValues: { ...base.filterValues, keyword: matchedKeywords(c, keywords) },
+    meta: { ...base.meta, heatScore: score, hot },
     sort: {
-      company: c.name.toLowerCase(),
-      series: c.round || '',
-      dealDate: c.roundDate || '',
+      ...base.sort,
       predictedWindow: c.radar?.clock?.predictedWindowOpen || '',
       nextScan: c.radar?.schedule?.nextScanAt || '',
-      hotness: hotness || '',
-      partnerVc: partnerVc || '',
-      stage: c.stage,
-    },
-    search: {
-      company: c.name,
-      series: c.round || '',
+      heat: score,
     },
     cells: {
-      company: (
-        <>
-          <Link href={`${basePath}/${c.slug}`}>{c.name}</Link>
-          {c.website && (
-            <>
-              {' ('}
-              <a href={`https://${c.website}`} target="_blank" rel="noopener noreferrer">{c.website}</a>
-              {')'}
-            </>
-          )}
-        </>
-      ),
-      series: c.round || '—',
-      dealDate: c.roundDate ? c.roundDate.slice(0, 10) : '—',
+      ...base.cells,
       predictedWindow: formatPredictedWindow(c),
-      nextScan: <span title={reason || ''}>{formatNextScan(c)}</span>,
-      hotness: hotness ? (
-        <span className={`badge ${hotness === 'hot' ? 'badge--hot' : 'badge--cold'}`}>{hotness === 'hot' ? 'Hot' : 'Cold'}</span>
-      ) : '—',
-      partnerVc: matches.length === 0 ? '—' : <PartnerVcPopover matches={matches} />,
-      stage: <StageSelect slug={c.slug} stage={c.stage} canEdit={canEdit} />,
-      report: <Link href={`${basePath}/${c.slug}`}>View screen →</Link>,
-      actions: canEdit ? (
-        <span className={styles.actions}>
-          <DeleteButton
-            url={`/api/companies/${c.slug}`}
-            confirmMessage={`Remove ${c.name} from the directory? This also deletes its screen history.`}
-          />
+      nextScan: <span title={scanReason || ''}>{formatNextScan(c)}</span>,
+      heat: (
+        <span
+          className={`badge ${hot ? 'badge--radar-hot' : 'badge--cold'}`}
+          title={`Timing ${timing} + Fit ${fit} = ${score} (hot at ${radarConfig.hotThreshold}+)`}
+        >
+          {score}
         </span>
-      ) : null,
+      ),
     },
   };
 }

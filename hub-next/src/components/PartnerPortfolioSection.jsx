@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { Suspense, useMemo, useState } from 'react';
 import PortfolioTable from './PortfolioTable';
 import PortfolioGraph from './PortfolioGraph';
 import { isThesisInScope, isFitScoreInScope } from '@/lib/sectorRelevance';
@@ -75,17 +75,22 @@ export default function PartnerPortfolioSection({ vcId, vcName, portfolio, compa
       </label>
 
       {view === 'list' ? (
-        <PortfolioTable
-          endpoint="/api/partner-vcs"
-          id={vcId}
-          field="portfolio"
-          items={portfolio}
-          filterFn={filterFn}
-          companyIndex={companyIndex}
-          canEdit={canEdit}
-          addLabel="Add company"
-          vcName={vcName}
-        />
+        // PortfolioTable reads ?pipeline=qualified,radar via useSearchParams
+        // (the VCs directory's pre-filtered link) -- same Suspense-boundary
+        // convention signin/page.jsx already uses for that hook.
+        <Suspense fallback={null}>
+          <PortfolioTable
+            endpoint="/api/partner-vcs"
+            id={vcId}
+            field="portfolio"
+            items={portfolio}
+            filterFn={filterFn}
+            companyIndex={companyIndex}
+            canEdit={canEdit}
+            addLabel="Add company"
+            vcName={vcName}
+          />
+        </Suspense>
       ) : (
         <PortfolioGraph vcName={vcName} portfolio={visiblePortfolio} companyIndex={companyIndex} />
       )}

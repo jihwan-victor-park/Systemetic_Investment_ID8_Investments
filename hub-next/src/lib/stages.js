@@ -72,9 +72,3 @@ export const TAG_LABELS = {
   qualified: 'Qualified Deals',
   radar: 'Radar',
 };
-
-// Filter-option shape for SortableTable's tagFilterOptions prop -- the
-// stage tables use this instead of rendering `tags` as its own column (see
-// companyStageColumns.jsx / radarTableColumns.jsx); per-row editing lives on
-// the company detail page (CompanyDetailPage.jsx's TagsSelect) instead.
-export const TAG_OPTIONS = TAGS.map((t) => ({ key: t, label: TAG_LABELS[t] }));

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import SortableTable from './SortableTable';
 import DescriptionPopover from './DescriptionPopover';
@@ -61,6 +61,11 @@ const TIER_LABEL = {
 // resolved against the original, unfiltered `items` array.
 export default function PortfolioTable({ endpoint, id, field, items, filterFn, companyIndex, canEdit, addLabel, vcName }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  // Lets the VCs directory link straight to "just the qualified/radar
+  // subset" (?pipeline=qualified,radar -- see VCsDirectory.jsx's
+  // qualifiedRadarCount/PipelineCell) instead of the whole portfolio.
+  const initialPipelineFilter = (searchParams.get('pipeline') || '').split(',').map((s) => s.trim()).filter(Boolean);
   const [name, setName] = useState('');
   const [industry, setIndustry] = useState('');
   const [category, setCategory] = useState('');
@@ -164,6 +169,7 @@ export default function PortfolioTable({ endpoint, id, field, items, filterFn, c
     const roundResearched = Boolean(p.latestRoundOnFile) && p.latestRoundOnFile !== p.latestRound;
     return {
       key: i,
+      filterValues: { stage: stage || '' },
       sort: {
         company: p.company.toLowerCase(),
         category: p.category || '',
@@ -244,6 +250,8 @@ export default function PortfolioTable({ endpoint, id, field, items, filterFn, c
         defaultSort={{ key: 'company', dir: 'asc' }}
         searchPlaceholder="Filter portfolio…"
         emptyMessage="No portfolio companies yet."
+        filterGroups={[{ key: 'stage', label: 'Pipeline stage', options: PUBLIC_STAGES.map((s) => ({ key: s, label: STAGE_LABELS[s] })) }]}
+        initialFilters={initialPipelineFilter.length ? { stage: initialPipelineFilter } : undefined}
       />
       {canEdit && (
         <form className={styles.form} onSubmit={add}>

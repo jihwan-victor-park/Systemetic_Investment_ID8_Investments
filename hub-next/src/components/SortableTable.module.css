@@ -24,14 +24,14 @@
   border-radius: 4px;
 }
 
-.tagFilter {
+.filterGroup {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
   gap: 0.4rem;
 }
 
-.tagFilterLabel {
+.filterGroupLabel {
   font-family: 'Sora', sans-serif;
   font-size: 0.68rem;
   font-weight: 600;
@@ -40,7 +40,7 @@
   color: var(--id8-grey);
 }
 
-.tagFilterBtn {
+.filterBtn {
   font-family: 'Sora', sans-serif;
   font-size: 0.68rem;
   font-weight: 700;
@@ -54,17 +54,11 @@
   cursor: pointer;
 }
 
-.tagFilterBtn:hover {
+.filterBtn:hover {
   color: var(--id8-ink);
 }
 
-.tagFilterBtn[data-active="true"][data-tag="qualified"] {
-  color: var(--id8-fresh);
-  background: color-mix(in srgb, var(--id8-fresh) 14%, transparent);
-  border-color: transparent;
-}
-
-.tagFilterBtn[data-active="true"][data-tag="radar"] {
+.filterBtn[data-active="true"] {
   color: var(--id8-accent);
   background: var(--id8-accent-bg);
   border-color: transparent;

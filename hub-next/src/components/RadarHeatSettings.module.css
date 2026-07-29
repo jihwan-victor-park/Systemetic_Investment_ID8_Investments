@@ -1,0 +1,21 @@
+.row {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem;
+  font-family: 'Sora', sans-serif; font-size: 0.82rem; color: var(--id8-grey);
+  margin: 0.4rem 0 1rem;
+}
+.label { white-space: nowrap; }
+.unit { color: var(--id8-grey); }
+.sep { color: var(--id8-hair); }
+.input {
+  width: 3.2rem; font-family: 'Sora', sans-serif; font-size: 0.82rem; color: var(--id8-ink);
+  background: transparent; border: none; border-bottom: 1px solid var(--id8-hair); padding: 0.15rem 0.2rem;
+  text-align: right;
+}
+.input:focus { outline: none; border-bottom: 1.5px solid var(--id8-ink); }
+.save {
+  font-family: 'Sora', sans-serif; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600;
+  color: var(--id8-paper); background: var(--id8-ink); border: none; padding: 0.3rem 0.7rem; cursor: pointer; border-radius: 2px;
+}
+.save:disabled { background: var(--id8-grey); cursor: not-allowed; opacity: 0.6; }
+.error { color: #B3261E; font-size: 0.76rem; }
+.readonly { font-size: 0.82rem; color: var(--id8-grey); margin: 0.4rem 0 1rem; }
