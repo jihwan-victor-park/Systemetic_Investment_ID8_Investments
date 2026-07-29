@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { auth } from '@/auth';
-import { updateScreenField } from '@/lib/companies';
+import { updateScreenField, deleteScreen } from '@/lib/companies';
 
 // Same belt-and-suspenders pattern as /api/top-vcs -- middleware already
 // restricts the whole site to signed-in users and this page to 'internal'
@@ -40,5 +40,17 @@ export async function PATCH(request, { params }) {
     const known = ['screen-not-found', 'dimension-not-found', 'subcategory-not-found', 'missing-subcategory-key', 'invalid-score', 'invalid-field'];
     const status = known.includes(err.message) ? 400 : 500;
     return NextResponse.json({ error: err.message || 'update-failed' }, { status });
+  }
+}
+
+export async function DELETE(_request, { params }) {
+  if (!(await requireInternal())) return NextResponse.json({ error: 'forbidden' }, { status: 403 });
+  const { slug, screenId } = await params;
+  try {
+    await deleteScreen(slug, screenId);
+    return NextResponse.json({ ok: true });
+  } catch (err) {
+    const status = err.message === 'screen-not-found' ? 404 : 500;
+    return NextResponse.json({ error: err.message || 'delete-failed' }, { status });
   }
 }

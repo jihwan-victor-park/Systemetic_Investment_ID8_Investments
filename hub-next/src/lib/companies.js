@@ -456,6 +456,37 @@ export async function updateScreenField(slug, screenId, patch) {
   return _mapScreen(slug, screenId, { ...data, ...update });
 }
 
+// Removes ONE screen (Oscar, 2026-07-29: "allow me to delete screen or shit
+// that has failed to clean up easily" -- a scoring-failed stub, most often,
+// but any screen a user wants gone) without touching the company doc or its
+// other screens. If the deleted screen was the one denormalized onto
+// `company.latestScreen` (the Score column every stage table reads),
+// recomputes it from whatever screen is now most recent -- falls back to
+// `null` (no screens left) rather than leaving a stale reference to a doc
+// that no longer exists, same "don't let a table quietly show a ghost
+// value" concern the radar auto-drop bug just taught this codebase.
+// Internal-role-only; enforced by the API route.
+export async function deleteScreen(slug, screenId) {
+  const ref = db().collection('companies').doc(slug);
+  const screenRef = ref.collection('screens').doc(screenId);
+  const screenSnap = await screenRef.get();
+  if (!screenSnap.exists) throw new Error('screen-not-found');
+  await screenRef.delete();
+
+  const companySnap = await ref.get();
+  const latestScreen = companySnap.data()?.latestScreen;
+  if (latestScreen?.date === screenId) {
+    const remaining = await ref.collection('screens').orderBy('date', 'desc').limit(1).get();
+    const next = remaining.docs[0];
+    await ref.set({
+      latestScreen: next
+        ? { date: next.id, roundStage: next.data().roundStage ?? null, fitScore: next.data().fitScore, gate: next.data().gate }
+        : null,
+    }, { merge: true });
+  }
+  revalidateTag('companies');
+}
+
 // Removes a company from whichever stage table it's in and wipes its screen
 // history -- Firestore doesn't cascade-delete subcollections, so the screens
 // docs need their own batch delete alongside the company doc itself.

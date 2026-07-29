@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { H2 } from '@/components/Prose';
 import InlineMarkdown from '@/components/InlineMarkdown';
+import DeleteButton from '@/components/DeleteButton';
 import { dimensionScore, fitScore } from '@/lib/rubricMath';
 import styles from './ScreenView.module.css';
 
@@ -200,7 +201,16 @@ export default function ScreenView({ screen: initialScreen, canEdit, slug }) {
   const heading = `Screen — ${screen.date}${screen.roundStage ? ` · ${screen.roundStage}` : ''}`;
   return (
     <div>
-      <H2>{heading}</H2>
+      <H2>
+        {heading}
+        {canEdit && (
+          <DeleteButton
+            url={`/api/research/companies/${slug}/screens/${screen.id}`}
+            confirmMessage={`Delete this screen (${screen.date})? This can't be undone.`}
+            title="Delete this screen"
+          />
+        )}
+      </H2>
       <p>
         <strong>
           Fit score: {screen.fitScore != null ? screen.fitScore.toFixed(1) : '—'} / 4.0
