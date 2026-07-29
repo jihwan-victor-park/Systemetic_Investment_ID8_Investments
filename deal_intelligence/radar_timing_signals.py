@@ -176,7 +176,7 @@ def extract(screen, months_since_screen=0):
     -- `signals` drops straight into radar_hazard.compute()'s
     active_signals param."""
     if not screen:
-        return {"signals": [], "growthTier": None, "growthEvidence": [], "sourceScreenDate": None}
+        return {"signals": [], "growthTier": None, "growthVerified": False, "growthEvidence": [], "sourceScreenDate": None}
 
     signals = []
     texts = []
@@ -198,14 +198,25 @@ def extract(screen, months_since_screen=0):
     texts.append(screen.get("rationale") or "")
 
     growth_tier, growth_evidence = extract_growth_tier(texts)
+    # Confidence discount (2026-07-29): a "hypergrowth" read off a screen
+    # the research itself rated low-confidence (no dollar figure, no
+    # citation, an [ESTIMATED] triangulation) gets the weaker kernel
+    # variant -- see radar_hazard.SIGNAL_KERNELS' own comment on this pair.
+    # Screen confidence, not per-finding: stage1_fit.md's schema only
+    # reports confidence at the deal level, so that's the finest grain
+    # available without re-researching.
+    unverified = screen.get("confidence") == "low"
     if growth_tier == "hypergrowth":
-        signals.append({"key": "hypergrowth_revenue", "monthsSinceEvent": months_since_screen})
+        key = "hypergrowth_revenue_unverified" if unverified else "hypergrowth_revenue"
+        signals.append({"key": key, "monthsSinceEvent": months_since_screen})
     elif growth_tier == "strong":
-        signals.append({"key": "strong_revenue_growth", "monthsSinceEvent": months_since_screen})
+        key = "strong_revenue_growth_unverified" if unverified else "strong_revenue_growth"
+        signals.append({"key": key, "monthsSinceEvent": months_since_screen})
 
     return {
         "signals": signals,
         "growthTier": growth_tier,
+        "growthVerified": bool(growth_tier) and not unverified,  # False for a real tier that's still just an unverified read
         "growthEvidence": growth_evidence[:3],  # cap: this is display context, not a dump
         "sourceScreenDate": screen.get("date"),
     }

@@ -59,6 +59,19 @@ SIGNAL_KERNELS = {
     # (12mo) because growth momentum persists in a way an event does not.
     "hypergrowth_revenue":   {"peak_month": 2, "fade_month": 12, "peak_mult": 3.0, "family": "F3"},
     "strong_revenue_growth": {"peak_month": 2, "fade_month": 12, "peak_mult": 1.8, "family": "F3"},
+    # Confidence-discounted variants (2026-07-29) -- Oscar was told the
+    # growth signal is only as reliable as the research that produced it,
+    # and asked for a fix. radar_timing_signals.py picks one of these
+    # instead of the full-strength kernel above when the SOURCE screen's
+    # own `confidence` field reads "low" -- same family, same shape,
+    # roughly half the peak multiplier. This is a real tradeoff, not free:
+    # it means a low-confidence hypergrowth read (an unverified "25x ARR")
+    # contributes meaningfully less than a verified one, which is the
+    # entire point, but it also means Paper's own heat score (built from
+    # exactly that kind of finding) drops once this lands. Stated plainly
+    # rather than tuned quietly to keep the demo number looking good.
+    "hypergrowth_revenue_unverified":   {"peak_month": 2, "fade_month": 12, "peak_mult": 1.6, "family": "F3"},
+    "strong_revenue_growth_unverified": {"peak_month": 2, "fade_month": 12, "peak_mult": 1.3, "family": "F3"},
 
     # ── F4: process leakage ──────────────────────────────────────────────
     # The raise is already visible/in motion. §2's table puts this family at

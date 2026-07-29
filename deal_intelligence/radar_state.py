@@ -24,8 +24,8 @@ from datetime import date, timedelta
 
 from google.cloud import firestore
 
-from . import (apollo_org, capital_clock, config, radar_access, radar_hazard, radar_jobs,
-               radar_mandate, radar_schedule, radar_signal_series, radar_timing_signals)
+from . import (apollo_org, capital_clock, config, radar_access, radar_calibration, radar_hazard,
+               radar_jobs, radar_mandate, radar_schedule, radar_signal_series, radar_timing_signals)
 
 _db = None
 SCHEMA_VERSION = 1
@@ -164,7 +164,7 @@ def compute_radar_state(fields, tier1_index, headcount, headcount_checked_at,
                          last_scan_at, scan_count, today=None, advance_scan=True,
                          headcount_growth=None, job_signals=None,
                          low_score_streak=0, watch_floor=DEFAULT_WATCH_FLOOR,
-                         partner_index=None, latest_screen=None):
+                         partner_index=None, latest_screen=None, cost_per_head_overrides=None):
     """Pure orchestration -- no I/O, unit-testable with fabricated inputs.
 
     fields: {name, hq, series, top10VC, roundSize, roundDate, radarCategory,
@@ -231,6 +231,7 @@ def compute_radar_state(fields, tier1_index, headcount, headcount_checked_at,
          "radarCategory": fields.get("radarCategory"), "description": fields.get("description"),
          "headcountCheckedAt": headcount_checked_at},
         headcount, today, growth_tier=timing["growthTier"],
+        cost_per_head_overrides=cost_per_head_overrides,
     )
 
     predicted_window_open = clock["predictedWindowOpen"]
@@ -259,6 +260,7 @@ def compute_radar_state(fields, tier1_index, headcount, headcount_checked_at,
     hazard = radar_hazard.compute(h0, active_signals)
     hazard["computedAt"] = today.isoformat()
     hazard["growthTier"] = timing["growthTier"]
+    hazard["growthVerified"] = timing["growthVerified"]
     hazard["growthEvidence"] = timing["growthEvidence"]
     hazard["sourceScreenDate"] = timing["sourceScreenDate"]
 
@@ -320,7 +322,18 @@ def _get_watch_floor(db):
         return DEFAULT_WATCH_FLOOR
 
 
-def recompute_and_write(slug, fields, tier1_index, entry_source, db=None, apollo_lookup=None, today=None, watch_floor=None, partner_index=None):
+def _get_cost_per_head_overrides(db):
+    """Reads radarConfig/current.costPerHeadOverrides -- see capital_clock.
+    cost_per_head()'s own docstring. Missing doc/field returns {} (no
+    overrides, hardcoded COST_PER_HEAD stays authoritative), same graceful-
+    default convention as _get_watch_floor."""
+    doc = db.collection("radarConfig").document("current").get()
+    data = doc.to_dict() or {}
+    overrides = data.get("costPerHeadOverrides")
+    return overrides if isinstance(overrides, dict) else {}
+
+
+def recompute_and_write(slug, fields, tier1_index, entry_source, db=None, apollo_lookup=None, today=None, watch_floor=None, partner_index=None, cost_per_head_overrides=None):
     """The one function both the Attio-import hook and the scan runner call.
     Reads the company's existing radar.clock.headcountCheckedAt off
     Firestore first; only calls Apollo if missing or >30 days stale -- keeps
@@ -348,6 +361,8 @@ def recompute_and_write(slug, fields, tier1_index, entry_source, db=None, apollo
     today = today or date.today()
     if watch_floor is None:
         watch_floor = _get_watch_floor(db)
+    if cost_per_head_overrides is None:
+        cost_per_head_overrides = _get_cost_per_head_overrides(db)
 
     company_ref = db.collection("companies").document(slug)
     existing = company_ref.get().to_dict() or {}
@@ -433,6 +448,7 @@ def recompute_and_write(slug, fields, tier1_index, entry_source, db=None, apollo
         headcount_growth=headcount_growth, job_signals=job_signals,
         low_score_streak=low_score_streak, watch_floor=watch_floor,
         partner_index=partner_index, latest_screen=latest_screen,
+        cost_per_head_overrides=cost_per_head_overrides,
     )
     radar_data["entrySource"] = entry_source
     radar_data["jobSignals"] = job_signals
@@ -448,6 +464,14 @@ def recompute_and_write(slug, fields, tier1_index, entry_source, db=None, apollo
     elif radar_data.get("lowScoreStreak", 0) >= DROP_STREAK_THRESHOLD:
         radar_data["droppedAt"] = today.isoformat()
         radar_data["dropReason"] = f"heatPoints below watch floor ({watch_floor}) for {DROP_STREAK_THRESHOLD} consecutive scans"
+
+    # §9's calibration loop starts here -- log every REAL scan's prediction
+    # (not attio-import's cheap recompute) so an outcome months from now has
+    # something to score against. See radar_calibration.py's own docstring
+    # on why this can't tell you anything yet and why that's not a reason
+    # to skip it.
+    if advance_scan:
+        radar_calibration.log_prediction(db, slug, radar_data, fields.get("roundDate"), today)
 
     write = {"radar": radar_data}
     # Additive `tags` (2026-07-28) -- same mechanism firestore_push.py's

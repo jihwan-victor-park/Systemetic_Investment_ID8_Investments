@@ -159,7 +159,20 @@ def classify_capital_intensity(radar_category, description):
     return "medium"
 
 
-def cost_per_head(region, capital_intensity):
+def cost_per_head(region, capital_intensity, overrides=None):
+    """`overrides`: an optional {"NA_high": 400000, ...} map -- Oscar,
+    2026-07-29, in response to being told COST_PER_HEAD is an unvalidated
+    placeholder: "build solutions for these." The real fix is real
+    portfolio numbers, which no amount of code can manufacture; what code
+    CAN do is make plugging them in not require a redeploy. Read from
+    radarConfig/current.costPerHeadOverrides (same hub-editable doc
+    watchFloor/hotThreshold already live in) via radar_state._get_
+    cost_per_head_overrides() -- checked first, hardcoded COST_PER_HEAD
+    stays the fallback for any (region, intensity) pair not overridden."""
+    if overrides:
+        key = f"{region}_{capital_intensity}"
+        if key in overrides:
+            return overrides[key]
     return COST_PER_HEAD.get((region, capital_intensity), DEFAULT_COST_PER_HEAD)
 
 
@@ -180,7 +193,7 @@ def _days_in_month(year, month):
     return (date(year, month + 1, 1) - timedelta(days=1)).day
 
 
-def compute(fields, headcount, as_of=None, growth_tier=None):
+def compute(fields, headcount, as_of=None, growth_tier=None, cost_per_head_overrides=None):
     """fields: {roundSize, roundDate (ISO string or date), region ('NA'/
     'Europe'/'other'/None), radarCategory, description}. headcount: int or
     None (no Apollo data yet, or a lookup that failed). as_of: date,
@@ -193,6 +206,9 @@ def compute(fields, headcount, as_of=None, growth_tier=None):
     then falls back to the research-backed ~22mo median and will normally
     lose to the runway estimate anyway.
 
+    `cost_per_head_overrides`: see cost_per_head()'s own docstring -- real
+    portfolio numbers, when available, without a redeploy.
+
     Returns the radar.clock dict (RADAR_PLAN.md Part VIII shape), with
     predictedWindowOpen/contactByDate/alertAtDate as RAW dates -- caller
     (radar_state.py) applies seasonality shifting before storing."""
@@ -202,7 +218,7 @@ def compute(fields, headcount, as_of=None, growth_tier=None):
     round_date = _parse_date(round_date_raw)
     region = fields.get("region")
     capital_intensity = classify_capital_intensity(fields.get("radarCategory"), fields.get("description"))
-    cph = cost_per_head(region, capital_intensity)
+    cph = cost_per_head(region, capital_intensity, cost_per_head_overrides)
 
     months_since_round = None
     if round_date:

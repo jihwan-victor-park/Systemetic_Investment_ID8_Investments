@@ -31,6 +31,21 @@ def test_cost_per_head_unknown_region_falls_back_to_default():
     assert cc.cost_per_head("other", "medium") == cc.DEFAULT_COST_PER_HEAD
 
 
+def test_cost_per_head_override_wins_when_present():
+    overrides = {"NA_medium": 300_000}
+    assert cc.cost_per_head("NA", "medium", overrides) == 300_000
+
+
+def test_cost_per_head_override_falls_back_for_an_unlisted_combo():
+    overrides = {"NA_high": 500_000}  # doesn't cover NA_medium
+    assert cc.cost_per_head("NA", "medium", overrides) == cc.COST_PER_HEAD[("NA", "medium")]
+
+
+def test_cost_per_head_empty_overrides_uses_hardcoded_table():
+    assert cc.cost_per_head("NA", "medium", {}) == cc.COST_PER_HEAD[("NA", "medium")]
+    assert cc.cost_per_head("NA", "medium", None) == cc.COST_PER_HEAD[("NA", "medium")]
+
+
 def test_add_months_simple():
     assert cc._add_months(date(2026, 2, 10), -12) == date(2025, 2, 10)
 

@@ -113,6 +113,39 @@ def test_growth_signal_is_added_from_subcategory_finding_text():
     assert {"key": "hypergrowth_revenue", "monthsSinceEvent": 0} in result["signals"]
 
 
+def test_low_confidence_screen_gets_the_discounted_growth_kernel():
+    screen = _screen("revenue_growth", 2, dim_key="fundamentals",
+                      finding="ARR grew 25x post-launch", confidence="low")
+    result = rts.extract(screen)
+    assert result["growthTier"] == "hypergrowth"  # the READ is still hypergrowth
+    assert result["growthVerified"] is False       # but flagged unverified
+    assert {"key": "hypergrowth_revenue_unverified", "monthsSinceEvent": 0} in result["signals"]
+    assert {"key": "hypergrowth_revenue", "monthsSinceEvent": 0} not in result["signals"]
+
+
+def test_medium_or_high_confidence_gets_the_full_strength_kernel():
+    for level in ("medium", "high"):
+        screen = _screen("revenue_growth", 2, dim_key="fundamentals",
+                          finding="ARR grew 25x post-launch", confidence=level)
+        result = rts.extract(screen)
+        assert result["growthVerified"] is True
+        assert {"key": "hypergrowth_revenue", "monthsSinceEvent": 0} in result["signals"]
+
+
+def test_missing_confidence_field_defaults_to_verified_not_distrusted():
+    # A legacy screen with no confidence field at all shouldn't be silently
+    # discounted -- only an EXPLICIT "low" triggers the weaker kernel.
+    result = rts.extract(_screen("revenue_growth", 2, dim_key="fundamentals", finding="ARR grew 25x"))
+    assert result["growthVerified"] is True
+
+
+def test_strong_tier_also_gets_discounted_on_low_confidence():
+    screen = _screen("revenue_growth", 3, dim_key="fundamentals",
+                      finding="[ESTIMATED] ~$30M ARR", confidence="low")
+    result = rts.extract(screen)
+    assert {"key": "strong_revenue_growth_unverified", "monthsSinceEvent": 0} in result["signals"]
+
+
 def test_growth_signal_read_from_the_deal_level_rationale_too():
     screen = _screen("moat_durability", 3, dim_key="fundamentals",
                       rationale="Company reports $80M ARR growing fast.")
@@ -122,7 +155,7 @@ def test_growth_signal_read_from_the_deal_level_rationale_too():
 
 def test_extract_with_no_screen_is_empty_not_an_error():
     result = rts.extract(None)
-    assert result == {"signals": [], "growthTier": None, "growthEvidence": [], "sourceScreenDate": None}
+    assert result == {"signals": [], "growthTier": None, "growthVerified": False, "growthEvidence": [], "sourceScreenDate": None}
 
 
 def test_extract_tolerates_a_legacy_screen_with_no_subcategories():
