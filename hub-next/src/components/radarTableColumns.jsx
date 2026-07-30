@@ -57,12 +57,22 @@ export function radarCompanyToRow(c, opts) {
   const hasPersistedHazard = typeof persistedHeat === 'number';
   let score, hot, heatTitle;
   if (hasPersistedHazard) {
-    const { p90, p180, confidence, familiesActive } = c.radar.hazard;
+    const { p90, p180, confidence, familiesActive, dataCoverage } = c.radar.hazard;
     const access = c.radar?.access;
     score = persistedHeat;
     const timingPass = score >= radarConfig.hotThreshold;
     hot = timingPass && !!access?.accessPass;
-    heatTitle = `P180 ${Math.round(p180 * 100)}% · P90 ${Math.round(p90 * 100)}% · confidence ${confidence} · families ${familiesActive?.length ? familiesActive.join(', ') : 'none'} · access ${access?.level || 'unknown'} (hot needs ${radarConfig.hotThreshold}+ AND syndicate access)`;
+    // Confidence + data coverage sit right next to the score itself, not
+    // buried after families/access (Isabella, 2026-07-30: "Heat Score: 81 /
+    // Confidence: Medium / Data coverage: 68%") -- a partner glancing at
+    // this tooltip should see, before anything else, how much to trust the
+    // number they just read. `dataCoverage` may be absent on a company
+    // scanned before this field existed (radar_hazard.compute() didn't emit
+    // it pre-2026-07-30) -- omitted rather than shown as "0%", since that
+    // company's coverage was never unmeasured-and-zero, just unmeasured.
+    const coveragePct = typeof dataCoverage === 'number' ? Math.round(dataCoverage * 100) : null;
+    const confidenceLabel = confidence ? confidence[0].toUpperCase() + confidence.slice(1) : 'Unknown';
+    heatTitle = `Heat Score ${score} · Confidence ${confidenceLabel}${coveragePct != null ? ` · Data coverage ${coveragePct}%` : ''} · P180 ${Math.round(p180 * 100)}% · P90 ${Math.round(p90 * 100)}% · families ${familiesActive?.length ? familiesActive.join(', ') : 'none'} · access ${access?.level || 'unknown'} (hot needs ${radarConfig.hotThreshold}+ AND syndicate access)`;
   } else {
     const fitScore = bestFitScore(c, base.meta?.bestInvestorFitScore);
     const breakdown = radarHeatBreakdown(c, radarConfig, fitScore);

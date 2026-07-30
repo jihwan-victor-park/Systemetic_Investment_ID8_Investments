@@ -226,3 +226,58 @@ def test_default_watch_floor_never_catches_a_company_with_zero_active_signals():
     )
     assert result["hazard"]["heatPoints"] >= rs.DEFAULT_WATCH_FLOOR
     assert result["lowScoreStreak"] == 0
+
+
+# ── Data coverage wiring (Isabella, 2026-07-30) ───────────────────────────
+
+def test_data_sources_built_from_headcount_round_fields_and_screen_presence():
+    index = rm.build_tier1_index(TIER1)
+    fields = {"name": "Northwind Systems", "hq": "Boston, MA", "series": "Series B",
+              "roundSize": 32_000_000, "roundDate": "2026-02-10", "top10VC": True}
+    result = rs.compute_radar_state(
+        fields, tier1_index=index, headcount=81, headcount_checked_at="2026-07-20",
+        last_scan_at=None, scan_count=0, today=date(2026, 8, 5),
+        latest_screen={"date": "2026-08-01", "dimensions": []},
+        job_sensor_available=True,
+    )
+    assert result["hazard"]["dataCoverage"] == 1.0
+    assert result["hazard"]["dataSourcesMissing"] == []
+
+
+def test_missing_screen_and_job_sensor_lowers_coverage_not_heat_score():
+    # Same deterministic inputs (round/headcount) as the full-pass worked
+    # example, but with no Stage 1 screen yet and no ATS ever found -- the
+    # capital-clock-only company Isabella's mandate is about: real data on
+    # one axis, genuinely absent on the other two, and it must read as
+    # "we don't know much about the other two axes," not as a lower score.
+    index = rm.build_tier1_index(TIER1)
+    fields = {"name": "Northwind Systems", "hq": "Boston, MA", "series": "Series B",
+              "roundSize": 32_000_000, "roundDate": "2026-02-10", "top10VC": True}
+    common = dict(tier1_index=index, headcount=81, headcount_checked_at="2026-07-20",
+                  last_scan_at=None, scan_count=0, today=date(2026, 8, 5))
+
+    thin = rs.compute_radar_state(fields, latest_screen=None, job_sensor_available=False, **common)
+    full = rs.compute_radar_state(fields, latest_screen={"date": "2026-08-01", "dimensions": []},
+                                   job_sensor_available=True, **common)
+
+    assert thin["hazard"]["dataCoverage"] == round(1 / 3, 3)
+    assert thin["hazard"]["dataSourcesMissing"] == ["jobSignals", "screen"]
+    # Identical heatPoints -- neither screen nor an ATS/job hit fired an
+    # active signal either way, so the score itself doesn't move on
+    # coverage alone (Isabella's mandate #2/#3: missing is missing, not a
+    # penalty, and the score only ever recalculates off what IS available).
+    assert thin["hazard"]["heatPoints"] == full["hazard"]["heatPoints"]
+
+
+def test_job_sensor_available_defaults_false_when_not_passed():
+    # recompute_and_write always passes it explicitly; a caller that
+    # doesn't (every pre-2026-07-30 call in this file) degrades to "not
+    # covered" on that axis rather than silently assuming full coverage.
+    index = rm.build_tier1_index(TIER1)
+    result = rs.compute_radar_state(
+        {"name": "Northwind Systems", "hq": "Boston, MA", "series": "Series B",
+         "roundSize": 32_000_000, "roundDate": "2026-02-10", "top10VC": True},
+        tier1_index=index, headcount=81, headcount_checked_at="2026-07-20",
+        last_scan_at=None, scan_count=0, today=date(2026, 8, 5),
+    )
+    assert "jobSignals" in result["hazard"]["dataSourcesMissing"]
