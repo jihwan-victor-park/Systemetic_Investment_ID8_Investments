@@ -15,8 +15,12 @@ export default async function InvestedPage() {
   const canEdit = session?.user?.role === 'internal';
   const investorIndex = buildInvestorIndex(tier1, partners);
   const domainIndex = investorDomainIndex(tier1, partners);
+  // Additive (2026-07-30, matching Qualified Deals/Radar's own pattern):
+  // a company shows up here either because its primary stage IS Invested,
+  // or because it's carrying the 'invested' tag independently via
+  // StageMultiSelect -- see lib/stages.js's TAGS comment.
   const rows = companies
-    .filter((c) => c.stage === 'invested')
+    .filter((c) => c.stage === 'invested' || c.tags?.includes('invested'))
     .map((c) => companyToRow(c, { basePath: '/docs/invested', canEdit, investorIndex, domainIndex }));
 
   return (

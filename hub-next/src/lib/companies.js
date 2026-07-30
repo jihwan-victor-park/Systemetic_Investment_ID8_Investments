@@ -193,11 +193,12 @@ export async function updateCompanyStage(slug, stage) {
 }
 
 // Sets a company's full `tags` array from the multiselect editor
-// (TagsSelect.jsx) -- overwrite, not arrayUnion, since the UI already shows
-// (and the user is explicitly choosing) the complete resulting set,
-// including removing a tag the server auto-added. See stages.js's TAGS
-// comment for the auto-add mechanism this can override. Internal-role-only;
-// enforced by the API route.
+// (StageMultiSelect.jsx, formerly TagsSelect.jsx before TAGS widened to
+// every public stage 2026-07-30) -- overwrite, not arrayUnion, since the UI
+// already shows (and the user is explicitly choosing) the complete
+// resulting set, including removing a tag the server auto-added. See
+// stages.js's TAGS comment for the auto-add mechanism this can override.
+// Internal-role-only; enforced by the API route.
 export async function updateCompanyTags(slug, tags) {
   const clean = Array.from(new Set((tags || []).filter((t) => TAGS.includes(t))));
   const ref = db().collection('companies').doc(slug);
@@ -395,6 +396,14 @@ export const getCompany = unstable_cache(async (slug) => {
     roundSize: data.roundSize || null,
     radarCategory: data.radarCategory || null,
     pitchbookUrl: data.pitchbookUrl || null,
+    // Added 2026-07-30 for CompanyDetailPage's own "at a glance" facts block
+    // -- both were already denormalized onto the company doc for other
+    // consumers (listCompanies' `description`, deal_intelligence/
+    // radar_state.py's `fields_from_company_doc` hq fallback) but getCompany
+    // itself never read them back, so the one page meant to show "more
+    // overall data" about a company had less of it than the list views did.
+    description: data.description || null,
+    hq: data.hq || data.origin?.hq || null,
     origin: _mapOrigin(data.origin),
     radar: data.radar || null,
     tags: Array.isArray(data.tags) ? data.tags : [],

@@ -12,7 +12,19 @@ import InvestorRelationships from '@/components/InvestorRelationships';
 import RunAnalysisButton from '@/components/RunAnalysisButton';
 import StartStage2Button from '@/components/StartStage2Button';
 import MemoView from '@/components/MemoView';
-import TagsSelect from '@/components/TagsSelect';
+import StageSelect from '@/components/StageSelect';
+import StageMultiSelect from '@/components/StageMultiSelect';
+
+// $32,000,000 -> "$32M" -- this page is the only place roundSize is shown as
+// currency (deal_intelligence's own capital-clock math is the only other
+// consumer, and that stays a raw number there). Whole millions when the
+// figure is round (the common case for a reported deal size), one decimal
+// otherwise (e.g. $2.5M).
+function formatRoundSize(n) {
+  if (!n) return null;
+  const millions = n / 1_000_000;
+  return `$${Number.isInteger(millions) ? millions : millions.toFixed(1)}M`;
+}
 
 // Shared by the Watchlist / Pipeline / Qualified Deals detail routes -- a
 // company's screen history looks identical regardless of which stage it's
@@ -70,15 +82,49 @@ export default async function CompanyDetailPage({ params }) {
           linkLabel="PitchBook ↗"
         />
       </p>
+      {/* "At a glance" facts (2026-07-30, Oscar: "should mention the company
+          like the partner vc thing and more overall data") -- the stage
+          tables already show Partner VC / Radar Category / Deal Date per row
+          (companyStageColumns.jsx), but the one page meant to be the real
+          company profile showed none of it above the fold, only a full
+          Tier 1/Partner VC breakdown scrolled far below (InvestorRelationships).
+          This is a summary line, not a replacement -- InvestorRelationships
+          below still has the full deal-by-deal table. */}
+      {(company.round || company.hq || company.radarCategory || tier1Matches.length > 0 || partnerMatches.length > 0) && (
+        <p>
+          {company.round && (
+            <>Round: <strong>{company.round}</strong>
+              {formatRoundSize(company.roundSize) && ` · ${formatRoundSize(company.roundSize)}`}
+              {company.roundDate && ` · closed ${company.roundDate.slice(0, 10)}`}
+              <br /></>
+          )}
+          {company.hq && <>HQ: {company.hq}<br /></>}
+          {company.radarCategory && <>Radar Category: {company.radarCategory}<br /></>}
+          {(tier1Matches.length > 0 || partnerMatches.length > 0) && (
+            <>Partner VC: {[...tier1Matches.map((m) => m.firm.name), ...partnerMatches.map((m) => m.firm.name)].join(', ')}</>
+          )}
+        </p>
+      )}
+      {company.description && <p>{company.description}</p>}
       {/* Per-row editing moved here from the stage tables' old "Also In"
           column (2026-07-28) -- those tables briefly used this same tag data
           as a page-level filter (SortableTable's old tagFilterOptions),
           removed 2026-07-29 in favor of the generic filterGroups (Stage,
           Radar's keyword chips). See lib/stages.js's TAGS comment for the
-          auto-add mechanism this overrides by hand. */}
-      {(canEdit || company.tags.length > 0) && (
-        <p><strong>Also in:</strong> <TagsSelect slug={company.slug} tags={company.tags} canEdit={canEdit} /></p>
-      )}
+          auto-add mechanism this overrides by hand.
+          Switched from the plain tags-only TagsSelect to StageMultiSelect
+          (2026-07-30) once TAGS widened to every public stage -- this is now
+          the SAME control the stage tables use for their Stage column, so a
+          company's full multi-stage membership can be edited from its own
+          page too, not just tag membership on top of a stage set elsewhere.
+          'new' still needs the single-value StageSelect (see
+          companyStageColumns.jsx's own comment on why). */}
+      <p>
+        <strong>Stage:</strong>{' '}
+        {company.stage === 'new'
+          ? <StageSelect slug={company.slug} stage={company.stage} canEdit={canEdit} />
+          : <StageMultiSelect slug={company.slug} stage={company.stage} tags={company.tags} canEdit={canEdit} />}
+      </p>
       {fit && <FitScoreScreenView fit={fit} />}
       {/* Run Analysis (Stage 1) only while there's no screen yet -- once one
           exists, this becomes Start Stage 2 (deep research) instead. Same
