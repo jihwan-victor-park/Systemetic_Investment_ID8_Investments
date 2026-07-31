@@ -181,6 +181,37 @@ def test_hypergrowth_cadence_pulls_the_window_in_ahead_of_runway():
     assert "raising on strength" in hypergrowth["assumptions"]
 
 
+def test_unverified_hypergrowth_pulls_the_window_in_less_than_verified(): # 2026-07-29 -- the fix that closed the gap the Paper case exposed
+    fields = {"roundSize": 200_000_000, "roundDate": "2026-06-01", "region": "NA",
+              "radarCategory": "B2B software"}
+    verified = cc.cadence_window_open(date(2026, 6, 1), "hypergrowth", growth_verified=True)
+    unverified = cc.cadence_window_open(date(2026, 6, 1), "hypergrowth", growth_verified=False)
+    no_signal = cc.cadence_window_open(date(2026, 6, 1), None)
+    assert verified < unverified < no_signal  # unverified sits strictly between the two, not equal to either
+
+
+def test_growth_verified_defaults_true_for_backward_compatibility():
+    with_default = cc.cadence_window_open(date(2026, 6, 1), "hypergrowth")
+    explicit_true = cc.cadence_window_open(date(2026, 6, 1), "hypergrowth", growth_verified=True)
+    assert with_default == explicit_true
+
+
+def test_unverified_flows_through_compute_end_to_end():
+    fields = {"roundSize": 200_000_000, "roundDate": "2026-06-01", "region": "NA",
+              "radarCategory": "B2B software"}
+    verified = cc.compute(fields, headcount=60, as_of=date(2026, 7, 29), growth_tier="hypergrowth", growth_verified=True)
+    unverified = cc.compute(fields, headcount=60, as_of=date(2026, 7, 29), growth_tier="hypergrowth", growth_verified=False)
+    assert unverified["predictedWindowOpen"] > verified["predictedWindowOpen"]
+
+
+def test_growth_verified_is_irrelevant_with_no_growth_tier():
+    # growth_verified only means something alongside an actual tier -- with
+    # growth_tier=None there's nothing to discount.
+    with_true = cc.cadence_window_open(date(2026, 6, 1), None, growth_verified=True)
+    with_false = cc.cadence_window_open(date(2026, 6, 1), None, growth_verified=False)
+    assert with_true == with_false
+
+
 def test_quiet_company_keeps_the_runway_answer_unchanged():
     # No growth signal + a short runway -> the runway model should still win,
     # so this change can't silently pull every window earlier.

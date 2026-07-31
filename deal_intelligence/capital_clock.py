@@ -119,13 +119,25 @@ CADENCE_MONTHS_BY_GROWTH = {
 CADENCE_PROCESS_LEAD_MONTHS = 3
 
 
-def cadence_window_open(round_date, growth_tier):
+def cadence_window_open(round_date, growth_tier, growth_verified=True):
     """When the NEXT raise window plausibly opens, from round cadence alone
     -- independent of burn. `round_date`: the last round's close date.
-    Returns a date, or None without a round_date to anchor to."""
+    Returns a date, or None without a round_date to anchor to.
+
+    `growth_verified` (2026-07-29): False when the growth read came from a
+    screen the research itself rated low-confidence (radar_timing_signals.
+    py's own growthVerified). An unverified "hypergrowth" claim shouldn't
+    pull the window in as confidently as a verified one -- this is the same
+    fix radar_hazard.py's kernel pair makes for the hazard multiplier,
+    applied here too. It's real evidence even unverified, so it splits the
+    difference toward the no-signal baseline rather than being ignored."""
     if not round_date:
         return None
-    cadence = CADENCE_MONTHS_BY_GROWTH.get(growth_tier, CADENCE_MONTHS_BY_GROWTH[None])
+    base_cadence = CADENCE_MONTHS_BY_GROWTH.get(growth_tier, CADENCE_MONTHS_BY_GROWTH[None])
+    if growth_tier and not growth_verified:
+        cadence = round((base_cadence + CADENCE_MONTHS_BY_GROWTH[None]) / 2)
+    else:
+        cadence = base_cadence
     return _add_months(round_date, cadence - CADENCE_PROCESS_LEAD_MONTHS)
 
 # Sector-keyword proxy only -- v1 has no reliable revenue/burn-efficiency
@@ -193,7 +205,7 @@ def _days_in_month(year, month):
     return (date(year, month + 1, 1) - timedelta(days=1)).day
 
 
-def compute(fields, headcount, as_of=None, growth_tier=None, cost_per_head_overrides=None):
+def compute(fields, headcount, as_of=None, growth_tier=None, growth_verified=True, cost_per_head_overrides=None):
     """fields: {roundSize, roundDate (ISO string or date), region ('NA'/
     'Europe'/'other'/None), radarCategory, description}. headcount: int or
     None (no Apollo data yet, or a lookup that failed). as_of: date,
@@ -235,7 +247,7 @@ def compute(fields, headcount, as_of=None, growth_tier=None, cost_per_head_overr
         # improvement over the old behavior, which returned None and left
         # the hub showing "—" for anything Apollo hadn't resolved.
         missing = [n for n, v in (("headcount", headcount), ("roundSize", round_size), ("roundDate", round_date)) if not v]
-        cadence_open = cadence_window_open(round_date, growth_tier)
+        cadence_open = cadence_window_open(round_date, growth_tier, growth_verified)
         cadence_contact = _add_months(cadence_open, -3) if cadence_open else None
         return {
             "roundSize": round_size, "roundDate": round_date_raw,
@@ -274,7 +286,7 @@ def compute(fields, headcount, as_of=None, growth_tier=None, cost_per_head_overr
     # later of the two. `window_basis` records which one actually drove the
     # answer so the hub can show it rather than presenting a blended number
     # with no stated provenance.
-    cadence_open = cadence_window_open(round_date, growth_tier)
+    cadence_open = cadence_window_open(round_date, growth_tier, growth_verified)
     if runway_window_open and cadence_open:
         predicted_window_open = min(runway_window_open, cadence_open)
         window_basis = "cadence" if cadence_open < runway_window_open else "runway"

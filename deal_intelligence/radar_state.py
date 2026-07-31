@@ -25,7 +25,8 @@ from datetime import date, timedelta
 from google.cloud import firestore
 
 from . import (apollo_org, capital_clock, config, radar_access, radar_calibration, radar_hazard,
-               radar_jobs, radar_mandate, radar_schedule, radar_signal_series, radar_timing_signals)
+               radar_jobs, radar_mandate, radar_market_heat, radar_schedule, radar_signal_series,
+               radar_timing_signals)
 
 _db = None
 SCHEMA_VERSION = 1
@@ -164,7 +165,8 @@ def compute_radar_state(fields, tier1_index, headcount, headcount_checked_at,
                          last_scan_at, scan_count, today=None, advance_scan=True,
                          headcount_growth=None, job_signals=None,
                          low_score_streak=0, watch_floor=DEFAULT_WATCH_FLOOR,
-                         partner_index=None, latest_screen=None, cost_per_head_overrides=None):
+                         partner_index=None, latest_screen=None, cost_per_head_overrides=None,
+                         headcount_mom_rate=None, open_roles_mom_rate=None, current_open_roles=None):
     """Pure orchestration -- no I/O, unit-testable with fabricated inputs.
 
     fields: {name, hq, series, top10VC, roundSize, roundDate, radarCategory,
@@ -186,6 +188,13 @@ def compute_radar_state(fields, tier1_index, headcount, headcount_checked_at,
     only). A SEPARATE gate from `hazard`, deliberately -- see
     radar_access.py's own module docstring for why timing and access don't
     get blended into one number.
+
+    `headcount_mom_rate`/`open_roles_mom_rate`/`current_open_roles`: already-
+    derived MoM rates and the latest open-roles count, feeding
+    radar_market_heat.compute()'s momEmployeeGrowth/jobPostingVelocity
+    signals -- resolved by the caller (recompute_and_write) off the
+    `headcount`/`openRoles` signalSeries sensors, same "resolved inputs in"
+    convention as headcount_growth/job_signals above.
 
     `advance_scan`: True when this call represents an actual scan happening
     now (the daily scan runner, or the initial backfill) -- scanCount
@@ -210,6 +219,7 @@ def compute_radar_state(fields, tier1_index, headcount, headcount_checked_at,
             "hotness": None,
             "hazard": None,
             "access": None,
+            "marketHeat": None,
             "lowScoreStreak": 0,
         }
 
@@ -230,7 +240,7 @@ def compute_radar_state(fields, tier1_index, headcount, headcount_checked_at,
         {"roundSize": fields.get("roundSize"), "roundDate": fields.get("roundDate"), "region": region,
          "radarCategory": fields.get("radarCategory"), "description": fields.get("description"),
          "headcountCheckedAt": headcount_checked_at},
-        headcount, today, growth_tier=timing["growthTier"],
+        headcount, today, growth_tier=timing["growthTier"], growth_verified=timing["growthVerified"],
         cost_per_head_overrides=cost_per_head_overrides,
     )
 
@@ -268,6 +278,17 @@ def compute_radar_state(fields, tier1_index, headcount, headcount_checked_at,
         fields.get("name"), mandate.get("tier1Firms"), mandate.get("top10VCFlag"), partner_index or {}
     )
 
+    # Heat Score Signal Framework (Oscar, 2026-07-31) -- a SEPARATE score
+    # from `hazard` above, see radar_market_heat.py's own docstring for why
+    # it isn't folded into heatPoints. Only computed here, inside the
+    # mandate-pass branch, same population `hazard`/`access` are scoped to.
+    market_heat = radar_market_heat.compute(
+        {"series": fields.get("series"), "roundDate": fields.get("roundDate"), "tier1Firms": mandate.get("tier1Firms")},
+        {"headcountMomRate": headcount_mom_rate, "openRolesMomRate": open_roles_mom_rate,
+         "currentOpenRoles": current_open_roles},
+        today,
+    )
+
     heat_points = hazard["heatPoints"]
     low_score_streak_out = 0 if heat_points >= watch_floor else low_score_streak + 1
 
@@ -296,6 +317,7 @@ def compute_radar_state(fields, tier1_index, headcount, headcount_checked_at,
         "hotness": _hotness(months_until_window),
         "hazard": hazard,
         "access": access,
+        "marketHeat": market_heat,
         "lowScoreStreak": low_score_streak_out,
     }
 
@@ -392,6 +414,10 @@ def recompute_and_write(slug, fields, tier1_index, entry_source, db=None, apollo
     if headcount is not None:
         headcount_series = radar_signal_series.append_sample(db, slug, "headcount", today, headcount)
     headcount_growth = radar_signal_series.growth_rate(headcount_series) if headcount_series else None
+    # Literal MoM rate off the SAME stored series, for radar_market_heat's
+    # momEmployeeGrowth signal -- distinct from headcount_growth above
+    # (annualized over 90 days, feeds radar_hazard's kernels instead).
+    headcount_mom_rate = radar_signal_series.mom_growth_rate(headcount_series) if headcount_series else None
 
     # Job-board sensor (F2) -- gated on the watch floor
     # (RADAR_SIGNAL_ENGINE.md §6 Clock 2's attention-tier idea, simplified
@@ -403,6 +429,14 @@ def recompute_and_write(slug, fields, tier1_index, entry_source, db=None, apollo
     run_jobs_sensor = prior_heat is None or prior_heat >= watch_floor
     ats = existing_radar.get("ats")
     job_signals = dict(existing_job_signals)
+    # Total open-roles trend (radar_market_heat's jobPostingVelocity signal
+    # -- literal total postings, distinct from the per-bucket counts below,
+    # which only cover finance/corp-dev/GTM/recruiting titles and feed the
+    # hazard model instead). Read the existing series unconditionally so a
+    # scan where the jobs sensor doesn't fire (below watch floor) still has
+    # last time's reading to score against -- only the fresh HTTP call to
+    # the ATS is gated, not this one cheap Firestore doc read.
+    open_roles_series = radar_signal_series.read_series(db, slug, "openRoles")
     if run_jobs_sensor:
         if not ats:
             website = fields.get("website")
@@ -420,6 +454,10 @@ def recompute_and_write(slug, fields, tier1_index, entry_source, db=None, apollo
             # stops contributing; if a same-titled role reopens later it
             # gets a fresh firstSeenDate, which is correct (we're
             # re-observing a new instance of preparation, not the old one).
+            open_roles_series = radar_signal_series.append_sample(db, slug, "openRoles", today, len(postings))
+
+    current_open_roles = open_roles_series[-1]["value"] if open_roles_series else None
+    open_roles_mom_rate = radar_signal_series.mom_growth_rate(open_roles_series) if open_roles_series else None
 
     scan_count = existing_schedule.get("scanCount", 0)
     last_scan_at = _parse_date(existing_schedule.get("lastScanAt"))
@@ -449,6 +487,8 @@ def recompute_and_write(slug, fields, tier1_index, entry_source, db=None, apollo
         low_score_streak=low_score_streak, watch_floor=watch_floor,
         partner_index=partner_index, latest_screen=latest_screen,
         cost_per_head_overrides=cost_per_head_overrides,
+        headcount_mom_rate=headcount_mom_rate, open_roles_mom_rate=open_roles_mom_rate,
+        current_open_roles=current_open_roles,
     )
     radar_data["entrySource"] = entry_source
     radar_data["jobSignals"] = job_signals

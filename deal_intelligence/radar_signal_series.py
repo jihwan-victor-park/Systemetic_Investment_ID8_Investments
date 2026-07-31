@@ -83,3 +83,28 @@ def growth_rate(series, window_days=90):
     total_change = (latest["value"] - oldest["value"]) / oldest["value"]
     annualized = total_change * (365.0 / days_elapsed)
     return round(annualized, 4)
+
+
+def mom_growth_rate(series, min_gap_days=21):
+    """Literal month-over-month % change -- latest sample vs. the most
+    recent PRIOR sample at least `min_gap_days` older (a real prior
+    reading, not a same-week duplicate at Radar's monthly Apollo/weekly
+    job-board cadence). Distinct from growth_rate() above, which is
+    annualized over a 90-day window for radar_hazard.py's kernels -- this
+    is the literal MoM rate the Heat Score Signal Framework's rubric asks
+    for directly (see radar_market_heat.py).
+
+    Returns None with fewer than 2 samples, or if no sample in the series
+    is old enough to count as "last month" yet (e.g. a company's first two
+    reads landed a week apart)."""
+    if len(series) < 2:
+        return None
+    latest = series[-1]
+    latest_date = date.fromisoformat(latest["date"])
+    candidates = [s for s in series[:-1] if (latest_date - date.fromisoformat(s["date"])).days >= min_gap_days]
+    if not candidates:
+        return None
+    prior = candidates[-1]  # closest-to-a-month-ago prior sample
+    if not prior.get("value"):
+        return None
+    return round((latest["value"] - prior["value"]) / prior["value"], 4)

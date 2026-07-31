@@ -226,3 +226,74 @@ def test_default_watch_floor_never_catches_a_company_with_zero_active_signals():
     )
     assert result["hazard"]["heatPoints"] >= rs.DEFAULT_WATCH_FLOOR
     assert result["lowScoreStreak"] == 0
+
+
+# ── Heat Score Signal Framework / radar.marketHeat (Oscar, 2026-07-31) ──
+# End-to-end through compute_radar_state, same fabricated-input convention
+# as the rest of this file -- the point is proving the day-1-vs-day-30 gap
+# radar_market_heat.py's docstring describes actually behaves as claimed
+# once it's flowing through the real orchestrator, not just in isolation
+# (see test_radar_market_heat.py for the isolated per-signal unit tests).
+
+def test_market_heat_fresh_arrival_only_two_of_four_signals_computable():
+    # Day 1, via firestore_push.py's attio-import hook: round/investor data
+    # exists immediately (straight off the PitchBook export), but
+    # momEmployeeGrowth/jobPostingVelocity need a SECOND time-sample at
+    # least ~21 days out (radar_signal_series.mom_growth_rate's own floor)
+    # -- a brand-new company can't have that yet. pointsAvailable must be
+    # 25 (raiseProbability 15 + tier1InvestorCount 10), not the full 30 --
+    # anything else would be fabricating a growth rate from zero history.
+    index = rm.build_tier1_index(TIER1)
+    result = rs.compute_radar_state(
+        {"name": "Northwind Systems", "hq": "Boston, MA", "series": "Series B",
+         "roundSize": 32_000_000, "roundDate": "2026-02-10", "top10VC": True},
+        tier1_index=index, headcount=81, headcount_checked_at="2026-08-05",
+        last_scan_at=None, scan_count=0, today=date(2026, 8, 5),
+        headcount_mom_rate=None, open_roles_mom_rate=None, current_open_roles=None,
+    )
+    mh = result["marketHeat"]
+    assert mh["signals"]["raiseProbability"]["computed"] is True
+    assert mh["signals"]["tier1InvestorCount"]["computed"] is True
+    assert mh["signals"]["momEmployeeGrowth"]["computed"] is False
+    assert mh["signals"]["jobPostingVelocity"]["computed"] is False
+    assert mh["pointsAvailable"] == 25
+
+
+def test_market_heat_one_month_later_all_four_wired_signals_compute():
+    # Same company, one scan later, now with a real second reading on both
+    # series -- all 4 wired signals contribute and pointsAvailable reaches
+    # the full 30.
+    index = rm.build_tier1_index(TIER1)
+    result = rs.compute_radar_state(
+        {"name": "Northwind Systems", "hq": "Boston, MA", "series": "Series B",
+         "roundSize": 32_000_000, "roundDate": "2026-02-10", "top10VC": True},
+        tier1_index=index, headcount=88, headcount_checked_at="2026-09-05",
+        last_scan_at=date(2026, 8, 5), scan_count=1, today=date(2026, 9, 5),
+        headcount_mom_rate=0.086, open_roles_mom_rate=0.30, current_open_roles=14,
+    )
+    mh = result["marketHeat"]
+    for key in ("raiseProbability", "momEmployeeGrowth", "jobPostingVelocity", "tier1InvestorCount"):
+        assert mh["signals"][key]["computed"] is True
+    assert mh["pointsAvailable"] == 30
+    assert mh["signals"]["momEmployeeGrowth"]["raw"] == 10.0   # >5% MoM
+    assert mh["signals"]["jobPostingVelocity"]["raw"] == 10.0  # >25% MoM
+
+
+def test_market_heat_quiet_declining_company_lands_at_bottom_bands():
+    # 0 Tier1 firms is reachable via the top10VC-flag S3 pass with no index
+    # match (radar_mandate.s3_tier1_on_cap_table's own documented edge case)
+    # -- a real, valid 0, not a gap. Negative MoM on both series should
+    # land at the floor bands, not crash or silently read as "unmeasured."
+    result = rs.compute_radar_state(
+        {"name": "Quietco", "hq": "Austin, TX", "series": "Series B",
+         "roundSize": 20_000_000, "roundDate": "2025-01-01", "top10VC": True},
+        tier1_index={}, headcount=40, headcount_checked_at="2026-08-05",
+        last_scan_at=date(2026, 7, 5), scan_count=3, today=date(2026, 8, 5),
+        headcount_mom_rate=-0.03, open_roles_mom_rate=-0.40, current_open_roles=3,
+    )
+    mh = result["marketHeat"]
+    assert mh["signals"]["tier1InvestorCount"]["raw"] == 0.0
+    assert mh["signals"]["tier1InvestorCount"]["count"] == 0
+    assert mh["signals"]["momEmployeeGrowth"]["raw"] == 0.0    # declining
+    assert mh["signals"]["jobPostingVelocity"]["raw"] == 3.0   # declining, still >0 open roles
+    assert mh["normalizedScore"] < 30  # bottom-heavy, not a strong read

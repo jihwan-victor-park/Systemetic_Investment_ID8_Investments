@@ -64,3 +64,50 @@ def test_growth_rate_zero_oldest_value_is_none_not_a_crash():
         {"date": "2026-02-01", "value": 5},
     ]
     assert rss.growth_rate(series) is None
+
+
+def test_mom_growth_rate_fewer_than_two_samples_is_none():
+    assert rss.mom_growth_rate([]) is None
+    assert rss.mom_growth_rate([{"date": "2026-01-01", "value": 40}]) is None
+
+
+def test_mom_growth_rate_positive():
+    series = [
+        {"date": "2026-01-01", "value": 100},
+        {"date": "2026-02-01", "value": 106},  # 31 days later, +6%
+    ]
+    assert rss.mom_growth_rate(series) == 0.06
+
+
+def test_mom_growth_rate_negative():
+    series = [
+        {"date": "2026-01-01", "value": 100},
+        {"date": "2026-02-05", "value": 90},
+    ]
+    assert rss.mom_growth_rate(series) < 0
+
+
+def test_mom_growth_rate_picks_closest_prior_sample_not_the_oldest():
+    series = [
+        {"date": "2025-01-01", "value": 10},   # ancient -- should NOT be used
+        {"date": "2026-01-01", "value": 100},  # ~31 days before latest -- the real "last month" reading
+        {"date": "2026-02-01", "value": 110},
+    ]
+    assert rss.mom_growth_rate(series) == 0.1  # (110-100)/100, not (110-10)/10
+
+
+def test_mom_growth_rate_no_prior_sample_old_enough_is_none():
+    # Two reads only a week apart -- no real "last month" comparison exists yet.
+    series = [
+        {"date": "2026-01-01", "value": 40},
+        {"date": "2026-01-08", "value": 44},
+    ]
+    assert rss.mom_growth_rate(series) is None
+
+
+def test_mom_growth_rate_zero_prior_value_is_none_not_a_crash():
+    series = [
+        {"date": "2026-01-01", "value": 0},
+        {"date": "2026-02-01", "value": 5},
+    ]
+    assert rss.mom_growth_rate(series) is None
