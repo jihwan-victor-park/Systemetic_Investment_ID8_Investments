@@ -12,7 +12,11 @@ export const dynamic = 'force-dynamic';
 export default async function WatchlistPage() {
   const [companies, tier1, partners, session] = await Promise.all([listCompanies(), listTopVCs(), listPartnerVCs(), auth()]);
   const canEdit = session?.user?.role === 'internal';
-  const watchlist = companies.filter((c) => c.stage === 'watchlist');
+  // Additive (2026-07-30, matching Qualified Deals/Radar's own pattern):
+  // a company shows up here either because its primary stage IS Watchlist,
+  // or because it's carrying the 'watchlist' tag independently via
+  // StageMultiSelect -- see lib/stages.js's TAGS comment.
+  const watchlist = companies.filter((c) => c.stage === 'watchlist' || c.tags?.includes('watchlist'));
   // Built once server-side and handed down as a small name -> matches map --
   // NOT the raw tier1/partners arrays, which would ship the entire multi-MB
   // portfolio dataset to the browser just for this cross-reference (see

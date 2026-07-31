@@ -63,6 +63,22 @@
   color: var(--id8-accent);
   background: var(--id8-accent-bg);
 }
+/* watchlist/pipeline/invested added 2026-07-30 when TAGS widened to every
+   PUBLIC_STAGES value (StageMultiSelect) -- neutral grey rather than
+   inventing new brand colors this palette doesn't otherwise have. */
+.pill_watchlist,
+.pill_pipeline,
+.pill_invested {
+  color: var(--id8-grey);
+  background: color-mix(in srgb, var(--id8-grey) 14%, transparent);
+}
+
+.error {
+  display: block;
+  color: #B3261E;
+  font-size: 0.72rem;
+  margin-top: 2px;
+}
 
 /* Popover -- same fixed-position/scrollWrap-escape pattern as
    PartnerVcPopover.module.css, plus the same card/hair-border/shadow
@@ -119,4 +135,9 @@
 }
 .swatch.pill_radar {
   background: var(--id8-accent);
+}
+.swatch.pill_watchlist,
+.swatch.pill_pipeline,
+.swatch.pill_invested {
+  background: var(--id8-grey);
 }

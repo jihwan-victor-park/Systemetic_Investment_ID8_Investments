@@ -27,20 +27,20 @@ export default function StartStage2Button({ slug, name }) {
       if (!res.ok || data.error) throw new Error(data.error || 'stage2-failed');
       startJob(data.job_id, {
         status: 'running', type: 'stage2', companySlug: slug,
-        label: `${name} — Stage 2`, createdAt: new Date().toISOString(),
+        label: `${name} — Stage 2 (Deal Screening)`, createdAt: new Date().toISOString(),
       });
       setJustStarted(true);
       setTimeout(() => setJustStarted(false), 4000);
     } catch {
-      window.alert('Could not start Stage 2 — try again.');
+      window.alert('Could not start Stage 2 (Deal Screening) — try again.');
     } finally {
       setBusy(false);
     }
   };
 
   return (
-    <button type="button" className={styles.btn} onClick={onClick} disabled={busy} title="Start Stage 2 deep research">
-      {busy ? 'Starting…' : justStarted ? 'Started ✓' : 'Start Stage 2'}
+    <button type="button" className={styles.btn} onClick={onClick} disabled={busy} title="Start Stage 2 (Deal Screening)">
+      {busy ? 'Starting…' : justStarted ? 'Started ✓' : 'Start Stage 2 (Deal Screening)'}
     </button>
   );
 }

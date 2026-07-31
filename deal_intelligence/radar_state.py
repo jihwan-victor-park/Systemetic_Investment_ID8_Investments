@@ -166,7 +166,8 @@ def compute_radar_state(fields, tier1_index, headcount, headcount_checked_at,
                          headcount_growth=None, job_signals=None,
                          low_score_streak=0, watch_floor=DEFAULT_WATCH_FLOOR,
                          partner_index=None, latest_screen=None, cost_per_head_overrides=None,
-                         headcount_mom_rate=None, open_roles_mom_rate=None, current_open_roles=None):
+                         headcount_mom_rate=None, open_roles_mom_rate=None, current_open_roles=None,
+                         job_sensor_available=False):
     """Pure orchestration -- no I/O, unit-testable with fabricated inputs.
 
     fields: {name, hq, series, top10VC, roundSize, roundDate, radarCategory,
@@ -182,6 +183,16 @@ def compute_radar_state(fields, tier1_index, headcount, headcount_checked_at,
     caller decides whether crossing DROP_STREAK_THRESHOLD actually stamps
     `droppedAt`, since that's a once-only, never-reset write this function
     (stateless, called fresh every time) has no business owning.
+
+    `job_sensor_available` (Isabella, 2026-07-30): whether the job-board
+    sensor was actually reachable for this company -- True once an ATS was
+    detected, regardless of whether `job_signals` came back empty (empty
+    means "checked, nothing open right now"; False here means "never
+    checked at all," e.g. no ATS could be found). Feeds radar_hazard.
+    compute()'s dataCoverage alongside whether a capital-clock reading and a
+    Stage 1 screen exist -- see that module's DATA_SOURCES comment. Default
+    False is the conservative read for any caller that doesn't pass it
+    explicitly (recompute_and_write does, from its own `ats` lookup).
 
     `partner_index`: radar_access.build_partner_index()'s output (or None,
     treated as empty -- no co-invest match, degrades to institutional/none
@@ -267,7 +278,20 @@ def compute_radar_state(fields, tier1_index, headcount, headcount_checked_at,
     # conviction was inert.
     active_signals = _active_signals(headcount_growth, job_signals, today) + timing["signals"]
     h0 = radar_hazard.baseline_hazard(months_until_window)
-    hazard = radar_hazard.compute(h0, active_signals)
+
+    # Data coverage (Isabella, 2026-07-30): which of Radar's three wired
+    # sensors actually returned data for THIS company, independent of
+    # whether an active signal fired -- a capital clock built from a real
+    # Apollo headcount lookup is "covered" even if headcount growth is flat;
+    # a company with no Stage 1 screen at all is NOT "covered" on that axis
+    # even though radar_timing_signals.extract(None) correctly returns no
+    # signals rather than a negative one. See radar_hazard.DATA_SOURCES.
+    data_sources = {
+        "capitalClock": bool(headcount and fields.get("roundSize") and fields.get("roundDate")),
+        "jobSignals": bool(job_sensor_available),
+        "screen": bool(latest_screen),
+    }
+    hazard = radar_hazard.compute(h0, active_signals, data_sources)
     hazard["computedAt"] = today.isoformat()
     hazard["growthTier"] = timing["growthTier"]
     hazard["growthVerified"] = timing["growthVerified"]
@@ -489,6 +513,7 @@ def recompute_and_write(slug, fields, tier1_index, entry_source, db=None, apollo
         cost_per_head_overrides=cost_per_head_overrides,
         headcount_mom_rate=headcount_mom_rate, open_roles_mom_rate=open_roles_mom_rate,
         current_open_roles=current_open_roles,
+        job_sensor_available=bool(ats),
     )
     radar_data["entrySource"] = entry_source
     radar_data["jobSignals"] = job_signals

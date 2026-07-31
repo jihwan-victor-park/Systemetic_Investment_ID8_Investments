@@ -108,6 +108,62 @@ DISTRESS_KERNELS = ("headcount_decline_10", "layoffs", "defensive_raise")
 
 COMPOSITE_CAP = 8.0  # §4.2 "composite cap"
 
+# ── Data coverage (Isabella, 2026-07-30) ──────────────────────────────────
+# "I just want to ensure we don't automatically penalize a company because
+# it is absent from Sacra or a coverage database... the model will
+# systematically favor companies with strong public-data coverage rather
+# than companies with actual momentum." Two things follow from that, and
+# they're deliberately kept separate:
+#
+#   1. A source with nothing to report must contribute NOTHING, not a
+#      penalty -- already true everywhere in this pipeline before this
+#      comment existed: capital_clock.compute() returns None (not 0) for
+#      estMonthlyBurn/runwayMonths when headcount/roundSize/roundDate is
+#      missing; radar_timing_signals.extract_growth_tier() returns growthTier
+#      = None (not a negative signal) when no growth figure is found in the
+#      screen text -- "absence of a public number is the normal state for a
+#      private company," see that module's own docstring; combine_multipliers
+#      above is a product over ACTIVE signals only, with no placeholder term
+#      for a signal nobody detected. heatPoints is never artificially lowered
+#      for a company we simply haven't observed much of -- it's computed from
+#      whatever real signals exist, exactly as it would be for a company with
+#      a thicker data footprint showing the same signals.
+#   2. What WAS missing before this comment: a way to say so out loud. A
+#      company with one fresh, active family and a company with the same
+#      family PLUS two unchecked sources look identical in `confidence` as
+#      computed pre-2026-07-30 -- both were rated purely on family
+#      count/freshness, with no signal that one of them rests on a much
+#      thinner data footprint. `data_coverage()` below makes that footprint
+#      visible and displayable (dataCoverage%, alongside heatPoints and
+#      confidence, per Isabella's own worked example), and confidence_level()
+#      now refuses to call a thin-coverage read anything better than "low" --
+#      see that function's own docstring for why that's the safe direction
+#      to err in, not the reverse (thin coverage does NOT lower heatPoints
+#      itself; only confidence, which is the whole point of #1 above).
+DATA_SOURCES = ("capitalClock", "jobSignals", "screen")  # the three per-company
+# data sources this pipeline can actually check today (RADAR_SIGNAL_ENGINE.md
+# §10's "what exists" column: capital clock inputs via Apollo/intake, the
+# job-board sensor (F2), and the Stage 1 screen (F1/F3/F4 timing signals,
+# including any Sacra/Crunchbase-sourced growth research it cites)). Filings
+# (F5) and the broader F3 sensors (social/web-diff/community/reviews) aren't
+# wired for ANY company yet, so they're excluded from the denominator on
+# purpose -- a source the whole system lacks isn't a coverage gap specific to
+# this company, and including it would make every company's coverage number
+# lower without distinguishing any of them from each other.
+
+# Mirrors the "two-family rule" (§4.2) one level down, at the level of raw
+# data availability rather than active signals: a single available source
+# isn't enough to trust the family/freshness read on its own, even if that
+# one source happens to look great -- the fix for "companies with strong
+# public-data coverage get an unfair advantage" cuts both ways, and a
+# confident-sounding number built on one lucky source is exactly the failure
+# mode Isabella is naming. 1/3 (0.333...) sits just BELOW this floor and 2/3
+# (0.667) sits above it, so the practical rule is "need at least two of the
+# three sources checked" before confidence can rise past "low" on its own
+# merits. A hand-set prior, same as everything in SIGNAL_KERNELS -- stated
+# here so it's correctable, not calibrated yet.
+MIN_DATA_COVERAGE = 0.34
+
 
 def baseline_hazard(months_until_window):
     """h₀: baseline annualized hazard from the capital clock (§3), the only
@@ -209,12 +265,53 @@ def two_family_guardrail(active_families):
     return len(set(active_families)) >= 2
 
 
-def confidence_level(active_families, newest_signal_age_months):
+def data_coverage(sources_available):
+    """Isabella, 2026-07-30: pairs `confidence` with a literal, displayable
+    coverage number -- "we checked 2 of 3 available sources" is a different
+    (and more honest) statement than "we're moderately confident," and a
+    partner reading a card should be able to see both.
+
+    `sources_available`: {"capitalClock": bool, "jobSignals": bool,
+    "screen": bool, ...} -- True means that source was actually checked and
+    returned data for THIS company, regardless of whether what it found was
+    positive, negative, or "nothing to report" (a screen that found no
+    growth evidence still counts as `screen: True` -- it was read, it just
+    had nothing to say; an ATS that was never found at all is `jobSignals:
+    False` -- it was never checked). Unrecognized keys are ignored; a
+    missing key is treated as unavailable, so a caller that hasn't wired a
+    given source yet degrades to "not covered" rather than raising.
+
+    Returns {"coverage": 0-1 float, "available": [...], "missing": [...]}."""
+    available = [k for k in DATA_SOURCES if sources_available.get(k)]
+    missing = [k for k in DATA_SOURCES if not sources_available.get(k)]
+    return {
+        "coverage": round(len(available) / len(DATA_SOURCES), 3),
+        "available": available,
+        "missing": missing,
+    }
+
+
+def confidence_level(active_families, newest_signal_age_months, coverage=1.0):
     """§4.3: confidence is reported separately from probability -- a 30%
     from one stale sensor means less than a 30% from multiple fresh,
     independent families. Simplified to what's computable this pass (only
     F2 sensor coverage exists, so "sensor coverage of this company" isn't
-    yet a separate axis from family count)."""
+    yet a separate axis from family count).
+
+    `coverage`: data_coverage()'s own 0-1 fraction. Defaults to 1.0 (full
+    coverage) so every existing caller that doesn't pass it gets exactly
+    today's behavior, unchanged. Isabella's mandate #4 ("require a minimum
+    data-coverage threshold"): below MIN_DATA_COVERAGE this returns "low"
+    outright, regardless of how many families are active or how fresh the
+    newest one is -- a read built off one lucky source is not the same
+    thing as a genuinely well-observed company, and reporting it as
+    "medium"/"high" would reward data availability over the momentum it's
+    supposed to measure (the exact failure mode Isabella flagged). This
+    caps `confidence` only -- it never touches `heatPoints`/p90/p180, which
+    stay computed from whichever real signals exist either way (see
+    DATA_SOURCES' own module-level comment, point #1)."""
+    if coverage < MIN_DATA_COVERAGE:
+        return "low"
     n = len(set(active_families))
     if n == 0:
         return "low"
@@ -225,7 +322,7 @@ def confidence_level(active_families, newest_signal_age_months):
     return "low"
 
 
-def compute(h0_annualized, active_signals):
+def compute(h0_annualized, active_signals, data_sources=None):
     """The pipeline radar_state.py actually calls -- one function, same
     convention as capital_clock.compute()/radar_mandate.screen(), rather
     than five sub-functions wired by hand at every call site.
@@ -235,10 +332,20 @@ def compute(h0_annualized, active_signals):
     own stored first-seen date before calling this (or passes
     monthsSinceEvent=0 for a `concurrent` kernel, re-evaluated fresh every
     scan rather than aged). Only signals currently active belong in this
-    list at all.
+    list at all. Recalculated from exactly this list every call -- there is
+    no term for a signal that wasn't detected, so an unavailable source
+    never drags the score down (Isabella's mandate #3, "recalculate the
+    score using only available signals" -- this is what makes that true by
+    construction rather than by a special case).
+
+    `data_sources`: data_coverage()'s input shape, or None -- a caller that
+    doesn't pass it (every test written before 2026-07-30) gets full
+    coverage (1.0), which is a no-op on confidence_level()'s new floor and
+    leaves every prior test's expected confidence unchanged.
 
     Returns {p90, p180, heatPoints, compositeMultiplier, familiesActive,
-    twoFamilyPass, confidence} -- the shape radar_state.py writes onto
+    twoFamilyPass, confidence, dataCoverage, dataSourcesAvailable,
+    dataSourcesMissing} -- the shape radar_state.py writes onto
     radar.hazard, plus computedAt stamped by the caller."""
     multipliers = []
     families = []
@@ -259,6 +366,10 @@ def compute(h0_annualized, active_signals):
     p90 = hazard_p90(h0_annualized, composite)
     p180 = hazard_p180(h0_annualized, composite)
 
+    coverage = data_coverage(
+        data_sources if data_sources is not None else {k: True for k in DATA_SOURCES}
+    )
+
     return {
         "p90": round(p90, 4),
         "p180": round(p180, 4),
@@ -266,7 +377,10 @@ def compute(h0_annualized, active_signals):
         "compositeMultiplier": round(composite, 3),
         "familiesActive": sorted(set(families)),
         "twoFamilyPass": two_family_guardrail(families),
-        "confidence": confidence_level(families, min(ages) if ages else None),
+        "confidence": confidence_level(families, min(ages) if ages else None, coverage["coverage"]),
+        "dataCoverage": coverage["coverage"],
+        "dataSourcesAvailable": coverage["available"],
+        "dataSourcesMissing": coverage["missing"],
         # §2.2: "overdue" is equally a sign of imminent raise and of dying,
         # and treating the second as the first is how a partner's attention
         # gets spent on a corpse. An explicit flag, never inferred from the

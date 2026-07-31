@@ -175,3 +175,87 @@ def test_distress_flag_survives_alongside_positive_signals():
 def test_compute_pipeline_heat_points_present_and_matches_p180():
     result = rh.compute(0.5, [{"key": "senior_finance_role", "monthsSinceEvent": 4}])
     assert result["heatPoints"] == rh.heat_points(result["p180"])
+
+
+# ── Data coverage (Isabella, 2026-07-30) ──────────────────────────────────
+# "Don't automatically penalize a company because it is absent from Sacra or
+# a coverage database... treat unavailable data as missing, not zero...
+# require a minimum data-coverage threshold... display a confidence score
+# beside the heat score."
+
+def test_data_coverage_full_when_all_sources_available():
+    result = rh.data_coverage({"capitalClock": True, "jobSignals": True, "screen": True})
+    assert result["coverage"] == 1.0
+    assert result["missing"] == []
+    assert set(result["available"]) == {"capitalClock", "jobSignals", "screen"}
+
+
+def test_data_coverage_zero_when_nothing_available():
+    result = rh.data_coverage({})
+    assert result["coverage"] == 0.0
+    assert set(result["missing"]) == {"capitalClock", "jobSignals", "screen"}
+    assert result["available"] == []
+
+
+def test_data_coverage_partial_reports_which_source_is_missing():
+    result = rh.data_coverage({"capitalClock": True, "jobSignals": False, "screen": True})
+    assert result["coverage"] == round(2 / 3, 3)
+    assert result["missing"] == ["jobSignals"]
+
+
+def test_confidence_level_defaults_to_full_coverage_unchanged_behavior():
+    # No `coverage` arg passed -- every caller written before 2026-07-30
+    # keeps today's behavior exactly, this is the regression pin.
+    assert rh.confidence_level(["F2", "negative"], 1) == "high"
+
+
+def test_confidence_level_capped_low_below_min_coverage_even_with_two_families():
+    # Isabella's mandate #4: thin coverage must not be laundered into
+    # "high" confidence just because the one or two sources that DID
+    # return data happen to look great.
+    thin_coverage = round(1 / 3, 3)  # one of three sources checked
+    assert rh.confidence_level(["F2", "negative"], 1, coverage=thin_coverage) == "low"
+
+
+def test_confidence_level_not_capped_at_two_of_three_sources():
+    two_of_three = round(2 / 3, 3)
+    assert rh.confidence_level(["F2", "negative"], 1, coverage=two_of_three) == "high"
+
+
+def test_compute_defaults_to_full_coverage_when_data_sources_omitted():
+    # No data_sources arg -- every pre-2026-07-30 test call site (including
+    # every test above this one in this file) must see identical behavior.
+    result = rh.compute(0.5, [
+        {"key": "hypergrowth_revenue", "monthsSinceEvent": 2},
+        {"key": "senior_finance_role", "monthsSinceEvent": 4},
+    ])
+    assert result["dataCoverage"] == 1.0
+    assert result["confidence"] == "high"
+
+
+def test_compute_reports_missing_sources_without_zeroing_the_score():
+    # A company absent from every wired source except headcount/round data
+    # (no ATS found, no Stage 1 screen yet) still gets its real hazard
+    # score computed off the capital clock alone -- heatPoints is NOT forced
+    # to 0 or otherwise penalized for the missing sources; only confidence
+    # reflects the thin footprint.
+    thin = rh.compute(0.5, [], data_sources={"capitalClock": True, "jobSignals": False, "screen": False})
+    full = rh.compute(0.5, [], data_sources={"capitalClock": True, "jobSignals": True, "screen": True})
+    assert thin["p180"] == full["p180"]  # identical score -- same h0, same (empty) active signals
+    assert thin["heatPoints"] == full["heatPoints"]
+    assert thin["dataCoverage"] == round(1 / 3, 3)
+    assert thin["dataSourcesMissing"] == ["jobSignals", "screen"]
+    assert full["dataCoverage"] == 1.0
+
+
+def test_compute_low_coverage_caps_confidence_even_with_active_signals():
+    # Two active families would normally read "high" (see the two-family
+    # test above) -- but if only one of the three sources was ever checked,
+    # confidence must not overstate how well-observed this company is.
+    result = rh.compute(0.5, [
+        {"key": "hypergrowth_revenue", "monthsSinceEvent": 2},
+        {"key": "senior_finance_role", "monthsSinceEvent": 4},
+    ], data_sources={"capitalClock": False, "jobSignals": True, "screen": False})
+    assert result["twoFamilyPass"] is True  # the signal-family read is unaffected...
+    assert result["confidence"] == "low"    # ...but confidence reflects the thin footprint
+    assert result["dataCoverage"] == round(1 / 3, 3)

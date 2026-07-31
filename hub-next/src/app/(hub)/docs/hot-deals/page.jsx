@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { auth } from '@/auth';
 import SortableTable from '@/components/SortableTable';
 import StageSelect from '@/components/StageSelect';
+import StageMultiSelect from '@/components/StageMultiSelect';
 import DeleteButton from '@/components/DeleteButton';
 import { listCompanies } from '@/lib/companies';
 import { listTopVCs } from '@/lib/topVCs';
@@ -74,7 +75,13 @@ export default async function HotDealsPage() {
         ),
         source,
         via: viaHref ? <Link href={viaHref}>{via}</Link> : via,
-        stage: <StageSelect slug={c.slug} stage={c.stage} canEdit={canEdit} />,
+        // See companyStageColumns.jsx's own comment -- 'new' has no place in
+        // StageMultiSelect's PUBLIC_STAGES-only checked set, so it needs
+        // StageSelect's single-value dropdown instead, same as Admin's Needs
+        // Triage table.
+        stage: c.stage === 'new'
+          ? <StageSelect slug={c.slug} stage={c.stage} canEdit={canEdit} />
+          : <StageMultiSelect slug={c.slug} stage={c.stage} tags={c.tags} canEdit={canEdit} />,
         date: c.latestScreen.date.slice(0, 10),
         report: <Link href={`${basePath}/${c.slug}`}>View screen →</Link>,
         actions: canEdit ? (

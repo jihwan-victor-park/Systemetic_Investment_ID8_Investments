@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import StageSelect from './StageSelect';
+import StageMultiSelect from './StageMultiSelect';
 import RoundInput from './RoundInput';
 import CompanyInlineField from './CompanyInlineField';
 import PartnerVcPopover from './PartnerVcPopover';
@@ -134,7 +135,17 @@ export function companyToRow(c, { basePath, canEdit, investorIndex = {}, domainI
         />
       ),
       score: score != null ? `${score.toFixed(1)} / 4` : '—',
-      stage: <StageSelect slug={c.slug} stage={c.stage} canEdit={canEdit} />,
+      // 'new' (Admin's Needs Triage table, which reuses this same function --
+      // see its own docstring) is a special case: StageMultiSelect's checked
+      // set is built from PUBLIC_STAGES, which deliberately excludes 'new'
+      // (lib/stages.js), so it has no way to represent OR clear that value.
+      // Needs Triage's actual job is "assign this company its one real
+      // stage, replacing 'new' outright" -- StageSelect's single-value
+      // dropdown (which already special-cases prepending an out-of-list
+      // current value) is the correct control there, not the multiselect.
+      stage: c.stage === 'new'
+        ? <StageSelect slug={c.slug} stage={c.stage} canEdit={canEdit} />
+        : <StageMultiSelect slug={c.slug} stage={c.stage} tags={c.tags} canEdit={canEdit} />,
       date: c.latestScreen ? c.latestScreen.date.slice(0, 10) : '—',
       report: <Link href={`${resolvedBasePath}/${c.slug}`}>View screen →</Link>,
       actions: canEdit ? (

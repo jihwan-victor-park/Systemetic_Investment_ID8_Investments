@@ -198,7 +198,7 @@ export default function ScreenView({ screen: initialScreen, canEdit, slug }) {
     setScreen(updated);
   };
 
-  const heading = `Screen — ${screen.date}${screen.roundStage ? ` · ${screen.roundStage}` : ''}`;
+  const heading = `Stage 1 — ${screen.date}${screen.roundStage ? ` · ${screen.roundStage}` : ''}`;
   return (
     <div>
       <H2>

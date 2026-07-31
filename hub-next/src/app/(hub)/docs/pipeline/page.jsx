@@ -12,7 +12,11 @@ export const dynamic = 'force-dynamic';
 export default async function PipelinePage() {
   const [companies, tier1, partners, session] = await Promise.all([listCompanies(), listTopVCs(), listPartnerVCs(), auth()]);
   const canEdit = session?.user?.role === 'internal';
-  const pipeline = companies.filter((c) => c.stage === 'pipeline');
+  // Additive (2026-07-30, matching Qualified Deals/Radar's own pattern):
+  // a company shows up here either because its primary stage IS Pipeline,
+  // or because it's carrying the 'pipeline' tag independently via
+  // StageMultiSelect -- see lib/stages.js's TAGS comment.
+  const pipeline = companies.filter((c) => c.stage === 'pipeline' || c.tags?.includes('pipeline'));
   const investorIndex = buildInvestorIndex(tier1, partners);
   const domainIndex = investorDomainIndex(tier1, partners);
 
