@@ -225,6 +225,49 @@ def push_company_screen_firestore(fit: DealFit, deal: DealInput, slug: str, docx
     return {"slug": slug, "screen_id": screen_id, "docx_uploaded": docx_path is not None}
 
 
+def latest_screen(slug: str) -> dict | None:
+    """This company's most recent Stage 1 screen summary, or None if never
+    screened. Shape: {date, roundStage, fitScore, gate} (the denormalized
+    `latestScreen` map), so a caller can report a prior score without re-running
+    research.
+
+    Added 2026-08-03. Nothing anywhere checked this before, which cost real
+    money in both directions: /screen-deals re-screened every Qualified deal on
+    every run, and the intake pathways had no way to tell "this deal is new to
+    THIS export" apart from "this deal has never been screened at all" -- so a
+    company arriving via a second intake source either got screened twice or
+    (once dedup dropped it) never at all.
+
+    Reads the denormalized `latestScreen` map on the company doc first, since
+    that's a single document read and is written by
+    push_company_screen_firestore on every screen. Falls back to the newest doc
+    in the `screens` subcollection for companies screened before `latestScreen`
+    existed (it was added 2026-07-28) -- without that fallback an older company
+    would look unscreened and get re-researched needlessly. Screen doc ids are
+    ISO dates, so ordering by document id descending is a date sort.
+    """
+    snap = _firestore().collection("companies").document(slug).get()
+    if not snap.exists:
+        return None
+    data = snap.to_dict() or {}
+    summary = data.get("latestScreen") or {}
+    if summary.get("date"):
+        return summary
+    for doc in (snap.reference.collection("screens")
+                .order_by("__name__", direction=firestore.Query.DESCENDING)
+                .limit(1).stream()):
+        d = doc.to_dict() or {}
+        return {"date": d.get("date") or doc.id, "roundStage": d.get("roundStage"),
+                "fitScore": d.get("fitScore"), "gate": d.get("gate")}
+    return None
+
+
+def has_screen(slug: str) -> bool:
+    """True when this company already has at least one Stage 1 screen on file.
+    Thin wrapper over latest_screen for callers that only need the boolean."""
+    return latest_screen(slug) is not None
+
+
 def push_company_memo_firestore(memo: DealMemo, slug: str) -> dict:
     """Persist a Stage 2 deep-research memo against an existing company doc --
     previously this only ever lived in the ad-hoc chat_jobs doc (pipeline/

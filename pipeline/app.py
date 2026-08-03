@@ -34,6 +34,8 @@ from deal_intelligence import attio_io as di_attio_io
 from deal_intelligence import radar_access as di_radar_access
 from deal_intelligence import radar_mandate as di_radar_mandate
 from deal_intelligence import radar_state as di_radar_state
+from deal_intelligence import tier1_firms as di_tier1
+from deal_intelligence import email_format as di_email_format
 
 app = Flask(__name__)
 
@@ -101,6 +103,16 @@ INVESTOR_REF_MAP = {
 # The slug is resolved at runtime by the attribute TITLE (below) so a slug mismatch
 TOP10_VC_TITLE = 'Top 10 VC'
 RADAR_STAGE    = 'Radar'
+
+# Email subject/heading per intake flow. The flow key is threaded from the route
+# through _start_pipeline into _run_pipeline_bg, rather than re-derived from
+# (stage, top10) -- /process and /process-top10 now BOTH pass stage='Qualified'
+# (see determine_placement), so the stage alone no longer identifies the flow.
+EMAIL_TITLES = {
+    "deal_flow": "Weekly Deal Flow",
+    "top10":     "Top 10 VC Radar",
+    "watchlist": "Watchlist Update",
+}
 
 
 # --- Helpers ------------------------------------------------------------------
@@ -584,25 +596,105 @@ _BELOW_MANDATE_SERIES_RE = re.compile(
     r'^\s*(?:pre[-\s]?seed|seed|angel|pre[-\s]?a|series\s*[ab]\d*)\b',
     re.IGNORECASE)
 
+# Series B specifically (B, B1, B2, ... but never 'BB'). Split out from
+# _BELOW_MANDATE_SERIES_RE 2026-08-03: B is no longer just "below mandate", it
+# is the one band that belongs in BOTH buckets -- see determine_placement.
+_SERIES_B_RE = re.compile(r'^\s*series\s*b\d*\b', re.IGNORECASE)
+
+QUALIFIED_STAGE = 'Qualified'
+
 
 def determine_stage(series, default_stage):
-    """If series is B or earlier, move to Radar; otherwise use the provided stage.
+    """Legacy single-stage resolver, kept for the callers and tests that only
+    need "where does this one deal live in Attio". Prefer determine_placement,
+    which also reports the hub's additive tags.
 
     A blank/unknown series is NOT treated as early -- we can't tell, so it keeps
     the caller's default rather than being silently demoted to Radar."""
-    return 'Radar' if _BELOW_MANDATE_SERIES_RE.match(str(series or '')) else default_stage
+    return determine_placement(series, default_stage)[0]
+
+
+def determine_placement(series, default_stage):
+    """Resolve one deal's placement from its series. Returns
+    (attio_stage, hub_tags) where hub_tags is the additive `tags` array
+    hub-next reads alongside its own singular `stage` (see
+    hub-next/src/lib/stages.js's TAGS comment -- a company shows up in a tab
+    when EITHER its stage matches OR its tags contain that tab).
+
+    The rule, per Oscar 2026-08-03, is a property of the SERIES, applied
+    identically to every intake source -- sources differ only in which series
+    they carry, not in how a given series should be treated. `default_stage`
+    is the caller's in-mandate destination (Qualified for the deal-flow and
+    Top 10 VC drops, Watchlist for the watchlist drop):
+      - below B (pre-seed/seed/angel/pre-A/A)  -> Radar, overriding the default
+      - exactly B (B, B1, B2)                  -> default stage AND radar
+      - above B (C, D, E, growth, ...)         -> default stage
+      - unknown/blank                          -> default stage, no tags
+
+    The dual case is why this function exists. Attio's `stage` is a
+    single-select and cannot hold two values, so a Series B resolves to the
+    caller's stage in Attio (Oscar's call: for the deal-flow/Top 10 pathways
+    that means **Qualified** -- Attio stays the actionable pipeline view)
+    while the hub carries the full truth by ALSO tagging it `radar`. A Series
+    B genuinely is both: in-mandate at B+, and simultaneously a company that
+    just raised and so can't raise again for 18-24 months -- exactly what
+    Radar tracks.
+
+    Radar is reached through the SERIES rule, never by an endpoint defaulting
+    to it. That distinction is the fix for a real bug: /process-top10 used to
+    pass default_stage='Radar', and `'Radar' if <=B else default_stage`
+    therefore returned 'Radar' for EVERY series including C/D/E -- every Top
+    10 VC deal landed on Radar and none ever reached Qualified. The old
+    signature made that invisible to tests, which only ever passed
+    'Qualified'/'Watchlist' as the default. Keeping the default as the
+    in-mandate stage also leaves /process-watchlist's own Watchlist
+    destination intact rather than forcing everything to Qualified.
+    """
+    s = str(series or '')
+    default_tag = str(default_stage or '').strip().lower()
+    if _SERIES_B_RE.match(s):
+        # Both buckets. Deduped and ordered so 'radar' is stable regardless of
+        # what the caller's default happens to be.
+        tags = ['radar'] + ([default_tag] if default_tag and default_tag != 'radar' else [])
+        return default_stage, tags
+    if _BELOW_MANDATE_SERIES_RE.match(s):
+        return 'Radar', ['radar']
+    if s.strip() and s.strip().lower() not in ('nan', 'none'):
+        # A known series above B -> the caller's in-mandate destination.
+        return default_stage, ([default_tag] if default_tag else [])
+    # Unknown series: we can't tell, so don't guess -- keep the caller's
+    # default and add no tags.
+    return default_stage, []
 
 def upsert_deal(row, company_record_id, stage="Watchlist", source=None, top10=False):
     company_name = str(row.get('Companies', '')).strip()
     series = str(row.get('Series', '')).strip()
-    stage = determine_stage(series, stage)
+    stage, hub_tags = determine_placement(series, stage)
 
     existing_id = find_deal(company_name, series)
     if existing_id:
-        # Existing deal: never change its stage. Always refresh investor links
-        # (creating missing VCs when the export gives their website) and backfill the
-        # associated company; the Top 10 VC flow also stamps its flag. These updates
-        # never enter the email feed — only newly-created deals are returned as "created".
+        # Existing deal (this company+series already came in through ANOTHER
+        # intake source -- the two PitchBook saved searches overlap heavily by
+        # construction). Refresh investor links, backfill the associated
+        # company, stamp the Top 10 VC flag.
+        #
+        # 2026-08-03: this branch used to `return "skipped"` and deliberately
+        # never touch the stage ("Existing deal: never change its stage"),
+        # which is exactly the bug Oscar identified. Whichever source landed
+        # the company FIRST won permanently, and the second source's entire
+        # contribution was dropped: no stage/tag re-evaluation, no email row,
+        # no Stage 1 screening, no hub page. Only the top10 flag survived. So a
+        # Series D Top 10 VC deal that the weekly drop had already filed stayed
+        # wherever the weekly run put it, and a Series B never picked up its
+        # second (radar) bucket.
+        #
+        # It now returns the resolved placement so run_pipeline can surface the
+        # deal and reconcile it. Attio's own `stage` is still NOT patched here
+        # -- that would fight a human who deliberately re-filed the deal in the
+        # CRM, and Attio can only hold one stage anyway. Reconciliation happens
+        # on the hub side, through the additive `tags` array that was built for
+        # exactly this (hub-next/src/lib/stages.js), which is additive and so
+        # cannot clobber a manual stage choice.
         patch_vals = {}
         patch_vals.update(resolve_investor_links(row, get_company_index()))
         if company_record_id:
@@ -624,7 +716,8 @@ def upsert_deal(row, company_record_id, stage="Watchlist", source=None, top10=Fa
             )
             print(f"DEAL PATCH {company_name} top10={top10} keys={list(patch_vals)}: "
                   f"{pr.status_code} {pr.text[:200]}")
-        return "skipped"
+        return {"status": "existing", "record_id": existing_id,
+                "stage": stage, "hub_tags": hub_tags}
 
     values = build_attio_values(row, company_record_id, stage, source, top10)
     try:
@@ -636,7 +729,8 @@ def upsert_deal(row, company_record_id, stage="Watchlist", source=None, top10=Fa
           f"{resp.status_code} {resp.text[:200]}")
     if resp.status_code in (200, 201):
         record_id = resp.json().get("data", {}).get("id", {}).get("record_id", "")
-        return {"status": "created", "record_id": record_id}
+        return {"status": "created", "record_id": record_id,
+                "stage": stage, "hub_tags": hub_tags}
     return f"error:{resp.status_code}:{resp.text[:300]}"
 
 
@@ -658,6 +752,14 @@ def run_pipeline(file_bytes, stage, source=None, top10=False):
         company_id = find_or_create_company(company_name, website, description) if website and website != 'nan' else None
         status = upsert_deal(row.to_dict(), company_id, stage, source, top10)
 
+        # Investor names off all three PitchBook investor columns, for Tier 1
+        # matching alongside the domains resolved from 'Investors Websites'.
+        investor_names = []
+        for col in INVESTOR_REF_MAP:
+            investor_names.extend(parse_investors(row.get(col)))
+        investor_domains = sorted(set(parse_investor_websites(row.get('Investors Websites')).values()))
+        top10_firms = di_tier1.match_top10(investor_domains, investor_names)
+
         deal_row = {
             "company":        company_name,
             "series":         clean(row.get("Series")),
@@ -671,15 +773,33 @@ def run_pipeline(file_bytes, stage, source=None, top10=False):
             "hq_location":    clean(row.get("HQ Location")),
             "deal_date":      format_date(row.get("Deal Date")) or "",
             "website":        website,
+            # Which Top 10 firms are actually on this cap table, matched by
+            # investor domain + name alias rather than by maintaining per-firm
+            # portfolios (Oscar 2026-08-03). Feeds the hub's tier1Firms and is
+            # strictly more precise than Attio's `contains` saved search --
+            # see deal_intelligence/tier1_firms.py.
+            "top10_firms":    top10_firms,
+            "investor_domains": investor_domains,
         }
-        if isinstance(status, dict) and status.get("status") == "created":
-            # Only brand-new deals (not already in Attio) get screened + emailed.
-            results["created"] += 1
+        status_name = status.get("status") if isinstance(status, dict) else None
+        if status_name in ("created", "existing"):
+            # BOTH brand-new and already-present deals now flow onward: they get
+            # screened (if not already screened -- see _already_screened) and
+            # rendered into the email. Previously only "created" did, so a
+            # company the other intake source had already landed was silently
+            # dropped from this run entirely. `is_new` lets the email separate
+            # them into "new" vs "already in Attio — updated" sections.
             deal_row["record_id"] = status.get("record_id", "")
+            deal_row["is_new"] = status_name == "created"
+            deal_row["stage"] = status.get("stage", "")
+            deal_row["hub_tags"] = status.get("hub_tags", [])
             results["deals"].append(deal_row)
-        elif status == "skipped":
-            # Already in Attio — investor links refreshed, but not re-researched.
-            results["skipped"] += 1
+            if status_name == "created":
+                results["created"] += 1
+            else:
+                # Kept as `skipped` for backward compatibility -- n8n and
+                # /process/status consumers already read this key.
+                results["skipped"] += 1
         else:
             results["errors"].append({"deal": company_name, "error": status})
 
@@ -696,7 +816,7 @@ def _read_file_bytes():
 
 # --- Routes ------------------------------------------------------------------
 
-def _start_pipeline(stage, source, top10=False):
+def _start_pipeline(stage, source, top10=False, flow=None):
     file_bytes, err = _read_file_bytes()
     if err:
         return err
@@ -706,7 +826,8 @@ def _start_pipeline(stage, source, top10=False):
         _pipeline_state.clear()
         _pipeline_state.update({"status": "running"})
 
-    t = threading.Thread(target=_run_pipeline_bg, args=(file_bytes, stage, source, top10), daemon=True)
+    t = threading.Thread(target=_run_pipeline_bg,
+                         args=(file_bytes, stage, source, top10, flow), daemon=True)
     t.start()
 
     # Block until the whole pipeline (ingest + Perplexity screening) finishes, so
@@ -741,19 +862,28 @@ def _start_pipeline(stage, source, top10=False):
 
 @app.route("/process", methods=["POST"])
 def process():
-    return _start_pipeline(stage="Qualified", source="ID8 Investments")
+    return _start_pipeline(stage="Qualified", source="ID8 Investments", flow="deal_flow")
 
 
 @app.route("/process-watchlist", methods=["POST"])
 def process_watchlist():
-    return _start_pipeline(stage="Watchlist", source="ID8 Investments")
+    return _start_pipeline(stage="Watchlist", source="ID8 Investments", flow="watchlist")
 
 
 @app.route("/process-top10", methods=["POST"])
 def process_top10():
-    """Top 10 VC weekly flow: tag deals Top 10 VC = Yes; new deals default to the
-    Radar stage; existing deals keep their stage (only flag + investor links updated)."""
-    return _start_pipeline(stage=RADAR_STAGE, source="ID8 Investments", top10=True)
+    """Top 10 VC flow: tag deals Top 10 VC = Yes. Unlike the other drops this
+    export carries deals at ANY series (it's every deal from a Top 10 firm, not
+    a stage-filtered search), so placement is left entirely to
+    determine_placement's series rule -- below B lands on Radar, B lands on
+    both, above B lands on Qualified.
+
+    `stage` here is the IN-MANDATE destination, not 'Radar'. It used to be
+    RADAR_STAGE, which -- because determine_stage returned the default for any
+    series above B -- pinned every Top 10 VC deal to Radar and kept C/D/E deals
+    out of Qualified entirely. See determine_placement's docstring."""
+    return _start_pipeline(stage=QUALIFIED_STAGE, source="ID8 Investments", top10=True,
+                           flow="top10")
 
 
 @app.route("/process/status", methods=["GET"])
@@ -909,7 +1039,7 @@ _pipeline_state = {"status": "idle"}
 _pipeline_lock = threading.Lock()
 
 
-def _run_pipeline_bg(file_bytes, stage, source, top10):
+def _run_pipeline_bg(file_bytes, stage, source, top10, source_key=None):
     """Background worker for /process, /process-watchlist, /process-top10.
 
     Phase 1 (fast): ingest deals into Attio → state becomes "screening".
@@ -936,7 +1066,47 @@ def _run_pipeline_bg(file_bytes, stage, source, top10):
         _pipeline_state.update({"status": "screening", **results})
 
     # ── Stage 1 screening ────────────────────────────────────────────────────
-    new_deals = results.get("deals", [])
+    # Screen every deal this run surfaced (new AND already-in-Attio) EXCEPT the
+    # ones that already have a screen on file. Before 2026-08-03 this list was
+    # "created deals only", which got both halves wrong: a company the other
+    # intake source had already landed was never screened at all, while a
+    # genuinely re-created deal could be re-screened at full
+    # sonar-deep-research cost. `_already_screened` is a cheap single-doc
+    # Firestore read per deal (see firestore_push.has_screen).
+    all_deals = results.get("deals", [])
+    unscreened, already_screened = [], []
+    for d in all_deals:
+        # Derive the slug via fit_note.company_id on a DealInput, NOT
+        # slugify(name): company_id prefers the website domain
+        # ('acme.com' -> 'acme') and only falls back to a name slug, so
+        # slugifying the raw PitchBook company name (which carries a category
+        # suffix, e.g. 'Pocket (Business/Productivity Software)') would look up
+        # a document that does not exist and report every deal as unscreened.
+        probe = di_schemas.DealInput(
+            record_id=d.get("record_id") or "", name=d.get("company", ""),
+            domain=d.get("website") or None,
+        )
+        slug = di_fit_note.company_id(probe)
+        try:
+            prior = di_firestore_push.latest_screen(slug) if slug else None
+        except Exception as exc:
+            # Never let a Firestore hiccup silently skip screening -- default to
+            # screening the deal, same fail-open posture as the rest of this path.
+            print(f"[latest_screen] {slug}: {exc}")
+            prior = None
+        d["already_screened"] = prior is not None
+        if prior:
+            # Carry the prior score so the email's re-seen section can report a
+            # real number instead of just naming the company.
+            d["prior_screen"] = prior
+            d["hub_url"] = d.get("hub_url") or di_fit_note.hub_url(probe)
+        (already_screened if prior else unscreened).append(d)
+    results["reused_screens"] = len(already_screened)
+    if already_screened:
+        print(f"SCREENING: reusing {len(already_screened)} existing screen(s), "
+              f"scoring {len(unscreened)} new: "
+              f"{[d.get('company') for d in already_screened]}")
+    new_deals = unscreened
     gh_token_present = bool(os.environ.get("GH_TOKEN"))
     # Always publish: hub-next (Firestore) is the live hub and needs no GH_TOKEN
     # at all -- pipeline.screen() only consults GH_TOKEN itself, internally, to
@@ -988,8 +1158,6 @@ def _run_pipeline_bg(file_bytes, stage, source, top10):
                     {"key": p.key, "score": p.score, "evidence": p.evidence}
                     for p in f.params
                 ]
-            results["email_html"]     = screen_result.get("email_html", "")
-            results["email_text"]     = screen_result.get("email_text", "")
             results["screened"]       = screen_result.get("screened", 0)
             results["gated"]          = screen_result.get("gated", 0)
             results["more_diligence"] = screen_result.get("more_diligence", 0)
@@ -1017,6 +1185,35 @@ def _run_pipeline_bg(file_bytes, stage, source, top10):
                     print(f"HUB BUILD triggered: {build_id}")
             except Exception:
                 print("HUB BUILD trigger error:", traceback.format_exc())
+
+    # ── Intake email ─────────────────────────────────────────────────────────
+    # Built here, for EVERY flow, from the full deal list (new + re-seen, with
+    # whatever fit fields landed above). This replaces the per-flow HTML that
+    # each n8n Code node used to assemble itself -- those had drifted so that
+    # only the PitchBook weekly email rendered fit scores at all, and none of
+    # them could show a re-seen deal. n8n now just uses {{ $json.email_html }}.
+    #
+    # Deliberately outside the `if new_deals and PERPLEXITY_API_KEY` block: a
+    # run with nothing new to screen (every deal already on file) still needs
+    # its email, which is exactly the case that used to go out empty.
+    try:
+        title = EMAIL_TITLES.get(source_key, "Deal Intake")
+        results["email_html"] = di_email_format.intake_email_html(
+            results.get("deals", []), title=title)
+        results["email_text"] = di_email_format.intake_email_text(
+            results.get("deals", []), title=title)
+        # Built with .day rather than strftime('%-d'): the no-pad directive is a
+        # glibc/BSD extension, not portable, and this runs both on Cloud Run and
+        # on a Mac laptop.
+        now = datetime.now()
+        results["email_subject"] = (
+            f"{title} — {now:%B} {now.day}, {now:%Y} "
+            f"({results.get('created', 0)} new"
+            + (f", {results.get('skipped', 0)} updated" if results.get('skipped') else "")
+            + ")"
+        )
+    except Exception:
+        print("EMAIL RENDER ERROR:", traceback.format_exc())
 
     with _pipeline_lock:
         _pipeline_state.update({"status": "complete", **results})

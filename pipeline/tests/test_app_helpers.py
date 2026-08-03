@@ -32,10 +32,19 @@ class TestCleanNumber:
 
 
 class TestDetermineStage:
-    def test_early_series_moves_to_radar(self):
+    def test_below_b_series_moves_to_radar(self):
         # Widened from Series A to Series B 2026-07-28 -- RADAR_PLAN.md Part I.
-        for series in ("Seed", "Pre-Seed", "Pre-A", "Series A", "Series B"):
+        # Narrowed back to "below B" 2026-08-03: Series B is no longer Radar-only,
+        # it lands in BOTH buckets (the caller's in-mandate stage in Attio, plus a
+        # `radar` hub tag) per Oscar's confirmed rules. See
+        # test_determine_placement.py, which owns the full routing matrix.
+        for series in ("Seed", "Pre-Seed", "Pre-A", "Series A"):
             assert determine_stage(series, "Watchlist") == "Radar"
+
+    def test_series_b_keeps_the_in_mandate_stage_and_gets_a_radar_tag(self):
+        from app import determine_placement
+        assert determine_stage("Series B", "Qualified") == "Qualified"
+        assert "radar" in determine_placement("Series B", "Qualified")[1]
 
     def test_later_series_keeps_the_provided_default(self):
         assert determine_stage("Series C", "Qualified") == "Qualified"

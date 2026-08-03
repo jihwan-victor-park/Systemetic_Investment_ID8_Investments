@@ -27,11 +27,25 @@ from app import determine_stage
     "Seed Round", "Seed round", "seed", "series a", "SERIES A2",
     "Angel", "Angel (individual)",
     "  Series A  ",
-    "Series B", "Series B1", "Series B2", "series b", "SERIES B2",
-    "  Series B  ",
 ])
-def test_series_b_or_earlier_routes_to_radar(series):
+def test_below_series_b_routes_to_radar(series):
     assert determine_stage(series, "Qualified") == "Radar"
+
+
+@pytest.mark.parametrize("series", [
+    "Series B", "Series B1", "Series B2", "series b", "SERIES B2", "  Series B  ",
+])
+def test_series_b_now_lands_in_both_buckets(series):
+    """Behaviour change, 2026-08-03. Series B used to route to Radar outright
+    (the 07-28 widening below). Oscar's rule now puts a B in BOTH places: the
+    caller's in-mandate stage in Attio (which can only hold one value) plus a
+    `radar` tag on the hub side, since a company that just closed its B is
+    simultaneously in-mandate at B+ and unable to raise again for 18-24 months.
+    test_determine_placement.py owns the full matrix; this pins the
+    single-stage wrapper's half of it."""
+    from app import determine_placement
+    assert determine_stage(series, "Qualified") == "Qualified"
+    assert sorted(determine_placement(series, "Qualified")[1]) == ["qualified", "radar"]
 
 
 @pytest.mark.parametrize("series", [
