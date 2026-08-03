@@ -36,6 +36,7 @@ from deal_intelligence import radar_mandate as di_radar_mandate
 from deal_intelligence import radar_state as di_radar_state
 from deal_intelligence import tier1_firms as di_tier1
 from deal_intelligence import email_format as di_email_format
+from deal_intelligence import rubric as di_rubric
 
 app = Flask(__name__)
 
@@ -1305,6 +1306,129 @@ def update_investors():
 def update_investors_status():
     with _update_lock:
         return jsonify(dict(_update_state))
+
+
+def _fit_from_response_row(d: dict):
+    """Rebuild (DealInput, DealFit) from one row of a /process response body.
+
+    Recovery path for a run whose screening succeeded but whose hub push never
+    happened -- e.g. the GH_TOKEN-gated Firestore bug fixed 2026-08-03, where
+    Stage 1 ran and paid for Perplexity but push_company_screen_firestore was
+    never called. n8n keeps each execution's node output for 14 days
+    (EXECUTIONS_DATA_MAX_AGE=336 in n8n-cloudrun/deploy.sh), so the HTTP Request
+    node's stored output is a complete copy of that response and can be replayed
+    here at zero research cost.
+
+    WHAT SURVIVES: fit_score, raw_score, gate, tier, the FULL rationale (the
+    truncation to 220 chars happened only in the email HTML, not the response),
+    confidence, hard_auto_pass + reason, citations, and per-dimension
+    key/score/evidence.
+
+    WHAT DOES NOT: subcategory-level findings. _run_pipeline_bg only ever
+    serialized {key, score, evidence} per dimension, so the point tier of the
+    three-tier rationale was never in the response to begin with -- it existed
+    only in the DealFit object in memory. A screen rebuilt here therefore
+    renders its dimensions and evidence but has no subcategory hover detail.
+    That is a deliberate, visible gap, not a silent one: the caller gets
+    `subcategories_recovered: false` per deal so it's clear these are
+    reconstructed screens rather than fresh ones.
+    """
+    deal = di_schemas.DealInput(
+        record_id=d.get("record_id") or "",
+        name=d.get("company") or "",
+        domain=d.get("website") or None,
+        round=d.get("series") or None,
+        hq=d.get("hq_location") or None,
+        lead_investors=d.get("lead_investors") or None,
+        round_date=d.get("deal_date") or None,
+        description=d.get("description") or None,
+    )
+    params = [
+        di_schemas.ParamScore(
+            key=p.get("key", ""), score=float(p.get("score") or 0),
+            weight=round(100.0 / len(di_rubric.PARAMS), 2) if di_rubric.PARAMS else 0.0,
+            evidence=p.get("evidence", ""), subcategories=[],
+        )
+        for p in (d.get("fit_params") or []) if p.get("key")
+    ]
+    fit = di_schemas.DealFit(
+        record_id=deal.record_id, name=deal.name,
+        fit_score=float(d.get("fit_score") or 0),
+        raw_score=float(d.get("fit_raw_score") or d.get("fit_score") or 0),
+        params=params,
+        rationale=d.get("fit_rationale") or "",
+        confidence=d.get("fit_confidence") or "medium",
+        gate=bool(d.get("fit_gate")),
+        quality_tier=d.get("fit_tier") or "pass",
+        citations=d.get("fit_citations") or [],
+        hard_auto_pass=bool(d.get("fit_hard_auto_pass")),
+        hard_auto_pass_reason=d.get("fit_hard_auto_pass_reason") or "",
+    )
+    return deal, fit
+
+
+@app.route("/recover-screens", methods=["POST"])
+def recover_screens():
+    """Replay an already-paid-for screening run into hub-next, with no Perplexity calls.
+
+    Body: the /process response body, or just its deals array:
+        {"deals": [ ... ]}          <- paste from n8n's HTTP Request node output
+    Optional: {"dry_run": true} to report what WOULD be pushed and change nothing.
+
+    Only rows that actually carry a fit_score are pushed; a row with no score was
+    never screened and there is nothing to recover for it. Existing screens are
+    left alone unless {"overwrite": true} -- so this is safe to re-run, and can't
+    stomp a real screen with a reconstructed one that lacks subcategories."""
+    if not _require_internal_secret():
+        return jsonify({"error": "forbidden"}), 403
+    body = request.get_json(silent=True) or {}
+    deals = body.get("deals")
+    if not isinstance(deals, list) or not deals:
+        return jsonify({"error": "'deals' must be a non-empty array "
+                                 "(paste the /process response body)"}), 400
+    dry_run = bool(body.get("dry_run"))
+    overwrite = bool(body.get("overwrite"))
+
+    pushed, skipped, errors = [], [], []
+    for d in deals:
+        if not isinstance(d, dict):
+            continue
+        name = d.get("company") or "(unnamed)"
+        if d.get("fit_score") is None:
+            skipped.append({"company": name, "reason": "no fit_score in this row — never screened"})
+            continue
+        try:
+            deal, fit = _fit_from_response_row(d)
+            slug = di_fit_note.company_id(deal)
+            if not slug:
+                skipped.append({"company": name, "reason": "could not derive a slug"})
+                continue
+            if not overwrite and di_firestore_push.has_screen(slug):
+                skipped.append({"company": name, "slug": slug,
+                                "reason": "already has a screen on file (pass overwrite:true to replace)"})
+                continue
+            if dry_run:
+                pushed.append({"company": name, "slug": slug, "fit_score": fit.fit_score,
+                                "dry_run": True, "subcategories_recovered": False})
+                continue
+            docx_bytes = di_fit_note.build_docx_bytes(fit, deal)
+            di_firestore_push.push_company_screen_firestore(
+                fit, deal, slug, docx_bytes, source="attio")
+            pushed.append({"company": name, "slug": slug, "fit_score": fit.fit_score,
+                            "gate": fit.gate, "subcategories_recovered": False})
+        except Exception as exc:
+            print(f"[recover-screens] {name}: {traceback.format_exc()}")
+            errors.append({"company": name, "error": str(exc)})
+
+    return jsonify({
+        "pushed": len(pushed), "skipped": len(skipped), "errors": len(errors),
+        "dry_run": dry_run,
+        "note": ("Reconstructed from a stored /process response: dimensions, evidence, "
+                 "rationale and citations are complete, but subcategory-level findings "
+                 "were never serialized into that response and cannot be recovered "
+                 "without re-screening."),
+        "details": {"pushed": pushed, "skipped": skipped, "errors": errors},
+    })
 
 
 @app.route("/fix-radar-stages", methods=["POST"])
