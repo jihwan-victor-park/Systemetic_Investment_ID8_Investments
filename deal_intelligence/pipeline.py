@@ -86,11 +86,45 @@ async def screen(deals: list, dry_run: bool = False, publish: bool = False) -> d
     }
 
 
-async def run(dry_run: bool = False, stage1_only: bool = False, publish: bool = True) -> dict:
+async def run(dry_run: bool = False, stage1_only: bool = False, publish: bool = True,
+              skip_screened: bool = True) -> dict:
+    """Pull the Qualified backlog and screen it.
+
+    skip_screened (default True, added 2026-08-03): leave out deals that already
+    have a Stage 1 screen on file. Without this, every call re-ran
+    sonar-deep-research at max reasoning effort on the ENTIRE Qualified pool --
+    so a run intended to fill in a handful of missing screens paid to redo all
+    the ones that were already fine. With it, this endpoint becomes the "fill in
+    whatever is missing" tool: safe and cheap to re-run, and it costs only the
+    gaps. Pass skip_screened=False to deliberately re-screen everything (e.g.
+    after a rubric change, when existing screens are stale by definition).
+
+    The skip is best-effort per deal: a Firestore read that fails leaves the deal
+    IN the batch rather than silently dropping it, since screening a deal twice
+    wastes money but skipping one loses it entirely."""
     deals = attio_io.get_qualified_deals()
+    total_qualified = len(deals)
+    reused = []
+    if skip_screened:
+        pending = []
+        for d in deals:
+            slug = fit_note.company_id(d)
+            try:
+                seen = bool(slug) and firestore_push.has_screen(slug)
+            except Exception as exc:
+                print(f"[has_screen] {slug}: {exc}")
+                seen = False
+            (reused if seen else pending).append(d)
+        if reused:
+            print(f"[pipeline.run] skipping {len(reused)} already-screened deal(s), "
+                  f"screening {len(pending)}: {[d.name for d in reused]}")
+        deals = pending
+
     result = await screen(deals, dry_run=dry_run, publish=publish)
     fits = result.pop("fits")
-    summary = {"qualified": len(deals), "memos": [], **result}
+    summary = {"qualified": total_qualified, "memos": [],
+               "reused_screens": len(reused),
+               "reused_screen_names": [d.name for d in reused], **result}
 
     if stage1_only:
         return summary
@@ -111,8 +145,11 @@ def main():
     ap.add_argument("--dry-run", action="store_true", help="do not write back to Attio")
     ap.add_argument("--stage1", action="store_true", help="stage 1 only, no deep research")
     ap.add_argument("--no-publish", action="store_true", help="skip writing company pages to the hub")
+    ap.add_argument("--rescreen-all", action="store_true",
+                    help="re-screen deals that already have a screen on file (default: skip them)")
     args = ap.parse_args()
-    result = asyncio.run(run(dry_run=args.dry_run, stage1_only=args.stage1, publish=not args.no_publish))
+    result = asyncio.run(run(dry_run=args.dry_run, stage1_only=args.stage1,
+                             publish=not args.no_publish, skip_screened=not args.rescreen_all))
     # email_html/email_text are long; print everything else
     print(json.dumps({k: v for k, v in result.items() if k not in ("email_html", "email_text")}, indent=2))
 

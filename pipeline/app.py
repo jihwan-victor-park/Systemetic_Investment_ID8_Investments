@@ -1701,9 +1701,10 @@ def sync_apollo_status():
 _SCREEN_DEALS_JOB_ID = "screen-deals-backlog"
 
 
-def _run_screen_deals(job_id, dry_run, stage1_only, publish):
+def _run_screen_deals(job_id, dry_run, stage1_only, publish, skip_screened=True):
     try:
-        result = asyncio.run(di_pipeline.run(dry_run=dry_run, stage1_only=stage1_only, publish=publish))
+        result = asyncio.run(di_pipeline.run(dry_run=dry_run, stage1_only=stage1_only,
+                                             publish=publish, skip_screened=skip_screened))
         # email_html/email_text can run well past Firestore's 1MiB document
         # cap for a large qualified pool, and nothing reads them back off this
         # status doc -- n8n reads results from Attio directly and posts its
@@ -1746,6 +1747,11 @@ def screen_deals():
     # pages must be generated where they can be committed to git (local/CI), not
     # in this container. The endpoint always returns email_html regardless.
     publish = bool(body.get("publish", False))
+    # Default True: only screen deals that don't already have a screen on file,
+    # so this endpoint is the cheap "fill in whatever is missing" pass and is
+    # safe to re-run. Pass {"rescreen_all": true} to deliberately re-screen the
+    # whole Qualified pool (e.g. after a rubric change). See pipeline.run.
+    skip_screened = not bool(body.get("rescreen_all", False))
     current = _get_chat_job(_SCREEN_DEALS_JOB_ID)
     if current and current.get("status") == "running":
         return jsonify({"error": "already running", "state": current}), 409
@@ -1753,7 +1759,8 @@ def screen_deals():
         "status": "running", "type": "screen_deals_backlog", "label": "Attio qualified backlog",
         "createdAt": datetime.utcnow().isoformat() + "Z",
     })
-    threading.Thread(target=_run_screen_deals, args=(_SCREEN_DEALS_JOB_ID, dry_run, stage1_only, publish),
+    threading.Thread(target=_run_screen_deals,
+                     args=(_SCREEN_DEALS_JOB_ID, dry_run, stage1_only, publish, skip_screened),
                       daemon=True).start()
     return jsonify({"status": "started", "poll": "/screen-deals/status"})
 
