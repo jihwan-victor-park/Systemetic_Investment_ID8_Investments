@@ -1367,6 +1367,45 @@ def _fit_from_response_row(d: dict):
     return deal, fit
 
 
+def _extract_deals(body):
+    """Pull the deal rows out of whatever shape got pasted in.
+
+    Deliberately tolerant, because the source is a copy-paste out of the n8n UI
+    and n8n represents the same data three different ways depending on where you
+    copy from: the raw response object, an array of workflow items, or that array
+    with each item wrapped in {"json": {...}}. Requiring one exact shape here
+    would just mean a round-trip of 400s to discover which one you happened to
+    grab. Recognized:
+        {"deals": [...]}                  the /process response body
+        [{"deals": [...]}, ...]           n8n items
+        [{"json": {"deals": [...]}}, ...] n8n items, wrapped
+        [{"company": ..., ...}, ...]      a bare array of deal rows
+    """
+    def rows_from(obj):
+        if isinstance(obj, dict):
+            if isinstance(obj.get("deals"), list):
+                return obj["deals"]
+            if isinstance(obj.get("json"), dict):
+                return rows_from(obj["json"])
+            # A single deal row on its own.
+            if "company" in obj or "fit_score" in obj:
+                return [obj]
+        return []
+
+    if isinstance(body, dict):
+        return [r for r in rows_from(body) if isinstance(r, dict)]
+    if isinstance(body, list):
+        out = []
+        for item in body:
+            out.extend(rows_from(item))
+        # A bare array of deal rows that rows_from didn't claim.
+        if not out:
+            out = [i for i in body if isinstance(i, dict) and
+                   ("company" in i or "fit_score" in i)]
+        return [r for r in out if isinstance(r, dict)]
+    return []
+
+
 @app.route("/recover-screens", methods=["POST"])
 def recover_screens():
     """Replay an already-paid-for screening run into hub-next, with no Perplexity calls.
@@ -1381,13 +1420,29 @@ def recover_screens():
     stomp a real screen with a reconstructed one that lacks subcategories."""
     if not _require_internal_secret():
         return jsonify({"error": "forbidden"}), 403
-    body = request.get_json(silent=True) or {}
-    deals = body.get("deals")
-    if not isinstance(deals, list) or not deals:
-        return jsonify({"error": "'deals' must be a non-empty array "
-                                 "(paste the /process response body)"}), 400
-    dry_run = bool(body.get("dry_run"))
-    overwrite = bool(body.get("overwrite"))
+    body = request.get_json(silent=True)
+    deals = _extract_deals(body)
+    if not deals:
+        return jsonify({
+            "error": "no deals found in the request body",
+            "expected": ("the /process response body, n8n's node output (an array of "
+                          "items, with or without the {json:{...}} wrapper), or a bare "
+                          "array of deal rows"),
+            "hint": ("save the JSON to a file and send it with  -d @deals.json  rather "
+                      "than inline, and pass ?dry_run=1 in the URL"),
+        }), 400
+    # dry_run/overwrite are read from the QUERY STRING as well as the body,
+    # because the whole point is to POST an unmodified n8n node output -- that
+    # JSON has no dry_run key in it, and requiring one hand-edited in would mean
+    # the safe preview is the awkward path and the destructive one is the easy
+    # path. Query string wins when present.
+    def _flag(name):
+        q = request.args.get(name)
+        if q is not None:
+            return q.lower() not in ("", "0", "false", "no")
+        return bool((body or {}).get(name)) if isinstance(body, dict) else False
+    dry_run = _flag("dry_run")
+    overwrite = _flag("overwrite")
 
     pushed, skipped, errors = [], [], []
     for d in deals:
