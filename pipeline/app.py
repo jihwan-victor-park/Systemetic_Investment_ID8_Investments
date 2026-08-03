@@ -1775,11 +1775,17 @@ def screen_deals():
     body = request.get_json(silent=True) or {}
     dry_run = bool(body.get("dry_run", False))
     stage1_only = bool(body.get("stage1_only", True))
-    # publish writes per-company hub pages + .docx to disk. Off by default over
-    # HTTP: this service runs on Cloud Run with an ephemeral filesystem, so hub
-    # pages must be generated where they can be committed to git (local/CI), not
-    # in this container. The endpoint always returns email_html regardless.
-    publish = bool(body.get("publish", False))
+    # Default True as of 2026-08-03 (was False). The old default belonged to a
+    # world where "publish" only meant the OLD static hub -- pages written to
+    # disk and committed to git, impossible from an ephemeral Cloud Run
+    # container. That reasoning is now stale: `publish` also gates the hub-next
+    # Firestore push, which is a plain API write and works fine from here. With
+    # it defaulting off, the obvious call ran full sonar-deep-research on the
+    # whole backlog and then pushed NOTHING to the hub -- the same
+    # spend-money-and-silently-drop-the-result failure as the GH_TOKEN bug fixed
+    # in 932b069, just reached from the other direction. Pass
+    # {"publish": false} to deliberately score without publishing.
+    publish = bool(body.get("publish", True))
     # Default True: only screen deals that don't already have a screen on file,
     # so this endpoint is the cheap "fill in whatever is missing" pass and is
     # safe to re-run. Pass {"rescreen_all": true} to deliberately re-screen the
