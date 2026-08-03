@@ -45,7 +45,9 @@ def test_series_b_now_lands_in_both_buckets(series):
     single-stage wrapper's half of it."""
     from app import determine_placement
     assert determine_stage(series, "Qualified") == "Qualified"
-    assert sorted(determine_placement(series, "Qualified")[1]) == ["qualified", "radar"]
+    # 'radar' is the ADDITIVE tag; 'qualified' is the primary stage and is
+    # deliberately not duplicated into tags (hub-next unions the two itself).
+    assert determine_placement(series, "Qualified")[1] == ["radar"]
 
 
 @pytest.mark.parametrize("series", [

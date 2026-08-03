@@ -617,10 +617,15 @@ def determine_stage(series, default_stage):
 
 def determine_placement(series, default_stage):
     """Resolve one deal's placement from its series. Returns
-    (attio_stage, hub_tags) where hub_tags is the additive `tags` array
-    hub-next reads alongside its own singular `stage` (see
-    hub-next/src/lib/stages.js's TAGS comment -- a company shows up in a tab
-    when EITHER its stage matches OR its tags contain that tab).
+    (attio_stage, hub_tags).
+
+    hub_tags holds the ADDITIVE, non-primary hub stages only -- never the
+    primary itself. hub-next models multi-stage membership as
+    `checked = {stage} ∪ (tags ∩ PUBLIC_STAGES)` and expects the primary not to
+    be duplicated inside `tags` (see StageMultiSelect.jsx's header comment and
+    lib/stages.js's TAGS comment). A company shows up in a tab when EITHER its
+    stage matches OR its tags contain that tab, so returning ['radar'] alongside
+    stage='Qualified' is what puts one deal in both Qualified Deals and Radar.
 
     The rule, per Oscar 2026-08-03, is a property of the SERIES, applied
     identically to every intake source -- sources differ only in which series
@@ -652,17 +657,15 @@ def determine_placement(series, default_stage):
     destination intact rather than forcing everything to Qualified.
     """
     s = str(series or '')
-    default_tag = str(default_stage or '').strip().lower()
     if _SERIES_B_RE.match(s):
-        # Both buckets. Deduped and ordered so 'radar' is stable regardless of
-        # what the caller's default happens to be.
-        tags = ['radar'] + ([default_tag] if default_tag and default_tag != 'radar' else [])
-        return default_stage, tags
+        # The dual case: primary stage is the caller's in-mandate destination,
+        # plus radar as an ADDITIVE tag.
+        return default_stage, (['radar'] if str(default_stage or '').strip().lower() != 'radar' else [])
     if _BELOW_MANDATE_SERIES_RE.match(s):
-        return 'Radar', ['radar']
+        return 'Radar', []
     if s.strip() and s.strip().lower() not in ('nan', 'none'):
         # A known series above B -> the caller's in-mandate destination.
-        return default_stage, ([default_tag] if default_tag else [])
+        return default_stage, []
     # Unknown series: we can't tell, so don't guess -- keep the caller's
     # default and add no tags.
     return default_stage, []
@@ -1101,12 +1104,42 @@ def _run_pipeline_bg(file_bytes, stage, source, top10, source_key=None):
             # real number instead of just naming the company.
             d["prior_screen"] = prior
             d["hub_url"] = d.get("hub_url") or di_fit_note.hub_url(probe)
+        d["_slug"] = slug
         (already_screened if prior else unscreened).append(d)
     results["reused_screens"] = len(already_screened)
     if already_screened:
         print(f"SCREENING: reusing {len(already_screened)} existing screen(s), "
               f"scoring {len(unscreened)} new: "
               f"{[d.get('company') for d in already_screened]}")
+
+    # ── Placement (hub stage + additive tags) ────────────────────────────────
+    # Applied to EVERY deal in the run, screened or not, and BEFORE screening so
+    # a company created by push_company_screen_firestore below already carries
+    # the right primary stage instead of its hardcoded 'qualified' default.
+    #
+    # This is the step that actually makes "a deal can be in more than one
+    # stage" real for intake: determine_placement's tags were previously
+    # computed and then dropped. It matters most for a re-seen deal, which skips
+    # screening entirely and so gets no other Firestore write at all -- exactly
+    # the deal whose second-source placement was being lost.
+    placed, placement_errors = 0, []
+    for d in all_deals:
+        slug, tags = d.get("_slug"), d.get("hub_tags") or []
+        stage_lc = str(d.get("stage") or "").strip().lower() or None
+        if not slug:
+            continue
+        try:
+            if di_firestore_push.apply_placement(slug, tags, stage=stage_lc).get("written"):
+                placed += 1
+        except Exception as exc:
+            # Non-blocking: placement is metadata. Losing it must not abort a run
+            # whose Attio write and screening already succeeded.
+            print(f"[apply_placement] {slug}: {exc}")
+            placement_errors.append({"company": d.get("company"), "error": str(exc)})
+    results["placements_applied"] = placed
+    if placement_errors:
+        results["placement_errors"] = placement_errors
+
     new_deals = unscreened
     gh_token_present = bool(os.environ.get("GH_TOKEN"))
     # Always publish: hub-next (Firestore) is the live hub and needs no GH_TOKEN

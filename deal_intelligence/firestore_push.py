@@ -225,6 +225,44 @@ def push_company_screen_firestore(fit: DealFit, deal: DealInput, slug: str, docx
     return {"slug": slug, "screen_id": screen_id, "docx_uploaded": docx_path is not None}
 
 
+def apply_placement(slug: str, tags: list, stage: str = None) -> dict:
+    """Apply an intake run's resolved placement to a company doc.
+
+    `tags` are the ADDITIVE, non-primary hub stages from
+    pipeline/app.py's determine_placement -- e.g. ['radar'] for a Series B whose
+    primary is Qualified. Written with ArrayUnion, so this composes with the
+    tags radar_state.py and push_company_screen_firestore set independently, and
+    a human who unchecked a stage in the hub only gets it back from a fresh
+    intake that genuinely resolves to it.
+
+    `stage` is only ever written when the company doc DOESN'T EXIST YET. On an
+    existing company the primary is left strictly alone: Oscar re-files deals by
+    hand through the hub's stage multiselect, and an import must not silently
+    undo that. This mirrors push_company_screen_firestore's own
+    only-stamp-stage-on-new rule.
+
+    Added 2026-08-03, because determine_placement's tags were being computed and
+    then dropped -- used for the email badge and nothing else, so the dual
+    Qualified+Radar placement never actually reached the hub. It matters most for
+    a deal that skips screening: a company already screened via the other intake
+    source gets no push_company_screen_firestore call at all, so this is the ONLY
+    thing that records the second source's placement for it.
+    """
+    if not slug or (not tags and not stage):
+        return {"slug": slug, "written": False}
+    ref = _firestore().collection("companies").document(slug)
+    payload = {}
+    if tags:
+        payload["tags"] = firestore.ArrayUnion(list(tags))
+    if stage and not ref.get().exists:
+        payload["stage"] = stage
+    if not payload:
+        return {"slug": slug, "written": False}
+    ref.set(payload, merge=True)
+    return {"slug": slug, "written": True, "tags": list(tags or []),
+            "stage": payload.get("stage")}
+
+
 def latest_screen(slug: str) -> dict | None:
     """This company's most recent Stage 1 screen summary, or None if never
     screened. Shape: {date, roundStage, fitScore, gate} (the denormalized

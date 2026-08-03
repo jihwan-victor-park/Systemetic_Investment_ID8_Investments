@@ -153,17 +153,24 @@ def _fact_cell(label: str, value: str, width: str = "33%", pad_right: str = "12p
 
 
 def _placement_badge(deal: dict) -> str:
-    """Where this deal landed. `hub_tags` carrying both radar and qualified is
-    the Series B dual case (see pipeline/app.py's determine_placement) -- worth
-    showing explicitly, since Attio can only display one of the two."""
-    tags = deal.get("hub_tags") or []
-    stage = deal.get("stage") or ""
-    if "radar" in tags and "qualified" in tags:
-        text = "Qualified + Radar"
-    elif stage:
-        text = stage
-    else:
+    """Where this deal landed, across every stage it belongs to.
+
+    hub-next models multi-stage membership as {stage} u (tags n PUBLIC_STAGES),
+    with the primary NOT duplicated inside tags -- so the full set is the stage
+    plus the additive tags, and a Series B reads "Qualified + Radar" from
+    stage='Qualified' + tags=['radar']. Showing the union here is the point:
+    Attio's stage field can only ever display one of them."""
+    stage = str(deal.get("stage") or "").strip()
+    tags = [str(t).strip() for t in (deal.get("hub_tags") or []) if str(t).strip()]
+    seen, names = set(), []
+    for s in [stage] + tags:
+        key = s.lower()
+        if s and key not in seen:
+            seen.add(key)
+            names.append(s.capitalize() if s.islower() else s)
+    if not names:
         return ""
+    text = " + ".join(names)
     return (
         f'<span style="display:inline-block;margin-left:8px;padding:2px 8px;'
         f'background:{WATCH_LIST_BG};border-radius:3px;font-size:10px;'

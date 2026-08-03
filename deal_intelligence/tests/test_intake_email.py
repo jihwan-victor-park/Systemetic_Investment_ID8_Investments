@@ -21,7 +21,7 @@ def _new_deal(**over):
         "deal_size": "$40M", "post_valuation": "$400M", "deal_date": "2026-07-15",
         "hq_location": "San Francisco, CA", "lead_investors": "Sequoia Capital",
         "new_investors": "Index Ventures", "description": "AI agents for logistics.",
-        "stage": "Qualified", "hub_tags": ["radar", "qualified"],
+        "stage": "Qualified", "hub_tags": ["radar"],
         "top10_firms": ["Sequoia Capital", "Index Ventures"],
         "fit_score": 3.4, "fit_raw_score": 3.2, "fit_gate": True, "fit_tier": "go_ic",
         "fit_rationale": "Strong team, real revenue.", "fit_confidence": "high",
@@ -39,7 +39,7 @@ def _reseen_deal(**over):
         "deal_size": "$120M", "post_valuation": "$1.2B", "deal_date": "2026-06-01",
         "hq_location": "New York, NY", "lead_investors": "Bain & Company",
         "new_investors": "", "description": "Fintech infra.",
-        "stage": "Qualified", "hub_tags": ["qualified"], "top10_firms": [],
+        "stage": "Qualified", "hub_tags": [], "top10_firms": [],
         "already_screened": True,
         "prior_screen": {"date": "2026-07-20", "fitScore": 2.9, "gate": False,
                           "roundStage": "Series D"},
@@ -125,8 +125,25 @@ def test_series_b_dual_placement_is_shown_explicitly():
 
 def test_single_stage_shows_just_that_stage():
     html = ef.intake_email_html(
-        [_new_deal(hub_tags=["qualified"], stage="Qualified")], title="X")
+        [_new_deal(hub_tags=[], stage="Qualified")], title="X")
     assert "Qualified + Radar" not in html
+    assert "Qualified" in html
+
+
+def test_placement_badge_shows_the_union_of_stage_and_tags():
+    """The primary is not duplicated in tags, so the badge has to union them --
+    reading tags alone would lose the primary entirely."""
+    html = ef.intake_email_html(
+        [_new_deal(stage="Qualified", hub_tags=["radar"])], title="X")
+    assert "Qualified + Radar" in html
+
+
+def test_placement_badge_dedupes_a_tag_that_repeats_the_primary():
+    # Defensive: older docs may still carry the primary inside tags.
+    html = ef.intake_email_html(
+        [_new_deal(stage="Qualified", hub_tags=["qualified", "radar"])], title="X")
+    assert "Qualified + Radar" in html
+    assert "Qualified + Qualified" not in html
 
 
 def test_top10_firms_are_named():
