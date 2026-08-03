@@ -937,7 +937,15 @@ def _run_pipeline_bg(file_bytes, stage, source, top10):
 
     # ── Stage 1 screening ────────────────────────────────────────────────────
     new_deals = results.get("deals", [])
-    publish = bool(os.environ.get("GH_TOKEN"))  # push hub pages only when token present
+    gh_token_present = bool(os.environ.get("GH_TOKEN"))
+    # Always publish: hub-next (Firestore) is the live hub and needs no GH_TOKEN
+    # at all -- pipeline.screen() only consults GH_TOKEN itself, internally, to
+    # decide whether the OLD git-based hub also gets pages pushed. Gating this
+    # whole flag on GH_TOKEN (as it used to) meant that whenever GH_TOKEN was
+    # absent/rotated, Stage 1 screening still ran (burning Perplexity credits)
+    # but push_company_screen_firestore() was never even called, so nothing
+    # ever landed in hub-next -- silently, with no error anywhere.
+    publish = True
     if new_deals and os.environ.get("PERPLEXITY_API_KEY"):
         try:
             di_inputs = [
@@ -996,9 +1004,10 @@ def _run_pipeline_bg(file_bytes, stage, source, top10):
         # Fire-and-forget: the email goes out as soon as /process returns, and the
         # build (npm build + deploy) lands a minute or so later, so a freshly added
         # deal's "Full research" link may be briefly stale on the very first email.
-        # Guarded on `publish`: without GH_TOKEN no pages were pushed, so there is
-        # nothing new to redeploy.
-        if publish:
+        # Guarded on GH_TOKEN specifically (not `publish`, which is now always
+        # True for hub-next's sake) -- without GH_TOKEN no git pages were
+        # pushed, so there is nothing new for the OLD hub to redeploy.
+        if gh_token_present:
             try:
                 build_id, err = _start_hub_build()
                 if err:
