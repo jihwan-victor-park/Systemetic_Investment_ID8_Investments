@@ -91,15 +91,16 @@ export function getSidebarTree(companies = [], deals = []) {
         },
         {
           type: 'category',
-          label: 'Rejected',
+          label: 'Passed',
           flat: true,
-          href: '/docs/rejected',
-          // Additive, same reasoning as Radar's own filter above: 'rejected'
+          href: '/docs/passed',
+          // Additive, same reasoning as Radar's own filter above: 'passed'
           // is a tag stamped on top of whatever a company's real stage is
           // (deal_intelligence/import_attio_deals_csv.py is the only writer
           // today), not a stage that replaces it -- a company can carry both
-          // its working stage AND this tag at once.
-          items: companies.filter((c) => c.stage === 'rejected' || c.tags?.includes('rejected')).map((c) => ({ type: 'doc', href: `/docs/rejected/${c.slug}`, label: c.name })),
+          // its working stage AND this tag at once. Named to match Attio's
+          // own "Deal stage" value exactly (Oscar, 2026-08-05).
+          items: companies.filter((c) => c.stage === 'passed' || c.tags?.includes('passed')).map((c) => ({ type: 'doc', href: `/docs/passed/${c.slug}`, label: c.name })),
         },
         // Not a stage -- a cross-cutting view over every company already in
         // one of the five stage buckets above, filtered to Attio's own

@@ -33,7 +33,7 @@ export default async function PipelinePage() {
         defaultSort={{ key: 'dealDate', dir: 'desc' }}
         searchPlaceholder="Filter by company or series…"
         emptyMessage="Nothing in the pipeline yet."
-        hideRejected
+        hidePassed
       />
     </>
   );

@@ -92,10 +92,10 @@ def test_authoritative_row_picks_latest_deal_date():
     assert m.authoritative_row([older, newer]) is newer
 
 
-def test_authoritative_row_a_passed_company_that_later_requalified_is_not_rejected():
+def test_authoritative_row_a_passed_company_that_later_requalified_is_not_passed():
     # The real Warp case from the actual export: an earlier round was
     # Passed, a LATER round is Qualified -- current state must read
-    # Qualified, not Rejected.
+    # Qualified, not Passed.
     passed_round = _row(name="Warp", stage="Passed", deal_date="2026-05-18")
     qualified_round = _row(name="Warp", stage="Qualified", deal_date="2026-06-25")
     auth = m.authoritative_row([passed_round, qualified_round])

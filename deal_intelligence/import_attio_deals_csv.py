@@ -1,6 +1,6 @@
 """Reconciles an Attio "Deals" CSV export against the hub's Firestore company
-docs (Oscar, 2026-08-05: match up the pipeline/rejected/access picture, pull
-in each company's real investor list, and stamp which of the Top 10 / Tier 1
+docs (Oscar, 2026-08-05: match up the pipeline/passed/access picture, pull in
+each company's real investor list, and stamp which of the Top 10 / Tier 1
 (33) firms actually invested).
 
 Run as `python -m deal_intelligence.import_attio_deals_csv <csv_path>
@@ -28,13 +28,19 @@ What this does, per company (grouped from possibly-several CSV rows -- see
   `Investors > Domains` column (same precision as the PitchBook intake
   path); falls back to name-only against `tier1_firms.match_top10` when it
   doesn't -- stated in the summary output either way, not hidden.
-- `rejected` tag: added via ArrayUnion (additive, same mechanism
-  radar_state.py already uses for the `radar` tag) when the company's
-  CURRENT (most recent by Deal Date) row's stage is "Passed". Never touches
-  `stage` or any other existing tag on an already-tracked company -- a
-  company that was Passed once and later moved back to Pipeline reads as
-  Pipeline today, not Rejected (several rows in this export show exactly
-  that kind of stage history in "Deal stage" Previous Values).
+- `passed` tag: added via ArrayUnion (additive, same mechanism radar_state.py
+  already uses for the `radar` tag) when the company's CURRENT (most recent
+  by Deal Date) row's stage is "Passed" -- named to match Attio's own stage
+  label exactly (Oscar, 2026-08-05: "I want it to be called passed"), not
+  translated to a different word in the hub. Never touches `stage` or any
+  other existing tag on an already-tracked company -- a company that was
+  Passed once and later moved back to Pipeline reads as Pipeline today, not
+  Passed (several rows in this export show exactly that kind of stage
+  history in "Deal stage" Previous Values). Because this is additive, many
+  companies will carry BOTH their working stage (e.g. Pipeline) AND this tag
+  at once -- a real case to account for when building anything that counts
+  deals by stage (e.g. a summary-statistics view), not an edge case to
+  special-case away.
 - Companies not already in Firestore get created (Oscar's explicit call,
   2026-08-05) -- `stage` from `config.ATTIO_STAGE_MAP`, same fallback-to-
   'new' rule `push_company_from_attio` already uses for an unmapped stage.
@@ -57,8 +63,8 @@ from google.cloud import firestore
 from . import config, tier1_firms
 from .fit_note import normalize_domain, slugify
 
-REJECTED_TAG = "rejected"
-PASSED_STAGE = "passed"
+PASSED_TAG = "passed"       # the hub tag this script writes (ArrayUnion onto `tags`)
+PASSED_STAGE = "passed"     # the Attio "Deal stage" value that triggers it
 
 _db = None
 
@@ -137,12 +143,12 @@ def group_by_company(rows):
 
 
 def authoritative_row(rows):
-    """The row that determines a company's CURRENT stage/rejected status --
+    """The row that determines a company's CURRENT stage/passed status --
     latest by Deal Date, falling back to "Deal stage" Changed At when Deal
     Date is missing or ties (a deal that changed stage without a new round
     closing still needs a tiebreak). This is what makes a company that was
     Passed once and later moved back to Pipeline read as Pipeline today, not
-    Rejected -- exactly what this export's own "Deal stage" Previous Values
+    Passed -- exactly what this export's own "Deal stage" Previous Values
     column shows happening for several companies (Etched, Atoms, Ollama)."""
     return max(rows, key=lambda r: (r["deal_date"] or "", r["stage_changed_at"] or ""))
 
@@ -153,9 +159,9 @@ def _round_slug(series):
 
 def process_group(company_key, rows, db, dry_run):
     """Writes (or, in --dry-run, computes without writing) one company
-    group's investors/top10Investors/tier1_33Investors/rejected-tag, plus
-    an additional-round doc per non-authoritative row. Returns a summary
-    dict for the run-level tally."""
+    group's investors/top10Investors/tier1_33Investors/passed-tag, plus an
+    additional-round doc per non-authoritative row. Returns a summary dict
+    for the run-level tally."""
     auth = authoritative_row(rows)
     other_rows = [r for r in rows if r is not auth]
 
@@ -163,7 +169,7 @@ def process_group(company_key, rows, db, dry_run):
     all_investor_domains = sorted({d for r in rows for d in r["investor_domains"]})
     top10 = tier1_firms.match_top10(investor_domains=all_investor_domains, investor_names=all_investor_names)
     tier1_33 = tier1_firms.match_tier1_33(investor_names=all_investor_names)
-    is_rejected = auth["stage"].strip().lower() == PASSED_STAGE
+    is_passed = auth["stage"].strip().lower() == PASSED_STAGE
 
     company_ref = db.collection("companies").document(company_key)
     existing_snap = company_ref.get()
@@ -182,8 +188,8 @@ def process_group(company_key, rows, db, dry_run):
         payload["top10Investors"] = top10
     if tier1_33:
         payload["tier1_33Investors"] = tier1_33
-    if is_rejected:
-        payload["tags"] = firestore.ArrayUnion([REJECTED_TAG])
+    if is_passed:
+        payload["tags"] = firestore.ArrayUnion([PASSED_TAG])
     if is_new:
         payload["name"] = auth["name"]
         payload["website"] = normalize_domain(auth["domain"]) or None
@@ -233,7 +239,7 @@ def process_group(company_key, rows, db, dry_run):
         "companyKey": company_key,
         "name": auth["name"],
         "isNew": is_new,
-        "isRejected": is_rejected,
+        "isPassed": is_passed,
         "top10": top10,
         "tier1_33": tier1_33,
         "additionalRounds": len(additional_rounds),
@@ -249,7 +255,7 @@ def run(csv_path, dry_run=False):
 
     created = [r for r in results if r["isNew"]]
     existing = [r for r in results if not r["isNew"]]
-    rejected = [r for r in results if r["isRejected"]]
+    passed = [r for r in results if r["isPassed"]]
     top10_matched = [r for r in results if r["top10"]]
     tier1_33_matched = [r for r in results if r["tier1_33"]]
     total_additional_rounds = sum(r["additionalRounds"] for r in results)
@@ -257,7 +263,7 @@ def run(csv_path, dry_run=False):
     print(f"\n{'DRY RUN -- ' if dry_run else ''}{len(rows)} CSV rows -> {len(groups)} companies")
     print(f"  {len(created)} new company docs {'would be ' if dry_run else ''}created")
     print(f"  {len(existing)} existing companies matched and updated")
-    print(f"  {len(rejected)} tagged 'rejected' (current stage = Passed)")
+    print(f"  {len(passed)} tagged 'passed' (current stage = Passed)")
     print(f"  {len(top10_matched)} companies with a Top 10 investor match")
     print(f"  {len(tier1_33_matched)} companies with a Tier 1 (33) investor match")
     print(f"  {total_additional_rounds} additional-round docs {'would be ' if dry_run else ''}written")
@@ -268,7 +274,7 @@ def run(csv_path, dry_run=False):
 
     return {
         "rows": len(rows), "companies": len(groups), "created": len(created),
-        "existing": len(existing), "rejected": len(rejected),
+        "existing": len(existing), "passed": len(passed),
         "top10Matched": len(top10_matched), "tier1_33Matched": len(tier1_33_matched),
         "additionalRounds": total_additional_rounds,
     }
