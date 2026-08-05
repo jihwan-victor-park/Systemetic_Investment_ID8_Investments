@@ -27,7 +27,7 @@ export async function searchHub({ vc, round, radarCategory, stage, minFitScore }
   return companies
     .map((c) => ({ c, matches: allInvestorMatches(investorIndex, c.name, domainIndex, c.investorDomains) }))
     .filter(({ c, matches }) => {
-      if (stageFilter && c.stage !== stageFilter) return false;
+      if (stageFilter && c.stage !== stageFilter && !c.tags?.includes(stageFilter)) return false;
       if (roundQuery && !(c.round || '').toLowerCase().includes(roundQuery)) return false;
       if (categoryQuery && !(c.radarCategory || '').toLowerCase().includes(categoryQuery)) return false;
       if (minScore != null && (c.latestScreen?.fitScore ?? -Infinity) < minScore) return false;

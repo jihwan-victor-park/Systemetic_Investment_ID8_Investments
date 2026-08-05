@@ -41,11 +41,6 @@ export default function Navbar({ isSignedIn = false }) {
           <Link href="/" className={styles.brand}>
             <img src="/img/logo_charcoal.png" alt="ID8 Investments" className={styles.logo} />
           </Link>
-          {!hideInternalNav && (
-            <Link href="/docs/overview" className={`${styles.hubLink} ${isInDocs ? styles.hubLinkActive : ''}`}>
-              Dashboard
-            </Link>
-          )}
         </div>
         <div className={styles.right}>
           {!hideInternalNav && <GlobalSearch />}
@@ -61,6 +56,11 @@ export default function Navbar({ isSignedIn = false }) {
                 Growth Opportunities Fund I
               </Link>
             </>
+          )}
+          {!hideInternalNav && (
+            <Link href="/docs/overview" className={`${styles.hubLink} ${isInDocs ? styles.hubLinkActive : ''}`}>
+              Dashboard
+            </Link>
           )}
           {showSignOut && <SignOutButton className={styles.signOut} />}
         </div>

@@ -28,17 +28,38 @@ from . import config, radar_access, radar_mandate, radar_state
 
 
 def _due_companies(db, today):
-    """companies where stage == 'radar' AND radar.schedule.nextScanAt <=
-    today. Dotted-path filter on a nested map field -- Firestore may need a
-    composite index the first time this runs in a fresh project (it fails
-    with a direct link to create one if so; not something creatable from
-    here, same as every other gcloud-side operation in this build)."""
-    return list(
+    """companies where (stage == 'radar' OR tags array_contains 'radar') AND
+    radar.schedule.nextScanAt <= today -- same additive membership hub-next's
+    radar/page.jsx has always used for DISPLAY (`c.stage === 'radar' ||
+    c.tags?.includes('radar')`), and the same fix already applied to
+    radar_backfill.py's _iter_radar_companies() (2026-07-30, commit
+    62ac298): a company carrying just the `radar` TAG (primary stage sits
+    elsewhere, Radar is an additive membership) is visible on the hub's
+    Radar tab but was never picked up here, so it never scanned and its
+    watch-floor streak never advanced. Two queries (stage + array_contains
+    tags), merged and deduped by doc id -- Firestore doesn't support ORing
+    two different fields in one query without the newer `Or()` composite-
+    filter API. Dotted-path filter on a nested map field -- Firestore may
+    need a composite index the first time each of these runs in a fresh
+    project (it fails with a direct link to create one if so; not something
+    creatable from here, same as every other gcloud-side operation in this
+    build)."""
+    by_stage = (
         db.collection("companies")
         .where("stage", "==", "radar")
         .where("radar.schedule.nextScanAt", "<=", today.isoformat())
-        .stream()
     )
+    by_tag = (
+        db.collection("companies")
+        .where("tags", "array_contains", "radar")
+        .where("radar.schedule.nextScanAt", "<=", today.isoformat())
+    )
+    seen = {}
+    for doc in by_stage.stream():
+        seen[doc.id] = doc
+    for doc in by_tag.stream():
+        seen.setdefault(doc.id, doc)
+    return list(seen.values())
 
 
 def run(today=None):

@@ -125,6 +125,41 @@ export default async function CompanyDetailPage({ params }) {
           ? <StageSelect slug={company.slug} stage={company.stage} canEdit={canEdit} />
           : <StageMultiSelect slug={company.slug} stage={company.stage} tags={company.tags} canEdit={canEdit} />}
       </p>
+      {/* Radar diagnostics (2026-08-05) -- these fields have been written by
+          deal_intelligence/radar_state.py since Radar Clock v1 but were never
+          shown anywhere in the hub: a company auto-dropped from the Radar tab
+          (radar/page.jsx's `!c.radar?.droppedAt` filter) vanished with no
+          visible reason, and the whole Heat Score Signal Framework
+          (`radar.marketHeat`) and distress/growth read (`radar.hazard.
+          distressFlag`/`growthTier`) were computed and stored but dead-ended
+          in Firestore. Surfaced here, on the one page a dropped company is
+          still reachable from (its own detail page, per radar_state.py's own
+          "reversible, never deletes anything" convention). */}
+      {company.radar?.droppedAt && (
+        <p>
+          <span className="badge badge--below">Dropped from Radar</span>{' '}
+          {company.radar.droppedAt.slice(0, 10)} — {company.radar.dropReason || 'no reason recorded'}
+        </p>
+      )}
+      {company.radar?.hazard?.distressFlag && (
+        <p>
+          <span className="badge badge--below">Distress signal{company.radar.hazard.distressSignals?.length === 1 ? '' : 's'}</span>{' '}
+          {company.radar.hazard.distressSignals?.join(', ') || 'active'}
+        </p>
+      )}
+      {company.radar?.hazard?.growthTier && (
+        <p>Growth tier: <strong>{company.radar.hazard.growthTier}</strong></p>
+      )}
+      {company.radar?.marketHeat && (
+        <p>
+          Market Heat: <strong>{company.radar.marketHeat.score ?? '—'}</strong>
+          {company.radar.marketHeat.normalizedScore != null && ` (${company.radar.marketHeat.normalizedScore}/100 normalized`}
+          {company.radar.marketHeat.pointsAvailable != null && `, ${company.radar.marketHeat.pointsAvailable}/100 pts of the rubric scored)`}
+          {company.radar.marketHeat.notComputed?.length > 0 && (
+            <> · not yet measured: {company.radar.marketHeat.notComputed.join(', ')}</>
+          )}
+        </p>
+      )}
       {fit && <FitScoreScreenView fit={fit} />}
       {/* Run Analysis (Stage 1) only while there's no screen yet -- once one
           exists, this becomes Start Stage 2 (deep research) instead. Same

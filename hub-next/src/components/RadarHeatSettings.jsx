@@ -22,7 +22,7 @@ export default function RadarHeatSettings({ config, canEdit }) {
   if (!canEdit) {
     return (
       <p className={styles.readonly}>
-        Hot: heat score {config.hotThreshold}+ (0-100) AND a syndicate access route on file. Before a company's first real scan, falls back to: within {config.hotWindowMonths} {config.hotWindowMonths === 1 ? 'month' : 'months'} of its predicted raise window, or a heat score of {config.hotThreshold}+. Dropped from view below {config.watchFloor} for a few scans running.
+        Hot: real heat score (Python hazard model, 0-100) {config.hotThreshold}+ AND a syndicate access route on file. Before a company's first real scan, heat is a rough 0-12 placeholder (timing within {config.hotWindowMonths} {config.hotWindowMonths === 1 ? 'month' : 'months'} of its predicted raise window + fit) used only to sort/triage — it can't reach {config.hotThreshold} on its own, so an unscanned company is never marked hot. Auto-dropped from view once heat sits below {config.watchFloor} for 3 consecutive real scans.
       </p>
     );
   }
