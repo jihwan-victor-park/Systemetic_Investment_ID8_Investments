@@ -296,7 +296,62 @@ def test_market_heat_quiet_declining_company_lands_at_bottom_bands():
     assert mh["signals"]["tier1InvestorCount"]["count"] == 0
     assert mh["signals"]["momEmployeeGrowth"]["raw"] == 0.0    # declining
     assert mh["signals"]["jobPostingVelocity"]["raw"] == 3.0   # declining, still >0 open roles
-    assert mh["normalizedScore"] < 30  # bottom-heavy, not a strong read
+    # This company's predicted window is ~5.9mo in the past (roundDate
+    # 2025-01-01, no fresh round on file) -- radar_market_heat.
+    # timing_urgency_multiplier() treats "past window, still no round" as
+    # maximally urgent (same direction radar_hazard.baseline_hazard()'s own
+    # top bucket takes), same as an about-to-raise company would score. The
+    # bottom-band signals still dominate (27.5 pre-boost -> 31.6 boosted,
+    # MAX_URGENCY_BOOST=1.15) -- urgency only ever nudges a real number, it
+    # doesn't manufacture a strong one, so the bound widens but stays low.
+    assert mh["timingUrgencyMultiplier"] == 1.15
+    assert mh["normalizedScore"] < 35  # bottom-heavy, not a strong read, even boosted
+
+
+# ── _round_just_announced ───────────────────────────────────────────────
+
+def test_round_just_announced_true_when_fresh_date_is_later():
+    assert rs._round_just_announced("2025-01-01", "2026-06-01") is True
+
+
+def test_round_just_announced_false_when_dates_match_or_fresh_is_earlier():
+    assert rs._round_just_announced("2025-01-01", "2025-01-01") is False
+    assert rs._round_just_announced("2026-06-01", "2025-01-01") is False
+
+
+def test_round_just_announced_false_when_either_side_is_none():
+    assert rs._round_just_announced(None, "2026-06-01") is False
+    assert rs._round_just_announced("2025-01-01", None) is False
+    assert rs._round_just_announced(None, None) is False
+
+
+# ── round-announced suppression through compute_radar_state ────────────
+
+def test_compute_radar_state_suppresses_market_heat_when_round_just_announced():
+    fields = {"name": "Roundco", "hq": "Austin, TX", "series": "Series B",
+              "roundSize": 20_000_000, "roundDate": "2026-07-01", "top10VC": True}
+    # First scan: no prior snapshot on file yet -- no suppression, and this
+    # scan's own roundDate becomes the snapshot the NEXT call compares against.
+    first = rs.compute_radar_state(
+        fields, tier1_index={}, headcount=40, headcount_checked_at="2026-08-05",
+        last_scan_at=None, scan_count=0, today=date(2026, 8, 5),
+        prior_market_heat_round_date=None,
+    )
+    assert first["marketHeat"]["roundAnnouncedFlag"] is False
+    assert first["marketHeat"]["roundDateAtLastScan"] == "2026-07-01"
+
+    # Second scan: a NEW round was recorded since the last scan (roundDate
+    # moved forward) -- the earlier "expected raise" prediction already came
+    # true, so the score should collapse to the suppression ceiling.
+    fresh_fields = {**fields, "roundDate": "2026-08-01"}
+    second = rs.compute_radar_state(
+        fresh_fields, tier1_index={}, headcount=40, headcount_checked_at="2026-08-05",
+        last_scan_at=date(2026, 8, 5), scan_count=1, today=date(2026, 9, 1),
+        prior_market_heat_round_date=first["marketHeat"]["roundDateAtLastScan"],
+    )
+    assert second["marketHeat"]["roundAnnouncedFlag"] is True
+    from deal_intelligence import radar_market_heat as _rmh
+    assert second["marketHeat"]["score"] <= _rmh.ROUND_ANNOUNCED_CEILING
 
 
 # ── Data coverage wiring (Isabella, 2026-07-30) ───────────────────────────

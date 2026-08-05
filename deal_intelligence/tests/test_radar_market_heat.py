@@ -142,6 +142,172 @@ def test_compute_normalized_score_rescales_to_points_available():
     assert result["pointsAvailable"] == 25
 
 
+# ── industry_growth / google_trends_search_interest (#4, #11) ──────────
+
+def test_industry_growth_bands():
+    assert rmh.industry_growth({"pctChange": 30}) == 10.0    # >25%
+    assert rmh.industry_growth({"pctChange": 15}) == 7.0     # 10-25%
+    assert rmh.industry_growth({"pctChange": 0}) == 5.0      # flat +-10%
+    assert rmh.industry_growth({"pctChange": -25}) == 0.0    # down >10%
+
+
+def test_industry_growth_missing_trends_read_is_none():
+    assert rmh.industry_growth(None) is None
+    assert rmh.industry_growth({"pctChange": None}) is None
+
+
+def test_google_trends_search_interest_same_bucket_scale():
+    assert rmh.google_trends_search_interest({"pctChange": 30}) == 10.0
+    assert rmh.google_trends_search_interest(None) is None
+
+
+# ── news_volume / step_up / website_visits_growth (#9, #7, #10) ────────
+
+def test_news_volume_bands():
+    assert rmh.news_volume("high") == 10.0
+    assert rmh.news_volume("steady") == 5.0
+    assert rmh.news_volume("low") == 0.0
+    assert rmh.news_volume(None) is None
+
+
+def test_step_up_bands_never_maxed():
+    assert rmh.step_up("up") == 8.0   # short of 10 -- categorical, not a confirmed multiple
+    assert rmh.step_up("flat") == 4.0
+    assert rmh.step_up("down") == 1.0
+    assert rmh.step_up(None) is None
+
+
+def test_website_visits_growth_bands():
+    assert rmh.website_visits_growth("rising") == 7.0
+    assert rmh.website_visits_growth("flat") == 4.0
+    assert rmh.website_visits_growth("declining") == 0.0
+    assert rmh.website_visits_growth(None) is None
+
+
+# ── crunchbase_proxy (shared by 3 rows) / yoy_revenue_growth (#8) ──────
+
+def test_crunchbase_proxy_bands():
+    assert rmh.crunchbase_proxy("strong") == 10.0
+    assert rmh.crunchbase_proxy("moderate") == 5.0
+    assert rmh.crunchbase_proxy("weak") == 0.0
+    assert rmh.crunchbase_proxy(None) is None
+
+
+def test_yoy_revenue_growth_bands():
+    assert rmh.yoy_revenue_growth("hypergrowth") == 10.0
+    assert rmh.yoy_revenue_growth("strong") == 7.0
+    assert rmh.yoy_revenue_growth(None) is None
+    assert rmh.yoy_revenue_growth("weak") is None  # no such tier -- missing, not a fabricated 0
+
+
+# ── timing_urgency_multiplier ───────────────────────────────────────────
+
+def test_timing_urgency_multiplier_neutral_when_no_estimate_or_far_out():
+    assert rmh.timing_urgency_multiplier(None) == 1.0
+    assert rmh.timing_urgency_multiplier(12) == 1.0
+    assert rmh.timing_urgency_multiplier(24) == 1.0
+
+
+def test_timing_urgency_multiplier_maxes_at_window_open():
+    assert rmh.timing_urgency_multiplier(0) == rmh.MAX_URGENCY_BOOST
+
+
+def test_timing_urgency_multiplier_holds_flat_past_the_window():
+    assert rmh.timing_urgency_multiplier(-1) == rmh.MAX_URGENCY_BOOST
+    assert rmh.timing_urgency_multiplier(-12) == rmh.MAX_URGENCY_BOOST
+
+
+def test_timing_urgency_multiplier_ramps_linearly_between_12_and_0():
+    assert rmh.timing_urgency_multiplier(6) == round(1.0 + (rmh.MAX_URGENCY_BOOST - 1.0) * 0.5, 4)
+
+
+# ── compute() with the new signals wired ────────────────────────────────
+
+def test_compute_new_signals_stay_unwired_when_no_new_inputs_supplied():
+    # Every pre-2026-08-05 caller keeps IDENTICAL behavior -- market_research/
+    # trends/growth_tier/months_until_window/round_announced all default to
+    # values that are no-ops.
+    result = rmh.compute(
+        {"series": "Series B", "roundDate": "2026-07-01", "tier1Firms": ["Sequoia", "Index"]},
+        {"headcountMomRate": 0.06, "openRolesMomRate": 0.20, "currentOpenRoles": 9},
+        as_of=date(2026, 8, 5),
+    )
+    for key in ("industryGrowth", "googleTrendsSearchInterest", "newsVolume", "stepUp",
+                "websiteVisitsGrowth", "crunchbaseGrowthScore", "crunchbaseHeatScore",
+                "crunchbaseSurgeScore", "yoyRevenueGrowth"):
+        assert result["signals"][key]["computed"] is False
+    assert result["timingUrgencyMultiplier"] == 1.0
+    assert result["roundAnnouncedFlag"] is False
+
+
+def test_compute_wires_new_signals_when_inputs_supplied():
+    result = rmh.compute(
+        {"series": "Series B", "roundDate": "2026-07-01", "tier1Firms": ["Sequoia", "Index"]},
+        {"headcountMomRate": 0.06, "openRolesMomRate": 0.20, "currentOpenRoles": 9},
+        as_of=date(2026, 8, 5),
+        market_research={"newsVolume": "high", "valuationStepUp": "up",
+                          "websiteTrafficTrend": "rising", "publicMomentum": "strong"},
+        trends={"industry": {"pctChange": 30}, "company": {"pctChange": 15}},
+        growth_tier="hypergrowth",
+    )
+    assert result["signals"]["newsVolume"]["raw"] == 10.0
+    assert result["signals"]["stepUp"]["raw"] == 8.0
+    assert result["signals"]["websiteVisitsGrowth"]["raw"] == 7.0
+    assert result["signals"]["industryGrowth"]["raw"] == 10.0
+    assert result["signals"]["googleTrendsSearchInterest"]["raw"] == 7.0
+    assert result["signals"]["yoyRevenueGrowth"]["raw"] == 10.0
+    # All 3 Crunchbase-branded rows share the SAME proxy read, and all carry
+    # a proxyNote so nobody mistakes it for Crunchbase's own number.
+    for key in ("crunchbaseGrowthScore", "crunchbaseHeatScore", "crunchbaseSurgeScore"):
+        assert result["signals"][key]["raw"] == 10.0
+        assert "not Crunchbase" in result["signals"][key]["proxyNote"]
+
+
+def test_compute_urgency_boosts_score_as_window_approaches():
+    kwargs = dict(
+        fields={"series": "Series B", "roundDate": "2026-07-01", "tier1Firms": ["Sequoia", "Index", "a16z"]},
+        rates={"headcountMomRate": None, "openRolesMomRate": None, "currentOpenRoles": None},
+        as_of=date(2026, 8, 5),
+    )
+    far = rmh.compute(**kwargs, months_until_window=12)
+    near = rmh.compute(**kwargs, months_until_window=0)
+    assert far["score"] == 10.0  # tier1InvestorCount alone, urgency neutral at >=12mo
+    assert near["score"] == round(10.0 * rmh.MAX_URGENCY_BOOST, 1)
+    assert near["score"] > far["score"]
+
+
+def test_compute_score_never_exceeds_100_even_at_max_rubric_and_max_urgency():
+    result = rmh.compute(
+        {"series": "Series B", "roundDate": "2023-01-01", "tier1Firms": ["Sequoia", "Index", "a16z"]},
+        {"headcountMomRate": 0.10, "openRolesMomRate": 0.30, "currentOpenRoles": 20},
+        as_of=date(2026, 8, 5),
+        market_research={"newsVolume": "high", "valuationStepUp": "up",
+                          "websiteTrafficTrend": "rising", "publicMomentum": "strong"},
+        trends={"industry": {"pctChange": 30}, "company": {"pctChange": 30}},
+        growth_tier="hypergrowth",
+        months_until_window=0,
+    )
+    assert result["score"] <= 100
+    assert result["normalizedScore"] <= 100
+
+
+def test_compute_round_announced_caps_score_and_sets_flag():
+    result = rmh.compute(
+        {"series": "Series B", "roundDate": "2023-01-01", "tier1Firms": ["Sequoia", "Index", "a16z"]},
+        {"headcountMomRate": 0.10, "openRolesMomRate": 0.30, "currentOpenRoles": 20},
+        as_of=date(2026, 8, 5),
+        market_research={"newsVolume": "high", "publicMomentum": "strong"},
+        months_until_window=0,
+        round_announced=True,
+    )
+    assert result["roundAnnouncedFlag"] is True
+    assert result["score"] <= rmh.ROUND_ANNOUNCED_CEILING
+    assert result["normalizedScore"] <= rmh.ROUND_ANNOUNCED_CEILING
+    # The underlying breakdown stays fully inspectable -- suppression caps
+    # the headline number, it doesn't hide the evidence.
+    assert result["signals"]["newsVolume"]["raw"] == 10.0
+
+
 def test_compute_signal_entries_carry_weight_and_contribution():
     result = rmh.compute(
         {"series": "Series B", "roundDate": "2026-07-01", "tier1Firms": ["Sequoia"]},

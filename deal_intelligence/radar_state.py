@@ -24,13 +24,16 @@ from datetime import date, timedelta
 
 from google.cloud import firestore
 
-from . import (apollo_org, capital_clock, config, radar_access, radar_calibration, radar_hazard,
-               radar_jobs, radar_mandate, radar_market_heat, radar_schedule, radar_signal_series,
-               radar_timing_signals)
+from . import (apollo_org, capital_clock, config, google_trends, radar_access, radar_calibration,
+               radar_hazard, radar_jobs, radar_mandate, radar_market_heat, radar_market_signals,
+               radar_schedule, radar_signal_series, radar_timing_signals)
 
 _db = None
 SCHEMA_VERSION = 1
 APOLLO_STALENESS_DAYS = 30
+MARKET_RESEARCH_STALENESS_DAYS = 30  # Perplexity news/momentum + Google Trends reads move slower
+# than headcount and cost real API budget (Perplexity $, Trends rate-limit risk) -- roughly
+# monthly, same reasoning/window as APOLLO_STALENESS_DAYS.
 CRITICAL_ZONE_MONTHS = 5  # matches radar_schedule.base_interval_weeks' own 3-5mo critical-zone band
 
 DEFAULT_WATCH_FLOOR = 5  # 0-100 scale (Oscar, 2026-07-29, corrected same day -- 25 was above what ANY
@@ -114,6 +117,29 @@ def _parse_date(value):
         return None
 
 
+def _round_just_announced(prior_round_date, fresh_round_date):
+    """True when fresh_round_date (this scan's roundDate, freshly read off
+    the company doc) is LATER than prior_round_date (radar.marketHeat.
+    roundDateAtLastScan -- the roundDate on file the last time marketHeat
+    was computed for this company). Mirrors radar_calibration.
+    sweep_confirmations()'s own `current_round_date != roundDateAtPrediction`
+    diff, but LIVE (every scan, not an offline batch) and feeding a score
+    suppression instead of a Brier score -- a separate mechanism by design,
+    not a refactor of that one: that module scores PAST predictions for
+    calibration, this one reacts to a round in the CURRENT scan.
+
+    None on either side (first-ever scan, or genuinely no round date on
+    file) returns False -- nothing to compare against, and "we don't know"
+    must never read as "a round was just announced.\""""
+    if not prior_round_date or not fresh_round_date:
+        return False
+    prior = _parse_date(prior_round_date)
+    fresh = _parse_date(fresh_round_date)
+    if not prior or not fresh:
+        return False
+    return fresh > prior
+
+
 def _hotness(months_until_window):
     """'hot' inside the critical zone (<=5 months until predictedWindowOpen)
     or already past the window (months_until_window < 0); 'cold' otherwise.
@@ -167,7 +193,8 @@ def compute_radar_state(fields, tier1_index, headcount, headcount_checked_at,
                          low_score_streak=0, watch_floor=DEFAULT_WATCH_FLOOR,
                          partner_index=None, latest_screen=None, cost_per_head_overrides=None,
                          headcount_mom_rate=None, open_roles_mom_rate=None, current_open_roles=None,
-                         job_sensor_available=False):
+                         job_sensor_available=False,
+                         market_research=None, trends=None, prior_market_heat_round_date=None):
     """Pure orchestration -- no I/O, unit-testable with fabricated inputs.
 
     fields: {name, hq, series, top10VC, roundSize, roundDate, radarCategory,
@@ -213,7 +240,20 @@ def compute_radar_state(fields, tier1_index, headcount, headcount_checked_at,
     recompute triggered by an unrelated Attio import (mandate/clock/
     nextScanAt still refresh with the latest data, but scanCount/lastScanAt
     are left exactly as they were, so an import doesn't masquerade as a scan
-    that didn't actually happen)."""
+    that didn't actually happen).
+
+    `market_research`/`trends`: already-fetched radar_market_signals.
+    research()/google_trends.*() results (or None), passed straight through
+    to radar_market_heat.compute() -- fetching/caching/staleness is the
+    caller's job (recompute_and_write), same "resolved inputs in"
+    convention as headcount_mom_rate etc. `prior_market_heat_round_date`:
+    the `roundDate` on file the last time marketHeat was computed for this
+    company (`existing_radar.marketHeat.roundDateAtLastScan`) -- compared
+    against this call's fresh `fields["roundDate"]` via
+    `_round_just_announced()` to detect a round that was just recorded,
+    which suppresses marketHeat's score (see that function's own
+    docstring). `None` (first-ever scan, or no round date on file either
+    side) never triggers suppression."""
     today = today or date.today()
     mandate = radar_mandate.screen(
         {"name": fields.get("name"), "hq": fields.get("hq"), "series": fields.get("series"),
@@ -302,16 +342,25 @@ def compute_radar_state(fields, tier1_index, headcount, headcount_checked_at,
         fields.get("name"), mandate.get("tier1Firms"), mandate.get("top10VCFlag"), partner_index or {}
     )
 
-    # Heat Score Signal Framework (Oscar, 2026-07-31) -- a SEPARATE score
-    # from `hazard` above, see radar_market_heat.py's own docstring for why
-    # it isn't folded into heatPoints. Only computed here, inside the
-    # mandate-pass branch, same population `hazard`/`access` are scoped to.
+    # Heat Score Signal Framework (Oscar, 2026-07-31, made primary/
+    # hegemonic 2026-08-05) -- a SEPARATE score from `hazard` above, see
+    # radar_market_heat.py's own docstring for why hazard still drives
+    # auto-drop/scheduling this pass regardless. Only computed here, inside
+    # the mandate-pass branch, same population `hazard`/`access` are scoped
+    # to. `months_until_window` reused as-is from the clock above (not
+    # re-derived) so hazard/scheduling/marketHeat never disagree about "how
+    # close" -- see radar_market_heat.timing_urgency_multiplier()'s own
+    # docstring.
+    round_announced = _round_just_announced(prior_market_heat_round_date, fields.get("roundDate"))
     market_heat = radar_market_heat.compute(
         {"series": fields.get("series"), "roundDate": fields.get("roundDate"), "tier1Firms": mandate.get("tier1Firms")},
         {"headcountMomRate": headcount_mom_rate, "openRolesMomRate": open_roles_mom_rate,
          "currentOpenRoles": current_open_roles},
         today,
+        market_research=market_research, trends=trends, growth_tier=timing["growthTier"],
+        months_until_window=months_until_window, round_announced=round_announced,
     )
+    market_heat["roundDateAtLastScan"] = fields.get("roundDate")
 
     heat_points = hazard["heatPoints"]
     low_score_streak_out = 0 if heat_points >= watch_floor else low_score_streak + 1
@@ -346,11 +395,11 @@ def compute_radar_state(fields, tier1_index, headcount, headcount_checked_at,
     }
 
 
-def _is_stale(checked_at, today):
+def _is_stale(checked_at, today, staleness_days=APOLLO_STALENESS_DAYS):
     parsed = _parse_date(checked_at)
     if not parsed:
         return True
-    return (today - parsed).days > APOLLO_STALENESS_DAYS
+    return (today - parsed).days > staleness_days
 
 
 def _get_watch_floor(db):
@@ -504,6 +553,35 @@ def recompute_and_write(slug, fields, tier1_index, entry_source, db=None, apollo
             latest_screen = screen_doc.to_dict() or {}
             latest_screen.setdefault("date", latest_screen_date)
 
+    # Heat Score Signal Framework's remaining data sources -- staleness-
+    # gated exactly like the Apollo headcount lookup above (keep the prior
+    # cached reading on a failed/skipped fetch, never blank out an
+    # already-good one; a fresh call failing must not read as "nothing was
+    # ever known"). `run_jobs_sensor`'s watch-floor gate isn't reused here
+    # on purpose -- market_heat is meant to become the primary score, so
+    # gating its own inputs on the OTHER (hazard) score's floor would tie
+    # its coverage to the very engine it's meant to supersede.
+    existing_market_heat = existing_radar.get("marketHeat") or {}
+    research_checked_at = existing_market_heat.get("researchCheckedAt")
+    market_research = existing_market_heat.get("marketResearch")
+    if _is_stale(research_checked_at, today, MARKET_RESEARCH_STALENESS_DAYS):
+        fresh_research = radar_market_signals.research(
+            fields.get("name"), fields.get("website"), fields.get("description"),
+        )
+        if fresh_research is not None:
+            market_research, research_checked_at = fresh_research, today.isoformat()
+
+    trends_checked_at = existing_market_heat.get("trendsCheckedAt")
+    trends = existing_market_heat.get("trends")
+    if _is_stale(trends_checked_at, today, MARKET_RESEARCH_STALENESS_DAYS):
+        radar_category = fields.get("radarCategory")
+        fresh_trends = {
+            "industry": google_trends.industry_growth([radar_category] if radar_category else []),
+            "company": google_trends.company_search_interest(fields.get("name")),
+        }
+        if fresh_trends["industry"]["pctChange"] is not None or fresh_trends["company"]["pctChange"] is not None:
+            trends, trends_checked_at = fresh_trends, today.isoformat()
+
     radar_data = compute_radar_state(
         fields, tier1_index, headcount, headcount_checked_at,
         last_scan_at, scan_count, today, advance_scan,
@@ -514,11 +592,18 @@ def recompute_and_write(slug, fields, tier1_index, entry_source, db=None, apollo
         headcount_mom_rate=headcount_mom_rate, open_roles_mom_rate=open_roles_mom_rate,
         current_open_roles=current_open_roles,
         job_sensor_available=bool(ats),
+        market_research=market_research, trends=trends,
+        prior_market_heat_round_date=existing_market_heat.get("roundDateAtLastScan"),
     )
     radar_data["entrySource"] = entry_source
     radar_data["jobSignals"] = job_signals
     if ats:
         radar_data["ats"] = ats
+    if radar_data.get("marketHeat"):
+        radar_data["marketHeat"]["researchCheckedAt"] = research_checked_at
+        radar_data["marketHeat"]["marketResearch"] = market_research
+        radar_data["marketHeat"]["trendsCheckedAt"] = trends_checked_at
+        radar_data["marketHeat"]["trends"] = trends
 
     # Auto-drop-from-view: stamp once, never touch again once set -- a
     # human restores it by hand (no automatic un-drop on a later score

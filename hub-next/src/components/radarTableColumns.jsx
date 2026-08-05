@@ -55,12 +55,25 @@ export function radarCompanyToRow(c, opts) {
 
   const persistedHeat = c.radar?.hazard?.heatPoints;
   const hasPersistedHazard = typeof persistedHeat === 'number';
+  // Heat Score Signal Framework (radar.marketHeat) is Radar's primary/
+  // hegemonic score as of 2026-08-05 (Oscar's own call) -- shown here as
+  // `score` whenever it has at least one of its 16 signals computed.
+  // Hot/Cold classification below is UNCHANGED, still driven by the
+  // hazard model's own heatPoints+access gate: watchFloor/hotThreshold
+  // are calibrated against hazard's distribution, not marketHeat's (see
+  // radar_market_heat.py's own module docstring for why swapping that
+  // over needs its own real-company validation first) -- so a company can
+  // show a marketHeat number that doesn't match its badge color until
+  // that recalibration happens. The tooltip says so explicitly rather
+  // than hiding the mismatch.
+  const marketHeat = c.radar?.marketHeat;
+  const hasMarketHeat = typeof marketHeat?.normalizedScore === 'number';
   let score, hot, heatTitle;
   if (hasPersistedHazard) {
     const { p90, p180, confidence, familiesActive, dataCoverage } = c.radar.hazard;
     const access = c.radar?.access;
-    score = persistedHeat;
-    const timingPass = score >= radarConfig.hotThreshold;
+    const hazardScore = persistedHeat;
+    const timingPass = hazardScore >= radarConfig.hotThreshold;
     hot = timingPass && !!access?.accessPass;
     // Confidence + data coverage sit right next to the score itself, not
     // buried after families/access (Isabella, 2026-07-30: "Heat Score: 81 /
@@ -72,7 +85,11 @@ export function radarCompanyToRow(c, opts) {
     // company's coverage was never unmeasured-and-zero, just unmeasured.
     const coveragePct = typeof dataCoverage === 'number' ? Math.round(dataCoverage * 100) : null;
     const confidenceLabel = confidence ? confidence[0].toUpperCase() + confidence.slice(1) : 'Unknown';
-    heatTitle = `Heat Score ${score} · Confidence ${confidenceLabel}${coveragePct != null ? ` · Data coverage ${coveragePct}%` : ''} · P180 ${Math.round(p180 * 100)}% · P90 ${Math.round(p90 * 100)}% · families ${familiesActive?.length ? familiesActive.join(', ') : 'none'} · access ${access?.level || 'unknown'} (hot needs ${radarConfig.hotThreshold}+ AND syndicate access)`;
+    score = hasMarketHeat ? marketHeat.normalizedScore : hazardScore;
+    const marketHeatPart = hasMarketHeat
+      ? `Signal Framework ${marketHeat.normalizedScore} (${marketHeat.pointsAvailable}/100 pts scored${marketHeat.roundAnnouncedFlag ? ' · round already announced, suppressed' : ''}) · `
+      : '';
+    heatTitle = `${marketHeatPart}Hazard model ${hazardScore} · Confidence ${confidenceLabel}${coveragePct != null ? ` · Data coverage ${coveragePct}%` : ''} · P180 ${Math.round(p180 * 100)}% · P90 ${Math.round(p90 * 100)}% · families ${familiesActive?.length ? familiesActive.join(', ') : 'none'} · access ${access?.level || 'unknown'} · classified ${hot ? 'HOT' : 'COLD'} by the hazard model (needs ${radarConfig.hotThreshold}+ AND syndicate access)`;
   } else {
     const fitScore = bestFitScore(c, base.meta?.bestInvestorFitScore);
     const breakdown = radarHeatBreakdown(c, radarConfig, fitScore);

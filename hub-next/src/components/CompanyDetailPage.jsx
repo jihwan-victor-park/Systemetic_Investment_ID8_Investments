@@ -155,6 +155,12 @@ export default async function CompanyDetailPage({ params }) {
           Market Heat: <strong>{company.radar.marketHeat.score ?? '—'}</strong>
           {company.radar.marketHeat.normalizedScore != null && ` (${company.radar.marketHeat.normalizedScore}/100 normalized`}
           {company.radar.marketHeat.pointsAvailable != null && `, ${company.radar.marketHeat.pointsAvailable}/100 pts of the rubric scored)`}
+          {company.radar.marketHeat.timingUrgencyMultiplier > 1 && (
+            <> · timing urgency ×{company.radar.marketHeat.timingUrgencyMultiplier}</>
+          )}
+          {company.radar.marketHeat.roundAnnouncedFlag && (
+            <> · <span className="badge badge--below">round already announced</span>, score suppressed</>
+          )}
           {company.radar.marketHeat.notComputed?.length > 0 && (
             <> · not yet measured: {company.radar.marketHeat.notComputed.join(', ')}</>
           )}
