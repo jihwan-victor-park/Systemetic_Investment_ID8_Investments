@@ -89,6 +89,18 @@ export function getSidebarTree(companies = [], deals = []) {
           href: '/docs/invested',
           items: companies.filter((c) => c.stage === 'invested').map((c) => ({ type: 'doc', href: `/docs/invested/${c.slug}`, label: c.name })),
         },
+        {
+          type: 'category',
+          label: 'Rejected',
+          flat: true,
+          href: '/docs/rejected',
+          // Additive, same reasoning as Radar's own filter above: 'rejected'
+          // is a tag stamped on top of whatever a company's real stage is
+          // (deal_intelligence/import_attio_deals_csv.py is the only writer
+          // today), not a stage that replaces it -- a company can carry both
+          // its working stage AND this tag at once.
+          items: companies.filter((c) => c.stage === 'rejected' || c.tags?.includes('rejected')).map((c) => ({ type: 'doc', href: `/docs/rejected/${c.slug}`, label: c.name })),
+        },
         // Not a stage -- a cross-cutting view over every company already in
         // one of the five stage buckets above, filtered to Attio's own
         // "Top 10 VC" Deals-object view (company.top10VC, see

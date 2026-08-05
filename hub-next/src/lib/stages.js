@@ -23,7 +23,7 @@
 // filter, PortfolioTable's "Add...") ever offers it as a
 // destination -- moving a company into 'new' only ever happens via the Attio
 // import path, never by hand.
-export const STAGES = ['new', 'watchlist', 'pipeline', 'qualified', 'radar', 'invested'];
+export const STAGES = ['new', 'watchlist', 'pipeline', 'qualified', 'radar', 'invested', 'rejected'];
 
 // The stages a user can actively pick as a destination. Excludes 'new' --
 // see the STAGES comment above.
@@ -36,6 +36,7 @@ export const STAGE_LABELS = {
   qualified: 'Qualified Deals',
   radar: 'Radar',
   invested: 'Invested',
+  rejected: 'Rejected',
 };
 
 // Where a company's own screen/report page lives, by its current stage --
@@ -50,6 +51,7 @@ export const STAGE_BASEPATH = {
   qualified: '/docs/qualified-deals',
   radar: '/docs/radar',
   invested: '/docs/invested',
+  rejected: '/docs/rejected',
 };
 
 // Additive tags (2026-07-28) -- independent of `stage`, which stays the one

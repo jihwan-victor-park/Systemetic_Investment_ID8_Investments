@@ -137,6 +137,15 @@ export const listCompanies = unstable_cache(async () => {
       // a different check than the name-match above (does this company
       // already have one of OUR partner VCs as an investor). Added 2026-07-28.
       investorDomains: Array.isArray(data.investorDomains) ? data.investorDomains : [],
+      // The deal's own investor names + two match-attributes against the
+      // fixed VC registries in deal_intelligence/tier1_firms.py -- written
+      // by deal_intelligence/import_attio_deals_csv.py (2026-08-05), same
+      // "refresh on every push" convention as investorDomains above.
+      // top10Investors: the 10-firm TOP10 list (a subset of tier1_33Investors'
+      // 33). tier1_33Investors: the broader Tier 1 universe.
+      investors: Array.isArray(data.investors) ? data.investors : [],
+      top10Investors: Array.isArray(data.top10Investors) ? data.top10Investors : [],
+      tier1_33Investors: Array.isArray(data.tier1_33Investors) ? data.tier1_33Investors : [],
     };
   }));
 }, ['list-companies'], { tags: ['companies'], revalidate: CACHE_SECONDS });
@@ -407,6 +416,14 @@ export const getCompany = unstable_cache(async (slug) => {
     origin: _mapOrigin(data.origin),
     radar: data.radar || null,
     tags: Array.isArray(data.tags) ? data.tags : [],
+    // Same fields listCompanies() already maps -- getCompany() never read
+    // these back before (investorDomains included, a pre-existing gap fixed
+    // here alongside the three new investors/top10Investors/tier1_33Investors
+    // fields, 2026-08-05).
+    investorDomains: Array.isArray(data.investorDomains) ? data.investorDomains : [],
+    investors: Array.isArray(data.investors) ? data.investors : [],
+    top10Investors: Array.isArray(data.top10Investors) ? data.top10Investors : [],
+    tier1_33Investors: Array.isArray(data.tier1_33Investors) ? data.tier1_33Investors : [],
     screens,
     memos,
   };

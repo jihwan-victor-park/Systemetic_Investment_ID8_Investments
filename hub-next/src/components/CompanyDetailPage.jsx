@@ -105,6 +105,27 @@ export default async function CompanyDetailPage({ params }) {
           )}
         </p>
       )}
+      {/* Investors on this deal + Top 10 / Tier 1 (33) match attributes
+          (2026-08-05) -- written by deal_intelligence/import_attio_deals_csv.py
+          off the Attio Deals export's own Lead/New/Investors columns. A
+          DIFFERENT question from the "Partner VC" line above (which asks
+          "is this company in one of OUR tracked VCs' own portfolios") --
+          this asks "did one of the fixed Top 10 / Tier 1 (33) firms actually
+          invest in this company's round," via deal_intelligence/tier1_firms.py's
+          match_top10()/match_tier1_33(), the first thing that ever calls the
+          latter. tier1_33Investors is the broader 33-firm list; top10Investors
+          is always a subset of it. */}
+      {company.investors?.length > 0 && (
+        <p>
+          Investors: {company.investors.join(', ')}
+          {company.top10Investors?.length > 0 && (
+            <><br /><span className="badge badge--gate">Top 10 VC</span> {company.top10Investors.join(', ')}</>
+          )}
+          {company.tier1_33Investors?.length > 0 && (
+            <><br /><span className="badge badge--co">Tier 1 (33)</span> {company.tier1_33Investors.join(', ')}</>
+          )}
+        </p>
+      )}
       {company.description && <p>{company.description}</p>}
       {/* Per-row editing moved here from the stage tables' old "Also In"
           column (2026-07-28) -- those tables briefly used this same tag data
