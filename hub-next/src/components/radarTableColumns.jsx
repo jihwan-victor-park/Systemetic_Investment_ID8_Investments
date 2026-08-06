@@ -2,6 +2,7 @@ import { companyToRow, STAGE_TABLE_COLUMNS } from './companyStageColumns';
 import { radarHeatBreakdown, bestFitScore, radarHotnessFromScore } from '@/lib/radarHeatScore';
 import { formatPredictedWindow, formatNextScan, nextScanReason } from '@/lib/radar';
 import { matchedKeywords } from '@/lib/radarRuleMatch';
+import RadarHeatPopover from './RadarHeatPopover';
 
 // Radar's table is now the SAME shape every other stage table uses
 // (STAGE_TABLE_COLUMNS/companyToRow from companyStageColumns.jsx) instead of
@@ -68,7 +69,11 @@ export function radarCompanyToRow(c, opts) {
   // than hiding the mismatch.
   const marketHeat = c.radar?.marketHeat;
   const hasMarketHeat = typeof marketHeat?.normalizedScore === 'number';
-  let score, hot, heatTitle;
+  // `heatLines`: an array, one entry per popover line (RadarHeatPopover),
+  // rather than one `·`-joined string -- replaces the old native `title`
+  // tooltip (Oscar, 2026-08-06: "hover it and you see the full explanation
+  // of the score, and it doesn't go off unless you press it").
+  let score, hot, heatLines;
   if (hasPersistedHazard) {
     const { p90, p180, confidence, familiesActive, dataCoverage } = c.radar.hazard;
     const access = c.radar?.access;
@@ -78,7 +83,7 @@ export function radarCompanyToRow(c, opts) {
     // Confidence + data coverage sit right next to the score itself, not
     // buried after families/access (Isabella, 2026-07-30: "Heat Score: 81 /
     // Confidence: Medium / Data coverage: 68%") -- a partner glancing at
-    // this tooltip should see, before anything else, how much to trust the
+    // this popover should see, before anything else, how much to trust the
     // number they just read. `dataCoverage` may be absent on a company
     // scanned before this field existed (radar_hazard.compute() didn't emit
     // it pre-2026-07-30) -- omitted rather than shown as "0%", since that
@@ -86,16 +91,22 @@ export function radarCompanyToRow(c, opts) {
     const coveragePct = typeof dataCoverage === 'number' ? Math.round(dataCoverage * 100) : null;
     const confidenceLabel = confidence ? confidence[0].toUpperCase() + confidence.slice(1) : 'Unknown';
     score = hasMarketHeat ? marketHeat.normalizedScore : hazardScore;
-    const marketHeatPart = hasMarketHeat
-      ? `Signal Framework ${marketHeat.normalizedScore} (${marketHeat.pointsAvailable}/100 pts scored${marketHeat.roundAnnouncedFlag ? ' · round already announced, suppressed' : ''}) · `
-      : '';
-    heatTitle = `${marketHeatPart}Hazard model ${hazardScore} · Confidence ${confidenceLabel}${coveragePct != null ? ` · Data coverage ${coveragePct}%` : ''} · P180 ${Math.round(p180 * 100)}% · P90 ${Math.round(p90 * 100)}% · families ${familiesActive?.length ? familiesActive.join(', ') : 'none'} · access ${access?.level || 'unknown'} · classified ${hot ? 'HOT' : 'COLD'} by the hazard model (needs ${radarConfig.hotThreshold}+ AND syndicate access)`;
+    heatLines = [
+      hasMarketHeat
+        ? `Signal Framework ${marketHeat.normalizedScore} (${marketHeat.pointsAvailable}/100 pts scored)${marketHeat.roundAnnouncedFlag ? ' · round already announced, suppressed' : ''}`
+        : null,
+      `Hazard model ${hazardScore} · Confidence ${confidenceLabel}${coveragePct != null ? ` · Data coverage ${coveragePct}%` : ''}`,
+      `P180 ${Math.round(p180 * 100)}% · P90 ${Math.round(p90 * 100)}%`,
+      `Families: ${familiesActive?.length ? familiesActive.join(', ') : 'none'}`,
+      `Access: ${access?.level || 'unknown'}`,
+      `Classified ${hot ? 'HOT' : 'COLD'} (needs ${radarConfig.hotThreshold}+ AND syndicate access)`,
+    ].filter(Boolean);
   } else {
     const fitScore = bestFitScore(c, base.meta?.bestInvestorFitScore);
     const breakdown = radarHeatBreakdown(c, radarConfig, fitScore);
     score = breakdown.total;
     hot = radarHotnessFromScore(score, radarConfig) === 'hot';
-    heatTitle = `Timing ${breakdown.timing} + Fit ${breakdown.fit} = ${score} (hot at ${radarConfig.hotThreshold}+)`;
+    heatLines = [`Timing ${breakdown.timing} + Fit ${breakdown.fit} = ${score} (hot at ${radarConfig.hotThreshold}+)`];
   }
 
   return {
@@ -113,12 +124,13 @@ export function radarCompanyToRow(c, opts) {
       predictedWindow: formatPredictedWindow(c),
       nextScan: <span title={scanReason || ''}>{formatNextScan(c)}</span>,
       heat: (
-        <span
-          className={`badge ${hot ? 'badge--radar-hot' : 'badge--cold'}`}
-          title={heatTitle}
-        >
-          {score}
-        </span>
+        <RadarHeatPopover
+          score={score}
+          hot={hot}
+          lines={heatLines}
+          nextScanDate={c.radar?.schedule?.nextScanAt ? formatNextScan(c) : null}
+          nextScanReason={scanReason}
+        />
       ),
     },
   };

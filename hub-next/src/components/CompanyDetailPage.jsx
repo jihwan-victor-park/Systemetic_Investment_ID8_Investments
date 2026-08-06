@@ -6,6 +6,7 @@ import { listPartnerVCs } from '@/lib/partnerVCs';
 import { findInvestorMatches } from '@/lib/companyIndex';
 import ScreenView from '@/components/ScreenView';
 import FitScoreScreenView from '@/components/FitScoreScreenView';
+import RadarHeatBreakdown from '@/components/RadarHeatBreakdown';
 import TrackNewRoundForm from '@/components/TrackNewRoundForm';
 import CompanyInlineField from '@/components/CompanyInlineField';
 import InvestorRelationships from '@/components/InvestorRelationships';
@@ -181,17 +182,16 @@ export default async function CompanyDetailPage({ params }) {
           ? <StageSelect slug={company.slug} stage={company.stage} canEdit={canEdit} />
           : <StageMultiSelect slug={company.slug} stage={company.stage} tags={company.tags} canEdit={canEdit} />}
       </p>
-      {/* Radar diagnostics (2026-08-05) -- these fields have been written by
-          deal_intelligence/radar_state.py since Radar Clock v1 but were never
-          shown anywhere in the hub: a company auto-dropped from the Radar tab
-          (radar/page.jsx's `!c.radar?.droppedAt` filter) vanished with no
-          visible reason, and the whole Heat Score Signal Framework
-          (`radar.marketHeat`) and distress/growth read (`radar.hazard.
-          distressFlag`/`growthTier`) were computed and stored but dead-ended
-          in Firestore. Surfaced here, on the one page a dropped company is
-          still reachable from (its own detail page, per radar_state.py's own
-          "reversible, never deletes anything" convention). */}
-      {company.radar && (company.radar.droppedAt || company.radar.hazard?.distressFlag || company.radar.hazard?.growthTier || company.radar.marketHeat) && (
+      {/* Radar alerts (2026-08-05) -- a company auto-dropped from the Radar
+          tab (radar/page.jsx's `!c.radar?.droppedAt` filter) used to vanish
+          with no visible reason. Surfaced here, on the one page a dropped
+          company is still reachable from (its own detail page, per
+          radar_state.py's own "reversible, never deletes anything"
+          convention). The full score breakdown (RadarHeatBreakdown, below,
+          2026-08-06) is where growthTier/marketHeat actually live now --
+          this card is just the two things worth flagging before you even
+          get there. */}
+      {company.radar && (company.radar.droppedAt || company.radar.hazard?.distressFlag) && (
         <div className={styles.card}>
           {company.radar.droppedAt && (
             <div className={styles.badgeRow}>
@@ -205,30 +205,10 @@ export default async function CompanyDetailPage({ params }) {
               {company.radar.hazard.distressSignals?.join(', ') || 'active'}
             </div>
           )}
-          {company.radar.hazard?.growthTier && (
-            <div className={styles.stat}>
-              <span className={styles.statLabel}>Growth Tier</span>
-              <span className={styles.statValue}>{company.radar.hazard.growthTier}</span>
-            </div>
-          )}
-          {company.radar.marketHeat && (
-            <div className={styles.stat}>
-              <span className={styles.statLabel}>Market Heat</span>
-              <span className={styles.statValueLarge}>{company.radar.marketHeat.score ?? '—'}</span>
-              <span className={styles.statSub}>
-                {company.radar.marketHeat.normalizedScore != null && `${company.radar.marketHeat.normalizedScore}/100 normalized`}
-                {company.radar.marketHeat.pointsAvailable != null && `, ${company.radar.marketHeat.pointsAvailable}/100 pts of the rubric scored`}
-                {company.radar.marketHeat.timingUrgencyMultiplier > 1 && ` · timing urgency ×${company.radar.marketHeat.timingUrgencyMultiplier}`}
-                {company.radar.marketHeat.notComputed?.length > 0 && ` · not yet measured: ${company.radar.marketHeat.notComputed.join(', ')}`}
-              </span>
-              {company.radar.marketHeat.roundAnnouncedFlag && (
-                <span className="badge badge--below">round already announced, score suppressed</span>
-              )}
-            </div>
-          )}
         </div>
       )}
       {fit && <FitScoreScreenView fit={fit} />}
+      {company.radar && <RadarHeatBreakdown radar={company.radar} />}
       {/* Run Analysis (Stage 1) only while there's no screen yet -- once one
           exists, this becomes Start Stage 2 (deep research) instead. Same
           gate the stage tables' actions cell uses (companyStageColumns.jsx).
