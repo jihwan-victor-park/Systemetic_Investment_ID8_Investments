@@ -1,0 +1,90 @@
+/* "At a glance" facts as real cards (2026-08-06, Oscar: "put better cards,
+   this doesn't look professional") -- first real use of the --id8-card/
+   --id8-shadow tokens globals.css already defines but nothing consumed
+   yet. Sharp corners, hairline-adjacent radius, matching the rest of the
+   Latent Order system's restraint (badges use 2px; this uses 6px since a
+   card is a bigger surface than a pill). */
+.card {
+  background: var(--id8-card);
+  border: 1px solid var(--id8-hair);
+  border-radius: 6px;
+  box-shadow: var(--id8-shadow);
+  padding: 1.2rem 1.4rem;
+  margin: 1rem 0;
+}
+
+.statGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1.1rem 1.6rem;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  min-width: 0;
+}
+
+.statLabel {
+  font-family: 'Sora', sans-serif;
+  font-size: 0.66rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--id8-grey);
+}
+
+.statValue {
+  font-size: 0.95rem;
+  color: var(--id8-ink);
+  line-height: 1.4;
+}
+
+/* The round-size figure gets top billing (Oscar: "on the number per each
+   company it should say like what that number in Millions is") -- large,
+   serif, the same weight the home page's own cardTitle uses for its
+   headline number, not buried mid-sentence. */
+.statValueLarge {
+  font-family: 'Roboto Serif', Georgia, serif;
+  font-weight: 500;
+  font-size: 1.8rem;
+  color: var(--id8-ink);
+  line-height: 1.15;
+}
+
+.statSub {
+  font-size: 0.78rem;
+  color: var(--id8-soft);
+}
+
+.cardSectionLabel {
+  font-family: 'Sora', sans-serif;
+  font-size: 0.66rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--id8-grey);
+  margin: 1rem 0 0.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--id8-hair);
+}
+
+.cardSectionLabel:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+.badgeRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.6rem;
+  font-size: 0.88rem;
+  color: var(--id8-ink);
+}
+
+.badgeRow + .badgeRow {
+  margin-top: 0.5rem;
+}

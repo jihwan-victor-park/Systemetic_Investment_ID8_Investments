@@ -1,7 +1,11 @@
 import { H2 } from '@/components/Prose';
 import StatusPill from '@/components/StatusPill';
+import DealStatsDashboard from '@/components/DealStatsDashboard';
+import { listCompanies } from '@/lib/companies';
 
-export const metadata = { title: 'AI Capabilities', description: 'How ID8 uses AI and automation across the fund.' };
+export const metadata = { title: 'Dashboard', description: 'ID8’s deal pipeline, at a glance.' };
+
+export const dynamic = 'force-dynamic';
 
 const SYSTEMS = [
   { name: 'PitchBook → Attio Pipeline', what: 'Pulls deal, company, and investor data into Attio and keeps the investor graph accurate.', status: 'Live' },
@@ -11,10 +15,21 @@ const SYSTEMS = [
   { name: 'Documentation System', what: 'Latent Order design system for building and publishing ID8 operating guides.', status: 'Live' },
 ];
 
-export default function OverviewPage() {
+// The landing page (Oscar, 2026-08-06: "the landing page to be the summary
+// statistics of the hub") -- this is what the Navbar's "Dashboard" link and
+// the sidebar's top entry both point at. The stats dashboard leads; the
+// existing "AI Capabilities" writeup (what this page used to be, in full)
+// stays below it rather than getting deleted -- still real, still useful,
+// just no longer the first thing you see on sign-in.
+export default async function OverviewPage() {
+  const companies = await listCompanies();
+
   return (
     <>
-      <h1>AI Capabilities</h1>
+      <h1>Dashboard</h1>
+      <DealStatsDashboard companies={companies} />
+
+      <H2>AI Capabilities</H2>
       <p>
         ID8 runs a set of AI and automation systems that turn raw market data into fund workflows. This hub is
         where each one is documented: what it does, how to use it, how it works, and where the code lives. As we

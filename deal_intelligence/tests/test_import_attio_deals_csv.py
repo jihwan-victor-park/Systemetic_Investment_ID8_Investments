@@ -6,11 +6,12 @@ from deal_intelligence import import_attio_deals_csv as m
 
 def _row(name="Acme", domain="acme.com", stage="Pipeline", deal_date="2026-01-01",
          stage_changed_at="2026-01-01T00:00:00Z", series="Series B", description="",
-         investor_names=None, investor_domains=None):
+         investor_names=None, investor_domains=None, access=""):
     return {
         "name": name, "domain": domain, "stage": stage, "deal_date": deal_date,
         "stage_changed_at": stage_changed_at, "series": series, "description": description,
         "investor_names": investor_names or [], "investor_domains": investor_domains or [],
+        "access": access,
     }
 
 

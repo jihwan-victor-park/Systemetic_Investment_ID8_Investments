@@ -20,6 +20,12 @@ What this does, per company (grouped from possibly-several CSV rows -- see
   companyIndex.js's domain-based Partner VC / Tier 1 portfolio matching on
   every page render, so this import feeds that existing machinery directly
   rather than duplicating it.
+- `access`: Attio's own "Access" field, normalized to `"access"`/`"no_access"`
+  (Oscar, 2026-08-06: "deals qualified/pipeline (the ones we get access to)"
+  -- a real dimension for the summary-statistics page, previously never
+  captured anywhere in the hub). Sparse in this export (mostly blank) --
+  no field written when blank, same missing-not-a-fabricated-value
+  convention as everything else here.
 - `top10Investors` / `tier1_33Investors`: which of `tier1_firms.TOP10` /
   `tier1_firms.TIER1_33` are on that investor list, via the existing
   `match_top10`/`match_tier1_33` matchers (match_tier1_33 had ZERO callers
@@ -28,19 +34,22 @@ What this does, per company (grouped from possibly-several CSV rows -- see
   `Investors > Domains` column (same precision as the PitchBook intake
   path); falls back to name-only against `tier1_firms.match_top10` when it
   doesn't -- stated in the summary output either way, not hidden.
-- `passed` tag: added via ArrayUnion (additive, same mechanism radar_state.py
-  already uses for the `radar` tag) when the company's CURRENT (most recent
-  by Deal Date) row's stage is "Passed" -- named to match Attio's own stage
-  label exactly (Oscar, 2026-08-05: "I want it to be called passed"), not
-  translated to a different word in the hub. Never touches `stage` or any
-  other existing tag on an already-tracked company -- a company that was
-  Passed once and later moved back to Pipeline reads as Pipeline today, not
-  Passed (several rows in this export show exactly that kind of stage
-  history in "Deal stage" Previous Values). Because this is additive, many
-  companies will carry BOTH their working stage (e.g. Pipeline) AND this tag
-  at once -- a real case to account for when building anything that counts
-  deals by stage (e.g. a summary-statistics view), not an edge case to
-  special-case away.
+- `passed` + `pipeline` tags: both added via ArrayUnion (additive, same
+  mechanism radar_state.py already uses for the `radar` tag) when the
+  company's CURRENT (most recent by Deal Date) row's stage is "Passed" --
+  named to match Attio's own stage label exactly (Oscar, 2026-08-05: "I
+  want it to be called passed"), not translated to a different word in the
+  hub. `pipeline` rides along automatically (Oscar, 2026-08-06: "make sure
+  the lists of the passed deals are all tagged as both pipeline and passed
+  [because] we had access to them" -- passing on a deal means it was
+  actually evaluated). Never touches `stage` or any other existing tag on
+  an already-tracked company -- a company that was Passed once and later
+  moved back to Pipeline reads as Pipeline today, not Passed (several rows
+  in this export show exactly that kind of stage history in "Deal stage"
+  Previous Values). Because these are additive, many companies will carry
+  BOTH their working stage AND these tags at once -- a real case to account
+  for when building anything that counts deals by stage (e.g. a
+  summary-statistics view), not an edge case to special-case away.
 - Companies not already in Firestore get created (Oscar's explicit call,
   2026-08-05) -- `stage` from `config.ATTIO_STAGE_MAP`, same fallback-to-
   'new' rule `push_company_from_attio` already uses for an unmapped stage.
@@ -125,6 +134,7 @@ def read_rows(csv_path):
                 "description": (row.get("Associated company > Description") or "").strip(),
                 "investor_names": sorted(set(investor_names)),
                 "investor_domains": parse_comma_list(row.get("Investors > Domains")),
+                "access": (row.get("Access") or "").strip(),
             }
 
 
@@ -170,6 +180,13 @@ def process_group(company_key, rows, db, dry_run):
     top10 = tier1_firms.match_top10(investor_domains=all_investor_domains, investor_names=all_investor_names)
     tier1_33 = tier1_firms.match_tier1_33(investor_names=all_investor_names)
     is_passed = auth["stage"].strip().lower() == PASSED_STAGE
+    # Attio's own "Access" field (Oscar, 2026-08-06: "deals qualified/pipeline
+    # (the ones we get access to)" -- a real dimension for the stats page,
+    # not previously captured anywhere in the hub). Sparse in this export
+    # (mostly blank) -- None (no field written) when blank, same
+    # missing-not-a-fabricated-value convention as everything else here.
+    access_raw = auth["access"].strip().lower()
+    access = {"access": "access", "no access": "no_access"}.get(access_raw)
 
     company_ref = db.collection("companies").document(company_key)
     existing_snap = company_ref.get()
@@ -188,8 +205,19 @@ def process_group(company_key, rows, db, dry_run):
         payload["top10Investors"] = top10
     if tier1_33:
         payload["tier1_33Investors"] = tier1_33
+    if access:
+        payload["access"] = access
     if is_passed:
-        payload["tags"] = firestore.ArrayUnion([PASSED_TAG])
+        # Every Passed company also gets tagged 'pipeline' (Oscar,
+        # 2026-08-06: "make sure the lists of the passed deals are all
+        # tagged as both pipeline and passed [because] we had access to
+        # them") -- passing on a deal means it was actually evaluated, not
+        # just glanced at, so it belongs in Pipeline's own history
+        # regardless of whatever its Attio stage happened to be. This is
+        # also what makes the Pipeline view's "Show passed deals" toggle
+        # (DealsListSection.jsx) the one place Passed companies are
+        # guaranteed to surface.
+        payload["tags"] = firestore.ArrayUnion([PASSED_TAG, "pipeline"])
     if is_new:
         payload["name"] = auth["name"]
         payload["website"] = normalize_domain(auth["domain"]) or None
@@ -197,6 +225,14 @@ def process_group(company_key, rows, db, dry_run):
         if auth["description"]:
             payload["description"] = auth["description"]
         payload["stage"] = config.ATTIO_STAGE_MAP.get(auth["stage"].strip().lower(), "new")
+        # Explicit None, not an absent key -- hub-next's listCompanies()
+        # (lib/companies.js) falls back to a wasted extra Firestore read per
+        # company whenever this field is genuinely UNDEFINED (vs. explicitly
+        # null), to check a screens subcollection that doesn't exist yet for
+        # a brand-new company. Same fix as scripts/backfill-latest-screen.mjs,
+        # applied here so a freshly-imported company never opens that gap in
+        # the first place.
+        payload["latestScreen"] = None
         payload["origin"] = {
             "source": "attio-deals-csv-import",
             "importedAt": firestore.SERVER_TIMESTAMP,
@@ -229,6 +265,7 @@ def process_group(company_key, rows, db, dry_run):
                 "stage": config.ATTIO_STAGE_MAP.get(r["stage"].strip().lower(), "new"),
                 "round": r["series"] or None,
                 "companyKey": company_key,
+                "latestScreen": None,  # see the same field's comment above -- avoids listCompanies()'s N+1 fallback
                 "origin": {
                     "source": "attio-deals-csv-import-additional-round",
                     "importedAt": firestore.SERVER_TIMESTAMP,

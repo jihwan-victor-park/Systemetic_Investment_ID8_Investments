@@ -42,7 +42,11 @@
 // tab doesn't orphan its saved position and vice versa.
 export function getSidebarTree(companies = [], deals = []) {
   return [
-    { id: 'capabilities', type: 'doc', href: '/docs/overview', label: 'Capabilities' },
+    // Label changed to 'Dashboard' (2026-08-06) to match the Navbar's own
+    // "Dashboard" link and what this page now leads with (DealStatsDashboard)
+    // -- `id` stays 'capabilities' so a saved tab-order/rename user pref
+    // (applyUserPrefs below) doesn't orphan.
+    { id: 'capabilities', type: 'doc', href: '/docs/overview', label: 'Dashboard' },
     {
       id: 'deals',
       type: 'category',

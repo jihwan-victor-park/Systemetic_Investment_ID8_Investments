@@ -14,6 +14,7 @@ import StartStage2Button from '@/components/StartStage2Button';
 import MemoView from '@/components/MemoView';
 import StageSelect from '@/components/StageSelect';
 import StageMultiSelect from '@/components/StageMultiSelect';
+import styles from './CompanyDetailPage.module.css';
 
 // $32,000,000 -> "$32M" -- this page is the only place roundSize is shown as
 // currency (deal_intelligence's own capital-clock math is the only other
@@ -64,6 +65,7 @@ export default async function CompanyDetailPage({ params }) {
   // /investors/research before reaching them), so this only gates whether
   // the edit controls render, not whether the page loads.
   const canEdit = session?.user?.role === 'internal';
+  const roundSizeLabel = formatRoundSize(company.roundSize);
 
   return (
     <>
@@ -83,48 +85,81 @@ export default async function CompanyDetailPage({ params }) {
         />
       </p>
       {/* "At a glance" facts (2026-07-30, Oscar: "should mention the company
-          like the partner vc thing and more overall data") -- the stage
-          tables already show Partner VC / Radar Category / Deal Date per row
-          (companyStageColumns.jsx), but the one page meant to be the real
-          company profile showed none of it above the fold, only a full
-          Tier 1/Partner VC breakdown scrolled far below (InvestorRelationships).
-          This is a summary line, not a replacement -- InvestorRelationships
-          below still has the full deal-by-deal table. */}
-      {(company.round || company.hq || company.radarCategory || tier1Matches.length > 0 || partnerMatches.length > 0) && (
-        <p>
-          {company.round && (
-            <>Round: <strong>{company.round}</strong>
-              {formatRoundSize(company.roundSize) && ` · ${formatRoundSize(company.roundSize)}`}
-              {company.roundDate && ` · closed ${company.roundDate.slice(0, 10)}`}
-              <br /></>
+          like the partner vc thing and more overall data"; redesigned as a
+          real card 2026-08-06, Oscar: "put better cards, this doesn't look
+          professional" -- the stage tables already show Partner VC / Radar
+          Category / Deal Date per row (companyStageColumns.jsx), but the one
+          page meant to be the real company profile showed none of it above
+          the fold, only a full Tier 1/Partner VC breakdown scrolled far
+          below (InvestorRelationships). This is a summary, not a
+          replacement -- InvestorRelationships below still has the full
+          deal-by-deal table. The round-size figure gets its own large stat
+          tile rather than sitting mid-sentence (Oscar: "on the number per
+          each company it should say like what that number in Millions
+          is"). */}
+      {(company.round || company.hq || company.radarCategory || tier1Matches.length > 0 || partnerMatches.length > 0
+        || company.investors?.length > 0) && (
+        <div className={styles.card}>
+          <div className={styles.statGrid}>
+            {company.round && (
+              <div className={styles.stat}>
+                <span className={styles.statLabel}>Round</span>
+                {roundSizeLabel
+                  ? <span className={styles.statValueLarge}>{roundSizeLabel}</span>
+                  : <span className={styles.statValue}>{company.round}</span>}
+                <span className={styles.statSub}>
+                  {roundSizeLabel && company.round}
+                  {company.roundDate && `${roundSizeLabel ? ' · ' : ''}closed ${company.roundDate.slice(0, 10)}`}
+                </span>
+              </div>
+            )}
+            {company.hq && (
+              <div className={styles.stat}>
+                <span className={styles.statLabel}>HQ</span>
+                <span className={styles.statValue}>{company.hq}</span>
+              </div>
+            )}
+            {company.radarCategory && (
+              <div className={styles.stat}>
+                <span className={styles.statLabel}>Radar Category</span>
+                <span className={styles.statValue}>{company.radarCategory}</span>
+              </div>
+            )}
+            {(tier1Matches.length > 0 || partnerMatches.length > 0) && (
+              <div className={styles.stat}>
+                <span className={styles.statLabel}>Partner VC</span>
+                <span className={styles.statValue}>{[...tier1Matches.map((m) => m.firm.name), ...partnerMatches.map((m) => m.firm.name)].join(', ')}</span>
+              </div>
+            )}
+          </div>
+          {/* Investors on this deal + Top 10 / Tier 1 (33) match attributes
+              (2026-08-05) -- written by deal_intelligence/import_attio_deals_csv.py
+              off the Attio Deals export's own Lead/New/Investors columns. A
+              DIFFERENT question from the "Partner VC" stat above (which asks
+              "is this company in one of OUR tracked VCs' own portfolios") --
+              this asks "did one of the fixed Top 10 / Tier 1 (33) firms
+              actually invest in this company's round," via
+              deal_intelligence/tier1_firms.py's match_top10()/match_tier1_33(),
+              the first thing that ever calls the latter. tier1_33Investors
+              is the broader 33-firm list; top10Investors is always a subset
+              of it. */}
+          {company.investors?.length > 0 && (
+            <>
+              <div className={styles.cardSectionLabel}>Investors</div>
+              <div className={styles.badgeRow}>{company.investors.join(', ')}</div>
+              {company.top10Investors?.length > 0 && (
+                <div className={styles.badgeRow}>
+                  <span className="badge badge--gate">Top 10 VC</span> {company.top10Investors.join(', ')}
+                </div>
+              )}
+              {company.tier1_33Investors?.length > 0 && (
+                <div className={styles.badgeRow}>
+                  <span className="badge badge--co">Tier 1 (33)</span> {company.tier1_33Investors.join(', ')}
+                </div>
+              )}
+            </>
           )}
-          {company.hq && <>HQ: {company.hq}<br /></>}
-          {company.radarCategory && <>Radar Category: {company.radarCategory}<br /></>}
-          {(tier1Matches.length > 0 || partnerMatches.length > 0) && (
-            <>Partner VC: {[...tier1Matches.map((m) => m.firm.name), ...partnerMatches.map((m) => m.firm.name)].join(', ')}</>
-          )}
-        </p>
-      )}
-      {/* Investors on this deal + Top 10 / Tier 1 (33) match attributes
-          (2026-08-05) -- written by deal_intelligence/import_attio_deals_csv.py
-          off the Attio Deals export's own Lead/New/Investors columns. A
-          DIFFERENT question from the "Partner VC" line above (which asks
-          "is this company in one of OUR tracked VCs' own portfolios") --
-          this asks "did one of the fixed Top 10 / Tier 1 (33) firms actually
-          invest in this company's round," via deal_intelligence/tier1_firms.py's
-          match_top10()/match_tier1_33(), the first thing that ever calls the
-          latter. tier1_33Investors is the broader 33-firm list; top10Investors
-          is always a subset of it. */}
-      {company.investors?.length > 0 && (
-        <p>
-          Investors: {company.investors.join(', ')}
-          {company.top10Investors?.length > 0 && (
-            <><br /><span className="badge badge--gate">Top 10 VC</span> {company.top10Investors.join(', ')}</>
-          )}
-          {company.tier1_33Investors?.length > 0 && (
-            <><br /><span className="badge badge--co">Tier 1 (33)</span> {company.tier1_33Investors.join(', ')}</>
-          )}
-        </p>
+        </div>
       )}
       {company.description && <p>{company.description}</p>}
       {/* Per-row editing moved here from the stage tables' old "Also In"
@@ -156,36 +191,42 @@ export default async function CompanyDetailPage({ params }) {
           in Firestore. Surfaced here, on the one page a dropped company is
           still reachable from (its own detail page, per radar_state.py's own
           "reversible, never deletes anything" convention). */}
-      {company.radar?.droppedAt && (
-        <p>
-          <span className="badge badge--below">Dropped from Radar</span>{' '}
-          {company.radar.droppedAt.slice(0, 10)} — {company.radar.dropReason || 'no reason recorded'}
-        </p>
-      )}
-      {company.radar?.hazard?.distressFlag && (
-        <p>
-          <span className="badge badge--below">Distress signal{company.radar.hazard.distressSignals?.length === 1 ? '' : 's'}</span>{' '}
-          {company.radar.hazard.distressSignals?.join(', ') || 'active'}
-        </p>
-      )}
-      {company.radar?.hazard?.growthTier && (
-        <p>Growth tier: <strong>{company.radar.hazard.growthTier}</strong></p>
-      )}
-      {company.radar?.marketHeat && (
-        <p>
-          Market Heat: <strong>{company.radar.marketHeat.score ?? '—'}</strong>
-          {company.radar.marketHeat.normalizedScore != null && ` (${company.radar.marketHeat.normalizedScore}/100 normalized`}
-          {company.radar.marketHeat.pointsAvailable != null && `, ${company.radar.marketHeat.pointsAvailable}/100 pts of the rubric scored)`}
-          {company.radar.marketHeat.timingUrgencyMultiplier > 1 && (
-            <> · timing urgency ×{company.radar.marketHeat.timingUrgencyMultiplier}</>
+      {company.radar && (company.radar.droppedAt || company.radar.hazard?.distressFlag || company.radar.hazard?.growthTier || company.radar.marketHeat) && (
+        <div className={styles.card}>
+          {company.radar.droppedAt && (
+            <div className={styles.badgeRow}>
+              <span className="badge badge--below">Dropped from Radar</span>
+              {company.radar.droppedAt.slice(0, 10)} — {company.radar.dropReason || 'no reason recorded'}
+            </div>
           )}
-          {company.radar.marketHeat.roundAnnouncedFlag && (
-            <> · <span className="badge badge--below">round already announced</span>, score suppressed</>
+          {company.radar.hazard?.distressFlag && (
+            <div className={styles.badgeRow}>
+              <span className="badge badge--below">Distress signal{company.radar.hazard.distressSignals?.length === 1 ? '' : 's'}</span>
+              {company.radar.hazard.distressSignals?.join(', ') || 'active'}
+            </div>
           )}
-          {company.radar.marketHeat.notComputed?.length > 0 && (
-            <> · not yet measured: {company.radar.marketHeat.notComputed.join(', ')}</>
+          {company.radar.hazard?.growthTier && (
+            <div className={styles.stat}>
+              <span className={styles.statLabel}>Growth Tier</span>
+              <span className={styles.statValue}>{company.radar.hazard.growthTier}</span>
+            </div>
           )}
-        </p>
+          {company.radar.marketHeat && (
+            <div className={styles.stat}>
+              <span className={styles.statLabel}>Market Heat</span>
+              <span className={styles.statValueLarge}>{company.radar.marketHeat.score ?? '—'}</span>
+              <span className={styles.statSub}>
+                {company.radar.marketHeat.normalizedScore != null && `${company.radar.marketHeat.normalizedScore}/100 normalized`}
+                {company.radar.marketHeat.pointsAvailable != null && `, ${company.radar.marketHeat.pointsAvailable}/100 pts of the rubric scored`}
+                {company.radar.marketHeat.timingUrgencyMultiplier > 1 && ` · timing urgency ×${company.radar.marketHeat.timingUrgencyMultiplier}`}
+                {company.radar.marketHeat.notComputed?.length > 0 && ` · not yet measured: ${company.radar.marketHeat.notComputed.join(', ')}`}
+              </span>
+              {company.radar.marketHeat.roundAnnouncedFlag && (
+                <span className="badge badge--below">round already announced, score suppressed</span>
+              )}
+            </div>
+          )}
+        </div>
       )}
       {fit && <FitScoreScreenView fit={fit} />}
       {/* Run Analysis (Stage 1) only while there's no screen yet -- once one

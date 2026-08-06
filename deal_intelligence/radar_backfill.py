@@ -27,10 +27,27 @@ from . import config, radar_access, radar_mandate, radar_signal_series, radar_st
 
 
 def _iter_radar_companies(db, limit=None):
-    query = db.collection("companies").where("stage", "==", "radar")
+    """Same additive membership hub-next's radar/page.jsx has always used
+    for DISPLAY (`c.stage === 'radar' || c.tags?.includes('radar')`) --
+    this backfill previously only checked `stage`, so a company carrying
+    just the `radar` TAG (its primary stage sits elsewhere -- Pipeline,
+    say -- with Radar as an additive membership) was visible on the hub's
+    Radar tab but never actually got backfilled here (2026-08-06 fix, same
+    pattern already applied to radar_scan_runner.py's _due_companies()).
+    Two separate queries, merged and deduped by doc id -- Firestore doesn't
+    support ORing two different fields in one query without the newer
+    `Or()` composite-filter API."""
+    by_stage = db.collection("companies").where("stage", "==", "radar")
+    by_tag = db.collection("companies").where("tags", "array_contains", "radar")
+    seen = {}
+    for doc in by_stage.stream():
+        seen[doc.id] = doc
+    for doc in by_tag.stream():
+        seen.setdefault(doc.id, doc)
+    docs = list(seen.values())
     if limit:
-        query = query.limit(limit)
-    return list(query.stream())
+        docs = docs[:limit]
+    return docs
 
 
 def run(dry_run=False, limit=None):

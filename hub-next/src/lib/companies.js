@@ -146,6 +146,10 @@ export const listCompanies = unstable_cache(async () => {
       investors: Array.isArray(data.investors) ? data.investors : [],
       top10Investors: Array.isArray(data.top10Investors) ? data.top10Investors : [],
       tier1_33Investors: Array.isArray(data.tier1_33Investors) ? data.tier1_33Investors : [],
+      // Attio's own "Access" field, normalized to 'access'/'no_access'/null
+      // -- see import_attio_deals_csv.py's own comment. Sparse (most
+      // companies have neither value, meaning "not recorded", not "no").
+      access: data.access === 'access' || data.access === 'no_access' ? data.access : null,
     };
   }));
 }, ['list-companies'], { tags: ['companies'], revalidate: CACHE_SECONDS });
@@ -424,6 +428,7 @@ export const getCompany = unstable_cache(async (slug) => {
     investors: Array.isArray(data.investors) ? data.investors : [],
     top10Investors: Array.isArray(data.top10Investors) ? data.top10Investors : [],
     tier1_33Investors: Array.isArray(data.tier1_33Investors) ? data.tier1_33Investors : [],
+    access: data.access === 'access' || data.access === 'no_access' ? data.access : null,
     screens,
     memos,
   };

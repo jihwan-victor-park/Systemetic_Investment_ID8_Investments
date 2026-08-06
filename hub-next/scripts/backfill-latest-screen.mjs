@@ -44,6 +44,17 @@ async function main() {
       .limit(1)
       .get();
     if (screensSnap.empty) {
+      // Explicitly stamp `latestScreen: null` rather than leaving the field
+      // absent (2026-08-06 fix -- this branch used to just `continue`,
+      // which meant a screen-less company's `latestScreen` field stayed
+      // genuinely UNDEFINED forever, not null. listCompanies()'s fallback
+      // check is `latestScreen === null && data.latestScreen === undefined`
+      // -- undefined is exactly what re-triggers its one-Firestore-read-per-
+      // company fallback on EVERY page load, for EVERY screen-less company,
+      // forever. A screen-less company was never actually helped by this
+      // script before this fix, despite the docstring above already
+      // claiming it was.
+      await doc.ref.set({ latestScreen: null }, { merge: true });
       skippedNoScreen++;
       continue;
     }

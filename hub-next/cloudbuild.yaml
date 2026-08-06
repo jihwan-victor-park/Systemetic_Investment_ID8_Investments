@@ -40,6 +40,19 @@ steps:
       - --platform=managed
       - --allow-unauthenticated
       - --port=8080
+      # Oscar, 2026-08-06: "it takes 10 seconds" to load -- this service had
+      # no --min-instances set anywhere, so Cloud Run's default (0) scales
+      # it to zero on idle, and the low, sporadic traffic pattern of an
+      # internal 1-user tool means almost every real visit pays a full cold
+      # start (new container boot + Next.js server startup + a fresh,
+      # uncached listCompanies()/listTopVCs()/listPartnerVCs() fetch) on top
+      # of whatever real query latency exists. Keeping one instance warm
+      # trades a small, flat monthly cost for consistently fast loads --
+      # the actual N+1 fix (listCompanies()'s own fallback query) is a
+      # separate, complementary change (see companies.js/backfill-latest-
+      # screen.mjs's own comments), not a substitute for this.
+      - --min-instances=1
+
       - --set-env-vars=GCP_PROJECT_ID=$PROJECT_ID,ALLOWED_HD=id8investments.com,AUTH_GOOGLE_ID=${_AUTH_GOOGLE_ID},AUTH_URL=${_AUTH_URL},PIPELINE_BASE_URL=${_PIPELINE_BASE_URL},MARKET_MAP_BUCKET=${_MARKET_MAP_BUCKET}
       - --set-secrets=AUTH_SECRET=hub-next-auth-secret:latest,AUTH_GOOGLE_SECRET=hub-next-google-secret:latest,MARKET_MAP_ADMIN_SECRET=hub-next-market-map-admin-secret:latest
 images:

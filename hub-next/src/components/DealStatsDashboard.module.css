@@ -1,0 +1,130 @@
+/* Same Latent Order card idiom as CompanyDetailPage.module.css -- shadowed
+   white card, sharp-ish corners, Sora uppercase labels, Roboto Serif for
+   the big numbers. Not importing that module directly since this is a
+   different component tree; small, deliberate duplication over a premature
+   shared-component extraction for two consumers. */
+.section {
+  margin: 1.6rem 0;
+}
+
+.sectionTitle {
+  font-family: 'Sora', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--id8-grey);
+  margin: 0 0 0.7rem;
+}
+
+.card {
+  background: var(--id8-card);
+  border: 1px solid var(--id8-hair);
+  border-radius: 6px;
+  box-shadow: var(--id8-shadow);
+  padding: 1.3rem 1.5rem;
+}
+
+.statGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1.3rem 1.8rem;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.statLabel {
+  font-family: 'Sora', sans-serif;
+  font-size: 0.66rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--id8-grey);
+}
+
+.statValueLarge {
+  font-family: 'Roboto Serif', Georgia, serif;
+  font-weight: 500;
+  font-size: 2.1rem;
+  color: var(--id8-ink);
+  line-height: 1.1;
+}
+
+.statSub {
+  font-size: 0.78rem;
+  color: var(--id8-soft);
+}
+
+.twoCol {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+}
+
+.sectorList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sectorRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--id8-hair);
+  font-size: 0.88rem;
+}
+
+.sectorRow:last-child { border-bottom: none; }
+
+.sectorBar {
+  flex: 1;
+  height: 6px;
+  margin: 0 0.8rem;
+  background: var(--id8-hair);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.sectorBarFill {
+  height: 100%;
+  background: var(--id8-accent);
+}
+
+.sectorCount {
+  font-family: 'Sora', sans-serif;
+  font-weight: 600;
+  color: var(--id8-ink);
+  min-width: 1.4rem;
+  text-align: right;
+}
+
+.accessTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.86rem;
+}
+
+.accessTable th, .accessTable td {
+  text-align: left;
+  padding: 0.4rem 0.6rem;
+  border-bottom: 1px solid var(--id8-hair);
+}
+
+.accessTable th {
+  font-family: 'Sora', sans-serif;
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--id8-grey);
+  font-weight: 600;
+}
+
+@media (max-width: 700px) {
+  .twoCol { grid-template-columns: 1fr; }
+}
