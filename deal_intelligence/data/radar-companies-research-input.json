@@ -1,0 +1,2836 @@
+[
+  {
+    "id": "altaclaro",
+    "name": "AltaClaro",
+    "website": "altaclaro.com",
+    "hq": "New York, NY",
+    "region": "NA",
+    "capitalIntensity": "medium",
+    "description": "Provider of legal training services intended to bring legal associates to practice readiness. The company's services are designed to scale experiential learning, making it possible for firms to facilitate fast, meaningful training to their associates, enabling companies to increase associate effectiveness, drastically reduce training and development costs, and reduce unconscious bias.",
+    "round": "Series B",
+    "roundDate": "2026-01-01",
+    "roundSize": 28000000,
+    "investors": [
+      "Bessemer Venture Partners"
+    ],
+    "top10Investors": [
+      "Bessemer Venture Partners"
+    ],
+    "tier1_33Investors": [
+      "Bessemer Venture Partners"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Bessemer Venture Partners"
+    ],
+    "predictedWindowOpen": "2027-08-01",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "amca",
+    "name": "Advanced Manufacturing Company of America",
+    "website": "amca.com",
+    "hq": "El Segundo, CA",
+    "region": "NA",
+    "capitalIntensity": "high",
+    "description": "Manufacturer of precision metal components intended for aerospace, defense, and industrial applications. The company offers machining, fabrication, and assembly services for complex and tight-tolerance parts, enabling clients to produce components that meet strict performance, quality, and regulatory requirements across critical industries.",
+    "round": "Series B",
+    "roundDate": "2026-05-08",
+    "roundSize": 300000000,
+    "investors": [
+      "Andreessen Horowitz",
+      "Caffeinated",
+      "Construct Capital",
+      "House Capital",
+      "Lightspeed Venture Partners",
+      "Linse Capital",
+      "Lux Capital",
+      "Ravelin Capital",
+      "Silent Ventures"
+    ],
+    "top10Investors": [
+      "Lightspeed Venture Partners"
+    ],
+    "tier1_33Investors": [
+      "Andreessen Horowitz",
+      "Lightspeed Venture Partners",
+      "Lux Capital"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Lightspeed Venture Partners"
+    ],
+    "predictedWindowOpen": "2027-12-08",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "arcawealth",
+    "name": "Arca",
+    "website": "arcawealth.com",
+    "hq": "Portsmouth, NH",
+    "region": "NA",
+    "capitalIntensity": "medium",
+    "description": "Provider of comprehensive wealth management services intended to serve high-net-worth individuals and families. The company operates as a fee-only, SEC-registered fiduciary advisory firm offering financial planning, retirement planning, equity compensation management, estate planning, business exit planning, and tax planning, enabling clients to consolidate their financial oversight under a single fiduciary advisor, receive guidance on complex equity and liquidity events, and coordinate long-term retirement and estate strategies without conflicts arising from commission-based product sales.",
+    "round": "Series A",
+    "roundDate": "2026-06-25",
+    "roundSize": 48500000,
+    "investors": [
+      "General Catalyst",
+      "Index Ventures",
+      "Venrock"
+    ],
+    "top10Investors": [
+      "Index Ventures"
+    ],
+    "tier1_33Investors": [
+      "General Catalyst",
+      "Index Ventures"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Index Ventures"
+    ],
+    "predictedWindowOpen": "2028-01-25",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "archy",
+    "name": "Archy",
+    "website": "archy.com",
+    "hq": "San Jose, CA",
+    "region": "NA",
+    "capitalIntensity": "medium",
+    "description": "Developer of a cloud-based dental practice management platform designed to streamline operations and enhance patient care. The company's platform offers integrated features such as scheduling, charting, imaging, ePrescribing, and automated patient communication, enabling dental practices to improve efficiency, reduce administrative workload, and provide seamless patient experiences.",
+    "round": "Series B",
+    "roundDate": "2025-10-30",
+    "roundSize": 20000000,
+    "investors": [
+      "Bessemer Venture Partners",
+      "CRV",
+      "Entr\u00e9e Capital",
+      "TCV"
+    ],
+    "top10Investors": [
+      "Bessemer Venture Partners"
+    ],
+    "tier1_33Investors": [
+      "Bessemer Venture Partners",
+      "TCV"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Bessemer Venture Partners"
+    ],
+    "predictedWindowOpen": "2027-05-30",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "arrakistechnologies",
+    "name": "Arrakis Technologies (Business/Productivity Software)",
+    "website": "arrakistechnologies.ai",
+    "hq": "New York, NY",
+    "region": "NA",
+    "capitalIntensity": "medium",
+    "description": "Developer of an artificial intelligence agent deployment platform designed to help enterprises transition from AI experimentation to production-scale implementation. The company's platform offers model-agnostic architecture with read-and-write integrations across enterprise resource planning systems, data parsing for emails and documents, a living knowledge graph for shared operational models, bring-your-own-model flexibility, and GDPR standards with full auditability and granular access controls, enabling industrial enterprises in regulated, mission-critical sectors to collapse manual workflows into governed AI-driven processes that improve over time while achieving cycle times and measurable operational efficiency.",
+    "round": "Series A",
+    "roundDate": "2026-07-22",
+    "roundSize": 30410000,
+    "investors": [
+      "Accel",
+      "Blossom Capital",
+      "Drysdale Ventures",
+      "Innovation Endeavors",
+      "Lux Capital",
+      "Rerail",
+      "Sequoia Capital"
+    ],
+    "top10Investors": [
+      "Sequoia Capital",
+      "Accel"
+    ],
+    "tier1_33Investors": [
+      "Accel",
+      "Lux Capital",
+      "Sequoia Capital"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Sequoia Capital",
+      "Accel"
+    ],
+    "predictedWindowOpen": "2028-02-22",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "astrocade",
+    "name": "Astrocade",
+    "website": "astrocade.com",
+    "hq": "Los Altos, CA",
+    "region": "NA",
+    "capitalIntensity": "medium",
+    "description": "Developer of an AI-powered social gaming platform intended to create, iterate, remix and share games with friends and a global community. The company's platform allows anyone to create their games using text-to-image prompts and load them to the community for others to play, enabling users to become creators, modify them while playing, and share the game with fellow creators and followers.",
+    "round": "Series B",
+    "roundDate": "2026-05-05",
+    "roundSize": 24000000,
+    "investors": [
+      "Conviction",
+      "Dentsu Ventures",
+      "GV",
+      "LG Technology Ventures",
+      "Nvidia (NAS: NVDA)",
+      "Sequoia Capital",
+      "\u682a\u5f0f\u4f1a\u793e\u30d7\u30e9\u30a4\u30e0\u30d1\u30fc\u30c8\u30ca\u30fc\u30ba"
+    ],
+    "top10Investors": [
+      "Sequoia Capital"
+    ],
+    "tier1_33Investors": [
+      "Sequoia Capital"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Sequoia Capital"
+    ],
+    "predictedWindowOpen": "2027-12-05",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "atoms",
+    "name": "Atoms",
+    "website": "atoms.co",
+    "hq": "Los Angeles, CA",
+    "region": "NA",
+    "capitalIntensity": "medium",
+    "description": "Operator of a portfolio of physical automation companies intended to digitize industrial and physical world operations. The company builds and oversees specialized robotic and automated systems across food production, mining, and transport sectors, developing the underlying infrastructure, real estate, and artificial intelligence needed to run each venture, enabling industries to reduce dependence on human labor and operate with greater efficiency at scale.",
+    "round": "Series A",
+    "roundDate": "2026-07-23",
+    "roundSize": 1700000000,
+    "investors": [
+      "A* Capital",
+      "Abstract",
+      "Alpha Square Group",
+      "Andreessen Horowitz",
+      "Bain Capital",
+      "Chemistry",
+      "Fifth Wall",
+      "K5",
+      "Opulentia",
+      "SVA",
+      "Uber"
+    ],
+    "top10Investors": [
+      "Bain Capital Ventures"
+    ],
+    "tier1_33Investors": [
+      "Andreessen Horowitz"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Bain Capital Ventures"
+    ],
+    "predictedWindowOpen": "2028-02-23",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "auterion",
+    "name": "Auterion",
+    "website": "auterion.com",
+    "hq": "Arlington, VA",
+    "region": "NA",
+    "capitalIntensity": "low",
+    "description": "Developer of a drone software platform designed to make large-scale operations safe and integrated into workflows. The company's platform inspects inaccessible assets like wind turbines, solar farms, pipelines, and production facilities from the air faster, safely, and at less cost, enabling firms to smoothly integrate drone fleets, operations, and data into one workflow.",
+    "round": "Series B",
+    "roundDate": "2025-09-13",
+    "roundSize": 105000000,
+    "investors": [
+      "Bessemer Venture Partners"
+    ],
+    "top10Investors": [
+      "Bessemer Venture Partners"
+    ],
+    "tier1_33Investors": [
+      "Bessemer Venture Partners"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Bessemer Venture Partners"
+    ],
+    "predictedWindowOpen": "2027-04-13",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "beelinemedicines",
+    "name": "Beeline Medicines",
+    "website": "beelinemedicines.com",
+    "hq": "Boston, MA",
+    "region": "NA",
+    "capitalIntensity": "medium",
+    "description": "Developer of precision immunology therapeutic programs designed for the treatment of autoimmune and inflammatory diseases. The company advances a clinical stage portfolio of mechanistically guided small molecule and biologic candidates licensed from large pharmaceutical research programs, applies validated immune biology to target upstream drivers of immune dysregulation, conducts early and mid stage clinical development with an efficient trial strategy, and prioritizes restoration of immune balance through selective pathway modulation, enabling patients with immune mediated conditions and the biopharmaceutical market to pursue differentiated treatment options grounded in rigorous translational and clinical research.",
+    "round": "Series A",
+    "roundDate": "2026-06-30",
+    "roundSize": 426300000,
+    "investors": [
+      "Bain Capital",
+      "Bristol-Myers Squibb",
+      "CPP Investments"
+    ],
+    "top10Investors": [
+      "Bain Capital Ventures"
+    ],
+    "tier1_33Investors": [],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Bain Capital Ventures"
+    ],
+    "predictedWindowOpen": "2028-01-30",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "bfl",
+    "name": "Black Forest Labs",
+    "website": "bfl.ai",
+    "hq": "Freiburg im Breisgau, Germany",
+    "region": "Europe",
+    "capitalIntensity": "medium",
+    "description": "Developer of a visual intelligence platform designed to enable high-fidelity image generation and image editing from text and reference inputs. The company's platform offers production-grade image generation models, multi-reference image control, local and cloud deployment options, and developer-friendly access, enabling developers, creative teams, and enterprises to generate realistic visuals with speed, control, and deployment flexibility.",
+    "round": "Series B",
+    "roundDate": "2025-12-01",
+    "roundSize": 307570000,
+    "investors": [
+      "Adobe",
+      "Air Street Capital",
+      "Andreessen Horowitz",
+      "Bain Capital",
+      "BroadLight Capital",
+      "Canva",
+      "Cherry Ventures",
+      "Combell.com Parkpage",
+      "Creandum",
+      "Earlybird",
+      "Earlybird Venture Capital",
+      "Equativ",
+      "Factorial",
+      "General Catalyst",
+      "Great Notion Support Services",
+      "Guillermo Rauch",
+      "Headline",
+      "LDVP",
+      "LEA Partners",
+      "Lux Capital",
+      "Michael Ovitz",
+      "Nico Rosberg",
+      "Northzone",
+      "Notion Capital",
+      "Nvidia (NAS: NVDA)",
+      "Quantum Light",
+      "S32",
+      "SVA",
+      "Salesforce Ventures",
+      "Samsung Next",
+      "Shutterstock",
+      "Temasek",
+      "The Stepstone Group",
+      "Visionaries Club"
+    ],
+    "top10Investors": [
+      "Bain Capital Ventures"
+    ],
+    "tier1_33Investors": [
+      "Andreessen Horowitz",
+      "General Catalyst",
+      "Lux Capital"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Bain Capital Ventures"
+    ],
+    "predictedWindowOpen": "2027-07-01",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "braintrust",
+    "name": "Braintrust (Software Development Applications)",
+    "website": "braintrust.dev",
+    "hq": "San Francisco, CA",
+    "region": "NA",
+    "capitalIntensity": "medium",
+    "description": "Developer of an artificial intelligence-based software designed to scale for building AI products. The company's software allows evaluations, prompt playgrounds, and data management, as well as offering iterative large language model workflows, enabling professionals in the artificial intelligence space to navigate uncertainties and build software.",
+    "round": "Series B",
+    "roundDate": "2026-02-17",
+    "roundSize": 80000000,
+    "investors": [
+      "Andreessen Horowitz",
+      "Elad Gil",
+      "Greylock",
+      "ICONIQ Capital",
+      "IconiQ",
+      "base case capital"
+    ],
+    "top10Investors": [
+      "ICONIQ Capital"
+    ],
+    "tier1_33Investors": [
+      "Andreessen Horowitz",
+      "ICONIQ Capital"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "ICONIQ Capital"
+    ],
+    "predictedWindowOpen": "2027-09-17",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "bunkerhillhealth",
+    "name": "Bunkerhill Health",
+    "website": "bunkerhillhealth.com",
+    "hq": "San Francisco, CA",
+    "region": "NA",
+    "capitalIntensity": "medium",
+    "description": "Developer of an artificial intelligence platform designed to automate clinical and operational processes within healthcare systems. The company offers AI agents that manage workflows and execute end-to-end tasks across care delivery and operations, enabling healthcare providers to improve efficiency and streamline processes.",
+    "round": "Series B1",
+    "roundDate": "2026-03-16",
+    "roundSize": 25000000,
+    "investors": [
+      "Khosla Ventures",
+      "Sequoia Capital"
+    ],
+    "top10Investors": [
+      "Sequoia Capital"
+    ],
+    "tier1_33Investors": [
+      "Khosla Ventures",
+      "Sequoia Capital"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Sequoia Capital"
+    ],
+    "predictedWindowOpen": "2027-10-16",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "campfire",
+    "name": "Campfire (Financial Software)",
+    "website": "campfire.ai",
+    "hq": "San Francisco, CA",
+    "region": "NA",
+    "capitalIntensity": "medium",
+    "description": "Developer of a revenue management software designed to automate revenue recognition and reporting for accounting and finance teams. The company's software leverages artificial intelligence to migrate the revenue database out of spreadsheets by importing customer contracts or revenue data, automating the entire process from contract to recognized revenue to cash, and organizing customer invoice and payment workflow to accelerate the collection times, enabling accounting and finance teams to focus on impactful work instead of performing manual tasks in spreadsheets.",
+    "round": "Series B",
+    "roundDate": "2025-11-17",
+    "roundSize": 64790000,
+    "investors": [
+      "Accel",
+      "Foundation Capital",
+      "Quantum Light",
+      "Ribbit Capital",
+      "Y Combinator"
+    ],
+    "top10Investors": [
+      "Accel"
+    ],
+    "tier1_33Investors": [
+      "Accel",
+      "Ribbit Capital"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Accel"
+    ],
+    "predictedWindowOpen": "2027-06-17",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "cathedral",
+    "name": "Cathedral",
+    "website": null,
+    "hq": "Menlo Park, CA",
+    "region": "NA",
+    "capitalIntensity": "medium",
+    "description": "The company is currently operating in Stealth mode.",
+    "round": "Series A",
+    "roundDate": "2026-07-22",
+    "roundSize": 160000000,
+    "investors": [
+      "Andreessen Horowitz",
+      "Sequoia Capital"
+    ],
+    "top10Investors": [
+      "Sequoia Capital"
+    ],
+    "tier1_33Investors": [
+      "Andreessen Horowitz",
+      "Sequoia Capital"
+    ],
+    "top10VC": false,
+    "tier1FirmsOnCapTable": [
+      "Sequoia Capital"
+    ],
+    "predictedWindowOpen": "2028-02-22",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "conduct",
+    "name": "Conduct (Media and Information Services (B2B))",
+    "website": "conduct.ai",
+    "hq": "London, United Kingdom",
+    "region": "Europe",
+    "capitalIntensity": "medium",
+    "description": "Developer of enterprise system analysis technology designed to improve visibility and decision-making around software customizations. The company maps dependencies, adds business context, and delivers AI-driven insights through functionality analysis, standardization, and impact assessment, enabling enterprises to reduce manual effort, accelerate migrations, streamline operations, and safeguard critical functionality while enhancing overall system understanding.",
+    "round": "Series A",
+    "roundDate": "2026-06-17",
+    "roundSize": 60000000,
+    "investors": [
+      "Booom",
+      "Creandum",
+      "IconiQ",
+      "Index Ventures",
+      "Lucid Capital",
+      "SAP (Business/Productivity Software)"
+    ],
+    "top10Investors": [
+      "Index Ventures",
+      "ICONIQ Capital"
+    ],
+    "tier1_33Investors": [
+      "Index Ventures"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Index Ventures",
+      "ICONIQ Capital"
+    ],
+    "predictedWindowOpen": "2028-01-17",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "cowboyspace",
+    "name": "Cowboy Space",
+    "website": "cowboyspace.com",
+    "hq": "San Carlos, CA",
+    "region": "NA",
+    "capitalIntensity": "high",
+    "description": "Developer of orbital computing infrastructure designed to provide space-based power generation and artificial intelligence compute capacity. The company offers satellite-based power generation, integrated launch and data center architecture, optical communication capabilities, and space-based compute infrastructure, enabling AI infrastructure providers and aerospace organizations to expand computing capacity, improve energy availability, and support data processing.",
+    "round": "Series B",
+    "roundDate": "2026-05-11",
+    "roundSize": 305000000,
+    "investors": [
+      "Andreessen Horowitz",
+      "Blossom Capital",
+      "Breakthrough Energy",
+      "Construct Capital",
+      "IVP",
+      "Index Ventures",
+      "Interlagos",
+      "Nea",
+      "SAIC VC"
+    ],
+    "top10Investors": [
+      "Index Ventures"
+    ],
+    "tier1_33Investors": [
+      "Andreessen Horowitz",
+      "IVP",
+      "Index Ventures"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Index Ventures"
+    ],
+    "predictedWindowOpen": "2027-12-11",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "distyl",
+    "name": "Distyl AI",
+    "website": "distyl.ai",
+    "hq": "San Francisco, CA",
+    "region": "NA",
+    "capitalIntensity": "medium",
+    "description": "Developer of a generative artificial intelligence platform designed for companies to automate parts of their core operations. The company's platform collaborates with leading institutions worldwide to enhance their AI readiness and build dependable, integrated AI-driven services tailored to their distinct data, workflows, and employee requirements, enabling enterprises to integrate with existing technologies to deliver efficiencies without disruption.",
+    "round": "Series B",
+    "roundDate": "2025-09-22",
+    "roundSize": 175000000,
+    "investors": [
+      "Coatue Management",
+      "DST Global",
+      "DTC",
+      "Khosla Ventures",
+      "Lightspeed Venture Partners",
+      "Peak XV"
+    ],
+    "top10Investors": [
+      "Lightspeed Venture Partners"
+    ],
+    "tier1_33Investors": [
+      "Coatue Management",
+      "DST Global",
+      "Khosla Ventures",
+      "Lightspeed Venture Partners"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Lightspeed Venture Partners"
+    ],
+    "predictedWindowOpen": "2027-04-22",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "emergent",
+    "name": "Emergent (Software Development Applications)",
+    "website": "emergent.sh",
+    "hq": "Pleasanton, CA",
+    "region": "NA",
+    "capitalIntensity": "medium",
+    "description": "Developer of an autonomous coding agent designed to automate internal-facing software engineering tasks. The company's agent offers code maintenance, application development, data warehousing and automation of scripting, enabling clients to streamline processes, improve efficiency and reduce manual labor in software development tasks.",
+    "round": "Series B",
+    "roundDate": "2026-01-20",
+    "roundSize": 70000000,
+    "investors": [
+      "Google Labs",
+      "Khosla Ventures",
+      "Lightspeed Venture Partners",
+      "SoftBank Vision Fund",
+      "Together",
+      "Y Combinator"
+    ],
+    "top10Investors": [
+      "Lightspeed Venture Partners"
+    ],
+    "tier1_33Investors": [
+      "Khosla Ventures",
+      "Lightspeed Venture Partners"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Lightspeed Venture Partners"
+    ],
+    "predictedWindowOpen": "2027-08-20",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "evervault",
+    "name": "Evervault",
+    "website": "evervault.com",
+    "hq": "Dublin, Ireland",
+    "region": "Europe",
+    "capitalIntensity": "medium",
+    "description": "Developer of a payments security platform designed to protect and process sensitive payment data within applications. The company offers encryption, tokenization, secure enclaves, payment optimization tools, key management, and developer APIs, enabling businesses and developers to build secure, PCI-compliant payment workflows while maintaining control over their infrastructure and user experience.",
+    "round": "Series B",
+    "roundDate": "2026-03-05",
+    "roundSize": 25000000,
+    "investors": [
+      "Index Ventures",
+      "Kleiner Perkins",
+      "Next Play Ventures",
+      "Operator Partners",
+      "Ribbit Capital",
+      "Sequoia Capital"
+    ],
+    "top10Investors": [
+      "Sequoia Capital",
+      "Index Ventures"
+    ],
+    "tier1_33Investors": [
+      "Index Ventures",
+      "Kleiner Perkins",
+      "Ribbit Capital",
+      "Sequoia Capital"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Sequoia Capital",
+      "Index Ventures"
+    ],
+    "predictedWindowOpen": "2027-10-05",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "exuglobal",
+    "name": "EXUGlobal",
+    "website": "exuglobal.com",
+    "hq": "San Francisco, CA",
+    "region": "NA",
+    "capitalIntensity": "medium",
+    "description": "Developer of cryptocurrency trading platforms designed for digital asset investment and financial automation. The company offers spot and derivatives trading, AI-driven interest accrual, multi-currency pricing, fiat on/off-ramp integration, real-time risk control, and compliance infrastructure across multiple regions, enabling retail and institutional users to manage crypto portfolios, earn passive income, and conduct secure transactions within a regulated and scalable ecosystem.",
+    "round": "Series B",
+    "roundDate": "2025-11-03",
+    "roundSize": 120000000,
+    "investors": [
+      "Goldman Sachs",
+      "Granite Asia",
+      "Sequoia Capital",
+      "YZi Labs"
+    ],
+    "top10Investors": [
+      "Sequoia Capital"
+    ],
+    "tier1_33Investors": [
+      "Sequoia Capital"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Sequoia Capital"
+    ],
+    "predictedWindowOpen": "2027-06-03",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "float",
+    "name": "Float.tech",
+    "website": "float.tech",
+    "hq": null,
+    "region": null,
+    "capitalIntensity": "medium",
+    "description": "AI-assisted derivatives trading",
+    "round": "Series A",
+    "roundDate": "2026-06-10",
+    "roundSize": null,
+    "investors": [
+      "BoxGroup",
+      "Cowie Capital Partners",
+      "Lightspeed Venture Partners",
+      "Point72 Ventures"
+    ],
+    "top10Investors": [
+      "Lightspeed Venture Partners"
+    ],
+    "tier1_33Investors": [
+      "Lightspeed Venture Partners"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Lightspeed Venture Partners"
+    ],
+    "predictedWindowOpen": "2028-01-10",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, roundSize, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "forus",
+    "name": "Forus (Healthcare Technology Systems)",
+    "website": "forus.com",
+    "hq": "New York, NY",
+    "region": "NA",
+    "capitalIntensity": "medium",
+    "description": "Developer of an AI-powered platform designed to connect doctors, pharmacies, payers, and biopharma to bring new science to patients. The company's platform allows doctors to send prescriptions and check insurance coverage, coupons, and prices across pharmacies, enabling patients to get medicines at a low price and doctors to treat their patients consistently.",
+    "round": "Series B",
+    "roundDate": "2026-05-12",
+    "roundSize": 160000000,
+    "investors": [
+      "Accel",
+      "Bain Capital Ventures",
+      "BoxGroup",
+      "General Catalyst",
+      "HAX",
+      "NJEDA",
+      "Pear VC",
+      "Redpoint Ventures",
+      "SOSV",
+      "Thrive Capital"
+    ],
+    "top10Investors": [
+      "Accel",
+      "Thrive Capital",
+      "Bain Capital Ventures"
+    ],
+    "tier1_33Investors": [
+      "Accel",
+      "Bain Capital Ventures",
+      "General Catalyst",
+      "Thrive Capital"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Accel",
+      "Thrive Capital",
+      "Bain Capital Ventures"
+    ],
+    "predictedWindowOpen": "2027-12-12",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "foxglove",
+    "name": "Foxglove",
+    "website": "foxglove.dev",
+    "hq": "San Francisco, CA",
+    "region": "NA",
+    "capitalIntensity": "high",
+    "description": "Developer of visualization and debugging platform designed to accelerate robotics development. The company's platform features interactive visualizations that overlay bounding boxes and classification labels to drill down into data, flexible data source support where it connects directly to a running ROS environment on the machine and inspects pre-recorded data, enabling users to share layouts with team members for rapid collaboration and inspect sensor inputs such as images, point clouds, and time-series data.",
+    "round": "Series B",
+    "roundDate": "2025-09-22",
+    "roundSize": 40000000,
+    "investors": [
+      "Amplify Partners",
+      "Bessemer Venture Partners",
+      "Eclipse",
+      "Icehouse Ventures"
+    ],
+    "top10Investors": [
+      "Bessemer Venture Partners"
+    ],
+    "tier1_33Investors": [
+      "Bessemer Venture Partners"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Bessemer Venture Partners"
+    ],
+    "predictedWindowOpen": "2027-04-22",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "fractile",
+    "name": "Fractile",
+    "website": "fractile.ai",
+    "hq": "London, United Kingdom",
+    "region": "Europe",
+    "capitalIntensity": "high",
+    "description": "Developer of advanced AI inference hardware designed to accelerate large-scale model execution. The company offers processors with interleaved memory and compute architecture that supports low latency and high throughput, processes thousands of tokens per second across concurrent workloads, scales efficiently within constrained power budgets, and extends context handling for complex tasks such as research and software development, enabling AI developers, enterprises, and cloud infrastructure providers to run high-performance models at reduced operational cost and increased processing efficiency.",
+    "round": "Series B",
+    "roundDate": "2026-05-05",
+    "roundSize": 220000000,
+    "investors": [
+      "8VC",
+      "Accel",
+      "Buckley Ventures",
+      "Conviction SFO",
+      "Factorial Funds",
+      "Felicis",
+      "Founders Fund",
+      "Gigascale Capital",
+      "Kindred Capital",
+      "Nato Innovation Fund",
+      "Oxford Science Enterprises",
+      "o1a"
+    ],
+    "top10Investors": [
+      "Accel"
+    ],
+    "tier1_33Investors": [
+      "8VC",
+      "Accel",
+      "Founders Fund"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Accel"
+    ],
+    "predictedWindowOpen": "2027-12-05",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "gamma",
+    "name": "Gamma Tech.",
+    "website": "gamma.app",
+    "hq": "San Francisco, CA",
+    "region": "NA",
+    "capitalIntensity": "medium",
+    "description": "Developer of an artificial intelligence (AI)-based presentation tool designed for enterprise collaboration. The company's tool allows users to create content without the need for formatting or design, and can be used to create presentations, memos, briefs, and documents, enabling users to create content using templates and no-code updates.",
+    "round": "Series B",
+    "roundDate": "2025-11-10",
+    "roundSize": 68000000,
+    "investors": [
+      "Accel",
+      "Andreessen Horowitz",
+      "IVP",
+      "Script Capital",
+      "South Park Commons",
+      "Uncork Capital"
+    ],
+    "top10Investors": [
+      "Accel"
+    ],
+    "tier1_33Investors": [
+      "Accel",
+      "Andreessen Horowitz",
+      "IVP"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Accel"
+    ],
+    "predictedWindowOpen": "2027-06-10",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "getbasis",
+    "name": "Basis (Financial Software)",
+    "website": "getbasis.ai",
+    "hq": "New York, NY",
+    "region": "NA",
+    "capitalIntensity": "medium",
+    "description": "Developer of an artificial intelligence-based accounting assistant software designed to offer accounting automation agents. The company's software specializes in solving tax and accounting questions and workflows by streamlining tasks such as closing books, adjusting entries, reconciling accounts, compiling financial statements, and generating work papers, enabling accounting firms to increase efficiencies across work and access services to gain insights for clients regarding labor-intensive tasks.",
+    "round": "Series B",
+    "roundDate": "2026-02-24",
+    "roundSize": 100000000,
+    "investors": [
+      "Accel",
+      "Avid Ventures",
+      "Better Tomorrow Ventures",
+      "BoxGroup",
+      "GV",
+      "Khosla Ventures"
+    ],
+    "top10Investors": [
+      "Accel"
+    ],
+    "tier1_33Investors": [
+      "Accel",
+      "Khosla Ventures"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Accel"
+    ],
+    "predictedWindowOpen": "2027-09-24",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "getpie",
+    "name": "PieTech",
+    "website": "getpie.com",
+    "hq": "Houston, TX",
+    "region": "NA",
+    "capitalIntensity": "medium",
+    "description": "Developer of an AI marketing platform intended for running and optimizing local business advertising campaigns. The company's platform offers automated ad creation, campaign optimization, high-intent keyword targeting, placement across Google Maps, Yelp, and Nextdoor, AI-generated campaign management, and monthly reporting, enabling local businesses and service providers to reach customers who are actively searching, manage advertising tasks with less manual work, and track campaign performance across multiple discovery channels.",
+    "round": "Series A",
+    "roundDate": "2026-06-30",
+    "roundSize": 23700000,
+    "investors": [
+      "Capital One Ventures",
+      "Commerce Ventures",
+      "F-Prime Capital",
+      "Lightspeed Venture Partners",
+      "Mercury Fund",
+      "Restive Ventures",
+      "SciFi VC",
+      "WEX Venture Capital"
+    ],
+    "top10Investors": [
+      "Lightspeed Venture Partners"
+    ],
+    "tier1_33Investors": [
+      "Lightspeed Venture Partners"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Lightspeed Venture Partners"
+    ],
+    "predictedWindowOpen": "2028-01-30",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "glow",
+    "name": "Glow",
+    "website": "glow.io",
+    "hq": "Palo Alto, CA",
+    "region": "NA",
+    "capitalIntensity": "medium",
+    "description": "Developer of an endpoint security software designed to protect modern workspaces from evolving threats. The company's software utilizes specialized agents to create a single source of truth across devices and software while autonomously preventing incidents within defined guardrails, enabling enterprise security teams to establish a trusted living inventory of all endpoints and automate the remediation of critical security issues at scale.",
+    "round": "Series B",
+    "roundDate": "2026-07-22",
+    "roundSize": 100000000,
+    "investors": [
+      "Cyberstarts",
+      "Greenoaks",
+      "Holly Ventures",
+      "Index Ventures",
+      "Lux Capital",
+      "Operator Collective \ud83d\udd06",
+      "Redpoint Ventures",
+      "Sequoia Capital",
+      "Swish Ventures"
+    ],
+    "top10Investors": [
+      "Sequoia Capital",
+      "Index Ventures",
+      "Greenoaks Capital Partners"
+    ],
+    "tier1_33Investors": [
+      "Index Ventures",
+      "Lux Capital",
+      "Sequoia Capital"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Sequoia Capital",
+      "Index Ventures",
+      "Greenoaks Capital Partners"
+    ],
+    "predictedWindowOpen": "2028-02-22",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "houserx",
+    "name": "House Rx",
+    "website": "houserx.com",
+    "hq": "San Francisco, CA",
+    "region": "NA",
+    "capitalIntensity": "medium",
+    "description": "Operator of a technology-enabled service company intended to make specialty medication more accessible and affordable. The company partners closely with specialty clinics all over the country to deliver combined medical and pharmacy care to all patients, enabling clinics to dispense specialty medications to their patients, physicians, and pharmacists to collaborate on patient care.",
+    "round": "Series B",
+    "roundDate": "2025-11-12",
+    "roundSize": 55000000,
+    "investors": [
+      "Bessemer Venture Partners",
+      "Cencora Ventures",
+      "First Round Capital",
+      "LRVHealth",
+      "New Enterprise Associates",
+      "Silicon Valley Bank",
+      "Town Hall Ventures"
+    ],
+    "top10Investors": [
+      "Bessemer Venture Partners"
+    ],
+    "tier1_33Investors": [
+      "Bessemer Venture Partners",
+      "New Enterprise Associates"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Bessemer Venture Partners"
+    ],
+    "predictedWindowOpen": "2027-06-12",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "juicebox",
+    "name": "Juicebox",
+    "website": "juicebox.ai",
+    "hq": "San Francisco, CA",
+    "region": "NA",
+    "capitalIntensity": "medium",
+    "description": "Developer of an AI platform designed to hire independent tech talent at zero commission. The company's tool utilizes an AI search engine built on natural language to analyze professional profiles and technical websites, identifying and engaging with potential candidates across various professional fields, enabling clients to enhance their recruitment strategy and hire eligible candidates.",
+    "round": "Series B",
+    "roundDate": "2025-12-15",
+    "roundSize": 81450000,
+    "investors": [
+      "Coatue Management",
+      "DST Global",
+      "Quantum Light",
+      "Sequoia Capital",
+      "Y Combinator"
+    ],
+    "top10Investors": [
+      "Sequoia Capital"
+    ],
+    "tier1_33Investors": [
+      "Coatue Management",
+      "DST Global",
+      "Sequoia Capital"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Sequoia Capital"
+    ],
+    "predictedWindowOpen": "2027-07-15",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "langchain",
+    "name": "LangChain",
+    "website": "langchain.com",
+    "hq": "San Francisco, CA",
+    "region": "NA",
+    "capitalIntensity": "medium",
+    "description": "Developer of a language model framework designed to power applications that integrate with other sources of data and interact with their environment. The company's framework offers support for various model types, prompt management, memory, indexing, chains and agents, enabling developers to create generative artificial intelligence such as personal assistants, question-answering, chatbots and data querying.",
+    "round": "Series B",
+    "roundDate": "2025-10-20",
+    "roundSize": 125000000,
+    "investors": [
+      "Benchmark",
+      "CapitalG",
+      "Cisco Investments",
+      "Datadog",
+      "Frontline",
+      "IVP",
+      "Sapphire Ventures",
+      "Sequoia Capital",
+      "Workday"
+    ],
+    "top10Investors": [
+      "Sequoia Capital",
+      "Benchmark"
+    ],
+    "tier1_33Investors": [
+      "IVP",
+      "Sequoia Capital"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Sequoia Capital",
+      "Benchmark"
+    ],
+    "predictedWindowOpen": "2027-05-20",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "lead",
+    "name": "Lead Bank",
+    "website": "lead.bank",
+    "hq": "Kansas City, MO",
+    "region": "NA",
+    "capitalIntensity": "medium",
+    "description": "Opertator of a community-minded, independent commercial bank intended to provide traditional banking services. The company's services include online banking, commercial and business lending, loans and credit, cash management, as well as investment systems, business advisory and strategic financial systems, enabling fintech companies to access multiple banking services that are customizable and secure.",
+    "round": "Series B",
+    "roundDate": "2025-10-01",
+    "roundSize": 70000000,
+    "investors": [
+      "Andreessen Horowitz",
+      "Coatue Management",
+      "Greycroft",
+      "ICONIQ Capital",
+      "IconiQ",
+      "Khosla Ventures",
+      "Ribbit Capital",
+      "Zeev Ventures"
+    ],
+    "top10Investors": [
+      "ICONIQ Capital"
+    ],
+    "tier1_33Investors": [
+      "Andreessen Horowitz",
+      "Coatue Management",
+      "ICONIQ Capital",
+      "Khosla Ventures",
+      "Ribbit Capital"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "ICONIQ Capital"
+    ],
+    "predictedWindowOpen": "2027-05-01",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "linx",
+    "name": "Linx Security",
+    "website": "linx.security",
+    "hq": "New York, NY",
+    "region": "NA",
+    "capitalIntensity": "medium",
+    "description": "Developer of an AI-native identity security platform designed to provide visibility, governance, and automated control across the identity lifecycle. The company's platform offers identity mapping, risk analytics, automated access management, agent-based workflows, and real-time insights, enabling enterprises to strengthen their security posture, reduce manual effort, and manage access efficiently across systems.",
+    "round": "Series B",
+    "roundDate": "2026-03-31",
+    "roundSize": 50000000,
+    "investors": [
+      "Cyberstarts",
+      "Index Ventures",
+      "Insight Partners"
+    ],
+    "top10Investors": [
+      "Index Ventures"
+    ],
+    "tier1_33Investors": [
+      "Index Ventures",
+      "Insight Partners"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Index Ventures"
+    ],
+    "predictedWindowOpen": "2027-10-31",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "listenlabs",
+    "name": "Listen Labs",
+    "website": "listenlabs.ai",
+    "hq": "San Francisco, CA",
+    "region": "NA",
+    "capitalIntensity": "medium",
+    "description": "Developer of an AI-based interviewer designed to get insights from customers. The company's platform analyzes qualitative data at scale to surface insights, themes, and personas by conducting interviews and summarizing responses into reports with real-time analysis, enabling companies to gain a deeper understanding of their customers' perspectives.",
+    "round": "Series B",
+    "roundDate": "2026-01-14",
+    "roundSize": 69000000,
+    "investors": [
+      "Conviction",
+      "Evantic",
+      "Pear VC",
+      "Ribbit Capital",
+      "Sequoia Capital"
+    ],
+    "top10Investors": [
+      "Sequoia Capital"
+    ],
+    "tier1_33Investors": [
+      "Ribbit Capital",
+      "Sequoia Capital"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Sequoia Capital"
+    ],
+    "predictedWindowOpen": "2027-08-14",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "monaco",
+    "name": "Monaco (Business/Productivity Software)",
+    "website": "monaco.com",
+    "hq": "San Francisco, CA",
+    "region": "NA",
+    "capitalIntensity": "medium",
+    "description": "Developer of an AI-native revenue intelligence platform designed to enable companies to automate demand generation, sales outreach, and pipeline growth. The company develops and operates an AI-powered sales and revenue platform that helps businesses prospect smarter, automate outreach and pipeline activities, capture and structure engagement data, and accelerate revenue generation, enabling clients to streamline prospecting and sales execution through AI-driven revenue automation.",
+    "round": "Series B",
+    "roundDate": "2026-05-13",
+    "roundSize": 50000000,
+    "investors": [
+      "Alt Capital",
+      "Benchmark",
+      "Founders Fund",
+      "Greenoaks",
+      "Human Capital",
+      "Mantis",
+      "Saga"
+    ],
+    "top10Investors": [
+      "Benchmark",
+      "Greenoaks Capital Partners"
+    ],
+    "tier1_33Investors": [
+      "Founders Fund"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Benchmark",
+      "Greenoaks Capital Partners"
+    ],
+    "predictedWindowOpen": "2027-12-13",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "naboo",
+    "name": "Naboo",
+    "website": "naboo.app",
+    "hq": "Paris, France",
+    "region": "Europe",
+    "capitalIntensity": "medium",
+    "description": "Operator of a venue reservation platform intended to help organizations to replace the traditional corporate working culture. The company's platform offers a mini-social network that helps organizations manage all aspects of the reservation, synchronize the availabilities of the employees concerned, and organize the stay with related services, enabling organizations to give more freedom and flexibility to employees, while preserving the collective and corporate culture.",
+    "round": "Series B",
+    "roundDate": "2026-02-10",
+    "roundSize": 70000000,
+    "investors": [
+      "ISAI",
+      "Isai",
+      "Lightspeed Venture Partners",
+      "Notion Capital",
+      "Ternel"
+    ],
+    "top10Investors": [
+      "Lightspeed Venture Partners"
+    ],
+    "tier1_33Investors": [
+      "Lightspeed Venture Partners"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Lightspeed Venture Partners"
+    ],
+    "predictedWindowOpen": "2027-09-10",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "neo",
+    "name": "Neo Security",
+    "website": "neo.ai",
+    "hq": "Boston, MA",
+    "region": "NA",
+    "capitalIntensity": "medium",
+    "description": "Developer of a collaborative conversational AI platform designed to enable secure human and AI collaboration for complex decision-making. The company offers private AI models, customizable AI personas, and auditable multi-agent interactions, enabling enterprises to deploy controlled AI systems with data privacy and transparent decision-making.",
+    "round": "Series A",
+    "roundDate": "2026-07-20",
+    "roundSize": 100000000,
+    "investors": [
+      "Andreessen Horowitz",
+      "Bessemer Venture Partners",
+      "Craft Ventures",
+      "Merlin Ventures"
+    ],
+    "top10Investors": [
+      "Bessemer Venture Partners"
+    ],
+    "tier1_33Investors": [
+      "Andreessen Horowitz",
+      "Bessemer Venture Partners"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Bessemer Venture Partners"
+    ],
+    "predictedWindowOpen": "2028-02-20",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "nexthop",
+    "name": "Nexthop AI",
+    "website": "nexthop.ai",
+    "hq": "Santa Clara, CA",
+    "region": "NA",
+    "capitalIntensity": "medium",
+    "description": "Developer of artificial intelligence infrastructure designed for large-scale cloud operators. The company builds networking and infrastructure that improves power efficiency, reduces operational costs, and accelerates the deployment of AI workloads, enabling hyperscale data centers and cloud providers to scale AI systems while lowering the cost per token and improving reliability.",
+    "round": "Series B",
+    "roundDate": "2026-03-10",
+    "roundSize": 500000000,
+    "investors": [
+      "Altimeter",
+      "Andreessen Horowitz",
+      "Battery Ventures",
+      "Craft Ventures",
+      "Emergent Ventures",
+      "Kleiner Perkins",
+      "Lightspeed Venture Partners",
+      "WestBridge Capital"
+    ],
+    "top10Investors": [
+      "Lightspeed Venture Partners"
+    ],
+    "tier1_33Investors": [
+      "Andreessen Horowitz",
+      "Battery Ventures",
+      "Kleiner Perkins",
+      "Lightspeed Venture Partners"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Lightspeed Venture Partners"
+    ],
+    "predictedWindowOpen": "2027-10-10",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "nominal",
+    "name": "Nominal",
+    "website": "nominal.io",
+    "hq": "Austin, TX",
+    "region": "NA",
+    "capitalIntensity": "high",
+    "description": "Developer of a hardware testing and engineering data platform designed to streamline test execution, monitoring, and analysis for mission-critical systems. The company's platform provides telemetry capture, automated test orchestration, real-time monitoring, synchronized data replay, reporting tools, edge computing support, and integration capabilities, enabling engineering and manufacturing teams to improve validation, traceability, and operational reliability.",
+    "round": "Series B",
+    "roundDate": "2026-03-05",
+    "roundSize": 155000000,
+    "investors": [
+      "Audacious Ventures",
+      "Avenir Growth Capital",
+      "Founders Fund",
+      "General Catalyst",
+      "Lightspeed Venture Partners",
+      "Lux Capital",
+      "PSP Partners,",
+      "Pax.vc",
+      "Red Glass",
+      "Sequoia Capital",
+      "SignalRank"
+    ],
+    "top10Investors": [
+      "Sequoia Capital",
+      "Lightspeed Venture Partners"
+    ],
+    "tier1_33Investors": [
+      "Founders Fund",
+      "General Catalyst",
+      "Lightspeed Venture Partners",
+      "Lux Capital",
+      "Sequoia Capital"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Sequoia Capital",
+      "Lightspeed Venture Partners"
+    ],
+    "predictedWindowOpen": "2027-10-05",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "ollama",
+    "name": "Ollama",
+    "website": "ollama.com",
+    "hq": "Palo Alto, CA",
+    "region": "NA",
+    "capitalIntensity": "medium",
+    "description": "Developer of a local inference platform designed for businesses to run large language models. The company's platform offers tools to run models on sensitive data, model deployment, model management, application programming interfaces, and cloud integration features to run and manage large language models, enabling developers and enterprises to build, deploy, and operate artificial intelligence applications with flexibility.",
+    "round": "Series B",
+    "roundDate": "2026-07-09",
+    "roundSize": 65000000,
+    "investors": [
+      "49 Palms Ventures",
+      "8VC",
+      "Benchmark",
+      "GTMfund",
+      "Garage Capital",
+      "Pace Capital",
+      "Theory Ventures",
+      "Wildcard Ventures",
+      "Y Combinator"
+    ],
+    "top10Investors": [
+      "Benchmark"
+    ],
+    "tier1_33Investors": [
+      "8VC"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Benchmark"
+    ],
+    "predictedWindowOpen": "2028-02-09",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "onyx",
+    "name": "Onyx",
+    "website": "onyx.security",
+    "hq": "New York, NY",
+    "region": "NA",
+    "capitalIntensity": "medium",
+    "description": "Developer of an enterprise AI security platform designed to provide visibility, governance, and protection for organizations deploying AI agents. The company offers agent discovery and cataloging, policy enforcement, risk identification, real-time monitoring and control of agent actions, incident response protocols, and integration with existing security stacks, enabling enterprises to manage AI agent operations and compliance across diverse environments.",
+    "round": "Series A",
+    "roundDate": null,
+    "roundSize": null,
+    "investors": [
+      "Bessemer Venture Partners",
+      "Conviction",
+      "Cyberstarts",
+      "FirstMark",
+      "G Squared",
+      "Quantum Light",
+      "TCV",
+      "Vintage Investment Partners"
+    ],
+    "top10Investors": [
+      "Bessemer Venture Partners"
+    ],
+    "tier1_33Investors": [
+      "Bessemer Venture Partners",
+      "TCV"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Bessemer Venture Partners"
+    ],
+    "predictedWindowOpen": null,
+    "windowBasis": null,
+    "capitalClockAssumptions": "incomplete -- missing headcount, roundSize, roundDate, no burn estimate possible yet",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "oratomic",
+    "name": "Oratomic",
+    "website": "oratomic.com",
+    "hq": "Pasadena, CA",
+    "region": "NA",
+    "capitalIntensity": "high",
+    "description": "Developer of quantum computing hardware designed for fault-tolerant and utility-scale operations. The company's systems utilize neutral atoms, light-based manipulation and ultra-efficient error correction, enabling scientific researchers to perform complex calculations and advance artificial intelligence through stable quantum processing architectures.",
+    "round": "Series A",
+    "roundDate": "2026-07-07",
+    "roundSize": 300000000,
+    "investors": [
+      "7i Capital",
+      "ARCH Venture Partners",
+      "Bain Capital Ventures",
+      "Bezos Expeditions",
+      "Formation 8",
+      "General Catalyst",
+      "Genius Ventures",
+      "Index Ventures",
+      "Infleqtion",
+      "Khosla Ventures",
+      "Lowercarbon Capital",
+      "Nebular",
+      "Spark Capital"
+    ],
+    "top10Investors": [
+      "Index Ventures",
+      "Bain Capital Ventures"
+    ],
+    "tier1_33Investors": [
+      "Bain Capital Ventures",
+      "General Catalyst",
+      "Index Ventures",
+      "Khosla Ventures"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Index Ventures",
+      "Bain Capital Ventures"
+    ],
+    "predictedWindowOpen": "2028-02-07",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "paper",
+    "name": "Paper",
+    "website": "paper.design",
+    "hq": "Irvine, CA",
+    "region": "NA",
+    "capitalIntensity": "medium",
+    "description": "Developer of digital interface creation tools intended for design purposes. The company's platform provides a workspace with features such as component libraries, collaborative editing, version control, and export functionalities for various file formats, enabling design teams to streamline their workflow and maintain consistency across projects.",
+    "round": "Series A",
+    "roundDate": "2026-07-22",
+    "roundSize": 34000000,
+    "investors": [
+      "Accel",
+      "Designer Fund",
+      "Guillermo Rauch",
+      "IconiQ",
+      "base case capital"
+    ],
+    "top10Investors": [
+      "ICONIQ Capital",
+      "Accel"
+    ],
+    "tier1_33Investors": [
+      "Accel"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "ICONIQ Capital",
+      "Accel"
+    ],
+    "predictedWindowOpen": "2028-02-22",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "parallel",
+    "name": "Parallel",
+    "website": "parallel.ai",
+    "hq": null,
+    "region": null,
+    "capitalIntensity": "medium",
+    "description": "Web search & research API for AI agents",
+    "round": "Series B",
+    "roundDate": null,
+    "roundSize": null,
+    "investors": [
+      "First Round Capital",
+      "Index Ventures",
+      "Khosla Ventures",
+      "Kleiner Perkins",
+      "Moxxie Ventures",
+      "Sequoia Capital",
+      "Spark Capital",
+      "Terrain Capital Partners"
+    ],
+    "top10Investors": [
+      "Sequoia Capital",
+      "Index Ventures"
+    ],
+    "tier1_33Investors": [
+      "Index Ventures",
+      "Khosla Ventures",
+      "Kleiner Perkins",
+      "Sequoia Capital"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Sequoia Capital",
+      "Index Ventures"
+    ],
+    "predictedWindowOpen": null,
+    "windowBasis": null,
+    "capitalClockAssumptions": "incomplete -- missing headcount, roundSize, roundDate, no burn estimate possible yet",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "pointfive",
+    "name": "PointFive",
+    "website": "pointfive.co",
+    "hq": "New York, NY",
+    "region": "NA",
+    "capitalIntensity": "medium",
+    "description": "Developer of a cloud and AI efficiency management platform designed to help organizations reduce wasteful spending across their cloud infrastructure, data platforms, and AI workloads. The company's platform provides a system with integration, coverage, deep waste detection, and remediation orchestration, enabling businesses to optimize cloud and AI spending, improve operational efficiency, and maximize the value of their technology investments without disrupting engineering productivity.",
+    "round": "Series B",
+    "roundDate": "2026-06-08",
+    "roundSize": 60000000,
+    "investors": [
+      "Accel",
+      "Alpha Partners",
+      "Entr\u00e9e Capital",
+      "Index Ventures",
+      "Perpetual Investment",
+      "Salesforce Ventures",
+      "Vesey Ventures",
+      "sheva"
+    ],
+    "top10Investors": [
+      "Index Ventures",
+      "Accel"
+    ],
+    "tier1_33Investors": [
+      "Accel",
+      "Index Ventures"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Index Ventures",
+      "Accel"
+    ],
+    "predictedWindowOpen": "2028-01-08",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "premai",
+    "name": "Prem AI",
+    "website": "premai.io",
+    "hq": "Lugano, Switzerland",
+    "region": "Europe",
+    "capitalIntensity": "low",
+    "description": "Developer of a business software platform designed to democratize intelligence creation and accelerate the enterprise adoption of generative AI strategies. The company's platform integrates generative artificial intelligence into clients' applications with full ownership and confidence, relying on sovereign AI models, and aligns technology with specific business and ethical requirements, enabling clients to provide quality customer service by answering questions, resolving issues, and providing support.",
+    "round": "Series A",
+    "roundDate": "2026-06-18",
+    "roundSize": 100000000,
+    "investors": [
+      "Breyer Capital",
+      "Index Ventures"
+    ],
+    "top10Investors": [
+      "Index Ventures"
+    ],
+    "tier1_33Investors": [
+      "Index Ventures"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Index Ventures"
+    ],
+    "predictedWindowOpen": "2028-01-18",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "quilter",
+    "name": "Allegro Labs",
+    "website": "quilter.ai",
+    "hq": "Los Angeles, CA",
+    "region": "NA",
+    "capitalIntensity": "high",
+    "description": "Developer of next-generation tooling designed for electrical engineers who build printed circuit boards. The company specializes in using physics-driven generative design to help in the reliable conversion of circuit schematics into PCB designs, enabling hardware engineers to tackle real-world challenges with the help of artificial intelligence.",
+    "round": "Series B",
+    "roundDate": "2025-10-07",
+    "roundSize": 27000000,
+    "investors": [
+      "Build Collective",
+      "Index Ventures"
+    ],
+    "top10Investors": [
+      "Index Ventures"
+    ],
+    "tier1_33Investors": [
+      "Index Ventures"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Index Ventures"
+    ],
+    "predictedWindowOpen": "2027-05-07",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "reducto",
+    "name": "Reducto",
+    "website": "reducto.ai",
+    "hq": "San Francisco, CA",
+    "region": "NA",
+    "capitalIntensity": "medium",
+    "description": "Developer of a retrieval augmented generation platform designed to turn complex documents into structured data. The company's platform helps to transform complex and unstructured documents and data into optimized chunks compatible with any vector database and retrieval pipeline, enabling users to improve the performance of RAG with any vector database and providing document processing software.",
+    "round": "Series B",
+    "roundDate": "2025-10-14",
+    "roundSize": 75000000,
+    "investors": [
+      "Andreessen Horowitz",
+      "Benchmark",
+      "BoxGroup",
+      "First Round Capital",
+      "Y Combinator",
+      "Your Business"
+    ],
+    "top10Investors": [
+      "Benchmark"
+    ],
+    "tier1_33Investors": [
+      "Andreessen Horowitz"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Benchmark"
+    ],
+    "predictedWindowOpen": "2027-05-14",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "revel",
+    "name": "Revel (Business/Productivity Software)",
+    "website": "revel.io",
+    "hq": "Los Angeles, CA",
+    "region": "NA",
+    "capitalIntensity": "high",
+    "description": "Developer of a hardware control platform designed to empower engineers to write control software. The company's platform helps to avoid entire classes of software mistakes and brings hardware to market quickly by using a specialized programming language, enabling users to get a high-performance runtime environment.",
+    "round": "Series B",
+    "roundDate": "2026-02-25",
+    "roundSize": 150000000,
+    "investors": [
+      "Abstract",
+      "Felicis",
+      "Ilavska Vuillermoz Capital",
+      "Index Ventures",
+      "Redpoint Ventures",
+      "The CEOs Fund",
+      "Thrive Capital"
+    ],
+    "top10Investors": [
+      "Index Ventures",
+      "Thrive Capital"
+    ],
+    "tier1_33Investors": [
+      "Index Ventures",
+      "Thrive Capital"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Index Ventures",
+      "Thrive Capital"
+    ],
+    "predictedWindowOpen": "2027-09-25",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "ricursive",
+    "name": "Ricursive Intelligence",
+    "website": "ricursive.com",
+    "hq": "Palo Alto, CA",
+    "region": "NA",
+    "capitalIntensity": "high",
+    "description": "Developer of an artificial intelligence (AI) driven semiconductor design platform designed to accelerate and scale AI compute. The company's platform applies advanced machine learning and distributed computing to optimize chip architectures, shortens silicon design and verification cycles, enabling AI developers and hardware manufacturers to compress semiconductor development timelines and support frontier AI systems.",
+    "round": "Series A",
+    "roundDate": "2026-01-26",
+    "roundSize": 300000000,
+    "investors": [
+      "Felicis",
+      "Lightspeed Venture Partners",
+      "Sequoia Capital"
+    ],
+    "top10Investors": [
+      "Sequoia Capital",
+      "Lightspeed Venture Partners"
+    ],
+    "tier1_33Investors": [
+      "Lightspeed Venture Partners",
+      "Sequoia Capital"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Sequoia Capital",
+      "Lightspeed Venture Partners"
+    ],
+    "predictedWindowOpen": "2027-08-26",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "sandstone",
+    "name": "Sandstone (Business/Productivity Software)",
+    "website": "sandstone.com",
+    "hq": "New York, NY",
+    "region": "NA",
+    "capitalIntensity": "medium",
+    "description": "Developer of an AI-native operating system designed to streamline workflows for in-house legal teams. The company's platform offers automated document management, intelligent contract review, and workflow optimization tools, partners with the legal teams who directly shape the product and turns the legal from a support function into the strategic bedrock of their companies, enabling legal departments to improve efficiency.",
+    "round": "Series A",
+    "roundDate": "2026-06-09",
+    "roundSize": 39550000,
+    "investors": [
+      "Lightspeed Venture Partners",
+      "SV Angel",
+      "Sequoia Capital"
+    ],
+    "top10Investors": [
+      "Sequoia Capital",
+      "Lightspeed Venture Partners"
+    ],
+    "tier1_33Investors": [
+      "Lightspeed Venture Partners",
+      "Sequoia Capital"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Sequoia Capital",
+      "Lightspeed Venture Partners"
+    ],
+    "predictedWindowOpen": "2028-01-09",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "serval",
+    "name": "Serval",
+    "website": "serval.com",
+    "hq": "San Francisco, CA",
+    "region": "NA",
+    "capitalIntensity": "medium",
+    "description": "Developer of an AI-native IT service management software designed to automate help desk requests, access management and IT workflows using intelligent agents. The company offers a unified ITSM platform powered by AI agents that automate complex workflows, resolve requests in natural language and integrate seamlessly with enterprise systems, enabling customers to reduce manual IT tasks, improve efficiency and enhance employee support experiences.",
+    "round": "Series B",
+    "roundDate": "2025-12-11",
+    "roundSize": 74820000,
+    "investors": [
+      "Evantic",
+      "First Round Capital",
+      "General Catalyst",
+      "Meritech Capital",
+      "Meritech Co.",
+      "Neo",
+      "Radical Ventures",
+      "Redpoint Ventures",
+      "Sequoia Capital",
+      "Sound Ventures",
+      "Tenacity Capital"
+    ],
+    "top10Investors": [
+      "Sequoia Capital"
+    ],
+    "tier1_33Investors": [
+      "General Catalyst",
+      "Sequoia Capital"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Sequoia Capital"
+    ],
+    "predictedWindowOpen": "2027-07-11",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "sesame",
+    "name": "Sesame AI",
+    "website": "sesame.com",
+    "hq": "San Francisco, CA",
+    "region": "NA",
+    "capitalIntensity": "medium",
+    "description": "Developer of an artificial intelligence-based voice assistant platform intended to design voice companions capable of holding natural conversations and devices that make them more effective. The company's platform offers AI glasses with quality audio facilities and convenient access to voice companions, enabling users to get an ever-present friend and conversationalist to keep them informed and organized.",
+    "round": "Series B",
+    "roundDate": "2025-10-21",
+    "roundSize": 250000000,
+    "investors": [
+      "7percent Ventures",
+      "DMV Angel Group",
+      "Matrix",
+      "PRINCIPAL VENTURE PARTNERS",
+      "Redpoint Ventures",
+      "Sequoia Capital",
+      "SignalRank",
+      "Spark Capital"
+    ],
+    "top10Investors": [
+      "Sequoia Capital"
+    ],
+    "tier1_33Investors": [
+      "Sequoia Capital"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Sequoia Capital"
+    ],
+    "predictedWindowOpen": "2027-05-21",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "sunday",
+    "name": "Sunday (Hardware)",
+    "website": "sunday.ai",
+    "hq": "Mountain View, CA",
+    "region": "NA",
+    "capitalIntensity": "medium",
+    "description": "Operator of an artificial intelligence agent platform designed to manage business conversations and scheduling workflows. The company's platform supports automated handling of inbound and outbound conversations, continuous availability for inquiry response, appointment booking across integrated calendars, follow-up and rescheduling management, enabling customers and client support functions, and service-oriented organizations to reduce manual coordination, improve response consistency, and increase operational efficiency across revenue and service processes.",
+    "round": "Series B",
+    "roundDate": "2026-02-13",
+    "roundSize": 165000000,
+    "investors": [
+      "Bain Capital Ventures",
+      "Benchmark",
+      "Coatue Management",
+      "Conviction",
+      "Sunflower Capital",
+      "Tiger Global Management",
+      "Transpose Platform",
+      "Xtal Ventures"
+    ],
+    "top10Investors": [
+      "Benchmark",
+      "Bain Capital Ventures"
+    ],
+    "tier1_33Investors": [
+      "Bain Capital Ventures",
+      "Coatue Management"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Benchmark",
+      "Bain Capital Ventures"
+    ],
+    "predictedWindowOpen": "2027-09-13",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "sunflower-labs",
+    "name": "Sunflower Labs",
+    "website": "sunflower-labs.com",
+    "hq": "San Carlos, CA",
+    "region": "NA",
+    "capitalIntensity": "medium",
+    "description": "Developer of an autonomous home awareness system designed to offer outdoor home security. The company's system combines outdoor sensors with an aerial camera for a complete view of what is going on around a home, deterring unwanted visitors with light and sound, detecting motion and vibration, enabling consumers to avail of a close security system with notification and deploy a fully autonomous drone.",
+    "round": "Series B",
+    "roundDate": "2025-11-04",
+    "roundSize": 16000000,
+    "investors": [
+      "Alarm.com",
+      "Atlas Ventures",
+      "DRONE FUND",
+      "Daybreak Ventures",
+      "Gentian Investments",
+      "Hedgewood",
+      "Sequoia Capital",
+      "Wakestream Ventures"
+    ],
+    "top10Investors": [
+      "Sequoia Capital"
+    ],
+    "tier1_33Investors": [
+      "Sequoia Capital"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Sequoia Capital"
+    ],
+    "predictedWindowOpen": "2027-06-04",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "tem",
+    "name": "tem (Business/Productivity Software)",
+    "website": "tem.energy",
+    "hq": "London, United Kingdom",
+    "region": "Europe",
+    "capitalIntensity": "medium",
+    "description": "Operator of an energy utility management platform intended to promote renewable energy. The company's platform offers an artificial intelligence-driven data engine to match businesses with renewable energy generators in real-time, manages post-transaction invoicing, payments, and insights, and ensures access to direct, traceable, renewable energy, enabling businesses to bypass inefficient energy market transactions and purchase energy directly from renewable generators by reimagining the entire transaction process.",
+    "round": "Series B",
+    "roundDate": "2025-12-15",
+    "roundSize": 72950000,
+    "investors": [
+      "AlbionVC",
+      "Allianz",
+      "Atomico",
+      "Hitachi Ventures",
+      "Lightspeed Venture Partners",
+      "Revent",
+      "Schroders Capital",
+      "Voyager",
+      "Voyager Ventures"
+    ],
+    "top10Investors": [
+      "Lightspeed Venture Partners"
+    ],
+    "tier1_33Investors": [
+      "Lightspeed Venture Partners"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Lightspeed Venture Partners"
+    ],
+    "predictedWindowOpen": "2027-07-15",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "trianabio",
+    "name": "TRIANA Biomedicines",
+    "website": "trianabio.com",
+    "hq": "Lexington, MA",
+    "region": "NA",
+    "capitalIntensity": "medium",
+    "description": "Operator of a pharmaceutical company intended to discover and develop molecular glues. The company leverages technology to stabilize pre-existing or create de novo interactions between multiple proteins and alter the fate or functionality of the disease target, enabling healthcare professionals to develop products for a wide range of therapeutic applications.",
+    "round": "Series B",
+    "roundDate": "2025-11-26",
+    "roundSize": 120060000,
+    "investors": [
+      "Ascentacap",
+      "Atlas Venture",
+      "Bessemer Venture Partners",
+      "Finchley H.V",
+      "Invus",
+      "Lightspeed Venture Partners",
+      "RA Capital",
+      "Site Title"
+    ],
+    "top10Investors": [
+      "Lightspeed Venture Partners",
+      "Bessemer Venture Partners"
+    ],
+    "tier1_33Investors": [
+      "Bessemer Venture Partners",
+      "Lightspeed Venture Partners"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Lightspeed Venture Partners",
+      "Bessemer Venture Partners"
+    ],
+    "predictedWindowOpen": "2027-06-26",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "twenty",
+    "name": "Twenty (Network Management Software)",
+    "website": "twenty.io",
+    "hq": "Arlington, VA",
+    "region": "NA",
+    "capitalIntensity": "high",
+    "description": "Developer of a cyber-warfighting platform designed to enable real-time offensive cyber operations for defense missions. The company's platform offers battle-hardened automation, artificial intelligence-driven targeting, and rapid deployment capabilities, enabling U.S. and allied defense teams to gain operational dominance.",
+    "round": "Series B",
+    "roundDate": "2026-06-17",
+    "roundSize": 100000000,
+    "investors": [
+      "Accel",
+      "Caffeinated",
+      "F&FC",
+      "Point72 Ventures"
+    ],
+    "top10Investors": [
+      "Accel"
+    ],
+    "tier1_33Investors": [
+      "Accel"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Accel"
+    ],
+    "predictedWindowOpen": "2028-01-17",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "weaviate",
+    "name": "Weaviate",
+    "website": "weaviate.io",
+    "hq": "Amsterdam, Netherlands",
+    "region": "Europe",
+    "capitalIntensity": "medium",
+    "description": "Developer of an open-source and native-artificial intelligence database platform designed to build search and recommendation systems. The company's platform interacts with data to perform sync, async, and multi-step tasks and improves search experiences by merging vector and keyword techniques, enabling clients to simplify end-to-end artificial intelligence-native application development.",
+    "round": "Series B",
+    "roundDate": "2026-02-24",
+    "roundSize": 50000000,
+    "investors": [
+      "Battery Ventures",
+      "Cortical Ventures",
+      "Deep Acre",
+      "Index Ventures",
+      "New Enterprise Associates",
+      "RICOH Innovation Fund",
+      "Zetta Ventures"
+    ],
+    "top10Investors": [
+      "Index Ventures"
+    ],
+    "tier1_33Investors": [
+      "Battery Ventures",
+      "Index Ventures",
+      "New Enterprise Associates"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Index Ventures"
+    ],
+    "predictedWindowOpen": "2027-09-24",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "withcoverage",
+    "name": "WithCoverage",
+    "website": "withcoverage.com",
+    "hq": "New York, NY",
+    "region": "NA",
+    "capitalIntensity": "medium",
+    "description": "Developer of a risk management platform intended to provide insurance services for consumer brands. The company's platform provides tech-enabled specialty insurance for experts who work exclusively with leading brands and manage everything in one place, enabling clients to grow their businesses through meaningful savings.",
+    "round": "Series B",
+    "roundDate": "2026-01-14",
+    "roundSize": 42000000,
+    "investors": [
+      "8VC",
+      "Crystal Venture Partners",
+      "Khosla Ventures",
+      "Notion",
+      "Sequoia Capital",
+      "SuperAngel.vc"
+    ],
+    "top10Investors": [
+      "Sequoia Capital"
+    ],
+    "tier1_33Investors": [
+      "8VC",
+      "Khosla Ventures",
+      "Sequoia Capital"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Sequoia Capital"
+    ],
+    "predictedWindowOpen": "2027-08-14",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  },
+  {
+    "id": "withpace",
+    "name": "Pace",
+    "website": "withpace.com",
+    "hq": "New York, NY",
+    "region": "NA",
+    "capitalIntensity": "medium",
+    "description": "Developer of an artificial intelligence operations platform designed to modernize and streamline insurance back office workflows. The company's platform offers automated submission intake, policy servicing, claims preparation, and expert-validated task execution, enabling insurance carriers and agencies to operate faster with consistent accuracy and reduced operational burden.",
+    "round": "Series B",
+    "roundDate": "2026-05-27",
+    "roundSize": 46000000,
+    "investors": [
+      "Emergence Capital",
+      "Pruven Capital",
+      "Sequoia Capital",
+      "Thrive Capital"
+    ],
+    "top10Investors": [
+      "Sequoia Capital",
+      "Thrive Capital"
+    ],
+    "tier1_33Investors": [
+      "Sequoia Capital",
+      "Thrive Capital"
+    ],
+    "top10VC": true,
+    "tier1FirmsOnCapTable": [
+      "Sequoia Capital",
+      "Thrive Capital"
+    ],
+    "predictedWindowOpen": "2027-12-27",
+    "windowBasis": "cadence",
+    "capitalClockAssumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)",
+    "signalsNeedingWebResearch": {
+      "newsVolume": "high|steady|low -- press coverage volume, last ~90 days",
+      "publicMomentum": "strong|moderate|weak -- funding rumors, hires, launches, partnerships (feeds crunchbaseGrowthScore/crunchbaseHeatScore/crunchbaseSurgeScore identically)",
+      "valuationStepUp": "up|flat|down -- vs prior round's valuation, ONLY if both are publicly disclosed",
+      "websiteTrafficTrend": "rising|flat|declining -- only if a public source explicitly reports it",
+      "industryGrowthPctChange": "% change in public search/press interest in this company's industry vs last month",
+      "companySearchInterestPctChange": "% change in public search interest in this company's name vs last month",
+      "yoyRevenueGrowthTier": "hypergrowth (>=100% YoY or $50M+ ARR) | strong (>=$25M ARR or >=70% YoY) | none-found",
+      "redditActivity": "clear sustained uptick | steady baseline | little-to-none -- Reddit discussion volume/growth"
+    },
+    "signalsNotResearchable": "momEmployeeGrowth and jobPostingVelocity need Apollo/ATS data this agent has no access to -- leave computed:false, do not guess."
+  }
+]

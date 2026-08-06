@@ -1,54 +1,60 @@
-# Running the Radar heat-score backfill (hand off to a separate chat, Haiku model)
+# Running the Radar heat-score research (hand off to a separate chat, Haiku model)
 
-## Why this doesn't need a research agent
+## Oscar's explicit call (2026-08-06): no 3rd-party research APIs
 
-`deal_intelligence/radar_backfill.py` already does the entire job as one
-Python script — mandate screen, `capital_clock.compute()` (predicted raise
-window), `radar_market_signals.research()` (a real Perplexity call per
-company for news/momentum/step-up/traffic), `google_trends.py`, and
-`radar_hazard.compute()` — then writes the result straight to each
-company's `radar.*` fields in Firestore via `recompute_and_write()`. No
-Claude web-browsing, no subagents. The only reason to run this from inside
-a Claude Code chat at all is to babysit the run and report back — a Haiku
-session is more than enough for that.
+The codebase's own `radar_backfill.py`/`radar_market_signals.py` would do
+this via direct Perplexity + Google Trends API calls. **Oscar rejected
+that** — he wants the research agent itself doing the web research (its
+own search/fetch tools), not proxied through a 3rd-party research API.
+This doc is the corrected version of that plan.
 
-**Do not re-attempt the "spin up N research agents" approach** — that's
-what burned through the previous session's rate limit for zero saved
-output. This script replaces that entirely.
+Two files are already prepared for this:
+- [`deal_intelligence/data/radar-companies-research-input.json`](../deal_intelligence/data/radar-companies-research-input.json)
+  — all 61 Radar companies with everything already known (name, website,
+  description, HQ/region, round/roundDate/roundSize, investors, Tier 1
+  firms on cap table, and a locally-computed `predictedWindowOpen` — that
+  last one is pure date math, not a web call, so don't re-research it).
+  Each company also lists exactly which signals need fresh web research
+  (`signalsNeedingWebResearch`) and which are out of scope
+  (`signalsNotResearchable` — Apollo-only data this agent has no access
+  to).
+- [`docs/RADAR_HEAT_SCORE_RULES.md`](RADAR_HEAT_SCORE_RULES.md) — the
+  full 16-signal rubric (weights + exact scoring bands), the aggregation
+  math, and the required output JSON shape.
 
 ## What the new chat should do
 
-1. Confirm scope first — dry run, no writes, cheap:
-   ```
-   cd ~/id8-intelligence && git pull origin main && python3 -m deal_intelligence.radar_backfill --dry-run
-   ```
-   Paste the output back. It should report on **61 companies** (10 primary
-   `stage=='radar'` + 51 tag-only). If the count is off, stop and flag it —
-   don't proceed to the real run on a mismatched population.
+1. Read both files above in full before starting.
+2. Research companies in modest batches (e.g. 5–8 per Task/Agent call, a
+   couple running at once at most) — **not 5 large parallel batches at
+   once**. That exact pattern (5 parallel heavy research agents) is what
+   burned through the previous session's rate limit with zero saved
+   output. Haiku is cheap, but still pace it — sequential-ish is safer
+   than maximally parallel here.
+3. For each company: research only the signals listed in
+   `signalsNeedingWebResearch`, following `RADAR_HEAT_SCORE_RULES.md`'s
+   scoring bands exactly. Cite a source for everything you score. Mark
+   anything you can't find real evidence for as `computed: false` — never
+   guess.
+4. Save results as you go (e.g. one JSON file per batch, or append to a
+   running file) so a crash mid-run doesn't lose everything again — don't
+   hold all 61 results only in conversation state until the very end.
+5. Once all 61 are scored, combine into one file, e.g.
+   `deal_intelligence/data/radar-heat-scores-2026-08-06.json`, and report
+   back a short summary (how many companies got a `normalizedScore`, the
+   range, and which companies came back almost entirely `computed:false`
+   so Oscar knows where public data just doesn't exist).
 
-2. Sanity-check the dry-run output: every row should show a `heat=`,
-   `growth=`, and `window=` value or a clear `FAIL (reason)`. `onyx` and
-   `parallel` are known to have no round date on file — expect their
-   `window=` to read `-` unless the Perplexity research below finds one.
-
-3. Run it for real (this is the one that writes to Firestore and spends
-   Perplexity API budget — real but small, ~61 calls):
-   ```
-   python3 -m deal_intelligence.radar_backfill
-   ```
-   This can take a few minutes (one Perplexity call + one Google Trends
-   pair per company, sequential). Paste the final summary.
-
-4. Report back: pass/fail counts, any company that errored outright (vs.
-   a clean "FAIL (reason)" from the mandate screen, which is expected/fine),
-   and whether `onyx`/`parallel` got a real window this time.
+Writing the results back into Firestore is a separate, later step —
+this pass is research + scoring only.
 
 ## What NOT to do
-- Don't build or run Claude Agent/subagent web research for any of this —
-  the script's own Perplexity call already covers it.
-- Don't touch `radar_market_heat.py`'s scoring math (z-score, or anything
-  else) — Oscar explicitly said not to add z-score normalization
+- Don't call Perplexity, Crunchbase, PitchBook, Google Trends' API, or
+  Apollo — that's the entire point of doing this pass manually.
+- Don't add z-score/peer-relative normalization — Oscar explicitly said no
   (2026-08-06).
+- Don't re-research `predictedWindowOpen`/`tier1FirmsOnCapTable` — those
+  are already given in the input JSON from local data, not web research.
 - In Cloud Shell, plain `git pull origin main` / `git push origin main` is
   correct — Cloud Shell's `origin` already points to
   github.com/ocachin/id8-intelligence. (This only gets confusing on one
