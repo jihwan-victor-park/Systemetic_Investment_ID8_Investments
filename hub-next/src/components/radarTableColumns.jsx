@@ -32,23 +32,30 @@ export const RADAR_TABLE_COLUMNS = [
 // from the Radar page/board, alongside the same investorIndex/domainIndex
 // every stage table already builds once per page load.
 //
-// Heat prefers `company.radar.hazard.heatPoints` (2026-07-29, 0-100 scale)
-// -- the real, Python-computed kernel/peak-decay hazard number
-// (deal_intelligence/radar_hazard.py, written by radar_state.py) -- and
+// Heat prefers `company.radar.marketHeat.normalizedScore` (the Heat Score
+// Signal Framework, 0-100 scale, deal_intelligence/radar_market_heat.py --
+// Radar's primary/hegemonic score per Oscar's 2026-08-05 call), then
+// `company.radar.hazard.heatPoints` (2026-07-29, also 0-100, the real
+// Python-computed kernel/peak-decay hazard number written by
+// radar_state.py) for a company that has hazard but no marketHeat yet, and
 // falls back to the old live JS timing+fit calc (lib/radarHeatScore.js,
-// its own small 0-12 scale) only for a company that hasn't been through
-// the new pipeline yet (no `radar.hazard` written), so nothing goes blank
-// mid-migration.
+// its own small 0-12 scale) only once neither has ever been computed, so
+// nothing goes blank mid-migration.
 //
-// "Hot" on the persisted-hazard path is the INTERSECTION of two
-// deliberately separate gates (Oscar, 2026-07-29) -- heatPoints clearing
-// hotThreshold (timing: is it actually close to raising) AND
-// `radar.access.accessPass` (syndicate: does ID8 have a real route in,
-// deal_intelligence/radar_access.py). Blending the two into one number was
-// explicitly rejected -- see that module's docstring -- because a company
-// can score high on either axis for reasons that don't imply anything
-// about the other. The old JS fallback path keeps its old score-only
-// behavior (no `radar.access` exists for an unmigrated company).
+// "Hot" is the INTERSECTION of two deliberately separate gates (Oscar,
+// 2026-07-29) -- the heat score clearing hotThreshold (timing: is it
+// actually close to raising) AND `radar.access.accessPass` (syndicate:
+// does ID8 have a real route in, deal_intelligence/radar_access.py).
+// Blending the two into one number was explicitly rejected -- see that
+// module's docstring -- because a company can score high on either axis
+// for reasons that don't imply anything about the other. When access
+// hasn't been assessed at all yet (true for every company scored only by
+// the 2026-08-06 manual web-research pass -- `radar.access` is written by
+// the same Python pipeline call as `radar.hazard`, which that pass never
+// ran), the access gate doesn't block hot -- "unknown" isn't "no route in,"
+// same missing-isn't-zero convention every signal in this codebase already
+// follows. The old JS fallback path (neither marketHeat nor hazard
+// computed yet) keeps its own older score-only gate, no access check at all.
 export function radarCompanyToRow(c, opts) {
   const { radarConfig, keywords = [] } = opts;
   const base = companyToRow(c, opts);
@@ -57,78 +64,85 @@ export function radarCompanyToRow(c, opts) {
   const persistedHeat = c.radar?.hazard?.heatPoints;
   const hasPersistedHazard = typeof persistedHeat === 'number';
   // Heat Score Signal Framework (radar.marketHeat) is Radar's primary/
-  // hegemonic score as of 2026-08-05 (Oscar's own call) -- shown here as
-  // `score` whenever it has at least one of its 16 signals computed.
-  // Hot/Cold classification below is UNCHANGED, still driven by the
-  // hazard model's own heatPoints+access gate: watchFloor/hotThreshold
-  // are calibrated against hazard's distribution, not marketHeat's (see
-  // radar_market_heat.py's own module docstring for why swapping that
-  // over needs its own real-company validation first) -- so a company can
-  // show a marketHeat number that doesn't match its badge color until
-  // that recalibration happens. The tooltip says so explicitly rather
-  // than hiding the mismatch.
+  // hegemonic score (Oscar, 2026-08-05, reaffirmed 2026-08-06: hot/cold
+  // must actually key off it, not silently fall back to an unrelated
+  // 0-12 JS placeholder scale just because hazard hasn't run) -- `score`
+  // AND `hot` both prefer marketHeat whenever it exists, regardless of
+  // whether this company has also been through the Python hazard pipeline.
+  // Previously `score`/`hot` only ever looked at marketHeat INSIDE the
+  // `hasPersistedHazard` branch, so the ~50 companies scored via the
+  // 2026-08-06 manual web-research pass (marketHeat written, hazard never
+  // computed -- that pass never touches radar.hazard at all) fell straight
+  // to the JS placeholder below and showed as 0/near-0, never hot even at
+  // 80+ (Oscar, 2026-08-06 screenshots).
   const marketHeat = c.radar?.marketHeat;
   const hasMarketHeat = typeof marketHeat?.normalizedScore === 'number';
   // `heatLines`: an array, one entry per popover line (RadarHeatPopover),
   // rather than one `·`-joined string -- replaces the old native `title`
   // tooltip (Oscar, 2026-08-06: "hover it and you see the full explanation
   // of the score, and it doesn't go off unless you press it").
-  // `score` (the number shown/sorted-on) prefers marketHeat whenever it's
-  // present, independent of whether hazard has been computed for this
-  // company -- matching this function's own long-standing comment above
-  // ("Signal Framework is Radar's primary/hegemonic score") that the code
-  // itself wasn't actually honoring: `score` used to only ever look at
-  // marketHeat INSIDE the `hasPersistedHazard` branch, so the ~50 companies
-  // scored via the 2026-08-06 manual web-research pass (marketHeat written,
-  // hazard never computed -- that pass never touched radar.hazard at all)
-  // fell straight to the old 0-12 JS placeholder below and showed as
-  // 0/near-0 on the table (Oscar, 2026-08-06 screenshot). Hot/Cold
-  // classification is UNCHANGED here -- still hazard+access-gated when
-  // available, else the JS fallback's own gate -- same "badge color can lag
-  // the shown number until recalibration" tradeoff as before.
   const signalFrameworkLine = hasMarketHeat
     ? `Signal Framework ${marketHeat.normalizedScore} (${marketHeat.pointsAvailable}/100 pts scored)${marketHeat.roundAnnouncedFlag ? ' · round already announced, suppressed' : ''}`
     : null;
 
-  let hot, heatLines, fallbackTotal;
-  if (hasPersistedHazard) {
+  let score, hot, heatLines;
+  if (hasMarketHeat) {
+    const access = c.radar?.access;
+    // Access hasn't been assessed at all for a marketHeat-only company (see
+    // the module-level comment above) -- "unknown" doesn't block hot, only
+    // an explicit `accessPass === false` would.
+    const accessKnown = typeof access?.accessPass === 'boolean';
+    score = marketHeat.normalizedScore;
+    hot = score >= radarConfig.hotThreshold && (!accessKnown || access.accessPass);
+    heatLines = [signalFrameworkLine];
+    if (hasPersistedHazard) {
+      const { p90, p180, confidence, familiesActive, dataCoverage } = c.radar.hazard;
+      // Confidence + data coverage sit right next to the score itself, not
+      // buried after families/access (Isabella, 2026-07-30: "Heat Score: 81
+      // / Confidence: Medium / Data coverage: 68%") -- a partner glancing
+      // at this popover should see, before anything else, how much to
+      // trust the number they just read. `dataCoverage` may be absent on a
+      // company scanned before this field existed (radar_hazard.compute()
+      // didn't emit it pre-2026-07-30) -- omitted rather than shown as
+      // "0%", since that company's coverage was never unmeasured-and-zero,
+      // just unmeasured.
+      const coveragePct = typeof dataCoverage === 'number' ? Math.round(dataCoverage * 100) : null;
+      const confidenceLabel = confidence ? confidence[0].toUpperCase() + confidence.slice(1) : 'Unknown';
+      heatLines.push(
+        `Hazard model ${persistedHeat} · Confidence ${confidenceLabel}${coveragePct != null ? ` · Data coverage ${coveragePct}%` : ''}`,
+        `P180 ${Math.round(p180 * 100)}% · P90 ${Math.round(p90 * 100)}%`,
+        `Families: ${familiesActive?.length ? familiesActive.join(', ') : 'none'}`,
+      );
+    }
+    heatLines.push(
+      `Access: ${access?.level || (accessKnown ? 'unknown' : 'not yet assessed')}`,
+      `Classified ${hot ? 'HOT' : 'COLD'} (needs ${radarConfig.hotThreshold}+${accessKnown ? ' AND syndicate access' : ''})`,
+    );
+    heatLines = heatLines.filter(Boolean);
+  } else if (hasPersistedHazard) {
+    // No marketHeat at all yet, but a real hazard scan exists -- same
+    // "INTERSECTION of two deliberately separate gates" hot/cold logic
+    // this whole function has always used for the hazard-only case.
     const { p90, p180, confidence, familiesActive, dataCoverage } = c.radar.hazard;
     const access = c.radar?.access;
-    const hazardScore = persistedHeat;
-    const timingPass = hazardScore >= radarConfig.hotThreshold;
-    hot = timingPass && !!access?.accessPass;
-    // Confidence + data coverage sit right next to the score itself, not
-    // buried after families/access (Isabella, 2026-07-30: "Heat Score: 81 /
-    // Confidence: Medium / Data coverage: 68%") -- a partner glancing at
-    // this popover should see, before anything else, how much to trust the
-    // number they just read. `dataCoverage` may be absent on a company
-    // scanned before this field existed (radar_hazard.compute() didn't emit
-    // it pre-2026-07-30) -- omitted rather than shown as "0%", since that
-    // company's coverage was never unmeasured-and-zero, just unmeasured.
+    score = persistedHeat;
+    hot = persistedHeat >= radarConfig.hotThreshold && !!access?.accessPass;
     const coveragePct = typeof dataCoverage === 'number' ? Math.round(dataCoverage * 100) : null;
     const confidenceLabel = confidence ? confidence[0].toUpperCase() + confidence.slice(1) : 'Unknown';
     heatLines = [
-      signalFrameworkLine,
-      `Hazard model ${hazardScore} · Confidence ${confidenceLabel}${coveragePct != null ? ` · Data coverage ${coveragePct}%` : ''}`,
+      `Hazard model ${persistedHeat} · Confidence ${confidenceLabel}${coveragePct != null ? ` · Data coverage ${coveragePct}%` : ''}`,
       `P180 ${Math.round(p180 * 100)}% · P90 ${Math.round(p90 * 100)}%`,
       `Families: ${familiesActive?.length ? familiesActive.join(', ') : 'none'}`,
       `Access: ${access?.level || 'unknown'}`,
       `Classified ${hot ? 'HOT' : 'COLD'} (needs ${radarConfig.hotThreshold}+ AND syndicate access)`,
-    ].filter(Boolean);
+    ];
   } else {
     const fitScore = bestFitScore(c, base.meta?.bestInvestorFitScore);
     const breakdown = radarHeatBreakdown(c, radarConfig, fitScore);
-    fallbackTotal = breakdown.total;
-    hot = radarHotnessFromScore(breakdown.total, radarConfig) === 'hot';
-    heatLines = [
-      signalFrameworkLine,
-      `Timing ${breakdown.timing} + Fit ${breakdown.fit} = ${breakdown.total} (hot at ${radarConfig.hotThreshold}+, no hazard scan yet)`,
-    ].filter(Boolean);
+    score = breakdown.total;
+    hot = radarHotnessFromScore(score, radarConfig) === 'hot';
+    heatLines = [`Timing ${breakdown.timing} + Fit ${breakdown.fit} = ${score} (hot at ${radarConfig.hotThreshold}+, no hazard scan yet)`];
   }
-  // The shown/sorted-on number itself: marketHeat first (Radar's primary
-  // score per Oscar's 2026-08-05 call) regardless of which branch above ran
-  // for hot/cold, then persisted hazard, then the old JS placeholder.
-  const score = hasMarketHeat ? marketHeat.normalizedScore : (hasPersistedHazard ? persistedHeat : fallbackTotal);
 
   return {
     ...base,
