@@ -23,10 +23,13 @@ const SIGNAL_LABELS = {
   tier1InvestorCount: 'Tier 1 Investor Count',
 };
 
-// Short evidence line per signal, from whatever extra fields _entry()
-// stamped on it (band/momRate/count/context/proxyNote) -- the same
-// per-dimension "why" ScreenView/FitScoreScreenView already show, just
-// built from Radar's own field shapes instead of a written rationale.
+// Short evidence line per signal. Two distinct sources feed this, never
+// both at once: the wired Python signals stamp band/momRate/count/context/
+// proxyNote (radar_market_heat.py's own _entry() extras); the 2026-08-06
+// manual web-research pass instead stamps a plain `evidence` sentence + a
+// `source` citation URL (see docs/RADAR_HEAT_SCORE_RULES.md) -- same
+// per-dimension "why" ScreenView/FitScoreScreenView already show, just two
+// different field shapes depending on which pass produced the number.
 function signalEvidence(entry) {
   const bits = [];
   if (entry.band) bits.push(`band: ${entry.band}`);
@@ -34,6 +37,7 @@ function signalEvidence(entry) {
   if (entry.momRate != null) bits.push(`MoM rate: ${(entry.momRate * 100).toFixed(1)}%`);
   if (entry.count != null) bits.push(`count: ${entry.count}`);
   if (entry.proxyNote) bits.push(entry.proxyNote);
+  if (entry.evidence) bits.push(entry.evidence);
   return bits.join(' — ');
 }
 
@@ -88,6 +92,12 @@ export default function RadarHeatBreakdown({ radar }) {
                   </summary>
                   <div className={styles.dimEvidence}>
                     {entry.computed ? (signalEvidence(entry) || `Weight: ${entry.weight} pts`) : `Weight: ${entry.weight} pts — no source wired for this signal yet`}
+                    {entry.source && (
+                      <>
+                        {' '}
+                        <a href={entry.source} target="_blank" rel="noopener noreferrer">source</a>
+                      </>
+                    )}
                   </div>
                 </details>
               ))}

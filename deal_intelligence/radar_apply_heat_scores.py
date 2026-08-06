@@ -36,15 +36,13 @@ def run(path=DEFAULT_FILE, dry_run=False):
 
     for entry in entries:
         company_id = entry["id"]
-        market_heat = {
-            "signals": entry["signals"],
-            "score": entry.get("score"),
-            "normalizedScore": entry.get("normalizedScore"),
-            "pointsAvailable": entry.get("pointsAvailable"),
-            "notComputed": entry.get("notComputed", []),
-            "researchedAt": entry.get("researchedAt"),
-            "source": "manual-web-research-2026-08-06",
-        }
+        # Already in radar_market_heat.compute()'s own return shape (signals
+        # with weight/contribution baked in via that module's _entry(),
+        # timingUrgencyMultiplier/monthsUntilWindow applied) -- just pass it
+        # through, plus a provenance tag so a real Perplexity-backed re-scan
+        # later doesn't get confused about where these numbers came from.
+        market_heat = {k: v for k, v in entry.items() if k != "id"}
+        market_heat["source"] = "manual-web-research-2026-08-06"
         if dry_run:
             updated.append((company_id, market_heat["score"], market_heat["normalizedScore"]))
             continue
