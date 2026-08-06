@@ -73,7 +73,24 @@ export function radarCompanyToRow(c, opts) {
   // rather than one `·`-joined string -- replaces the old native `title`
   // tooltip (Oscar, 2026-08-06: "hover it and you see the full explanation
   // of the score, and it doesn't go off unless you press it").
-  let score, hot, heatLines;
+  // `score` (the number shown/sorted-on) prefers marketHeat whenever it's
+  // present, independent of whether hazard has been computed for this
+  // company -- matching this function's own long-standing comment above
+  // ("Signal Framework is Radar's primary/hegemonic score") that the code
+  // itself wasn't actually honoring: `score` used to only ever look at
+  // marketHeat INSIDE the `hasPersistedHazard` branch, so the ~50 companies
+  // scored via the 2026-08-06 manual web-research pass (marketHeat written,
+  // hazard never computed -- that pass never touched radar.hazard at all)
+  // fell straight to the old 0-12 JS placeholder below and showed as
+  // 0/near-0 on the table (Oscar, 2026-08-06 screenshot). Hot/Cold
+  // classification is UNCHANGED here -- still hazard+access-gated when
+  // available, else the JS fallback's own gate -- same "badge color can lag
+  // the shown number until recalibration" tradeoff as before.
+  const signalFrameworkLine = hasMarketHeat
+    ? `Signal Framework ${marketHeat.normalizedScore} (${marketHeat.pointsAvailable}/100 pts scored)${marketHeat.roundAnnouncedFlag ? ' · round already announced, suppressed' : ''}`
+    : null;
+
+  let hot, heatLines, fallbackTotal;
   if (hasPersistedHazard) {
     const { p90, p180, confidence, familiesActive, dataCoverage } = c.radar.hazard;
     const access = c.radar?.access;
@@ -90,11 +107,8 @@ export function radarCompanyToRow(c, opts) {
     // company's coverage was never unmeasured-and-zero, just unmeasured.
     const coveragePct = typeof dataCoverage === 'number' ? Math.round(dataCoverage * 100) : null;
     const confidenceLabel = confidence ? confidence[0].toUpperCase() + confidence.slice(1) : 'Unknown';
-    score = hasMarketHeat ? marketHeat.normalizedScore : hazardScore;
     heatLines = [
-      hasMarketHeat
-        ? `Signal Framework ${marketHeat.normalizedScore} (${marketHeat.pointsAvailable}/100 pts scored)${marketHeat.roundAnnouncedFlag ? ' · round already announced, suppressed' : ''}`
-        : null,
+      signalFrameworkLine,
       `Hazard model ${hazardScore} · Confidence ${confidenceLabel}${coveragePct != null ? ` · Data coverage ${coveragePct}%` : ''}`,
       `P180 ${Math.round(p180 * 100)}% · P90 ${Math.round(p90 * 100)}%`,
       `Families: ${familiesActive?.length ? familiesActive.join(', ') : 'none'}`,
@@ -104,10 +118,17 @@ export function radarCompanyToRow(c, opts) {
   } else {
     const fitScore = bestFitScore(c, base.meta?.bestInvestorFitScore);
     const breakdown = radarHeatBreakdown(c, radarConfig, fitScore);
-    score = breakdown.total;
-    hot = radarHotnessFromScore(score, radarConfig) === 'hot';
-    heatLines = [`Timing ${breakdown.timing} + Fit ${breakdown.fit} = ${score} (hot at ${radarConfig.hotThreshold}+)`];
+    fallbackTotal = breakdown.total;
+    hot = radarHotnessFromScore(breakdown.total, radarConfig) === 'hot';
+    heatLines = [
+      signalFrameworkLine,
+      `Timing ${breakdown.timing} + Fit ${breakdown.fit} = ${breakdown.total} (hot at ${radarConfig.hotThreshold}+, no hazard scan yet)`,
+    ].filter(Boolean);
   }
+  // The shown/sorted-on number itself: marketHeat first (Radar's primary
+  // score per Oscar's 2026-08-05 call) regardless of which branch above ran
+  // for hot/cold, then persisted hazard, then the old JS placeholder.
+  const score = hasMarketHeat ? marketHeat.normalizedScore : (hasPersistedHazard ? persistedHeat : fallbackTotal);
 
   return {
     ...base,
