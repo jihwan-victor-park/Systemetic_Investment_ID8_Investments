@@ -16,6 +16,17 @@ import styles from './RadarHeatPopover.module.css';
 // breakdown. `position: fixed`, same reasoning as PartnerVcPopover: the
 // stage tables render inside SortableTable's horizontally-scrolling wrapper,
 // which would clip an absolutely-positioned panel.
+// Only one of these panels should ever be open at a time -- hovering row 2
+// while row 1's panel is still open (by design: it only closes on an
+// outside click, never on mouseleave) used to leave BOTH open, and a scroll
+// through several rows stacked one panel per row on top of each other
+// (Oscar, 2026-08-06 screenshot: three overlapping "HAZARD MODEL" panels).
+// A plain DOM CustomEvent is the simplest way to coordinate across sibling
+// table-row instances that don't share a parent component to hold shared
+// state in -- each instance just closes itself when it hears a DIFFERENT
+// instance just opened.
+const OPEN_EVENT = 'radar-heat-popover-open';
+
 export default function RadarHeatPopover({ score, hot, lines, nextScanDate, nextScanReason }) {
   const triggerRef = useRef(null);
   const panelRef = useRef(null);
@@ -28,13 +39,21 @@ export default function RadarHeatPopover({ score, hot, lines, nextScanDate, next
       if (triggerRef.current?.contains(e.target) || panelRef.current?.contains(e.target)) return;
       setOpen(false);
     }
+    function onOtherOpen(e) {
+      if (e.detail !== triggerRef.current) setOpen(false);
+    }
     document.addEventListener('mousedown', onDocClick);
-    return () => document.removeEventListener('mousedown', onDocClick);
+    document.addEventListener(OPEN_EVENT, onOtherOpen);
+    return () => {
+      document.removeEventListener('mousedown', onDocClick);
+      document.removeEventListener(OPEN_EVENT, onOtherOpen);
+    };
   }, [open]);
 
   function show() {
     const rect = triggerRef.current?.getBoundingClientRect();
     if (rect) setCoords({ top: rect.bottom, left: Math.min(rect.left, window.innerWidth - 320 - 12) });
+    document.dispatchEvent(new CustomEvent(OPEN_EVENT, { detail: triggerRef.current }));
     setOpen(true);
   }
 
