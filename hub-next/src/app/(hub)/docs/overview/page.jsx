@@ -1,11 +1,7 @@
 import { H2 } from '@/components/Prose';
 import StatusPill from '@/components/StatusPill';
-import DealStatsDashboard from '@/components/DealStatsDashboard';
-import { listCompanies } from '@/lib/companies';
 
-export const metadata = { title: 'Dashboard', description: 'ID8’s deal pipeline, at a glance.' };
-
-export const dynamic = 'force-dynamic';
+export const metadata = { title: 'AI Capabilities', description: 'How ID8 uses AI and automation across the fund.' };
 
 const SYSTEMS = [
   { name: 'PitchBook → Attio Pipeline', what: 'Pulls deal, company, and investor data into Attio and keeps the investor graph accurate.', status: 'Live' },
@@ -15,21 +11,14 @@ const SYSTEMS = [
   { name: 'Documentation System', what: 'Latent Order design system for building and publishing ID8 operating guides.', status: 'Live' },
 ];
 
-// The landing page (Oscar, 2026-08-06: "the landing page to be the summary
-// statistics of the hub") -- this is what the Navbar's "Dashboard" link and
-// the sidebar's top entry both point at. The stats dashboard leads; the
-// existing "AI Capabilities" writeup (what this page used to be, in full)
-// stays below it rather than getting deleted -- still real, still useful,
-// just no longer the first thing you see on sign-in.
-export default async function OverviewPage() {
-  const companies = await listCompanies();
-
+// Reverted to the original "AI Capabilities" page (2026-08-06, Oscar:
+// "eliminate all the summary statistics stuff, still horrible") -- the
+// DealStatsDashboard/lib/dealStats.js experiment from earlier this session
+// has been deleted outright, not just unlinked.
+export default function OverviewPage() {
   return (
     <>
-      <h1>Dashboard</h1>
-      <DealStatsDashboard companies={companies} />
-
-      <H2>AI Capabilities</H2>
+      <h1>AI Capabilities</h1>
       <p>
         ID8 runs a set of AI and automation systems that turn raw market data into fund workflows. This hub is
         where each one is documented: what it does, how to use it, how it works, and where the code lives. As we
