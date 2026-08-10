@@ -119,3 +119,86 @@ def test_round_slug_from_series():
 def test_round_slug_defaults_when_no_series():
     assert m._round_slug("") == "round"
     assert m._round_slug(None) == "round"
+
+
+# ── process_group: top10VC + the radar tag (2026-08-10) ─────────────────
+#
+# These DO exercise process_group, so they stub Firestore rather than hitting
+# it. Only the payload matters -- dry_run=True means nothing is written.
+
+class _Snap:
+    def __init__(self, data): self.exists = data is not None; self._d = data or {}
+    def to_dict(self): return self._d
+
+
+class _Ref:
+    """Captures the payload process_group would have written."""
+    def __init__(self, existing=None): self._existing = existing
+    def get(self): return _Snap(self._existing)
+    def set(self, *a, **k): raise AssertionError("dry_run must not write")
+
+
+class _DB:
+    def __init__(self, existing=None): self._existing = existing
+    def collection(self, _): return self
+    def document(self, _): return _Ref(self._existing)
+
+
+def _payload_for(rows, existing=None):
+    """Re-runs process_group's payload construction by monkeypatching set()."""
+    captured = {}
+
+    class CapturingRef(_Ref):
+        def set(self, payload, *a, **k): captured.update(payload)
+
+    class CapturingDB(_DB):
+        def document(self, _): return CapturingRef(self._existing)
+
+    m.process_group("acme", rows, CapturingDB(existing), dry_run=False)
+    return captured
+
+
+def test_top10_match_also_sets_the_top10vc_boolean():
+    """hub-next's Top 10 VC view filters on top10VC, never on top10Investors --
+    writing only the list left every matched company out of that view."""
+    p = _payload_for([_row(series="Series C", investor_domains=["sequoiacap.com"])])
+    assert p["top10Investors"] == ["Sequoia Capital"]
+    assert p["top10VC"] is True
+
+
+def test_no_top10_match_sets_neither_field():
+    p = _payload_for([_row(series="Series C", investor_domains=["nobody.com"])])
+    assert "top10VC" not in p and "top10Investors" not in p
+
+
+def test_series_b_with_a_top10_backer_gets_the_radar_tag():
+    p = _payload_for([_row(series="Series B", investor_domains=["sequoiacap.com"])])
+    assert "radar" in p["tags"]._values
+
+
+def test_series_b_without_a_top10_backer_gets_no_radar_tag():
+    p = _payload_for([_row(series="Series B", investor_domains=["nobody.com"])])
+    assert "tags" not in p
+
+
+def test_above_b_never_gets_the_radar_tag_even_when_top10_backed():
+    p = _payload_for([_row(series="Series D", investor_domains=["sequoiacap.com"])])
+    assert "tags" not in p
+
+
+def test_passed_and_radar_tags_compose_into_one_arrayunion():
+    """Two separate ArrayUnions on the same key would clobber each other --
+    only the last would survive the merge write."""
+    p = _payload_for([_row(series="Series B", stage="Passed",
+                           investor_domains=["sequoiacap.com"])])
+    assert set(p["tags"]._values) == {"passed", "pipeline", "radar"}
+
+
+def test_the_import_never_overwrites_an_existing_human_set_stage():
+    """Attio's stage is a human filing (Invested/Passed/Target) the series rule
+    can't express -- radar arrives as an additive tag, never as `stage`."""
+    p = _payload_for([_row(series="Series B", stage="Invested",
+                           investor_domains=["sequoiacap.com"])],
+                     existing={"stage": "invested"})
+    assert "stage" not in p
+    assert "radar" in p["tags"]._values

@@ -37,6 +37,11 @@ from deal_intelligence import radar_state as di_radar_state
 from deal_intelligence import tier1_firms as di_tier1
 from deal_intelligence import email_format as di_email_format
 from deal_intelligence import rubric as di_rubric
+# Re-exported: the placement rule moved to deal_intelligence/placement.py so
+# import_attio_deals_csv.py could share it (see that module's docstring).
+# `from app import determine_placement` still resolves here.
+from deal_intelligence.placement import (  # noqa: F401
+    QUALIFIED_STAGE, determine_placement, determine_stage)
 
 app = Flask(__name__)
 
@@ -584,96 +589,22 @@ def build_attio_values(row, company_record_id, stage="Watchlist", source=None, t
 #
 # Widened from "Series A or earlier" to "Series B or earlier" 2026-07-28
 # (Oscar: "Radar should include Series B") -- see RADAR_PLAN.md Part I. ID8
-# invests at Series B+, so a company that just closed a B can't raise again
-# for 18-24 months: it isn't a live opportunity, it's a company to watch
-# until its *next* round (the one actually in mandate). Renamed from
-# _EARLY_SERIES_RE since "early" stopped being accurate once B was in scope
-# -- this is "below where we'd write a check today", not "early-stage".
-#
-# Anchored at the start so 'Series B' matches but 'Series C' never does, and
-# \d* after the letter covers the A1/A2/B1/B2 tranche naming. The trailing
-# boundary stops 'Series BB'-style values from matching on the 'B'.
-_BELOW_MANDATE_SERIES_RE = re.compile(
-    r'^\s*(?:pre[-\s]?seed|seed|angel|pre[-\s]?a|series\s*[ab]\d*)\b',
-    re.IGNORECASE)
-
-# Series B specifically (B, B1, B2, ... but never 'BB'). Split out from
-# _BELOW_MANDATE_SERIES_RE 2026-08-03: B is no longer just "below mandate", it
-# is the one band that belongs in BOTH buckets -- see determine_placement.
-_SERIES_B_RE = re.compile(r'^\s*series\s*b\d*\b', re.IGNORECASE)
-
-QUALIFIED_STAGE = 'Qualified'
-
-
-def determine_stage(series, default_stage):
-    """Legacy single-stage resolver, kept for the callers and tests that only
-    need "where does this one deal live in Attio". Prefer determine_placement,
-    which also reports the hub's additive tags.
-
-    A blank/unknown series is NOT treated as early -- we can't tell, so it keeps
-    the caller's default rather than being silently demoted to Radar."""
-    return determine_placement(series, default_stage)[0]
-
-
-def determine_placement(series, default_stage):
-    """Resolve one deal's placement from its series. Returns
-    (attio_stage, hub_tags).
-
-    hub_tags holds the ADDITIVE, non-primary hub stages only -- never the
-    primary itself. hub-next models multi-stage membership as
-    `checked = {stage} ∪ (tags ∩ PUBLIC_STAGES)` and expects the primary not to
-    be duplicated inside `tags` (see StageMultiSelect.jsx's header comment and
-    lib/stages.js's TAGS comment). A company shows up in a tab when EITHER its
-    stage matches OR its tags contain that tab, so returning ['radar'] alongside
-    stage='Qualified' is what puts one deal in both Qualified Deals and Radar.
-
-    The rule, per Oscar 2026-08-03, is a property of the SERIES, applied
-    identically to every intake source -- sources differ only in which series
-    they carry, not in how a given series should be treated. `default_stage`
-    is the caller's in-mandate destination (Qualified for the deal-flow and
-    Top 10 VC drops, Watchlist for the watchlist drop):
-      - below B (pre-seed/seed/angel/pre-A/A)  -> Radar, overriding the default
-      - exactly B (B, B1, B2)                  -> default stage AND radar
-      - above B (C, D, E, growth, ...)         -> default stage
-      - unknown/blank                          -> default stage, no tags
-
-    The dual case is why this function exists. Attio's `stage` is a
-    single-select and cannot hold two values, so a Series B resolves to the
-    caller's stage in Attio (Oscar's call: for the deal-flow/Top 10 pathways
-    that means **Qualified** -- Attio stays the actionable pipeline view)
-    while the hub carries the full truth by ALSO tagging it `radar`. A Series
-    B genuinely is both: in-mandate at B+, and simultaneously a company that
-    just raised and so can't raise again for 18-24 months -- exactly what
-    Radar tracks.
-
-    Radar is reached through the SERIES rule, never by an endpoint defaulting
-    to it. That distinction is the fix for a real bug: /process-top10 used to
-    pass default_stage='Radar', and `'Radar' if <=B else default_stage`
-    therefore returned 'Radar' for EVERY series including C/D/E -- every Top
-    10 VC deal landed on Radar and none ever reached Qualified. The old
-    signature made that invisible to tests, which only ever passed
-    'Qualified'/'Watchlist' as the default. Keeping the default as the
-    in-mandate stage also leaves /process-watchlist's own Watchlist
-    destination intact rather than forcing everything to Qualified.
-    """
-    s = str(series or '')
-    if _SERIES_B_RE.match(s):
-        # The dual case: primary stage is the caller's in-mandate destination,
-        # plus radar as an ADDITIVE tag.
-        return default_stage, (['radar'] if str(default_stage or '').strip().lower() != 'radar' else [])
-    if _BELOW_MANDATE_SERIES_RE.match(s):
-        return 'Radar', []
-    if s.strip() and s.strip().lower() not in ('nan', 'none'):
-        # A known series above B -> the caller's in-mandate destination.
-        return default_stage, []
-    # Unknown series: we can't tell, so don't guess -- keep the caller's
-    # default and add no tags.
-    return default_stage, []
-
-def upsert_deal(row, company_record_id, stage="Watchlist", source=None, top10=False):
+def upsert_deal(row, company_record_id, stage="Watchlist", source=None, top10=False,
+                top10_firms=None):
+    """`top10_firms` is the PER-DEAL Top 10 match (match_top10 against this
+    row's own investors); `top10` is the route-level flag /process-top10 sets
+    for its whole file. Either one confirms Top 10 VC backing, so both feed the
+    Attio flag -- but only the per-deal list can gate Radar placement, which is
+    why it has to be resolved before this call rather than after it."""
     company_name = str(row.get('Companies', '')).strip()
     series = str(row.get('Series', '')).strip()
-    stage, hub_tags = determine_placement(series, stage)
+    stage, hub_tags = determine_placement(series, stage, top10_firms)
+    if stage is None:
+        # Below mandate with no Top 10 backer -- no Attio deal, no screening,
+        # no hub page. Reported by run_pipeline, never silently discarded.
+        return {"status": "filtered", "reason": "below B+ mandate, no Top 10 VC",
+                "series": series, "hub_tags": []}
+    top10 = bool(top10 or top10_firms)
 
     existing_id = find_deal(company_name, series)
     if existing_id:
@@ -743,7 +674,9 @@ def upsert_deal(row, company_record_id, stage="Watchlist", source=None, top10=Fa
 def run_pipeline(file_bytes, stage, source=None, top10=False):
     df = transform_excel(file_bytes)
     get_company_index(refresh=True)   # fresh Companies snapshot for investor matching
-    results = {"created": 0, "skipped": 0, "errors": [], "deals": []}
+    # `filtered`: rows deliberately not filed (below B+ with no Top 10 backer).
+    # Distinct from `errors` -- nothing went wrong, the deal just has no home.
+    results = {"created": 0, "skipped": 0, "errors": [], "deals": [], "filtered": []}
 
     def clean(val):
         s = str(val or "").strip()
@@ -753,16 +686,36 @@ def run_pipeline(file_bytes, stage, source=None, top10=False):
         website = str(row.get("Company Website", "") or "")
         company_name = str(row.get("Companies", "")).strip()
         description = clean(row.get("Description", ""))
-        company_id = find_or_create_company(company_name, website, description) if website and website != 'nan' else None
-        status = upsert_deal(row.to_dict(), company_id, stage, source, top10)
-
         # Investor names off all three PitchBook investor columns, for Tier 1
         # matching alongside the domains resolved from 'Investors Websites'.
+        #
+        # Resolved BEFORE upsert_deal as of 2026-08-10. It used to run straight
+        # after, which made the per-deal Top 10 match arrive too late to affect
+        # anything that mattered: placement had already been decided without it
+        # (so Radar took every below-B deal regardless of cap table) and the
+        # Attio flag came from the route-level `top10` instead (so a Sequoia-led
+        # Series B in the ordinary weekly drop never got stamped). The match
+        # itself was fine -- it just fed the email and nothing else.
         investor_names = []
         for col in INVESTOR_REF_MAP:
             investor_names.extend(parse_investors(row.get(col)))
         investor_domains = sorted(set(parse_investor_websites(row.get('Investors Websites')).values()))
         top10_firms = di_tier1.match_top10(investor_domains, investor_names)
+
+        # Filtered deals bail out HERE, before find_or_create_company -- a deal
+        # we're not filing shouldn't leave a new Company record behind in Attio
+        # as a side effect. upsert_deal re-derives the same placement and would
+        # refuse it too; this is the cheaper gate, not the authoritative one.
+        if determine_placement(clean(row.get("Series")), stage, top10_firms)[0] is None:
+            results["filtered"].append({
+                "company": company_name,
+                "series": clean(row.get("Series")),
+                "reason": "below B+ mandate, no Top 10 VC",
+            })
+            continue
+
+        company_id = find_or_create_company(company_name, website, description) if website and website != 'nan' else None
+        status = upsert_deal(row.to_dict(), company_id, stage, source, top10, top10_firms)
 
         deal_row = {
             "company":        company_name,
@@ -804,6 +757,15 @@ def run_pipeline(file_bytes, stage, source=None, top10=False):
                 # Kept as `skipped` for backward compatibility -- n8n and
                 # /process/status consumers already read this key.
                 results["skipped"] += 1
+        elif status_name == "filtered":
+            # Defensive: run_pipeline's own pre-check above normally catches
+            # these first. Reaching here means the two disagreed -- record it
+            # as filtered, not as an error, so it can't inflate the error count.
+            results["filtered"].append({
+                "company": company_name,
+                "series": status.get("series", ""),
+                "reason": status.get("reason", ""),
+            })
         else:
             results["errors"].append({"deal": company_name, "error": status})
 
@@ -821,18 +783,57 @@ def _read_file_bytes():
 # --- Routes ------------------------------------------------------------------
 
 def _start_pipeline(stage, source, top10=False, flow=None):
+    global _pipeline_state
+
     file_bytes, err = _read_file_bytes()
     if err:
         return err
-    with _pipeline_lock:
-        if _pipeline_state.get("status") in ("running", "screening"):
-            return jsonify({"error": "already running", "state": dict(_pipeline_state)}), 409
-        _pipeline_state.clear()
-        _pipeline_state.update({"status": "running"})
 
-    t = threading.Thread(target=_run_pipeline_bg,
-                         args=(file_bytes, stage, source, top10, flow), daemon=True)
-    t.start()
+    # Only ONE intake run may be in flight at a time: the service has a 512 MiB
+    # limit and a single set of module-level state dicts, so two real pipelines
+    # at once would both OOM and clobber each other's results.
+    #
+    # But a second caller has to QUEUE, not be rejected. This used to return 409
+    # "already running" the instant it saw a run in progress, which silently
+    # killed a whole weekly intake: the PitchBook and Top 10 Drive drops land
+    # seconds apart, so n8n fires both flows nearly simultaneously
+    # (2026-08-10: /process-top10 at 13:10:43, /process 409'd 9s later, 3ms in).
+    # It went unnoticed before 2026-08-03 only because 3 gunicorn workers meant
+    # 3 independent copies of _pipeline_state -- the guard could never see a run
+    # happening in another process, so colliding drops both got through by
+    # accident. 21225bb collapsed that to 1 worker for memory and status-polling
+    # correctness, which made this guard real for the first time.
+    #
+    # Waiting is safe here because the caller's own budget below is reduced by
+    # however long it queued, so queue + run together still land inside
+    # gunicorn's 1800s --timeout rather than being cut off mid-response.
+    queue_started = time.time()
+    if not _pipeline_slot.acquire(timeout=_QUEUE_WAIT_SECONDS):
+        with _pipeline_lock:
+            busy = dict(_pipeline_state)
+        return jsonify({"error": "busy — another intake run is still going",
+                        "waited_seconds": round(time.time() - queue_started),
+                        "state": busy}), 503
+    queued_for = time.time() - queue_started
+
+    # A per-run dict, held by reference, rather than a shared global the next run
+    # would overwrite: whoever queued behind us rebinds _pipeline_state the
+    # moment we finish, and reading the global after our own run completed would
+    # then hand this caller the *next* flow's freshly-reset {"status": "running"}.
+    run_state = {"status": "running", "queued_seconds": round(queued_for)}
+    with _pipeline_lock:
+        _pipeline_state = run_state
+
+    try:
+        t = threading.Thread(target=_run_pipeline_bg,
+                             args=(file_bytes, stage, source, top10, flow, run_state),
+                             daemon=True)
+        t.start()
+    except BaseException:
+        # The worker releases the slot in its own finally; if it never started,
+        # nothing else ever will and every later run would queue until timeout.
+        _pipeline_slot.release()
+        raise
 
     # Block until the whole pipeline (ingest + Perplexity screening) finishes, so
     # the single n8n HTTP node gets deals + fit scores + email_html in one response.
@@ -845,16 +846,22 @@ def _start_pipeline(stage, source, top10=False, flow=None):
     # fit_score on any deal, even though scoring finished normally moments later.
     # If a large upload still doesn't finish in time, we return the partial state
     # and the caller can poll /process/status for the rest.
-    deadline = time.time() + 1700
+    #
+    # Budget is 1700s MINUS however long we sat in the queue, so a queued run
+    # can't push the total past gunicorn's 1800s and lose the response anyway --
+    # the exact failure mode the queue was added to prevent. The floor keeps a
+    # long-queued caller from being handed a zero-length budget and returning
+    # "running" immediately.
+    deadline = time.time() + max(120, 1700 - queued_for)
     while time.time() < deadline:
         with _pipeline_lock:
-            s = _pipeline_state.get("status")
+            s = run_state.get("status")
         if s in ("complete", "error"):
             break
         time.sleep(1)
 
     with _pipeline_lock:
-        state = dict(_pipeline_state)
+        state = dict(run_state)
 
     if state.get("status") == "error":
         return jsonify(state), 500
@@ -1042,8 +1049,38 @@ _update_lock = threading.Lock()
 _pipeline_state = {"status": "idle"}
 _pipeline_lock = threading.Lock()
 
+# Admission slot for /process, /process-watchlist, /process-top10 -- one intake
+# run at a time, with the rest queueing rather than being turned away. See the
+# long note in _start_pipeline for why rejecting was wrong. BoundedSemaphore so
+# a double release (a bug) raises immediately instead of quietly permitting two
+# concurrent runs on a 512 MiB service.
+_pipeline_slot = threading.BoundedSemaphore(1)
+# How long a queued caller waits for the slot before giving up with a 503. Sized
+# against a real Stage 1 batch (550s and 467s are both in the Aug 2026 logs) so
+# a normal collision always gets served, while leaving the 120s floor above.
+_QUEUE_WAIT_SECONDS = 900
 
-def _run_pipeline_bg(file_bytes, stage, source, top10, source_key=None):
+
+def _run_pipeline_bg(file_bytes, stage, source, top10, source_key=None, run_state=None):
+    """Thread entry point: runs the worker, then always hands the admission slot
+    back. Only this thread can release it, so an early return or an unhandled
+    crash inside the worker must not be able to strand the slot -- if it did,
+    every later intake run would queue for the full _QUEUE_WAIT_SECONDS and then
+    503, turning one bad run into a permanently wedged endpoint.
+    """
+    if run_state is None:          # direct callers (tests, /recover-*) keep the global
+        run_state = _pipeline_state
+    try:
+        _run_pipeline_worker(file_bytes, stage, source, top10, source_key, run_state)
+    except BaseException:
+        print("PIPELINE WORKER CRASHED:", traceback.format_exc())
+        with _pipeline_lock:
+            run_state.update({"status": "error", "error": "pipeline worker crashed"})
+    finally:
+        _pipeline_slot.release()
+
+
+def _run_pipeline_worker(file_bytes, stage, source, top10, source_key, run_state):
     """Background worker for /process, /process-watchlist, /process-top10.
 
     Phase 1 (fast): ingest deals into Attio → state becomes "screening".
@@ -1054,20 +1091,20 @@ def _run_pipeline_bg(file_bytes, stage, source, top10, source_key=None):
     to "complete" with no fit fields.
     """
     with _pipeline_lock:
-        _pipeline_state.update({"status": "running", "created": 0, "skipped": 0,
+        run_state.update({"status": "running", "created": 0, "skipped": 0,
                                  "errors": [], "deals": [], "error": None})
     try:
         results = run_pipeline(file_bytes, stage=stage, source=source, top10=top10)
     except Exception as e:
         print("PIPELINE ERROR:", traceback.format_exc())
         with _pipeline_lock:
-            _pipeline_state.update({"status": "error", "error": str(e)})
+            run_state.update({"status": "error", "error": str(e)})
         return
 
     # Publish Attio-ingestion results immediately so a short-polling caller can
     # already render the deal list while screening is in progress.
     with _pipeline_lock:
-        _pipeline_state.update({"status": "screening", **results})
+        run_state.update({"status": "screening", **results})
 
     # ── Stage 1 screening ────────────────────────────────────────────────────
     # Screen every deal this run surfaced (new AND already-in-Attio) EXCEPT the
@@ -1129,7 +1166,9 @@ def _run_pipeline_bg(file_bytes, stage, source, top10, source_key=None):
         if not slug:
             continue
         try:
-            if di_firestore_push.apply_placement(slug, tags, stage=stage_lc).get("written"):
+            if di_firestore_push.apply_placement(
+                    slug, tags, stage=stage_lc,
+                    top10_firms=d.get("top10_firms") or None).get("written"):
                 placed += 1
         except Exception as exc:
             # Non-blocking: placement is metadata. Losing it must not abort a run
@@ -1160,6 +1199,11 @@ def _run_pipeline_bg(file_bytes, stage, source, top10, source_key=None):
                     round=d.get("series") or None,
                     hq=d.get("hq_location") or None,
                     lead_investors=d.get("lead_investors") or None,
+                    # Per-deal Top 10 match, so a screen pushed from the weekly
+                    # drop carries the same top10VC signal the /process-top10
+                    # route sets. Only ever True -- never False, so this can't
+                    # un-flag a company an earlier confirmed match already set.
+                    top10=True if d.get("top10_firms") else None,
                 )
                 for i, d in enumerate(new_deals)
             ]
@@ -1233,9 +1277,11 @@ def _run_pipeline_bg(file_bytes, stage, source, top10, source_key=None):
     try:
         title = EMAIL_TITLES.get(source_key, "Deal Intake")
         results["email_html"] = di_email_format.intake_email_html(
-            results.get("deals", []), title=title)
+            results.get("deals", []), title=title,
+            filtered=results.get("filtered") or None)
         results["email_text"] = di_email_format.intake_email_text(
-            results.get("deals", []), title=title)
+            results.get("deals", []), title=title,
+            filtered=results.get("filtered") or None)
         # Built with .day rather than strftime('%-d'): the no-pad directive is a
         # glibc/BSD extension, not portable, and this runs both on Cloud Run and
         # on a Mac laptop.
@@ -1250,7 +1296,7 @@ def _run_pipeline_bg(file_bytes, stage, source, top10, source_key=None):
         print("EMAIL RENDER ERROR:", traceback.format_exc())
 
     with _pipeline_lock:
-        _pipeline_state.update({"status": "complete", **results})
+        run_state.update({"status": "complete", **results})
 
 
 def _run_update_investors(file_bytes):

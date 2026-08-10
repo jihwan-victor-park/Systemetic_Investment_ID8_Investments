@@ -225,8 +225,22 @@ def push_company_screen_firestore(fit: DealFit, deal: DealInput, slug: str, docx
     return {"slug": slug, "screen_id": screen_id, "docx_uploaded": docx_path is not None}
 
 
-def apply_placement(slug: str, tags: list, stage: str = None) -> dict:
+def apply_placement(slug: str, tags: list, stage: str = None,
+                    top10_firms: list = None) -> dict:
     """Apply an intake run's resolved placement to a company doc.
+
+    `top10_firms` are the TOP10 firms matched on this deal's own cap table
+    (pipeline/app.py's per-deal match_top10). Added 2026-08-10: this runs for
+    EVERY deal in a run, screened or not, so it's the one place that can record
+    Top 10 backing for a company that skips screening entirely. Before this,
+    top10VC reached the hub only via push_company_from_attio and a one-time
+    backfill, so a Sequoia-led deal arriving through the weekly PitchBook drop
+    showed top10VC=false in hub-next's Top 10 VC view.
+
+    Only ever sets top10VC True, never False -- the field means "confirmed Top
+    10-backed", and a later run whose investor columns happen to be thinner
+    must not retract an earlier confirmed match. Same convention as
+    backfill_top10_vc and build_attio_values' Attio-side flag.
 
     `tags` are the ADDITIVE, non-primary hub stages from
     pipeline/app.py's determine_placement -- e.g. ['radar'] for a Series B whose
@@ -248,19 +262,24 @@ def apply_placement(slug: str, tags: list, stage: str = None) -> dict:
     source gets no push_company_screen_firestore call at all, so this is the ONLY
     thing that records the second source's placement for it.
     """
-    if not slug or (not tags and not stage):
+    if not slug or (not tags and not stage and not top10_firms):
         return {"slug": slug, "written": False}
     ref = _firestore().collection("companies").document(slug)
     payload = {}
     if tags:
         payload["tags"] = firestore.ArrayUnion(list(tags))
+    if top10_firms:
+        payload["top10VC"] = True
+        # ArrayUnion so a run that saw only some of the firms on the cap table
+        # adds to the known set rather than replacing it.
+        payload["tier1Firms"] = firestore.ArrayUnion(list(top10_firms))
     if stage and not ref.get().exists:
         payload["stage"] = stage
     if not payload:
         return {"slug": slug, "written": False}
     ref.set(payload, merge=True)
     return {"slug": slug, "written": True, "tags": list(tags or []),
-            "stage": payload.get("stage")}
+            "stage": payload.get("stage"), "top10_firms": list(top10_firms or [])}
 
 
 def latest_screen(slug: str) -> dict | None:

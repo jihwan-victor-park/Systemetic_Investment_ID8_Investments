@@ -319,13 +319,21 @@ def _intake_card(deal: dict, screened_now: bool) -> str:
     )
 
 
-def intake_email_html(deals: list, title: str, hub_base_url: str = None) -> str:
+def intake_email_html(deals: list, title: str, hub_base_url: str = None,
+                      filtered: list = None) -> str:
     """The full intake digest for one workflow run.
 
     deals: run_pipeline's `deals` rows, enriched by _run_pipeline_bg with the
     fit_* fields for anything screened on this run. Each row carries `is_new`
     (brand new to Attio vs already present via another source) and
     `already_screened`.
+
+    filtered: run_pipeline's `filtered` rows -- deals deliberately not filed
+    because they're below the B+ mandate with no Top 10 firm on the cap table
+    (Oscar's 2026-08-10 Radar gate). Listed by name rather than merely counted:
+    the gate silently discards rows that used to land on Radar, and a rule that
+    drops deals has to show its work, or a mis-parsed investor column becomes
+    invisible data loss.
 
     Splits into two sections deliberately: new deals with their full Stage 1
     screen, then an "already in Attio" section reporting each re-seen deal's
@@ -352,6 +360,8 @@ def intake_email_html(deals: list, title: str, hub_base_url: str = None) -> str:
         summary += f" · {gated} clear the gate"
     if top10:
         summary += f" · {top10} Top 10 VC-backed"
+    if filtered:
+        summary += f" · {len(filtered)} filtered out"
 
     body = ""
     if new:
@@ -372,6 +382,23 @@ def intake_email_html(deals: list, title: str, hub_base_url: str = None) -> str:
     if not deals:
         body = (f'<div style="font-size:13px;color:{GREY};">'
                 f'No deals in this export.</div>')
+    if filtered:
+        rows = "".join(
+            f'<div style="font-size:12px;color:{GREY};margin-bottom:3px;">'
+            f'{_esc(str(f.get("company", "")))}'
+            f' · {_esc(str(f.get("series", "")))}'
+            f'</div>'
+            for f in filtered)
+        body += (
+            f'<div style="margin:8px 0 10px 0;padding-top:10px;'
+            f'border-top:2px solid {CHARCOAL};font-size:11px;font-weight:600;'
+            f'letter-spacing:1px;text-transform:uppercase;color:{CHARCOAL};">'
+            f'Filtered out — not filed</div>'
+            f'<div style="font-size:12px;color:{GREY};margin-bottom:10px;">'
+            f'Below the B+ mandate with no Top 10 VC on the cap table, so these '
+            f'were not written to Attio, screened, or published to the hub.</div>'
+            f'{rows}'
+        )
 
     return (
         f'<div style="font-family:{BODY_FONT};max-width:680px;color:{CHARCOAL};">'
@@ -387,7 +414,7 @@ def intake_email_html(deals: list, title: str, hub_base_url: str = None) -> str:
     )
 
 
-def intake_email_text(deals: list, title: str) -> str:
+def intake_email_text(deals: list, title: str, filtered: list = None) -> str:
     """Plain-text fallback for the intake digest."""
     out = [title, ""]
     for label, rows, is_new in (("NEW", [d for d in deals if d.get("is_new")], True),
@@ -410,6 +437,11 @@ def intake_email_text(deals: list, title: str) -> str:
             if d.get("top10_firms"):
                 line += f" [Top 10: {', '.join(d['top10_firms'])}]"
             out.append("  " + line)
+        out.append("")
+    if filtered:
+        out.append("— FILTERED OUT (below B+ mandate, no Top 10 VC) —")
+        for f in filtered:
+            out.append(f"  {f.get('company','')} ({f.get('series','')})")
         out.append("")
     return "\n".join(out)
 

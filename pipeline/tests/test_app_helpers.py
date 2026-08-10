@@ -32,26 +32,35 @@ class TestCleanNumber:
 
 
 class TestDetermineStage:
-    def test_below_b_series_moves_to_radar(self):
-        # Widened from Series A to Series B 2026-07-28 -- RADAR_PLAN.md Part I.
-        # Narrowed back to "below B" 2026-08-03: Series B is no longer Radar-only,
-        # it lands in BOTH buckets (the caller's in-mandate stage in Attio, plus a
-        # `radar` hub tag) per Oscar's confirmed rules. See
-        # test_determine_placement.py, which owns the full routing matrix.
+    # Radar is gated on the cap table as of 2026-08-10 -- below-B reaches it
+    # only with a TOP10 firm on the round. test_determine_placement.py owns the
+    # full routing matrix; these are the smoke cases.
+    TOP10 = ["Sequoia Capital"]
+
+    def test_below_b_series_with_a_top10_backer_moves_to_radar(self):
         for series in ("Seed", "Pre-Seed", "Pre-A", "Series A"):
-            assert determine_stage(series, "Watchlist") == "Radar"
+            assert determine_stage(series, "Watchlist", self.TOP10) == "Radar"
+
+    def test_below_b_series_without_a_top10_backer_has_no_home(self):
+        for series in ("Seed", "Pre-Seed", "Pre-A", "Series A"):
+            assert determine_stage(series, "Watchlist") is None
 
     def test_series_b_keeps_the_in_mandate_stage_and_gets_a_radar_tag(self):
         from app import determine_placement
+        assert determine_stage("Series B", "Qualified", self.TOP10) == "Qualified"
+        assert "radar" in determine_placement("Series B", "Qualified", self.TOP10)[1]
+
+    def test_series_b_without_a_top10_backer_is_qualified_only(self):
+        from app import determine_placement
         assert determine_stage("Series B", "Qualified") == "Qualified"
-        assert "radar" in determine_placement("Series B", "Qualified")[1]
+        assert determine_placement("Series B", "Qualified")[1] == []
 
     def test_later_series_keeps_the_provided_default(self):
         assert determine_stage("Series C", "Qualified") == "Qualified"
         assert determine_stage("Series D", "Watchlist") == "Watchlist"
 
     def test_strips_whitespace_before_matching(self):
-        assert determine_stage("  Seed  ", "Watchlist") == "Radar"
+        assert determine_stage("  Seed  ", "Watchlist", self.TOP10) == "Radar"
 
 
 class TestHubStageToAttioTitle:

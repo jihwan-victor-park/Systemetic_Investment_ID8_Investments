@@ -34,6 +34,16 @@ What this does, per company (grouped from possibly-several CSV rows -- see
   `Investors > Domains` column (same precision as the PitchBook intake
   path); falls back to name-only against `tier1_firms.match_top10` when it
   doesn't -- stated in the summary output either way, not hidden.
+- `top10VC` (boolean): set True whenever `top10Investors` is non-empty --
+  added 2026-08-10. hub-next's Top 10 VC view filters on this boolean and
+  never reads `top10Investors`, so before this every company the import
+  matched was correctly identified and still missing from the one view built
+  to show it.
+- `radar` tag: added when the company's authoritative row is Series B or
+  under AND has one of the TOP10 on its cap table (Oscar's 2026-08-10 rule,
+  shared with the PitchBook intake path via `placement.determine_placement`).
+  Additive only -- Attio's own stage is a human filing (Invested / Passed /
+  Target) that the series rule cannot express and must never overwrite.
 - `passed` + `pipeline` tags: both added via ArrayUnion (additive, same
   mechanism radar_state.py already uses for the `radar` tag) when the
   company's CURRENT (most recent by Deal Date) row's stage is "Passed" --
@@ -70,6 +80,7 @@ from datetime import date
 from google.cloud import firestore
 
 from . import config, tier1_firms
+from .placement import determine_placement
 from .fit_note import normalize_domain, slugify
 
 PASSED_TAG = "passed"       # the hub tag this script writes (ArrayUnion onto `tags`)
@@ -188,6 +199,19 @@ def process_group(company_key, rows, db, dry_run):
     access_raw = auth["access"].strip().lower()
     access = {"access": "access", "no access": "no_access"}.get(access_raw)
 
+    # Radar placement (Oscar 2026-08-10): B-or-under WITH one of the Top 10 on
+    # the cap table. Applied as an ADDITIVE tag, never as the primary `stage` --
+    # Attio's stage here is a human filing (Invested / Passed / Target /
+    # Pipeline), which the series rule cannot express and must not overwrite.
+    # hub-next computes membership as {stage} u tags, so a company filed
+    # Pipeline in Attio that also satisfies the Radar rule shows up in both.
+    # Shares determine_placement with the PitchBook intake path rather than
+    # reimplementing the bands (see deal_intelligence/placement.py).
+    attio_stage = config.ATTIO_STAGE_MAP.get(auth["stage"].strip().lower(), "new")
+    placement_stage, placement_tags = determine_placement(
+        auth["series"], attio_stage, top10)
+    wants_radar = placement_stage == "Radar" or "radar" in placement_tags
+
     company_ref = db.collection("companies").document(company_key)
     existing_snap = company_ref.get()
     is_new = not existing_snap.exists
@@ -203,10 +227,24 @@ def process_group(company_key, rows, db, dry_run):
         payload["investorDomains"] = all_investor_domains
     if top10:
         payload["top10Investors"] = top10
+        # `top10VC` as well as the firm list -- 2026-08-10. hub-next's Top 10 VC
+        # view filters on the BOOLEAN (docs/top10-vc/page.jsx: .filter(c =>
+        # c.top10VC)), and lib/companies.js reads `top10VC` too; nothing on that
+        # page ever looks at `top10Investors`. So every company this import
+        # matched was correctly identified and still absent from the one view
+        # built to show them -- 13 of them in the 2026-08-10 export, including
+        # Sequoia-, Accel- and Index-backed names. Only ever set True, never
+        # False: same never-un-flag convention as firestore_push.apply_placement
+        # and backfill_top10_vc.
+        payload["top10VC"] = True
     if tier1_33:
         payload["tier1_33Investors"] = tier1_33
     if access:
         payload["access"] = access
+    # Every additive tag this import contributes, resolved into ONE ArrayUnion.
+    # Two separate ArrayUnions written to the same payload key would silently
+    # overwrite each other -- only the last would survive the merge.
+    tags = []
     if is_passed:
         # Every Passed company also gets tagged 'pipeline' (Oscar,
         # 2026-08-06: "make sure the lists of the passed deals are all
@@ -217,7 +255,11 @@ def process_group(company_key, rows, db, dry_run):
         # also what makes the Pipeline view's "Show passed deals" toggle
         # (DealsListSection.jsx) the one place Passed companies are
         # guaranteed to surface.
-        payload["tags"] = firestore.ArrayUnion([PASSED_TAG, "pipeline"])
+        tags += [PASSED_TAG, "pipeline"]
+    if wants_radar:
+        tags.append("radar")
+    if tags:
+        payload["tags"] = firestore.ArrayUnion(tags)
     if is_new:
         payload["name"] = auth["name"]
         payload["website"] = normalize_domain(auth["domain"]) or None
@@ -279,6 +321,8 @@ def process_group(company_key, rows, db, dry_run):
         "isPassed": is_passed,
         "top10": top10,
         "tier1_33": tier1_33,
+        "wantsRadar": wants_radar,
+        "series": auth["series"],
         "additionalRounds": len(additional_rounds),
     }
 
@@ -295,24 +339,31 @@ def run(csv_path, dry_run=False):
     passed = [r for r in results if r["isPassed"]]
     top10_matched = [r for r in results if r["top10"]]
     tier1_33_matched = [r for r in results if r["tier1_33"]]
+    radar = [r for r in results if r["wantsRadar"]]
     total_additional_rounds = sum(r["additionalRounds"] for r in results)
 
     print(f"\n{'DRY RUN -- ' if dry_run else ''}{len(rows)} CSV rows -> {len(groups)} companies")
     print(f"  {len(created)} new company docs {'would be ' if dry_run else ''}created")
     print(f"  {len(existing)} existing companies matched and updated")
     print(f"  {len(passed)} tagged 'passed' (current stage = Passed)")
-    print(f"  {len(top10_matched)} companies with a Top 10 investor match")
+    print(f"  {len(top10_matched)} companies with a Top 10 investor match (also set top10VC=true)")
     print(f"  {len(tier1_33_matched)} companies with a Tier 1 (33) investor match")
+    print(f"  {len(radar)} tagged 'radar' (Series B or under + a Top 10 investor)")
     print(f"  {total_additional_rounds} additional-round docs {'would be ' if dry_run else ''}written")
     if created:
         print("\n  New companies:")
         for r in created:
             print(f"    {r['companyKey']:<30} {r['name']}")
+    if radar:
+        print("\n  Radar-tagged (B or under, Top 10-backed):")
+        for r in radar:
+            print(f"    {r['companyKey']:<30} {r['series']:<14} {', '.join(r['top10'])}")
 
     return {
         "rows": len(rows), "companies": len(groups), "created": len(created),
         "existing": len(existing), "passed": len(passed),
         "top10Matched": len(top10_matched), "tier1_33Matched": len(tier1_33_matched),
+        "radar": len(radar),
         "additionalRounds": total_additional_rounds,
     }
 
