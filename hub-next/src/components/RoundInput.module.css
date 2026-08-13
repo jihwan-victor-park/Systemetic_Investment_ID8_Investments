@@ -18,6 +18,19 @@
   opacity: 0.6;
 }
 
+/* Deal Date's native date picker (CompanyInlineField inputType="date") --
+   wider than the Series box because the browser renders yyyy-mm-dd plus a
+   calendar icon inside the field, and the icon gets clipped at 92px. */
+.dateInput {
+  width: 128px;
+  font-variant-numeric: tabular-nums;
+}
+
+.dateInput::-webkit-calendar-picker-indicator {
+  opacity: 0.5;
+  cursor: pointer;
+}
+
 .error {
   display: block;
   color: #B3261E;

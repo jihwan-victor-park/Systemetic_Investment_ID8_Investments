@@ -1,0 +1,443 @@
+/* Stripe-style dashboard chrome: white cards on the paper background, hairline
+   borders, one very soft shadow, generous air, and numbers in Sora doing all
+   the talking. No panel is louder than the data inside it -- the borders are
+   --id8-hair, not a darker "structural" gray, so the grid recedes.
+
+   Everything sizes off the ID8 tokens in globals.css (--id8-ink/-grey/-hair/
+   -card/-accent...), so this page inherits the rest of the hub's look rather
+   than introducing a second visual system. */
+
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.title {
+  font-family: 'Sora', sans-serif;
+  font-size: 1.75rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--id8-ink);
+  margin: 0;
+}
+
+/* ── stat tiles ─────────────────────────────────────────────────────────── */
+
+/* auto-fit so five tiles reflow to 3+2 then 2+2+1 on the way down to mobile,
+   with no breakpoint-specific column counts to keep in sync. */
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(168px, 1fr));
+  gap: 12px;
+}
+
+.tile {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 16px 15px;
+  background: var(--id8-card);
+  border: 1px solid var(--id8-hair);
+  border-radius: 10px;
+  box-shadow: var(--id8-shadow);
+  min-width: 0;
+}
+
+.tileLink {
+  text-decoration: none;
+  transition: box-shadow 0.16s ease, border-color 0.16s ease, transform 0.16s ease;
+}
+
+.tileLink:hover {
+  box-shadow: var(--id8-shadow-hover);
+  border-color: #D6CFC0;
+  transform: translateY(-1px);
+  text-decoration: none;
+}
+
+.tileLabel {
+  font-family: 'Sora', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--id8-grey);
+}
+
+.tileValue {
+  font-family: 'Sora', sans-serif;
+  font-size: 1.7rem;
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--id8-ink);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Exactly one hero figure on the page -- the total. Same sans as everything
+   else; a display/serif face here would read as decoration. Properties spelled
+   out rather than `composes: tileValue` so this file stays valid plain CSS,
+   which is what lets scripts/preview-dashboard.mjs render it standalone. */
+.tileValueHero {
+  font-family: 'Sora', sans-serif;
+  font-weight: 600;
+  line-height: 1.05;
+  color: var(--id8-ink);
+  font-variant-numeric: tabular-nums;
+  font-size: 2.6rem;
+  letter-spacing: -0.045em;
+}
+
+.tileSub {
+  font-family: 'Roboto Serif', Georgia, serif;
+  font-size: 0.74rem;
+  line-height: 1.35;
+  color: var(--id8-grey);
+}
+
+/* ── cards ─────────────────────────────────────────────────────────────── */
+
+.card {
+  background: var(--id8-card);
+  border: 1px solid var(--id8-hair);
+  border-radius: 10px;
+  box-shadow: var(--id8-shadow);
+  padding: 18px 20px 16px;
+  min-width: 0;
+}
+
+.cardHead {
+  margin-bottom: 14px;
+}
+
+.cardTitle {
+  font-family: 'Sora', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--id8-ink);
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.cardNote {
+  font-family: 'Roboto Serif', Georgia, serif;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--id8-grey);
+  margin: 5px 0 0;
+  max-width: 62ch;
+}
+
+.cardNote strong {
+  color: var(--id8-soft);
+  font-weight: 600;
+}
+
+.twoUp {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 18px;
+}
+
+@media (max-width: 900px) {
+  .twoUp { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* ── column chart ──────────────────────────────────────────────────────── */
+
+.chart {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.grid {
+  stroke: var(--id8-hair);
+  stroke-width: 1;
+}
+
+.axisText {
+  font-family: 'Sora', sans-serif;
+  font-size: 10px;
+  fill: var(--id8-grey);
+  font-variant-numeric: tabular-nums;
+}
+
+.bar {
+  transition: opacity 0.14s ease;
+}
+
+/* Hover dims the bar slightly rather than recoloring it -- color here means
+   "this is the one data series", and repainting on hover would break that. */
+.barHit {
+  fill: transparent;
+}
+
+.barGroup:hover .bar {
+  opacity: 0.78;
+}
+
+.barGroup:hover .barValue {
+  fill: var(--id8-accent);
+}
+
+/* Value/label text wears text tokens, never the bar's own fill. */
+.barValue {
+  font-family: 'Sora', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  fill: var(--id8-ink);
+  font-variant-numeric: tabular-nums;
+  transition: fill 0.14s ease;
+}
+
+.barLabel {
+  font-family: 'Sora', sans-serif;
+  font-size: 10.5px;
+  font-weight: 500;
+  fill: var(--id8-soft);
+}
+
+.barLabelSub {
+  font-family: 'Sora', sans-serif;
+  font-size: 9.5px;
+  fill: var(--id8-grey);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── donut + legend ────────────────────────────────────────────────────── */
+
+.donutRow {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  flex-wrap: wrap;
+}
+
+.donut {
+  width: 168px;
+  height: 168px;
+  flex: 0 0 auto;
+}
+
+.donutTrack {
+  stroke: #F1EEE7;
+}
+
+.donutSeg {
+  transition: opacity 0.14s ease;
+}
+
+.donutSeg:hover {
+  opacity: 0.8;
+}
+
+.donutCenterValue {
+  font-family: 'Sora', sans-serif;
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  fill: var(--id8-ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.donutCenterLabel {
+  font-family: 'Sora', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  fill: var(--id8-grey);
+}
+
+.legend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: 1 1 240px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.legendItem {
+  display: grid;
+  grid-template-columns: 8px minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 9px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--id8-hair);
+}
+
+.legendItem:last-child {
+  border-bottom: none;
+}
+
+.legendDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  transform: translateY(-1px);
+}
+
+.legendLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  font-family: 'Sora', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--id8-ink);
+  min-width: 0;
+}
+
+.legendNote {
+  font-family: 'Roboto Serif', Georgia, serif;
+  font-size: 0.7rem;
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--id8-grey);
+}
+
+.legendValue {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  font-family: 'Sora', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--id8-ink);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.legendPct {
+  font-weight: 500;
+  font-size: 0.74rem;
+  color: var(--id8-grey);
+  min-width: 30px;
+  text-align: right;
+}
+
+/* Pipeline-vs-Qualified access split, under the ring. Two rows, so a plain
+   bordered list beats a second chart. */
+.splitList {
+  list-style: none;
+  margin: 14px 0 0;
+  padding: 12px 0 0;
+  border-top: 1px solid var(--id8-hair);
+  display: flex;
+  gap: 26px;
+  flex-wrap: wrap;
+}
+
+.splitRow {
+  display: grid;
+  grid-template-columns: auto;
+  gap: 1px;
+  min-width: 0;
+}
+
+.splitLabel {
+  font-family: 'Sora', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--id8-grey);
+}
+
+.splitValue {
+  font-family: 'Sora', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--id8-ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.splitSub {
+  font-family: 'Roboto Serif', Georgia, serif;
+  font-size: 0.72rem;
+  color: var(--id8-grey);
+}
+
+/* ── series bar list ───────────────────────────────────────────────────── */
+
+.seriesList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 100px on the label, not 82: "Not recorded" is the widest real label and was
+   rendering as "Not record…". A truncated axis label is worse than a narrower
+   bar. */
+.seriesRow {
+  display: grid;
+  grid-template-columns: 100px minmax(0, 1fr) 34px 34px;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 0;
+}
+
+.seriesLabel {
+  font-family: 'Sora', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--id8-soft);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Unfilled track is a lighter step of the same surface family, not a gray box
+   -- the meter reads as one object across its whole width. */
+.seriesTrack {
+  display: block;
+  height: 8px;
+  border-radius: 4px;
+  background: #F1EEE7;
+  overflow: hidden;
+}
+
+.seriesFill {
+  display: block;
+  height: 100%;
+  border-radius: 4px;
+  min-width: 3px;
+}
+
+.seriesValue {
+  font-family: 'Sora', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--id8-ink);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.seriesPct {
+  font-family: 'Sora', sans-serif;
+  font-size: 0.74rem;
+  font-weight: 500;
+  color: var(--id8-grey);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 560px) {
+  .seriesRow { grid-template-columns: 84px minmax(0, 1fr) 30px 32px; gap: 8px; }
+  .tileValueHero { font-size: 2.1rem; }
+  .donutRow { gap: 16px; }
+}

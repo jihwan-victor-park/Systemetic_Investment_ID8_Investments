@@ -47,6 +47,73 @@ def _firestore():
     return _db
 
 
+def _same_size(a, b) -> bool:
+    """Deal sizes cross this boundary as both numbers (Attio currency_value)
+    and strings (a CSV cell, or an older doc written before the currency read
+    existed) -- compare numerically whenever both sides parse, so 5000000 and
+    "5000000.0" don't read as a perpetual disagreement, and fall back to a
+    trimmed string compare when either side isn't a number at all."""
+    try:
+        return float(a) == float(b)
+    except (TypeError, ValueError):
+        return str(a).strip() == str(b).strip()
+
+
+def round_fields_patch(existing: dict | None, round_=None, round_date=None, round_size=None) -> dict:
+    """The one place the round/roundDate/roundSize merge rule lives, shared by
+    every Attio -> hub write path (push_company_from_attio below, and
+    import_attio_deals_csv's own upsert). `existing` is the company doc as it
+    stands right now, or None/{} for a brand-new company.
+
+    Before 2026-08-13 all three fields were written only on CREATION, so a
+    company already in the hub never picked up a Series or a Deal Date that
+    Attio learned afterward -- deal_sync.py found 7 companies showing an
+    em-dash Series and 11 holding a stale Deal Date purely because of that
+    gap, and every fix had to be applied by a manual reconciler run. The rule
+    the reconciler settled on now lives here instead, so the live import path
+    fixes these on its own:
+
+      * `round` is FILLED WHEN MISSING, never overwritten. It's genuinely
+        hand-editable in the hub (RoundInput/updateCompanyRound), and the
+        disagreements run in BOTH directions -- some hub values are ahead of
+        Attio's (research done after the deal was filed), some behind -- so a
+        wholesale overwrite would destroy real research as often as it fixed
+        staleness. Correcting a non-blank Series stays a human call via
+        deal_sync's `--overwrite-series`.
+      * `roundDate`/`roundSize` are REFRESHED whenever Attio disagrees --
+        external truth off Attio, the same category as
+        `description`/`investorDomains`, which this module already refreshes on
+        every push. Dates compare on the first 10 characters so an ISO
+        timestamp and a plain date don't read as perpetually stale.
+        hub-next DOES let a partner edit roundDate as of 2026-08-13
+        (updateCompanyRoundDate), which is safe precisely because that edit is
+        mirrored straight back onto Attio's own `deal_date` in the same call --
+        by the time any import runs, Attio already holds the hand-entered
+        value, so "refresh from Attio" and "keep the hub's edit" agree. A
+        hub-side edit that DIDN'T push back would be clobbered here, which is
+        why `round` (whose write-back only started on the same date, and which
+        has years of hub-only edits behind it) stays fill-when-missing.
+
+    An empty Attio value never writes anything: a merge write with an explicit
+    None WOULD blank an already-known value, unlike an absent key.
+    """
+    if not existing:
+        # Explicit None rather than an absent key on creation -- these are the
+        # fields hub-next's Series/Deal Date columns read directly, and a
+        # present-but-null field reads the same as a missing one there while
+        # making "this was imported and Attio had nothing" legible in Firestore.
+        return {"round": round_ or None, "roundDate": round_date or None, "roundSize": round_size or None}
+
+    patch = {}
+    if round_ and not existing.get("round"):
+        patch["round"] = round_
+    if round_date and str(existing.get("roundDate") or "")[:10] != str(round_date)[:10]:
+        patch["roundDate"] = round_date
+    if round_size and not _same_size(existing.get("roundSize"), round_size):
+        patch["roundSize"] = round_size
+    return patch
+
+
 def _gcs():
     global _gcs_client
     if _gcs_client is None:
@@ -123,7 +190,8 @@ def push_company_screen_firestore(fit: DealFit, deal: DealInput, slug: str, docx
     # description with nothing.
     if deal.description:
         company_payload["description"] = deal.description
-    is_new = not company_ref.get().exists
+    existing_snap = company_ref.get()
+    is_new = not existing_snap.exists
     # origin.round/roundDate/roundSize/hq/leadInvestors always refresh, on
     # every screen (new or re-screen) -- same "origin mirrors the latest
     # known source value" convention push_company_from_attio already uses
@@ -152,20 +220,6 @@ def push_company_screen_firestore(fit: DealFit, deal: DealInput, slug: str, docx
         # silently undo Oscar re-filing it into Watchlist/Pipeline via the
         # hub's Stage dropdown.
         company_payload["stage"] = "qualified"
-        # Top-level round/roundDate/roundSize -- same three fields
-        # push_company_from_attio has always set on a brand-new company,
-        # missing here until 2026-07-28 (this function only ever wrote them
-        # into `origin`, never top-level). hub-next's RoundInput/
-        # updateCompanyRound make `round` independently hand-editable
-        # afterward, same don't-clobber relationship to origin.round as
-        # everywhere else -- unlike origin (above), these are NEVER
-        # refreshed on a re-screen of an existing company. A company still
-        # missing these after a re-screen needs the one-time
-        # backfill_company_rounds() pass below, which copies from the
-        # now-freshly-refreshed origin.
-        company_payload["round"] = deal.round or None
-        company_payload["roundDate"] = deal.round_date or None
-        company_payload["roundSize"] = deal.deal_size or None
         company_payload["origin"] = {
             "source": source,
             "attioRecordId": deal.record_id if source == "attio" else None,
@@ -175,6 +229,16 @@ def push_company_screen_firestore(fit: DealFit, deal: DealInput, slug: str, docx
         }
     else:
         company_payload["origin"] = origin_patch
+    # Top-level round/roundDate/roundSize, on a re-screen as well as a brand-new
+    # company -- one shared rule with push_company_from_attio/the CSV import
+    # (firestore_push.round_fields_patch, see its docstring). Until 2026-08-13
+    # this branch wrote them on CREATION only, so a company re-screened with a
+    # newer round kept whatever its first screen recorded and needed
+    # backfill_company_rounds() to catch up.
+    company_payload.update(round_fields_patch(
+        None if is_new else (existing_snap.to_dict() or {}),
+        round_=deal.round, round_date=deal.round_date, round_size=deal.deal_size,
+    ))
     company_ref.set(company_payload, merge=True)
 
     docx_path = _upload_docx(slug, docx_bytes)
@@ -359,18 +423,15 @@ def push_company_from_attio(deal: DealInput, attio_stage: str | None, tier1_inde
     quietly mixed in with everything else). On an existing company: only
     refreshes `origin` (Attio is the source of truth for
     round/roundDate/hq/leadInvestors/attioStage) plus the top-level
-    `description` -- never touches `stage`, `name`, `website`, or `round`,
-    extending push_company_screen_firestore's same don't-clobber-stage rule
-    to this path. `round` is a brand-new company's initial Series value,
-    seeded from Attio but independently editable afterward from the hub (see
-    hub-next's RoundInput/updateCompanyRound) -- unlike `origin.round`, which
-    keeps tracking Attio's own value on every re-import, this top-level copy
-    is never overwritten once set. `roundDate` mirrors that same relationship
-    (added 2026-07-28, RADAR_PLAN.md Part I -- Radar's capital-clock math
-    needs the round's close date). `description` is different: nothing in
-    the hub hand-edits it, so unlike round/roundDate it's refreshed on EVERY
-    push, new or existing company alike -- an already-imported company (like
-    the case that motivated this: a real Top 10 VC deal already sitting in
+    `description` -- never touches `stage`, `name`, or `website`, extending
+    push_company_screen_firestore's same don't-clobber-stage rule to this path.
+    The top-level `round`/`roundDate`/`roundSize` trio is handled by
+    round_fields_patch (see its docstring): `round` fills only into a blank,
+    since it's hand-editable in the hub (RoundInput/updateCompanyRound), while
+    roundDate/roundSize refresh whenever Attio disagrees. `description` is
+    refreshed unconditionally on EVERY push, new or existing company alike --
+    nothing in the hub hand-edits it, so an already-imported company (like the
+    case that motivated this: a real Top 10 VC deal already sitting in
     Firestore with no description on file) gets backfilled on its next
     import rather than staying blank forever. Feeds the relevance-exclusion
     list (RADAR_PLAN.md §1.6), which needs real description text to match
@@ -427,12 +488,16 @@ def push_company_from_attio(deal: DealInput, attio_stage: str | None, tier1_inde
     # first time should still pick up the flag.
     if deal.top10:
         payload["top10VC"] = True
+    # round/roundDate/roundSize on BOTH branches now, not just creation -- see
+    # round_fields_patch's own docstring for the fill-vs-refresh split and why
+    # this used to be creation-only.
+    payload.update(round_fields_patch(
+        None if is_new else (existing_snap.to_dict() or {}),
+        round_=deal.round, round_date=deal.round_date, round_size=deal.deal_size,
+    ))
     if is_new:
         payload["name"] = deal.name
         payload["website"] = normalize_domain(deal.domain) or None
-        payload["round"] = deal.round or None
-        payload["roundDate"] = deal.round_date or None
-        payload["roundSize"] = deal.deal_size or None
         payload["stage"] = config.ATTIO_STAGE_MAP.get((attio_stage or "").strip().lower(), "new")
     company_ref.set(payload, merge=True)
 

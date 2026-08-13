@@ -110,7 +110,28 @@ export default async function CompanyDetailPage({ params }) {
                   : <span className={styles.statValue}>{company.round}</span>}
                 <span className={styles.statSub}>
                   {roundSizeLabel && company.round}
-                  {company.roundDate && `${roundSizeLabel ? ' · ' : ''}closed ${company.roundDate.slice(0, 10)}`}
+                  {/* Deal Date is editable here too, not just in the stage
+                      tables (Oscar, 2026-08-13) -- this is the page a partner
+                      lands on when they actually want to correct a company's
+                      facts. An internal user always gets the picker, even on a
+                      round with no date on file (48 Attio deals have none), so
+                      there's somewhere to enter one; everyone else sees the
+                      date as plain text, or nothing when there isn't one. */}
+                  {canEdit ? (
+                    <>
+                      {roundSizeLabel ? ' · ' : ''}closed{' '}
+                      <CompanyInlineField
+                        slug={company.slug}
+                        apiSegment="deal-date"
+                        field="roundDate"
+                        value={company.roundDate}
+                        canEdit={canEdit}
+                        inputType="date"
+                      />
+                    </>
+                  ) : (
+                    company.roundDate && `${roundSizeLabel ? ' · ' : ''}closed ${company.roundDate.slice(0, 10)}`
+                  )}
                 </span>
               </div>
             )}

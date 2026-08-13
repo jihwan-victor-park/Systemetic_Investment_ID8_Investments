@@ -5,3 +5,7 @@ node_modules
 firebase-debug.log
 firestore-debug.log
 .firebase
+
+# Output of scripts/preview-dashboard.jsx -- a local render of the dashboard
+# for visual checks, regenerated on demand.
+.preview

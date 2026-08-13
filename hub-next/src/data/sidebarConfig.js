@@ -42,11 +42,15 @@
 // tab doesn't orphan its saved position and vice versa.
 export function getSidebarTree(companies = [], deals = []) {
   return [
-    // Label changed to 'Dashboard' (2026-08-06) to match the Navbar's own
-    // "Dashboard" link and what this page now leads with (DealStatsDashboard)
-    // -- `id` stays 'capabilities' so a saved tab-order/rename user pref
-    // (applyUserPrefs below) doesn't orphan.
-    { id: 'capabilities', type: 'doc', href: '/docs/overview', label: 'Dashboard' },
+    // 'capabilities' keeps its id (a saved tab-order/rename user pref keys off
+    // it, see applyUserPrefs below) but points back at the AI Capabilities
+    // write-up it actually is -- it was relabelled 'Dashboard' on 2026-08-06
+    // when the first stats experiment briefly lived on /docs/overview, and kept
+    // that label after the experiment was removed, so the sidebar has been
+    // promising a dashboard and delivering a systems table ever since. The real
+    // dashboard is its own route as of 2026-08-13, first in the list.
+    { id: 'dashboard', type: 'doc', href: '/docs/dashboard', label: 'Dashboard' },
+    { id: 'capabilities', type: 'doc', href: '/docs/overview', label: 'AI Capabilities' },
     {
       id: 'deals',
       type: 'category',

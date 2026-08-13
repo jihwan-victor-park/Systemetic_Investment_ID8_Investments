@@ -1667,6 +1667,185 @@ def update_deal_stage():
     return jsonify({"ok": True, "record_id": record_id, "stage": title})
 
 
+# hub-next edit -> the Attio Deal attribute it writes, and how that attribute's
+# value has to be shaped. These are the SAME slugs the import direction reads
+# back (deal_intelligence/config.py's READ_SLUGS: round -> "series",
+# round_date -> "deal_date"), which is the whole point: an edit made in the hub
+# has to land where the next import will look, or it comes straight back as a
+# hub-vs-Attio conflict on the next reconciler run.
+#
+# `series` is a SELECT, so it needs ensure_select_option first -- a write
+# referencing an unknown option is rejected outright (see that function's
+# docstring), and a partner typing "Series B1" in the hub is exactly how an
+# unknown option arrives. Write shapes match build_attio_values: select is a
+# plain string, date is [{"value": "YYYY-MM-DD"}].
+HUB_EDITABLE_DEAL_FIELDS = {
+    "series": "select",
+    "deal_date": "date",
+}
+
+
+@app.route("/update-deal-fields", methods=["POST"])
+def update_deal_fields():
+    """Push a Series or Deal Date edited by hand in hub-next (the deals tables'
+    inline Series box and Deal Date picker -- see hub-next/src/lib/companies.js's
+    updateCompanyRound/updateCompanyRoundDate) back onto the matching Attio Deal
+    record. The field-level sibling of /update-deal-stage above, and the same
+    best-effort contract: hub-next treats a failure here as non-fatal because
+    Firestore is its own source of truth, so this returns a normal error
+    response rather than anything the caller retries.
+
+    Body: {"record_id": "<attio deal record id>", "series": "Series B",
+    "deal_date": "2026-08-12"}. Both fields are optional; whichever is PRESENT
+    is written, and an explicit null clears that attribute in Attio (an
+    unclosed round genuinely has no Deal Date, and the hub lets you clear one
+    entered by mistake). Sending neither is a 400 rather than a silent no-op --
+    that only ever means the caller sent the wrong body shape.
+    """
+    if not _require_internal_secret():
+        return jsonify({"error": "forbidden"}), 403
+    body = request.get_json(silent=True) or {}
+    record_id = (body.get("record_id") or "").strip()
+    if not record_id:
+        return jsonify({"error": "'record_id' is required"}), 400
+
+    values, written = {}, []
+    for slug, field_type in HUB_EDITABLE_DEAL_FIELDS.items():
+        if slug not in body:
+            continue
+        raw = body[slug]
+        val = "" if raw is None else str(raw).strip()
+        written.append(slug)
+        if not val:
+            # Attio clears an attribute with an empty list, not with null --
+            # same shape build_attio_values uses to write one, minus the value.
+            values[slug] = []
+        elif field_type == "select":
+            ensure_select_option("deals", slug, val)
+            values[slug] = val
+        else:
+            values[slug] = [{"value": val}]
+
+    if not values:
+        return jsonify({"error": f"nothing to write -- send at least one of {sorted(HUB_EDITABLE_DEAL_FIELDS)}"}), 400
+
+    resp = requests.patch(
+        f"{ATTIO_API_BASE}/objects/deals/records/{record_id}",
+        headers=attio_headers(),
+        json={"data": {"values": values}},
+    )
+    if resp.status_code not in (200, 201):
+        return jsonify({"error": f"Attio PATCH failed: {resp.text[:300]}"}), 502
+    return jsonify({"ok": True, "record_id": record_id, "written": written})
+
+
+def _extract_attio_record_id(body):
+    """Dig the Deal record id out of whatever shape the caller sent.
+
+    Attio's native workflow "Send HTTP request" action lets you template the
+    body freely, so the documented shape here is the simplest one:
+    {"record_id": "{{ record.id.record_id }}"}. But Attio's own reference chips
+    are easy to mis-wire (cc-attio-sync/README.md has a whole section on a
+    List-Entry-vs-Record mismatch that produced exactly that class of bug), and
+    Attio's webhook-subscription payloads use a different nesting again -- so
+    every shape that has ever plausibly arrived is accepted rather than 400ing
+    on a body that clearly identifies a record. In order: the flat key, Attio's
+    `data.id.record_id` record shape, and its webhook `events[].id.record_id`.
+    """
+    if not isinstance(body, dict):
+        return None
+    for key in ("record_id", "recordId", "id"):
+        val = body.get(key)
+        if isinstance(val, str) and val.strip():
+            return val.strip()
+        if isinstance(val, dict) and isinstance(val.get("record_id"), str):
+            return val["record_id"].strip()
+    data = body.get("data")
+    if isinstance(data, dict):
+        found = _extract_attio_record_id(data)
+        if found:
+            return found
+    events = body.get("events")
+    if isinstance(events, list):
+        for ev in events:
+            found = _extract_attio_record_id(ev if isinstance(ev, dict) else {})
+            if found:
+                return found
+    return None
+
+
+@app.route("/attio-deal-created", methods=["POST"])
+def attio_deal_created():
+    """One deal, straight from Attio, the moment it's created.
+
+    Oscar, 2026-08-13: "for Attio to the Hub make it so that there's a workflow
+    in Attio (native) it triggers a http request that will deduce the new deal
+    created and check if its on hub and add it (many times deal pipeline will
+    come like this)." Until now the only Attio -> hub path was the BULK pull
+    (/import-attio-deals, run by hand from the hub's Admin page), so a deal
+    typed straight into Attio -- which is how a lot of pipeline actually
+    arrives -- sat invisible to the hub until someone remembered to run that
+    import.
+
+    Body: {"record_id": "<attio deal record id>"} (see
+    _extract_attio_record_id for the other shapes accepted). The deal is then
+    re-read from Attio rather than trusted from the webhook body, so it's
+    parsed by exactly the same code path as a bulk import (attio_io.get_deal ->
+    _parse_deal_record) and picks up fields the trigger payload wouldn't carry
+    -- above all the domain, which lives on the linked Company record, not the
+    Deal.
+
+    "Check if it's on hub and add it" is push_company_from_attio's existing
+    contract, unchanged: it upserts by the same company slug every other import
+    path uses, so a deal the hub already has refreshes rather than duplicating,
+    and the response's `created` flag says which happened. That makes this
+    endpoint safe to fire on every creation, and safe for Attio to retry.
+
+    Authenticated by the same X-Internal-Secret every other write route here
+    uses -- Attio doesn't call this directly, it calls hub-next's public
+    /api/attio/deal-created, which checks its OWN webhook secret and then
+    proxies here. hub-next is the public front door (this service is
+    IAM-private, and this org's policy blocks making it otherwise -- see
+    cc-attio-sync/gateway/openapi.yaml), and hub-next has no Attio credential
+    of its own, so the credential stays here and the public surface stays there.
+    """
+    if not _require_internal_secret():
+        return jsonify({"error": "forbidden"}), 403
+    body = request.get_json(silent=True) or {}
+    record_id = _extract_attio_record_id(body)
+    if not record_id:
+        return jsonify({
+            "error": "could not find a Deal record id in the request body",
+            "expected": '{"record_id": "<attio deal record id>"}',
+            "received_keys": sorted(body.keys())[:20] if isinstance(body, dict) else None,
+        }), 400
+
+    try:
+        found = di_attio_io.get_deal(record_id)
+    except Exception as e:
+        print("ATTIO DEAL CREATED fetch error:", traceback.format_exc())
+        return jsonify({"error": f"Attio fetch failed: {e}"}), 502
+    if found is None:
+        # Not an error the caller can act on -- the record genuinely isn't
+        # there any more. 200 so Attio doesn't retry a deleted record forever.
+        return jsonify({"ok": True, "record_id": record_id, "skipped": "no such Attio deal record"})
+
+    deal, attio_stage = found
+    try:
+        result = di_firestore_push.push_company_from_attio(deal, attio_stage)
+    except Exception as e:
+        print("ATTIO DEAL CREATED push error:", traceback.format_exc())
+        return jsonify({"error": f"Firestore push failed: {e}"}), 500
+    return jsonify({
+        "ok": True,
+        "record_id": record_id,
+        "name": deal.name,
+        "attio_stage": attio_stage,
+        "series": deal.round,
+        **result,
+    })
+
+
 @app.route("/fix-attio-import-stages", methods=["POST"])
 def fix_attio_import_stages():
     """One-time correction for hub-next companies the bulk Attio import

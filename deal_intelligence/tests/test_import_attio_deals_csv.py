@@ -4,12 +4,19 @@ test_radar_hazard.py/test_capital_clock.py."""
 from deal_intelligence import import_attio_deals_csv as m
 
 
+# Mirrors every key read_rows() actually yields -- process_group indexes these
+# directly, so a fixture missing one fails with a bare KeyError rather than
+# testing anything (which is how `deal_size`/`record_id` went unnoticed here
+# until process_group started reading deal_size, 2026-08-13).
 def _row(name="Acme", domain="acme.com", stage="Pipeline", deal_date="2026-01-01",
          stage_changed_at="2026-01-01T00:00:00Z", series="Series B", description="",
-         investor_names=None, investor_domains=None, access=""):
+         investor_names=None, investor_domains=None, access="", deal_size="",
+         record_id="rec_acme"):
     return {
+        "record_id": record_id,
         "name": name, "domain": domain, "stage": stage, "deal_date": deal_date,
         "stage_changed_at": stage_changed_at, "series": series, "description": description,
+        "deal_size": deal_size,
         "investor_names": investor_names or [], "investor_domains": investor_domains or [],
         "access": access,
     }

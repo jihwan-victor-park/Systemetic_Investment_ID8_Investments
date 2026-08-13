@@ -12,11 +12,16 @@ export const { auth: middleware } = NextAuth(authConfig);
 // /investors/research, the gated investor view, still goes through the gate),
 // the Growth Opportunities Fund I overview (a public LP-facing page; the
 // navbar hides its own link to it for signed-out visitors, see Navbar.jsx),
-// and api/admin-market-map -- that route has no browser session to check
+// api/admin-market-map -- that route has no browser session to check
 // (called server-to-server) and enforces its own shared-secret header instead,
-// see app/api/admin-market-map/[id]/route.js.
+// see app/api/admin-market-map/[id]/route.js -- and api/attio/deal-created,
+// which is Attio's own native "deal created" workflow calling in, on the same
+// no-session/own-shared-secret basis (X-Attio-Webhook-Secret; see that route).
+// Note this exemption is deliberately the full path, not `api/attio`: the
+// sibling api/attio/import is a browser-triggered admin action and MUST stay
+// behind the session gate.
 export const config = {
   matcher: [
-    '/((?!api/auth|api/admin-market-map|investors$|investors/materials/fund-overview(?:/|$)|_next/static|_next/image|favicon.ico|fonts|img).*)',
+    '/((?!api/auth|api/admin-market-map|api/attio/deal-created|investors$|investors/materials/fund-overview(?:/|$)|_next/static|_next/image|favicon.ico|fonts|img).*)',
   ],
 };

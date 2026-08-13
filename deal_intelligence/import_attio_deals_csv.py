@@ -80,6 +80,7 @@ from datetime import date
 from google.cloud import firestore
 
 from . import config, tier1_firms
+from .firestore_push import round_fields_patch
 from .placement import determine_placement
 from .fit_note import normalize_domain, slugify
 
@@ -297,10 +298,18 @@ def process_group(company_key, rows, db, dry_run):
         tags.append("radar")
     if tags:
         payload["tags"] = firestore.ArrayUnion(tags)
+    # Series / Deal Date / Deal Size, on an EXISTING company as well as a new
+    # one -- one shared rule with push_company_from_attio, see
+    # firestore_push.round_fields_patch's docstring. This import used to write
+    # `round` on creation only (and roundDate/roundSize not at all), which is
+    # exactly the gap deal_sync.py kept reporting and manually repairing.
+    payload.update(round_fields_patch(
+        None if is_new else (existing_snap.to_dict() or {}),
+        round_=auth["series"], round_date=auth["deal_date"], round_size=auth["deal_size"],
+    ))
     if is_new:
         payload["name"] = auth["name"]
         payload["website"] = normalize_domain(auth["domain"]) or None
-        payload["round"] = auth["series"] or None
         if auth["description"]:
             payload["description"] = auth["description"]
         payload["stage"] = config.ATTIO_STAGE_MAP.get(auth["stage"].strip().lower(), "new")
@@ -342,7 +351,13 @@ def process_group(company_key, rows, db, dry_run):
                 "name": auth["name"],
                 "website": normalize_domain(r["domain"]) or None,
                 "stage": config.ATTIO_STAGE_MAP.get(r["stage"].strip().lower(), "new"),
-                "round": r["series"] or None,
+                # This doc's own round -- its Deal Date/Size are that round's,
+                # not the authoritative row's, so they come from `r`. Written
+                # here for the same reason as on the primary doc: the hub's
+                # Deal Date column reads the top-level field and an
+                # additional-round doc used to leave it permanently blank.
+                **round_fields_patch(None, round_=r["series"],
+                                     round_date=r["deal_date"], round_size=r["deal_size"]),
                 "companyKey": company_key,
                 "latestScreen": None,  # see the same field's comment above -- avoids listCompanies()'s N+1 fallback
                 "origin": {

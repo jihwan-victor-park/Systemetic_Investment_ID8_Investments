@@ -160,36 +160,50 @@ function backendHeaders() {
   return headers;
 }
 
-// Mirrors a hand-made stage change back onto the matching Attio Deal record
-// via pipeline/app.py's /update-deal-stage (see that route's own docstring
-// for the write-format details). Attio -> hub-next sync has existed for a
-// while (push_company_from_attio); this is the direction that didn't exist
-// at all until now -- a stage edit made directly in hub-next used to stay
-// siloed in Firestore forever, silently drifting from whatever Attio still
-// showed. Best-effort and non-blocking: the Firestore write above is
-// hub-next's own source of truth regardless of whether this succeeds, and a
-// company with no origin.attioRecordId (created directly in the hub, never
-// synced from Attio) has nothing to push back to -- skipped, not an error.
-async function pushStageToAttio(slug, stage, attioRecordId) {
+// Mirrors a hand-made edit back onto the matching Attio Deal record via
+// pipeline/app.py (see those routes' own docstrings for the write-format
+// details). Attio -> hub-next sync has existed for a while
+// (push_company_from_attio); this is the direction that didn't exist at all
+// until 2026-07-xx -- an edit made directly in hub-next used to stay siloed in
+// Firestore forever, silently drifting from whatever Attio still showed.
+//
+// Best-effort and non-blocking: the Firestore write is hub-next's own source
+// of truth regardless of whether this succeeds, and a company with no
+// origin.attioRecordId (created directly in the hub, never synced from Attio)
+// has nothing to push back to -- skipped, not an error. Every caller awaits it
+// anyway so a Server Action doesn't return before the request is even sent.
+async function pushToAttio(label, slug, path, body, attioRecordId) {
   if (!attioRecordId) return;
   if (!process.env.PIPELINE_BASE_URL) {
-    console.warn(`pushStageToAttio(${slug}): PIPELINE_BASE_URL not configured -- skipping Attio write-back`);
+    console.warn(`${label}(${slug}): PIPELINE_BASE_URL not configured -- skipping Attio write-back`);
     return;
   }
   try {
-    const res = await fetch(`${process.env.PIPELINE_BASE_URL}/update-deal-stage`, {
+    const res = await fetch(`${process.env.PIPELINE_BASE_URL}${path}`, {
       method: 'POST',
       headers: backendHeaders(),
-      body: JSON.stringify({ record_id: attioRecordId, stage }),
+      body: JSON.stringify({ record_id: attioRecordId, ...body }),
     });
     if (!res.ok) {
       const text = await res.text().catch(() => '');
-      console.error(`pushStageToAttio(${slug}): pipeline returned ${res.status}: ${text.slice(0, 300)}`);
+      console.error(`${label}(${slug}): pipeline returned ${res.status}: ${text.slice(0, 300)}`);
     }
   } catch (e) {
-    console.error(`pushStageToAttio(${slug}): request failed:`, e);
+    console.error(`${label}(${slug}): request failed:`, e);
   }
 }
+
+const pushStageToAttio = (slug, stage, recordId) =>
+  pushToAttio('pushStageToAttio', slug, '/update-deal-stage', { stage }, recordId);
+
+// Series / Deal Date, the two fields the deals tables let you edit in place
+// (RoundInput and the Deal Date column's date picker). Both land on
+// /update-deal-fields, which writes Attio's own `series` select and `deal_date`
+// date attributes -- the SAME slugs the import direction reads back
+// (deal_intelligence/config.py's READ_SLUGS), so an edit made here survives the
+// next re-import instead of being reported as a hub-vs-Attio conflict.
+const pushFieldsToAttio = (slug, fields, recordId) =>
+  pushToAttio('pushFieldsToAttio', slug, '/update-deal-fields', fields, recordId);
 
 // Moves a company between Watchlist / Pipeline / Qualified Deals -- the
 // dropdown on each stage table's row calls this via the /api/companies/
@@ -234,7 +248,42 @@ export async function updateCompanyRound(slug, round) {
   const value = String(round ?? '').trim() || null;
   await ref.set({ round: value }, { merge: true });
   revalidateTag('companies');
+  // Mirrored onto Attio (2026-08-13) -- previously a Series corrected here
+  // stayed hub-only, which is exactly what produced the 12 both-directions
+  // hub-vs-Attio Series disagreements deal_sync.py reports and deliberately
+  // refuses to auto-resolve. Pushing the edit at the moment it's made means
+  // there's nothing left to reconcile.
+  await pushFieldsToAttio(slug, { series: value }, snap.data()?.origin?.attioRecordId);
   return { slug, round: value };
+}
+
+// The round's close date -- Attio's own `deal_date`, editable here since
+// 2026-08-13 (Oscar: "make it so that the deal date is easily editable"). It's
+// the deals tables' default sort and Radar's capital-clock input, and 48 Attio
+// deals have no date at all, so a partner needs to be able to correct one
+// without opening Attio.
+//
+// Stored as a bare YYYY-MM-DD string: that's what the Attio import already
+// writes for most companies, what every reader slices to 10 characters
+// anyway (companyStageColumns' Deal Date cell, CompanyDetailPage's "closed
+// <date>"), and what an <input type="date"> natively produces. Anything else
+// is rejected rather than silently stored in a shape the sort can't order.
+// Internal-role-only; enforced by the API route.
+export async function updateCompanyRoundDate(slug, roundDate) {
+  const raw = String(roundDate ?? '').trim();
+  // Clearing the field is legitimate -- a date entered by mistake on a round
+  // that hasn't actually closed should be removable, and null is exactly what
+  // an unclosed round looks like everywhere else in this codebase.
+  const value = raw ? raw.slice(0, 10) : null;
+  if (value && !/^\d{4}-\d{2}-\d{2}$/.test(value)) throw new Error('invalid-date');
+  if (value && Number.isNaN(Date.parse(value))) throw new Error('invalid-date');
+  const ref = db().collection('companies').doc(slug);
+  const snap = await ref.get();
+  if (!snap.exists) throw new Error('company-not-found');
+  await ref.set({ roundDate: value }, { merge: true });
+  revalidateTag('companies');
+  await pushFieldsToAttio(slug, { deal_date: value }, snap.data()?.origin?.attioRecordId);
+  return { slug, roundDate: value };
 }
 
 // Same not-clobbered-by-Attio-reimport relationship as updateCompanyRound

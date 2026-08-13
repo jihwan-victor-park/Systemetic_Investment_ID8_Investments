@@ -114,6 +114,33 @@ def _parse_deal_record(rec: dict) -> DealInput:
     )
 
 
+def get_deal(record_id: str):
+    """Fetch ONE Deal record by its Attio record id and return
+    (DealInput, attio_stage) -- the same pair list_all_deals() yields per deal,
+    so a caller can hand it straight to firestore_push.push_company_from_attio.
+    Returns None when Attio has no such record (a webhook for a deal that was
+    created and then deleted before we got to it, most plausibly).
+
+    Added 2026-08-13 for the Attio-native "deal created" workflow: that trigger
+    hands over a record id and nothing else, and re-pulling all ~320 deals
+    (list_all_deals) to find the one that just arrived would be absurd. Reuses
+    _parse_deal_record, so a webhook-imported deal is parsed identically to a
+    bulk-imported one -- including the linked-Company domain resolution, which
+    is the field a brand-new Deal record is most likely to be missing.
+    """
+    if not config.ATTIO_API_KEY:
+        raise RuntimeError("ATTIO_API_KEY not set")
+    url = f"{config.ATTIO_BASE}/objects/{config.DEALS_OBJECT}/records/{record_id}"
+    r = session.get(url, headers=_headers(), timeout=30)
+    if r.status_code == 404:
+        return None
+    r.raise_for_status()
+    rec = r.json().get("data") or {}
+    if not rec:
+        return None
+    return _parse_deal_record(rec), _value(rec.get("values", {}), config.STAGE_SLUG)
+
+
 def get_qualified_deals(limit: int = 500) -> list:
     """Query the Deals object for records at the Qualified stage."""
     if not config.ATTIO_API_KEY:

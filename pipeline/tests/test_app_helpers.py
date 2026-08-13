@@ -78,3 +78,66 @@ class TestHubStageToAttioTitle:
         assert HUB_STAGE_TO_ATTIO_TITLE["radar"] == "Radar"
         assert HUB_STAGE_TO_ATTIO_TITLE["qualified"] == "Qualified"
         assert HUB_STAGE_TO_ATTIO_TITLE["watchlist"] == "Watchlist"
+
+
+class TestExtractAttioRecordId:
+    """The /attio-deal-created webhook's body parser. Attio's workflow action
+    lets you template the body freely and its reference chips are easy to
+    mis-wire, so every shape that plausibly arrives has to resolve to the same
+    record id -- a 400 here means a real deal silently never reaches the hub."""
+
+    def test_the_documented_flat_shape(self):
+        from app import _extract_attio_record_id
+        assert _extract_attio_record_id({"record_id": "rec_123"}) == "rec_123"
+
+    def test_camel_case_spelling(self):
+        from app import _extract_attio_record_id
+        assert _extract_attio_record_id({"recordId": "rec_123"}) == "rec_123"
+
+    def test_trims_whitespace(self):
+        from app import _extract_attio_record_id
+        assert _extract_attio_record_id({"record_id": "  rec_123 "}) == "rec_123"
+
+    def test_attios_own_record_shape(self):
+        # What you get by templating the whole record instead of just its id.
+        from app import _extract_attio_record_id
+        body = {"data": {"id": {"workspace_id": "w", "object_id": "o", "record_id": "rec_123"}}}
+        assert _extract_attio_record_id(body) == "rec_123"
+
+    def test_bare_id_object_without_the_data_wrapper(self):
+        from app import _extract_attio_record_id
+        assert _extract_attio_record_id({"id": {"record_id": "rec_123"}}) == "rec_123"
+
+    def test_webhook_subscription_events_array(self):
+        from app import _extract_attio_record_id
+        body = {"events": [{"event_type": "record.created", "id": {"record_id": "rec_123"}}]}
+        assert _extract_attio_record_id(body) == "rec_123"
+
+    def test_no_record_id_anywhere_is_none_not_an_exception(self):
+        from app import _extract_attio_record_id
+        assert _extract_attio_record_id({"name": "Acme"}) is None
+        assert _extract_attio_record_id({}) is None
+        assert _extract_attio_record_id(None) is None
+        assert _extract_attio_record_id([{"record_id": "rec_123"}]) is None
+
+    def test_an_unrendered_attio_template_is_not_treated_as_an_id(self):
+        # A broken reference chip renders the literal template text. Better to
+        # 400 with "could not find a Deal record id" than to ask Attio for a
+        # record whose id is "{{ record.id.record_id }}".
+        from app import _extract_attio_record_id
+        assert _extract_attio_record_id({"record_id": "   "}) is None
+
+
+class TestHubEditableDealFields:
+    def test_maps_the_two_fields_the_hub_can_edit_to_their_attio_types(self):
+        from app import HUB_EDITABLE_DEAL_FIELDS
+        assert HUB_EDITABLE_DEAL_FIELDS == {"series": "select", "deal_date": "date"}
+
+    def test_slugs_match_what_the_import_direction_reads_back(self):
+        # If these drift from deal_intelligence/config.py's READ_SLUGS, an edit
+        # made in the hub lands on an attribute nothing reads, and the next
+        # reconciler run reports it as a hub-vs-Attio conflict.
+        from deal_intelligence import config as di_config
+        from app import HUB_EDITABLE_DEAL_FIELDS
+        assert di_config.READ_SLUGS["round"] in HUB_EDITABLE_DEAL_FIELDS
+        assert di_config.READ_SLUGS["round_date"] in HUB_EDITABLE_DEAL_FIELDS

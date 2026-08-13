@@ -27,7 +27,7 @@ export default function Navbar({ isSignedIn = false }) {
   // middleware.js), but the tabs advertising them should only show once
   // someone's actually signed in.
   const links = [
-    ...(!hideInternalNav ? [{ href: '/docs/overview', label: 'Dashboard' }] : []),
+    ...(!hideInternalNav ? [{ href: '/docs/dashboard', label: 'Dashboard' }] : []),
     ...(isSignedIn ? [{ href: '/investors', label: 'Investor View' }] : []),
     ...(isSignedIn
       ? [{ href: '/investors/materials/fund-overview', label: 'Growth Opportunities Fund I' }]
@@ -58,7 +58,7 @@ export default function Navbar({ isSignedIn = false }) {
             </>
           )}
           {!hideInternalNav && (
-            <Link href="/docs/overview" className={`${styles.hubLink} ${isInDocs ? styles.hubLinkActive : ''}`}>
+            <Link href="/docs/dashboard" className={`${styles.hubLink} ${isInDocs ? styles.hubLinkActive : ''}`}>
               Dashboard
             </Link>
           )}

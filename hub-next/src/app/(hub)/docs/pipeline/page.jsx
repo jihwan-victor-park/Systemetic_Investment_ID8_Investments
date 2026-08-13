@@ -23,7 +23,10 @@ export default async function PipelinePage() {
   return (
     <>
       <h1>Deal Pipeline</h1>
-      <p>Companies ID8 is actively working right now. Move one to Qualified Deals once it clears the Stage 1 rubric, or back to Watchlist if it cools off.</p>
+      {/* No subtitle here (Oscar, 2026-08-13) -- the table is the page; the
+          stage names in each row's own multiselect already say what moving a
+          deal between buckets means. `metadata.description` above still
+          carries the same sentence for the browser/sidebar. */}
       <DealsListSection
         companies={pipeline}
         basePath="/docs/pipeline"

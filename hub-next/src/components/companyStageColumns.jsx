@@ -38,7 +38,16 @@ export const STAGE_TABLE_COLUMNS = [
   // the deal, not when it actually closed. Added 2026-07-28 per Oscar's ask.
   { key: 'dealDate', label: 'Deal Date', sortable: true },
   { key: 'partnerVc', label: 'Partner VC', sortable: true },
-  { key: 'radarCategory', label: 'Radar Category', sortable: true },
+  // No 'radarCategory' column (Oscar, 2026-08-13: "eliminate the column of
+  // radar category of all the deals tabs") -- Radar's own table dropped it
+  // back on 2026-07-29 and this removes it from the rest (Watchlist /
+  // Pipeline / Qualified Deals / Invested / Passed / Top 10 VCs / Admin's
+  // Needs Triage). The FIELD itself stays: it's still shown on the company
+  // detail page, still filterable in Hub Search, still editable via
+  // /api/companies/[slug]/radar-category, and still feeds radarRuleMatch's
+  // keyword scan. `sort.radarCategory`/`search.radarCategory` below stay too
+  // -- SortableTable ignores sort keys with no matching column, and keeping
+  // the search key means the free-text filter still matches on category.
   { key: 'score', label: 'Score', sortable: true },
   { key: 'stage', label: 'Stage', sortable: true },
   // Dedicated column, not just a pill inside the Stage multiselect (Oscar,
@@ -128,18 +137,22 @@ export function companyToRow(c, { basePath, canEdit, investorIndex = {}, domainI
         </>
       ),
       series: <RoundInput slug={c.slug} round={c.round} canEdit={canEdit} />,
-      dealDate: c.roundDate ? c.roundDate.slice(0, 10) : '—',
-      partnerVc: matches.length === 0 ? '—' : <PartnerVcPopover matches={matches} />,
-      radarCategory: (
+      // Editable in place since 2026-08-13 (Oscar: "make it so that the deal
+      // date is easily editable") -- it's this table's default sort and 48
+      // Attio deals have no date at all, so correcting one shouldn't mean
+      // opening Attio. The edit is mirrored back onto Attio's own `deal_date`
+      // (lib/companies.js's updateCompanyRoundDate).
+      dealDate: (
         <CompanyInlineField
           slug={c.slug}
-          apiSegment="radar-category"
-          field="radarCategory"
-          value={c.radarCategory}
+          apiSegment="deal-date"
+          field="roundDate"
+          value={c.roundDate}
           canEdit={canEdit}
-          placeholder="—"
+          inputType="date"
         />
       ),
+      partnerVc: matches.length === 0 ? '—' : <PartnerVcPopover matches={matches} />,
       score: score != null ? `${score.toFixed(1)} / 4` : '—',
       // 'new' (Admin's Needs Triage table, which reuses this same function --
       // see its own docstring) is a special case: StageMultiSelect's checked
