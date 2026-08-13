@@ -404,6 +404,60 @@ def test_example_domain_fixtures_are_not_reported_as_missing_from_attio():
     assert rep["counts"]["testFixtures"] == 1
 
 
+# ── seeding companies that exist on neither side ─────────────────────────────
+
+def test_read_seed_file_parses_a_csv_with_a_header(tmp_path):
+    p = tmp_path / "seed.csv"
+    p.write_text("name,domain,series,stage\nOneBrief,onebrief.com,Series C,Pipeline\n")
+    assert ds.read_seed_file(str(p)) == [
+        {"name": "OneBrief", "domain": "onebrief.com", "series": "Series C", "stage": "Pipeline"}]
+
+
+def test_read_seed_file_accepts_a_bare_name_list(tmp_path):
+    p = tmp_path / "seed.txt"
+    p.write_text("OneBrief\nReplit\n")
+    rows = ds.read_seed_file(str(p))
+    assert [r["name"] for r in rows] == ["OneBrief", "Replit"]
+    assert all(r["stage"] == ds.DEFAULT_SEED_STAGE for r in rows)
+
+
+def test_seed_reports_a_company_missing_from_both_sides():
+    seed = ds.check_seed([{"name": "OneBrief", "domain": "onebrief.com",
+                           "series": "", "stage": "Pipeline"}], {}, {})
+    assert (seed[0]["inAttio"], seed[0]["inHub"]) == (False, False)
+
+
+def test_seed_matches_an_existing_company_under_a_different_name():
+    """Warp is 'Warp (Business/Productivity Software)' in Attio -- seeding it
+    must report it as present, not create a duplicate."""
+    attio = {"warp": _attio("warp", "Warp (Business/Productivity Software)",
+                            domain="warp.co", stage="Qualified")}
+    seed = ds.check_seed([{"name": "Warp", "domain": "warp.dev",
+                           "series": "", "stage": "Pipeline"}], {}, attio)
+    assert seed[0]["inAttio"] is True
+    assert seed[0]["matchedName"] == "Warp (Business/Productivity Software)"
+
+
+def test_attio_import_csv_holds_only_what_attio_lacks(tmp_path):
+    seed = [{"name": "New Co", "domain": "new.com", "series": "Series C",
+             "stage": "Pipeline", "inAttio": False},
+            {"name": "Old Co", "domain": "old.com", "series": "", "stage": "Pipeline",
+             "inAttio": True}]
+    path, n = ds.write_attio_import_csv(seed, str(tmp_path / "import.csv"))
+    assert n == 1
+    body = open(path).read()
+    assert "New Co" in body and "Old Co" not in body
+
+
+def test_apply_attio_dry_run_needs_no_credentials(monkeypatch):
+    """A preview makes no API calls, so requiring a key to see the plan locked
+    the one machine without one out of ever reviewing it."""
+    monkeypatch.setattr(ds.config, "ATTIO_API_KEY", None)
+    report = {"hubOnly": [], "seed": [{"name": "OneBrief", "domain": "onebrief.com",
+                                       "series": "", "stage": "Pipeline", "inAttio": False}]}
+    assert ds.apply_attio(report, yes=False) == {"created": 0, "dryRun": True}
+
+
 # ── the names list ───────────────────────────────────────────────────────────
 
 def test_check_names_reports_each_side_independently():

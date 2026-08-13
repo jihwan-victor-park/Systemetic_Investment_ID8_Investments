@@ -498,7 +498,7 @@ def _hub_buckets(hub_row):
         str(t).lower() for t in (hub_row.get("tags") or [])}
 
 
-def reconcile(hub, attio, series_b_mode="dual", names=None):
+def reconcile(hub, attio, series_b_mode="dual", names=None, seed=None):
     """Pure diff over the two already-normalized sides. No I/O."""
     matched, hub_only, attio_only = link(hub, attio)
 
@@ -644,6 +644,7 @@ def reconcile(hub, attio, series_b_mode="dual", names=None):
         "seriesBTop10": b_top10,
         "matchBasis": Counter(b for _, _, b in matched),
         "namesCheck": check_names(names, hub, attio) if names else None,
+        "seed": check_seed(seed, hub, attio) if seed else None,
     }
 
 
@@ -664,6 +665,77 @@ def check_names(names, hub, attio):
             "series": (a or {}).get("series") or (h or {}).get("series") or "",
         })
     return out
+
+
+DEFAULT_SEED_STAGE = "Pipeline"
+
+
+def read_seed_file(path):
+    """A list of companies to ADD, as opposed to --names which only checks.
+
+    Accepts a CSV with a header (a `name` column, optionally `domain`, `series`,
+    `stage`) or the same bare one-name-per-line format --names takes. A company
+    that exists in neither Attio nor the hub cannot be derived from anything --
+    OneBrief, Replit, Together AI, Wonderful AI and Raindrop were all in neither
+    on 2026-08-13 -- so seeding is the only way in, and the domain matters:
+    without one, both sides key the company off its name slug and the next
+    import that DOES have a domain creates a second doc (see
+    find_hub_duplicates for what that costs)."""
+    with open(path, newline="", encoding="utf-8") as f:
+        sample = f.read()
+    first = next((l for l in sample.splitlines() if l.strip() and not l.startswith("#")), "")
+    if not re.search(r"\bname\b", first, re.I) or "," not in first:
+        return [{"name": n, "domain": "", "series": "", "stage": DEFAULT_SEED_STAGE}
+                for n in read_names_file(path)]
+    rows = []
+    for row in csv.DictReader(sample.splitlines()):
+        low = {(k or "").strip().lower(): (v or "").strip() for k, v in row.items()}
+        name = low.get("name") or low.get("company") or low.get("record")
+        if not name:
+            continue
+        rows.append({
+            "name": name,
+            "domain": normalize_domain(low.get("domain") or low.get("website") or ""),
+            "series": low.get("series") or low.get("round") or "",
+            "stage": low.get("stage") or low.get("deal stage") or DEFAULT_SEED_STAGE,
+        })
+    return rows
+
+
+def check_seed(seed, hub, attio):
+    """Which seeded companies each side already has. Matched the same three ways
+    link() uses, so a company already present under a different spelling is
+    reported as present rather than created a second time."""
+    hub_by_name = {norm_name(r["name"]): r for r in hub.values()}
+    hub_by_domain = {r["domain"]: r for r in hub.values() if r["domain"]}
+    attio_by_name = {norm_name(r["name"]): r for r in attio.values()}
+    attio_by_domain = {r["domain"]: r for r in attio.values() if r["domain"]}
+    out = []
+    for row in seed:
+        key = company_key_of(row["domain"], row["name"])
+        n, d = norm_name(row["name"]), row["domain"]
+        a = attio.get(key) or (attio_by_domain.get(d) if d else None) or attio_by_name.get(n)
+        h = hub.get(key) or (hub_by_domain.get(d) if d else None) or hub_by_name.get(n)
+        out.append({**row, "key": key, "inAttio": bool(a), "inHub": bool(h),
+                    "attioStage": (a or {}).get("stage"),
+                    "hubStage": (h or {}).get("stage"),
+                    "matchedName": (a or h or {}).get("name")})
+    return out
+
+
+def write_attio_import_csv(seed_rows, path):
+    """The missing companies as a CSV to paste into Attio's own importer, for
+    when that is preferable to letting --apply-attio create them over the API --
+    Attio's importer handles select options and company linking itself, which
+    the API path deliberately does not (see apply_attio on why Series is not
+    sent). Written whether or not --apply-attio runs."""
+    missing = [r for r in seed_rows if not r["inAttio"]]
+    with open(path, "w", newline="", encoding="utf-8") as f:
+        w = csv.writer(f)
+        w.writerow(["Name", "Domain", "Series", "Deal stage", "Source"])
+        for r in missing:
+            w.writerow([r["name"], r["domain"], r["series"], r["stage"], "deal-sync seed"])
+    return path, len(missing)
 
 
 def read_names_file(path):
@@ -750,6 +822,23 @@ def render_markdown(report, run_date):
                   ("In hub", lambda r: ("yes -- " + str(r["hubStage"] or "no stage")) if r["inHub"] else "**MISSING**"),
                   ("Series", lambda r: r["series"]),
                   ("Hub tags", lambda r: ", ".join(r["hubTags"])),
+              ]), ""]
+
+    if report.get("seed"):
+        seed = report["seed"]
+        L += ["## Companies to add", "",
+              f"{sum(1 for r in seed if not r['inAttio'])} of {len(seed)} are missing from "
+              "Attio, and are written to the `attio-import` CSV alongside this report -- "
+              "import that through Attio's UI, or let `--apply-attio --yes` create them. "
+              "A company missing from BOTH sides can only come from this list; nothing "
+              "else in the report can derive it.", "",
+              _table(seed, [
+                  ("Company", lambda r: r["name"]),
+                  ("Domain", lambda r: r["domain"] or "**none given**"),
+                  ("Series", lambda r: r["series"] or "-"),
+                  ("In Attio", lambda r: f"yes -- {r['attioStage'] or 'no stage'}" if r["inAttio"] else "**no**"),
+                  ("In hub", lambda r: f"yes -- {r['hubStage'] or 'no stage'}" if r["inHub"] else "**no**"),
+                  ("Matched as", lambda r: r["matchedName"] or "-"),
               ]), ""]
 
     L += ["## In Attio, missing from the hub", "",
@@ -1007,16 +1096,26 @@ def apply_attio(report, yes=False):
     auto-corrected."""
     from .net import session
 
-    if not config.ATTIO_API_KEY:
-        raise RuntimeError("ATTIO_API_KEY not set")
-    headers = {"Authorization": f"Bearer {config.ATTIO_API_KEY}",
-               "Content-Type": "application/json"}
-    creates = [r for r in report["hubOnly"] if r["expectedAttioStage"]]
+    # Companies the hub has and Attio doesn't, plus anything from a --seed list
+    # that is missing from Attio. The seed list is the only way a company absent
+    # from BOTH sides can be created: there is no record anywhere to derive it
+    # from, so it has to be named explicitly.
+    creates = ([r for r in report["hubOnly"] if r["expectedAttioStage"]]
+               + [dict(r, expectedAttioStage=r["stage"])
+                  for r in (report.get("seed") or []) if not r["inAttio"]])
     print(f"{'DRY RUN -- ' if not yes else ''}attio: {len(creates)} deals to create")
     for r in creates:
-        print(f"  create {r['name']:<30} series={r['series'] or '?':<12} stage={r['expectedAttioStage']}")
+        print(f"  create {r['name']:<30} series={r.get('series') or '?':<12} "
+              f"stage={r['expectedAttioStage']}")
     if not yes:
+        # Checked here rather than at the top: a dry run makes no API calls, so
+        # demanding a credential to preview the writes meant the one machine
+        # without a key could never see what --apply-attio would do.
         return {"created": 0, "dryRun": True}
+    if not config.ATTIO_API_KEY:
+        raise RuntimeError("ATTIO_API_KEY not set -- run this in Cloud Shell")
+    headers = {"Authorization": f"Bearer {config.ATTIO_API_KEY}",
+               "Content-Type": "application/json"}
 
     created, failed = 0, []
     for r in creates:
@@ -1061,7 +1160,7 @@ def apply_attio(report, yes=False):
 
 def run(attio_csv=None, attio_snapshot=None, hub_snapshot=DEFAULT_HUB_SNAPSHOT,
         refresh=False, out_dir=DEFAULT_OUT_DIR, series_b_mode="dual",
-        names_file=None, run_date=None, apply_hub_side=False,
+        names_file=None, seed_file=None, run_date=None, apply_hub_side=False,
         apply_attio_side=False, yes=False):
     os.makedirs(out_dir, exist_ok=True)
     run_date = run_date or __import__("datetime").date.today().isoformat()
@@ -1087,7 +1186,8 @@ def run(attio_csv=None, attio_snapshot=None, hub_snapshot=DEFAULT_HUB_SNAPSHOT,
             hub = hub_companies_from_snapshot(json.load(f))
 
     names = read_names_file(names_file) if names_file else None
-    report = reconcile(hub, attio, series_b_mode=series_b_mode, names=names)
+    seed = read_seed_file(seed_file) if seed_file else None
+    report = reconcile(hub, attio, series_b_mode=series_b_mode, names=names, seed=seed)
 
     md_path = os.path.join(out_dir, f"deal-sync-report-{run_date}.md")
     json_path = os.path.join(out_dir, f"deal-sync-report-{run_date}.json")
@@ -1097,6 +1197,11 @@ def run(attio_csv=None, attio_snapshot=None, hub_snapshot=DEFAULT_HUB_SNAPSHOT,
         json.dump({**report, "matchBasis": dict(report["matchBasis"])}, f,
                   indent=2, ensure_ascii=False, default=str)
     csv_paths = write_csvs(report, out_dir, run_date)
+    if report.get("seed"):
+        p, n = write_attio_import_csv(
+            report["seed"], os.path.join(out_dir, f"deal-sync-attio-import-{run_date}.csv"))
+        csv_paths.append(p)
+        print(f"\n{n} seeded companies missing from Attio -> {p}")
 
     c = report["counts"]
     print(f"\n{c['attioCompanies']} Attio companies vs {c['hubCompanies']} hub companies")
@@ -1126,6 +1231,8 @@ def main():
     ap.add_argument("--series-b-mode", choices=["dual", "radar"], default="dual",
                     help="how a Top 10-backed Series B is placed (see the report's own section)")
     ap.add_argument("--names", help="file of company names that should be in the pipeline on both sides")
+    ap.add_argument("--seed", help="CSV/list of companies to ADD (name[,domain,series,stage]); "
+                    "the only way to create one missing from both sides")
     ap.add_argument("--date", help="date stamp for the output filenames (default: today)")
     ap.add_argument("--apply-hub", action="store_true", help="create/tag the missing hub docs")
     ap.add_argument("--apply-attio", action="store_true", help="create the missing Attio deals")
@@ -1133,7 +1240,7 @@ def main():
     a = ap.parse_args()
     run(attio_csv=a.attio_csv, attio_snapshot=a.attio_snapshot, hub_snapshot=a.hub_snapshot,
         refresh=a.refresh, out_dir=a.out, series_b_mode=a.series_b_mode, names_file=a.names,
-        run_date=a.date, apply_hub_side=a.apply_hub, apply_attio_side=a.apply_attio, yes=a.yes)
+        seed_file=a.seed, run_date=a.date, apply_hub_side=a.apply_hub, apply_attio_side=a.apply_attio, yes=a.yes)
 
 
 if __name__ == "__main__":

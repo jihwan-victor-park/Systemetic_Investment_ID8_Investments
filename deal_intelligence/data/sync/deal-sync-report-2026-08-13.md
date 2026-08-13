@@ -14,6 +14,19 @@ Those five buckets partition the 307 matched companies (41 + 128 + 34 + 17 + 87 
 
 Placement rule applied: **Tier 1 (33) investor + above Series B -> Qualified**; **Top 10 investor + Series B or below -> Radar**. Series-B mode: `dual`.
 
+## Companies to add
+
+5 of 6 are missing from Attio, and are written to the `attio-import` CSV alongside this report -- import that through Attio's UI, or let `--apply-attio --yes` create them. A company missing from BOTH sides can only come from this list; nothing else in the report can derive it.
+
+| Company | Domain | Series | In Attio | In hub | Matched as |
+|---|---|---|---|---|---|
+| OneBrief | onebrief.com | - | **no** | **no** | - |
+| Replit | replit.com | - | **no** | **no** | - |
+| Together AI | together.ai | - | **no** | **no** | - |
+| Wonderful AI | wonderful.ai | - | **no** | **no** | - |
+| Raindrop | raindrop.ai | - | **no** | **no** | - |
+| Warp | warp.dev | - | yes -- Qualified | yes -- no stage | Warp (Business/Productivity Software) |
+
 ## In Attio, missing from the hub
 
 2 companies. `Should be` is where the rule puts them; a blank means the rule places them nowhere (below mandate, or no Tier 1 backer) -- those need a human call, not an automatic push.
