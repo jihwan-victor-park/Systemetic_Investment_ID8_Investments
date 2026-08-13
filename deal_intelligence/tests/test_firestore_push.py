@@ -57,3 +57,55 @@ class TestExistingCompany:
     def test_blank_attio_values_never_blank_a_known_value(self):
         existing = {"round": "Series B", "roundDate": "2026-01-02", "roundSize": 5_000_000}
         assert round_fields_patch(existing, round_="", round_date="", round_size=None) == {}
+
+
+class TestAdditionalRoundDocs:
+    """A new round of a company the hub already has must land as its own doc,
+    the way the bulk CSV import has always written them. Before 2026-08-13 the
+    live webhook didn't do this, so a Series C arriving for a company sitting
+    at Series B Secondary returned 200 and changed nothing visible."""
+
+    def test_round_doc_id_matches_the_bulk_imports_shape(self):
+        from deal_intelligence.firestore_push import round_doc_id
+        assert round_doc_id("decart", "Series C") == "decart--series-c"
+
+    def test_the_two_write_paths_cannot_drift(self):
+        # import_attio_deals_csv._round_slug delegates to round_doc_slug --
+        # if it ever stopped, the same round would land as two hub docs.
+        from deal_intelligence.firestore_push import round_doc_slug
+        from deal_intelligence.import_attio_deals_csv import _round_slug
+        for series in ("Series C", "Series B Secondary", "Seed", None, ""):
+            assert _round_slug(series) == round_doc_slug(series)
+
+    def test_a_blank_series_falls_back_to_the_generic_slug(self):
+        from deal_intelligence.firestore_push import round_doc_slug
+        assert round_doc_slug(None) == "round"
+        assert round_doc_slug("") == "round"
+
+    def test_a_genuinely_new_round_is_flagged(self):
+        from deal_intelligence.firestore_push import is_new_round
+        assert is_new_round(False, "Series C", "Series B Secondary")
+
+    def test_the_same_round_arriving_twice_is_not(self):
+        from deal_intelligence.firestore_push import is_new_round
+        assert not is_new_round(False, "Series C", "Series C")
+        # Same round, different casing/spacing -- slugified, so still a match.
+        assert not is_new_round(False, "series c", "Series C")
+
+    def test_a_brand_new_company_never_gets_a_second_doc(self):
+        # Its one round belongs on the base doc, not a sibling.
+        from deal_intelligence.firestore_push import is_new_round
+        assert not is_new_round(True, "Series C", None)
+
+    def test_a_round_the_base_doc_just_adopted_is_not_a_new_round(self):
+        # round_fields_patch fills a blank Series on this same push, so the
+        # comparison runs against the post-patch value. Comparing against the
+        # stale blank would create a redundant decart--series-c alongside a
+        # base doc that now says Series C.
+        from deal_intelligence.firestore_push import is_new_round
+        assert not is_new_round(False, "Series C", "Series C")
+
+    def test_a_deal_with_no_series_is_never_a_new_round(self):
+        from deal_intelligence.firestore_push import is_new_round
+        assert not is_new_round(False, None, "Series B")
+        assert not is_new_round(False, "", "Series B")

@@ -22,7 +22,7 @@ from datetime import date
 from google.cloud import firestore, storage
 
 from . import config, radar_access, radar_mandate, radar_state, rubric
-from .fit_note import PARAM_LABELS, _badge_text, _linkify_md, company_id, normalize_domain
+from .fit_note import PARAM_LABELS, _badge_text, _linkify_md, company_id, normalize_domain, slugify
 from .schemas import DealFit, DealInput, DealMemo
 
 _db = None
@@ -57,6 +57,36 @@ def _same_size(a, b) -> bool:
         return float(a) == float(b)
     except (TypeError, ValueError):
         return str(a).strip() == str(b).strip()
+
+
+def round_doc_slug(series) -> str:
+    """The round half of an additional-round doc id. Canonical definition --
+    import_attio_deals_csv delegates to it rather than keeping its own, because
+    the bulk import and the live webhook must agree character for character:
+    if they ever computed different ids for the same round, the same Series
+    would land as two separate hub docs."""
+    return slugify(series) if series else "round"
+
+
+def round_doc_id(company_slug: str, series) -> str:
+    """`${companyKey}--${roundSlug}`, e.g. decart--series-c."""
+    return f"{company_slug}--{round_doc_slug(series)}"
+
+
+def is_new_round(is_new: bool, deal_round, effective_round) -> bool:
+    """Whether an incoming Attio deal represents a round the hub doesn't
+    already have on the base company doc.
+
+    `effective_round` is the base doc's Series AFTER round_fields_patch has
+    been applied, not before -- on a company whose Series was blank the patch
+    fills it in on the same push, and comparing against the stale blank would
+    create a redundant round doc for the round the base doc just adopted.
+
+    A brand-new company is never a new round: its one round is the base doc.
+    """
+    if is_new or not deal_round:
+        return False
+    return round_doc_slug(deal_round) != round_doc_slug(effective_round)
 
 
 def round_fields_patch(existing: dict | None, round_=None, round_date=None, round_size=None) -> dict:
@@ -501,6 +531,62 @@ def push_company_from_attio(deal: DealInput, attio_stage: str | None, tier1_inde
         payload["stage"] = config.ATTIO_STAGE_MAP.get((attio_stage or "").strip().lower(), "new")
     company_ref.set(payload, merge=True)
 
+    # A NEW ROUND of a company the hub already has gets its own doc, exactly as
+    # the bulk CSV import has always done (import_attio_deals_csv.process_group
+    # writes one `${companyKey}--${roundSlug}` doc per non-authoritative row).
+    #
+    # Without this the live webhook was silently useless for the single most
+    # common real case (Oscar, 2026-08-13, on Decart's Series C: "like this
+    # round wasn't [there], that's what I'm saying"): the company already
+    # existed, so `created` came back false, `stage`/`name`/`website` are
+    # don't-clobber fields, and `round` only fills into a blank -- which means
+    # a brand-new Series C on a company sitting at Series B Secondary changed
+    # nothing a human would ever see. A 200 that writes nothing visible is
+    # worse than an error.
+    #
+    # Compared against the round as it stands AFTER round_fields_patch, not
+    # before: on a company whose Series was blank the patch fills it in on this
+    # very push, and comparing against the stale blank would then create a
+    # redundant round doc for the round the base doc just adopted.
+    additional_round = None
+    existing = {} if is_new else (existing_snap.to_dict() or {})
+    effective_round = payload.get("round", existing.get("round"))
+    if is_new_round(is_new, deal.round, effective_round):
+        round_doc = round_doc_id(slug, deal.round)
+        round_ref = _firestore().collection("companies").document(round_doc)
+        if round_ref.get().exists:
+            # Idempotent: the webhook is safe to retry, and the bulk import may
+            # already have recorded this round.
+            additional_round = {"id": round_doc, "created": False}
+        else:
+            # companyKey is what groups the family in the hub; the base doc
+            # only carries it once it actually has siblings.
+            company_ref.set({"companyKey": slug}, merge=True)
+            round_ref.set({
+                "name": existing.get("name") or deal.name,
+                "website": normalize_domain(deal.domain) or existing.get("website"),
+                "stage": config.ATTIO_STAGE_MAP.get((attio_stage or "").strip().lower(), "new"),
+                **round_fields_patch(None, round_=deal.round,
+                                     round_date=deal.round_date, round_size=deal.deal_size),
+                "companyKey": slug,
+                # See the same field on the base-doc path -- an undefined
+                # latestScreen sends listCompanies() into its N+1 fallback.
+                "latestScreen": None,
+                "description": existing.get("description") or deal.description or None,
+                "origin": {
+                    "source": "attio-webhook-additional-round",
+                    "attioRecordId": deal.record_id,
+                    "attioStage": attio_stage,
+                    "round": deal.round,
+                    "roundDate": deal.round_date,
+                    "roundSize": deal.deal_size,
+                    "hq": deal.hq,
+                    "leadInvestors": deal.lead_investors,
+                    "importedAt": firestore.SERVER_TIMESTAMP,
+                },
+            })
+            additional_round = {"id": round_doc, "created": True}
+
     # Radar clock recompute (RADAR_PLAN.md Part I/III/IV/VI) -- only for
     # companies actually resolving to the Radar stage, and only a best-effort
     # side effect: the write above is this function's own source of truth
@@ -528,7 +614,7 @@ def push_company_from_attio(deal: DealInput, attio_stage: str | None, tier1_inde
         except Exception as e:
             print(f"push_company_from_attio({slug}): radar recompute failed (non-blocking): {e}")
 
-    return {"slug": slug, "created": is_new}
+    return {"slug": slug, "created": is_new, "additionalRound": additional_round}
 
 
 def backfill_attio_stages() -> dict:

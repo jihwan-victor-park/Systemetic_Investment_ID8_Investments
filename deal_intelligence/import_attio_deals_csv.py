@@ -80,7 +80,7 @@ from datetime import date
 from google.cloud import firestore
 
 from . import config, tier1_firms
-from .firestore_push import round_fields_patch
+from .firestore_push import round_doc_slug, round_fields_patch
 from .placement import determine_placement
 from .fit_note import normalize_domain, slugify
 
@@ -276,7 +276,9 @@ def authoritative_row(rows):
 
 
 def _round_slug(series):
-    return slugify(series) if series else "round"
+    # Delegates so the bulk import and the live webhook can never compute
+    # different ids for the same round -- see firestore_push.round_doc_slug.
+    return round_doc_slug(series)
 
 
 def process_group(company_key, rows, db, dry_run):
