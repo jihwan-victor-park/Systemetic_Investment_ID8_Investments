@@ -181,6 +181,7 @@ def _attio_companies_from_rows(rows):
             "stage": auth["stage"],
             "record_id": auth.get("record_id") or "",
             "deal_date": auth["deal_date"],
+            "deal_size": auth.get("deal_size") or "",
             "investors": names,
             "investorDomains": domains,
             "top10": tier1_firms.match_top10(investor_domains=domains, investor_names=names),
@@ -268,6 +269,7 @@ def dump_attio_snapshot(out_path):
             # exactly what the CSV export's '"Deal stage" Changed At' column is.
             "stage_changed_at": _active_from(vals.get(config.STAGE_SLUG)) or "",
             "deal_date": _scalar(vals.get(s["round_date"])) or "",
+            "deal_size": _scalar(vals.get(s["deal_size"])) or "",
             "series": _scalar(vals.get(s["round"])) or "",
             "description": _scalar(vals.get(s["description"])) or "",
             # Named investors come off the linked Companies records; the free-text
@@ -370,6 +372,8 @@ def hub_companies_from_snapshot(snapshot):
             "storedTop10VC": bool(doc.get("top10VC")),
             "extraRoundDocs": len(rounds),
             "latestScreen": doc.get("latestScreen"),
+            "roundDate": doc.get("roundDate") or origin.get("roundDate") or "",
+            "roundSize": doc.get("roundSize") or origin.get("roundSize") or "",
             # Which keys the doc actually carries a value for -- what
             # find_hub_duplicates diffs to report data stranded on an orphan.
             "presentFields": sorted(k for k, v in doc.items()
@@ -649,7 +653,7 @@ def reconcile(hub, attio, series_b_mode="dual", names=None, seed=None):
         row["expectedWhy"] = why
 
     mismatches, agreed, unplaced_above_b, human_filed, unplaced = [], [], [], [], []
-    history_gaps = []
+    history_gaps, date_gaps = [], []
     for hub_row, attio_row, basis in matched:
         # The cap table is the union of what each side knows -- either side can
         # be the one carrying the investor list for a given company.
@@ -687,6 +691,22 @@ def reconcile(hub, attio, series_b_mode="dual", names=None, seed=None):
                           for t in attio_stage_tags(st)})
         record["attioHistoryTags"] = history
         record["historyMissing"] = sorted(set(history) - buckets)
+        # Deal Date / Deal Size. The hub renders both (companyStageColumns'
+        # Deal Date column, CompanyDetailPage's "closed <date>") and neither
+        # import_attio_deals_csv nor push_company_from_attio's EXISTING-company
+        # branch ever writes them, so a company already in the hub when its
+        # current round closed shows a bare em-dash forever -- 15 of them on
+        # 2026-08-13, which is what "these deals are not showing on the hub"
+        # actually turned out to be. Filled only when MISSING, never
+        # overwritten: same convention firestore_push's own roundDate backfill
+        # uses, and it keeps this safe even though nothing in hub-next edits
+        # the field today.
+        record["roundDateMissing"] = bool(attio_row.get("deal_date")) and not hub_row.get("roundDate")
+        record["roundSizeMissing"] = bool(attio_row.get("deal_size")) and not hub_row.get("roundSize")
+        record["attioDealDate"] = attio_row.get("deal_date") or ""
+        record["attioDealSize"] = attio_row.get("deal_size") or ""
+        if record["roundDateMissing"] or record["roundSizeMissing"]:
+            date_gaps.append(record)
         if record["historyMissing"]:
             # Tracked in its own list because these cut ACROSS the five
             # placement buckets -- a Passed deal, an agreeing Qualified one and
@@ -746,12 +766,14 @@ def reconcile(hub, attio, series_b_mode="dual", names=None, seed=None):
             "hubDuplicatesShownAsHubOnly": len(hub_dupes_only),
             "testFixtures": len(test_fixtures),
             "historyGaps": len(history_gaps),
+            "dateGaps": len(date_gaps),
             "keyCollisions": len(collisions),
             "attioDuplicateRecords": len(attio_dup_records),
         },
         "keyCollisions": collisions,
         "attioDuplicateRecords": attio_dup_records,
         "historyGaps": history_gaps,
+        "dateGaps": date_gaps,
         "hubDuplicates": duplicates,
         "testFixtures": test_fixtures,
         "seriesBMode": series_b_mode,
@@ -1077,6 +1099,19 @@ def render_markdown(report, run_date):
               ("Why", lambda r: r["expectedWhy"]),
           ]), ""]
 
+    L += ["## Missing Deal Date / Deal Size", "",
+          f"{c['dateGaps']} companies where Attio has the round's close date (or size) "
+          "and the hub doesn't. The hub renders these as its Deal Date column and the "
+          "`closed <date>` line on the company page, so a company missing them shows a "
+          "bare em-dash and sinks to the bottom of any date sort -- present, but "
+          "effectively invisible. Filled only when missing, never overwritten.", "",
+          _table(sorted(report["dateGaps"], key=lambda r: r["name"]), [
+              ("Company", lambda r: r["name"]),
+              ("Attio stage", lambda r: r["attioStage"]),
+              ("Deal Date to write", lambda r: r["attioDealDate"] if r["roundDateMissing"] else "-"),
+              ("Deal Size to write", lambda r: r["attioDealSize"] if r["roundSizeMissing"] else "-"),
+          ]), ""]
+
     L += ["## Missing deal history (pipeline / passed / invested)", "",
           f"{c['historyGaps']} companies whose Attio stage implies a hub bucket the hub "
           "isn't carrying. This is separate from the placement rule above: the rule says "
@@ -1192,6 +1227,7 @@ def apply_hub(report, yes=False):
     stage_sets = [r for r in report["mismatches"] if r.get("hubSetStage")]
     tag_adds = [r for r in report["mismatches"] if r.get("hubAddTags")]
     history_adds = report["historyGaps"]
+    date_fills = report.get("dateGaps") or []
     print(f"{'DRY RUN -- ' if not yes else ''}hub: {len(creates)} docs to create, "
           f"{len(stage_sets)} unplaced docs to give a stage, {len(tag_adds)} to tag")
     for r in creates:
@@ -1203,19 +1239,27 @@ def apply_hub(report, yes=False):
               + (f" +tags {r['hubAddTags']}" if r["hubAddTags"] else ""))
     for r in tag_adds:
         print(f"  tag    {r['key']:<28} {r['name']:<30} += {r['hubAddTags']}")
+    print(f"{'DRY RUN -- ' if not yes else ''}hub: {len(date_fills)} to get their Deal Date "
+          f"/ Deal Size")
+    for r in date_fills:
+        print(f"  date   {r['key']:<28} {r['name']:<30} "
+              f"date={r['attioDealDate'] if r['roundDateMissing'] else '-'} "
+              f"size={r['attioDealSize'] if r['roundSizeMissing'] else '-'}")
     print(f"{'DRY RUN -- ' if not yes else ''}hub: {len(history_adds)} to get their Attio "
           f"deal history (pipeline/passed/invested)")
     for r in history_adds:
         print(f"  hist   {r['key']:<28} {r['name']:<30} += {r['historyMissing']} "
               f"(Attio: {r['attioStage']})")
     if not yes:
-        return {"created": 0, "staged": 0, "tagged": 0, "history": 0, "dryRun": True}
+        return {"created": 0, "staged": 0, "tagged": 0, "history": 0, "dates": 0, "dryRun": True}
 
     db = firestore.Client(project=config.GCP_PROJECT_ID)
     for r in creates:
         payload = {
             "name": r["name"], "website": r["domain"] or None,
             "round": r["series"] or None,
+            "roundDate": r.get("deal_date") or None,
+            "roundSize": r.get("deal_size") or None,
             "stage": r["hubCreateStage"],
             "latestScreen": None,   # see import_attio_deals_csv -- avoids listCompanies()'s N+1 fallback
             "investors": r["investors"] or None,
@@ -1242,15 +1286,25 @@ def apply_hub(report, yes=False):
     for r in tag_adds:
         db.collection("companies").document(r["key"]).set(
             {"tags": firestore.ArrayUnion(r["hubAddTags"])}, merge=True)
+    for r in date_fills:
+        # Fill-when-missing only: the report never lists a company that already
+        # has the field, so this cannot overwrite a value already on the doc.
+        payload = {}
+        if r["roundDateMissing"]:
+            payload["roundDate"] = r["attioDealDate"]
+        if r["roundSizeMissing"]:
+            payload["roundSize"] = r["attioDealSize"]
+        if payload:
+            db.collection("companies").document(r["key"]).set(payload, merge=True)
     for r in history_adds:
         # Purely additive: this records what Attio says happened to the deal and
         # can never remove or overwrite a placement already on the doc.
         db.collection("companies").document(r["key"]).set(
             {"tags": firestore.ArrayUnion(r["historyMissing"])}, merge=True)
-    print(f"hub: created {len(creates)}, staged {len(stage_sets)}, "
-          f"tagged {len(tag_adds)}, history {len(history_adds)}")
+    print(f"hub: created {len(creates)}, staged {len(stage_sets)}, tagged {len(tag_adds)}, "
+          f"history {len(history_adds)}, dates {len(date_fills)}")
     return {"created": len(creates), "staged": len(stage_sets), "tagged": len(tag_adds),
-            "history": len(history_adds), "dryRun": False}
+            "history": len(history_adds), "dates": len(date_fills), "dryRun": False}
 
 
 def apply_attio(report, yes=False):

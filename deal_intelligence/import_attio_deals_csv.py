@@ -146,6 +146,13 @@ def read_rows(csv_path):
                 "stage": (row.get("Deal stage") or "").strip(),
                 "stage_changed_at": (row.get('"Deal stage" Changed At') or "").strip(),
                 "deal_date": (row.get("Deal Date") or "").strip(),
+                # Carried for deal_sync's roundDate/roundSize backfill -- the
+                # hub renders both (companyStageColumns.jsx's Deal Date column,
+                # CompanyDetailPage's "closed <date>"), and neither this import
+                # nor push_company_from_attio's existing-company branch ever
+                # wrote them, so a company created before its current round
+                # closed shows a bare em-dash forever.
+                "deal_size": (row.get("Deal Size") or "").strip(),
                 "series": (row.get("Series") or "").strip(),
                 "description": (row.get("Associated company > Description") or "").strip(),
                 "investor_names": sorted(set(investor_names)),

@@ -360,6 +360,53 @@ def test_history_falls_back_to_the_single_stage_when_no_deal_list_is_present():
     assert ds.reconcile(hub, attio)["historyGaps"][0]["historyMissing"] == ["pipeline"]
 
 
+# ── Deal Date / Deal Size ────────────────────────────────────────────────────
+
+def test_missing_deal_date_is_reported():
+    """The hub renders roundDate as its Deal Date column; without it a company
+    shows a bare em-dash and sinks to the bottom of any date sort -- present,
+    but effectively invisible. This is what "not showing on the hub" was."""
+    hub = {"a": _hub("a", "Antora Energy", stage="qualified")}
+    attio = {"a": _attio("a", "Antora Energy", series="Series C", stage="Qualified",
+                         deal_date="2026-07-30", deal_size="550000000")}
+    rep = ds.reconcile(hub, attio)
+    gap = rep["dateGaps"][0]
+    assert (gap["roundDateMissing"], gap["attioDealDate"]) == (True, "2026-07-30")
+    assert (gap["roundSizeMissing"], gap["attioDealSize"]) == (True, "550000000")
+
+
+def test_existing_deal_date_is_never_reported_so_never_overwritten():
+    """Fill-when-missing: apply_hub writes only what the report lists, so a
+    value already on the doc can't be clobbered."""
+    hub = {"a": _hub("a", "A", stage="qualified", roundDate="2025-01-01",
+                     roundSize="100")}
+    attio = {"a": _attio("a", "A", series="Series C", stage="Qualified",
+                         deal_date="2026-07-30", deal_size="550000000")}
+    assert ds.reconcile(hub, attio)["counts"]["dateGaps"] == 0
+
+
+def test_no_date_gap_when_attio_has_nothing_to_give():
+    hub = {"a": _hub("a", "A", stage="qualified")}
+    attio = {"a": _attio("a", "A", series="Series C", stage="Qualified")}
+    assert ds.reconcile(hub, attio)["counts"]["dateGaps"] == 0
+
+
+def test_date_and_size_are_reported_independently():
+    hub = {"a": _hub("a", "A", stage="qualified", roundDate="2025-01-01")}
+    attio = {"a": _attio("a", "A", series="Series C", stage="Qualified",
+                         deal_date="2026-07-30", deal_size="550000000")}
+    gap = ds.reconcile(hub, attio)["dateGaps"][0]
+    assert gap["roundDateMissing"] is False
+    assert gap["roundSizeMissing"] is True
+
+
+def test_hub_round_date_falls_back_to_origin():
+    """push_company_from_attio stores it under origin as well as top level."""
+    hub = ds.hub_companies_from_snapshot(
+        [{"id": "a", "name": "A", "origin": {"roundDate": "2026-02-23"}}])
+    assert hub["a"]["roundDate"] == "2026-02-23"
+
+
 # ── Attio API value parsing ──────────────────────────────────────────────────
 
 def test_active_from_is_read_off_the_value_cell():
