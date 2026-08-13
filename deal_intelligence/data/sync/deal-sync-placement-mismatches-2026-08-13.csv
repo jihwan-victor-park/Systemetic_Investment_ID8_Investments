@@ -3,7 +3,7 @@ Actively AI,Series B,Target,new,,Qualified,radar,qualified,radar,Qualified,"Seri
 AdvanCell,Series D,Radar,,,Qualified,,qualified,,Qualified,above Series B with a Tier 1 (33) investor,797ff19f-bc25-406d-9a8a-45d1fa464149,advancell
 Advanced Manufacturing Company of America,Series B,Pipeline,qualified,radar,Qualified,radar,,,Qualified,"Series B with a Top 10 investor (in mandate at B+, and just raised)",7c459807-6e0f-41a6-929e-fa2fc6fe1b34,amca
 Anthropic,Series H,Qualified,,,Qualified,,qualified,,,above Series B with a Tier 1 (33) investor,d665a872-223a-427a-b381-7a64fb6d3731,anthropic
-Castelion,Series B,Qualified,pipeline,,Qualified,radar,,"qualified, radar",,"Series B with a Top 10 investor (in mandate at B+, and just raised)",21e55fcc-742c-4f92-9f4d-894a750b8e2b,castelion
+Castelion,Series C,Pipeline,pipeline,,Qualified,,,qualified,Qualified,above Series B with a Tier 1 (33) investor,e886cf91-7ddd-4bc9-aa77-5c0c2eac6eb3,castelion
 Chai Discovery,Series C,Radar,qualified,,Qualified,,,,Qualified,above Series B with a Tier 1 (33) investor,ca8e5bed-4b04-47d5-b235-828fa2c9f323,chaidiscovery
 Console,Series A,Pipeline,pipeline,,Radar,,,radar,Radar,below Series B with a Top 10 investor,9a2a3634-0127-4758-aba2-7211ac25a1e4,console
 E2B,Early Stage VC,Watchlist,watchlist,,Radar,,,radar,Radar,below Series B with a Top 10 investor,a9a4e084-fd73-4c3d-8fac-d687955f344d,e2b
@@ -35,7 +35,9 @@ Sandstone (Business/Productivity Software),Series A,Watchlist,watchlist,radar,Ra
 Snorkel,Series E,Pipeline,pipeline,,Qualified,,,qualified,Qualified,above Series B with a Tier 1 (33) investor,95b6fe3d-9f33-4d86-ba7a-14b803cd857a,snorkel
 Supabase,Series F,Pipeline,pipeline,,Qualified,,,qualified,Qualified,above Series B with a Tier 1 (33) investor,8f5bf0fa-0ef7-4c7c-bc8c-752533c54c5e,supabase
 Synthetix,Series C,Watchlist,watchlist,,Qualified,,,qualified,Qualified,above Series B with a Tier 1 (33) investor,0b99a51b-5bf4-402c-8bc3-8c824be74d65,synthetix
+Temporal,Series E,Pipeline,qualified,,Qualified,,,,Qualified,above Series B with a Tier 1 (33) investor,6c542b33-1363-4994-b728-1cfd7cd15ef3,temporal
 Trajectory,Series A,Pipeline,pipeline,,Radar,,,radar,Radar,below Series B with a Top 10 investor,7f33bd08-7732-48b7-b9c9-047ebe598823,trajectory
+Profound,Series D,Pipeline,qualified,,Qualified,,,,Qualified,above Series B with a Tier 1 (33) investor,6f99df22-85a7-4d43-b134-c0668b38a541,tryprofound
 Onyx,Series B,Radar,pipeline,radar,Qualified,radar,,qualified,Qualified,"Series B with a Top 10 investor (in mandate at B+, and just raised)",3c49ab5b-ed4d-4aba-9e93-b05c291855fa,onyx
 Pi Security,Series B,Pipeline,qualified,,Qualified,radar,,radar,Qualified,"Series B with a Top 10 investor (in mandate at B+, and just raised)",7b5ccdfa-9f77-41d6-8360-6caaccd56179,pi
 Simile,Series B,Radar,pipeline,,Qualified,radar,,"qualified, radar",Qualified,"Series B with a Top 10 investor (in mandate at B+, and just raised)",a33bbc68-9b61-4b31-90e2-5c98fc181a0f,simile

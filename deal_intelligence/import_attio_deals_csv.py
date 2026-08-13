@@ -182,8 +182,33 @@ def authoritative_row(rows):
     closing still needs a tiebreak). This is what makes a company that was
     Passed once and later moved back to Pipeline read as Pipeline today, not
     Passed -- exactly what this export's own "Deal stage" Previous Values
-    column shows happening for several companies (Etched, Atoms, Ollama)."""
-    return max(rows, key=lambda r: (r["deal_date"] or "", r["stage_changed_at"] or ""))
+    column shows happening for several companies (Etched, Atoms, Ollama).
+
+    A deal with NO Deal Date is a round IN PROGRESS -- it hasn't closed, which
+    is precisely why it has no close date -- so it ranks on when it last moved
+    instead. Without that, an empty date sorted below every real one and a
+    live round could never win: Castelion's Series C (Pipeline, opened
+    2026-07-16) lost to its closed Series B from 2025-12-05, and the same
+    happened to Profound (D behind C) and Temporal (E behind D). Since `series`
+    from this row is what placement.expected_placement runs on, that put three
+    companies in the wrong bucket on top of showing a stale round.
+
+    The fallback is deliberately per-ROW, not a global "rank everything by
+    latest activity". Letting stage_changed_at outrank another row's real Deal
+    Date is much worse: someone marking an old round Passed today would make it
+    outrank a genuinely newer round. Measured on the 2026-08-13 export, the
+    global version moved 14 of 27 multi-deal companies and got most of them
+    wrong (Anthropic's Series H -> a Series C Secondary marked Passed; Kalshi F
+    -> E; Legora D -> B; Suno D -> C). The per-row version moves exactly 4, and
+    all 4 are the in-progress-round case above.
+
+    Deal Date wins the tiebreak when two rows share an effective date, so a
+    closed round still beats an in-progress one that happened to move the same
+    day."""
+    return max(rows, key=lambda r: (
+        (r["deal_date"] or r["stage_changed_at"] or "")[:10],
+        r["deal_date"] or "",
+        r["stage_changed_at"] or ""))
 
 
 def _round_slug(series):

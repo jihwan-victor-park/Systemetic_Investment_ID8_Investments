@@ -5,12 +5,12 @@
 - Matched on both sides: **307** (302 by key, 4 by domain, 1 by name)
 - **In Attio, missing from the hub: 8**
 - **In the hub, missing from Attio: 1** (after setting aside 5 duplicate hub docs and 2 test fixtures)
-- Placement disagreements among matched deals: **41** (agreed: 128)
+- Placement disagreements among matched deals: **43** (agreed: 126)
 - Matched but filed by hand in Attio (Passed/Invested -- rule not applied): 34
 - **Missing their Attio deal history in the hub (pipeline/passed/invested tags): 30**
 - Matched but the rule places them nowhere: 104 (17 above B with no Tier 1 (33), 87 below/unknown series)
 
-Those five buckets partition the 307 matched companies (41 + 128 + 34 + 17 + 87 = 307), so no matched deal is missing from the report.
+Those five buckets partition the 307 matched companies (43 + 126 + 34 + 17 + 87 = 307), so no matched deal is missing from the report.
 
 Placement rule applied: **Tier 1 (33) investor + above Series B -> Qualified**; **Top 10 investor + Series B or below -> Radar**. Series-B mode: `dual`.
 
@@ -79,7 +79,7 @@ Matched on both sides, but at least one side isn't where the rule says it should
 | Advanced Manufacturing Company of America | Series B | Pipeline | qualified +radar | Qualified + radar | - | stage -> Qualified | Series B with a Top 10 investor (in mandate at B+, and just raised) |
 | Anthropic | Series H | Qualified | None | Qualified | stage -> qualified | - | above Series B with a Tier 1 (33) investor |
 | Braintrust (Software Development Applications) | Series B | Watchlist | None +watchlist,radar | Qualified + radar | stage -> qualified | stage -> Qualified | Series B with a Top 10 investor (in mandate at B+, and just raised) |
-| Castelion | Series B | Qualified | pipeline | Qualified + radar | +tag qualified, radar | - | Series B with a Top 10 investor (in mandate at B+, and just raised) |
+| Castelion | Series C | Pipeline | pipeline | Qualified | +tag qualified | stage -> Qualified | above Series B with a Tier 1 (33) investor |
 | Chai Discovery | Series C | Radar | qualified | Qualified | - | stage -> Qualified | above Series B with a Tier 1 (33) investor |
 | Console | Series A | Pipeline | pipeline | Radar | +tag radar | stage -> Radar | below Series B with a Top 10 investor |
 | E2B | Early Stage VC | Watchlist | watchlist | Radar | +tag radar | stage -> Radar | below Series B with a Top 10 investor |
@@ -106,6 +106,7 @@ Matched on both sides, but at least one side isn't where the rule says it should
 | Pallet | Series C | Target | new | Qualified | stage -> qualified | stage -> Qualified | above Series B with a Tier 1 (33) investor |
 | Parallel | Series B | Watchlist | watchlist +radar | Qualified + radar | +tag qualified | stage -> Qualified | Series B with a Top 10 investor (in mandate at B+, and just raised) |
 | Pi Security | Series B | Pipeline | qualified | Qualified + radar | +tag radar | stage -> Qualified | Series B with a Top 10 investor (in mandate at B+, and just raised) |
+| Profound | Series D | Pipeline | qualified | Qualified | - | stage -> Qualified | above Series B with a Tier 1 (33) investor |
 | Revel (Business/Productivity Software) | Series B | Pipeline | pipeline +radar | Qualified + radar | +tag qualified | stage -> Qualified | Series B with a Top 10 investor (in mandate at B+, and just raised) |
 | Ricursive Intelligence | Series A | Watchlist | watchlist +radar | Radar | - | stage -> Radar | below Series B with a Top 10 investor |
 | Rogo (Business/Productivity Software) | Series D | Watchlist | watchlist | Qualified | +tag qualified | stage -> Qualified | above Series B with a Tier 1 (33) investor |
@@ -114,15 +115,15 @@ Matched on both sides, but at least one side isn't where the rule says it should
 | Snorkel | Series E | Pipeline | pipeline | Qualified | +tag qualified | stage -> Qualified | above Series B with a Tier 1 (33) investor |
 | Supabase | Series F | Pipeline | pipeline | Qualified | +tag qualified | stage -> Qualified | above Series B with a Tier 1 (33) investor |
 | Synthetix | Series C | Watchlist | watchlist | Qualified | +tag qualified | stage -> Qualified | above Series B with a Tier 1 (33) investor |
+| Temporal | Series E | Pipeline | qualified | Qualified | - | stage -> Qualified | above Series B with a Tier 1 (33) investor |
 | Trajectory | Series A | Pipeline | pipeline | Radar | +tag radar | stage -> Radar | below Series B with a Top 10 investor |
 
 ## Series disagreements (not auto-corrected)
 
-12 companies where the hub and Attio hold a different Series. **Not written by --apply-hub.** `round` is hand-editable in the hub (RoundInput/updateCompanyRound) and the disagreements run in both directions -- some hub values are ahead of Attio, some behind -- so overwriting wholesale would destroy real research as often as it fixed staleness. Pass `--overwrite-series` to take Attio's value for all of them.
+13 companies where the hub and Attio hold a different Series. **Not written by --apply-hub.** `round` is hand-editable in the hub (RoundInput/updateCompanyRound) and the disagreements run in both directions -- some hub values are ahead of Attio, some behind -- so overwriting wholesale would destroy real research as often as it fixed staleness. Pass `--overwrite-series` to take Attio's value for all of them.
 
 | Company | Hub says | Attio says | Attio stage |
 |---|---|---|---|
-| Castelion | Series C | Series B | Qualified |
 | Chai Discovery | Series D | Series C | Radar |
 | ClickHouse | Series C | Series D | Qualified |
 | Fireworks AI | Series C | Series D | Qualified |
@@ -131,13 +132,15 @@ Matched on both sides, but at least one side isn't where the rule says it should
 | Lovable | Series B | Series C | Pipeline |
 | MicroOne | Series B | Pre-B SAFE | Pipeline |
 | Onyx | Series A | Series B | Radar |
+| Profound | Series C | Series D | Pipeline |
 | Ramp | Series E3 | Series F | Qualified |
 | Simile | Series A | Series B | Radar |
+| Temporal | Series D | Series E | Pipeline |
 | Whatnot | Series F | Series G | Qualified |
 
 ## Missing or stale Series / Deal Date / Deal Size
 
-26 companies where Attio has the round's close date (or size) and the hub doesn't. The hub renders these as its Deal Date column and the `closed <date>` line on the company page, so a company missing them shows a bare em-dash and sinks to the bottom of any date sort -- present, but effectively invisible. Filled only when missing, never overwritten.
+25 companies where Attio has the round's close date (or size) and the hub doesn't. The hub renders these as its Deal Date column and the `closed <date>` line on the company page, so a company missing them shows a bare em-dash and sinks to the bottom of any date sort -- present, but effectively invisible. Filled only when missing, never overwritten.
 
 | Company | Attio stage | Series to write | Deal Date to write | Deal Size to write |
 |---|---|---|---|---|
@@ -145,7 +148,6 @@ Matched on both sides, but at least one side isn't where the rule says it should
 | Antora Energy | Qualified | - | 2026-07-30 | 550000000 |
 | Base Power | Qualified | Series D | 2026-08-03 | 1000000000 |
 | Braintrust (Software Development Applications) | Watchlist | Series B | 2026-02-17 | 80000000 |
-| Castelion | Qualified | - | 2025-12-05 | 350000000 |
 | ClickHouse | Qualified | - | 2026-01-16 (was stale) | 400000000 (was stale) |
 | Console | Pipeline | - | 2026-08-03 | 22999996 |
 | Convex | Qualified | Series B | 2026-08-04 | 57000000 |
@@ -330,7 +332,7 @@ Matched on both sides, but at least one side isn't where the rule says it should
 
 ## Series B with a Top 10 investor
 
-59 companies sit in the one band the rule reads two ways. Under `dual` (the default, and what the shipped intake code does) they are Qualified in Attio and additionally tagged `radar` in the hub. Under `radar` they would be Radar only. Rerun with `--series-b-mode radar` to see that version.
+58 companies sit in the one band the rule reads two ways. Under `dual` (the default, and what the shipped intake code does) they are Qualified in Attio and additionally tagged `radar` in the hub. Under `radar` they would be Radar only. Rerun with `--series-b-mode radar` to see that version.
 
 | Company | Series | Attio | Hub | Top 10 |
 |---|---|---|---|---|
@@ -347,7 +349,6 @@ Matched on both sides, but at least one side isn't where the rule says it should
 | Braintrust (Software Development Applications) | Series B | Watchlist | None +watchlist,radar | ICONIQ Capital |
 | Bunkerhill Health | Series B1 | Qualified | qualified +radar | Sequoia Capital |
 | Campfire (Financial Software) | Series B | Qualified | qualified +radar | Accel |
-| Castelion | Series B | Qualified | pipeline | Lightspeed Venture Partners |
 | Cowboy Space | Series B | Qualified | qualified +radar | Index Ventures |
 | Distyl AI | Series B | Qualified | qualified +radar | Lightspeed Venture Partners |
 | EXUGlobal | Series B | Qualified | qualified +radar | Sequoia Capital |

@@ -202,3 +202,42 @@ def test_the_import_never_overwrites_an_existing_human_set_stage():
                      existing={"stage": "invested"})
     assert "stage" not in p
     assert "radar" in p["tags"]._values
+
+
+# ── authoritative_row: an in-progress round has no close date ────────────────
+
+def _r(series, stage, deal_date="", changed_at=""):
+    return {"series": series, "stage": stage, "deal_date": deal_date,
+            "stage_changed_at": changed_at}
+
+
+def test_undated_live_round_beats_an_older_closed_one():
+    """Castelion's Series C (Pipeline, no Deal Date because it hasn't closed)
+    lost to its closed Series B from 2025-12-05. `series` from this row drives
+    placement, so it put the company in the wrong bucket too."""
+    rows = [_r("Series B", "Qualified", "2025-12-05", "2026-06-09"),
+            _r("Series C", "Pipeline", "", "2026-07-16")]
+    assert m.authoritative_row(rows)["series"] == "Series C"
+    assert m.authoritative_row(list(reversed(rows)))["series"] == "Series C"
+
+
+def test_a_recent_stage_change_never_outranks_another_rows_real_deal_date():
+    """The failure mode of a global 'latest activity' rule: marking an old round
+    Passed today would outrank a genuinely newer round. Anthropic's Series H
+    must not lose to a Series C Secondary someone just marked Passed."""
+    rows = [_r("Series H", "Qualified", "2026-03-01", "2026-03-01"),
+            _r("Series C Secondary", "Passed", "2025-01-01", "2026-08-01")]
+    assert m.authoritative_row(rows)["series"] == "Series H"
+
+
+def test_deal_date_breaks_a_tie_against_an_in_progress_round():
+    """Same effective date -- the closed round wins."""
+    rows = [_r("Series B", "Qualified", "2026-07-16", "2026-07-16"),
+            _r("Series C", "Pipeline", "", "2026-07-16")]
+    assert m.authoritative_row(rows)["series"] == "Series B"
+
+
+def test_all_dated_rows_still_rank_purely_on_deal_date():
+    rows = [_r("Series A", "Qualified", "2025-01-01", "2026-08-01"),
+            _r("Series B", "Qualified", "2026-01-01", "2025-01-01")]
+    assert m.authoritative_row(rows)["series"] == "Series B"

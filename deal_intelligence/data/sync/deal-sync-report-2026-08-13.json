@@ -5,19 +5,19 @@
     "matched": 307,
     "hubOnly": 1,
     "attioOnly": 8,
-    "placementMismatches": 41,
-    "placementAgreed": 128,
+    "placementMismatches": 43,
+    "placementAgreed": 126,
     "humanFiled": 34,
     "aboveBNoTier33": 17,
     "unplacedByRule": 87,
-    "seriesBTop10": 59,
+    "seriesBTop10": 58,
     "hubDuplicateCompanies": 5,
     "hubDuplicateDocs": 5,
     "hubDuplicatesShownAsHubOnly": 4,
     "testFixtures": 2,
     "historyGaps": 30,
-    "dateGaps": 26,
-    "seriesConflicts": 12,
+    "dateGaps": 25,
+    "seriesConflicts": 13,
     "stagelessDocs": 17,
     "keyCollisions": 4,
     "attioDuplicateRecords": 3
@@ -357,16 +357,14 @@
       "attioKey": "castelion",
       "name": "Castelion",
       "matchBasis": "key",
-      "series": "Series B",
-      "band": "b",
-      "attioStage": "Qualified",
+      "series": "Series C",
+      "band": "above_b",
+      "attioStage": "Pipeline",
       "hubStage": "pipeline",
       "hubTags": [],
       "expectedStage": "Qualified",
-      "expectedTags": [
-        "radar"
-      ],
-      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "expectedTags": [],
+      "expectedWhy": "above Series B with a Tier 1 (33) investor",
       "top10": [
         "Lightspeed Venture Partners"
       ],
@@ -375,7 +373,7 @@
         "General Catalyst",
         "Lightspeed Venture Partners"
       ],
-      "attioRecordId": "21e55fcc-742c-4f92-9f4d-894a750b8e2b",
+      "attioRecordId": "e886cf91-7ddd-4bc9-aa77-5c0c2eac6eb3",
       "attioAllStages": [
         "Pipeline",
         "Qualified"
@@ -389,25 +387,23 @@
         "qualified"
       ],
       "roundMissing": false,
-      "attioSeries": "Series B",
-      "roundDateMissing": true,
+      "attioSeries": "Series C",
+      "roundDateMissing": false,
       "roundDateStale": false,
-      "roundSizeMissing": true,
+      "roundSizeMissing": false,
       "roundSizeStale": false,
-      "seriesConflict": true,
+      "seriesConflict": false,
       "hubSeries": "Series C",
-      "attioDealDate": "2025-12-05",
-      "attioDealSize": "350000000",
+      "attioDealDate": "",
+      "attioDealSize": "",
       "hubSetStage": null,
       "hubAddTags": [
-        "qualified",
-        "radar"
+        "qualified"
       ],
       "hubNeeds": [
-        "qualified",
-        "radar"
+        "qualified"
       ],
-      "attioNeeds": null
+      "attioNeeds": "Qualified"
     },
     {
       "key": "chaidiscovery",
@@ -1356,9 +1352,9 @@
       "attioKey": "temporal",
       "name": "Temporal",
       "matchBasis": "key",
-      "series": "Series D",
+      "series": "Series E",
       "band": "above_b",
-      "attioStage": "Qualified",
+      "attioStage": "Pipeline",
       "hubStage": "qualified",
       "hubTags": [],
       "expectedStage": "Qualified",
@@ -1375,7 +1371,58 @@
         "Lightspeed Venture Partners",
         "Sequoia Capital"
       ],
-      "attioRecordId": "d8ed7ff5-50c1-4c29-82f0-c776784fc472",
+      "attioRecordId": "6c542b33-1363-4994-b728-1cfd7cd15ef3",
+      "attioAllStages": [
+        "Pipeline",
+        "Qualified"
+      ],
+      "stagelessFix": null,
+      "attioHistoryTags": [
+        "pipeline",
+        "qualified"
+      ],
+      "historyMissing": [
+        "pipeline"
+      ],
+      "roundMissing": false,
+      "attioSeries": "Series E",
+      "roundDateMissing": false,
+      "roundDateStale": false,
+      "roundSizeMissing": false,
+      "roundSizeStale": false,
+      "seriesConflict": true,
+      "hubSeries": "Series D",
+      "attioDealDate": "",
+      "attioDealSize": "",
+      "hubSetStage": null,
+      "hubAddTags": [],
+      "hubNeeds": [],
+      "attioNeeds": "Qualified"
+    },
+    {
+      "key": "tryprofound",
+      "attioKey": "tryprofound",
+      "name": "Profound",
+      "matchBasis": "key",
+      "series": "Series D",
+      "band": "above_b",
+      "attioStage": "Pipeline",
+      "hubStage": "qualified",
+      "hubTags": [],
+      "expectedStage": "Qualified",
+      "expectedTags": [],
+      "expectedWhy": "above Series B with a Tier 1 (33) investor",
+      "top10": [
+        "Sequoia Capital",
+        "Lightspeed Venture Partners"
+      ],
+      "tier1_33": [
+        "Khosla Ventures",
+        "Kleiner Perkins",
+        "Lightspeed Venture Partners",
+        "Sequoia Capital"
+      ],
+      "attioRecordId": "6f99df22-85a7-4d43-b134-c0668b38a541",
       "attioAllStages": [
         "Pipeline",
         "Qualified"
@@ -1394,57 +1441,14 @@
       "roundDateStale": false,
       "roundSizeMissing": false,
       "roundSizeStale": false,
-      "seriesConflict": false,
-      "hubSeries": "Series D",
-      "attioDealDate": "2026-02-17",
-      "attioDealSize": "300000000"
-    },
-    {
-      "key": "tryprofound",
-      "attioKey": "tryprofound",
-      "name": "Profound",
-      "matchBasis": "key",
-      "series": "Series C",
-      "band": "above_b",
-      "attioStage": "Qualified",
-      "hubStage": "qualified",
-      "hubTags": [],
-      "expectedStage": "Qualified",
-      "expectedTags": [],
-      "expectedWhy": "above Series B with a Tier 1 (33) investor",
-      "top10": [
-        "Sequoia Capital",
-        "Lightspeed Venture Partners"
-      ],
-      "tier1_33": [
-        "Khosla Ventures",
-        "Kleiner Perkins",
-        "Lightspeed Venture Partners",
-        "Sequoia Capital"
-      ],
-      "attioRecordId": "fb3975ec-8976-429b-bac4-d93ace1e0bcd",
-      "attioAllStages": [
-        "Pipeline",
-        "Qualified"
-      ],
-      "stagelessFix": null,
-      "attioHistoryTags": [
-        "pipeline",
-        "qualified"
-      ],
-      "historyMissing": [
-        "pipeline"
-      ],
-      "roundMissing": false,
-      "attioSeries": "Series C",
-      "roundDateMissing": false,
-      "roundDateStale": false,
-      "roundSizeMissing": false,
-      "roundSizeStale": false,
-      "seriesConflict": false,
+      "seriesConflict": true,
       "hubSeries": "Series C",
-      "attioDealDate": "2026-02-24",
-      "attioDealSize": "96000000"
+      "attioDealDate": "",
+      "attioDealSize": "",
+      "hubSetStage": null,
+      "hubAddTags": [],
+      "hubNeeds": [],
+      "attioNeeds": "Qualified"
     },
     {
       "key": "withsable",
@@ -1775,63 +1779,6 @@
       "hubSeries": "",
       "attioDealDate": "2026-08-03",
       "attioDealSize": "1000000000"
-    },
-    {
-      "key": "castelion",
-      "attioKey": "castelion",
-      "name": "Castelion",
-      "matchBasis": "key",
-      "series": "Series B",
-      "band": "b",
-      "attioStage": "Qualified",
-      "hubStage": "pipeline",
-      "hubTags": [],
-      "expectedStage": "Qualified",
-      "expectedTags": [
-        "radar"
-      ],
-      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
-      "top10": [
-        "Lightspeed Venture Partners"
-      ],
-      "tier1_33": [
-        "Andreessen Horowitz",
-        "General Catalyst",
-        "Lightspeed Venture Partners"
-      ],
-      "attioRecordId": "21e55fcc-742c-4f92-9f4d-894a750b8e2b",
-      "attioAllStages": [
-        "Pipeline",
-        "Qualified"
-      ],
-      "stagelessFix": null,
-      "attioHistoryTags": [
-        "pipeline",
-        "qualified"
-      ],
-      "historyMissing": [
-        "qualified"
-      ],
-      "roundMissing": false,
-      "attioSeries": "Series B",
-      "roundDateMissing": true,
-      "roundDateStale": false,
-      "roundSizeMissing": true,
-      "roundSizeStale": false,
-      "seriesConflict": true,
-      "hubSeries": "Series C",
-      "attioDealDate": "2025-12-05",
-      "attioDealSize": "350000000",
-      "hubSetStage": null,
-      "hubAddTags": [
-        "qualified",
-        "radar"
-      ],
-      "hubNeeds": [
-        "qualified",
-        "radar"
-      ],
-      "attioNeeds": null
     },
     {
       "key": "clickhouse",
@@ -2834,63 +2781,6 @@
   ],
   "seriesConflicts": [
     {
-      "key": "castelion",
-      "attioKey": "castelion",
-      "name": "Castelion",
-      "matchBasis": "key",
-      "series": "Series B",
-      "band": "b",
-      "attioStage": "Qualified",
-      "hubStage": "pipeline",
-      "hubTags": [],
-      "expectedStage": "Qualified",
-      "expectedTags": [
-        "radar"
-      ],
-      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
-      "top10": [
-        "Lightspeed Venture Partners"
-      ],
-      "tier1_33": [
-        "Andreessen Horowitz",
-        "General Catalyst",
-        "Lightspeed Venture Partners"
-      ],
-      "attioRecordId": "21e55fcc-742c-4f92-9f4d-894a750b8e2b",
-      "attioAllStages": [
-        "Pipeline",
-        "Qualified"
-      ],
-      "stagelessFix": null,
-      "attioHistoryTags": [
-        "pipeline",
-        "qualified"
-      ],
-      "historyMissing": [
-        "qualified"
-      ],
-      "roundMissing": false,
-      "attioSeries": "Series B",
-      "roundDateMissing": true,
-      "roundDateStale": false,
-      "roundSizeMissing": true,
-      "roundSizeStale": false,
-      "seriesConflict": true,
-      "hubSeries": "Series C",
-      "attioDealDate": "2025-12-05",
-      "attioDealSize": "350000000",
-      "hubSetStage": null,
-      "hubAddTags": [
-        "qualified",
-        "radar"
-      ],
-      "hubNeeds": [
-        "qualified",
-        "radar"
-      ],
-      "attioNeeds": null
-    },
-    {
       "key": "chaidiscovery",
       "attioKey": "chaidiscovery",
       "name": "Chai Discovery",
@@ -3268,6 +3158,109 @@
       "hubSeries": "Series E3",
       "attioDealDate": "2026-06-04",
       "attioDealSize": "750000000"
+    },
+    {
+      "key": "temporal",
+      "attioKey": "temporal",
+      "name": "Temporal",
+      "matchBasis": "key",
+      "series": "Series E",
+      "band": "above_b",
+      "attioStage": "Pipeline",
+      "hubStage": "qualified",
+      "hubTags": [],
+      "expectedStage": "Qualified",
+      "expectedTags": [],
+      "expectedWhy": "above Series B with a Tier 1 (33) investor",
+      "top10": [
+        "Sequoia Capital",
+        "Index Ventures",
+        "Lightspeed Venture Partners"
+      ],
+      "tier1_33": [
+        "Andreessen Horowitz",
+        "Index Ventures",
+        "Lightspeed Venture Partners",
+        "Sequoia Capital"
+      ],
+      "attioRecordId": "6c542b33-1363-4994-b728-1cfd7cd15ef3",
+      "attioAllStages": [
+        "Pipeline",
+        "Qualified"
+      ],
+      "stagelessFix": null,
+      "attioHistoryTags": [
+        "pipeline",
+        "qualified"
+      ],
+      "historyMissing": [
+        "pipeline"
+      ],
+      "roundMissing": false,
+      "attioSeries": "Series E",
+      "roundDateMissing": false,
+      "roundDateStale": false,
+      "roundSizeMissing": false,
+      "roundSizeStale": false,
+      "seriesConflict": true,
+      "hubSeries": "Series D",
+      "attioDealDate": "",
+      "attioDealSize": "",
+      "hubSetStage": null,
+      "hubAddTags": [],
+      "hubNeeds": [],
+      "attioNeeds": "Qualified"
+    },
+    {
+      "key": "tryprofound",
+      "attioKey": "tryprofound",
+      "name": "Profound",
+      "matchBasis": "key",
+      "series": "Series D",
+      "band": "above_b",
+      "attioStage": "Pipeline",
+      "hubStage": "qualified",
+      "hubTags": [],
+      "expectedStage": "Qualified",
+      "expectedTags": [],
+      "expectedWhy": "above Series B with a Tier 1 (33) investor",
+      "top10": [
+        "Sequoia Capital",
+        "Lightspeed Venture Partners"
+      ],
+      "tier1_33": [
+        "Khosla Ventures",
+        "Kleiner Perkins",
+        "Lightspeed Venture Partners",
+        "Sequoia Capital"
+      ],
+      "attioRecordId": "6f99df22-85a7-4d43-b134-c0668b38a541",
+      "attioAllStages": [
+        "Pipeline",
+        "Qualified"
+      ],
+      "stagelessFix": null,
+      "attioHistoryTags": [
+        "pipeline",
+        "qualified"
+      ],
+      "historyMissing": [
+        "pipeline"
+      ],
+      "roundMissing": false,
+      "attioSeries": "Series D",
+      "roundDateMissing": false,
+      "roundDateStale": false,
+      "roundSizeMissing": false,
+      "roundSizeStale": false,
+      "seriesConflict": true,
+      "hubSeries": "Series C",
+      "attioDealDate": "",
+      "attioDealSize": "",
+      "hubSetStage": null,
+      "hubAddTags": [],
+      "hubNeeds": [],
+      "attioNeeds": "Qualified"
     },
     {
       "key": "whatnot",
@@ -5012,16 +5005,14 @@
       "attioKey": "castelion",
       "name": "Castelion",
       "matchBasis": "key",
-      "series": "Series B",
-      "band": "b",
-      "attioStage": "Qualified",
+      "series": "Series C",
+      "band": "above_b",
+      "attioStage": "Pipeline",
       "hubStage": "pipeline",
       "hubTags": [],
       "expectedStage": "Qualified",
-      "expectedTags": [
-        "radar"
-      ],
-      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "expectedTags": [],
+      "expectedWhy": "above Series B with a Tier 1 (33) investor",
       "top10": [
         "Lightspeed Venture Partners"
       ],
@@ -5030,7 +5021,7 @@
         "General Catalyst",
         "Lightspeed Venture Partners"
       ],
-      "attioRecordId": "21e55fcc-742c-4f92-9f4d-894a750b8e2b",
+      "attioRecordId": "e886cf91-7ddd-4bc9-aa77-5c0c2eac6eb3",
       "attioAllStages": [
         "Pipeline",
         "Qualified"
@@ -5044,25 +5035,23 @@
         "qualified"
       ],
       "roundMissing": false,
-      "attioSeries": "Series B",
-      "roundDateMissing": true,
+      "attioSeries": "Series C",
+      "roundDateMissing": false,
       "roundDateStale": false,
-      "roundSizeMissing": true,
+      "roundSizeMissing": false,
       "roundSizeStale": false,
-      "seriesConflict": true,
+      "seriesConflict": false,
       "hubSeries": "Series C",
-      "attioDealDate": "2025-12-05",
-      "attioDealSize": "350000000",
+      "attioDealDate": "",
+      "attioDealSize": "",
       "hubSetStage": null,
       "hubAddTags": [
-        "qualified",
-        "radar"
+        "qualified"
       ],
       "hubNeeds": [
-        "qualified",
-        "radar"
+        "qualified"
       ],
-      "attioNeeds": null
+      "attioNeeds": "Qualified"
     },
     {
       "key": "chaidiscovery",
@@ -6602,6 +6591,58 @@
       "attioNeeds": "Qualified"
     },
     {
+      "key": "temporal",
+      "attioKey": "temporal",
+      "name": "Temporal",
+      "matchBasis": "key",
+      "series": "Series E",
+      "band": "above_b",
+      "attioStage": "Pipeline",
+      "hubStage": "qualified",
+      "hubTags": [],
+      "expectedStage": "Qualified",
+      "expectedTags": [],
+      "expectedWhy": "above Series B with a Tier 1 (33) investor",
+      "top10": [
+        "Sequoia Capital",
+        "Index Ventures",
+        "Lightspeed Venture Partners"
+      ],
+      "tier1_33": [
+        "Andreessen Horowitz",
+        "Index Ventures",
+        "Lightspeed Venture Partners",
+        "Sequoia Capital"
+      ],
+      "attioRecordId": "6c542b33-1363-4994-b728-1cfd7cd15ef3",
+      "attioAllStages": [
+        "Pipeline",
+        "Qualified"
+      ],
+      "stagelessFix": null,
+      "attioHistoryTags": [
+        "pipeline",
+        "qualified"
+      ],
+      "historyMissing": [
+        "pipeline"
+      ],
+      "roundMissing": false,
+      "attioSeries": "Series E",
+      "roundDateMissing": false,
+      "roundDateStale": false,
+      "roundSizeMissing": false,
+      "roundSizeStale": false,
+      "seriesConflict": true,
+      "hubSeries": "Series D",
+      "attioDealDate": "",
+      "attioDealSize": "",
+      "hubSetStage": null,
+      "hubAddTags": [],
+      "hubNeeds": [],
+      "attioNeeds": "Qualified"
+    },
+    {
       "key": "trajectory",
       "attioKey": "trajectory",
       "name": "Trajectory",
@@ -6647,6 +6688,57 @@
         "radar"
       ],
       "attioNeeds": "Radar"
+    },
+    {
+      "key": "tryprofound",
+      "attioKey": "tryprofound",
+      "name": "Profound",
+      "matchBasis": "key",
+      "series": "Series D",
+      "band": "above_b",
+      "attioStage": "Pipeline",
+      "hubStage": "qualified",
+      "hubTags": [],
+      "expectedStage": "Qualified",
+      "expectedTags": [],
+      "expectedWhy": "above Series B with a Tier 1 (33) investor",
+      "top10": [
+        "Sequoia Capital",
+        "Lightspeed Venture Partners"
+      ],
+      "tier1_33": [
+        "Khosla Ventures",
+        "Kleiner Perkins",
+        "Lightspeed Venture Partners",
+        "Sequoia Capital"
+      ],
+      "attioRecordId": "6f99df22-85a7-4d43-b134-c0668b38a541",
+      "attioAllStages": [
+        "Pipeline",
+        "Qualified"
+      ],
+      "stagelessFix": null,
+      "attioHistoryTags": [
+        "pipeline",
+        "qualified"
+      ],
+      "historyMissing": [
+        "pipeline"
+      ],
+      "roundMissing": false,
+      "attioSeries": "Series D",
+      "roundDateMissing": false,
+      "roundDateStale": false,
+      "roundSizeMissing": false,
+      "roundSizeStale": false,
+      "seriesConflict": true,
+      "hubSeries": "Series C",
+      "attioDealDate": "",
+      "attioDealSize": "",
+      "hubSetStage": null,
+      "hubAddTags": [],
+      "hubNeeds": [],
+      "attioNeeds": "Qualified"
     },
     {
       "key": "onyx",
@@ -12134,63 +12226,6 @@
       "hubAddTags": [],
       "hubNeeds": [],
       "attioNeeds": "Qualified"
-    },
-    {
-      "key": "castelion",
-      "attioKey": "castelion",
-      "name": "Castelion",
-      "matchBasis": "key",
-      "series": "Series B",
-      "band": "b",
-      "attioStage": "Qualified",
-      "hubStage": "pipeline",
-      "hubTags": [],
-      "expectedStage": "Qualified",
-      "expectedTags": [
-        "radar"
-      ],
-      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
-      "top10": [
-        "Lightspeed Venture Partners"
-      ],
-      "tier1_33": [
-        "Andreessen Horowitz",
-        "General Catalyst",
-        "Lightspeed Venture Partners"
-      ],
-      "attioRecordId": "21e55fcc-742c-4f92-9f4d-894a750b8e2b",
-      "attioAllStages": [
-        "Pipeline",
-        "Qualified"
-      ],
-      "stagelessFix": null,
-      "attioHistoryTags": [
-        "pipeline",
-        "qualified"
-      ],
-      "historyMissing": [
-        "qualified"
-      ],
-      "roundMissing": false,
-      "attioSeries": "Series B",
-      "roundDateMissing": true,
-      "roundDateStale": false,
-      "roundSizeMissing": true,
-      "roundSizeStale": false,
-      "seriesConflict": true,
-      "hubSeries": "Series C",
-      "attioDealDate": "2025-12-05",
-      "attioDealSize": "350000000",
-      "hubSetStage": null,
-      "hubAddTags": [
-        "qualified",
-        "radar"
-      ],
-      "hubNeeds": [
-        "qualified",
-        "radar"
-      ],
-      "attioNeeds": null
     },
     {
       "key": "forus",
