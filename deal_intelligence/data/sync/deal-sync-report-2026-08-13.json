@@ -208,6 +208,8 @@
       "historyMissing": [
         "radar"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series D",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-07-15",
@@ -257,6 +259,8 @@
       "historyMissing": [
         "pipeline"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-08-12",
@@ -318,6 +322,8 @@
         "pipeline",
         "qualified"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series H",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-05-28",
@@ -364,6 +370,8 @@
       "historyMissing": [
         "qualified"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": true,
       "roundSizeMissing": true,
       "attioDealDate": "2025-12-05",
@@ -420,6 +428,8 @@
       "historyMissing": [
         "radar"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series C",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-07-14",
@@ -459,6 +469,8 @@
       "historyMissing": [
         "invested"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-12-02",
@@ -494,6 +506,8 @@
       "historyMissing": [
         "invested"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series D",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-05-22",
@@ -526,6 +540,8 @@
       "historyMissing": [
         "radar"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": true,
       "roundSizeMissing": true,
       "attioDealDate": "2026-07-30",
@@ -558,6 +574,8 @@
       "historyMissing": [
         "qualified"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-07-09",
@@ -600,6 +618,8 @@
       "historyMissing": [
         "qualified"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-07-22",
@@ -644,6 +664,8 @@
       "historyMissing": [
         "qualified"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series D",
       "roundDateMissing": false,
       "roundSizeMissing": true,
       "attioDealDate": "2026-08-06",
@@ -688,6 +710,8 @@
       "historyMissing": [
         "qualified"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series E",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-07-13",
@@ -728,6 +752,8 @@
       "historyMissing": [
         "radar"
       ],
+      "roundMissing": false,
+      "attioSeries": "",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-06-29",
@@ -761,6 +787,8 @@
       "historyMissing": [
         "qualified"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series C",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-06-30",
@@ -805,6 +833,8 @@
         "pipeline",
         "qualified"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": true,
       "attioDealDate": "2026-02-23",
@@ -845,6 +875,8 @@
       "historyMissing": [
         "pipeline"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series F",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-05-21",
@@ -891,6 +923,8 @@
         "passed",
         "pipeline"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series D",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-04-30",
@@ -930,6 +964,8 @@
       "historyMissing": [
         "pipeline"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series C",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-07-06",
@@ -972,6 +1008,8 @@
       "historyMissing": [
         "pipeline"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series C",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-08-12",
@@ -1012,6 +1050,8 @@
       "historyMissing": [
         "qualified"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series C",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-07-07",
@@ -1048,6 +1088,8 @@
       "historyMissing": [
         "pipeline"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-07-12",
@@ -1088,6 +1130,8 @@
       "historyMissing": [
         "watchlist"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-07-14",
@@ -1128,6 +1172,8 @@
       "historyMissing": [
         "qualified"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-06-24",
@@ -1168,6 +1214,8 @@
       "historyMissing": [
         "qualified"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series D",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-04-29",
@@ -1217,6 +1265,8 @@
       "historyMissing": [
         "pipeline"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series D",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-02-17",
@@ -1257,6 +1307,8 @@
       "historyMissing": [
         "pipeline"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series C",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-02-24",
@@ -1292,6 +1344,8 @@
       "historyMissing": [
         "radar"
       ],
+      "roundMissing": false,
+      "attioSeries": "",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-07-16",
@@ -1332,6 +1386,8 @@
       "historyMissing": [
         "pipeline"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "",
@@ -1379,6 +1435,8 @@
       "historyMissing": [
         "radar"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": true,
       "roundSizeMissing": true,
       "attioDealDate": "2026-07-30",
@@ -1421,6 +1479,8 @@
       "historyMissing": [
         "qualified"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-06-25",
@@ -1453,6 +1513,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series C",
       "roundDateMissing": true,
       "roundSizeMissing": true,
       "attioDealDate": "2026-07-30",
@@ -1491,6 +1553,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": true,
+      "attioSeries": "Series D",
       "roundDateMissing": true,
       "roundSizeMissing": true,
       "attioDealDate": "2026-08-03",
@@ -1531,6 +1595,8 @@
       "historyMissing": [
         "qualified"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": true,
       "roundSizeMissing": true,
       "attioDealDate": "2025-12-05",
@@ -1574,6 +1640,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series A",
       "roundDateMissing": true,
       "roundSizeMissing": true,
       "attioDealDate": "2026-08-03",
@@ -1615,6 +1683,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": true,
+      "attioSeries": "Series B",
       "roundDateMissing": true,
       "roundSizeMissing": true,
       "attioDealDate": "2026-08-04",
@@ -1647,6 +1717,8 @@
       "historyMissing": [
         "radar"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": true,
       "roundSizeMissing": true,
       "attioDealDate": "2026-07-30",
@@ -1683,6 +1755,8 @@
       "historyMissing": [
         "qualified"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series D",
       "roundDateMissing": false,
       "roundSizeMissing": true,
       "attioDealDate": "2026-08-06",
@@ -1721,6 +1795,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series C",
       "roundDateMissing": true,
       "roundSizeMissing": true,
       "attioDealDate": "2026-07-30",
@@ -1759,6 +1835,8 @@
         "pipeline",
         "qualified"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": true,
       "attioDealDate": "2026-02-23",
@@ -1793,6 +1871,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series D",
       "roundDateMissing": true,
       "roundSizeMissing": true,
       "attioDealDate": "2026-07-30",
@@ -1826,6 +1906,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": true,
+      "attioSeries": "Series C",
       "roundDateMissing": true,
       "roundSizeMissing": true,
       "attioDealDate": "2026-08-06",
@@ -1863,6 +1945,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": true,
+      "attioSeries": "Series B",
       "roundDateMissing": true,
       "roundSizeMissing": true,
       "attioDealDate": "2026-08-03",
@@ -1899,6 +1983,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": true,
+      "attioSeries": "Series B",
       "roundDateMissing": true,
       "roundSizeMissing": true,
       "attioDealDate": "2026-08-03",
@@ -1932,6 +2018,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": true,
+      "attioSeries": "Series B",
       "roundDateMissing": true,
       "roundSizeMissing": true,
       "attioDealDate": "2026-08-05",
@@ -1969,6 +2057,8 @@
         "radar"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": true,
       "roundSizeMissing": true,
       "attioDealDate": "2026-07-29",
@@ -2016,6 +2106,8 @@
       "historyMissing": [
         "radar"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": true,
       "roundSizeMissing": true,
       "attioDealDate": "2026-07-30",
@@ -2064,6 +2156,8 @@
         "watchlist"
       ],
       "historyMissing": [],
+      "roundMissing": true,
+      "attioSeries": "Series B",
       "roundDateMissing": true,
       "roundSizeMissing": true,
       "attioDealDate": "2026-02-17",
@@ -2201,6 +2295,9 @@
       },
       "roundDate": "",
       "roundSize": "",
+      "displayedRound": "",
+      "displayedRoundDate": "",
+      "displayedRoundSize": "",
       "presentFields": [
         "id",
         "latestScreen",
@@ -2233,6 +2330,9 @@
       },
       "roundDate": "",
       "roundSize": "",
+      "displayedRound": "",
+      "displayedRoundDate": "",
+      "displayedRoundSize": "",
       "presentFields": [
         "id",
         "latestScreen",
@@ -2663,6 +2763,9 @@
       },
       "roundDate": "",
       "roundSize": "",
+      "displayedRound": "",
+      "displayedRoundDate": "",
+      "displayedRoundSize": "",
       "presentFields": [
         "id",
         "latestScreen",
@@ -2702,6 +2805,8 @@
       ],
       "attioHistoryTags": [],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-04-28",
@@ -2743,6 +2848,8 @@
       "historyMissing": [
         "radar"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series D",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-07-15",
@@ -2792,6 +2899,8 @@
       "historyMissing": [
         "pipeline"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-08-12",
@@ -2853,6 +2962,8 @@
         "pipeline",
         "qualified"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series H",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-05-28",
@@ -2899,6 +3010,8 @@
       "historyMissing": [
         "qualified"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": true,
       "roundSizeMissing": true,
       "attioDealDate": "2025-12-05",
@@ -2955,6 +3068,8 @@
       "historyMissing": [
         "radar"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series C",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-07-14",
@@ -2992,6 +3107,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series A",
       "roundDateMissing": true,
       "roundSizeMissing": true,
       "attioDealDate": "2026-08-03",
@@ -3033,6 +3150,8 @@
         "watchlist"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Early Stage VC",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "",
@@ -3077,6 +3196,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series D",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-02-04",
@@ -3119,6 +3240,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series A",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-06-10",
@@ -3164,6 +3287,8 @@
         "watchlist"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-05-12",
@@ -3214,6 +3339,8 @@
       "historyMissing": [
         "qualified"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-07-22",
@@ -3258,6 +3385,8 @@
       "historyMissing": [
         "qualified"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series D",
       "roundDateMissing": false,
       "roundSizeMissing": true,
       "attioDealDate": "2026-08-06",
@@ -3298,6 +3427,8 @@
       ],
       "attioHistoryTags": [],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series F",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-12-03",
@@ -3340,6 +3471,8 @@
       "historyMissing": [
         "qualified"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series E",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-07-13",
@@ -3380,6 +3513,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-02-10",
@@ -3423,6 +3558,8 @@
       "historyMissing": [
         "qualified"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series C",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-06-30",
@@ -3459,6 +3596,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series D",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "",
@@ -3501,6 +3640,8 @@
         "watchlist"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series C",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-04-17",
@@ -3548,6 +3689,8 @@
       "historyMissing": [
         "pipeline"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series C",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-07-06",
@@ -3590,6 +3733,8 @@
       "historyMissing": [
         "pipeline"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series C",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-08-12",
@@ -3628,6 +3773,8 @@
         "watchlist"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Early Stage VC",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "",
@@ -3670,6 +3817,8 @@
       ],
       "attioHistoryTags": [],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-04-14",
@@ -3716,6 +3865,8 @@
         "watchlist"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-05-13",
@@ -3760,6 +3911,8 @@
       "historyMissing": [
         "qualified"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series C",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-07-07",
@@ -3806,6 +3959,8 @@
       "historyMissing": [
         "watchlist"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-07-14",
@@ -3846,6 +4001,8 @@
         "watchlist"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Later Stage VC",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "",
@@ -3882,6 +4039,8 @@
       ],
       "attioHistoryTags": [],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series C",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "",
@@ -3928,6 +4087,8 @@
         "watchlist"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "",
@@ -3974,6 +4135,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-02-25",
@@ -4018,6 +4181,8 @@
         "watchlist"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series A",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-01-26",
@@ -4062,6 +4227,8 @@
       "historyMissing": [
         "qualified"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series D",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-04-29",
@@ -4106,6 +4273,8 @@
         "watchlist"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series A",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-06-09",
@@ -4140,6 +4309,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series E",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "",
@@ -4181,6 +4352,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series F",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-07-22",
@@ -4221,6 +4394,8 @@
         "watchlist"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series C",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-04-30",
@@ -4261,6 +4436,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series A",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "",
@@ -4306,6 +4483,8 @@
         "radar"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": true,
       "roundSizeMissing": true,
       "attioDealDate": "2026-07-29",
@@ -4354,6 +4533,8 @@
       "historyMissing": [
         "pipeline"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "",
@@ -4401,6 +4582,8 @@
       "historyMissing": [
         "radar"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": true,
       "roundSizeMissing": true,
       "attioDealDate": "2026-07-30",
@@ -4449,6 +4632,8 @@
         "watchlist"
       ],
       "historyMissing": [],
+      "roundMissing": true,
+      "attioSeries": "Series B",
       "roundDateMissing": true,
       "roundSizeMissing": true,
       "attioDealDate": "2026-02-17",
@@ -4489,6 +4674,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series H",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-12-02",
@@ -4526,6 +4713,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series C",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-05-18",
@@ -4558,6 +4747,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-12-24",
@@ -4596,6 +4787,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-02-10",
@@ -4628,6 +4821,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-01-13",
@@ -4663,6 +4858,8 @@
       "historyMissing": [
         "invested"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-12-02",
@@ -4698,6 +4895,8 @@
       "historyMissing": [
         "invested"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series D",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-05-22",
@@ -4730,6 +4929,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series E Secondary",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-01-13",
@@ -4762,6 +4963,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B Secondary",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-01-13",
@@ -4796,6 +4999,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-12-18",
@@ -4830,6 +5035,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Bridge To Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-01-06",
@@ -4862,6 +5069,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series D",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-12-02",
@@ -4894,6 +5103,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-12-30",
@@ -4926,6 +5137,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-01-20",
@@ -4960,6 +5173,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-03-01",
@@ -4992,6 +5207,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Bridge To Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-01-13",
@@ -5027,6 +5244,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-12-05",
@@ -5059,6 +5278,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-12-02",
@@ -5093,6 +5314,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series D",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-02-11",
@@ -5125,6 +5348,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series C",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-12-05",
@@ -5157,6 +5382,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series A",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-12-11",
@@ -5196,6 +5423,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-12-09",
@@ -5224,6 +5453,8 @@
         "invested"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series D",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-03-27",
@@ -5256,6 +5487,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series D",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-12-02",
@@ -5294,6 +5527,8 @@
         "invested"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-10-09",
@@ -5329,6 +5564,8 @@
         "invested"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series D",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-03-27",
@@ -5361,6 +5598,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series C",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-01-13",
@@ -5393,6 +5632,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-02-10",
@@ -5425,6 +5666,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-02-13",
@@ -5459,6 +5702,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series C",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-01-06",
@@ -5493,6 +5738,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series C",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-02-13",
@@ -5534,6 +5781,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-02-10",
@@ -5566,6 +5815,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series D",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-01-13",
@@ -5598,6 +5849,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-06-09",
@@ -5626,6 +5879,8 @@
       ],
       "attioHistoryTags": [],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series C",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "",
@@ -5654,6 +5909,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series C",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-06-09",
@@ -5682,6 +5939,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series D",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "",
@@ -5710,6 +5969,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series C",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-06-16",
@@ -5738,6 +5999,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series C",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-12-11",
@@ -5766,6 +6029,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series E",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "",
@@ -5794,6 +6059,8 @@
         "watchlist"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "NEA",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-01-20",
@@ -5822,6 +6089,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series D",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-12-11",
@@ -5848,6 +6117,8 @@
       ],
       "attioHistoryTags": [],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series C",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-02-10",
@@ -5876,6 +6147,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series D",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "",
@@ -5907,6 +6180,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series C",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-06-10",
@@ -5933,6 +6208,8 @@
       ],
       "attioHistoryTags": [],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series D",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-02-10",
@@ -5959,6 +6236,8 @@
       ],
       "attioHistoryTags": [],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series C",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "",
@@ -5987,6 +6266,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series C",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "",
@@ -6015,6 +6296,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series C",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-06-10",
@@ -6043,6 +6326,8 @@
         "watchlist"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series E",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "",
@@ -6071,6 +6356,8 @@
         "watchlist"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series E",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-07-14",
@@ -6103,6 +6390,8 @@
         "watchlist"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-02-23",
@@ -6133,6 +6422,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-01-14",
@@ -6164,6 +6455,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-09-15",
@@ -6194,6 +6487,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-11-12",
@@ -6225,6 +6520,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-04-27",
@@ -6253,6 +6550,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "",
@@ -6284,6 +6583,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-03-25",
@@ -6312,6 +6613,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-11-17",
@@ -6340,6 +6643,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-09-24",
@@ -6371,6 +6676,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-10-21",
@@ -6401,6 +6708,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-06-12",
@@ -6431,6 +6740,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "",
@@ -6464,6 +6775,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": true,
+      "attioSeries": "Series B",
       "roundDateMissing": true,
       "roundSizeMissing": true,
       "attioDealDate": "2026-08-04",
@@ -6492,6 +6805,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series A",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "",
@@ -6522,6 +6837,8 @@
         "watchlist"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-05-06",
@@ -6550,6 +6867,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series A",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "",
@@ -6580,6 +6899,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-04-22",
@@ -6612,6 +6933,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-07-20",
@@ -6644,6 +6967,8 @@
       "historyMissing": [
         "radar"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": true,
       "roundSizeMissing": true,
       "attioDealDate": "2026-07-30",
@@ -6676,6 +7001,8 @@
       "historyMissing": [
         "qualified"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-07-09",
@@ -6704,6 +7031,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-12-11",
@@ -6732,6 +7061,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-02-18",
@@ -6762,6 +7093,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series A",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "",
@@ -6792,6 +7125,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-03-24",
@@ -6824,6 +7159,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "",
@@ -6852,6 +7189,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "",
@@ -6880,6 +7219,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "",
@@ -6912,6 +7253,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-11-19",
@@ -6940,6 +7283,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-12-11",
@@ -6968,6 +7313,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "",
@@ -7000,6 +7347,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-11-12",
@@ -7031,6 +7380,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-06-04",
@@ -7059,6 +7410,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-06-02",
@@ -7090,6 +7443,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-02-02",
@@ -7120,6 +7475,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-06-11",
@@ -7150,6 +7507,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-09-15",
@@ -7178,6 +7537,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "",
@@ -7208,6 +7569,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-02-06",
@@ -7242,6 +7605,8 @@
       "historyMissing": [
         "radar"
       ],
+      "roundMissing": false,
+      "attioSeries": "",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-06-29",
@@ -7268,6 +7633,8 @@
       ],
       "attioHistoryTags": [],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "",
@@ -7296,6 +7663,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-07-12",
@@ -7334,6 +7703,8 @@
         "pipeline",
         "qualified"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": true,
       "attioDealDate": "2026-02-23",
@@ -7364,6 +7735,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-10-15",
@@ -7397,6 +7770,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-11-06",
@@ -7427,6 +7802,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-06-06",
@@ -7455,6 +7832,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-06-02",
@@ -7485,6 +7864,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-05-26",
@@ -7513,6 +7894,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Pre-B SAFE",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-06-11",
@@ -7541,6 +7924,8 @@
         "watchlist"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Early Stage VC",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "",
@@ -7571,6 +7956,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-07-15",
@@ -7599,6 +7986,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-02-10",
@@ -7627,6 +8016,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "",
@@ -7655,6 +8046,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series A",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "",
@@ -7683,6 +8076,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series A",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "",
@@ -7713,6 +8108,8 @@
       "historyMissing": [
         "pipeline"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-07-12",
@@ -7745,6 +8142,8 @@
       "historyMissing": [
         "qualified"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-06-24",
@@ -7776,6 +8175,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-09-17",
@@ -7806,6 +8207,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-01-20",
@@ -7834,6 +8237,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-02-04",
@@ -7862,6 +8267,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B SAFE",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-06-02",
@@ -7892,6 +8299,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-04-23",
@@ -7918,6 +8327,8 @@
       ],
       "attioHistoryTags": [],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-01-13",
@@ -7946,6 +8357,8 @@
         "watchlist"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Early Stage VC",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "",
@@ -7974,6 +8387,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-07-16",
@@ -8005,6 +8420,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-03-25",
@@ -8035,6 +8452,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-02-12",
@@ -8063,6 +8482,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-06-09",
@@ -8091,6 +8512,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series A",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "",
@@ -8121,6 +8544,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-03-10",
@@ -8152,6 +8577,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-03-10",
@@ -8178,6 +8605,8 @@
       ],
       "attioHistoryTags": [],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "",
@@ -8208,6 +8637,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "",
@@ -8236,6 +8667,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "",
@@ -8267,6 +8700,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-11-05",
@@ -8295,6 +8730,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series A",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "",
@@ -8326,6 +8763,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-05-27",
@@ -8357,6 +8796,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-03-25",
@@ -8385,6 +8826,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-02-18",
@@ -8413,6 +8856,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "",
@@ -8441,6 +8886,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Seed",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "",
@@ -8469,6 +8916,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-02-10",
@@ -8502,6 +8951,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": true,
+      "attioSeries": "Series B",
       "roundDateMissing": true,
       "roundSizeMissing": true,
       "attioDealDate": "2026-08-05",
@@ -8530,6 +8981,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-06-09",
@@ -8565,6 +9018,8 @@
       "historyMissing": [
         "radar"
       ],
+      "roundMissing": false,
+      "attioSeries": "",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-07-16",
@@ -8593,6 +9048,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "",
@@ -8619,6 +9076,8 @@
       ],
       "attioHistoryTags": [],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "",
@@ -8651,6 +9110,8 @@
       "historyMissing": [
         "qualified"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-06-25",
@@ -8692,6 +9153,8 @@
       ],
       "attioHistoryTags": [],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-04-28",
@@ -8744,6 +9207,8 @@
       "historyMissing": [
         "pipeline"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-08-12",
@@ -8788,6 +9253,8 @@
       "historyMissing": [
         "qualified"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": true,
       "roundSizeMissing": true,
       "attioDealDate": "2025-12-05",
@@ -8839,6 +9306,8 @@
         "watchlist"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-05-12",
@@ -8889,6 +9358,8 @@
       "historyMissing": [
         "qualified"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-07-22",
@@ -8931,6 +9402,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-02-10",
@@ -8975,6 +9448,8 @@
       ],
       "attioHistoryTags": [],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-04-14",
@@ -9021,6 +9496,8 @@
         "watchlist"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-05-13",
@@ -9069,6 +9546,8 @@
       "historyMissing": [
         "watchlist"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-07-14",
@@ -9117,6 +9596,8 @@
         "watchlist"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "",
@@ -9163,6 +9644,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-02-25",
@@ -9208,6 +9691,8 @@
         "radar"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": true,
       "roundSizeMissing": true,
       "attioDealDate": "2026-07-29",
@@ -9256,6 +9741,8 @@
       "historyMissing": [
         "pipeline"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "",
@@ -9303,6 +9790,8 @@
       "historyMissing": [
         "radar"
       ],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": true,
       "roundSizeMissing": true,
       "attioDealDate": "2026-07-30",
@@ -9351,6 +9840,8 @@
         "watchlist"
       ],
       "historyMissing": [],
+      "roundMissing": true,
+      "attioSeries": "Series B",
       "roundDateMissing": true,
       "roundSizeMissing": true,
       "attioDealDate": "2026-02-17",
@@ -9393,6 +9884,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-01-01",
@@ -9430,6 +9923,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-10-30",
@@ -9466,6 +9961,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-05-05",
@@ -9502,6 +9999,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-09-13",
@@ -9540,6 +10039,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-12-01",
@@ -9577,6 +10078,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B1",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-03-16",
@@ -9614,6 +10117,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-11-17",
@@ -9652,6 +10157,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-05-11",
@@ -9691,6 +10198,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-09-22",
@@ -9728,6 +10237,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-01-20",
@@ -9768,6 +10279,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-03-05",
@@ -9804,6 +10317,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-11-03",
@@ -9840,6 +10355,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-09-22",
@@ -9878,6 +10395,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-05-05",
@@ -9916,6 +10435,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-11-10",
@@ -9953,6 +10474,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-02-24",
@@ -9990,6 +10513,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-11-12",
@@ -10028,6 +10553,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-12-15",
@@ -10066,6 +10593,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-10-20",
@@ -10106,6 +10635,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-10-01",
@@ -10143,6 +10674,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-03-31",
@@ -10180,6 +10713,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-01-14",
@@ -10217,6 +10752,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": true,
+      "attioSeries": "Series B",
       "roundDateMissing": true,
       "roundSizeMissing": true,
       "attioDealDate": "2026-08-03",
@@ -10253,6 +10790,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-02-10",
@@ -10292,6 +10831,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-03-10",
@@ -10333,6 +10874,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-03-05",
@@ -10371,6 +10914,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-06-08",
@@ -10407,6 +10952,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-10-07",
@@ -10443,6 +10990,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-10-14",
@@ -10480,6 +11029,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-12-11",
@@ -10516,6 +11067,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-10-21",
@@ -10554,6 +11107,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-02-13",
@@ -10590,6 +11145,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-11-04",
@@ -10626,6 +11183,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-12-15",
@@ -10664,6 +11223,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-11-26",
@@ -10700,6 +11261,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-06-17",
@@ -10736,6 +11299,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": true,
+      "attioSeries": "Series B",
       "roundDateMissing": true,
       "roundSizeMissing": true,
       "attioDealDate": "2026-08-03",
@@ -10774,6 +11339,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-02-24",
@@ -10812,6 +11379,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-01-14",
@@ -10850,6 +11419,8 @@
         "qualified"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-05-27",
@@ -10888,6 +11459,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-02-10",
@@ -10927,6 +11500,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-12-09",
@@ -10965,6 +11540,8 @@
         "invested"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2025-10-09",
@@ -11006,6 +11583,8 @@
         "pipeline"
       ],
       "historyMissing": [],
+      "roundMissing": false,
+      "attioSeries": "Series B",
       "roundDateMissing": false,
       "roundSizeMissing": false,
       "attioDealDate": "2026-02-10",

@@ -116,29 +116,29 @@ Matched on both sides, but at least one side isn't where the rule says it should
 | Synthetix | Series C | Watchlist | watchlist | Qualified | +tag qualified | stage -> Qualified | above Series B with a Tier 1 (33) investor |
 | Trajectory | Series A | Pipeline | pipeline | Radar | +tag radar | stage -> Radar | below Series B with a Top 10 investor |
 
-## Missing Deal Date / Deal Size
+## Missing Series / Deal Date / Deal Size
 
 17 companies where Attio has the round's close date (or size) and the hub doesn't. The hub renders these as its Deal Date column and the `closed <date>` line on the company page, so a company missing them shows a bare em-dash and sinks to the bottom of any date sort -- present, but effectively invisible. Filled only when missing, never overwritten.
 
-| Company | Attio stage | Deal Date to write | Deal Size to write |
-|---|---|---|---|
-| Antora Energy | Qualified | 2026-07-30 | 550000000 |
-| Base Power | Qualified | 2026-08-03 | 1000000000 |
-| Braintrust (Software Development Applications) | Watchlist | 2026-02-17 | 80000000 |
-| Castelion | Qualified | 2025-12-05 | 350000000 |
-| Console | Pipeline | 2026-08-03 | 22999996 |
-| Convex | Qualified | 2026-08-04 | 57000000 |
-| DataBahn | Radar | 2026-07-30 | 40000000 |
-| Hadrian | Qualified | - | 1370000000 |
-| Inforcer | Qualified | 2026-07-30 | 48940000 |
-| Jump | Qualified | - | 80000000 |
-| K2 Space | Qualified | 2026-07-30 | 500000000 |
-| Lumilens | Qualified | 2026-08-06 | 700000000 |
-| Mariana Minerals | Qualified | 2026-08-03 | 310000000 |
-| Onyx | Radar | 2026-07-29 | 113000000 |
-| Simile | Radar | 2026-07-30 | 200000000 |
-| Valar Atomics | Qualified | 2026-08-03 | 1200000000 |
-| WindBorne Systems | Qualified | 2026-08-05 | 37000000 |
+| Company | Attio stage | Series to write | Deal Date to write | Deal Size to write |
+|---|---|---|---|---|
+| Antora Energy | Qualified | - | 2026-07-30 | 550000000 |
+| Base Power | Qualified | Series D | 2026-08-03 | 1000000000 |
+| Braintrust (Software Development Applications) | Watchlist | Series B | 2026-02-17 | 80000000 |
+| Castelion | Qualified | - | 2025-12-05 | 350000000 |
+| Console | Pipeline | - | 2026-08-03 | 22999996 |
+| Convex | Qualified | Series B | 2026-08-04 | 57000000 |
+| DataBahn | Radar | - | 2026-07-30 | 40000000 |
+| Hadrian | Qualified | - | - | 1370000000 |
+| Inforcer | Qualified | - | 2026-07-30 | 48940000 |
+| Jump | Qualified | - | - | 80000000 |
+| K2 Space | Qualified | - | 2026-07-30 | 500000000 |
+| Lumilens | Qualified | Series C | 2026-08-06 | 700000000 |
+| Mariana Minerals | Qualified | Series B | 2026-08-03 | 310000000 |
+| Onyx | Radar | - | 2026-07-29 | 113000000 |
+| Simile | Radar | - | 2026-07-30 | 200000000 |
+| Valar Atomics | Qualified | Series B | 2026-08-03 | 1200000000 |
+| WindBorne Systems | Qualified | Series B | 2026-08-05 | 37000000 |
 
 ## Missing deal history (pipeline / passed / invested)
 

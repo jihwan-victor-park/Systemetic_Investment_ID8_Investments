@@ -99,9 +99,18 @@ def test_norm_name_keeps_distinct_companies_distinct():
 # ── matching ─────────────────────────────────────────────────────────────────
 
 def _hub(key, name, domain="", **kw):
-    return {"key": key, "name": name, "domain": domain, "series": "", "stage": None,
-            "tags": [], "investors": [], "investorDomains": [], "top10": [], "tier1_33": [],
-            "attioRecordId": "", "attioStage": "", "originSource": "", **kw}
+    """Mirrors hub_companies_from_snapshot's output shape. The displayed* keys
+    default to the corresponding best-known value, which is what a doc with the
+    field set top-level looks like -- pass them explicitly to model the
+    origin-only case where the hub has the value but renders nothing."""
+    row = {"key": key, "name": name, "domain": domain, "series": "", "stage": None,
+           "tags": [], "investors": [], "investorDomains": [], "top10": [], "tier1_33": [],
+           "attioRecordId": "", "attioStage": "", "originSource": "",
+           "roundDate": "", "roundSize": "", **kw}
+    row.setdefault("displayedRound", row["series"])
+    row.setdefault("displayedRoundDate", row["roundDate"])
+    row.setdefault("displayedRoundSize", row["roundSize"])
+    return row
 
 
 def _attio(key, name, domain="", **kw):
@@ -375,19 +384,19 @@ def test_missing_deal_date_is_reported():
     assert (gap["roundSizeMissing"], gap["attioDealSize"]) == (True, "550000000")
 
 
-def test_existing_deal_date_is_never_reported_so_never_overwritten():
+def test_existing_round_facts_are_never_reported_so_never_overwritten():
     """Fill-when-missing: apply_hub writes only what the report lists, so a
     value already on the doc can't be clobbered."""
-    hub = {"a": _hub("a", "A", stage="qualified", roundDate="2025-01-01",
-                     roundSize="100")}
+    hub = {"a": _hub("a", "A", stage="qualified", series="Series C",
+                     roundDate="2025-01-01", roundSize="100")}
     attio = {"a": _attio("a", "A", series="Series C", stage="Qualified",
                          deal_date="2026-07-30", deal_size="550000000")}
     assert ds.reconcile(hub, attio)["counts"]["dateGaps"] == 0
 
 
-def test_no_date_gap_when_attio_has_nothing_to_give():
+def test_no_gap_when_attio_has_nothing_to_give():
     hub = {"a": _hub("a", "A", stage="qualified")}
-    attio = {"a": _attio("a", "A", series="Series C", stage="Qualified")}
+    attio = {"a": _attio("a", "A", stage="Qualified")}
     assert ds.reconcile(hub, attio)["counts"]["dateGaps"] == 0
 
 
@@ -405,6 +414,28 @@ def test_hub_round_date_falls_back_to_origin():
     hub = ds.hub_companies_from_snapshot(
         [{"id": "a", "name": "A", "origin": {"roundDate": "2026-02-23"}}])
     assert hub["a"]["roundDate"] == "2026-02-23"
+
+
+def test_origin_only_round_still_counts_as_a_blank_column():
+    """lib/companies.js renders `data.round`, never origin.round -- so a doc
+    with only origin.round shows an em-dash. Letting the origin fallback answer
+    the "is the column blank" question hid 6 companies whose Series the hub had
+    all along and never displayed."""
+    hub = ds.hub_companies_from_snapshot(
+        [{"id": "a", "name": "A", "origin": {"round": "Series B"}}])
+    assert hub["a"]["series"] == "Series B"       # best-known, for placement
+    assert hub["a"]["displayedRound"] == ""       # ...but nothing is rendered
+    rep = ds.reconcile(hub, {"a": _attio("a", "A", series="Series B", stage="Qualified")})
+    assert rep["dateGaps"][0]["roundMissing"] is True
+
+
+def test_series_already_on_the_doc_is_never_overwritten():
+    """`round` IS hand-editable in the hub (RoundInput/updateCompanyRound), so
+    the fill-when-missing rule matters more here than for the dates."""
+    hub = ds.hub_companies_from_snapshot(
+        [{"id": "a", "name": "A", "round": "Series B (hand-corrected)"}])
+    rep = ds.reconcile(hub, {"a": _attio("a", "A", series="Series C", stage="Qualified")})
+    assert rep["counts"]["dateGaps"] == 0
 
 
 # ── Attio API value parsing ──────────────────────────────────────────────────
