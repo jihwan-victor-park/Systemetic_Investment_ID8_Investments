@@ -203,3 +203,34 @@ class TestAttioWebhookAuth:
         # behaviour, so shipping the code and setting the env var can be two
         # separate steps without a window where the route 403s hub-next.
         assert self._auth({}, {}, monkeypatch)
+
+
+class TestMandateScanTarget:
+    """Which doc a webhook push leaves worth auto-scoring. Getting this wrong
+    costs real Perplexity money on every Attio retry."""
+
+    def test_a_brand_new_company_is_scored(self):
+        from app import _mandate_scan_target
+        assert _mandate_scan_target({"slug": "acme", "created": True, "additionalRound": None}) == "acme"
+
+    def test_a_new_round_doc_is_scored_on_its_own_slug(self):
+        # Not the base doc's slug -- the score belongs to the round that just
+        # arrived, and the base doc already has its own.
+        from app import _mandate_scan_target
+        assert _mandate_scan_target({
+            "slug": "decart", "created": False,
+            "additionalRound": {"id": "decart--series-c", "created": True},
+        }) == "decart--series-c"
+
+    def test_a_plain_refresh_is_not_rescored(self):
+        from app import _mandate_scan_target
+        assert _mandate_scan_target({"slug": "decart", "created": False, "additionalRound": None}) is None
+
+    def test_a_round_doc_that_already_existed_is_not_rescored(self):
+        # The idempotent-retry case: Attio re-firing the same creation must not
+        # buy a second deep-research run.
+        from app import _mandate_scan_target
+        assert _mandate_scan_target({
+            "slug": "decart", "created": False,
+            "additionalRound": {"id": "decart--series-c", "created": False},
+        }) is None

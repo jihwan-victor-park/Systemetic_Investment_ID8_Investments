@@ -41,7 +41,7 @@ from deal_intelligence import rubric as di_rubric
 # import_attio_deals_csv.py could share it (see that module's docstring).
 # `from app import determine_placement` still resolves here.
 from deal_intelligence.placement import (  # noqa: F401
-    QUALIFIED_STAGE, determine_placement, determine_stage)
+    QUALIFIED_STAGE, determine_placement, determine_stage, expected_placement)
 
 app = Flask(__name__)
 
@@ -1785,6 +1785,66 @@ def _extract_attio_record_id(body):
     return None
 
 
+def _mandate_scan_target(push_result):
+    """Which doc, if any, a webhook push left unscored and worth scoring.
+
+    Only genuinely new material: a brand-new company, or a new round doc. An
+    existing company that merely got its Deal Date refreshed already has its
+    screen, and rescoring it on every webhook fire would spend real Perplexity
+    money on each retry Attio makes.
+    """
+    if push_result.get("created"):
+        return push_result.get("slug")
+    extra = push_result.get("additionalRound") or {}
+    if extra.get("created"):
+        return extra.get("id")
+    return None
+
+
+def _maybe_start_mandate_scan(deal, push_result):
+    """Score a newly-imported deal in the BACKGROUND, if it fits the mandate.
+
+    Oscar, 2026-08-13: "auto scan if fits mandate but put it already in there
+    for us to have it already in the hub and then run the scoring in the
+    background". So the import is never blocked on the scan -- the doc is
+    already written by the time this is called, and this only ever adds a
+    score to it. The webhook returns immediately; Attio sees a fast 200 rather
+    than sitting through several minutes of sonar-deep-research and timing out.
+
+    The gate is `placement.expected_placement`, the same rule deal_sync
+    reconciles against (Tier 1 (33) + above B -> Qualified; Top 10 + B-or-below
+    -> Radar). `stage is None` means the rule gives the deal no automatic home,
+    which is exactly the population not worth paying to score automatically --
+    it stays in the hub, unscored, for manual triage.
+
+    Returns a dict that goes into the webhook response, so Attio's own Runs
+    view says whether a scan started and why not when it didn't -- otherwise
+    "did it scan?" is only answerable by digging through Cloud Run logs.
+    """
+    slug = _mandate_scan_target(push_result)
+    if not slug:
+        return {"started": False, "reason": "nothing new to score"}
+    if not os.environ.get("PERPLEXITY_API_KEY"):
+        return {"started": False, "reason": "PERPLEXITY_API_KEY not configured"}
+
+    names = [n for n in (deal.lead_investors or "").split(",") if n.strip()]
+    top10 = di_tier1.match_top10(investor_domains=deal.investor_domains, investor_names=names)
+    tier1_33 = di_tier1.match_tier1_33(investor_names=names)
+    stage, _tags, reason = expected_placement(deal.round, top10_firms=top10, tier1_33_firms=tier1_33)
+    if not stage:
+        return {"started": False, "reason": reason or "outside mandate", "slug": slug}
+
+    job_id = uuid.uuid4().hex
+    _start_chat_job(job_id, {
+        "status": "running", "type": "stage1_attio_webhook", "companySlug": slug,
+        "label": f"{deal.name} — auto-scan (Attio)",
+        "createdAt": datetime.utcnow().isoformat() + "Z",
+    })
+    threading.Thread(target=_run_company_screen, args=(job_id, slug, deal), daemon=True).start()
+    return {"started": True, "job_id": job_id, "slug": slug,
+            "placement": stage, "reason": reason, "poll": f"/jobs/{job_id}"}
+
+
 @app.route("/attio-deal-created", methods=["POST"])
 def attio_deal_created():
     """One deal, straight from Attio, the moment it's created.
@@ -1860,9 +1920,18 @@ def attio_deal_created():
     except Exception as e:
         print("ATTIO DEAL CREATED push error:", traceback.format_exc())
         return jsonify({"error": f"Firestore push failed: {e}"}), 500
+    # Best-effort and non-blocking, like every other side effect on this path:
+    # the company is already in the hub by now, so a scan that can't start is
+    # a missing score, not a failed import.
+    try:
+        scan = _maybe_start_mandate_scan(deal, result)
+    except Exception as e:
+        print("ATTIO DEAL CREATED scan-start error:", traceback.format_exc())
+        scan = {"started": False, "reason": f"scan could not be started: {e}"}
     return jsonify({
         "ok": True,
         "record_id": record_id,
+        "scan": scan,
         "name": deal.name,
         "attio_stage": attio_stage,
         "series": deal.round,
