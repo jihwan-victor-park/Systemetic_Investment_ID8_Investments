@@ -87,6 +87,60 @@ from .fit_note import normalize_domain, slugify
 PASSED_TAG = "passed"       # the hub tag this script writes (ArrayUnion onto `tags`)
 PASSED_STAGE = "passed"     # the Attio "Deal stage" value that triggers it
 
+
+def attio_stage_tags(attio_stage):
+    """The hub tags implied by ONE Attio stage value, independent of the series
+    rule.
+
+    Two different questions get answered by two different mechanisms, and this
+    is the second one. `placement.expected_placement` asks "where does the rule
+    say this belongs?" and yields qualified/radar. This asks "what has actually
+    happened to this deal?" and yields pipeline/passed/invested/watchlist --
+    history, not mandate. A deal can be Qualified by the rule and Passed in
+    fact; the hub holds both because its membership is additive, which is the
+    whole reason Oscar wants the double tag (2026-08-13: "the ones we've passed
+    used to be in pipeline in attio, but in the hub we can double tag them as
+    both pipeline and passed").
+
+    `passed` implies `pipeline` -- passing on a deal means it was actually
+    evaluated, so it belongs in Pipeline's history too.
+
+    Returns [] for an Attio stage that maps to no hub bucket, rather than
+    guessing.
+
+    Lives here rather than in deal_sync (which is where it started) because
+    BOTH the import path and the reconciler have to apply the identical rule --
+    deal_sync imports it from this module, so the two cannot drift apart.
+    """
+    stage = str(attio_stage or "").strip().lower()
+    if stage == PASSED_STAGE:
+        # 'passed' is not in ATTIO_STAGE_MAP -- it is a hub tag, not a stage.
+        return [PASSED_TAG, "pipeline"]
+    mapped = config.ATTIO_STAGE_MAP.get(stage)
+    return [mapped] if mapped else []
+
+
+def stage_history_tags(rows):
+    """Every hub tag implied by everything that has ever happened to a company's
+    deals -- each row's CURRENT stage plus its full Attio stage history, across
+    every round.
+
+    This is what makes "both Pipeline and Qualified" answerable at all. Stage is
+    a single funnel POSITION, so a deal that moved Qualified -> Pipeline stops
+    counting as qualified the moment it advances, and the intersection of the
+    two reads 0 across the entire book (measured on the 2026-08-13 hub
+    snapshot: 0 of 336). Attio remembers the transition even though `stage`
+    doesn't; folding that history in as additive tags is what turns "we met the
+    mandate AND got in" from an empty set into a real one.
+    """
+    return sorted({
+        t
+        for r in rows
+        for st in [r.get("stage"), *(r.get("stage_history") or [])]
+        for t in attio_stage_tags(st)
+    })
+
+
 _db = None
 
 
@@ -145,6 +199,15 @@ def read_rows(csv_path):
                 "name": (row.get("Record") or "").strip(),
                 "domain": domain,
                 "stage": (row.get("Deal stage") or "").strip(),
+                # Every stage this deal has EVER been at, oldest first, off
+                # Attio's own stage-history column. The current stage alone
+                # can't answer "did we get into this deal" once it has moved
+                # on: a deal now at Pipeline that was Qualified before is both
+                # -- it met the mandate AND we got in -- but `stage` only
+                # remembers the second half. 8 of the 65 Pipeline deals in the
+                # 2026-08-06 export are in exactly that position. Feeds
+                # attio_stage_tags below, which turns it into hub tags.
+                "stage_history": parse_comma_list(row.get('"Deal stage" Previous Values')),
                 "stage_changed_at": (row.get('"Deal stage" Changed At') or "").strip(),
                 "deal_date": (row.get("Deal Date") or "").strip(),
                 # Carried for deal_sync's roundDate/roundSize backfill -- the
@@ -282,20 +345,19 @@ def process_group(company_key, rows, db, dry_run):
     # Every additive tag this import contributes, resolved into ONE ArrayUnion.
     # Two separate ArrayUnions written to the same payload key would silently
     # overwrite each other -- only the last would survive the merge.
-    tags = []
-    if is_passed:
-        # Every Passed company also gets tagged 'pipeline' (Oscar,
-        # 2026-08-06: "make sure the lists of the passed deals are all
-        # tagged as both pipeline and passed [because] we had access to
-        # them") -- passing on a deal means it was actually evaluated, not
-        # just glanced at, so it belongs in Pipeline's own history
-        # regardless of whatever its Attio stage happened to be. This is
-        # also what makes the Pipeline view's "Show passed deals" toggle
-        # (DealsListSection.jsx) the one place Passed companies are
-        # guaranteed to surface.
-        tags += [PASSED_TAG, "pipeline"]
-    if wants_radar:
+    # Every stage any of this company's deals has ever been at, as hub tags --
+    # including a Passed deal's implied 'pipeline' (Oscar, 2026-08-06: "make
+    # sure the lists of the passed deals are all tagged as both pipeline and
+    # passed [because] we had access to them"), which is also what makes the
+    # Pipeline view's "Show passed deals" toggle (DealsListSection.jsx) the one
+    # place Passed companies are guaranteed to surface. See stage_history_tags
+    # for why the HISTORY and not just the current stage.
+    tags = stage_history_tags(rows)
+    if wants_radar and "radar" not in tags:
         tags.append("radar")
+    # The company's own primary stage is redundant as a tag -- hub-next reads
+    # membership as {stage} u tags, so tagging it too just duplicates it.
+    tags = [t for t in tags if t != attio_stage]
     if tags:
         payload["tags"] = firestore.ArrayUnion(tags)
     # Series / Deal Date / Deal Size, on an EXISTING company as well as a new

@@ -336,7 +336,7 @@
    each number in place. Same grid as .seriesRow so they line up exactly. */
 .seriesHead {
   display: grid;
-  grid-template-columns: 100px minmax(0, 1fr) 34px 46px;
+  grid-template-columns: 104px minmax(0, 1fr) 70px 60px;
   align-items: baseline;
   gap: 10px;
   padding-bottom: 6px;
@@ -362,12 +362,13 @@
   flex-direction: column;
 }
 
-/* 100px on the label, not 82: "Not recorded" is the widest real label and was
-   rendering as "Not record…". A truncated axis label is worse than a narrower
-   bar. Must stay in lockstep with .seriesHead's columns. */
+/* Label column fits "Not recorded", the widest real label, which was rendering
+   as "Not record…" at 82px. The two numeric columns fit their own MANDATE /
+   ACCESS headers, which collided into "MANDAAECESS" when they were sized for
+   the values alone. Must stay in lockstep with .seriesHead's columns. */
 .seriesRow {
   display: grid;
-  grid-template-columns: 100px minmax(0, 1fr) 34px 46px;
+  grid-template-columns: 104px minmax(0, 1fr) 70px 60px;
   align-items: center;
   gap: 10px;
   padding: 5px 0;
@@ -432,7 +433,7 @@
 }
 
 @media (max-width: 560px) {
-  .seriesRow, .seriesHead { grid-template-columns: 84px minmax(0, 1fr) 30px 42px; gap: 8px; }
+  .seriesRow, .seriesHead { grid-template-columns: 84px minmax(0, 1fr) 44px 48px; gap: 8px; }
   .tileValueHero { font-size: 2.1rem; }
   .donutRow { gap: 16px; }
 }

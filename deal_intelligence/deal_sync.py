@@ -54,8 +54,9 @@ from collections import Counter, defaultdict
 
 from . import config, tier1_firms
 from .fit_note import normalize_domain, slugify
-from .import_attio_deals_csv import (PASSED_STAGE, PASSED_TAG, authoritative_row,
-                                     company_key_of, group_by_company, read_rows)
+from .import_attio_deals_csv import (PASSED_STAGE, PASSED_TAG, attio_stage_tags,
+                                     authoritative_row, company_key_of, group_by_company,
+                                     read_rows, stage_history_tags)
 from .placement import (BAND_ABOVE_B, BAND_B, BAND_BELOW_B, BAND_UNKNOWN,
                         expected_placement, series_band)
 
@@ -194,7 +195,11 @@ def _attio_companies_from_rows(rows):
             # the latest row silently dropped the `passed` tag for exactly the
             # companies that have been round the loop more than once (Warp,
             # Anthropic, Legora, Jump AI in the 2026-08-13 export).
-            "allStages": sorted({r["stage"] for r in group if r["stage"]}),
+            # Current stage AND full Attio stage history, per row. Without the
+            # history a deal that moved Qualified -> Pipeline reads as pipeline
+            # only, and "met the mandate AND we got in" is unanswerable.
+            "allStages": sorted({st for r in group
+                                 for st in [r["stage"], *(r.get("stage_history") or [])] if st}),
             "dealCount": len(group),
             # Set when this company was carved out of a colliding key -- its id
             # is not what fit_note.company_id would produce, which matters if
@@ -554,34 +559,6 @@ def _expected(row, series_b_mode):
     tier1_33 = tier1_firms.match_tier1_33(investor_names=row.get("investors"))
     return expected_placement(row.get("series"), top10, tier1_33,
                               series_b_mode=series_b_mode)
-
-
-def attio_stage_tags(attio_stage):
-    """The hub tags implied by Attio's OWN stage, independent of the series rule.
-
-    Two different questions get answered by two different mechanisms, and this
-    is the second one. `expected_placement` asks "where does the rule say this
-    belongs?" and yields qualified/radar. This asks "what has actually happened
-    to this deal?" and yields pipeline/passed/invested/watchlist -- history, not
-    mandate. A deal can be Qualified by the rule and Passed in fact; the hub
-    holds both because its membership is additive, which is the whole reason
-    Oscar wants the double tag (2026-08-13: "the ones we've passed used to be in
-    pipeline in attio, but in the hub we can double tag them as both pipeline
-    and passed").
-
-    `passed` implies `pipeline` -- passing on a deal means it was actually
-    evaluated, so it belongs in Pipeline's history too. Same rule
-    import_attio_deals_csv already applies; shared here so the one-shot CSV
-    import and the ongoing reconciler cannot drift apart on it.
-
-    Returns [] for an Attio stage that maps to no hub bucket, rather than
-    guessing."""
-    stage = str(attio_stage or "").strip().lower()
-    mapped = config.ATTIO_STAGE_MAP.get(stage)
-    if stage == PASSED_STAGE:
-        # 'passed' is not in ATTIO_STAGE_MAP -- it is a hub tag, not a stage.
-        return [PASSED_TAG, "pipeline"]
-    return [mapped] if mapped else []
 
 
 def _hub_buckets(hub_row):

@@ -252,3 +252,41 @@ describe('bySeries: folding the long tail', () => {
     expect(bySeries(messy, { fold: false }).length).toBe(5);
   });
 });
+
+describe('mandateStats: qualified deals we got into', () => {
+  // Oscar, 2026-08-13: "the ones [that] are both pipeline and qualified /
+  // qualified, so that's the real number." Only answerable because the import
+  // now writes Attio's stage HISTORY as additive tags -- with `stage` alone the
+  // intersection is empty across the whole book.
+  it('rates the both-buckets deals against qualified', () => {
+    const companies = [
+      co('a', { stage: 'pipeline', tags: ['qualified'] }),   // was qualified, we got in
+      co('b', { stage: 'qualified' }),
+      co('c', { stage: 'qualified' }),
+      co('d', { stage: 'qualified' }),
+      co('e', { stage: 'pipeline' }),                        // in pipeline, never qualified
+    ];
+    const { converted, qualifiedCount } = mandateStats(companies);
+    expect(qualifiedCount).toBe(4);
+    expect(converted.both).toBe(1);
+    expect(converted.pct).toBe(25);   // 1/4
+  });
+
+  it('cannot exceed 100% -- the intersection is a subset of the denominator', () => {
+    // Unlike the headline access rate, this ratio is safe with `qualified`
+    // alone as the denominator, precisely because `both` is built from it.
+    const companies = Array.from({ length: 5 }, (_, i) =>
+      co(`a${i}`, { stage: 'pipeline', tags: ['qualified'] }));
+    expect(mandateStats(companies).converted.pct).toBe(100);
+  });
+
+  it('is zero, not null, when qualified deals exist but none reached pipeline', () => {
+    const { converted } = mandateStats([co('a', { stage: 'qualified' })]);
+    expect(converted.both).toBe(0);
+    expect(converted.pct).toBe(0);
+  });
+
+  it('is null rather than dividing by zero when nothing is qualified', () => {
+    expect(mandateStats([co('a', { stage: 'watchlist' })]).converted.pct).toBeNull();
+  });
+});

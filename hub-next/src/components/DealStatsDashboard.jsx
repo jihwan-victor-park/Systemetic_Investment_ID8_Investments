@@ -150,20 +150,18 @@ function StageColumns({ rows, total }) {
 
 const DONUT = { size: 168, r: 62, stroke: 20 };
 
-// A METER, not a part-to-whole ring: one arc showing the pipeline share of the
-// mandate against a full-circle track. A meter claims "this fraction of that",
-// which is exactly the ratio; a two-segment pie of qualified-vs-pipeline would
-// instead claim the two partition something, and they don't -- see
-// mandateStats. The track is the mandate; the arc is the part we reach.
-function AccessMeter({ mandate }) {
+// A METER, not a part-to-whole ring: one arc showing a share against a
+// full-circle track. A meter claims "this fraction of that", which is exactly
+// what a ratio is; a two-segment pie of qualified-vs-pipeline would instead
+// claim the two partition something, and they don't -- see mandateStats. The
+// track is the whole, the arc is the part.
+function Meter({ pct: value, label, whole, part, title }) {
   const circumference = 2 * Math.PI * DONUT.r;
-  const frac = mandate.pct == null ? 0 : Math.min(1, mandate.pct / 100);
-  const dash = frac * circumference;
+  const dash = (value == null ? 0 : Math.min(1, value / 100)) * circumference;
 
   return (
     <div className={styles.donutRow}>
-      <svg className={styles.donut} viewBox={`0 0 ${DONUT.size} ${DONUT.size}`} role="img"
-           aria-label={`Access rate: ${num(mandate.pipelineCount)} deals in pipeline out of ${num(mandate.mandateTotal)} in our mandate.`}>
+      <svg className={styles.donut} viewBox={`0 0 ${DONUT.size} ${DONUT.size}`} role="img" aria-label={title}>
         <g transform={`translate(${DONUT.size / 2} ${DONUT.size / 2}) rotate(-90)`}>
           {/* Unfilled track is a lighter step of the same hue, so the meter
               reads as one object across its whole circumference. */}
@@ -172,34 +170,29 @@ function AccessMeter({ mandate }) {
             <circle className={styles.donutSeg} r={DONUT.r} fill="none" stroke={RAMP.strong}
                     strokeWidth={DONUT.stroke} strokeLinecap="butt"
                     strokeDasharray={`${dash} ${circumference - dash}`}>
-              <title>{`${num(mandate.pipelineCount)} of ${num(mandate.mandateTotal)} mandate deals reached pipeline`}</title>
+              <title>{title}</title>
             </circle>
           )}
         </g>
         <text className={styles.donutCenterValue} x={DONUT.size / 2} y={DONUT.size / 2 - 2} textAnchor="middle">
-          {pct(mandate.pct)}
+          {pct(value)}
         </text>
         <text className={styles.donutCenterLabel} x={DONUT.size / 2} y={DONUT.size / 2 + 16} textAnchor="middle">
-          access
+          {label}
         </text>
       </svg>
       <ul className={styles.legend}>
-        <li className={styles.legendItem}>
-          <span className={styles.legendDot} style={{ background: RAMP.pale }} aria-hidden="true" />
-          <span className={styles.legendLabel}>
-            Our mandate
-            <span className={styles.legendNote}>qualified, incl. those now in pipeline</span>
-          </span>
-          <span className={styles.legendValue}>{num(mandate.mandateTotal)}</span>
-        </li>
-        <li className={styles.legendItem}>
-          <span className={styles.legendDot} style={{ background: RAMP.strong }} aria-hidden="true" />
-          <span className={styles.legendLabel}>
-            Pipeline
-            <span className={styles.legendNote}>the ones we get access to</span>
-          </span>
-          <span className={styles.legendValue}>{num(mandate.pipelineCount)}</span>
-        </li>
+        {[whole, part].map((row, i) => (
+          <li key={row.label} className={styles.legendItem}>
+            <span className={styles.legendDot} style={{ background: i === 0 ? RAMP.pale : RAMP.strong }}
+                  aria-hidden="true" />
+            <span className={styles.legendLabel}>
+              {row.label}
+              <span className={styles.legendNote}>{row.note}</span>
+            </span>
+            <span className={styles.legendValue}>{num(row.count)}</span>
+          </li>
+        ))}
       </ul>
     </div>
   );
@@ -272,7 +265,8 @@ export default function DealStatsDashboard({ companies }) {
         <StatTile label="In pipeline" value={num(mandate.pipelineCount)} href={STAGE_BASEPATH.pipeline} />
         <StatTile label="Access rate" value={pct(mandate.pct)}
                   sub={`${num(mandate.pipelineCount)} of ${num(mandate.mandateTotal)} in our mandate`} />
-        <StatTile label="Invested" value={num(mandate.investedCount)} href={STAGE_BASEPATH.invested} />
+        <StatTile label="Qualified + pipeline" value={pct(mandate.converted.pct)}
+                  sub={`${num(mandate.converted.both)} of ${num(mandate.qualifiedCount)} qualified`} />
         <StatTile label="Deals tracked" value={num(total)} />
       </div>
 
@@ -294,23 +288,47 @@ export default function DealStatsDashboard({ companies }) {
           <div className={styles.cardHead}>
             <h2 className={styles.cardTitle}>Access to our mandate</h2>
           </div>
-          <AccessMeter mandate={mandate} />
+          <Meter
+            pct={mandate.pct}
+            label="access"
+            title={`${num(mandate.pipelineCount)} of ${num(mandate.mandateTotal)} mandate deals reached pipeline`}
+            whole={{ label: 'Our mandate', note: 'qualified, incl. those now in pipeline', count: mandate.mandateTotal }}
+            part={{ label: 'Pipeline', note: 'the ones we get access to', count: mandate.pipelineCount }}
+          />
         </div>
 
+        {/* The strict read Oscar called "the real number" (2026-08-13): not
+            deals we merely got into, but deals we got into that we had also
+            judged to fit the mandate. Only answerable because the import now
+            carries Attio's stage HISTORY as tags -- see
+            import_attio_deals_csv.stage_history_tags. */}
         <div className={styles.card}>
           <div className={styles.cardHead}>
-            <h2 className={styles.cardTitle}>Access by series</h2>
+            <h2 className={styles.cardTitle}>Qualified deals we got into</h2>
           </div>
-          {/* Column headers do the work the removed paragraph used to: they name
-              what each number is, in place, without a preamble. */}
-          <div className={styles.seriesHead}>
-            <span />
-            <span />
-            <span className={styles.seriesHeadCell}>Mandate</span>
-            <span className={styles.seriesHeadCell}>Access</span>
-          </div>
-          <SeriesBars rows={bySeries} total={total} />
+          <Meter
+            pct={mandate.converted.pct}
+            label="converted"
+            title={`${num(mandate.converted.both)} of ${num(mandate.qualifiedCount)} qualified deals are also in pipeline`}
+            whole={{ label: 'Qualified', note: 'meets our mandate', count: mandate.qualifiedCount }}
+            part={{ label: 'Also in pipeline', note: 'qualified AND we got access', count: mandate.converted.both }}
+          />
         </div>
+      </div>
+
+      <div className={styles.card}>
+        <div className={styles.cardHead}>
+          <h2 className={styles.cardTitle}>Access by series</h2>
+        </div>
+        {/* Column headers do the work the removed paragraph used to: they name
+            what each number is, in place, without a preamble. */}
+        <div className={styles.seriesHead}>
+          <span />
+          <span />
+          <span className={styles.seriesHeadCell}>Mandate</span>
+          <span className={styles.seriesHeadCell}>Access</span>
+        </div>
+        <SeriesBars rows={bySeries} total={total} />
       </div>
     </section>
   );

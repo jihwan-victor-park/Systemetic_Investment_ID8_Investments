@@ -179,12 +179,28 @@ export function mandateStats(companies) {
   const qualified = companies.filter((c) => inStage(c, 'qualified'));
   const pipeline = companies.filter((c) => inStage(c, 'pipeline'));
   const mandate = companies.filter((c) => inStage(c, 'qualified') || inStage(c, 'pipeline'));
+  // BOTH qualified and in pipeline -- Oscar, 2026-08-13: "the ones [that] are
+  // both pipeline and qualified / qualified, so that's the real number." The
+  // strictest read of access: not just deals we got into, but deals we got into
+  // that we had also independently judged to fit the mandate.
+  //
+  // This is only a real set because the CSV import now writes Attio's stage
+  // HISTORY as additive tags (import_attio_deals_csv.stage_history_tags). Stage
+  // alone is one funnel position, so a deal that moved Qualified -> Pipeline
+  // stops counting as qualified the moment it advances, and this intersection
+  // measured 0 of 336 across the entire book. With history folded in, a deal
+  // that was Qualified and is now Pipeline carries both.
+  const both = mandate.filter((c) => inStage(c, 'qualified') && inStage(c, 'pipeline'));
   return {
     ...ratio(pipeline.length, mandate.length),
     qualifiedCount: qualified.length,
     pipelineCount: pipeline.length,
     investedCount: companies.filter((c) => inStage(c, 'invested')).length,
     mandateTotal: mandate.length,
+    // Denominator is `qualified` exactly as asked -- and here that's safe,
+    // unlike the headline rate above, because `both` is a SUBSET of qualified
+    // by construction, so it can never exceed 100%.
+    converted: { ...ratio(both.length, qualified.length), both: both.length },
     // Every doc the public stage bars CAN'T show: 'new' is the untriaged holding
     // bucket, deliberately absent from PUBLIC_STAGES (lib/stages.js), so without
     // this the chart quietly omits real deals and the reader has no way to tell.
