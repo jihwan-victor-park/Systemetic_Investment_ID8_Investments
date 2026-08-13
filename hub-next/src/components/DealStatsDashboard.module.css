@@ -217,6 +217,103 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* The pale background column (the mandate at a round) that the solid pipeline
+   column sits inside. No hover dim of its own -- the group's hover already
+   dims the solid bar, and dimming both at once just makes the pair muddy. */
+.barBg {
+  transition: opacity 0.14s ease;
+}
+
+.barGroup:hover .barBg {
+  opacity: 0.72;
+}
+
+/* The background's own value, muted so it reads as context rather than as a
+   second headline competing with the pipeline number. */
+.barBgValue {
+  font-family: 'Sora', sans-serif;
+  font-size: 10.5px;
+  font-weight: 500;
+  fill: var(--id8-grey);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── chart + side legend ───────────────────────────────────────────────── */
+
+.chartRow {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+/* min-width: 0 so the SVG can actually shrink inside the flex row -- without it
+   an SVG's intrinsic width wins and the legend gets pushed out of the card. */
+.chartCol {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.chartLegend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: 0 0 168px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.chartLegendItem {
+  display: grid;
+  grid-template-columns: 9px minmax(0, 1fr);
+  gap: 9px;
+  align-items: start;
+}
+
+.chartLegendDot {
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+  margin-top: 4px;
+}
+
+.chartLegendText {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.chartLegendLabel {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  font-family: 'Sora', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--id8-ink);
+}
+
+.chartLegendCount {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.chartLegendNote {
+  font-family: 'Roboto Serif', Georgia, serif;
+  font-size: 0.7rem;
+  line-height: 1.35;
+  color: var(--id8-grey);
+}
+
+/* Legend under the chart rather than beside it once there isn't room for both --
+   squeezing the plot to keep the legend on the right is the wrong trade. */
+@media (max-width: 760px) {
+  .chartRow { flex-direction: column; align-items: stretch; gap: 14px; }
+  .chartLegend { flex: 0 0 auto; flex-direction: row; flex-wrap: wrap; gap: 8px 22px; }
+}
+
 /* ── donut + legend ────────────────────────────────────────────────────── */
 
 .donutRow {

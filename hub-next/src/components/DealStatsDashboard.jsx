@@ -99,10 +99,21 @@ const PAD = { top: 24, right: 8, bottom: 48, left: 38 };
 // whole story. `tooltip(row)` overrides the hover text, since what a bar means
 // differs per chart and a generic "N deals" sentence would be wrong on one of
 // them.
-function ColumnChart({ rows, total, ariaLabel, share = true, tooltip }) {
+//
+// `backgroundKey` turns each column into an OVERLAY: a pale bar for
+// `row[backgroundKey]` with the solid `count` bar drawn in front of it, from the
+// same baseline. Safe as a part-to-whole read because the only caller uses
+// mandate as the background and pipeline as the count, and pipeline is a subset
+// of mandate by construction (lib/dealStats.js) -- so the dark bar can never
+// overflow the pale one. Grouping the two side by side instead would ask the eye
+// to compare two heights; nesting them shows the fraction directly.
+function ColumnChart({ rows, total, ariaLabel, share = true, tooltip, backgroundKey }) {
   const plotW = CHART_W - PAD.left - PAD.right;
   const plotH = CHART_H - PAD.top - PAD.bottom;
-  const max = niceMax(Math.max(...rows.map((r) => r.count), 1));
+  // Axis scales on the background when there is one -- scaling on `count` would
+  // let the pale bars run off the top of the plot.
+  const peak = Math.max(...rows.map((r) => (backgroundKey ? r[backgroundKey] : r.count)), 1);
+  const max = niceMax(peak);
   const band = plotW / rows.length;
   // Capped at 34px rather than the house 24px: with only six stages across a
   // full-width card the bands are ~160px, and a 24px bar in a 160px band reads
@@ -128,6 +139,9 @@ function ColumnChart({ rows, total, ariaLabel, share = true, tooltip }) {
         const h = (r.count / max) * plotH;
         const x = PAD.left + i * band + (band - barW) / 2;
         const y = PAD.top + plotH - h;
+        const bgValue = backgroundKey ? r[backgroundKey] : null;
+        const bgH = bgValue == null ? 0 : (bgValue / max) * plotH;
+        const bgY = PAD.top + plotH - bgH;
         const pctOfTotal = total ? Math.round((r.count / total) * 100) : 0;
         return (
           <g key={r.key} className={styles.barGroup}>
@@ -135,10 +149,23 @@ function ColumnChart({ rows, total, ariaLabel, share = true, tooltip }) {
             {/* Full-height hit target: a 3-deal bar is ~8px tall, far too small
                 to hover reliably. Invisible, and it carries the <title>. */}
             <rect className={styles.barHit} x={PAD.left + i * band} y={PAD.top} width={band} height={plotH} />
+            {bgH > 0 && <path className={styles.barBg} d={barPath(x, bgY, barW, bgH)} fill={RAMP.pale} />}
             <path className={styles.bar} d={barPath(x, y, barW, h)} fill={RAMP.strong} />
-            {/* Value on the cap. One series, so there's no legend to defer to
-                and no risk of a flood of labels -- six numbers total. */}
-            <text className={styles.barValue} x={x + barW / 2} y={y - 7} textAnchor="middle">{num(r.count)}</text>
+            {/* Only the solid bar's value is labelled. Labelling both would put
+                two numbers on every column -- 22 of them here -- and direct
+                labels stop working the moment they flood. The background's value
+                is on the hover tooltip and in the legend's own reading. */}
+            <text className={styles.barValue} x={x + barW / 2}
+                  y={(bgH > h + 14 ? y : Math.min(y, bgY)) - 7} textAnchor="middle">
+              {num(r.count)}
+            </text>
+            {/* The background's value above its own cap, muted, only when the
+                solid bar's label can't collide with it. */}
+            {bgH > h + 14 && (
+              <text className={styles.barBgValue} x={x + barW / 2} y={bgY - 7} textAnchor="middle">
+                {num(bgValue)}
+              </text>
+            )}
             <text className={styles.barLabel} x={PAD.left + i * band + band / 2} y={CHART_H - 26} textAnchor="middle">
               {r.label}
             </text>
@@ -151,6 +178,31 @@ function ColumnChart({ rows, total, ariaLabel, share = true, tooltip }) {
         );
       })}
     </svg>
+  );
+}
+
+// A chart plus a legend down its right-hand side. `keys` is [{label, note,
+// color, count}], drawn top to bottom. Wraps the legend under the chart on a
+// narrow viewport rather than squeezing the plot -- the bars are the point.
+function ChartWithLegend({ keys, children }) {
+  return (
+    <div className={styles.chartRow}>
+      <div className={styles.chartCol}>{children}</div>
+      <ul className={styles.chartLegend}>
+        {keys.map((k) => (
+          <li key={k.label} className={styles.chartLegendItem}>
+            <span className={styles.chartLegendDot} style={{ background: k.color }} aria-hidden="true" />
+            <span className={styles.chartLegendText}>
+              <span className={styles.chartLegendLabel}>
+                {k.label}
+                {k.count != null && <span className={styles.chartLegendCount}>{num(k.count)}</span>}
+              </span>
+              <span className={styles.chartLegendNote}>{k.note}</span>
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 
@@ -260,14 +312,22 @@ export default function DealStatsDashboard({ companies }) {
         <div className={styles.cardHead}>
           <h2 className={styles.cardTitle}>Pipeline by series</h2>
         </div>
-        <ColumnChart
-          rows={seriesPipelineRows}
-          total={mandate.pipelineCount}
-          share={false}
-          ariaLabel="Pipeline deals by series"
-          tooltip={(r) => `${r.label}: ${num(r.count)} of ${num(r.mandate)} mandate deals reached pipeline`
-            + ` (${Math.round((r.count / r.mandate) * 100)}%)`}
-        />
+        <ChartWithLegend
+          keys={[
+            { label: 'Qualified', note: 'meets our mandate at this round', color: RAMP.pale, count: mandate.mandateTotal },
+            { label: 'In pipeline', note: 'the ones we got into', color: RAMP.strong, count: mandate.pipelineCount },
+          ]}
+        >
+          <ColumnChart
+            rows={seriesPipelineRows}
+            total={mandate.pipelineCount}
+            share={false}
+            backgroundKey="mandate"
+            ariaLabel="Pipeline deals by series, against the mandate at each round"
+            tooltip={(r) => `${r.label}: ${num(r.count)} in pipeline of ${num(r.mandate)} qualified`
+              + ` (${Math.round((r.count / r.mandate) * 100)}%)`}
+          />
+        </ChartWithLegend>
       </div>
 
       <div className={styles.twoUp}>
