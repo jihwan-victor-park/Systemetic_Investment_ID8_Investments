@@ -1,0 +1,8 @@
+name,domain,series,stage,expectedAttioStage,expectedWhy,originSource,key
+Distyl AI,,,,,series unknown -- cannot place from the rule,,distyl-ai
+Brightline Health,brightlinehealth.example,,watchlist,,series unknown -- cannot place from the rule,,example-brightline-health
+Cascade Analytics,cascadeanalytics.example,,pipeline,,series unknown -- cannot place from the rule,,example-cascade-analytics
+lassie,lassie.ai,,,,series unknown -- cannot place from the rule,,lassie
+Nexthop AI,,,,,series unknown -- cannot place from the rule,,nexthop-ai
+Rogo (Business/Productivity Software),,,,,series unknown -- cannot place from the rule,,rogo-business-productivity-software
+SambaNova Systems,,,,,series unknown -- cannot place from the rule,,sambanova-systems

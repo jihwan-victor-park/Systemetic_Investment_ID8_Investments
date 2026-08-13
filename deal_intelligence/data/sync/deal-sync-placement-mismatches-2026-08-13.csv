@@ -1,0 +1,42 @@
+name,series,attioStage,hubStage,hubTags,expectedStage,expectedTags,hubSetStage,hubAddTags,attioNeeds,expectedWhy,attioRecordId,key
+Actively AI,Series B,Target,new,,Qualified,radar,qualified,radar,Qualified,"Series B with a Top 10 investor (in mandate at B+, and just raised)",307d4931-b5b6-4e2c-a1b0-995c9776d274,actively
+AdvanCell,Series D,Radar,,,Qualified,,qualified,,Qualified,above Series B with a Tier 1 (33) investor,797ff19f-bc25-406d-9a8a-45d1fa464149,advancell
+Advanced Manufacturing Company of America,Series B,Pipeline,qualified,radar,Qualified,radar,,,Qualified,"Series B with a Top 10 investor (in mandate at B+, and just raised)",7c459807-6e0f-41a6-929e-fa2fc6fe1b34,amca
+Anthropic,Series H,Qualified,,,Qualified,,qualified,,,above Series B with a Tier 1 (33) investor,d665a872-223a-427a-b381-7a64fb6d3731,anthropic
+Castelion,Series B,Qualified,pipeline,,Qualified,radar,,"qualified, radar",,"Series B with a Top 10 investor (in mandate at B+, and just raised)",21e55fcc-742c-4f92-9f4d-894a750b8e2b,castelion
+Chai Discovery,Series C,Radar,qualified,,Qualified,,,,Qualified,above Series B with a Tier 1 (33) investor,ca8e5bed-4b04-47d5-b235-828fa2c9f323,chaidiscovery
+Console,Series A,Pipeline,pipeline,,Radar,,,radar,Radar,below Series B with a Top 10 investor,9a2a3634-0127-4758-aba2-7211ac25a1e4,console
+E2B,Early Stage VC,Watchlist,watchlist,,Radar,,,radar,Radar,below Series B with a Top 10 investor,a9a4e084-fd73-4c3d-8fac-d687955f344d,e2b
+ElevenLabs,Series D,Pipeline,pipeline,,Qualified,,,qualified,Qualified,above Series B with a Tier 1 (33) investor,d2bb8c77-17a8-4368-92e3-73d40add8c69,elevenlabs
+Float.tech,Series A,Pipeline,pipeline,radar,Radar,,,,Radar,below Series B with a Top 10 investor,16e6c606-fa9e-466f-832c-6098007e862c,float
+Forus (Healthcare Technology Systems),Series B,Watchlist,watchlist,radar,Qualified,radar,,qualified,Qualified,"Series B with a Top 10 investor (in mandate at B+, and just raised)",43ebbeee-6839-4cd3-b52a-62d63daa0db4,forus
+Glow,Series B,Qualified,radar,radar,Qualified,radar,,qualified,,"Series B with a Top 10 investor (in mandate at B+, and just raised)",19e76371-be52-4cb1-9118-75fd1c82506f,glow
+Hadrian,Series D,Qualified,pipeline,,Qualified,,,qualified,,above Series B with a Tier 1 (33) investor,531c570a-ba0c-465c-931c-5ff045eaf196,hadrian
+Harvey,Series F,Target,new,,Qualified,,qualified,,Qualified,above Series B with a Tier 1 (33) investor,9aacbedb-3789-4913-bc51-0e09815d1525,harvey
+Helsing,Series E,Qualified,,,Qualified,,qualified,,,above Series B with a Tier 1 (33) investor,4d60264b-d5ae-48a6-85e0-67be4583cfed,helsing
+Higgsfield,Series B,Pipeline,pipeline,,Qualified,radar,,"qualified, radar",Qualified,"Series B with a Top 10 investor (in mandate at B+, and just raised)",6795dffc-8784-47b9-8660-ff38e4a60cd1,higgsfield
+Higharc,Series C,Qualified,,,Qualified,,qualified,,,above Series B with a Tier 1 (33) investor,122eff4e-9918-4b51-84bb-8618f6cb00aa,higharc
+ICON,Series D,Pipeline,pipeline,,Qualified,,,qualified,Qualified,above Series B with a Tier 1 (33) investor,d8b1fe0a-ed86-45a4-a16e-a13c3e0aa87c,iconbuild
+Loop (Chicago),Series C,Watchlist,watchlist,,Qualified,,,qualified,Qualified,above Series B with a Tier 1 (33) investor,d967a8f0-48cd-43c3-a2fb-99b9f016962c,loop
+Lovable,Series C,Pipeline,qualified,,Qualified,,,,Qualified,above Series B with a Tier 1 (33) investor,6cf21044-87fb-4c48-92cb-15f61b980ce9,lovable
+Mach Industries,Series C,Pipeline,qualified,,Qualified,,,,Qualified,above Series B with a Tier 1 (33) investor,a74f9b40-b6a5-4085-a25f-b778c8fa6ded,machindustries
+Mind Robotics,Early Stage VC,Watchlist,watchlist,,Radar,,,radar,Radar,below Series B with a Top 10 investor,df3e0ee6-de32-4f37-821d-a0f1f41db4ea,mindrobotics
+Mintlify,Series B,Target,new,,Qualified,radar,qualified,radar,Qualified,"Series B with a Top 10 investor (in mandate at B+, and just raised)",1002ca4c-6a5c-4217-ae98-e6d47f02ae28,mintlify
+Monaco (Business/Productivity Software),Series B,Watchlist,watchlist,radar,Qualified,radar,,qualified,Qualified,"Series B with a Top 10 investor (in mandate at B+, and just raised)",686c35b6-153f-4c2d-b769-6454ff2d5cfa,monaco
+Norm Ai,Series C,Qualified,,,Qualified,,qualified,,,above Series B with a Tier 1 (33) investor,619524ab-6ee9-4050-a224-ae57d9be7e8f,norm
+Ollama,Series B,Watchlist,radar,pipeline,Qualified,radar,,qualified,Qualified,"Series B with a Top 10 investor (in mandate at B+, and just raised)",a729c818-e0a4-43e7-805e-c4416e3f247a,ollama
+Omni Analytics,Later Stage VC,Watchlist,watchlist,,Qualified,,,qualified,Qualified,above Series B with a Tier 1 (33) investor,2c7439a0-d594-4348-a802-f18b7e2fc111,omni
+Onyx,Series B,Radar,pipeline,radar,Qualified,radar,,qualified,Qualified,"Series B with a Top 10 investor (in mandate at B+, and just raised)",3c49ab5b-ed4d-4aba-9e93-b05c291855fa,onyx
+Pallet,Series C,Target,new,,Qualified,,qualified,,Qualified,above Series B with a Tier 1 (33) investor,70a9ef0c-f5a8-4036-8434-971c9ac3023d,pallet
+Parallel,Series B,Watchlist,watchlist,radar,Qualified,radar,,qualified,Qualified,"Series B with a Top 10 investor (in mandate at B+, and just raised)",f92b6720-cde7-4a58-955b-70542e3fcfbc,parallel
+Pi Security,Series B,Qualified,qualified,,Qualified,radar,,radar,,"Series B with a Top 10 investor (in mandate at B+, and just raised)",c57f28d0-5274-4aa3-a6df-081faee60766,pi
+Revel (Business/Productivity Software),Series B,Pipeline,pipeline,radar,Qualified,radar,,qualified,Qualified,"Series B with a Top 10 investor (in mandate at B+, and just raised)",e084d08b-8bf4-4ee8-94fe-1b5a61bbf914,revel
+Ricursive Intelligence,Series A,Watchlist,watchlist,radar,Radar,,,,Radar,below Series B with a Top 10 investor,81a811e6-bbc0-4bcd-81c5-86e61499d3be,ricursive
+Rogo (Business/Productivity Software),Series D,Watchlist,watchlist,,Qualified,,,qualified,Qualified,above Series B with a Tier 1 (33) investor,c6e8a53e-8f83-43f1-a709-1fec911ba3e6,rogo
+Sandstone (Business/Productivity Software),Series A,Watchlist,watchlist,radar,Radar,,,,Radar,below Series B with a Top 10 investor,bf9b04cd-3d74-4223-a219-1ba8519ed1c5,sandstone
+Simile,Series B,Radar,pipeline,,Qualified,radar,,"qualified, radar",Qualified,"Series B with a Top 10 investor (in mandate at B+, and just raised)",a33bbc68-9b61-4b31-90e2-5c98fc181a0f,simile
+Snorkel,Series E,Pipeline,pipeline,,Qualified,,,qualified,Qualified,above Series B with a Tier 1 (33) investor,95b6fe3d-9f33-4d86-ba7a-14b803cd857a,snorkel
+Supabase,Series F,Pipeline,pipeline,,Qualified,,,qualified,Qualified,above Series B with a Tier 1 (33) investor,8f5bf0fa-0ef7-4c7c-bc8c-752533c54c5e,supabase
+Synthetix,Series C,Watchlist,watchlist,,Qualified,,,qualified,Qualified,above Series B with a Tier 1 (33) investor,0b99a51b-5bf4-402c-8bc3-8c824be74d65,synthetix
+Trajectory,Series A,Pipeline,pipeline,,Radar,,,radar,Radar,below Series B with a Top 10 investor,7f33bd08-7732-48b7-b9c9-047ebe598823,trajectory
+Braintrust (Software Development Applications),Series B,Watchlist,,"watchlist, radar",Qualified,radar,qualified,,Qualified,"Series B with a Top 10 investor (in mandate at B+, and just raised)",bd7171b7-a222-49e8-81a9-c9332c106cff,braintrust-software-development-applications

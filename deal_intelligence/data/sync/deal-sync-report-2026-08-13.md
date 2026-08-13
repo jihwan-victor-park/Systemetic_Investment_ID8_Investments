@@ -1,0 +1,280 @@
+# Attio <-> Hub deal sync -- 2026-08-13
+
+- Attio companies (deals grouped by company): **309**
+- Hub companies (Firestore `companies`, round docs folded in): **314**
+- Matched on both sides: **307** (306 by key, 1 by name)
+- **In Attio, missing from the hub: 2**
+- **In the hub, missing from Attio: 7**
+- Placement disagreements among matched deals: **41** (agreed: 128)
+- Matched but filed by hand in Attio (Passed/Invested -- rule not applied): 34
+- Matched but the rule places them nowhere: 104 (17 above B with no Tier 1 (33), 87 below/unknown series)
+
+Those five buckets partition the 307 matched companies (41 + 128 + 34 + 17 + 87 = 307), so no matched deal is missing from the report.
+
+Placement rule applied: **Tier 1 (33) investor + above Series B -> Qualified**; **Top 10 investor + Series B or below -> Radar**. Series-B mode: `dual`.
+
+## In Attio, missing from the hub
+
+2 companies. `Should be` is where the rule puts them; a blank means the rule places them nowhere (below mandate, or no Tier 1 backer) -- those need a human call, not an automatic push.
+
+| Company | Domain | Series | Attio stage | Should be | Top 10 / Tier 1 (33) |
+|---|---|---|---|---|---|
+| Impulse Space | impulsespace.com | Series D | Pipeline | Qualified | Founders Fund, Lux Capital |
+| Cathedral |  |  | Radar | -- | Sequoia Capital |
+
+## In the hub, missing from Attio
+
+7 companies.
+
+| Company | Domain | Series | Hub stage | Hub tags | Origin | Should be in Attio |
+|---|---|---|---|---|---|---|
+| Distyl AI |  |  |  |  |  | -- |
+| Nexthop AI |  |  |  |  |  | -- |
+| Rogo (Business/Productivity Software) |  |  |  |  |  | -- |
+| SambaNova Systems |  |  |  |  |  | -- |
+| lassie | lassie.ai |  |  |  |  | -- |
+| Cascade Analytics | cascadeanalytics.example |  | pipeline |  |  | -- |
+| Brightline Health | brightlinehealth.example |  | watchlist |  |  | -- |
+
+## Placement disagreements
+
+Matched on both sides, but at least one side isn't where the rule says it should be. `Hub needs` lists the tabs the company is missing from (hub membership is additive: stage + tags).
+
+| Company | Series | Attio | Hub | Should be | Hub fix | Attio fix | Why |
+|---|---|---|---|---|---|---|---|
+| Actively AI | Series B | Target | new | Qualified + radar | stage -> qualified; +tag radar | stage -> Qualified | Series B with a Top 10 investor (in mandate at B+, and just raised) |
+| AdvanCell | Series D | Radar | None | Qualified | stage -> qualified | stage -> Qualified | above Series B with a Tier 1 (33) investor |
+| Advanced Manufacturing Company of America | Series B | Pipeline | qualified +radar | Qualified + radar | - | stage -> Qualified | Series B with a Top 10 investor (in mandate at B+, and just raised) |
+| Anthropic | Series H | Qualified | None | Qualified | stage -> qualified | - | above Series B with a Tier 1 (33) investor |
+| Braintrust (Software Development Applications) | Series B | Watchlist | None +watchlist,radar | Qualified + radar | stage -> qualified | stage -> Qualified | Series B with a Top 10 investor (in mandate at B+, and just raised) |
+| Castelion | Series B | Qualified | pipeline | Qualified + radar | +tag qualified, radar | - | Series B with a Top 10 investor (in mandate at B+, and just raised) |
+| Chai Discovery | Series C | Radar | qualified | Qualified | - | stage -> Qualified | above Series B with a Tier 1 (33) investor |
+| Console | Series A | Pipeline | pipeline | Radar | +tag radar | stage -> Radar | below Series B with a Top 10 investor |
+| E2B | Early Stage VC | Watchlist | watchlist | Radar | +tag radar | stage -> Radar | below Series B with a Top 10 investor |
+| ElevenLabs | Series D | Pipeline | pipeline | Qualified | +tag qualified | stage -> Qualified | above Series B with a Tier 1 (33) investor |
+| Float.tech | Series A | Pipeline | pipeline +radar | Radar | - | stage -> Radar | below Series B with a Top 10 investor |
+| Forus (Healthcare Technology Systems) | Series B | Watchlist | watchlist +radar | Qualified + radar | +tag qualified | stage -> Qualified | Series B with a Top 10 investor (in mandate at B+, and just raised) |
+| Glow | Series B | Qualified | radar | Qualified + radar | +tag qualified | - | Series B with a Top 10 investor (in mandate at B+, and just raised) |
+| Hadrian | Series D | Qualified | pipeline | Qualified | +tag qualified | - | above Series B with a Tier 1 (33) investor |
+| Harvey | Series F | Target | new | Qualified | stage -> qualified | stage -> Qualified | above Series B with a Tier 1 (33) investor |
+| Helsing | Series E | Qualified | None | Qualified | stage -> qualified | - | above Series B with a Tier 1 (33) investor |
+| Higgsfield | Series B | Pipeline | pipeline | Qualified + radar | +tag qualified, radar | stage -> Qualified | Series B with a Top 10 investor (in mandate at B+, and just raised) |
+| Higharc | Series C | Qualified | None | Qualified | stage -> qualified | - | above Series B with a Tier 1 (33) investor |
+| ICON | Series D | Pipeline | pipeline | Qualified | +tag qualified | stage -> Qualified | above Series B with a Tier 1 (33) investor |
+| Loop (Chicago) | Series C | Watchlist | watchlist | Qualified | +tag qualified | stage -> Qualified | above Series B with a Tier 1 (33) investor |
+| Lovable | Series C | Pipeline | qualified | Qualified | - | stage -> Qualified | above Series B with a Tier 1 (33) investor |
+| Mach Industries | Series C | Pipeline | qualified | Qualified | - | stage -> Qualified | above Series B with a Tier 1 (33) investor |
+| Mind Robotics | Early Stage VC | Watchlist | watchlist | Radar | +tag radar | stage -> Radar | below Series B with a Top 10 investor |
+| Mintlify | Series B | Target | new | Qualified + radar | stage -> qualified; +tag radar | stage -> Qualified | Series B with a Top 10 investor (in mandate at B+, and just raised) |
+| Monaco (Business/Productivity Software) | Series B | Watchlist | watchlist +radar | Qualified + radar | +tag qualified | stage -> Qualified | Series B with a Top 10 investor (in mandate at B+, and just raised) |
+| Norm Ai | Series C | Qualified | None | Qualified | stage -> qualified | - | above Series B with a Tier 1 (33) investor |
+| Ollama | Series B | Watchlist | radar +pipeline | Qualified + radar | +tag qualified | stage -> Qualified | Series B with a Top 10 investor (in mandate at B+, and just raised) |
+| Omni Analytics | Later Stage VC | Watchlist | watchlist | Qualified | +tag qualified | stage -> Qualified | above Series B with a Tier 1 (33) investor |
+| Onyx | Series B | Radar | pipeline +radar | Qualified + radar | +tag qualified | stage -> Qualified | Series B with a Top 10 investor (in mandate at B+, and just raised) |
+| Pallet | Series C | Target | new | Qualified | stage -> qualified | stage -> Qualified | above Series B with a Tier 1 (33) investor |
+| Parallel | Series B | Watchlist | watchlist +radar | Qualified + radar | +tag qualified | stage -> Qualified | Series B with a Top 10 investor (in mandate at B+, and just raised) |
+| Pi Security | Series B | Qualified | qualified | Qualified + radar | +tag radar | - | Series B with a Top 10 investor (in mandate at B+, and just raised) |
+| Revel (Business/Productivity Software) | Series B | Pipeline | pipeline +radar | Qualified + radar | +tag qualified | stage -> Qualified | Series B with a Top 10 investor (in mandate at B+, and just raised) |
+| Ricursive Intelligence | Series A | Watchlist | watchlist +radar | Radar | - | stage -> Radar | below Series B with a Top 10 investor |
+| Rogo (Business/Productivity Software) | Series D | Watchlist | watchlist | Qualified | +tag qualified | stage -> Qualified | above Series B with a Tier 1 (33) investor |
+| Sandstone (Business/Productivity Software) | Series A | Watchlist | watchlist +radar | Radar | - | stage -> Radar | below Series B with a Top 10 investor |
+| Simile | Series B | Radar | pipeline | Qualified + radar | +tag qualified, radar | stage -> Qualified | Series B with a Top 10 investor (in mandate at B+, and just raised) |
+| Snorkel | Series E | Pipeline | pipeline | Qualified | +tag qualified | stage -> Qualified | above Series B with a Tier 1 (33) investor |
+| Supabase | Series F | Pipeline | pipeline | Qualified | +tag qualified | stage -> Qualified | above Series B with a Tier 1 (33) investor |
+| Synthetix | Series C | Watchlist | watchlist | Qualified | +tag qualified | stage -> Qualified | above Series B with a Tier 1 (33) investor |
+| Trajectory | Series A | Pipeline | pipeline | Radar | +tag radar | stage -> Radar | below Series B with a Top 10 investor |
+
+## Above Series B, no Tier 1 (33) investor
+
+17 matched companies clear the B+ mandate but have no Tier 1 (33) firm on the cap table, so the Qualified clause of the rule does not fire. The live intake path files these as Qualified anyway (`determine_placement` never checks Tier 1) -- this is the population affected by that difference.
+
+| Company | Series | Attio | Hub | Investors on file |
+|---|---|---|---|---|
+| Akido | Series C | Target | new | none matched |
+| Aspora | Series C | Pipeline | pipeline | none matched |
+| Clay | Series D | Pipeline | pipeline | none matched |
+| CodeRabbit | Series C | Pipeline | pipeline | none matched |
+| Cornelius Networks | Series C | Pipeline | pipeline | none matched |
+| FalconX | Series E | Pipeline | pipeline | none matched |
+| Firestorm | NEA | Watchlist | watchlist | none matched |
+| Frore | Series D | Pipeline | pipeline | none matched |
+| Grafana | Series C | Target | new | none matched |
+| Harbinger | Series D | Pipeline | pipeline | none matched |
+| Inspiren | Series C | Pipeline | pipeline | none matched |
+| Laurel | Series D | Target | new | none matched |
+| MagicSchool | Series C | Target | new | none matched |
+| Numa | Series C | Pipeline | pipeline | none matched |
+| OXIO | Series C | Pipeline | pipeline | none matched |
+| Path Robotics | Series E | Watchlist | watchlist | none matched |
+| Retool | Series E | Watchlist | watchlist | none matched |
+
+## Matched, but the rule places them nowhere
+
+87 companies below Series B without a Top 10 backer, or with no usable series on file. They stay wherever they are today -- listed so the numbers above reconcile and so a wrong/blank Series is visible as the cause.
+
+- Series B with a Tier 1 (33) but no Top 10 investor: **41**
+- Series B with no Tier 1 (33) or Top 10 investor: **25**
+- below Series B with no Top 10 investor: **11**
+- series unknown -- cannot place from the rule: **10**
+
+| Company | Series | Attio | Hub | Why |
+|---|---|---|---|---|
+| Aalyria | Series B | Watchlist | watchlist | Series B with a Tier 1 (33) but no Top 10 investor |
+| Aikido Security | Series B | Qualified | qualified | Series B with a Tier 1 (33) but no Top 10 investor |
+| Arch | Series B | Qualified | qualified | Series B with a Tier 1 (33) but no Top 10 investor |
+| Attentive (Business/Productivity Software) | Series B | Qualified | qualified | Series B with a Tier 1 (33) but no Top 10 investor |
+| Avoca | Series B | Qualified | qualified | Series B with a Tier 1 (33) but no Top 10 investor |
+| BNTO | Series B | Qualified | qualified | Series B with a Tier 1 (33) but no Top 10 investor |
+| Blackbox | Series B | Pipeline | pipeline | Series B with no Tier 1 (33) or Top 10 investor |
+| Capital R3alm | Series B | Qualified | qualified | Series B with a Tier 1 (33) but no Top 10 investor |
+| Celero | Series B | Qualified | qualified | Series B with no Tier 1 (33) or Top 10 investor |
+| Cerby | Series B | Qualified | qualified | Series B with no Tier 1 (33) or Top 10 investor |
+| Chemify | Series B | Qualified | qualified | Series B with a Tier 1 (33) but no Top 10 investor |
+| ClimAct Systems | Series B | Qualified | qualified | Series B with a Tier 1 (33) but no Top 10 investor |
+| Convex | Series B | Qualified | qualified +radar | Series B with a Tier 1 (33) but no Top 10 investor |
+| Corgi | Series B | Watchlist | watchlist | Series B with a Tier 1 (33) but no Top 10 investor |
+| Courier Health | Series B | Qualified | qualified | Series B with a Tier 1 (33) but no Top 10 investor |
+| CuspAI | Series B | Qualified | qualified | Series B with a Tier 1 (33) but no Top 10 investor |
+| DataBahn | Series B | Radar | qualified | Series B with a Tier 1 (33) but no Top 10 investor |
+| Databento | Series B | Qualified | None | Series B with a Tier 1 (33) but no Top 10 investor |
+| DeepInfra | Series B | Pipeline | pipeline | Series B with no Tier 1 (33) or Top 10 investor |
+| Depthfirst | Series B | Pipeline | pipeline | Series B with no Tier 1 (33) or Top 10 investor |
+| Doss | Series B | Qualified | qualified | Series B with a Tier 1 (33) but no Top 10 investor |
+| Eridu | Series B | Pipeline | pipeline | Series B with no Tier 1 (33) or Top 10 investor |
+| Firecrawl | Series B | Pipeline | pipeline | Series B with no Tier 1 (33) or Top 10 investor |
+| Function Health | Series B | Qualified | qualified | Series B with a Tier 1 (33) but no Top 10 investor |
+| Fundamental Research Labs | Series B | Pipeline | pipeline | Series B with no Tier 1 (33) or Top 10 investor |
+| GenLogs | Series B | Qualified | qualified | Series B with a Tier 1 (33) but no Top 10 investor |
+| General Intuition | Series B | Qualified | qualified | Series B with a Tier 1 (33) but no Top 10 investor |
+| General Matter | Series B | Pipeline | pipeline | Series B with no Tier 1 (33) or Top 10 investor |
+| Generalist | Series B | Qualified | qualified | Series B with a Tier 1 (33) but no Top 10 investor |
+| Gimlet Labs | Series B | Pipeline | pipeline | Series B with a Tier 1 (33) but no Top 10 investor |
+| Glimpse | Series B | Qualified | qualified | Series B with a Tier 1 (33) but no Top 10 investor |
+| GreenLite Technologies | Series B | Qualified | qualified | Series B with a Tier 1 (33) but no Top 10 investor |
+| Harmonic Security | Series B | Pipeline | pipeline | Series B with no Tier 1 (33) or Top 10 investor |
+| Heron Power | Series B | Qualified | qualified | Series B with a Tier 1 (33) but no Top 10 investor |
+| Humanly | Series B | Target | new | Series B with no Tier 1 (33) or Top 10 investor |
+| Jump | Series B | Qualified | new | Series B with a Tier 1 (33) but no Top 10 investor |
+| Liberate Innovations | Series B | Qualified | qualified | Series B with a Tier 1 (33) but no Top 10 investor |
+| Lighter (Financial Software) | Series B | Qualified | qualified | Series B with a Tier 1 (33) but no Top 10 investor |
+| Lila Sciences | Series B | Pipeline | pipeline | Series B with a Tier 1 (33) but no Top 10 investor |
+| Lyzr.ai | Series B | Pipeline | pipeline | Series B with no Tier 1 (33) or Top 10 investor |
+| Magnus Medical | Series B | Qualified | qualified | Series B with a Tier 1 (33) but no Top 10 investor |
+| Monumental (Hardware) | Series B | Qualified | qualified | Series B with a Tier 1 (33) but no Top 10 investor |
+| Namespace | Series B | Pipeline | pipeline | Series B with no Tier 1 (33) or Top 10 investor |
+| Ollin | Series B | Qualified | None | Series B with a Tier 1 (33) but no Top 10 investor |
+| Omnea | Series B | Qualified | qualified | Series B with a Tier 1 (33) but no Top 10 investor |
+| Orbem | Series B | Qualified | qualified | Series B with a Tier 1 (33) but no Top 10 investor |
+| Osmo Labs | Series B | Qualified | qualified | Series B with no Tier 1 (33) or Top 10 investor |
+| Panthalassa | Series B SAFE | Pipeline | pipeline | Series B with no Tier 1 (33) or Top 10 investor |
+| Prime Attorneys | Series B | Qualified | qualified | Series B with a Tier 1 (33) but no Top 10 investor |
+| Prime Intellect | Series B | Target | new | Series B with no Tier 1 (33) or Top 10 investor |
+| Pulley | Series B | Pipeline | pipeline | Series B with no Tier 1 (33) or Top 10 investor |
+| Quaise Energy | Series B | Pipeline | pipeline | Series B with no Tier 1 (33) or Top 10 investor |
+| Qualified Health | Series B | Pipeline | pipeline | Series B with a Tier 1 (33) but no Top 10 investor |
+| RoboFlow | Series B | Pipeline | pipeline | Series B with no Tier 1 (33) or Top 10 investor |
+| Slide | Series B | Qualified | qualified | Series B with a Tier 1 (33) but no Top 10 investor |
+| Spade Data | Series B | Qualified | qualified | Series B with a Tier 1 (33) but no Top 10 investor |
+| Sunbeam | Series B | Pipeline | pipeline | Series B with no Tier 1 (33) or Top 10 investor |
+| Supio | Series B | Target | new | Series B with no Tier 1 (33) or Top 10 investor |
+| Taxfyle | Series B | Pipeline | pipeline | Series B with no Tier 1 (33) or Top 10 investor |
+| Tempero Bio | Series B | Qualified | qualified | Series B with a Tier 1 (33) but no Top 10 investor |
+| Triomics | Series B | Qualified | qualified | Series B with a Tier 1 (33) but no Top 10 investor |
+| Upcodes | Series B | Pipeline | pipeline | Series B with no Tier 1 (33) or Top 10 investor |
+| Warp | Series B | Qualified | None | Series B with a Tier 1 (33) but no Top 10 investor |
+| WindBorne Systems | Series B | Qualified | qualified +radar | Series B with a Tier 1 (33) but no Top 10 investor |
+| Xbow | Series B | Target | new | Series B with no Tier 1 (33) or Top 10 investor |
+| nous research | Series B | Pipeline | None | Series B with no Tier 1 (33) or Top 10 investor |
+| Copperlane | Series A | Pipeline | pipeline | below Series B with no Top 10 investor |
+| Cosmic Labs | Series A | Pipeline | pipeline | below Series B with no Top 10 investor |
+| Dili | Series A | Pipeline | pipeline | below Series B with no Top 10 investor |
+| MicroOne | Pre-B SAFE | Pipeline | pipeline | below Series B with no Top 10 investor |
+| ModRetro | Early Stage VC | Watchlist | watchlist | below Series B with no Top 10 investor |
+| Newcore | Series A | Pipeline | pipeline | below Series B with no Top 10 investor |
+| Noah Labs | Series A | Pipeline | pipeline | below Series B with no Top 10 investor |
+| Project Prometheus | Early Stage VC | Watchlist | watchlist | below Series B with no Top 10 investor |
+| Silicondata | Series A | Pipeline | pipeline | below Series B with no Top 10 investor |
+| Tenkara Labs | Series A | Pipeline | pipeline | below Series B with no Top 10 investor |
+| Walden Robotics | Seed | Pipeline | pipeline | below Series B with no Top 10 investor |
+| Consensus.app | (blank) | Pipeline | pipeline | series unknown -- cannot place from the rule |
+| Draftwise | (blank) | Pipeline | pipeline | series unknown -- cannot place from the rule |
+| Fyxer AI | (blank) | Pipeline | pipeline | series unknown -- cannot place from the rule |
+| Instinct | (blank) | Pipeline | pipeline | series unknown -- cannot place from the rule |
+| Nucleus Genomics | (blank) | Pipeline | pipeline | series unknown -- cannot place from the rule |
+| Pocket | (blank) | Radar | None | series unknown -- cannot place from the rule |
+| Sable AI | (blank) | Radar | qualified | series unknown -- cannot place from the rule |
+| Tavily | (blank) | Pipeline | pipeline | series unknown -- cannot place from the rule |
+| Vapi | (blank) | Qualified | qualified | series unknown -- cannot place from the rule |
+| Wealth.com | (blank) | Pipeline | pipeline | series unknown -- cannot place from the rule |
+
+## Series B with a Top 10 investor
+
+59 companies sit in the one band the rule reads two ways. Under `dual` (the default, and what the shipped intake code does) they are Qualified in Attio and additionally tagged `radar` in the hub. Under `radar` they would be Radar only. Rerun with `--series-b-mode radar` to see that version.
+
+| Company | Series | Attio | Hub | Top 10 |
+|---|---|---|---|---|
+| Actively AI | Series B | Target | new | Bain Capital Ventures |
+| Advanced Manufacturing Company of America | Series B | Pipeline | qualified +radar | Lightspeed Venture Partners |
+| Allegro Labs | Series B | Qualified | qualified +radar | Index Ventures |
+| AltaClaro | Series B | Qualified | qualified +radar | Bessemer Venture Partners |
+| Archy | Series B | Qualified | qualified +radar | Bessemer Venture Partners |
+| Astrocade | Series B | Qualified | qualified +radar | Sequoia Capital |
+| Auterion | Series B | Qualified | qualified +radar | Bessemer Venture Partners |
+| Basis (Financial Software) | Series B | Qualified | qualified +radar | Accel |
+| Bezi | Series B | Passed | passed +passed,pipeline | Bessemer Venture Partners |
+| Black Forest Labs | Series B | Qualified | qualified +radar | Bain Capital Ventures |
+| Braintrust (Software Development Applications) | Series B | Watchlist | None +watchlist,radar | ICONIQ Capital |
+| Bunkerhill Health | Series B1 | Qualified | qualified +radar | Sequoia Capital |
+| Campfire (Financial Software) | Series B | Qualified | qualified +radar | Accel |
+| Castelion | Series B | Qualified | pipeline | Lightspeed Venture Partners |
+| Cowboy Space | Series B | Qualified | qualified +radar | Index Ventures |
+| Distyl AI | Series B | Qualified | qualified +radar | Lightspeed Venture Partners |
+| EXUGlobal | Series B | Qualified | qualified +radar | Sequoia Capital |
+| Emergent (Software Development Applications) | Series B | Qualified | qualified +radar | Lightspeed Venture Partners |
+| Evervault | Series B | Qualified | qualified +radar | Sequoia Capital, Index Ventures |
+| Forus (Healthcare Technology Systems) | Series B | Watchlist | watchlist +radar | Accel, Thrive Capital, Bain Capital Ventures |
+| Foxglove | Series B | Qualified | qualified +radar | Bessemer Venture Partners |
+| Fractile | Series B | Qualified | qualified +radar | Accel |
+| Gamma Tech. | Series B | Qualified | qualified +radar | Accel |
+| Glow | Series B | Qualified | radar +radar | Sequoia Capital, Index Ventures, Greenoaks Capital Partners |
+| Higgsfield | Series B | Pipeline | pipeline | Accel |
+| House Rx | Series B | Qualified | qualified +radar | Bessemer Venture Partners |
+| Juicebox | Series B | Qualified | qualified +radar | Sequoia Capital |
+| LangChain | Series B | Qualified | qualified +radar | Sequoia Capital, Benchmark |
+| Lead Bank | Series B | Qualified | qualified +radar | ICONIQ Capital |
+| Linx Security | Series B | Qualified | qualified +radar | Index Ventures |
+| Listen Labs | Series B | Qualified | qualified +radar | Sequoia Capital |
+| Mariana Minerals | Series B | Qualified | qualified +radar | Greenoaks Capital Partners |
+| Mintlify | Series B | Target | new | Bain Capital Ventures |
+| Monaco (Business/Productivity Software) | Series B | Watchlist | watchlist +radar | Benchmark, Greenoaks Capital Partners |
+| Naboo | Series B | Qualified | qualified +radar | Lightspeed Venture Partners |
+| Nexthop AI | Series B | Qualified | qualified +radar | Lightspeed Venture Partners |
+| Nominal | Series B | Qualified | qualified +radar | Sequoia Capital, Lightspeed Venture Partners |
+| Ollama | Series B | Watchlist | radar +pipeline | Benchmark |
+| Onyx | Series B | Radar | pipeline +radar | Bessemer Venture Partners |
+| Pace | Series B | Qualified | qualified +radar | Sequoia Capital, Thrive Capital |
+| Parallel | Series B | Watchlist | watchlist +radar | Sequoia Capital, Index Ventures |
+| PermitFlow | Series B | Passed | passed +passed,pipeline | Accel |
+| Pi Security | Series B | Qualified | qualified | Index Ventures, ICONIQ Capital, Thrive Capital |
+| PointFive | Series B | Qualified | qualified +radar | Index Ventures, Accel |
+| Reducto | Series B | Qualified | qualified +radar | Benchmark |
+| Reflection AI | Series B | Invested | invested | Sequoia Capital, Lightspeed Venture Partners |
+| Revel (Business/Productivity Software) | Series B | Pipeline | pipeline +radar | Index Ventures, Thrive Capital |
+| Serval | Series B | Qualified | qualified +radar | Sequoia Capital |
+| Sesame AI | Series B | Qualified | qualified +radar | Sequoia Capital |
+| Simile | Series B | Radar | pipeline | Index Ventures, Bain Capital Ventures, Greenoaks Capital Partners |
+| Sunday (Hardware) | Series B | Qualified | qualified +radar | Benchmark, Bain Capital Ventures |
+| Sunflower Labs | Series B | Qualified | qualified +radar | Sequoia Capital |
+| TRIANA Biomedicines | Series B | Qualified | qualified +radar | Lightspeed Venture Partners, Bessemer Venture Partners |
+| Twenty (Network Management Software) | Series B | Qualified | qualified +radar | Accel |
+| Upwind Security | Series B | Passed | passed +passed,pipeline | Sequoia Capital, Bessemer Venture Partners |
+| Valar Atomics | Series B | Qualified | qualified +radar | Sequoia Capital |
+| Weaviate | Series B | Qualified | qualified +radar | Index Ventures |
+| WithCoverage | Series B | Qualified | qualified +radar | Sequoia Capital |
+| tem (Business/Productivity Software) | Series B | Qualified | qualified +radar | Lightspeed Venture Partners |
+
+## Filed by hand in Attio (Passed / Invested)
+
+34 matched companies carry a stage the series rule must not override. Listed so nothing is invisible; no action proposed.
+
+Airwallex (Passed), Assort Health (Passed), Bedrock Robotics (Passed), Bezi (Passed), ChipAgents (Passed), Cloaked (Invested), Commure (Invested), Coretsu (Logical Intelligence) (Passed), Crusoe Energy (Passed), Decart.ai (Passed), Erebor (Passed), Eudia (Passed), Firestorm (Passed), Hayden AI (Passed), Klir (Passed), Letter AI (Passed), Maybern (Passed), Northwood (Passed), Parloa (Passed), Pepper (Passed), Periodic Labs (Passed), PermitFlow (Passed), Polymarket (Invested), Radiant (Passed), Reflection AI (Invested), Saronic (Invested), Skild AI (Passed), Sprouts.ai (Passed), Stacklet (Passed), Standard Bots (Passed), Stepful (Passed), Upwind Security (Passed), Varda Space (Passed), Vatn (Passed)

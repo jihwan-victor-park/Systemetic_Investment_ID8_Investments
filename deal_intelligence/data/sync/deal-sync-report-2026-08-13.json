@@ -1,0 +1,5948 @@
+{
+  "counts": {
+    "hubCompanies": 314,
+    "attioCompanies": 309,
+    "matched": 307,
+    "hubOnly": 7,
+    "attioOnly": 2,
+    "placementMismatches": 41,
+    "placementAgreed": 128,
+    "humanFiled": 34,
+    "aboveBNoTier33": 17,
+    "unplacedByRule": 87,
+    "seriesBTop10": 59
+  },
+  "seriesBMode": "dual",
+  "attioOnly": [
+    {
+      "key": "cathedral",
+      "name": "Cathedral",
+      "domain": "",
+      "series": "",
+      "stage": "Radar",
+      "record_id": "a9855760-84ee-4a05-81c2-18423a97dcbd",
+      "deal_date": "2026-07-22",
+      "investors": [
+        "Andreessen Horowitz",
+        "Sequoia Capital"
+      ],
+      "investorDomains": [
+        "a16z.com",
+        "sequoiacap.com"
+      ],
+      "top10": [
+        "Sequoia Capital"
+      ],
+      "tier1_33": [
+        "Andreessen Horowitz",
+        "Sequoia Capital"
+      ],
+      "rounds": [],
+      "dealCount": 1,
+      "expectedHubStage": null,
+      "expectedHubTags": [],
+      "expectedWhy": "series unknown -- cannot place from the rule"
+    },
+    {
+      "key": "impulsespace",
+      "name": "Impulse Space",
+      "domain": "impulsespace.com",
+      "series": "Series D",
+      "stage": "Pipeline",
+      "record_id": "7fc83393-62b4-4dba-a3e0-bcc411148c8c",
+      "deal_date": "2026-08-12",
+      "investors": [
+        "1200 VC",
+        "137 Ventures",
+        "237 Ventures",
+        "Airbus Ventures",
+        "Alumni Ventures",
+        "Atacama Ventures",
+        "BANNER VC",
+        "BOOM Capital",
+        "Balerion Space Ventures",
+        "Beyond Earth Ventures",
+        "BluePointe Ventures",
+        "C4 Ventures",
+        "Calm Ventures",
+        "DCVC",
+        "DFJ Growth",
+        "Earthrise Ventures",
+        "Elysium Ventures",
+        "F&FC",
+        "FP Solutions",
+        "Fifth Wall",
+        "First Principles Group",
+        "Founders Fund",
+        "Gaingels",
+        "In-Q-Tel",
+        "Inertia Ventures",
+        "Interlagos",
+        "JDY Capital",
+        "LL3 Ventures",
+        "Later Capital",
+        "Linse Capital",
+        "Lontra Ventures",
+        "Lux Capital",
+        "Opulentia",
+        "Overlap Holdings",
+        "Overmatch",
+        "Overwatch",
+        "Ovtr",
+        "Pallas Advisors",
+        "Pittco Management",
+        "RTX",
+        "Referent Ventures",
+        "Reverb VC",
+        "Shake and Bake Productions",
+        "Silent Ventures",
+        "Space Capital",
+        "Sparkwave Capital",
+        "Springtide",
+        "TEJO Ventures",
+        "Tamarack Global",
+        "The BR",
+        "The Nucleus Network",
+        "Trinity Capital",
+        "Trousdale Ventures",
+        "Unmatched Ventures",
+        "V12 Partners",
+        "Valera Capital",
+        "Valor"
+      ],
+      "investorDomains": [
+        "1200.vc",
+        "137ventures.com",
+        "237ventures.com",
+        "airbusventures.vc",
+        "atacamaventures.com",
+        "av.vc",
+        "balerionspace.com",
+        "bannervc.com",
+        "beyondearth.vc",
+        "bluepointe.vc",
+        "boomcap.co",
+        "c4v.com",
+        "calmvc.com",
+        "dcvc.com",
+        "dfjgrowth.com",
+        "earthrise.vc",
+        "elysiumventures.vc",
+        "fafc.com",
+        "fifthwall.com",
+        "firstprinciples.group",
+        "foundersfund.com",
+        "fpsolutions.vc",
+        "gaingels.com",
+        "inertia.vc",
+        "interlagos.com",
+        "iqt.org",
+        "islandgreencapital.com",
+        "jdycapital.com",
+        "latercapital.com",
+        "linsecapital.com",
+        "ll3ventures.com",
+        "lontraventures.com",
+        "luxcapital.com",
+        "opulentia.vc",
+        "overlapholdings.com",
+        "overmatch.vc",
+        "overwatch.capital",
+        "ovtr.vc",
+        "pallasadvisors.com",
+        "pittcomanagement.com",
+        "referent.com",
+        "reverb.vc",
+        "rtx.com",
+        "shakeandbakeproductions.com",
+        "silentvc.com",
+        "spacecapital.com",
+        "sparkwavecap.com",
+        "springtide.capital",
+        "tamarackglobal.com",
+        "tejoventures.com",
+        "thebr-dge.space",
+        "thenucleusnetwork.com",
+        "trinitycapital.com",
+        "trousdale.vc",
+        "unmatched.ventures",
+        "v12partners.com",
+        "valeracapital.com",
+        "valorep.com"
+      ],
+      "top10": [],
+      "tier1_33": [
+        "Founders Fund",
+        "Lux Capital"
+      ],
+      "rounds": [
+        "Series D"
+      ],
+      "dealCount": 1,
+      "expectedHubStage": "Qualified",
+      "expectedHubTags": [],
+      "expectedWhy": "above Series B with a Tier 1 (33) investor"
+    }
+  ],
+  "hubOnly": [
+    {
+      "key": "distyl-ai",
+      "name": "Distyl AI",
+      "domain": "",
+      "series": "",
+      "stage": null,
+      "tags": [],
+      "attioRecordId": "",
+      "attioStage": "",
+      "originSource": "",
+      "investors": [],
+      "investorDomains": [],
+      "top10": [],
+      "tier1_33": [],
+      "storedTop10VC": true,
+      "extraRoundDocs": 0,
+      "expectedAttioStage": null,
+      "expectedWhy": "series unknown -- cannot place from the rule"
+    },
+    {
+      "key": "example-brightline-health",
+      "name": "Brightline Health",
+      "domain": "brightlinehealth.example",
+      "series": "",
+      "stage": "watchlist",
+      "tags": [],
+      "attioRecordId": "",
+      "attioStage": "",
+      "originSource": "",
+      "investors": [],
+      "investorDomains": [],
+      "top10": [],
+      "tier1_33": [],
+      "storedTop10VC": false,
+      "extraRoundDocs": 0,
+      "expectedAttioStage": null,
+      "expectedWhy": "series unknown -- cannot place from the rule"
+    },
+    {
+      "key": "example-cascade-analytics",
+      "name": "Cascade Analytics",
+      "domain": "cascadeanalytics.example",
+      "series": "",
+      "stage": "pipeline",
+      "tags": [],
+      "attioRecordId": "",
+      "attioStage": "",
+      "originSource": "",
+      "investors": [],
+      "investorDomains": [],
+      "top10": [],
+      "tier1_33": [],
+      "storedTop10VC": false,
+      "extraRoundDocs": 0,
+      "expectedAttioStage": null,
+      "expectedWhy": "series unknown -- cannot place from the rule"
+    },
+    {
+      "key": "lassie",
+      "name": "lassie",
+      "domain": "lassie.ai",
+      "series": "",
+      "stage": null,
+      "tags": [],
+      "attioRecordId": "",
+      "attioStage": "",
+      "originSource": "",
+      "investors": [],
+      "investorDomains": [],
+      "top10": [],
+      "tier1_33": [],
+      "storedTop10VC": false,
+      "extraRoundDocs": 0,
+      "expectedAttioStage": null,
+      "expectedWhy": "series unknown -- cannot place from the rule"
+    },
+    {
+      "key": "nexthop-ai",
+      "name": "Nexthop AI",
+      "domain": "",
+      "series": "",
+      "stage": null,
+      "tags": [],
+      "attioRecordId": "",
+      "attioStage": "",
+      "originSource": "",
+      "investors": [],
+      "investorDomains": [],
+      "top10": [],
+      "tier1_33": [],
+      "storedTop10VC": true,
+      "extraRoundDocs": 0,
+      "expectedAttioStage": null,
+      "expectedWhy": "series unknown -- cannot place from the rule"
+    },
+    {
+      "key": "rogo-business-productivity-software",
+      "name": "Rogo (Business/Productivity Software)",
+      "domain": "",
+      "series": "",
+      "stage": null,
+      "tags": [],
+      "attioRecordId": "",
+      "attioStage": "",
+      "originSource": "",
+      "investors": [],
+      "investorDomains": [],
+      "top10": [],
+      "tier1_33": [],
+      "storedTop10VC": true,
+      "extraRoundDocs": 0,
+      "expectedAttioStage": null,
+      "expectedWhy": "series unknown -- cannot place from the rule"
+    },
+    {
+      "key": "sambanova-systems",
+      "name": "SambaNova Systems",
+      "domain": "",
+      "series": "",
+      "stage": null,
+      "tags": [],
+      "attioRecordId": "",
+      "attioStage": "",
+      "originSource": "",
+      "investors": [],
+      "investorDomains": [],
+      "top10": [],
+      "tier1_33": [],
+      "storedTop10VC": false,
+      "extraRoundDocs": 0,
+      "expectedAttioStage": null,
+      "expectedWhy": "series unknown -- cannot place from the rule"
+    }
+  ],
+  "mismatches": [
+    {
+      "key": "actively",
+      "attioKey": "actively",
+      "name": "Actively AI",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Target",
+      "hubStage": "new",
+      "hubTags": [],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Bain Capital Ventures"
+      ],
+      "tier1_33": [
+        "Bain Capital Ventures",
+        "TCV"
+      ],
+      "attioRecordId": "307d4931-b5b6-4e2c-a1b0-995c9776d274",
+      "hubSetStage": "qualified",
+      "hubAddTags": [
+        "radar"
+      ],
+      "hubNeeds": [
+        "qualified",
+        "radar"
+      ],
+      "attioNeeds": "Qualified"
+    },
+    {
+      "key": "advancell",
+      "attioKey": "advancell",
+      "name": "AdvanCell",
+      "matchBasis": "key",
+      "series": "Series D",
+      "band": "above_b",
+      "attioStage": "Radar",
+      "hubStage": null,
+      "hubTags": [],
+      "expectedStage": "Qualified",
+      "expectedTags": [],
+      "expectedWhy": "above Series B with a Tier 1 (33) investor",
+      "top10": [
+        "Bain Capital Ventures"
+      ],
+      "tier1_33": [],
+      "attioRecordId": "797ff19f-bc25-406d-9a8a-45d1fa464149",
+      "hubSetStage": "qualified",
+      "hubAddTags": [],
+      "hubNeeds": [
+        "qualified"
+      ],
+      "attioNeeds": "Qualified"
+    },
+    {
+      "key": "amca",
+      "attioKey": "amca",
+      "name": "Advanced Manufacturing Company of America",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Pipeline",
+      "hubStage": "qualified",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Lightspeed Venture Partners"
+      ],
+      "tier1_33": [
+        "Andreessen Horowitz",
+        "Founders Fund",
+        "Lightspeed Venture Partners",
+        "Lux Capital"
+      ],
+      "attioRecordId": "7c459807-6e0f-41a6-929e-fa2fc6fe1b34",
+      "hubSetStage": null,
+      "hubAddTags": [],
+      "hubNeeds": [],
+      "attioNeeds": "Qualified"
+    },
+    {
+      "key": "anthropic",
+      "attioKey": "anthropic",
+      "name": "Anthropic",
+      "matchBasis": "key",
+      "series": "Series H",
+      "band": "above_b",
+      "attioStage": "Qualified",
+      "hubStage": null,
+      "hubTags": [],
+      "expectedStage": "Qualified",
+      "expectedTags": [],
+      "expectedWhy": "above Series B with a Tier 1 (33) investor",
+      "top10": [
+        "Sequoia Capital",
+        "ICONIQ Capital",
+        "Accel",
+        "Lightspeed Venture Partners",
+        "Greenoaks Capital Partners",
+        "Bessemer Venture Partners"
+      ],
+      "tier1_33": [
+        "Accel",
+        "Addition",
+        "Bessemer Venture Partners",
+        "Coatue Management",
+        "DST Global",
+        "Dragoneer Investment Group",
+        "Founders Fund",
+        "General Catalyst",
+        "ICONIQ Capital",
+        "IVP",
+        "Insight Partners",
+        "Lightspeed Venture Partners",
+        "Menlo Ventures",
+        "Sequoia Capital"
+      ],
+      "attioRecordId": "d665a872-223a-427a-b381-7a64fb6d3731",
+      "hubSetStage": "qualified",
+      "hubAddTags": [],
+      "hubNeeds": [
+        "qualified"
+      ],
+      "attioNeeds": null
+    },
+    {
+      "key": "castelion",
+      "attioKey": "castelion",
+      "name": "Castelion",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Lightspeed Venture Partners"
+      ],
+      "tier1_33": [
+        "Andreessen Horowitz",
+        "General Catalyst",
+        "Lightspeed Venture Partners"
+      ],
+      "attioRecordId": "21e55fcc-742c-4f92-9f4d-894a750b8e2b",
+      "hubSetStage": null,
+      "hubAddTags": [
+        "qualified",
+        "radar"
+      ],
+      "hubNeeds": [
+        "qualified",
+        "radar"
+      ],
+      "attioNeeds": null
+    },
+    {
+      "key": "chaidiscovery",
+      "attioKey": "chaidiscovery",
+      "name": "Chai Discovery",
+      "matchBasis": "key",
+      "series": "Series C",
+      "band": "above_b",
+      "attioStage": "Radar",
+      "hubStage": "qualified",
+      "hubTags": [],
+      "expectedStage": "Qualified",
+      "expectedTags": [],
+      "expectedWhy": "above Series B with a Tier 1 (33) investor",
+      "top10": [
+        "Sequoia Capital",
+        "Index Ventures",
+        "Thrive Capital",
+        "Bain Capital Ventures"
+      ],
+      "tier1_33": [
+        "Battery Ventures",
+        "General Catalyst",
+        "Index Ventures",
+        "Kleiner Perkins",
+        "Menlo Ventures",
+        "Oak HC/FT",
+        "Sequoia Capital",
+        "Thrive Capital"
+      ],
+      "attioRecordId": "ca8e5bed-4b04-47d5-b235-828fa2c9f323",
+      "hubSetStage": null,
+      "hubAddTags": [],
+      "hubNeeds": [],
+      "attioNeeds": "Qualified"
+    },
+    {
+      "key": "console",
+      "attioKey": "console",
+      "name": "Console",
+      "matchBasis": "key",
+      "series": "Series A",
+      "band": "below_b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": "Radar",
+      "expectedTags": [],
+      "expectedWhy": "below Series B with a Top 10 investor",
+      "top10": [
+        "Thrive Capital"
+      ],
+      "tier1_33": [
+        "DST Global",
+        "Thrive Capital"
+      ],
+      "attioRecordId": "9a2a3634-0127-4758-aba2-7211ac25a1e4",
+      "hubSetStage": null,
+      "hubAddTags": [
+        "radar"
+      ],
+      "hubNeeds": [
+        "radar"
+      ],
+      "attioNeeds": "Radar"
+    },
+    {
+      "key": "e2b",
+      "attioKey": "e2b",
+      "name": "E2B",
+      "matchBasis": "key",
+      "series": "Early Stage VC",
+      "band": "below_b",
+      "attioStage": "Watchlist",
+      "hubStage": "watchlist",
+      "hubTags": [],
+      "expectedStage": "Radar",
+      "expectedTags": [],
+      "expectedWhy": "below Series B with a Top 10 investor",
+      "top10": [
+        "Sequoia Capital"
+      ],
+      "tier1_33": [
+        "Insight Partners",
+        "Sequoia Capital"
+      ],
+      "attioRecordId": "a9a4e084-fd73-4c3d-8fac-d687955f344d",
+      "hubSetStage": null,
+      "hubAddTags": [
+        "radar"
+      ],
+      "hubNeeds": [
+        "radar"
+      ],
+      "attioNeeds": "Radar"
+    },
+    {
+      "key": "elevenlabs",
+      "attioKey": "elevenlabs",
+      "name": "ElevenLabs",
+      "matchBasis": "key",
+      "series": "Series D",
+      "band": "above_b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": "Qualified",
+      "expectedTags": [],
+      "expectedWhy": "above Series B with a Tier 1 (33) investor",
+      "top10": [
+        "Sequoia Capital",
+        "ICONIQ Capital",
+        "Lightspeed Venture Partners"
+      ],
+      "tier1_33": [
+        "Andreessen Horowitz",
+        "Lightspeed Venture Partners",
+        "Sequoia Capital"
+      ],
+      "attioRecordId": "d2bb8c77-17a8-4368-92e3-73d40add8c69",
+      "hubSetStage": null,
+      "hubAddTags": [
+        "qualified"
+      ],
+      "hubNeeds": [
+        "qualified"
+      ],
+      "attioNeeds": "Qualified"
+    },
+    {
+      "key": "float",
+      "attioKey": "float",
+      "name": "Float.tech",
+      "matchBasis": "key",
+      "series": "Series A",
+      "band": "below_b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Radar",
+      "expectedTags": [],
+      "expectedWhy": "below Series B with a Top 10 investor",
+      "top10": [
+        "Lightspeed Venture Partners"
+      ],
+      "tier1_33": [
+        "Lightspeed Venture Partners"
+      ],
+      "attioRecordId": "16e6c606-fa9e-466f-832c-6098007e862c",
+      "hubSetStage": null,
+      "hubAddTags": [],
+      "hubNeeds": [],
+      "attioNeeds": "Radar"
+    },
+    {
+      "key": "forus",
+      "attioKey": "forus",
+      "name": "Forus (Healthcare Technology Systems)",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Watchlist",
+      "hubStage": "watchlist",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Accel",
+        "Thrive Capital",
+        "Bain Capital Ventures"
+      ],
+      "tier1_33": [
+        "Accel",
+        "Bain Capital Ventures",
+        "General Catalyst",
+        "Thrive Capital"
+      ],
+      "attioRecordId": "43ebbeee-6839-4cd3-b52a-62d63daa0db4",
+      "hubSetStage": null,
+      "hubAddTags": [
+        "qualified"
+      ],
+      "hubNeeds": [
+        "qualified"
+      ],
+      "attioNeeds": "Qualified"
+    },
+    {
+      "key": "glow",
+      "attioKey": "glow",
+      "name": "Glow",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "radar",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Sequoia Capital",
+        "Index Ventures",
+        "Greenoaks Capital Partners"
+      ],
+      "tier1_33": [
+        "Index Ventures",
+        "Lux Capital",
+        "Sequoia Capital"
+      ],
+      "attioRecordId": "19e76371-be52-4cb1-9118-75fd1c82506f",
+      "hubSetStage": null,
+      "hubAddTags": [
+        "qualified"
+      ],
+      "hubNeeds": [
+        "qualified"
+      ],
+      "attioNeeds": null
+    },
+    {
+      "key": "hadrian",
+      "attioKey": "hadrian",
+      "name": "Hadrian",
+      "matchBasis": "key",
+      "series": "Series D",
+      "band": "above_b",
+      "attioStage": "Qualified",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": "Qualified",
+      "expectedTags": [],
+      "expectedWhy": "above Series B with a Tier 1 (33) investor",
+      "top10": [],
+      "tier1_33": [
+        "Andreessen Horowitz",
+        "Founders Fund",
+        "Lux Capital"
+      ],
+      "attioRecordId": "531c570a-ba0c-465c-931c-5ff045eaf196",
+      "hubSetStage": null,
+      "hubAddTags": [
+        "qualified"
+      ],
+      "hubNeeds": [
+        "qualified"
+      ],
+      "attioNeeds": null
+    },
+    {
+      "key": "harvey",
+      "attioKey": "harvey",
+      "name": "Harvey",
+      "matchBasis": "key",
+      "series": "Series F",
+      "band": "above_b",
+      "attioStage": "Target",
+      "hubStage": "new",
+      "hubTags": [],
+      "expectedStage": "Qualified",
+      "expectedTags": [],
+      "expectedWhy": "above Series B with a Tier 1 (33) investor",
+      "top10": [
+        "Sequoia Capital"
+      ],
+      "tier1_33": [
+        "Andreessen Horowitz",
+        "Kleiner Perkins",
+        "Sequoia Capital"
+      ],
+      "attioRecordId": "9aacbedb-3789-4913-bc51-0e09815d1525",
+      "hubSetStage": "qualified",
+      "hubAddTags": [],
+      "hubNeeds": [
+        "qualified"
+      ],
+      "attioNeeds": "Qualified"
+    },
+    {
+      "key": "helsing",
+      "attioKey": "helsing",
+      "name": "Helsing",
+      "matchBasis": "key",
+      "series": "Series E",
+      "band": "above_b",
+      "attioStage": "Qualified",
+      "hubStage": null,
+      "hubTags": [],
+      "expectedStage": "Qualified",
+      "expectedTags": [],
+      "expectedWhy": "above Series B with a Tier 1 (33) investor",
+      "top10": [
+        "ICONIQ Capital",
+        "Lightspeed Venture Partners"
+      ],
+      "tier1_33": [
+        "Dragoneer Investment Group",
+        "Lightspeed Venture Partners"
+      ],
+      "attioRecordId": "4d60264b-d5ae-48a6-85e0-67be4583cfed",
+      "hubSetStage": "qualified",
+      "hubAddTags": [],
+      "hubNeeds": [
+        "qualified"
+      ],
+      "attioNeeds": null
+    },
+    {
+      "key": "higgsfield",
+      "attioKey": "higgsfield",
+      "name": "Higgsfield",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Accel"
+      ],
+      "tier1_33": [
+        "Accel"
+      ],
+      "attioRecordId": "6795dffc-8784-47b9-8660-ff38e4a60cd1",
+      "hubSetStage": null,
+      "hubAddTags": [
+        "qualified",
+        "radar"
+      ],
+      "hubNeeds": [
+        "qualified",
+        "radar"
+      ],
+      "attioNeeds": "Qualified"
+    },
+    {
+      "key": "higharc",
+      "attioKey": "higharc",
+      "name": "Higharc",
+      "matchBasis": "key",
+      "series": "Series C",
+      "band": "above_b",
+      "attioStage": "Qualified",
+      "hubStage": null,
+      "hubTags": [],
+      "expectedStage": "Qualified",
+      "expectedTags": [],
+      "expectedWhy": "above Series B with a Tier 1 (33) investor",
+      "top10": [],
+      "tier1_33": [
+        "Insight Partners",
+        "Lux Capital"
+      ],
+      "attioRecordId": "122eff4e-9918-4b51-84bb-8618f6cb00aa",
+      "hubSetStage": "qualified",
+      "hubAddTags": [],
+      "hubNeeds": [
+        "qualified"
+      ],
+      "attioNeeds": null
+    },
+    {
+      "key": "iconbuild",
+      "attioKey": "iconbuild",
+      "name": "ICON",
+      "matchBasis": "key",
+      "series": "Series D",
+      "band": "above_b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": "Qualified",
+      "expectedTags": [],
+      "expectedWhy": "above Series B with a Tier 1 (33) investor",
+      "top10": [],
+      "tier1_33": [
+        "8VC"
+      ],
+      "attioRecordId": "d8b1fe0a-ed86-45a4-a16e-a13c3e0aa87c",
+      "hubSetStage": null,
+      "hubAddTags": [
+        "qualified"
+      ],
+      "hubNeeds": [
+        "qualified"
+      ],
+      "attioNeeds": "Qualified"
+    },
+    {
+      "key": "loop",
+      "attioKey": "loop",
+      "name": "Loop (Chicago)",
+      "matchBasis": "key",
+      "series": "Series C",
+      "band": "above_b",
+      "attioStage": "Watchlist",
+      "hubStage": "watchlist",
+      "hubTags": [],
+      "expectedStage": "Qualified",
+      "expectedTags": [],
+      "expectedWhy": "above Series B with a Tier 1 (33) investor",
+      "top10": [
+        "Index Ventures"
+      ],
+      "tier1_33": [
+        "8VC",
+        "Founders Fund",
+        "Index Ventures"
+      ],
+      "attioRecordId": "d967a8f0-48cd-43c3-a2fb-99b9f016962c",
+      "hubSetStage": null,
+      "hubAddTags": [
+        "qualified"
+      ],
+      "hubNeeds": [
+        "qualified"
+      ],
+      "attioNeeds": "Qualified"
+    },
+    {
+      "key": "lovable",
+      "attioKey": "lovable",
+      "name": "Lovable",
+      "matchBasis": "key",
+      "series": "Series C",
+      "band": "above_b",
+      "attioStage": "Pipeline",
+      "hubStage": "qualified",
+      "hubTags": [],
+      "expectedStage": "Qualified",
+      "expectedTags": [],
+      "expectedWhy": "above Series B with a Tier 1 (33) investor",
+      "top10": [
+        "Accel"
+      ],
+      "tier1_33": [
+        "Accel",
+        "DST Global",
+        "Khosla Ventures",
+        "Menlo Ventures"
+      ],
+      "attioRecordId": "6cf21044-87fb-4c48-92cb-15f61b980ce9",
+      "hubSetStage": null,
+      "hubAddTags": [],
+      "hubNeeds": [],
+      "attioNeeds": "Qualified"
+    },
+    {
+      "key": "machindustries",
+      "attioKey": "machindustries",
+      "name": "Mach Industries",
+      "matchBasis": "key",
+      "series": "Series C",
+      "band": "above_b",
+      "attioStage": "Pipeline",
+      "hubStage": "qualified",
+      "hubTags": [],
+      "expectedStage": "Qualified",
+      "expectedTags": [],
+      "expectedWhy": "above Series B with a Tier 1 (33) investor",
+      "top10": [
+        "Sequoia Capital"
+      ],
+      "tier1_33": [
+        "Khosla Ventures",
+        "Ribbit Capital",
+        "Sequoia Capital"
+      ],
+      "attioRecordId": "a74f9b40-b6a5-4085-a25f-b778c8fa6ded",
+      "hubSetStage": null,
+      "hubAddTags": [],
+      "hubNeeds": [],
+      "attioNeeds": "Qualified"
+    },
+    {
+      "key": "mindrobotics",
+      "attioKey": "mindrobotics",
+      "name": "Mind Robotics",
+      "matchBasis": "key",
+      "series": "Early Stage VC",
+      "band": "below_b",
+      "attioStage": "Watchlist",
+      "hubStage": "watchlist",
+      "hubTags": [],
+      "expectedStage": "Radar",
+      "expectedTags": [],
+      "expectedWhy": "below Series B with a Top 10 investor",
+      "top10": [
+        "Bessemer Venture Partners"
+      ],
+      "tier1_33": [
+        "Andreessen Horowitz",
+        "Bessemer Venture Partners",
+        "Kleiner Perkins"
+      ],
+      "attioRecordId": "df3e0ee6-de32-4f37-821d-a0f1f41db4ea",
+      "hubSetStage": null,
+      "hubAddTags": [
+        "radar"
+      ],
+      "hubNeeds": [
+        "radar"
+      ],
+      "attioNeeds": "Radar"
+    },
+    {
+      "key": "mintlify",
+      "attioKey": "mintlify",
+      "name": "Mintlify",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Target",
+      "hubStage": "new",
+      "hubTags": [],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Bain Capital Ventures"
+      ],
+      "tier1_33": [
+        "Andreessen Horowitz",
+        "Bain Capital Ventures",
+        "DST Global"
+      ],
+      "attioRecordId": "1002ca4c-6a5c-4217-ae98-e6d47f02ae28",
+      "hubSetStage": "qualified",
+      "hubAddTags": [
+        "radar"
+      ],
+      "hubNeeds": [
+        "qualified",
+        "radar"
+      ],
+      "attioNeeds": "Qualified"
+    },
+    {
+      "key": "monaco",
+      "attioKey": "monaco",
+      "name": "Monaco (Business/Productivity Software)",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Watchlist",
+      "hubStage": "watchlist",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Benchmark",
+        "Greenoaks Capital Partners"
+      ],
+      "tier1_33": [
+        "Founders Fund"
+      ],
+      "attioRecordId": "686c35b6-153f-4c2d-b769-6454ff2d5cfa",
+      "hubSetStage": null,
+      "hubAddTags": [
+        "qualified"
+      ],
+      "hubNeeds": [
+        "qualified"
+      ],
+      "attioNeeds": "Qualified"
+    },
+    {
+      "key": "norm",
+      "attioKey": "norm",
+      "name": "Norm Ai",
+      "matchBasis": "key",
+      "series": "Series C",
+      "band": "above_b",
+      "attioStage": "Qualified",
+      "hubStage": null,
+      "hubTags": [],
+      "expectedStage": "Qualified",
+      "expectedTags": [],
+      "expectedWhy": "above Series B with a Tier 1 (33) investor",
+      "top10": [
+        "Bain Capital Ventures"
+      ],
+      "tier1_33": [
+        "Bain Capital Ventures",
+        "Coatue Management",
+        "Khosla Ventures"
+      ],
+      "attioRecordId": "619524ab-6ee9-4050-a224-ae57d9be7e8f",
+      "hubSetStage": "qualified",
+      "hubAddTags": [],
+      "hubNeeds": [
+        "qualified"
+      ],
+      "attioNeeds": null
+    },
+    {
+      "key": "ollama",
+      "attioKey": "ollama",
+      "name": "Ollama",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Watchlist",
+      "hubStage": "radar",
+      "hubTags": [
+        "pipeline"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Benchmark"
+      ],
+      "tier1_33": [
+        "8VC"
+      ],
+      "attioRecordId": "a729c818-e0a4-43e7-805e-c4416e3f247a",
+      "hubSetStage": null,
+      "hubAddTags": [
+        "qualified"
+      ],
+      "hubNeeds": [
+        "qualified"
+      ],
+      "attioNeeds": "Qualified"
+    },
+    {
+      "key": "omni",
+      "attioKey": "omni",
+      "name": "Omni Analytics",
+      "matchBasis": "key",
+      "series": "Later Stage VC",
+      "band": "above_b",
+      "attioStage": "Watchlist",
+      "hubStage": "watchlist",
+      "hubTags": [],
+      "expectedStage": "Qualified",
+      "expectedTags": [],
+      "expectedWhy": "above Series B with a Tier 1 (33) investor",
+      "top10": [
+        "ICONIQ Capital"
+      ],
+      "tier1_33": [
+        "ICONIQ Capital"
+      ],
+      "attioRecordId": "2c7439a0-d594-4348-a802-f18b7e2fc111",
+      "hubSetStage": null,
+      "hubAddTags": [
+        "qualified"
+      ],
+      "hubNeeds": [
+        "qualified"
+      ],
+      "attioNeeds": "Qualified"
+    },
+    {
+      "key": "onyx",
+      "attioKey": "onyx",
+      "name": "Onyx",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Radar",
+      "hubStage": "pipeline",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Bessemer Venture Partners"
+      ],
+      "tier1_33": [
+        "Bessemer Venture Partners",
+        "TCV"
+      ],
+      "attioRecordId": "3c49ab5b-ed4d-4aba-9e93-b05c291855fa",
+      "hubSetStage": null,
+      "hubAddTags": [
+        "qualified"
+      ],
+      "hubNeeds": [
+        "qualified"
+      ],
+      "attioNeeds": "Qualified"
+    },
+    {
+      "key": "pallet",
+      "attioKey": "pallet",
+      "name": "Pallet",
+      "matchBasis": "key",
+      "series": "Series C",
+      "band": "above_b",
+      "attioStage": "Target",
+      "hubStage": "new",
+      "hubTags": [],
+      "expectedStage": "Qualified",
+      "expectedTags": [],
+      "expectedWhy": "above Series B with a Tier 1 (33) investor",
+      "top10": [],
+      "tier1_33": [
+        "General Catalyst"
+      ],
+      "attioRecordId": "70a9ef0c-f5a8-4036-8434-971c9ac3023d",
+      "hubSetStage": "qualified",
+      "hubAddTags": [],
+      "hubNeeds": [
+        "qualified"
+      ],
+      "attioNeeds": "Qualified"
+    },
+    {
+      "key": "parallel",
+      "attioKey": "parallel",
+      "name": "Parallel",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Watchlist",
+      "hubStage": "watchlist",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Sequoia Capital",
+        "Index Ventures"
+      ],
+      "tier1_33": [
+        "Index Ventures",
+        "Khosla Ventures",
+        "Kleiner Perkins",
+        "Sequoia Capital"
+      ],
+      "attioRecordId": "f92b6720-cde7-4a58-955b-70542e3fcfbc",
+      "hubSetStage": null,
+      "hubAddTags": [
+        "qualified"
+      ],
+      "hubNeeds": [
+        "qualified"
+      ],
+      "attioNeeds": "Qualified"
+    },
+    {
+      "key": "pi",
+      "attioKey": "pi",
+      "name": "Pi Security",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Index Ventures",
+        "ICONIQ Capital",
+        "Thrive Capital"
+      ],
+      "tier1_33": [
+        "Index Ventures",
+        "Lux Capital",
+        "Thrive Capital"
+      ],
+      "attioRecordId": "c57f28d0-5274-4aa3-a6df-081faee60766",
+      "hubSetStage": null,
+      "hubAddTags": [
+        "radar"
+      ],
+      "hubNeeds": [
+        "radar"
+      ],
+      "attioNeeds": null
+    },
+    {
+      "key": "revel",
+      "attioKey": "revel",
+      "name": "Revel (Business/Productivity Software)",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Index Ventures",
+        "Thrive Capital"
+      ],
+      "tier1_33": [
+        "Index Ventures",
+        "Thrive Capital"
+      ],
+      "attioRecordId": "e084d08b-8bf4-4ee8-94fe-1b5a61bbf914",
+      "hubSetStage": null,
+      "hubAddTags": [
+        "qualified"
+      ],
+      "hubNeeds": [
+        "qualified"
+      ],
+      "attioNeeds": "Qualified"
+    },
+    {
+      "key": "ricursive",
+      "attioKey": "ricursive",
+      "name": "Ricursive Intelligence",
+      "matchBasis": "key",
+      "series": "Series A",
+      "band": "below_b",
+      "attioStage": "Watchlist",
+      "hubStage": "watchlist",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Radar",
+      "expectedTags": [],
+      "expectedWhy": "below Series B with a Top 10 investor",
+      "top10": [
+        "Sequoia Capital",
+        "Lightspeed Venture Partners"
+      ],
+      "tier1_33": [
+        "Lightspeed Venture Partners",
+        "Sequoia Capital"
+      ],
+      "attioRecordId": "81a811e6-bbc0-4bcd-81c5-86e61499d3be",
+      "hubSetStage": null,
+      "hubAddTags": [],
+      "hubNeeds": [],
+      "attioNeeds": "Radar"
+    },
+    {
+      "key": "rogo",
+      "attioKey": "rogo",
+      "name": "Rogo (Business/Productivity Software)",
+      "matchBasis": "key",
+      "series": "Series D",
+      "band": "above_b",
+      "attioStage": "Watchlist",
+      "hubStage": "watchlist",
+      "hubTags": [],
+      "expectedStage": "Qualified",
+      "expectedTags": [],
+      "expectedWhy": "above Series B with a Tier 1 (33) investor",
+      "top10": [
+        "Sequoia Capital",
+        "Thrive Capital"
+      ],
+      "tier1_33": [
+        "Khosla Ventures",
+        "Kleiner Perkins",
+        "Sequoia Capital",
+        "Thrive Capital"
+      ],
+      "attioRecordId": "c6e8a53e-8f83-43f1-a709-1fec911ba3e6",
+      "hubSetStage": null,
+      "hubAddTags": [
+        "qualified"
+      ],
+      "hubNeeds": [
+        "qualified"
+      ],
+      "attioNeeds": "Qualified"
+    },
+    {
+      "key": "sandstone",
+      "attioKey": "sandstone",
+      "name": "Sandstone (Business/Productivity Software)",
+      "matchBasis": "key",
+      "series": "Series A",
+      "band": "below_b",
+      "attioStage": "Watchlist",
+      "hubStage": "watchlist",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Radar",
+      "expectedTags": [],
+      "expectedWhy": "below Series B with a Top 10 investor",
+      "top10": [
+        "Sequoia Capital",
+        "Lightspeed Venture Partners"
+      ],
+      "tier1_33": [
+        "Lightspeed Venture Partners",
+        "Sequoia Capital"
+      ],
+      "attioRecordId": "bf9b04cd-3d74-4223-a219-1ba8519ed1c5",
+      "hubSetStage": null,
+      "hubAddTags": [],
+      "hubNeeds": [],
+      "attioNeeds": "Radar"
+    },
+    {
+      "key": "simile",
+      "attioKey": "simile",
+      "name": "Simile",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Radar",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Index Ventures",
+        "Bain Capital Ventures",
+        "Greenoaks Capital Partners"
+      ],
+      "tier1_33": [
+        "Bain Capital Ventures",
+        "Index Ventures"
+      ],
+      "attioRecordId": "a33bbc68-9b61-4b31-90e2-5c98fc181a0f",
+      "hubSetStage": null,
+      "hubAddTags": [
+        "qualified",
+        "radar"
+      ],
+      "hubNeeds": [
+        "qualified",
+        "radar"
+      ],
+      "attioNeeds": "Qualified"
+    },
+    {
+      "key": "snorkel",
+      "attioKey": "snorkel",
+      "name": "Snorkel",
+      "matchBasis": "key",
+      "series": "Series E",
+      "band": "above_b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": "Qualified",
+      "expectedTags": [],
+      "expectedWhy": "above Series B with a Tier 1 (33) investor",
+      "top10": [],
+      "tier1_33": [
+        "Insight Partners"
+      ],
+      "attioRecordId": "95b6fe3d-9f33-4d86-ba7a-14b803cd857a",
+      "hubSetStage": null,
+      "hubAddTags": [
+        "qualified"
+      ],
+      "hubNeeds": [
+        "qualified"
+      ],
+      "attioNeeds": "Qualified"
+    },
+    {
+      "key": "supabase",
+      "attioKey": "supabase",
+      "name": "Supabase",
+      "matchBasis": "key",
+      "series": "Series F",
+      "band": "above_b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": "Qualified",
+      "expectedTags": [],
+      "expectedWhy": "above Series B with a Tier 1 (33) investor",
+      "top10": [
+        "Accel"
+      ],
+      "tier1_33": [
+        "Accel",
+        "Coatue Management"
+      ],
+      "attioRecordId": "8f5bf0fa-0ef7-4c7c-bc8c-752533c54c5e",
+      "hubSetStage": null,
+      "hubAddTags": [
+        "qualified"
+      ],
+      "hubNeeds": [
+        "qualified"
+      ],
+      "attioNeeds": "Qualified"
+    },
+    {
+      "key": "synthetix",
+      "attioKey": "synthetix",
+      "name": "Synthetix",
+      "matchBasis": "key",
+      "series": "Series C",
+      "band": "above_b",
+      "attioStage": "Watchlist",
+      "hubStage": "watchlist",
+      "hubTags": [],
+      "expectedStage": "Qualified",
+      "expectedTags": [],
+      "expectedWhy": "above Series B with a Tier 1 (33) investor",
+      "top10": [
+        "Bain Capital Ventures"
+      ],
+      "tier1_33": [
+        "Bain Capital Ventures"
+      ],
+      "attioRecordId": "0b99a51b-5bf4-402c-8bc3-8c824be74d65",
+      "hubSetStage": null,
+      "hubAddTags": [
+        "qualified"
+      ],
+      "hubNeeds": [
+        "qualified"
+      ],
+      "attioNeeds": "Qualified"
+    },
+    {
+      "key": "trajectory",
+      "attioKey": "trajectory",
+      "name": "Trajectory",
+      "matchBasis": "key",
+      "series": "Series A",
+      "band": "below_b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": "Radar",
+      "expectedTags": [],
+      "expectedWhy": "below Series B with a Top 10 investor",
+      "top10": [
+        "Sequoia Capital"
+      ],
+      "tier1_33": [
+        "Sequoia Capital"
+      ],
+      "attioRecordId": "7f33bd08-7732-48b7-b9c9-047ebe598823",
+      "hubSetStage": null,
+      "hubAddTags": [
+        "radar"
+      ],
+      "hubNeeds": [
+        "radar"
+      ],
+      "attioNeeds": "Radar"
+    },
+    {
+      "key": "braintrust-software-development-applications",
+      "attioKey": "braintrust",
+      "name": "Braintrust (Software Development Applications)",
+      "matchBasis": "name",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Watchlist",
+      "hubStage": null,
+      "hubTags": [
+        "watchlist",
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "ICONIQ Capital"
+      ],
+      "tier1_33": [
+        "Andreessen Horowitz",
+        "ICONIQ Capital"
+      ],
+      "attioRecordId": "bd7171b7-a222-49e8-81a9-c9332c106cff",
+      "hubSetStage": "qualified",
+      "hubAddTags": [],
+      "hubNeeds": [
+        "qualified"
+      ],
+      "attioNeeds": "Qualified"
+    }
+  ],
+  "humanFiled": [
+    {
+      "key": "airwallex",
+      "attioKey": "airwallex",
+      "name": "Airwallex",
+      "matchBasis": "key",
+      "series": "Series H",
+      "band": "above_b",
+      "attioStage": "Passed",
+      "hubStage": "passed",
+      "hubTags": [
+        "passed",
+        "pipeline"
+      ],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "above Series B but no Tier 1 (33) investor on the cap table",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "d6c14b02-7d9a-411b-90b0-7647fde05124"
+    },
+    {
+      "key": "assorthealth",
+      "attioKey": "assorthealth",
+      "name": "Assort Health",
+      "matchBasis": "key",
+      "series": "Series C",
+      "band": "above_b",
+      "attioStage": "Passed",
+      "hubStage": null,
+      "hubTags": [
+        "passed",
+        "pipeline"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [],
+      "expectedWhy": "above Series B with a Tier 1 (33) investor",
+      "top10": [
+        "Lightspeed Venture Partners"
+      ],
+      "tier1_33": [
+        "Lightspeed Venture Partners",
+        "Menlo Ventures"
+      ],
+      "attioRecordId": "09d1efa4-cab7-42cf-b265-5a4b9fa813b9"
+    },
+    {
+      "key": "bedrockrobotics",
+      "attioKey": "bedrockrobotics",
+      "name": "Bedrock Robotics",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Passed",
+      "hubStage": "passed",
+      "hubTags": [
+        "passed",
+        "pipeline"
+      ],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with no Tier 1 (33) or Top 10 investor",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "46dd6808-8eb7-4f11-adc3-7021b9f5899e"
+    },
+    {
+      "key": "bezi",
+      "attioKey": "bezi",
+      "name": "Bezi",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Passed",
+      "hubStage": "passed",
+      "hubTags": [
+        "passed",
+        "pipeline"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Bessemer Venture Partners"
+      ],
+      "tier1_33": [
+        "Bessemer Venture Partners"
+      ],
+      "attioRecordId": "b9521890-aef2-46f7-bbf5-c3cdf380e192"
+    },
+    {
+      "key": "chipagents",
+      "attioKey": "chipagents",
+      "name": "ChipAgents",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Passed",
+      "hubStage": "passed",
+      "hubTags": [
+        "passed",
+        "pipeline"
+      ],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with no Tier 1 (33) or Top 10 investor",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "b1b9d066-005f-4c88-ac57-0a7b6683831f"
+    },
+    {
+      "key": "cloaked",
+      "attioKey": "cloaked",
+      "name": "Cloaked",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Invested",
+      "hubStage": "passed",
+      "hubTags": [
+        "passed",
+        "pipeline"
+      ],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "General Catalyst"
+      ],
+      "attioRecordId": "04642ebf-7d1f-45a2-ab58-ff302bee3f46"
+    },
+    {
+      "key": "commure",
+      "attioKey": "commure",
+      "name": "Commure",
+      "matchBasis": "key",
+      "series": "Series D",
+      "band": "above_b",
+      "attioStage": "Invested",
+      "hubStage": "passed",
+      "hubTags": [
+        "passed",
+        "pipeline"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [],
+      "expectedWhy": "above Series B with a Tier 1 (33) investor",
+      "top10": [],
+      "tier1_33": [
+        "General Catalyst"
+      ],
+      "attioRecordId": "4cfd23df-b77a-4808-9601-67c30315198c"
+    },
+    {
+      "key": "crusoe",
+      "attioKey": "crusoe",
+      "name": "Crusoe Energy",
+      "matchBasis": "key",
+      "series": "Series E Secondary",
+      "band": "above_b",
+      "attioStage": "Passed",
+      "hubStage": "passed",
+      "hubTags": [
+        "passed",
+        "pipeline"
+      ],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "above Series B but no Tier 1 (33) investor on the cap table",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "86efde29-0006-4c26-8a10-6941bacff3b3"
+    },
+    {
+      "key": "decart",
+      "attioKey": "decart",
+      "name": "Decart.ai",
+      "matchBasis": "key",
+      "series": "Series B Secondary",
+      "band": "b",
+      "attioStage": "Passed",
+      "hubStage": "passed",
+      "hubTags": [
+        "passed",
+        "pipeline"
+      ],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with no Tier 1 (33) or Top 10 investor",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "ef6d2ad3-4b97-4e25-83f3-8e17425b2c1b"
+    },
+    {
+      "key": "erebor",
+      "attioKey": "erebor",
+      "name": "Erebor",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Passed",
+      "hubStage": "passed",
+      "hubTags": [
+        "passed",
+        "pipeline"
+      ],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "Lux Capital"
+      ],
+      "attioRecordId": "5cabf726-174a-4285-8675-d3f6e3855a64"
+    },
+    {
+      "key": "eudia",
+      "attioKey": "eudia",
+      "name": "Eudia",
+      "matchBasis": "key",
+      "series": "Bridge To Series B",
+      "band": "below_b",
+      "attioStage": "Passed",
+      "hubStage": "passed",
+      "hubTags": [
+        "passed",
+        "pipeline"
+      ],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "below Series B with no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "General Catalyst"
+      ],
+      "attioRecordId": "a888cc01-bbb5-4cf0-8a1b-9ae7a4f77e0f"
+    },
+    {
+      "key": "hayden",
+      "attioKey": "hayden",
+      "name": "Hayden AI",
+      "matchBasis": "key",
+      "series": "Series D",
+      "band": "above_b",
+      "attioStage": "Passed",
+      "hubStage": "passed",
+      "hubTags": [
+        "passed",
+        "pipeline"
+      ],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "above Series B but no Tier 1 (33) investor on the cap table",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "3f1ea9ab-dc35-4458-81fa-74e43e4633f8"
+    },
+    {
+      "key": "klir",
+      "attioKey": "klir",
+      "name": "Klir",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Passed",
+      "hubStage": "passed",
+      "hubTags": [
+        "passed",
+        "pipeline"
+      ],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with no Tier 1 (33) or Top 10 investor",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "77ef64c9-d692-4051-8399-1cc33aae1df2"
+    },
+    {
+      "key": "launchfirestorm",
+      "attioKey": "launchfirestorm",
+      "name": "Firestorm",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Passed",
+      "hubStage": "passed",
+      "hubTags": [
+        "passed",
+        "pipeline"
+      ],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with no Tier 1 (33) or Top 10 investor",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "c61ad13a-5aea-4c49-a407-3cb0c668a1af"
+    },
+    {
+      "key": "letter",
+      "attioKey": "letter",
+      "name": "Letter AI",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Passed",
+      "hubStage": "passed",
+      "hubTags": [
+        "passed",
+        "pipeline"
+      ],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "Battery Ventures"
+      ],
+      "attioRecordId": "3b4fc263-37c0-460a-afbb-6f12029bff7f"
+    },
+    {
+      "key": "logicalintelligence",
+      "attioKey": "logicalintelligence",
+      "name": "Coretsu (Logical Intelligence)",
+      "matchBasis": "key",
+      "series": "Bridge To Series B",
+      "band": "below_b",
+      "attioStage": "Passed",
+      "hubStage": "passed",
+      "hubTags": [
+        "passed",
+        "pipeline"
+      ],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "below Series B with no Top 10 investor",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "4e36b389-c82e-49d9-9c32-0280737f5807"
+    },
+    {
+      "key": "maybern",
+      "attioKey": "maybern",
+      "name": "Maybern",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Passed",
+      "hubStage": "passed",
+      "hubTags": [
+        "passed",
+        "pipeline"
+      ],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "Battery Ventures",
+        "Khosla Ventures"
+      ],
+      "attioRecordId": "a0b34b79-f9b1-4cc7-a893-61cb167f7b98"
+    },
+    {
+      "key": "northwoodspace",
+      "attioKey": "northwoodspace",
+      "name": "Northwood",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Passed",
+      "hubStage": "passed",
+      "hubTags": [
+        "passed",
+        "pipeline"
+      ],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with no Tier 1 (33) or Top 10 investor",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "e7744fe0-0682-42a4-8b02-6ce94e9aadb8"
+    },
+    {
+      "key": "parloa",
+      "attioKey": "parloa",
+      "name": "Parloa",
+      "matchBasis": "key",
+      "series": "Series D",
+      "band": "above_b",
+      "attioStage": "Passed",
+      "hubStage": "passed",
+      "hubTags": [
+        "passed",
+        "pipeline"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [],
+      "expectedWhy": "above Series B with a Tier 1 (33) investor",
+      "top10": [],
+      "tier1_33": [
+        "General Catalyst"
+      ],
+      "attioRecordId": "f9bbf768-ead1-4e8e-80bf-908d8e51461f"
+    },
+    {
+      "key": "pepper",
+      "attioKey": "pepper",
+      "name": "Pepper",
+      "matchBasis": "key",
+      "series": "Series C",
+      "band": "above_b",
+      "attioStage": "Passed",
+      "hubStage": "passed",
+      "hubTags": [
+        "passed",
+        "pipeline"
+      ],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "above Series B but no Tier 1 (33) investor on the cap table",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "c5f54670-e907-484a-b40f-d20810bfaf34"
+    },
+    {
+      "key": "periodic",
+      "attioKey": "periodic",
+      "name": "Periodic Labs",
+      "matchBasis": "key",
+      "series": "Series A",
+      "band": "below_b",
+      "attioStage": "Passed",
+      "hubStage": "passed",
+      "hubTags": [
+        "passed",
+        "pipeline"
+      ],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "below Series B with no Top 10 investor",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "be11b672-3427-461b-969d-2ed1fc9064e4"
+    },
+    {
+      "key": "permitflow",
+      "attioKey": "permitflow",
+      "name": "PermitFlow",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Passed",
+      "hubStage": "passed",
+      "hubTags": [
+        "passed",
+        "pipeline"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Accel"
+      ],
+      "tier1_33": [
+        "Accel",
+        "Kleiner Perkins"
+      ],
+      "attioRecordId": "4fbd640a-4d7d-4073-8b9f-b77b0c2a8af2"
+    },
+    {
+      "key": "polymarket",
+      "attioKey": "polymarket",
+      "name": "Polymarket",
+      "matchBasis": "key",
+      "series": "Series D",
+      "band": "above_b",
+      "attioStage": "Invested",
+      "hubStage": "invested",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "above Series B but no Tier 1 (33) investor on the cap table",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "b9b76f8a-00b8-4b49-8d64-cca3e9407e6b"
+    },
+    {
+      "key": "radiantnuclear",
+      "attioKey": "radiantnuclear",
+      "name": "Radiant",
+      "matchBasis": "key",
+      "series": "Series D",
+      "band": "above_b",
+      "attioStage": "Passed",
+      "hubStage": "passed",
+      "hubTags": [
+        "passed",
+        "pipeline"
+      ],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "above Series B but no Tier 1 (33) investor on the cap table",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "49eb2e54-7854-4321-a3c3-aa11f2fc2764"
+    },
+    {
+      "key": "reflection",
+      "attioKey": "reflection",
+      "name": "Reflection AI",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Invested",
+      "hubStage": "invested",
+      "hubTags": [],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Sequoia Capital",
+        "Lightspeed Venture Partners"
+      ],
+      "tier1_33": [
+        "Battery Ventures",
+        "DST Global",
+        "Lightspeed Venture Partners",
+        "Sequoia Capital"
+      ],
+      "attioRecordId": "7e54cdaf-4676-4a63-ba60-8e332dc2c5f9"
+    },
+    {
+      "key": "saronic",
+      "attioKey": "saronic",
+      "name": "Saronic",
+      "matchBasis": "key",
+      "series": "Series D",
+      "band": "above_b",
+      "attioStage": "Invested",
+      "hubStage": "invested",
+      "hubTags": [],
+      "expectedStage": "Qualified",
+      "expectedTags": [],
+      "expectedWhy": "above Series B with a Tier 1 (33) investor",
+      "top10": [
+        "Bessemer Venture Partners"
+      ],
+      "tier1_33": [
+        "8VC",
+        "Andreessen Horowitz",
+        "Bessemer Venture Partners",
+        "Kleiner Perkins"
+      ],
+      "attioRecordId": "428162f6-bc07-4702-a117-5686769fef57"
+    },
+    {
+      "key": "skild",
+      "attioKey": "skild",
+      "name": "Skild AI",
+      "matchBasis": "key",
+      "series": "Series C",
+      "band": "above_b",
+      "attioStage": "Passed",
+      "hubStage": "passed",
+      "hubTags": [
+        "passed",
+        "pipeline"
+      ],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "above Series B but no Tier 1 (33) investor on the cap table",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "293cc090-157d-45a6-a61a-542bfedca6bd"
+    },
+    {
+      "key": "sprouts",
+      "attioKey": "sprouts",
+      "name": "Sprouts.ai",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Passed",
+      "hubStage": "passed",
+      "hubTags": [
+        "passed",
+        "pipeline"
+      ],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with no Tier 1 (33) or Top 10 investor",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "7e13cb53-032c-4424-bd2a-f5cfb060426c"
+    },
+    {
+      "key": "stacklet",
+      "attioKey": "stacklet",
+      "name": "Stacklet",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Passed",
+      "hubStage": "passed",
+      "hubTags": [
+        "passed",
+        "pipeline"
+      ],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with no Tier 1 (33) or Top 10 investor",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "5efef1db-5edd-4bb2-9d43-5382e630ac99"
+    },
+    {
+      "key": "standardbots",
+      "attioKey": "standardbots",
+      "name": "Standard Bots",
+      "matchBasis": "key",
+      "series": "Series C",
+      "band": "above_b",
+      "attioStage": "Passed",
+      "hubStage": "passed",
+      "hubTags": [
+        "passed",
+        "pipeline"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [],
+      "expectedWhy": "above Series B with a Tier 1 (33) investor",
+      "top10": [],
+      "tier1_33": [
+        "General Catalyst"
+      ],
+      "attioRecordId": "051ae111-2f6c-4bc3-98f6-074c26bae957"
+    },
+    {
+      "key": "stepful",
+      "attioKey": "stepful",
+      "name": "Stepful",
+      "matchBasis": "key",
+      "series": "Series C",
+      "band": "above_b",
+      "attioStage": "Passed",
+      "hubStage": "passed",
+      "hubTags": [
+        "passed",
+        "pipeline"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [],
+      "expectedWhy": "above Series B with a Tier 1 (33) investor",
+      "top10": [],
+      "tier1_33": [
+        "Oak HC/FT"
+      ],
+      "attioRecordId": "05ae91ca-0eec-4977-89cf-bf4f3692d9a8"
+    },
+    {
+      "key": "upwind",
+      "attioKey": "upwind",
+      "name": "Upwind Security",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Passed",
+      "hubStage": "passed",
+      "hubTags": [
+        "passed",
+        "pipeline"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Sequoia Capital",
+        "Bessemer Venture Partners"
+      ],
+      "tier1_33": [
+        "Bessemer Venture Partners",
+        "Sequoia Capital",
+        "TCV"
+      ],
+      "attioRecordId": "a0fb24c6-8be3-43af-baba-155dc2c9efb3"
+    },
+    {
+      "key": "varda",
+      "attioKey": "varda",
+      "name": "Varda Space",
+      "matchBasis": "key",
+      "series": "Series D",
+      "band": "above_b",
+      "attioStage": "Passed",
+      "hubStage": "passed",
+      "hubTags": [
+        "passed",
+        "pipeline"
+      ],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "above Series B but no Tier 1 (33) investor on the cap table",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "19e688cb-9aa9-4417-8fc9-c0a0ec56665c"
+    },
+    {
+      "key": "vatnsystems",
+      "attioKey": "vatnsystems",
+      "name": "Vatn",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Passed",
+      "hubStage": "new",
+      "hubTags": [
+        "passed",
+        "pipeline"
+      ],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with no Tier 1 (33) or Top 10 investor",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "de812c7b-ac5c-495b-ab96-f46fcbcbf4bb"
+    }
+  ],
+  "aboveBNoTier33": [
+    {
+      "key": "akidolabs",
+      "attioKey": "akidolabs",
+      "name": "Akido",
+      "matchBasis": "key",
+      "series": "Series C",
+      "band": "above_b",
+      "attioStage": "Target",
+      "hubStage": "new",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "above Series B but no Tier 1 (33) investor on the cap table",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "4158a06b-9f6b-4cf3-9267-45377c65f55c"
+    },
+    {
+      "key": "aspora",
+      "attioKey": "aspora",
+      "name": "Aspora",
+      "matchBasis": "key",
+      "series": "Series C",
+      "band": "above_b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "above Series B but no Tier 1 (33) investor on the cap table",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "c8b27408-5b20-41ae-bf85-9386c1ca1ed9"
+    },
+    {
+      "key": "clay",
+      "attioKey": "clay",
+      "name": "Clay",
+      "matchBasis": "key",
+      "series": "Series D",
+      "band": "above_b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "above Series B but no Tier 1 (33) investor on the cap table",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "121681e8-635a-4cae-a5f6-054d6461be06"
+    },
+    {
+      "key": "coderabbit",
+      "attioKey": "coderabbit",
+      "name": "CodeRabbit",
+      "matchBasis": "key",
+      "series": "Series C",
+      "band": "above_b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "above Series B but no Tier 1 (33) investor on the cap table",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "3c9741b4-877e-4bd3-9d4b-ca181bd30d1c"
+    },
+    {
+      "key": "cornelisnetworks",
+      "attioKey": "cornelisnetworks",
+      "name": "Cornelius Networks",
+      "matchBasis": "key",
+      "series": "Series C",
+      "band": "above_b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "above Series B but no Tier 1 (33) investor on the cap table",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "014bddb8-4e35-4b2e-8550-aea142bf9b6f"
+    },
+    {
+      "key": "falconx",
+      "attioKey": "falconx",
+      "name": "FalconX",
+      "matchBasis": "key",
+      "series": "Series E",
+      "band": "above_b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "above Series B but no Tier 1 (33) investor on the cap table",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "86bdc1bf-fbab-48bc-8723-6f27f79787f5"
+    },
+    {
+      "key": "firestorm",
+      "attioKey": "firestorm",
+      "name": "Firestorm",
+      "matchBasis": "key",
+      "series": "NEA",
+      "band": "above_b",
+      "attioStage": "Watchlist",
+      "hubStage": "watchlist",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "above Series B but no Tier 1 (33) investor on the cap table",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "1209226d-f1f9-4468-a9f3-67cae33ecc14"
+    },
+    {
+      "key": "froresystems",
+      "attioKey": "froresystems",
+      "name": "Frore",
+      "matchBasis": "key",
+      "series": "Series D",
+      "band": "above_b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "above Series B but no Tier 1 (33) investor on the cap table",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "33221f5e-29a3-42fd-a774-59086a33d42e"
+    },
+    {
+      "key": "grafana",
+      "attioKey": "grafana",
+      "name": "Grafana",
+      "matchBasis": "key",
+      "series": "Series C",
+      "band": "above_b",
+      "attioStage": "Target",
+      "hubStage": "new",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "above Series B but no Tier 1 (33) investor on the cap table",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "5facc5cc-0d03-4762-ac9e-453bb7d08467"
+    },
+    {
+      "key": "harbingermotors",
+      "attioKey": "harbingermotors",
+      "name": "Harbinger",
+      "matchBasis": "key",
+      "series": "Series D",
+      "band": "above_b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "above Series B but no Tier 1 (33) investor on the cap table",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "3c23d5d4-6e60-4e9c-9689-0bfce1c35422"
+    },
+    {
+      "key": "inspiren",
+      "attioKey": "inspiren",
+      "name": "Inspiren",
+      "matchBasis": "key",
+      "series": "Series C",
+      "band": "above_b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [
+        "passed",
+        "pipeline"
+      ],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "above Series B but no Tier 1 (33) investor on the cap table",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "39051cc7-3617-462d-a4f0-52f56a5e0201"
+    },
+    {
+      "key": "laurel",
+      "attioKey": "laurel",
+      "name": "Laurel",
+      "matchBasis": "key",
+      "series": "Series D",
+      "band": "above_b",
+      "attioStage": "Target",
+      "hubStage": "new",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "above Series B but no Tier 1 (33) investor on the cap table",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "6e98a9e9-6533-4966-a7d3-0fea1cdb162d"
+    },
+    {
+      "key": "magicschool",
+      "attioKey": "magicschool",
+      "name": "MagicSchool",
+      "matchBasis": "key",
+      "series": "Series C",
+      "band": "above_b",
+      "attioStage": "Target",
+      "hubStage": "new",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "above Series B but no Tier 1 (33) investor on the cap table",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "a0f8e572-165f-4383-aa4f-3761d43cf4ca"
+    },
+    {
+      "key": "numa",
+      "attioKey": "numa",
+      "name": "Numa",
+      "matchBasis": "key",
+      "series": "Series C",
+      "band": "above_b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "above Series B but no Tier 1 (33) investor on the cap table",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "4da15885-ab4f-46a3-a1e1-c6d5f1f4f602"
+    },
+    {
+      "key": "oxio",
+      "attioKey": "oxio",
+      "name": "OXIO",
+      "matchBasis": "key",
+      "series": "Series C",
+      "band": "above_b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "above Series B but no Tier 1 (33) investor on the cap table",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "bdb64327-4964-4334-a068-b67f9a299c6f"
+    },
+    {
+      "key": "path-robotics",
+      "attioKey": "path-robotics",
+      "name": "Path Robotics",
+      "matchBasis": "key",
+      "series": "Series E",
+      "band": "above_b",
+      "attioStage": "Watchlist",
+      "hubStage": "watchlist",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "above Series B but no Tier 1 (33) investor on the cap table",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "5a7bb4bf-af4a-4b81-a61d-46e8d19f06e4"
+    },
+    {
+      "key": "retool",
+      "attioKey": "retool",
+      "name": "Retool",
+      "matchBasis": "key",
+      "series": "Series E",
+      "band": "above_b",
+      "attioStage": "Watchlist",
+      "hubStage": "watchlist",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "above Series B but no Tier 1 (33) investor on the cap table",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "f92f4289-45dc-483d-8b39-f656e7199e9f"
+    }
+  ],
+  "unplacedByRule": [
+    {
+      "key": "aalyria",
+      "attioKey": "aalyria",
+      "name": "Aalyria",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Watchlist",
+      "hubStage": "watchlist",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "Battery Ventures"
+      ],
+      "attioRecordId": "20a6ec41-73a7-4235-b61c-6bb913c75643"
+    },
+    {
+      "key": "aikido",
+      "attioKey": "aikido",
+      "name": "Aikido Security",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "DST Global"
+      ],
+      "attioRecordId": "46483509-6bca-4c6a-ae6a-6ecf38e4b8e8"
+    },
+    {
+      "key": "arch",
+      "attioKey": "arch",
+      "name": "Arch",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "Menlo Ventures",
+        "Oak HC/FT"
+      ],
+      "attioRecordId": "9a70819c-ed58-460d-899c-a041b6ece804"
+    },
+    {
+      "key": "attentive",
+      "attioKey": "attentive",
+      "name": "Attentive (Business/Productivity Software)",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "Insight Partners"
+      ],
+      "attioRecordId": "c324e4f8-2475-45e7-951e-c220236b6ecc"
+    },
+    {
+      "key": "avoca",
+      "attioKey": "avoca",
+      "name": "Avoca",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "General Catalyst",
+        "Kleiner Perkins"
+      ],
+      "attioRecordId": "7ffcc14f-35f3-44b2-acc1-31864938875b"
+    },
+    {
+      "key": "blackbox",
+      "attioKey": "blackbox",
+      "name": "Blackbox",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with no Tier 1 (33) or Top 10 investor",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "13fa35ba-6f18-4c4c-8c89-d153a916521b"
+    },
+    {
+      "key": "bnto",
+      "attioKey": "bnto",
+      "name": "BNTO",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "New Enterprise Associates",
+        "Notable Capital"
+      ],
+      "attioRecordId": "8169d2f3-c78a-4536-b1b0-1f4d09c76f7e"
+    },
+    {
+      "key": "celero",
+      "attioKey": "celero",
+      "name": "Celero",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with no Tier 1 (33) or Top 10 investor",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "c07d5b35-c2c4-4b2b-9c9f-54ac4b1bf697"
+    },
+    {
+      "key": "cerby",
+      "attioKey": "cerby",
+      "name": "Cerby",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with no Tier 1 (33) or Top 10 investor",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "5cf2f581-e430-4600-b2a6-4ad6b8048308"
+    },
+    {
+      "key": "chemify",
+      "attioKey": "chemify",
+      "name": "Chemify",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "8VC",
+        "Insight Partners"
+      ],
+      "attioRecordId": "d85e6ace-5c15-4729-8123-256a31c6e46d"
+    },
+    {
+      "key": "climact-systems",
+      "attioKey": "climact-systems",
+      "name": "ClimAct Systems",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "Andreessen Horowitz"
+      ],
+      "attioRecordId": "b3ed6a31-db6e-48e4-8a02-6f9c5205d0d4"
+    },
+    {
+      "key": "consensus",
+      "attioKey": "consensus",
+      "name": "Consensus.app",
+      "matchBasis": "key",
+      "series": "",
+      "band": "unknown",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "series unknown -- cannot place from the rule",
+      "top10": [],
+      "tier1_33": [
+        "Union Square Ventures"
+      ],
+      "attioRecordId": "4458e1d7-a86b-4dc5-89f3-7065c8d4884d"
+    },
+    {
+      "key": "convex",
+      "attioKey": "convex",
+      "name": "Convex",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "Andreessen Horowitz",
+        "Insight Partners"
+      ],
+      "attioRecordId": "180c23b1-4bbe-4cd2-ad6c-8f4b0d23bb8e"
+    },
+    {
+      "key": "copperlane",
+      "attioKey": "copperlane",
+      "name": "Copperlane",
+      "matchBasis": "key",
+      "series": "Series A",
+      "band": "below_b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "below Series B with no Top 10 investor",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "08de78a4-ded7-4f4b-9864-3d4454c83106"
+    },
+    {
+      "key": "corgi",
+      "attioKey": "corgi",
+      "name": "Corgi",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Watchlist",
+      "hubStage": "watchlist",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "TCV"
+      ],
+      "attioRecordId": "6e375102-abba-4986-82db-e52f811135ea"
+    },
+    {
+      "key": "cosmiclabs",
+      "attioKey": "cosmiclabs",
+      "name": "Cosmic Labs",
+      "matchBasis": "key",
+      "series": "Series A",
+      "band": "below_b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "below Series B with no Top 10 investor",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "e91d068f-3947-4c16-8680-93217127dfbf"
+    },
+    {
+      "key": "courierhealth",
+      "attioKey": "courierhealth",
+      "name": "Courier Health",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "Oak HC/FT"
+      ],
+      "attioRecordId": "f2263d75-c44d-471a-96fa-14e2da729d11"
+    },
+    {
+      "key": "cusp",
+      "attioKey": "cusp",
+      "name": "CuspAI",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "Kleiner Perkins",
+        "Lux Capital",
+        "New Enterprise Associates"
+      ],
+      "attioRecordId": "fe829c31-06ea-42fb-bbc6-a194d1bb9fcc"
+    },
+    {
+      "key": "databahn",
+      "attioKey": "databahn",
+      "name": "DataBahn",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Radar",
+      "hubStage": "qualified",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "Insight Partners"
+      ],
+      "attioRecordId": "daebba47-3a9d-4bad-8539-066783dc135c"
+    },
+    {
+      "key": "databento",
+      "attioKey": "databento",
+      "name": "Databento",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": null,
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "New Enterprise Associates"
+      ],
+      "attioRecordId": "a68ef637-fb8e-4316-992f-5db15bd70034"
+    },
+    {
+      "key": "deepinfra",
+      "attioKey": "deepinfra",
+      "name": "DeepInfra",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with no Tier 1 (33) or Top 10 investor",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "1669f5f1-adf2-4cd5-8296-f9cd8e1fb341"
+    },
+    {
+      "key": "depthfirst",
+      "attioKey": "depthfirst",
+      "name": "Depthfirst",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with no Tier 1 (33) or Top 10 investor",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "b26814e6-68a6-405a-be82-9ac5052c7c4e"
+    },
+    {
+      "key": "dili",
+      "attioKey": "dili",
+      "name": "Dili",
+      "matchBasis": "key",
+      "series": "Series A",
+      "band": "below_b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "below Series B with no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "Khosla Ventures"
+      ],
+      "attioRecordId": "a060b2a9-0c0b-4c64-aeac-1b0cc9b17e54"
+    },
+    {
+      "key": "doss",
+      "attioKey": "doss",
+      "name": "Doss",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "General Catalyst"
+      ],
+      "attioRecordId": "ac221272-4e61-457e-b965-49f294e184af"
+    },
+    {
+      "key": "draftwise",
+      "attioKey": "draftwise",
+      "name": "Draftwise",
+      "matchBasis": "key",
+      "series": "",
+      "band": "unknown",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "series unknown -- cannot place from the rule",
+      "top10": [
+        "Index Ventures"
+      ],
+      "tier1_33": [
+        "Index Ventures"
+      ],
+      "attioRecordId": "15aa68ae-db0e-4cec-b8b1-f716b71ef6b5"
+    },
+    {
+      "key": "eridu",
+      "attioKey": "eridu",
+      "name": "Eridu",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with no Tier 1 (33) or Top 10 investor",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "7a362b84-bb7e-40be-9d7c-48dad559a681"
+    },
+    {
+      "key": "firecrawl",
+      "attioKey": "firecrawl",
+      "name": "Firecrawl",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with no Tier 1 (33) or Top 10 investor",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "7ff4aef0-b013-44d4-91c3-77bd5cc0dfd8"
+    },
+    {
+      "key": "functionhealth",
+      "attioKey": "functionhealth",
+      "name": "Function Health",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "Andreessen Horowitz",
+        "Battery Ventures",
+        "Menlo Ventures"
+      ],
+      "attioRecordId": "223db577-10f1-4481-86c6-21b56c12262a"
+    },
+    {
+      "key": "fundamentalresearchlabs",
+      "attioKey": "fundamentalresearchlabs",
+      "name": "Fundamental Research Labs",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with no Tier 1 (33) or Top 10 investor",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "f60c22d8-adaf-45b7-afc9-433c2f1b1934"
+    },
+    {
+      "key": "fyxer",
+      "attioKey": "fyxer",
+      "name": "Fyxer AI",
+      "matchBasis": "key",
+      "series": "",
+      "band": "unknown",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "series unknown -- cannot place from the rule",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "0bb1dfb3-fbdb-4a5f-831b-61ae9180b18c"
+    },
+    {
+      "key": "generalintuition",
+      "attioKey": "generalintuition",
+      "name": "General Intuition",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "General Catalyst",
+        "Insight Partners",
+        "Khosla Ventures"
+      ],
+      "attioRecordId": "8bb0405a-9a78-4b49-bfb8-e2cfed10d05f"
+    },
+    {
+      "key": "generalistai",
+      "attioKey": "generalistai",
+      "name": "Generalist",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "8VC",
+        "Union Square Ventures"
+      ],
+      "attioRecordId": "7d6c12f0-cbfe-4ce3-b1d7-e1c9d904e71e"
+    },
+    {
+      "key": "generalmatter",
+      "attioKey": "generalmatter",
+      "name": "General Matter",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with no Tier 1 (33) or Top 10 investor",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "61870047-109d-4472-a3b6-b3d0bdc30ec3"
+    },
+    {
+      "key": "genlogs",
+      "attioKey": "genlogs",
+      "name": "GenLogs",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "Battery Ventures",
+        "IVP"
+      ],
+      "attioRecordId": "d46115f6-23d7-4223-a53b-d5f033eb66fa"
+    },
+    {
+      "key": "gimletlabs",
+      "attioKey": "gimletlabs",
+      "name": "Gimlet Labs",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "Menlo Ventures"
+      ],
+      "attioRecordId": "186efc6e-5c2f-4586-b1d2-0df7ae5f2e08"
+    },
+    {
+      "key": "greenlite",
+      "attioKey": "greenlite",
+      "name": "GreenLite Technologies",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "Insight Partners"
+      ],
+      "attioRecordId": "35c26adc-1d68-4180-960c-da98a55359cb"
+    },
+    {
+      "key": "harmonic",
+      "attioKey": "harmonic",
+      "name": "Harmonic Security",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with no Tier 1 (33) or Top 10 investor",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "5e21a89b-65de-4cc1-80ff-23236aa43934"
+    },
+    {
+      "key": "heronpower",
+      "attioKey": "heronpower",
+      "name": "Heron Power",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "Andreessen Horowitz"
+      ],
+      "attioRecordId": "3c24f391-61f3-4a9b-a1a2-ff95d903aa43"
+    },
+    {
+      "key": "heypocket",
+      "attioKey": "heypocket",
+      "name": "Pocket",
+      "matchBasis": "key",
+      "series": "",
+      "band": "unknown",
+      "attioStage": "Radar",
+      "hubStage": null,
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "series unknown -- cannot place from the rule",
+      "top10": [
+        "Accel"
+      ],
+      "tier1_33": [
+        "Accel"
+      ],
+      "attioRecordId": "99e81355-8152-4d98-bcf3-2093eab81510"
+    },
+    {
+      "key": "humanly",
+      "attioKey": "humanly",
+      "name": "Humanly",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Target",
+      "hubStage": "new",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with no Tier 1 (33) or Top 10 investor",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "cf194b7e-ba15-43e4-b4a5-5e5c9d5c1a0b"
+    },
+    {
+      "key": "instinct",
+      "attioKey": "instinct",
+      "name": "Instinct",
+      "matchBasis": "key",
+      "series": "",
+      "band": "unknown",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "series unknown -- cannot place from the rule",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "9c52648a-b889-49db-91b5-8bc5c346a6c0"
+    },
+    {
+      "key": "jump",
+      "attioKey": "jump",
+      "name": "Jump",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "new",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "Battery Ventures",
+        "Insight Partners"
+      ],
+      "attioRecordId": "c9fd9c52-f9bd-4a6e-a231-24c053ee317c"
+    },
+    {
+      "key": "liberateinc",
+      "attioKey": "liberateinc",
+      "name": "Liberate Innovations",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "Battery Ventures"
+      ],
+      "attioRecordId": "31035304-1a79-4d51-ad5c-47142ff5faae"
+    },
+    {
+      "key": "lighter",
+      "attioKey": "lighter",
+      "name": "Lighter (Financial Software)",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "8VC",
+        "Andreessen Horowitz",
+        "Founders Fund",
+        "Ribbit Capital"
+      ],
+      "attioRecordId": "7b9cb268-6c27-46ab-8271-079f72d86d40"
+    },
+    {
+      "key": "lila",
+      "attioKey": "lila",
+      "name": "Lila Sciences",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "General Catalyst"
+      ],
+      "attioRecordId": "3486b892-217e-4bdc-890e-02edfcdd5e37"
+    },
+    {
+      "key": "lyzr",
+      "attioKey": "lyzr",
+      "name": "Lyzr.ai",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with no Tier 1 (33) or Top 10 investor",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "7d344d5a-0866-4886-b2f0-022bf6c569ac"
+    },
+    {
+      "key": "magnusmedical",
+      "attioKey": "magnusmedical",
+      "name": "Magnus Medical",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "Khosla Ventures"
+      ],
+      "attioRecordId": "75f72862-f1af-4b5b-aa1b-06534606a7f5"
+    },
+    {
+      "key": "micro1",
+      "attioKey": "micro1",
+      "name": "MicroOne",
+      "matchBasis": "key",
+      "series": "Pre-B SAFE",
+      "band": "below_b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "below Series B with no Top 10 investor",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "157fabd7-e88b-4f20-bdce-119f10ce3cc9"
+    },
+    {
+      "key": "modretro",
+      "attioKey": "modretro",
+      "name": "ModRetro",
+      "matchBasis": "key",
+      "series": "Early Stage VC",
+      "band": "below_b",
+      "attioStage": "Watchlist",
+      "hubStage": "watchlist",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "below Series B with no Top 10 investor",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "eae5f422-c833-40bc-9e81-63647e4e53b4"
+    },
+    {
+      "key": "monumental",
+      "attioKey": "monumental",
+      "name": "Monumental (Hardware)",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "Khosla Ventures"
+      ],
+      "attioRecordId": "61d44515-625b-4dcf-8615-b34fd5a9513d"
+    },
+    {
+      "key": "mynucleus",
+      "attioKey": "mynucleus",
+      "name": "Nucleus Genomics",
+      "matchBasis": "key",
+      "series": "",
+      "band": "unknown",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "series unknown -- cannot place from the rule",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "b7809c78-44e6-4f39-8183-250aab914398"
+    },
+    {
+      "key": "namespace",
+      "attioKey": "namespace",
+      "name": "Namespace",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with no Tier 1 (33) or Top 10 investor",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "1dfdc35f-ff28-4c4f-acda-381483728e6e"
+    },
+    {
+      "key": "newcore",
+      "attioKey": "newcore",
+      "name": "Newcore",
+      "matchBasis": "key",
+      "series": "Series A",
+      "band": "below_b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "below Series B with no Top 10 investor",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "0192090f-55d9-43f8-878b-d79c10c39914"
+    },
+    {
+      "key": "noah-labs",
+      "attioKey": "noah-labs",
+      "name": "Noah Labs",
+      "matchBasis": "key",
+      "series": "Series A",
+      "band": "below_b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "below Series B with no Top 10 investor",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "2af2fa71-d1be-4901-98b1-60b4b18f1c5d"
+    },
+    {
+      "key": "nousresearch",
+      "attioKey": "nousresearch",
+      "name": "nous research",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Pipeline",
+      "hubStage": null,
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with no Tier 1 (33) or Top 10 investor",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "8ea1785a-d8a2-4b7e-8806-5709f3484e14"
+    },
+    {
+      "key": "ollin",
+      "attioKey": "ollin",
+      "name": "Ollin",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": null,
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "Andreessen Horowitz"
+      ],
+      "attioRecordId": "f7c9506b-88b9-4109-9563-3b0b3179532f"
+    },
+    {
+      "key": "omnea",
+      "attioKey": "omnea",
+      "name": "Omnea",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "Insight Partners",
+        "Khosla Ventures"
+      ],
+      "attioRecordId": "b86c9dcb-d234-422c-a2ab-882d423bad11"
+    },
+    {
+      "key": "orbem",
+      "attioKey": "orbem",
+      "name": "Orbem",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "General Catalyst"
+      ],
+      "attioRecordId": "227e7278-79b0-4394-8c5b-7e3f406dc7fb"
+    },
+    {
+      "key": "osmo",
+      "attioKey": "osmo",
+      "name": "Osmo Labs",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with no Tier 1 (33) or Top 10 investor",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "c966e757-e52e-4b0e-8d41-ed7e915afbe8"
+    },
+    {
+      "key": "panthalassa",
+      "attioKey": "panthalassa",
+      "name": "Panthalassa",
+      "matchBasis": "key",
+      "series": "Series B SAFE",
+      "band": "b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with no Tier 1 (33) or Top 10 investor",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "9c3ddd16-4f27-4959-8758-32f74a334b13"
+    },
+    {
+      "key": "primeattorneys",
+      "attioKey": "primeattorneys",
+      "name": "Prime Attorneys",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "Andreessen Horowitz"
+      ],
+      "attioRecordId": "8e2f9966-d6bb-49ed-a7aa-b2b4b5af1bfb"
+    },
+    {
+      "key": "primeintellect",
+      "attioKey": "primeintellect",
+      "name": "Prime Intellect",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Target",
+      "hubStage": "new",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with no Tier 1 (33) or Top 10 investor",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "83546a1d-cb4e-452e-83e1-3f470732c95f"
+    },
+    {
+      "key": "project-prometheus",
+      "attioKey": "project-prometheus",
+      "name": "Project Prometheus",
+      "matchBasis": "key",
+      "series": "Early Stage VC",
+      "band": "below_b",
+      "attioStage": "Watchlist",
+      "hubStage": "watchlist",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "below Series B with no Top 10 investor",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "315aecae-a6fa-4598-8c0f-632cdec14ab1"
+    },
+    {
+      "key": "quaise",
+      "attioKey": "quaise",
+      "name": "Quaise Energy",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with no Tier 1 (33) or Top 10 investor",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "46c06171-8871-4a97-8e97-e3ebb43d8ce5"
+    },
+    {
+      "key": "qualifiedhealthai",
+      "attioKey": "qualifiedhealthai",
+      "name": "Qualified Health",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "Menlo Ventures",
+        "New Enterprise Associates"
+      ],
+      "attioRecordId": "f169b030-6584-4aee-ad96-b934219a2b29"
+    },
+    {
+      "key": "r3alm",
+      "attioKey": "r3alm",
+      "name": "Capital R3alm",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "Andreessen Horowitz"
+      ],
+      "attioRecordId": "f86731d2-f690-44a1-b442-7f778146eb2c"
+    },
+    {
+      "key": "roboflow",
+      "attioKey": "roboflow",
+      "name": "RoboFlow",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with no Tier 1 (33) or Top 10 investor",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "9f7308ae-b113-4ae1-868d-2c753b4a851e"
+    },
+    {
+      "key": "silicondata",
+      "attioKey": "silicondata",
+      "name": "Silicondata",
+      "matchBasis": "key",
+      "series": "Series A",
+      "band": "below_b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "below Series B with no Top 10 investor",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "d3a6f7b5-c5b0-40c6-a1e0-4ebc2ff0901b"
+    },
+    {
+      "key": "slide",
+      "attioKey": "slide",
+      "name": "Slide",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "General Catalyst"
+      ],
+      "attioRecordId": "3214a8d7-67a7-457b-aa1f-fccaec6200c1"
+    },
+    {
+      "key": "spade",
+      "attioKey": "spade",
+      "name": "Spade Data",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "Andreessen Horowitz",
+        "Oak HC/FT"
+      ],
+      "attioRecordId": "180c86a3-d11f-4a23-9aab-771b8f868b76"
+    },
+    {
+      "key": "supio",
+      "attioKey": "supio",
+      "name": "Supio",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Target",
+      "hubStage": "new",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with no Tier 1 (33) or Top 10 investor",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "14dcb19a-8177-4507-a0fb-186a2cda81ef"
+    },
+    {
+      "key": "tavily",
+      "attioKey": "tavily",
+      "name": "Tavily",
+      "matchBasis": "key",
+      "series": "",
+      "band": "unknown",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "series unknown -- cannot place from the rule",
+      "top10": [],
+      "tier1_33": [
+        "Insight Partners"
+      ],
+      "attioRecordId": "2cc41596-9c92-43ef-be36-56e148a516ac"
+    },
+    {
+      "key": "taxfyle",
+      "attioKey": "taxfyle",
+      "name": "Taxfyle",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with no Tier 1 (33) or Top 10 investor",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "6285f7b0-9f12-4239-bfe7-3fb8afe24ed9"
+    },
+    {
+      "key": "temperobio",
+      "attioKey": "temperobio",
+      "name": "Tempero Bio",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "8VC",
+        "Khosla Ventures"
+      ],
+      "attioRecordId": "e79b129f-7808-49bf-8818-7e63f121473b"
+    },
+    {
+      "key": "tenkara",
+      "attioKey": "tenkara",
+      "name": "Tenkara Labs",
+      "matchBasis": "key",
+      "series": "Series A",
+      "band": "below_b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "below Series B with no Top 10 investor",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "38df87ff-ff1c-4620-a2e8-e30aa21af702"
+    },
+    {
+      "key": "triomics",
+      "attioKey": "triomics",
+      "name": "Triomics",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "Battery Ventures",
+        "General Catalyst"
+      ],
+      "attioRecordId": "b1494921-150b-4d61-8d74-9f098efd06e3"
+    },
+    {
+      "key": "tryglimpse",
+      "attioKey": "tryglimpse",
+      "name": "Glimpse",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "8VC",
+        "Andreessen Horowitz"
+      ],
+      "attioRecordId": "700fe9ce-242e-4e9a-8340-d81bc68afd81"
+    },
+    {
+      "key": "up",
+      "attioKey": "up",
+      "name": "Upcodes",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with no Tier 1 (33) or Top 10 investor",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "72dc329e-0d4f-41d6-b41d-3c19c3ab9270"
+    },
+    {
+      "key": "vapi",
+      "attioKey": "vapi",
+      "name": "Vapi",
+      "matchBasis": "key",
+      "series": "",
+      "band": "unknown",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "series unknown -- cannot place from the rule",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "41195741-98ba-4f3c-a8de-70353cb4e066"
+    },
+    {
+      "key": "waldenrobotics",
+      "attioKey": "waldenrobotics",
+      "name": "Walden Robotics",
+      "matchBasis": "key",
+      "series": "Seed",
+      "band": "below_b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "below Series B with no Top 10 investor",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "2674918a-71cc-4e33-b884-d16ac3c3b026"
+    },
+    {
+      "key": "warp",
+      "attioKey": "warp",
+      "name": "Warp",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": null,
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "Battery Ventures"
+      ],
+      "attioRecordId": "b4bdc6c2-0882-4237-a87c-785e381f5c47"
+    },
+    {
+      "key": "wealth",
+      "attioKey": "wealth",
+      "name": "Wealth.com",
+      "matchBasis": "key",
+      "series": "",
+      "band": "unknown",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "series unknown -- cannot place from the rule",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "34ab2b01-0f3e-4321-b8ea-1b44f8eb1769"
+    },
+    {
+      "key": "windbornesystems",
+      "attioKey": "windbornesystems",
+      "name": "WindBorne Systems",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "Khosla Ventures",
+        "Lux Capital"
+      ],
+      "attioRecordId": "b37ff62c-f1e6-48ce-935d-f51f1e37678e"
+    },
+    {
+      "key": "withpulley",
+      "attioKey": "withpulley",
+      "name": "Pulley",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with no Tier 1 (33) or Top 10 investor",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "255020a0-cfdc-468b-8d83-292e9b07e3bf"
+    },
+    {
+      "key": "withsable",
+      "attioKey": "withsable",
+      "name": "Sable AI",
+      "matchBasis": "key",
+      "series": "",
+      "band": "unknown",
+      "attioStage": "Radar",
+      "hubStage": "qualified",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "series unknown -- cannot place from the rule",
+      "top10": [
+        "Sequoia Capital"
+      ],
+      "tier1_33": [
+        "8VC",
+        "Sequoia Capital"
+      ],
+      "attioRecordId": "ae22fc35-ca00-497e-95b4-eaa52d9a97aa"
+    },
+    {
+      "key": "withsunbeam",
+      "attioKey": "withsunbeam",
+      "name": "Sunbeam",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with no Tier 1 (33) or Top 10 investor",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "f53d0df4-8fa1-4805-b64b-e9e18a9558af"
+    },
+    {
+      "key": "xbow",
+      "attioKey": "xbow",
+      "name": "Xbow",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Target",
+      "hubStage": "new",
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with no Tier 1 (33) or Top 10 investor",
+      "top10": [],
+      "tier1_33": [],
+      "attioRecordId": "7bba9403-9faf-4de9-bfce-e22d862fc0d3"
+    }
+  ],
+  "unplacedReasons": {
+    "Series B with a Tier 1 (33) but no Top 10 investor": 41,
+    "Series B with no Tier 1 (33) or Top 10 investor": 25,
+    "series unknown -- cannot place from the rule": 10,
+    "below Series B with no Top 10 investor": 11
+  },
+  "seriesBTop10": [
+    {
+      "key": "actively",
+      "attioKey": "actively",
+      "name": "Actively AI",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Target",
+      "hubStage": "new",
+      "hubTags": [],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Bain Capital Ventures"
+      ],
+      "tier1_33": [
+        "Bain Capital Ventures",
+        "TCV"
+      ],
+      "attioRecordId": "307d4931-b5b6-4e2c-a1b0-995c9776d274",
+      "hubSetStage": "qualified",
+      "hubAddTags": [
+        "radar"
+      ],
+      "hubNeeds": [
+        "qualified",
+        "radar"
+      ],
+      "attioNeeds": "Qualified"
+    },
+    {
+      "key": "amca",
+      "attioKey": "amca",
+      "name": "Advanced Manufacturing Company of America",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Pipeline",
+      "hubStage": "qualified",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Lightspeed Venture Partners"
+      ],
+      "tier1_33": [
+        "Andreessen Horowitz",
+        "Founders Fund",
+        "Lightspeed Venture Partners",
+        "Lux Capital"
+      ],
+      "attioRecordId": "7c459807-6e0f-41a6-929e-fa2fc6fe1b34",
+      "hubSetStage": null,
+      "hubAddTags": [],
+      "hubNeeds": [],
+      "attioNeeds": "Qualified"
+    },
+    {
+      "key": "castelion",
+      "attioKey": "castelion",
+      "name": "Castelion",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Lightspeed Venture Partners"
+      ],
+      "tier1_33": [
+        "Andreessen Horowitz",
+        "General Catalyst",
+        "Lightspeed Venture Partners"
+      ],
+      "attioRecordId": "21e55fcc-742c-4f92-9f4d-894a750b8e2b",
+      "hubSetStage": null,
+      "hubAddTags": [
+        "qualified",
+        "radar"
+      ],
+      "hubNeeds": [
+        "qualified",
+        "radar"
+      ],
+      "attioNeeds": null
+    },
+    {
+      "key": "forus",
+      "attioKey": "forus",
+      "name": "Forus (Healthcare Technology Systems)",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Watchlist",
+      "hubStage": "watchlist",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Accel",
+        "Thrive Capital",
+        "Bain Capital Ventures"
+      ],
+      "tier1_33": [
+        "Accel",
+        "Bain Capital Ventures",
+        "General Catalyst",
+        "Thrive Capital"
+      ],
+      "attioRecordId": "43ebbeee-6839-4cd3-b52a-62d63daa0db4",
+      "hubSetStage": null,
+      "hubAddTags": [
+        "qualified"
+      ],
+      "hubNeeds": [
+        "qualified"
+      ],
+      "attioNeeds": "Qualified"
+    },
+    {
+      "key": "glow",
+      "attioKey": "glow",
+      "name": "Glow",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "radar",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Sequoia Capital",
+        "Index Ventures",
+        "Greenoaks Capital Partners"
+      ],
+      "tier1_33": [
+        "Index Ventures",
+        "Lux Capital",
+        "Sequoia Capital"
+      ],
+      "attioRecordId": "19e76371-be52-4cb1-9118-75fd1c82506f",
+      "hubSetStage": null,
+      "hubAddTags": [
+        "qualified"
+      ],
+      "hubNeeds": [
+        "qualified"
+      ],
+      "attioNeeds": null
+    },
+    {
+      "key": "higgsfield",
+      "attioKey": "higgsfield",
+      "name": "Higgsfield",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Accel"
+      ],
+      "tier1_33": [
+        "Accel"
+      ],
+      "attioRecordId": "6795dffc-8784-47b9-8660-ff38e4a60cd1",
+      "hubSetStage": null,
+      "hubAddTags": [
+        "qualified",
+        "radar"
+      ],
+      "hubNeeds": [
+        "qualified",
+        "radar"
+      ],
+      "attioNeeds": "Qualified"
+    },
+    {
+      "key": "mintlify",
+      "attioKey": "mintlify",
+      "name": "Mintlify",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Target",
+      "hubStage": "new",
+      "hubTags": [],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Bain Capital Ventures"
+      ],
+      "tier1_33": [
+        "Andreessen Horowitz",
+        "Bain Capital Ventures",
+        "DST Global"
+      ],
+      "attioRecordId": "1002ca4c-6a5c-4217-ae98-e6d47f02ae28",
+      "hubSetStage": "qualified",
+      "hubAddTags": [
+        "radar"
+      ],
+      "hubNeeds": [
+        "qualified",
+        "radar"
+      ],
+      "attioNeeds": "Qualified"
+    },
+    {
+      "key": "monaco",
+      "attioKey": "monaco",
+      "name": "Monaco (Business/Productivity Software)",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Watchlist",
+      "hubStage": "watchlist",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Benchmark",
+        "Greenoaks Capital Partners"
+      ],
+      "tier1_33": [
+        "Founders Fund"
+      ],
+      "attioRecordId": "686c35b6-153f-4c2d-b769-6454ff2d5cfa",
+      "hubSetStage": null,
+      "hubAddTags": [
+        "qualified"
+      ],
+      "hubNeeds": [
+        "qualified"
+      ],
+      "attioNeeds": "Qualified"
+    },
+    {
+      "key": "ollama",
+      "attioKey": "ollama",
+      "name": "Ollama",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Watchlist",
+      "hubStage": "radar",
+      "hubTags": [
+        "pipeline"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Benchmark"
+      ],
+      "tier1_33": [
+        "8VC"
+      ],
+      "attioRecordId": "a729c818-e0a4-43e7-805e-c4416e3f247a",
+      "hubSetStage": null,
+      "hubAddTags": [
+        "qualified"
+      ],
+      "hubNeeds": [
+        "qualified"
+      ],
+      "attioNeeds": "Qualified"
+    },
+    {
+      "key": "onyx",
+      "attioKey": "onyx",
+      "name": "Onyx",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Radar",
+      "hubStage": "pipeline",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Bessemer Venture Partners"
+      ],
+      "tier1_33": [
+        "Bessemer Venture Partners",
+        "TCV"
+      ],
+      "attioRecordId": "3c49ab5b-ed4d-4aba-9e93-b05c291855fa",
+      "hubSetStage": null,
+      "hubAddTags": [
+        "qualified"
+      ],
+      "hubNeeds": [
+        "qualified"
+      ],
+      "attioNeeds": "Qualified"
+    },
+    {
+      "key": "parallel",
+      "attioKey": "parallel",
+      "name": "Parallel",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Watchlist",
+      "hubStage": "watchlist",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Sequoia Capital",
+        "Index Ventures"
+      ],
+      "tier1_33": [
+        "Index Ventures",
+        "Khosla Ventures",
+        "Kleiner Perkins",
+        "Sequoia Capital"
+      ],
+      "attioRecordId": "f92b6720-cde7-4a58-955b-70542e3fcfbc",
+      "hubSetStage": null,
+      "hubAddTags": [
+        "qualified"
+      ],
+      "hubNeeds": [
+        "qualified"
+      ],
+      "attioNeeds": "Qualified"
+    },
+    {
+      "key": "pi",
+      "attioKey": "pi",
+      "name": "Pi Security",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Index Ventures",
+        "ICONIQ Capital",
+        "Thrive Capital"
+      ],
+      "tier1_33": [
+        "Index Ventures",
+        "Lux Capital",
+        "Thrive Capital"
+      ],
+      "attioRecordId": "c57f28d0-5274-4aa3-a6df-081faee60766",
+      "hubSetStage": null,
+      "hubAddTags": [
+        "radar"
+      ],
+      "hubNeeds": [
+        "radar"
+      ],
+      "attioNeeds": null
+    },
+    {
+      "key": "revel",
+      "attioKey": "revel",
+      "name": "Revel (Business/Productivity Software)",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Pipeline",
+      "hubStage": "pipeline",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Index Ventures",
+        "Thrive Capital"
+      ],
+      "tier1_33": [
+        "Index Ventures",
+        "Thrive Capital"
+      ],
+      "attioRecordId": "e084d08b-8bf4-4ee8-94fe-1b5a61bbf914",
+      "hubSetStage": null,
+      "hubAddTags": [
+        "qualified"
+      ],
+      "hubNeeds": [
+        "qualified"
+      ],
+      "attioNeeds": "Qualified"
+    },
+    {
+      "key": "simile",
+      "attioKey": "simile",
+      "name": "Simile",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Radar",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Index Ventures",
+        "Bain Capital Ventures",
+        "Greenoaks Capital Partners"
+      ],
+      "tier1_33": [
+        "Bain Capital Ventures",
+        "Index Ventures"
+      ],
+      "attioRecordId": "a33bbc68-9b61-4b31-90e2-5c98fc181a0f",
+      "hubSetStage": null,
+      "hubAddTags": [
+        "qualified",
+        "radar"
+      ],
+      "hubNeeds": [
+        "qualified",
+        "radar"
+      ],
+      "attioNeeds": "Qualified"
+    },
+    {
+      "key": "braintrust-software-development-applications",
+      "attioKey": "braintrust",
+      "name": "Braintrust (Software Development Applications)",
+      "matchBasis": "name",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Watchlist",
+      "hubStage": null,
+      "hubTags": [
+        "watchlist",
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "ICONIQ Capital"
+      ],
+      "tier1_33": [
+        "Andreessen Horowitz",
+        "ICONIQ Capital"
+      ],
+      "attioRecordId": "bd7171b7-a222-49e8-81a9-c9332c106cff",
+      "hubSetStage": "qualified",
+      "hubAddTags": [],
+      "hubNeeds": [
+        "qualified"
+      ],
+      "attioNeeds": "Qualified"
+    },
+    {
+      "key": "altaclaro",
+      "attioKey": "altaclaro",
+      "name": "AltaClaro",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Bessemer Venture Partners"
+      ],
+      "tier1_33": [
+        "Bessemer Venture Partners"
+      ],
+      "attioRecordId": "d8d84c4f-3baa-4054-bbe8-0077fbe05519"
+    },
+    {
+      "key": "archy",
+      "attioKey": "archy",
+      "name": "Archy",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Bessemer Venture Partners"
+      ],
+      "tier1_33": [
+        "Bessemer Venture Partners",
+        "TCV"
+      ],
+      "attioRecordId": "82a421e4-7874-4beb-9168-9d2057cf1c16"
+    },
+    {
+      "key": "astrocade",
+      "attioKey": "astrocade",
+      "name": "Astrocade",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Sequoia Capital"
+      ],
+      "tier1_33": [
+        "Sequoia Capital"
+      ],
+      "attioRecordId": "511eb8bf-9480-4de3-9186-fc04e2912b60"
+    },
+    {
+      "key": "auterion",
+      "attioKey": "auterion",
+      "name": "Auterion",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Bessemer Venture Partners"
+      ],
+      "tier1_33": [
+        "Bessemer Venture Partners"
+      ],
+      "attioRecordId": "9a110902-a1a0-4e4f-8812-17c19cb4c772"
+    },
+    {
+      "key": "bfl",
+      "attioKey": "bfl",
+      "name": "Black Forest Labs",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Bain Capital Ventures"
+      ],
+      "tier1_33": [
+        "Andreessen Horowitz",
+        "General Catalyst",
+        "Lux Capital"
+      ],
+      "attioRecordId": "0ab6a659-0747-452a-9f28-5a404760888e"
+    },
+    {
+      "key": "bunkerhillhealth",
+      "attioKey": "bunkerhillhealth",
+      "name": "Bunkerhill Health",
+      "matchBasis": "key",
+      "series": "Series B1",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Sequoia Capital"
+      ],
+      "tier1_33": [
+        "Khosla Ventures",
+        "Sequoia Capital"
+      ],
+      "attioRecordId": "27d80f5d-790d-484b-897e-0a63f04049c7"
+    },
+    {
+      "key": "campfire",
+      "attioKey": "campfire",
+      "name": "Campfire (Financial Software)",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Accel"
+      ],
+      "tier1_33": [
+        "Accel",
+        "Ribbit Capital"
+      ],
+      "attioRecordId": "5b476eb3-0eec-47c0-b14a-1fb05d9efb7b"
+    },
+    {
+      "key": "cowboyspace",
+      "attioKey": "cowboyspace",
+      "name": "Cowboy Space",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Index Ventures"
+      ],
+      "tier1_33": [
+        "Andreessen Horowitz",
+        "IVP",
+        "Index Ventures"
+      ],
+      "attioRecordId": "295a9e4a-b0cd-491c-bbbf-9b56f29ab981"
+    },
+    {
+      "key": "distyl",
+      "attioKey": "distyl",
+      "name": "Distyl AI",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Lightspeed Venture Partners"
+      ],
+      "tier1_33": [
+        "Coatue Management",
+        "DST Global",
+        "Khosla Ventures",
+        "Lightspeed Venture Partners"
+      ],
+      "attioRecordId": "02f35177-53f3-4d76-bb7b-f0b0b6193431"
+    },
+    {
+      "key": "emergent",
+      "attioKey": "emergent",
+      "name": "Emergent (Software Development Applications)",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Lightspeed Venture Partners"
+      ],
+      "tier1_33": [
+        "Khosla Ventures",
+        "Lightspeed Venture Partners"
+      ],
+      "attioRecordId": "f7030884-3576-4d25-b03d-ccd6c9939ccd"
+    },
+    {
+      "key": "evervault",
+      "attioKey": "evervault",
+      "name": "Evervault",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Sequoia Capital",
+        "Index Ventures"
+      ],
+      "tier1_33": [
+        "Index Ventures",
+        "Kleiner Perkins",
+        "Ribbit Capital",
+        "Sequoia Capital"
+      ],
+      "attioRecordId": "e66b3a92-73b1-431c-82dd-ce8c384b7bb1"
+    },
+    {
+      "key": "exuglobal",
+      "attioKey": "exuglobal",
+      "name": "EXUGlobal",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Sequoia Capital"
+      ],
+      "tier1_33": [
+        "Sequoia Capital"
+      ],
+      "attioRecordId": "40640052-e9e0-40a7-9e53-f09e253f736c"
+    },
+    {
+      "key": "foxglove",
+      "attioKey": "foxglove",
+      "name": "Foxglove",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Bessemer Venture Partners"
+      ],
+      "tier1_33": [
+        "Bessemer Venture Partners"
+      ],
+      "attioRecordId": "14422a29-92f0-4322-a48e-37b7beb0c61a"
+    },
+    {
+      "key": "fractile",
+      "attioKey": "fractile",
+      "name": "Fractile",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Accel"
+      ],
+      "tier1_33": [
+        "8VC",
+        "Accel",
+        "Founders Fund"
+      ],
+      "attioRecordId": "b533edaa-1051-4eb2-9cb4-37ecf9c26512"
+    },
+    {
+      "key": "gamma",
+      "attioKey": "gamma",
+      "name": "Gamma Tech.",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Accel"
+      ],
+      "tier1_33": [
+        "Accel",
+        "Andreessen Horowitz",
+        "IVP"
+      ],
+      "attioRecordId": "e78e0af1-3758-4619-beab-17b91218888d"
+    },
+    {
+      "key": "getbasis",
+      "attioKey": "getbasis",
+      "name": "Basis (Financial Software)",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Accel"
+      ],
+      "tier1_33": [
+        "Accel",
+        "Khosla Ventures"
+      ],
+      "attioRecordId": "095c8bce-2875-4f7c-a182-fe7ade31b4a8"
+    },
+    {
+      "key": "houserx",
+      "attioKey": "houserx",
+      "name": "House Rx",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Bessemer Venture Partners"
+      ],
+      "tier1_33": [
+        "Bessemer Venture Partners",
+        "New Enterprise Associates"
+      ],
+      "attioRecordId": "10d0b607-bca7-4aac-af98-b00e0c7e1840"
+    },
+    {
+      "key": "juicebox",
+      "attioKey": "juicebox",
+      "name": "Juicebox",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Sequoia Capital"
+      ],
+      "tier1_33": [
+        "Coatue Management",
+        "DST Global",
+        "Sequoia Capital"
+      ],
+      "attioRecordId": "c120c2cf-ef75-4162-a980-e020192b3c72"
+    },
+    {
+      "key": "langchain",
+      "attioKey": "langchain",
+      "name": "LangChain",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Sequoia Capital",
+        "Benchmark"
+      ],
+      "tier1_33": [
+        "IVP",
+        "Sequoia Capital"
+      ],
+      "attioRecordId": "55c7ac7c-d72f-469f-81c9-224240746799"
+    },
+    {
+      "key": "lead",
+      "attioKey": "lead",
+      "name": "Lead Bank",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "ICONIQ Capital"
+      ],
+      "tier1_33": [
+        "Andreessen Horowitz",
+        "Coatue Management",
+        "ICONIQ Capital",
+        "Khosla Ventures",
+        "Ribbit Capital"
+      ],
+      "attioRecordId": "b5083425-a08c-4696-b353-be3cec3fabd7"
+    },
+    {
+      "key": "linx",
+      "attioKey": "linx",
+      "name": "Linx Security",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Index Ventures"
+      ],
+      "tier1_33": [
+        "Index Ventures",
+        "Insight Partners"
+      ],
+      "attioRecordId": "6a652336-fa8e-4f73-aa9a-35f144796b08"
+    },
+    {
+      "key": "listenlabs",
+      "attioKey": "listenlabs",
+      "name": "Listen Labs",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Sequoia Capital"
+      ],
+      "tier1_33": [
+        "Ribbit Capital",
+        "Sequoia Capital"
+      ],
+      "attioRecordId": "20718860-1c08-4d2a-9c92-2a90cee8b719"
+    },
+    {
+      "key": "marianaminerals",
+      "attioKey": "marianaminerals",
+      "name": "Mariana Minerals",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Greenoaks Capital Partners"
+      ],
+      "tier1_33": [
+        "Andreessen Horowitz",
+        "Khosla Ventures"
+      ],
+      "attioRecordId": "7767ce70-7ce6-44a8-8f0e-e85933e30e79"
+    },
+    {
+      "key": "naboo",
+      "attioKey": "naboo",
+      "name": "Naboo",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Lightspeed Venture Partners"
+      ],
+      "tier1_33": [
+        "Lightspeed Venture Partners"
+      ],
+      "attioRecordId": "2d7896eb-68b0-4b99-b04f-5e128afdd6a8"
+    },
+    {
+      "key": "nexthop",
+      "attioKey": "nexthop",
+      "name": "Nexthop AI",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Lightspeed Venture Partners"
+      ],
+      "tier1_33": [
+        "Andreessen Horowitz",
+        "Battery Ventures",
+        "Kleiner Perkins",
+        "Lightspeed Venture Partners"
+      ],
+      "attioRecordId": "90ae939e-8810-4ba1-9652-ebd02c09ca6c"
+    },
+    {
+      "key": "nominal",
+      "attioKey": "nominal",
+      "name": "Nominal",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Sequoia Capital",
+        "Lightspeed Venture Partners"
+      ],
+      "tier1_33": [
+        "Founders Fund",
+        "General Catalyst",
+        "Lightspeed Venture Partners",
+        "Lux Capital",
+        "Sequoia Capital"
+      ],
+      "attioRecordId": "d4056fc3-b4bf-44aa-b60f-8e4af41a7411"
+    },
+    {
+      "key": "pointfive",
+      "attioKey": "pointfive",
+      "name": "PointFive",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Index Ventures",
+        "Accel"
+      ],
+      "tier1_33": [
+        "Accel",
+        "Index Ventures"
+      ],
+      "attioRecordId": "7b1baebc-693d-4395-b2bf-de17271a1804"
+    },
+    {
+      "key": "quilter",
+      "attioKey": "quilter",
+      "name": "Allegro Labs",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Index Ventures"
+      ],
+      "tier1_33": [
+        "Index Ventures"
+      ],
+      "attioRecordId": "7b7ad6b6-704b-4449-bb94-bd2c803c2be1"
+    },
+    {
+      "key": "reducto",
+      "attioKey": "reducto",
+      "name": "Reducto",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Benchmark"
+      ],
+      "tier1_33": [
+        "Andreessen Horowitz"
+      ],
+      "attioRecordId": "8961e7e7-92cb-448a-bd00-11e38e0eb02c"
+    },
+    {
+      "key": "serval",
+      "attioKey": "serval",
+      "name": "Serval",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Sequoia Capital"
+      ],
+      "tier1_33": [
+        "General Catalyst",
+        "Sequoia Capital"
+      ],
+      "attioRecordId": "6504db02-1db4-4f00-9424-4b45e13e76a4"
+    },
+    {
+      "key": "sesame",
+      "attioKey": "sesame",
+      "name": "Sesame AI",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Sequoia Capital"
+      ],
+      "tier1_33": [
+        "Sequoia Capital"
+      ],
+      "attioRecordId": "25761162-3e50-4c4c-abb3-b89687130666"
+    },
+    {
+      "key": "sunday",
+      "attioKey": "sunday",
+      "name": "Sunday (Hardware)",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Benchmark",
+        "Bain Capital Ventures"
+      ],
+      "tier1_33": [
+        "Bain Capital Ventures",
+        "Coatue Management"
+      ],
+      "attioRecordId": "6b048eb0-7664-4e14-ab86-2078e6018263"
+    },
+    {
+      "key": "sunflower-labs",
+      "attioKey": "sunflower-labs",
+      "name": "Sunflower Labs",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Sequoia Capital"
+      ],
+      "tier1_33": [
+        "Sequoia Capital"
+      ],
+      "attioRecordId": "1a9736e7-88c8-4402-b5bb-97dcb1b8d92d"
+    },
+    {
+      "key": "tem",
+      "attioKey": "tem",
+      "name": "tem (Business/Productivity Software)",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Lightspeed Venture Partners"
+      ],
+      "tier1_33": [
+        "Lightspeed Venture Partners"
+      ],
+      "attioRecordId": "434ab685-c48d-4317-a586-e9f86358391f"
+    },
+    {
+      "key": "trianabio",
+      "attioKey": "trianabio",
+      "name": "TRIANA Biomedicines",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Lightspeed Venture Partners",
+        "Bessemer Venture Partners"
+      ],
+      "tier1_33": [
+        "Bessemer Venture Partners",
+        "Lightspeed Venture Partners"
+      ],
+      "attioRecordId": "b16a86c2-c5d2-44b4-a513-95f972a5a65c"
+    },
+    {
+      "key": "twenty",
+      "attioKey": "twenty",
+      "name": "Twenty (Network Management Software)",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Accel"
+      ],
+      "tier1_33": [
+        "Accel"
+      ],
+      "attioRecordId": "11047320-8f2d-4508-a523-76b1528212ac"
+    },
+    {
+      "key": "valaratomics",
+      "attioKey": "valaratomics",
+      "name": "Valar Atomics",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Sequoia Capital"
+      ],
+      "tier1_33": [
+        "Sequoia Capital"
+      ],
+      "attioRecordId": "60843b24-b196-4d69-811d-19f5963c52e8"
+    },
+    {
+      "key": "weaviate",
+      "attioKey": "weaviate",
+      "name": "Weaviate",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Index Ventures"
+      ],
+      "tier1_33": [
+        "Battery Ventures",
+        "Index Ventures",
+        "New Enterprise Associates"
+      ],
+      "attioRecordId": "0c8d1680-8cb7-41ef-b5e7-32286a8fdb37"
+    },
+    {
+      "key": "withcoverage",
+      "attioKey": "withcoverage",
+      "name": "WithCoverage",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Sequoia Capital"
+      ],
+      "tier1_33": [
+        "8VC",
+        "Khosla Ventures",
+        "Sequoia Capital"
+      ],
+      "attioRecordId": "ec406a3e-873b-4362-9997-551ba05935f9"
+    },
+    {
+      "key": "withpace",
+      "attioKey": "withpace",
+      "name": "Pace",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": "qualified",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Sequoia Capital",
+        "Thrive Capital"
+      ],
+      "tier1_33": [
+        "Sequoia Capital",
+        "Thrive Capital"
+      ],
+      "attioRecordId": "35c71e3c-0b6f-4d1c-bfd5-e40e0abab43d"
+    },
+    {
+      "key": "bezi",
+      "attioKey": "bezi",
+      "name": "Bezi",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Passed",
+      "hubStage": "passed",
+      "hubTags": [
+        "passed",
+        "pipeline"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Bessemer Venture Partners"
+      ],
+      "tier1_33": [
+        "Bessemer Venture Partners"
+      ],
+      "attioRecordId": "b9521890-aef2-46f7-bbf5-c3cdf380e192"
+    },
+    {
+      "key": "permitflow",
+      "attioKey": "permitflow",
+      "name": "PermitFlow",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Passed",
+      "hubStage": "passed",
+      "hubTags": [
+        "passed",
+        "pipeline"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Accel"
+      ],
+      "tier1_33": [
+        "Accel",
+        "Kleiner Perkins"
+      ],
+      "attioRecordId": "4fbd640a-4d7d-4073-8b9f-b77b0c2a8af2"
+    },
+    {
+      "key": "reflection",
+      "attioKey": "reflection",
+      "name": "Reflection AI",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Invested",
+      "hubStage": "invested",
+      "hubTags": [],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Sequoia Capital",
+        "Lightspeed Venture Partners"
+      ],
+      "tier1_33": [
+        "Battery Ventures",
+        "DST Global",
+        "Lightspeed Venture Partners",
+        "Sequoia Capital"
+      ],
+      "attioRecordId": "7e54cdaf-4676-4a63-ba60-8e332dc2c5f9"
+    },
+    {
+      "key": "upwind",
+      "attioKey": "upwind",
+      "name": "Upwind Security",
+      "matchBasis": "key",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Passed",
+      "hubStage": "passed",
+      "hubTags": [
+        "passed",
+        "pipeline"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Sequoia Capital",
+        "Bessemer Venture Partners"
+      ],
+      "tier1_33": [
+        "Bessemer Venture Partners",
+        "Sequoia Capital",
+        "TCV"
+      ],
+      "attioRecordId": "a0fb24c6-8be3-43af-baba-155dc2c9efb3"
+    }
+  ],
+  "matchBasis": {
+    "key": 306,
+    "name": 1
+  },
+  "namesCheck": null
+}

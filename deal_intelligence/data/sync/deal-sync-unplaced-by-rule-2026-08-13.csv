@@ -1,0 +1,105 @@
+name,series,band,attioStage,hubStage,expectedWhy,key
+Aalyria,Series B,b,Watchlist,watchlist,Series B with a Tier 1 (33) but no Top 10 investor,aalyria
+Aikido Security,Series B,b,Qualified,qualified,Series B with a Tier 1 (33) but no Top 10 investor,aikido
+Arch,Series B,b,Qualified,qualified,Series B with a Tier 1 (33) but no Top 10 investor,arch
+Attentive (Business/Productivity Software),Series B,b,Qualified,qualified,Series B with a Tier 1 (33) but no Top 10 investor,attentive
+Avoca,Series B,b,Qualified,qualified,Series B with a Tier 1 (33) but no Top 10 investor,avoca
+Blackbox,Series B,b,Pipeline,pipeline,Series B with no Tier 1 (33) or Top 10 investor,blackbox
+BNTO,Series B,b,Qualified,qualified,Series B with a Tier 1 (33) but no Top 10 investor,bnto
+Celero,Series B,b,Qualified,qualified,Series B with no Tier 1 (33) or Top 10 investor,celero
+Cerby,Series B,b,Qualified,qualified,Series B with no Tier 1 (33) or Top 10 investor,cerby
+Chemify,Series B,b,Qualified,qualified,Series B with a Tier 1 (33) but no Top 10 investor,chemify
+ClimAct Systems,Series B,b,Qualified,qualified,Series B with a Tier 1 (33) but no Top 10 investor,climact-systems
+Consensus.app,,unknown,Pipeline,pipeline,series unknown -- cannot place from the rule,consensus
+Convex,Series B,b,Qualified,qualified,Series B with a Tier 1 (33) but no Top 10 investor,convex
+Copperlane,Series A,below_b,Pipeline,pipeline,below Series B with no Top 10 investor,copperlane
+Corgi,Series B,b,Watchlist,watchlist,Series B with a Tier 1 (33) but no Top 10 investor,corgi
+Cosmic Labs,Series A,below_b,Pipeline,pipeline,below Series B with no Top 10 investor,cosmiclabs
+Courier Health,Series B,b,Qualified,qualified,Series B with a Tier 1 (33) but no Top 10 investor,courierhealth
+CuspAI,Series B,b,Qualified,qualified,Series B with a Tier 1 (33) but no Top 10 investor,cusp
+DataBahn,Series B,b,Radar,qualified,Series B with a Tier 1 (33) but no Top 10 investor,databahn
+Databento,Series B,b,Qualified,,Series B with a Tier 1 (33) but no Top 10 investor,databento
+DeepInfra,Series B,b,Pipeline,pipeline,Series B with no Tier 1 (33) or Top 10 investor,deepinfra
+Depthfirst,Series B,b,Pipeline,pipeline,Series B with no Tier 1 (33) or Top 10 investor,depthfirst
+Dili,Series A,below_b,Pipeline,pipeline,below Series B with no Top 10 investor,dili
+Doss,Series B,b,Qualified,qualified,Series B with a Tier 1 (33) but no Top 10 investor,doss
+Draftwise,,unknown,Pipeline,pipeline,series unknown -- cannot place from the rule,draftwise
+Eridu,Series B,b,Pipeline,pipeline,Series B with no Tier 1 (33) or Top 10 investor,eridu
+Firecrawl,Series B,b,Pipeline,pipeline,Series B with no Tier 1 (33) or Top 10 investor,firecrawl
+Function Health,Series B,b,Qualified,qualified,Series B with a Tier 1 (33) but no Top 10 investor,functionhealth
+Fundamental Research Labs,Series B,b,Pipeline,pipeline,Series B with no Tier 1 (33) or Top 10 investor,fundamentalresearchlabs
+Fyxer AI,,unknown,Pipeline,pipeline,series unknown -- cannot place from the rule,fyxer
+General Intuition,Series B,b,Qualified,qualified,Series B with a Tier 1 (33) but no Top 10 investor,generalintuition
+Generalist,Series B,b,Qualified,qualified,Series B with a Tier 1 (33) but no Top 10 investor,generalistai
+General Matter,Series B,b,Pipeline,pipeline,Series B with no Tier 1 (33) or Top 10 investor,generalmatter
+GenLogs,Series B,b,Qualified,qualified,Series B with a Tier 1 (33) but no Top 10 investor,genlogs
+Gimlet Labs,Series B,b,Pipeline,pipeline,Series B with a Tier 1 (33) but no Top 10 investor,gimletlabs
+GreenLite Technologies,Series B,b,Qualified,qualified,Series B with a Tier 1 (33) but no Top 10 investor,greenlite
+Harmonic Security,Series B,b,Pipeline,pipeline,Series B with no Tier 1 (33) or Top 10 investor,harmonic
+Heron Power,Series B,b,Qualified,qualified,Series B with a Tier 1 (33) but no Top 10 investor,heronpower
+Pocket,,unknown,Radar,,series unknown -- cannot place from the rule,heypocket
+Humanly,Series B,b,Target,new,Series B with no Tier 1 (33) or Top 10 investor,humanly
+Instinct,,unknown,Pipeline,pipeline,series unknown -- cannot place from the rule,instinct
+Jump,Series B,b,Qualified,new,Series B with a Tier 1 (33) but no Top 10 investor,jump
+Liberate Innovations,Series B,b,Qualified,qualified,Series B with a Tier 1 (33) but no Top 10 investor,liberateinc
+Lighter (Financial Software),Series B,b,Qualified,qualified,Series B with a Tier 1 (33) but no Top 10 investor,lighter
+Lila Sciences,Series B,b,Pipeline,pipeline,Series B with a Tier 1 (33) but no Top 10 investor,lila
+Lyzr.ai,Series B,b,Pipeline,pipeline,Series B with no Tier 1 (33) or Top 10 investor,lyzr
+Magnus Medical,Series B,b,Qualified,qualified,Series B with a Tier 1 (33) but no Top 10 investor,magnusmedical
+MicroOne,Pre-B SAFE,below_b,Pipeline,pipeline,below Series B with no Top 10 investor,micro1
+ModRetro,Early Stage VC,below_b,Watchlist,watchlist,below Series B with no Top 10 investor,modretro
+Monumental (Hardware),Series B,b,Qualified,qualified,Series B with a Tier 1 (33) but no Top 10 investor,monumental
+Nucleus Genomics,,unknown,Pipeline,pipeline,series unknown -- cannot place from the rule,mynucleus
+Namespace,Series B,b,Pipeline,pipeline,Series B with no Tier 1 (33) or Top 10 investor,namespace
+Newcore,Series A,below_b,Pipeline,pipeline,below Series B with no Top 10 investor,newcore
+Noah Labs,Series A,below_b,Pipeline,pipeline,below Series B with no Top 10 investor,noah-labs
+nous research,Series B,b,Pipeline,,Series B with no Tier 1 (33) or Top 10 investor,nousresearch
+Ollin,Series B,b,Qualified,,Series B with a Tier 1 (33) but no Top 10 investor,ollin
+Omnea,Series B,b,Qualified,qualified,Series B with a Tier 1 (33) but no Top 10 investor,omnea
+Orbem,Series B,b,Qualified,qualified,Series B with a Tier 1 (33) but no Top 10 investor,orbem
+Osmo Labs,Series B,b,Qualified,qualified,Series B with no Tier 1 (33) or Top 10 investor,osmo
+Panthalassa,Series B SAFE,b,Pipeline,pipeline,Series B with no Tier 1 (33) or Top 10 investor,panthalassa
+Prime Attorneys,Series B,b,Qualified,qualified,Series B with a Tier 1 (33) but no Top 10 investor,primeattorneys
+Prime Intellect,Series B,b,Target,new,Series B with no Tier 1 (33) or Top 10 investor,primeintellect
+Project Prometheus,Early Stage VC,below_b,Watchlist,watchlist,below Series B with no Top 10 investor,project-prometheus
+Quaise Energy,Series B,b,Pipeline,pipeline,Series B with no Tier 1 (33) or Top 10 investor,quaise
+Qualified Health,Series B,b,Pipeline,pipeline,Series B with a Tier 1 (33) but no Top 10 investor,qualifiedhealthai
+Capital R3alm,Series B,b,Qualified,qualified,Series B with a Tier 1 (33) but no Top 10 investor,r3alm
+RoboFlow,Series B,b,Pipeline,pipeline,Series B with no Tier 1 (33) or Top 10 investor,roboflow
+Silicondata,Series A,below_b,Pipeline,pipeline,below Series B with no Top 10 investor,silicondata
+Slide,Series B,b,Qualified,qualified,Series B with a Tier 1 (33) but no Top 10 investor,slide
+Spade Data,Series B,b,Qualified,qualified,Series B with a Tier 1 (33) but no Top 10 investor,spade
+Supio,Series B,b,Target,new,Series B with no Tier 1 (33) or Top 10 investor,supio
+Tavily,,unknown,Pipeline,pipeline,series unknown -- cannot place from the rule,tavily
+Taxfyle,Series B,b,Pipeline,pipeline,Series B with no Tier 1 (33) or Top 10 investor,taxfyle
+Tempero Bio,Series B,b,Qualified,qualified,Series B with a Tier 1 (33) but no Top 10 investor,temperobio
+Tenkara Labs,Series A,below_b,Pipeline,pipeline,below Series B with no Top 10 investor,tenkara
+Triomics,Series B,b,Qualified,qualified,Series B with a Tier 1 (33) but no Top 10 investor,triomics
+Glimpse,Series B,b,Qualified,qualified,Series B with a Tier 1 (33) but no Top 10 investor,tryglimpse
+Upcodes,Series B,b,Pipeline,pipeline,Series B with no Tier 1 (33) or Top 10 investor,up
+Vapi,,unknown,Qualified,qualified,series unknown -- cannot place from the rule,vapi
+Walden Robotics,Seed,below_b,Pipeline,pipeline,below Series B with no Top 10 investor,waldenrobotics
+Warp,Series B,b,Qualified,,Series B with a Tier 1 (33) but no Top 10 investor,warp
+Wealth.com,,unknown,Pipeline,pipeline,series unknown -- cannot place from the rule,wealth
+WindBorne Systems,Series B,b,Qualified,qualified,Series B with a Tier 1 (33) but no Top 10 investor,windbornesystems
+Pulley,Series B,b,Pipeline,pipeline,Series B with no Tier 1 (33) or Top 10 investor,withpulley
+Sable AI,,unknown,Radar,qualified,series unknown -- cannot place from the rule,withsable
+Sunbeam,Series B,b,Pipeline,pipeline,Series B with no Tier 1 (33) or Top 10 investor,withsunbeam
+Xbow,Series B,b,Target,new,Series B with no Tier 1 (33) or Top 10 investor,xbow
+Akido,Series C,above_b,Target,new,above Series B but no Tier 1 (33) investor on the cap table,akidolabs
+Aspora,Series C,above_b,Pipeline,pipeline,above Series B but no Tier 1 (33) investor on the cap table,aspora
+Clay,Series D,above_b,Pipeline,pipeline,above Series B but no Tier 1 (33) investor on the cap table,clay
+CodeRabbit,Series C,above_b,Pipeline,pipeline,above Series B but no Tier 1 (33) investor on the cap table,coderabbit
+Cornelius Networks,Series C,above_b,Pipeline,pipeline,above Series B but no Tier 1 (33) investor on the cap table,cornelisnetworks
+FalconX,Series E,above_b,Pipeline,pipeline,above Series B but no Tier 1 (33) investor on the cap table,falconx
+Firestorm,NEA,above_b,Watchlist,watchlist,above Series B but no Tier 1 (33) investor on the cap table,firestorm
+Frore,Series D,above_b,Pipeline,pipeline,above Series B but no Tier 1 (33) investor on the cap table,froresystems
+Grafana,Series C,above_b,Target,new,above Series B but no Tier 1 (33) investor on the cap table,grafana
+Harbinger,Series D,above_b,Pipeline,pipeline,above Series B but no Tier 1 (33) investor on the cap table,harbingermotors
+Inspiren,Series C,above_b,Pipeline,pipeline,above Series B but no Tier 1 (33) investor on the cap table,inspiren
+Laurel,Series D,above_b,Target,new,above Series B but no Tier 1 (33) investor on the cap table,laurel
+MagicSchool,Series C,above_b,Target,new,above Series B but no Tier 1 (33) investor on the cap table,magicschool
+Numa,Series C,above_b,Pipeline,pipeline,above Series B but no Tier 1 (33) investor on the cap table,numa
+OXIO,Series C,above_b,Pipeline,pipeline,above Series B but no Tier 1 (33) investor on the cap table,oxio
+Path Robotics,Series E,above_b,Watchlist,watchlist,above Series B but no Tier 1 (33) investor on the cap table,path-robotics
+Retool,Series E,above_b,Watchlist,watchlist,above Series B but no Tier 1 (33) investor on the cap table,retool
