@@ -18,14 +18,16 @@ Placement rule applied: **Tier 1 (33) investor + above Series B -> Qualified**; 
 
 5 of 6 are missing from Attio, and are written to the `attio-import` CSV alongside this report -- import that through Attio's UI, or let `--apply-attio --yes` create them. A company missing from BOTH sides can only come from this list; nothing else in the report can derive it.
 
-| Company | Domain | Series | In Attio | In hub | Matched as |
-|---|---|---|---|---|---|
-| OneBrief | onebrief.com | - | **no** | **no** | - |
-| Replit | replit.com | - | **no** | **no** | - |
-| Together AI | together.ai | - | **no** | **no** | - |
-| Wonderful AI | wonderful.ai | - | **no** | **no** | - |
-| Raindrop | raindrop.ai | - | **no** | **no** | - |
-| Warp | warp.dev | - | yes -- Qualified | yes -- no stage | Warp (Business/Productivity Software) |
+| Company | Domain | Series | In Attio | In hub | Matched as | ID8 holding? |
+|---|---|---|---|---|---|---|
+| OneBrief | onebrief.com | - | **no** | **no** | - | - |
+| Replit | replit.com | - | **no** | **no** | - | **YES -- not a prospect** |
+| Together AI | together.ai | - | **no** | **no** | - | **YES -- not a prospect** |
+| Wonderful AI | wonderful.ai | - | **no** | **no** | - | - |
+| Raindrop | raindrop.ai | - | **no** | **no** | - | - |
+| Warp | warp.dev | - | yes -- Qualified | yes -- no stage | Warp (Business/Productivity Software) | - |
+
+> **2 of these are companies ID8 already owns** (Replit, Together AI). They would be created at stage `Invested`, but every other holding in Attio is filed `Invested`. Set the `stage` column to Invested in the seed CSV before applying, or drop them.
 
 ## In Attio, missing from the hub
 

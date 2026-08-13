@@ -449,6 +449,37 @@ def test_attio_import_csv_holds_only_what_attio_lacks(tmp_path):
     assert "New Co" in body and "Old Co" not in body
 
 
+def test_seed_flags_a_company_id8_already_owns():
+    """Default seed stage is Pipeline, so a holding would be filed as a prospect."""
+    seed = ds.check_seed([{"name": "Replit", "domain": "replit.com",
+                           "series": "", "stage": "Pipeline"}], {}, {})
+    assert seed[0]["isHolding"] is True
+
+
+def test_seed_does_not_flag_an_ordinary_company():
+    seed = ds.check_seed([{"name": "OneBrief", "domain": "onebrief.com",
+                           "series": "", "stage": "Pipeline"}], {}, {})
+    assert seed[0]["isHolding"] is False
+
+
+def test_holding_warning_is_silent_once_the_stage_is_invested(capsys):
+    """A warning that fires on the correct case is one nobody reads on the
+    incorrect case."""
+    report = {"hubOnly": [], "seed": [{"name": "Replit", "domain": "replit.com",
+                                       "series": "", "stage": "Invested",
+                                       "inAttio": False, "isHolding": True}]}
+    ds.apply_attio(report, yes=False)
+    assert "ID8 HOLDING" not in capsys.readouterr().out
+
+
+def test_holding_warning_fires_when_the_stage_is_wrong(capsys):
+    report = {"hubOnly": [], "seed": [{"name": "Replit", "domain": "replit.com",
+                                       "series": "", "stage": "Pipeline",
+                                       "inAttio": False, "isHolding": True}]}
+    ds.apply_attio(report, yes=False)
+    assert "ID8 HOLDING" in capsys.readouterr().out
+
+
 def test_apply_attio_dry_run_needs_no_credentials(monkeypatch):
     """A preview makes no API calls, so requiring a key to see the plan locked
     the one machine without one out of ever reviewing it."""

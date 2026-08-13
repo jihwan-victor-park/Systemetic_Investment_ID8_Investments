@@ -719,8 +719,25 @@ def check_seed(seed, hub, attio):
         out.append({**row, "key": key, "inAttio": bool(a), "inHub": bool(h),
                     "attioStage": (a or {}).get("stage"),
                     "hubStage": (h or {}).get("stage"),
-                    "matchedName": (a or h or {}).get("name")})
+                    "matchedName": (a or h or {}).get("name"),
+                    "isHolding": is_id8_holding(row["name"])})
     return out
+
+
+def is_id8_holding(name):
+    """Is this a company ID8 already owns (data/id8_holdings.json)?
+
+    Checked on seeded companies because the default seed stage is Pipeline, and
+    filing a portfolio company as a pipeline prospect is a real error rather
+    than a cosmetic one. It caught two on 2026-08-13: Replit and Together AI
+    were in Oscar's Drive "Active Deals" folder and absent from Attio entirely,
+    so they were about to be created as Pipeline -- while every other holding in
+    that same folder (Polymarket, Saronic, Reflection AI) is filed Invested.
+
+    Reuses portfolio_fit's loader and its normalization rather than re-reading
+    the file, so the exclusion list has exactly one definition of a match."""
+    from .portfolio_fit import _ID8_HOLDINGS, _normalize_name
+    return _normalize_name(name) in _ID8_HOLDINGS
 
 
 def write_attio_import_csv(seed_rows, path):
@@ -839,7 +856,15 @@ def render_markdown(report, run_date):
                   ("In Attio", lambda r: f"yes -- {r['attioStage'] or 'no stage'}" if r["inAttio"] else "**no**"),
                   ("In hub", lambda r: f"yes -- {r['hubStage'] or 'no stage'}" if r["inHub"] else "**no**"),
                   ("Matched as", lambda r: r["matchedName"] or "-"),
+                  ("ID8 holding?", lambda r: "**YES -- not a prospect**" if r["isHolding"] else "-"),
               ]), ""]
+        holdings = [r for r in seed if r["isHolding"] and not r["inAttio"]]
+        if holdings:
+            L += [f"> **{len(holdings)} of these are companies ID8 already owns** "
+                  f"({', '.join(r['name'] for r in holdings)}). They would be created at "
+                  f"stage `{holdings[0]['stage']}`, but every other holding in Attio is "
+                  "filed `Invested`. Set the `stage` column to Invested in the seed CSV "
+                  "before applying, or drop them.", ""]
 
     L += ["## In Attio, missing from the hub", "",
           f"{c['attioOnly']} companies. `Should be` is where the rule puts them; "
@@ -1105,6 +1130,12 @@ def apply_attio(report, yes=False):
                   for r in (report.get("seed") or []) if not r["inAttio"]])
     print(f"{'DRY RUN -- ' if not yes else ''}attio: {len(creates)} deals to create")
     for r in creates:
+        # Only when the stage is actually wrong -- a holding already being
+        # created as Invested needs no warning, and one that cries wolf on the
+        # correct case is one nobody reads on the incorrect case.
+        if r.get("isHolding") and str(r["expectedAttioStage"]).lower() != "invested":
+            print(f"  !! {r['name']} is an ID8 HOLDING -- about to be created as "
+                  f"{r['expectedAttioStage']}, not Invested")
         print(f"  create {r['name']:<30} series={r.get('series') or '?':<12} "
               f"stage={r['expectedAttioStage']}")
     if not yes:

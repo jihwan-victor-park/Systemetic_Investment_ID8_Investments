@@ -8946,31 +8946,34 @@
       "inHub": false,
       "attioStage": null,
       "hubStage": null,
-      "matchedName": null
+      "matchedName": null,
+      "isHolding": false
     },
     {
       "name": "Replit",
       "domain": "replit.com",
       "series": "",
-      "stage": "Pipeline",
+      "stage": "Invested",
       "key": "replit",
       "inAttio": false,
       "inHub": false,
       "attioStage": null,
       "hubStage": null,
-      "matchedName": null
+      "matchedName": null,
+      "isHolding": true
     },
     {
       "name": "Together AI",
       "domain": "together.ai",
       "series": "",
-      "stage": "Pipeline",
+      "stage": "Invested",
       "key": "together",
       "inAttio": false,
       "inHub": false,
       "attioStage": null,
       "hubStage": null,
-      "matchedName": null
+      "matchedName": null,
+      "isHolding": true
     },
     {
       "name": "Wonderful AI",
@@ -8982,7 +8985,8 @@
       "inHub": false,
       "attioStage": null,
       "hubStage": null,
-      "matchedName": null
+      "matchedName": null,
+      "isHolding": false
     },
     {
       "name": "Raindrop",
@@ -8994,7 +8998,8 @@
       "inHub": false,
       "attioStage": null,
       "hubStage": null,
-      "matchedName": null
+      "matchedName": null,
+      "isHolding": false
     },
     {
       "name": "Warp",
@@ -9006,7 +9011,8 @@
       "inHub": true,
       "attioStage": "Qualified",
       "hubStage": null,
-      "matchedName": "Warp (Business/Productivity Software)"
+      "matchedName": "Warp (Business/Productivity Software)",
+      "isHolding": false
     }
   ]
 }
