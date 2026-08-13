@@ -39,11 +39,9 @@ export default async function Top10VCPage() {
   return (
     <>
       <h1>Top 10 VCs</h1>
-      <p>
-        Every company on ID8&rsquo;s Top 10 VC list &mdash; not a stage of its own. A company keeps whatever
-        real stage it&rsquo;s at and just shows up here too. This isn&rsquo;t synced from Attio; it&rsquo;s a
-        fixed list of company names, seeded in once.
-      </p>
+      {/* No subtitle (Oscar, 2026-08-13: "delete the subtitles of all the
+          deals tab") -- the table is the page. `metadata.description`
+          still carries the same sentence for the browser/sidebar. */}
       <SortableTable
         columns={STAGE_TABLE_COLUMNS}
         rows={rows}

@@ -32,7 +32,9 @@ export default async function PassedPage() {
   return (
     <>
       <h1>Passed</h1>
-      <p>Deals ID8 passed on. Kept here for the record rather than deleted -- a company can still carry its real working stage (Pipeline, Qualified, etc.) alongside this tag if it was active before being passed on.</p>
+      {/* No subtitle (Oscar, 2026-08-13: "delete the subtitles of all the
+          deals tab") -- the table is the page. `metadata.description`
+          still carries the same sentence for the browser/sidebar. */}
       <DealsListSection
         companies={passed}
         basePath="/docs/passed"

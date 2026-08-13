@@ -27,7 +27,9 @@ export default async function WatchlistPage() {
   return (
     <>
       <h1>Watchlist</h1>
-      <p>Companies ID8 is keeping an eye on but isn't actively working yet. Move one to Pipeline or Qualified Deals with the Stage dropdown once it's worth picking up.</p>
+      {/* No subtitle (Oscar, 2026-08-13: "delete the subtitles of all the
+          deals tab") -- the table is the page. `metadata.description`
+          still carries the same sentence for the browser/sidebar. */}
       <DealsListSection
         companies={watchlist}
         basePath="/docs/watchlist"

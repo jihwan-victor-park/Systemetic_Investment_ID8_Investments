@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { auth } from '@/auth';
 import DealsListSection from '@/components/DealsListSection';
 import { listCompanies } from '@/lib/companies';
@@ -27,12 +26,9 @@ export default async function QualifiedDealsPage() {
   return (
     <>
       <h1>Qualified Deals</h1>
-      <p>
-        Every deal that reaches the Qualified stage gets scored by{' '}
-        <Link href="/docs/projects/intelligence">Deal Intelligence</Link>'s weekly Stage 1 screen against the ID8
-        rubric — this list populates automatically as those runs complete, no manual step required. Move a company to
-        Watchlist or Pipeline with the Stage dropdown if it belongs somewhere else.
-      </p>
+      {/* No subtitle (Oscar, 2026-08-13: "delete the subtitles of all the
+          deals tab") -- the table is the page. `metadata.description`
+          still carries the same sentence for the browser/sidebar. */}
       <DealsListSection
         companies={qualified}
         basePath="/docs/qualified-deals"

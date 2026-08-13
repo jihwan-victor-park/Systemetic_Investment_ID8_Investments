@@ -99,10 +99,9 @@ export default async function HotDealsPage() {
   return (
     <>
       <h1>Top Deals</h1>
-      <p>
-        Every company that cleared the 3.0 Stage 1 gate in the last {WINDOW_DAYS} days — from a Tier 1 VC&rsquo;s
-        portfolio, a partner&rsquo;s own contact, or the regular automated screen, whichever surfaced it first.
-      </p>
+      {/* No subtitle (Oscar, 2026-08-13: "delete the subtitles of all the
+          deals tab") -- the table is the page. `metadata.description`
+          still carries the same sentence for the browser/sidebar. */}
       <SortableTable
         columns={COLUMNS}
         rows={rows}
