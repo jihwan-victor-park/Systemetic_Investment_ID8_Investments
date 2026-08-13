@@ -116,9 +116,60 @@ def attio_companies_from_csv(csv_path):
     return _attio_companies_from_rows(rows)
 
 
+def _split_domain_collisions(groups):
+    """Splits any company_key_of group that holds more than one distinct domain.
+
+    `fit_note.company_id` (and company_key_of, which mirrors it) keys a company
+    on `domain.split(".")[0]` -- only the FIRST label. Modern TLDs make that
+    collide: on 2026-08-13 `pi.website` (Physical Intelligence) and `pi.security`
+    (Pi Security) were two entirely different companies sharing one key, so the
+    reconciler merged their cap tables and treated Physical Intelligence's
+    investors as Pi Security's. Onyx (onyx.app / onyx.security), Simile
+    (simile.ai / simile.com) and Warp (warp.dev / warp.co) collided too, though
+    those three are same-name duplicates to merge in Attio rather than distinct
+    companies.
+
+    Each side of a collision is re-keyed on its FULL domain (`pi-security`,
+    `pi-website`). link()'s domain pass then reconnects whichever side the hub
+    already has a doc for, and the other correctly reports as missing from the
+    hub instead of silently borrowing its neighbour's doc.
+
+    This does NOT fix company_id itself (Oscar's call, 2026-08-13: split these
+    four, leave the shared key alone). So a company created from a split key
+    carries an id the rest of the codebase would not generate for it -- flagged
+    in the report rather than papered over."""
+    out, collisions = {}, []
+    for key, group in groups.items():
+        domains = {r["domain"] for r in group if r["domain"]}
+        if len(domains) < 2:
+            out[key] = group
+            continue
+        names = sorted({r["name"] for r in group})
+        # Same company on both sides = duplicate records in Attio to merge.
+        # Genuinely different companies = the damaging case, and the only one
+        # that warrants a second hub doc. Compared on the NORMALIZED name with
+        # the trailing parenthetical dropped, because Attio's own disambiguating
+        # suffix would otherwise make 'Warp' and 'Warp (Business/Productivity
+        # Software)' -- the same company on two domains -- look distinct.
+        canon = {norm_name(re.sub(r"\s*\([^)]*\)\s*$", "", n)) for n in names}
+        collisions.append({"key": key, "domains": sorted(domains), "names": names,
+                           "distinctCompanies": len(canon) > 1})
+        for r in group:
+            out.setdefault(slugify(r["domain"]) if r["domain"] else key, []).append(r)
+    return out, collisions
+
+
 def _attio_companies_from_rows(rows):
     out = {}
-    for key, group in group_by_company(rows).items():
+    groups, collisions = _split_domain_collisions(group_by_company(rows))
+    by_key = {}
+    for c in collisions:
+        for r in rows:
+            if r["domain"] and company_key_of(r["domain"], r["name"]) == c["key"]:
+                by_key[slugify(r["domain"])] = {
+                    "splitFromKey": c["key"], "collisionDomains": c["domains"],
+                    "collisionNames": c["names"], "collisionDistinct": c["distinctCompanies"]}
+    for key, group in groups.items():
         auth = authoritative_row(group)
         names = sorted({n for r in group for n in r["investor_names"]})
         domains = sorted({d for r in group for d in r["investor_domains"]})
@@ -144,6 +195,13 @@ def _attio_companies_from_rows(rows):
             # Anthropic, Legora, Jump AI in the 2026-08-13 export).
             "allStages": sorted({r["stage"] for r in group if r["stage"]}),
             "dealCount": len(group),
+            # Set when this company was carved out of a colliding key -- its id
+            # is not what fit_note.company_id would produce, which matters if
+            # anything else later imports the same company. The collision detail
+            # rides on the company records themselves rather than as a sentinel
+            # entry in this dict: every caller iterates .values() expecting
+            # companies, and a fake one in there is a trap.
+            **(by_key.get(key) or {}),
         }
     return out
 
@@ -500,6 +558,14 @@ def _hub_buckets(hub_row):
 
 def reconcile(hub, attio, series_b_mode="dual", names=None, seed=None):
     """Pure diff over the two already-normalized sides. No I/O."""
+    # Rebuilt from the company records rather than passed alongside them, so
+    # reconcile() works on any companies dict regardless of how it was built.
+    collisions = []
+    for k in sorted({r["splitFromKey"] for r in attio.values() if r.get("splitFromKey")}):
+        rows_ = [r for r in attio.values() if r.get("splitFromKey") == k]
+        collisions.append({"key": k, "domains": rows_[0]["collisionDomains"],
+                           "names": rows_[0]["collisionNames"],
+                           "distinctCompanies": rows_[0]["collisionDistinct"]})
     matched, hub_only, attio_only = link(hub, attio)
 
     # Three things get pulled out of hub_only before it is reported, because
@@ -514,6 +580,19 @@ def reconcile(hub, attio, series_b_mode="dual", names=None, seed=None):
     # cluster where NO doc reached Attio is still a genuine hub-only company.
     explained = {k for group in duplicates if group["primaryKey"] in matched_keys
                  for k in [d["key"] for d in group["duplicates"]]}
+    # A record carved out of a NON-distinct collision is the same company under
+    # a second Attio domain, not a company the hub is missing. Creating a doc
+    # for it would manufacture exactly the duplicate find_hub_duplicates exists
+    # to catch. Reported as Attio-side duplicates to merge instead.
+    # Guarded on the OTHER side having actually matched: if neither half of a
+    # duplicate pair reached the hub, the company is genuinely missing and must
+    # stay in attio_only. Setting both aside would drop it from the report
+    # entirely -- silence on a real gap, the one failure mode worse than a
+    # spurious duplicate.
+    dup_record_keys = ({c["key"] for c in collisions if not c["distinctCompanies"]}
+                       & {a.get("splitFromKey") for _, a, _ in matched})
+    attio_dup_records = [r for r in attio_only if r.get("splitFromKey") in dup_record_keys]
+    attio_only = [r for r in attio_only if r.get("splitFromKey") not in dup_record_keys]
     test_fixtures = [r for r in hub_only if r["domain"].endswith(TEST_DOMAIN_SUFFIX)]
     fixture_keys = {r["key"] for r in test_fixtures}
     hub_dupes_only = [r for r in hub_only if r["key"] in explained and r["key"] not in fixture_keys]
@@ -649,7 +728,11 @@ def reconcile(hub, attio, series_b_mode="dual", names=None, seed=None):
             "hubDuplicatesShownAsHubOnly": len(hub_dupes_only),
             "testFixtures": len(test_fixtures),
             "historyGaps": len(history_gaps),
+            "keyCollisions": len(collisions),
+            "attioDuplicateRecords": len(attio_dup_records),
         },
+        "keyCollisions": collisions,
+        "attioDuplicateRecords": attio_dup_records,
         "historyGaps": history_gaps,
         "hubDuplicates": duplicates,
         "testFixtures": test_fixtures,
@@ -901,6 +984,23 @@ def render_markdown(report, run_date):
               ("Rule says", lambda r: r["expectedHubStage"] or f"nothing -- {r['expectedWhy']}"),
               ("Top 10 / Tier 1 (33)", lambda r: ", ".join(r["top10"] or r["tier1_33"][:3])),
           ]), ""]
+
+    if report.get("keyCollisions"):
+        L += ["## Colliding company keys", "",
+              f"{c['keyCollisions']} keys hold more than one domain. `fit_note.company_id` "
+              "keys a company on `domain.split(\".\")[0]` -- only the first label -- which "
+              "modern TLDs make collide. Each side is re-keyed here on its full domain so "
+              "the two stop sharing one hub doc, but **company_id itself is unchanged**, so "
+              "anything else importing these companies will collide again.", "",
+              _table(report["keyCollisions"], [
+                  ("Key", lambda r: f"`{r['key']}`"),
+                  ("Domains", lambda r: " + ".join(r["domains"])),
+                  ("Names", lambda r: " / ".join(r["names"])),
+                  ("Verdict", lambda r: "**two different companies**" if r["distinctCompanies"]
+                                        else "same company, duplicate Attio records -- merge in Attio"),
+              ]), "",
+              f"{c['attioDuplicateRecords']} Attio records were set aside as duplicates of a "
+              "company the hub already has, rather than created as new hub docs.", ""]
 
     L += ["## Duplicate hub docs", "",
           f"{c['hubDuplicateCompanies']} companies hold {c['hubDuplicateDocs']} extra doc(s) "

@@ -360,6 +360,73 @@ def test_history_falls_back_to_the_single_stage_when_no_deal_list_is_present():
     assert ds.reconcile(hub, attio)["historyGaps"][0]["historyMissing"] == ["pipeline"]
 
 
+# ── colliding company keys ───────────────────────────────────────────────────
+
+def _rows(*specs):
+    """Minimal read_rows()-shaped rows: (name, domain, stage, series)."""
+    return [{"record_id": "", "name": n, "domain": d, "stage": st, "stage_changed_at": "",
+             "deal_date": "", "series": s, "description": "", "investor_names": [],
+             "investor_domains": [], "access": ""} for n, d, st, s in specs]
+
+
+def test_two_companies_sharing_a_first_domain_label_are_split():
+    """pi.website and pi.security both key to 'pi' -- two different companies
+    silently sharing one hub doc, and the reason Physical Intelligence had none."""
+    attio = ds._attio_companies_from_rows(_rows(
+        ("Physical Intelligence", "pi.website", "Qualified", "Series B"),
+        ("Pi Security", "pi.security", "Qualified", "Series B")))
+    assert sorted(attio) == ["pi-security", "pi-website"]
+    assert attio["pi-website"]["collisionDistinct"] is True
+
+
+def test_same_company_on_two_domains_is_not_called_distinct():
+    """Attio's disambiguating parenthetical must not make one company read as two."""
+    attio = ds._attio_companies_from_rows(_rows(
+        ("Warp", "warp.dev", "Passed", "Series B"),
+        ("Warp (Business/Productivity Software)", "warp.co", "Qualified", "Series B")))
+    assert attio["warp-dev"]["collisionDistinct"] is False
+
+
+def test_a_non_colliding_key_is_left_alone():
+    attio = ds._attio_companies_from_rows(_rows(("Acme", "acme.com", "Qualified", "Series C")))
+    assert list(attio) == ["acme"]
+    assert attio["acme"].get("splitFromKey") is None
+
+
+def test_duplicate_attio_record_is_not_created_as_a_second_hub_doc():
+    """Creating one would manufacture exactly the duplicate hub doc that
+    find_hub_duplicates exists to catch."""
+    attio = ds._attio_companies_from_rows(_rows(
+        ("Onyx", "onyx.security", "Qualified", "Series B"),
+        ("Onyx", "onyx.app", "Qualified", "Series B")))
+    hub = ds.hub_companies_from_snapshot(
+        [{"id": "onyx", "name": "Onyx", "website": "onyx.security", "stage": "qualified"}])
+    rep = ds.reconcile(hub, attio)
+    assert rep["counts"]["attioOnly"] == 0
+    assert [r["name"] for r in rep["attioDuplicateRecords"]] == ["Onyx"]
+
+
+def test_a_duplicate_pair_the_hub_has_neither_of_stays_reported():
+    """Setting both aside would drop a genuinely missing company from the
+    report -- silence on a real gap."""
+    attio = ds._attio_companies_from_rows(_rows(
+        ("Ghost", "ghost.security", "Qualified", "Series B"),
+        ("Ghost", "ghost.app", "Qualified", "Series B")))
+    rep = ds.reconcile({}, attio)
+    assert rep["counts"]["attioOnly"] == 2
+    assert rep["attioDuplicateRecords"] == []
+
+
+def test_the_distinct_company_does_get_its_own_hub_doc():
+    attio = ds._attio_companies_from_rows(_rows(
+        ("Physical Intelligence", "pi.website", "Qualified", "Series B"),
+        ("Pi Security", "pi.security", "Qualified", "Series B")))
+    hub = ds.hub_companies_from_snapshot(
+        [{"id": "pi", "name": "Pi Security", "website": "pi.security", "stage": "qualified"}])
+    rep = ds.reconcile(hub, attio)
+    assert [r["name"] for r in rep["attioOnly"]] == ["Physical Intelligence"]
+
+
 # ── duplicate hub docs ───────────────────────────────────────────────────────
 
 def _dup_snapshot():

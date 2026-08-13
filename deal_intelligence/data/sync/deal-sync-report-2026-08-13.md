@@ -1,9 +1,9 @@
 # Attio <-> Hub deal sync -- 2026-08-13
 
-- Attio companies (deals grouped by company): **309**
+- Attio companies (deals grouped by company): **318**
 - Hub companies (Firestore `companies`, round docs folded in): **314**
-- Matched on both sides: **307** (306 by key, 1 by name)
-- **In Attio, missing from the hub: 2**
+- Matched on both sides: **307** (302 by key, 4 by domain, 1 by name)
+- **In Attio, missing from the hub: 8**
 - **In the hub, missing from Attio: 1** (after setting aside 5 duplicate hub docs and 2 test fixtures)
 - Placement disagreements among matched deals: **41** (agreed: 128)
 - Matched but filed by hand in Attio (Passed/Invested -- rule not applied): 34
@@ -14,29 +14,33 @@ Those five buckets partition the 307 matched companies (41 + 128 + 34 + 17 + 87 
 
 Placement rule applied: **Tier 1 (33) investor + above Series B -> Qualified**; **Top 10 investor + Series B or below -> Radar**. Series-B mode: `dual`.
 
-## Companies to add
-
-5 of 6 are missing from Attio, and are written to the `attio-import` CSV alongside this report -- import that through Attio's UI, or let `--apply-attio --yes` create them. A company missing from BOTH sides can only come from this list; nothing else in the report can derive it.
-
-| Company | Domain | Series | In Attio | In hub | Matched as | ID8 holding? |
-|---|---|---|---|---|---|---|
-| OneBrief | onebrief.com | - | **no** | **no** | - | - |
-| Replit | replit.com | - | **no** | **no** | - | **YES -- not a prospect** |
-| Together AI | together.ai | - | **no** | **no** | - | **YES -- not a prospect** |
-| Wonderful AI | wonderful.ai | - | **no** | **no** | - | - |
-| Raindrop | raindrop.ai | - | **no** | **no** | - | - |
-| Warp | warp.dev | - | yes -- Qualified | yes -- no stage | Warp (Business/Productivity Software) | - |
-
-> **2 of these are companies ID8 already owns** (Replit, Together AI). They would be created at stage `Invested`, but every other holding in Attio is filed `Invested`. Set the `stage` column to Invested in the seed CSV before applying, or drop them.
-
 ## In Attio, missing from the hub
 
-2 companies. `Should be` is where the rule puts them; a blank means the rule places them nowhere (below mandate, or no Tier 1 backer) -- those need a human call, not an automatic push.
+8 companies. All of them get created by `--apply-hub`: a deal that exists in Attio belongs in the hub regardless of whether the series rule can place it. `Created as` is the rule's placement when it has one, else Attio's own stage, else `new` (hub-next's triage bucket, which surfaces in the Admin page's Needs Triage table rather than blending into a real tab).
 
-| Company | Domain | Series | Attio stage | Should be | Top 10 / Tier 1 (33) |
-|---|---|---|---|---|---|
-| Impulse Space | impulsespace.com | Series D | Pipeline | Qualified | Founders Fund, Lux Capital |
-| Cathedral |  |  | Radar | -- | Sequoia Capital |
+| Company | Domain | Series | Attio stage | Created as | Rule says | Top 10 / Tier 1 (33) |
+|---|---|---|---|---|---|---|
+| Impulse Space | impulsespace.com | Series D | Pipeline | qualified + pipeline | Qualified | Founders Fund, Lux Capital |
+| Physical Intelligence | pi.website | Series B | Qualified | qualified + radar | Qualified | Index Ventures, ICONIQ Capital, Thrive Capital |
+| Cathedral |  |  | Radar | radar | nothing -- series unknown -- cannot place from the rule | Sequoia Capital |
+| OneBrief | onebrief.com |  | Pipeline | pipeline | nothing -- series unknown -- cannot place from the rule |  |
+| Raindrop | raindrop.ai |  | Pipeline | pipeline | nothing -- series unknown -- cannot place from the rule |  |
+| Replit | replit.com |  | Invested | invested | nothing -- series unknown -- cannot place from the rule |  |
+| Together AI | together.ai |  | Invested | invested | nothing -- series unknown -- cannot place from the rule |  |
+| Wonderful AI | wonderful.ai |  | Pipeline | pipeline | nothing -- series unknown -- cannot place from the rule |  |
+
+## Colliding company keys
+
+4 keys hold more than one domain. `fit_note.company_id` keys a company on `domain.split(".")[0]` -- only the first label -- which modern TLDs make collide. Each side is re-keyed here on its full domain so the two stop sharing one hub doc, but **company_id itself is unchanged**, so anything else importing these companies will collide again.
+
+| Key | Domains | Names | Verdict |
+|---|---|---|---|
+| `onyx` | onyx.app + onyx.security | Onyx | same company, duplicate Attio records -- merge in Attio |
+| `pi` | pi.security + pi.website | Physical Intelligence / Pi Security | **two different companies** |
+| `simile` | simile.ai + simile.com | Simile | same company, duplicate Attio records -- merge in Attio |
+| `warp` | warp.co + warp.dev | Warp / Warp (Business/Productivity Software) | same company, duplicate Attio records -- merge in Attio |
+
+3 Attio records were set aside as duplicates of a company the hub already has, rather than created as new hub docs.
 
 ## Duplicate hub docs
 
@@ -101,7 +105,7 @@ Matched on both sides, but at least one side isn't where the rule says it should
 | Onyx | Series B | Radar | pipeline +radar | Qualified + radar | +tag qualified | stage -> Qualified | Series B with a Top 10 investor (in mandate at B+, and just raised) |
 | Pallet | Series C | Target | new | Qualified | stage -> qualified | stage -> Qualified | above Series B with a Tier 1 (33) investor |
 | Parallel | Series B | Watchlist | watchlist +radar | Qualified + radar | +tag qualified | stage -> Qualified | Series B with a Top 10 investor (in mandate at B+, and just raised) |
-| Pi Security | Series B | Qualified | qualified | Qualified + radar | +tag radar | - | Series B with a Top 10 investor (in mandate at B+, and just raised) |
+| Pi Security | Series B | Pipeline | qualified | Qualified + radar | +tag radar | stage -> Qualified | Series B with a Top 10 investor (in mandate at B+, and just raised) |
 | Revel (Business/Productivity Software) | Series B | Pipeline | pipeline +radar | Qualified + radar | +tag qualified | stage -> Qualified | Series B with a Top 10 investor (in mandate at B+, and just raised) |
 | Ricursive Intelligence | Series A | Watchlist | watchlist +radar | Radar | - | stage -> Radar | below Series B with a Top 10 investor |
 | Rogo (Business/Productivity Software) | Series D | Watchlist | watchlist | Qualified | +tag qualified | stage -> Qualified | above Series B with a Tier 1 (33) investor |
@@ -139,14 +143,14 @@ Matched on both sides, but at least one side isn't where the rule says it should
 | Norm Ai | Qualified | None | qualified |
 | Ollama | Radar, Watchlist | radar +pipeline | watchlist |
 | Ollin | Qualified | None | qualified |
-| Pi Security | Pipeline, Qualified | qualified | pipeline |
+| Pi Security | Pipeline | qualified | pipeline |
 | Pocket | Radar | None | radar |
 | Profound | Pipeline, Qualified | qualified | pipeline |
 | Rogo (Business/Productivity Software) | Qualified, Watchlist | watchlist | qualified |
 | Sable AI | Radar | qualified | radar |
-| Simile | Pipeline, Radar | pipeline | radar |
+| Simile | Radar | pipeline | radar |
 | Temporal | Pipeline, Qualified | qualified | pipeline |
-| Warp | Passed, Qualified | None | passed, pipeline, qualified |
+| Warp | Qualified | None | qualified |
 | nous research | Pipeline | None | pipeline |
 
 ## Above Series B, no Tier 1 (33) investor
@@ -320,7 +324,7 @@ Matched on both sides, but at least one side isn't where the rule says it should
 | Pace | Series B | Qualified | qualified +radar | Sequoia Capital, Thrive Capital |
 | Parallel | Series B | Watchlist | watchlist +radar | Sequoia Capital, Index Ventures |
 | PermitFlow | Series B | Passed | passed +passed,pipeline | Accel |
-| Pi Security | Series B | Qualified | qualified | Index Ventures, ICONIQ Capital, Thrive Capital |
+| Pi Security | Series B | Pipeline | qualified | Index Ventures, ICONIQ Capital, Thrive Capital |
 | PointFive | Series B | Qualified | qualified +radar | Index Ventures, Accel |
 | Reducto | Series B | Qualified | qualified +radar | Benchmark |
 | Reflection AI | Series B | Invested | invested | Sequoia Capital, Lightspeed Venture Partners |

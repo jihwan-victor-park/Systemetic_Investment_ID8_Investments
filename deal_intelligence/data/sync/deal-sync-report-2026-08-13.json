@@ -1,10 +1,10 @@
 {
   "counts": {
     "hubCompanies": 314,
-    "attioCompanies": 309,
+    "attioCompanies": 318,
     "matched": 307,
     "hubOnly": 1,
-    "attioOnly": 2,
+    "attioOnly": 8,
     "placementMismatches": 41,
     "placementAgreed": 128,
     "humanFiled": 34,
@@ -15,8 +15,167 @@
     "hubDuplicateDocs": 5,
     "hubDuplicatesShownAsHubOnly": 4,
     "testFixtures": 2,
-    "historyGaps": 30
+    "historyGaps": 30,
+    "keyCollisions": 4,
+    "attioDuplicateRecords": 3
   },
+  "keyCollisions": [
+    {
+      "key": "onyx",
+      "domains": [
+        "onyx.app",
+        "onyx.security"
+      ],
+      "names": [
+        "Onyx"
+      ],
+      "distinctCompanies": false
+    },
+    {
+      "key": "pi",
+      "domains": [
+        "pi.security",
+        "pi.website"
+      ],
+      "names": [
+        "Physical Intelligence",
+        "Pi Security"
+      ],
+      "distinctCompanies": true
+    },
+    {
+      "key": "simile",
+      "domains": [
+        "simile.ai",
+        "simile.com"
+      ],
+      "names": [
+        "Simile"
+      ],
+      "distinctCompanies": false
+    },
+    {
+      "key": "warp",
+      "domains": [
+        "warp.co",
+        "warp.dev"
+      ],
+      "names": [
+        "Warp",
+        "Warp (Business/Productivity Software)"
+      ],
+      "distinctCompanies": false
+    }
+  ],
+  "attioDuplicateRecords": [
+    {
+      "key": "onyx-app",
+      "name": "Onyx",
+      "domain": "onyx.app",
+      "series": "Series A",
+      "stage": "Pipeline",
+      "record_id": "ea2ab2b2-326e-4335-9606-b8e7910bcab7",
+      "deal_date": "",
+      "investors": [
+        "Bessemer Venture Partners"
+      ],
+      "investorDomains": [
+        "bvp.com"
+      ],
+      "top10": [
+        "Bessemer Venture Partners"
+      ],
+      "tier1_33": [
+        "Bessemer Venture Partners"
+      ],
+      "rounds": [
+        "Series A"
+      ],
+      "allStages": [
+        "Pipeline"
+      ],
+      "dealCount": 1,
+      "splitFromKey": "onyx",
+      "collisionDomains": [
+        "onyx.app",
+        "onyx.security"
+      ],
+      "collisionNames": [
+        "Onyx"
+      ],
+      "collisionDistinct": false
+    },
+    {
+      "key": "simile-ai",
+      "name": "Simile",
+      "domain": "simile.ai",
+      "series": "Series A",
+      "stage": "Pipeline",
+      "record_id": "10c847b3-2d3a-4eac-bed3-a61b5b13288e",
+      "deal_date": "",
+      "investors": [
+        "Greenoaks",
+        "Index Ventures"
+      ],
+      "investorDomains": [
+        "greenoaks.com",
+        "indexventures.com"
+      ],
+      "top10": [
+        "Index Ventures",
+        "Greenoaks Capital Partners"
+      ],
+      "tier1_33": [
+        "Index Ventures"
+      ],
+      "rounds": [
+        "Series A"
+      ],
+      "allStages": [
+        "Pipeline"
+      ],
+      "dealCount": 1,
+      "splitFromKey": "simile",
+      "collisionDomains": [
+        "simile.ai",
+        "simile.com"
+      ],
+      "collisionNames": [
+        "Simile"
+      ],
+      "collisionDistinct": false
+    },
+    {
+      "key": "warp-dev",
+      "name": "Warp",
+      "domain": "warp.dev",
+      "series": "Series B",
+      "stage": "Passed",
+      "record_id": "716e9b91-1b08-4cc0-9be3-526c24e8fdf3",
+      "deal_date": "2026-05-18",
+      "investors": [],
+      "investorDomains": [],
+      "top10": [],
+      "tier1_33": [],
+      "rounds": [
+        "Series B"
+      ],
+      "allStages": [
+        "Passed"
+      ],
+      "dealCount": 1,
+      "splitFromKey": "warp",
+      "collisionDomains": [
+        "warp.co",
+        "warp.dev"
+      ],
+      "collisionNames": [
+        "Warp",
+        "Warp (Business/Productivity Software)"
+      ],
+      "collisionDistinct": false
+    }
+  ],
   "historyGaps": [
     {
       "key": "advancell",
@@ -879,52 +1038,6 @@
       ]
     },
     {
-      "key": "pi",
-      "attioKey": "pi",
-      "name": "Pi Security",
-      "matchBasis": "key",
-      "series": "Series B",
-      "band": "b",
-      "attioStage": "Qualified",
-      "hubStage": "qualified",
-      "hubTags": [],
-      "expectedStage": "Qualified",
-      "expectedTags": [
-        "radar"
-      ],
-      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
-      "top10": [
-        "Index Ventures",
-        "ICONIQ Capital",
-        "Thrive Capital"
-      ],
-      "tier1_33": [
-        "Index Ventures",
-        "Lux Capital",
-        "Thrive Capital"
-      ],
-      "attioRecordId": "c57f28d0-5274-4aa3-a6df-081faee60766",
-      "attioAllStages": [
-        "Pipeline",
-        "Qualified"
-      ],
-      "attioHistoryTags": [
-        "pipeline",
-        "qualified"
-      ],
-      "historyMissing": [
-        "pipeline"
-      ],
-      "hubSetStage": null,
-      "hubAddTags": [
-        "radar"
-      ],
-      "hubNeeds": [
-        "radar"
-      ],
-      "attioNeeds": null
-    },
-    {
       "key": "rogo",
       "attioKey": "rogo",
       "name": "Rogo (Business/Productivity Software)",
@@ -965,53 +1078,6 @@
       ],
       "hubNeeds": [
         "qualified"
-      ],
-      "attioNeeds": "Qualified"
-    },
-    {
-      "key": "simile",
-      "attioKey": "simile",
-      "name": "Simile",
-      "matchBasis": "key",
-      "series": "Series B",
-      "band": "b",
-      "attioStage": "Radar",
-      "hubStage": "pipeline",
-      "hubTags": [],
-      "expectedStage": "Qualified",
-      "expectedTags": [
-        "radar"
-      ],
-      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
-      "top10": [
-        "Index Ventures",
-        "Bain Capital Ventures",
-        "Greenoaks Capital Partners"
-      ],
-      "tier1_33": [
-        "Bain Capital Ventures",
-        "Index Ventures"
-      ],
-      "attioRecordId": "a33bbc68-9b61-4b31-90e2-5c98fc181a0f",
-      "attioAllStages": [
-        "Pipeline",
-        "Radar"
-      ],
-      "attioHistoryTags": [
-        "pipeline",
-        "radar"
-      ],
-      "historyMissing": [
-        "radar"
-      ],
-      "hubSetStage": null,
-      "hubAddTags": [
-        "qualified",
-        "radar"
-      ],
-      "hubNeeds": [
-        "qualified",
-        "radar"
       ],
       "attioNeeds": "Qualified"
     },
@@ -1089,39 +1155,6 @@
       ]
     },
     {
-      "key": "warp",
-      "attioKey": "warp",
-      "name": "Warp",
-      "matchBasis": "key",
-      "series": "Series B",
-      "band": "b",
-      "attioStage": "Qualified",
-      "hubStage": null,
-      "hubTags": [],
-      "expectedStage": null,
-      "expectedTags": [],
-      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
-      "top10": [],
-      "tier1_33": [
-        "Battery Ventures"
-      ],
-      "attioRecordId": "b4bdc6c2-0882-4237-a87c-785e381f5c47",
-      "attioAllStages": [
-        "Passed",
-        "Qualified"
-      ],
-      "attioHistoryTags": [
-        "passed",
-        "pipeline",
-        "qualified"
-      ],
-      "historyMissing": [
-        "passed",
-        "pipeline",
-        "qualified"
-      ]
-    },
-    {
       "key": "withsable",
       "attioKey": "withsable",
       "name": "Sable AI",
@@ -1150,6 +1183,123 @@
       ],
       "historyMissing": [
         "radar"
+      ]
+    },
+    {
+      "key": "pi",
+      "attioKey": "pi-security",
+      "name": "Pi Security",
+      "matchBasis": "domain",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Pipeline",
+      "hubStage": "qualified",
+      "hubTags": [],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Index Ventures",
+        "ICONIQ Capital",
+        "Thrive Capital"
+      ],
+      "tier1_33": [
+        "Index Ventures",
+        "Lux Capital",
+        "Thrive Capital"
+      ],
+      "attioRecordId": "7b5ccdfa-9f77-41d6-8360-6caaccd56179",
+      "attioAllStages": [
+        "Pipeline"
+      ],
+      "attioHistoryTags": [
+        "pipeline"
+      ],
+      "historyMissing": [
+        "pipeline"
+      ],
+      "hubSetStage": null,
+      "hubAddTags": [
+        "radar"
+      ],
+      "hubNeeds": [
+        "radar"
+      ],
+      "attioNeeds": "Qualified"
+    },
+    {
+      "key": "simile",
+      "attioKey": "simile-com",
+      "name": "Simile",
+      "matchBasis": "domain",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Radar",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Index Ventures",
+        "Bain Capital Ventures",
+        "Greenoaks Capital Partners"
+      ],
+      "tier1_33": [
+        "Bain Capital Ventures",
+        "Index Ventures"
+      ],
+      "attioRecordId": "a33bbc68-9b61-4b31-90e2-5c98fc181a0f",
+      "attioAllStages": [
+        "Radar"
+      ],
+      "attioHistoryTags": [
+        "radar"
+      ],
+      "historyMissing": [
+        "radar"
+      ],
+      "hubSetStage": null,
+      "hubAddTags": [
+        "qualified",
+        "radar"
+      ],
+      "hubNeeds": [
+        "qualified",
+        "radar"
+      ],
+      "attioNeeds": "Qualified"
+    },
+    {
+      "key": "warp",
+      "attioKey": "warp-co",
+      "name": "Warp",
+      "matchBasis": "domain",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": null,
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "Battery Ventures"
+      ],
+      "attioRecordId": "b4bdc6c2-0882-4237-a87c-785e381f5c47",
+      "attioAllStages": [
+        "Qualified"
+      ],
+      "attioHistoryTags": [
+        "qualified"
+      ],
+      "historyMissing": [
+        "qualified"
       ]
     }
   ],
@@ -1347,7 +1497,9 @@
       "dealCount": 1,
       "expectedHubStage": null,
       "expectedHubTags": [],
-      "expectedWhy": "series unknown -- cannot place from the rule"
+      "expectedWhy": "series unknown -- cannot place from the rule",
+      "hubCreateStage": "radar",
+      "hubCreateTags": []
     },
     {
       "key": "impulsespace",
@@ -1490,7 +1642,215 @@
       "dealCount": 1,
       "expectedHubStage": "Qualified",
       "expectedHubTags": [],
-      "expectedWhy": "above Series B with a Tier 1 (33) investor"
+      "expectedWhy": "above Series B with a Tier 1 (33) investor",
+      "hubCreateStage": "qualified",
+      "hubCreateTags": [
+        "pipeline"
+      ]
+    },
+    {
+      "key": "onebrief",
+      "name": "OneBrief",
+      "domain": "onebrief.com",
+      "series": "",
+      "stage": "Pipeline",
+      "record_id": "52fd92b4-e99f-4069-8c6c-24f9be0e9775",
+      "deal_date": "",
+      "investors": [],
+      "investorDomains": [],
+      "top10": [],
+      "tier1_33": [],
+      "rounds": [],
+      "allStages": [
+        "Pipeline"
+      ],
+      "dealCount": 1,
+      "expectedHubStage": null,
+      "expectedHubTags": [],
+      "expectedWhy": "series unknown -- cannot place from the rule",
+      "hubCreateStage": "pipeline",
+      "hubCreateTags": []
+    },
+    {
+      "key": "pi-website",
+      "name": "Physical Intelligence",
+      "domain": "pi.website",
+      "series": "Series B",
+      "stage": "Qualified",
+      "record_id": "c57f28d0-5274-4aa3-a6df-081faee60766",
+      "deal_date": "2025-11-20",
+      "investors": [
+        "137 Ventures",
+        "Abstract",
+        "Alkeon Capital Management",
+        "Black Box VC",
+        "CapitalG",
+        "Emergence Capital",
+        "Factorial Funds",
+        "G Squared",
+        "HAM Ventures USA",
+        "IconiQ",
+        "Index Ventures",
+        "Lux Capital",
+        "NVIDIA",
+        "Positive Sum",
+        "S32",
+        "Saraswati Investing",
+        "T. Rowe Price",
+        "Thrive Capital",
+        "Trust Ventures"
+      ],
+      "investorDomains": [
+        "137ventures.com",
+        "abstract.com",
+        "alkeoncapital.com",
+        "alpen.vc",
+        "blackboxvc.io",
+        "capitalg.com",
+        "emcap.com",
+        "factorialfunds.com",
+        "gsquared.com",
+        "hamventuresusa.com",
+        "iconiq.com",
+        "indexventures.com",
+        "luxcapital.com",
+        "mangustacap.com",
+        "nventures.ai",
+        "positivesum.com",
+        "s32.com",
+        "saraswativentures.com",
+        "thrivecap.com",
+        "troweprice.com",
+        "trustventures.com"
+      ],
+      "top10": [
+        "Index Ventures",
+        "ICONIQ Capital",
+        "Thrive Capital"
+      ],
+      "tier1_33": [
+        "Index Ventures",
+        "Lux Capital",
+        "Thrive Capital"
+      ],
+      "rounds": [
+        "Series B"
+      ],
+      "allStages": [
+        "Qualified"
+      ],
+      "dealCount": 1,
+      "splitFromKey": "pi",
+      "collisionDomains": [
+        "pi.security",
+        "pi.website"
+      ],
+      "collisionNames": [
+        "Physical Intelligence",
+        "Pi Security"
+      ],
+      "collisionDistinct": true,
+      "expectedHubStage": "Qualified",
+      "expectedHubTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "hubCreateStage": "qualified",
+      "hubCreateTags": [
+        "radar"
+      ]
+    },
+    {
+      "key": "raindrop",
+      "name": "Raindrop",
+      "domain": "raindrop.ai",
+      "series": "",
+      "stage": "Pipeline",
+      "record_id": "133f56eb-91f2-4a87-ad7e-fde8275d8cce",
+      "deal_date": "",
+      "investors": [],
+      "investorDomains": [],
+      "top10": [],
+      "tier1_33": [],
+      "rounds": [],
+      "allStages": [
+        "Pipeline"
+      ],
+      "dealCount": 1,
+      "expectedHubStage": null,
+      "expectedHubTags": [],
+      "expectedWhy": "series unknown -- cannot place from the rule",
+      "hubCreateStage": "pipeline",
+      "hubCreateTags": []
+    },
+    {
+      "key": "replit",
+      "name": "Replit",
+      "domain": "replit.com",
+      "series": "",
+      "stage": "Invested",
+      "record_id": "4fba980b-825f-4442-a429-c09b194d82dc",
+      "deal_date": "",
+      "investors": [],
+      "investorDomains": [],
+      "top10": [],
+      "tier1_33": [],
+      "rounds": [],
+      "allStages": [
+        "Invested"
+      ],
+      "dealCount": 1,
+      "expectedHubStage": null,
+      "expectedHubTags": [],
+      "expectedWhy": "series unknown -- cannot place from the rule",
+      "hubCreateStage": "invested",
+      "hubCreateTags": []
+    },
+    {
+      "key": "together",
+      "name": "Together AI",
+      "domain": "together.ai",
+      "series": "",
+      "stage": "Invested",
+      "record_id": "650055f1-7ae5-46b9-8ec8-176864587bca",
+      "deal_date": "",
+      "investors": [],
+      "investorDomains": [],
+      "top10": [],
+      "tier1_33": [],
+      "rounds": [],
+      "allStages": [
+        "Invested"
+      ],
+      "dealCount": 1,
+      "expectedHubStage": null,
+      "expectedHubTags": [],
+      "expectedWhy": "series unknown -- cannot place from the rule",
+      "hubCreateStage": "invested",
+      "hubCreateTags": []
+    },
+    {
+      "key": "wonderful",
+      "name": "Wonderful AI",
+      "domain": "wonderful.ai",
+      "series": "",
+      "stage": "Pipeline",
+      "record_id": "d065c96a-c8d4-45c8-8ebc-cfc0ca0731a0",
+      "deal_date": "",
+      "investors": [],
+      "investorDomains": [],
+      "top10": [],
+      "tier1_33": [],
+      "rounds": [],
+      "allStages": [
+        "Pipeline"
+      ],
+      "dealCount": 1,
+      "expectedHubStage": null,
+      "expectedHubTags": [],
+      "expectedWhy": "series unknown -- cannot place from the rule",
+      "hubCreateStage": "pipeline",
+      "hubCreateTags": []
     }
   ],
   "hubOnly": [
@@ -2605,49 +2965,6 @@
       "attioNeeds": "Qualified"
     },
     {
-      "key": "onyx",
-      "attioKey": "onyx",
-      "name": "Onyx",
-      "matchBasis": "key",
-      "series": "Series B",
-      "band": "b",
-      "attioStage": "Radar",
-      "hubStage": "pipeline",
-      "hubTags": [
-        "radar"
-      ],
-      "expectedStage": "Qualified",
-      "expectedTags": [
-        "radar"
-      ],
-      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
-      "top10": [
-        "Bessemer Venture Partners"
-      ],
-      "tier1_33": [
-        "Bessemer Venture Partners",
-        "TCV"
-      ],
-      "attioRecordId": "3c49ab5b-ed4d-4aba-9e93-b05c291855fa",
-      "attioAllStages": [
-        "Pipeline",
-        "Radar"
-      ],
-      "attioHistoryTags": [
-        "pipeline",
-        "radar"
-      ],
-      "historyMissing": [],
-      "hubSetStage": null,
-      "hubAddTags": [
-        "qualified"
-      ],
-      "hubNeeds": [
-        "qualified"
-      ],
-      "attioNeeds": "Qualified"
-    },
-    {
       "key": "pallet",
       "attioKey": "pallet",
       "name": "Pallet",
@@ -2720,52 +3037,6 @@
         "qualified"
       ],
       "attioNeeds": "Qualified"
-    },
-    {
-      "key": "pi",
-      "attioKey": "pi",
-      "name": "Pi Security",
-      "matchBasis": "key",
-      "series": "Series B",
-      "band": "b",
-      "attioStage": "Qualified",
-      "hubStage": "qualified",
-      "hubTags": [],
-      "expectedStage": "Qualified",
-      "expectedTags": [
-        "radar"
-      ],
-      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
-      "top10": [
-        "Index Ventures",
-        "ICONIQ Capital",
-        "Thrive Capital"
-      ],
-      "tier1_33": [
-        "Index Ventures",
-        "Lux Capital",
-        "Thrive Capital"
-      ],
-      "attioRecordId": "c57f28d0-5274-4aa3-a6df-081faee60766",
-      "attioAllStages": [
-        "Pipeline",
-        "Qualified"
-      ],
-      "attioHistoryTags": [
-        "pipeline",
-        "qualified"
-      ],
-      "historyMissing": [
-        "pipeline"
-      ],
-      "hubSetStage": null,
-      "hubAddTags": [
-        "radar"
-      ],
-      "hubNeeds": [
-        "radar"
-      ],
-      "attioNeeds": null
     },
     {
       "key": "revel",
@@ -2926,53 +3197,6 @@
       "attioNeeds": "Radar"
     },
     {
-      "key": "simile",
-      "attioKey": "simile",
-      "name": "Simile",
-      "matchBasis": "key",
-      "series": "Series B",
-      "band": "b",
-      "attioStage": "Radar",
-      "hubStage": "pipeline",
-      "hubTags": [],
-      "expectedStage": "Qualified",
-      "expectedTags": [
-        "radar"
-      ],
-      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
-      "top10": [
-        "Index Ventures",
-        "Bain Capital Ventures",
-        "Greenoaks Capital Partners"
-      ],
-      "tier1_33": [
-        "Bain Capital Ventures",
-        "Index Ventures"
-      ],
-      "attioRecordId": "a33bbc68-9b61-4b31-90e2-5c98fc181a0f",
-      "attioAllStages": [
-        "Pipeline",
-        "Radar"
-      ],
-      "attioHistoryTags": [
-        "pipeline",
-        "radar"
-      ],
-      "historyMissing": [
-        "radar"
-      ],
-      "hubSetStage": null,
-      "hubAddTags": [
-        "qualified",
-        "radar"
-      ],
-      "hubNeeds": [
-        "qualified",
-        "radar"
-      ],
-      "attioNeeds": "Qualified"
-    },
-    {
       "key": "snorkel",
       "attioKey": "snorkel",
       "name": "Snorkel",
@@ -3114,6 +3338,136 @@
         "radar"
       ],
       "attioNeeds": "Radar"
+    },
+    {
+      "key": "onyx",
+      "attioKey": "onyx-security",
+      "name": "Onyx",
+      "matchBasis": "domain",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Radar",
+      "hubStage": "pipeline",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Bessemer Venture Partners"
+      ],
+      "tier1_33": [
+        "Bessemer Venture Partners",
+        "TCV"
+      ],
+      "attioRecordId": "3c49ab5b-ed4d-4aba-9e93-b05c291855fa",
+      "attioAllStages": [
+        "Radar"
+      ],
+      "attioHistoryTags": [
+        "radar"
+      ],
+      "historyMissing": [],
+      "hubSetStage": null,
+      "hubAddTags": [
+        "qualified"
+      ],
+      "hubNeeds": [
+        "qualified"
+      ],
+      "attioNeeds": "Qualified"
+    },
+    {
+      "key": "pi",
+      "attioKey": "pi-security",
+      "name": "Pi Security",
+      "matchBasis": "domain",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Pipeline",
+      "hubStage": "qualified",
+      "hubTags": [],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Index Ventures",
+        "ICONIQ Capital",
+        "Thrive Capital"
+      ],
+      "tier1_33": [
+        "Index Ventures",
+        "Lux Capital",
+        "Thrive Capital"
+      ],
+      "attioRecordId": "7b5ccdfa-9f77-41d6-8360-6caaccd56179",
+      "attioAllStages": [
+        "Pipeline"
+      ],
+      "attioHistoryTags": [
+        "pipeline"
+      ],
+      "historyMissing": [
+        "pipeline"
+      ],
+      "hubSetStage": null,
+      "hubAddTags": [
+        "radar"
+      ],
+      "hubNeeds": [
+        "radar"
+      ],
+      "attioNeeds": "Qualified"
+    },
+    {
+      "key": "simile",
+      "attioKey": "simile-com",
+      "name": "Simile",
+      "matchBasis": "domain",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Radar",
+      "hubStage": "pipeline",
+      "hubTags": [],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Index Ventures",
+        "Bain Capital Ventures",
+        "Greenoaks Capital Partners"
+      ],
+      "tier1_33": [
+        "Bain Capital Ventures",
+        "Index Ventures"
+      ],
+      "attioRecordId": "a33bbc68-9b61-4b31-90e2-5c98fc181a0f",
+      "attioAllStages": [
+        "Radar"
+      ],
+      "attioHistoryTags": [
+        "radar"
+      ],
+      "historyMissing": [
+        "radar"
+      ],
+      "hubSetStage": null,
+      "hubAddTags": [
+        "qualified",
+        "radar"
+      ],
+      "hubNeeds": [
+        "qualified",
+        "radar"
+      ],
+      "attioNeeds": "Qualified"
     },
     {
       "key": "braintrust-software-development-applications",
@@ -6618,39 +6972,6 @@
       "historyMissing": []
     },
     {
-      "key": "warp",
-      "attioKey": "warp",
-      "name": "Warp",
-      "matchBasis": "key",
-      "series": "Series B",
-      "band": "b",
-      "attioStage": "Qualified",
-      "hubStage": null,
-      "hubTags": [],
-      "expectedStage": null,
-      "expectedTags": [],
-      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
-      "top10": [],
-      "tier1_33": [
-        "Battery Ventures"
-      ],
-      "attioRecordId": "b4bdc6c2-0882-4237-a87c-785e381f5c47",
-      "attioAllStages": [
-        "Passed",
-        "Qualified"
-      ],
-      "attioHistoryTags": [
-        "passed",
-        "pipeline",
-        "qualified"
-      ],
-      "historyMissing": [
-        "passed",
-        "pipeline",
-        "qualified"
-      ]
-    },
-    {
       "key": "wealth",
       "attioKey": "wealth",
       "name": "Wealth.com",
@@ -6803,6 +7124,34 @@
       ],
       "attioHistoryTags": [],
       "historyMissing": []
+    },
+    {
+      "key": "warp",
+      "attioKey": "warp-co",
+      "name": "Warp",
+      "matchBasis": "domain",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Qualified",
+      "hubStage": null,
+      "hubTags": [],
+      "expectedStage": null,
+      "expectedTags": [],
+      "expectedWhy": "Series B with a Tier 1 (33) but no Top 10 investor",
+      "top10": [],
+      "tier1_33": [
+        "Battery Ventures"
+      ],
+      "attioRecordId": "b4bdc6c2-0882-4237-a87c-785e381f5c47",
+      "attioAllStages": [
+        "Qualified"
+      ],
+      "attioHistoryTags": [
+        "qualified"
+      ],
+      "historyMissing": [
+        "qualified"
+      ]
     }
   ],
   "unplacedReasons": {
@@ -7195,49 +7544,6 @@
       "attioNeeds": "Qualified"
     },
     {
-      "key": "onyx",
-      "attioKey": "onyx",
-      "name": "Onyx",
-      "matchBasis": "key",
-      "series": "Series B",
-      "band": "b",
-      "attioStage": "Radar",
-      "hubStage": "pipeline",
-      "hubTags": [
-        "radar"
-      ],
-      "expectedStage": "Qualified",
-      "expectedTags": [
-        "radar"
-      ],
-      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
-      "top10": [
-        "Bessemer Venture Partners"
-      ],
-      "tier1_33": [
-        "Bessemer Venture Partners",
-        "TCV"
-      ],
-      "attioRecordId": "3c49ab5b-ed4d-4aba-9e93-b05c291855fa",
-      "attioAllStages": [
-        "Pipeline",
-        "Radar"
-      ],
-      "attioHistoryTags": [
-        "pipeline",
-        "radar"
-      ],
-      "historyMissing": [],
-      "hubSetStage": null,
-      "hubAddTags": [
-        "qualified"
-      ],
-      "hubNeeds": [
-        "qualified"
-      ],
-      "attioNeeds": "Qualified"
-    },
-    {
       "key": "parallel",
       "attioKey": "parallel",
       "name": "Parallel",
@@ -7282,52 +7588,6 @@
       "attioNeeds": "Qualified"
     },
     {
-      "key": "pi",
-      "attioKey": "pi",
-      "name": "Pi Security",
-      "matchBasis": "key",
-      "series": "Series B",
-      "band": "b",
-      "attioStage": "Qualified",
-      "hubStage": "qualified",
-      "hubTags": [],
-      "expectedStage": "Qualified",
-      "expectedTags": [
-        "radar"
-      ],
-      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
-      "top10": [
-        "Index Ventures",
-        "ICONIQ Capital",
-        "Thrive Capital"
-      ],
-      "tier1_33": [
-        "Index Ventures",
-        "Lux Capital",
-        "Thrive Capital"
-      ],
-      "attioRecordId": "c57f28d0-5274-4aa3-a6df-081faee60766",
-      "attioAllStages": [
-        "Pipeline",
-        "Qualified"
-      ],
-      "attioHistoryTags": [
-        "pipeline",
-        "qualified"
-      ],
-      "historyMissing": [
-        "pipeline"
-      ],
-      "hubSetStage": null,
-      "hubAddTags": [
-        "radar"
-      ],
-      "hubNeeds": [
-        "radar"
-      ],
-      "attioNeeds": null
-    },
-    {
       "key": "revel",
       "attioKey": "revel",
       "name": "Revel (Business/Productivity Software)",
@@ -7370,10 +7630,95 @@
       "attioNeeds": "Qualified"
     },
     {
+      "key": "onyx",
+      "attioKey": "onyx-security",
+      "name": "Onyx",
+      "matchBasis": "domain",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Radar",
+      "hubStage": "pipeline",
+      "hubTags": [
+        "radar"
+      ],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Bessemer Venture Partners"
+      ],
+      "tier1_33": [
+        "Bessemer Venture Partners",
+        "TCV"
+      ],
+      "attioRecordId": "3c49ab5b-ed4d-4aba-9e93-b05c291855fa",
+      "attioAllStages": [
+        "Radar"
+      ],
+      "attioHistoryTags": [
+        "radar"
+      ],
+      "historyMissing": [],
+      "hubSetStage": null,
+      "hubAddTags": [
+        "qualified"
+      ],
+      "hubNeeds": [
+        "qualified"
+      ],
+      "attioNeeds": "Qualified"
+    },
+    {
+      "key": "pi",
+      "attioKey": "pi-security",
+      "name": "Pi Security",
+      "matchBasis": "domain",
+      "series": "Series B",
+      "band": "b",
+      "attioStage": "Pipeline",
+      "hubStage": "qualified",
+      "hubTags": [],
+      "expectedStage": "Qualified",
+      "expectedTags": [
+        "radar"
+      ],
+      "expectedWhy": "Series B with a Top 10 investor (in mandate at B+, and just raised)",
+      "top10": [
+        "Index Ventures",
+        "ICONIQ Capital",
+        "Thrive Capital"
+      ],
+      "tier1_33": [
+        "Index Ventures",
+        "Lux Capital",
+        "Thrive Capital"
+      ],
+      "attioRecordId": "7b5ccdfa-9f77-41d6-8360-6caaccd56179",
+      "attioAllStages": [
+        "Pipeline"
+      ],
+      "attioHistoryTags": [
+        "pipeline"
+      ],
+      "historyMissing": [
+        "pipeline"
+      ],
+      "hubSetStage": null,
+      "hubAddTags": [
+        "radar"
+      ],
+      "hubNeeds": [
+        "radar"
+      ],
+      "attioNeeds": "Qualified"
+    },
+    {
       "key": "simile",
-      "attioKey": "simile",
+      "attioKey": "simile-com",
       "name": "Simile",
-      "matchBasis": "key",
+      "matchBasis": "domain",
       "series": "Series B",
       "band": "b",
       "attioStage": "Radar",
@@ -7395,11 +7740,9 @@
       ],
       "attioRecordId": "a33bbc68-9b61-4b31-90e2-5c98fc181a0f",
       "attioAllStages": [
-        "Pipeline",
         "Radar"
       ],
       "attioHistoryTags": [
-        "pipeline",
         "radar"
       ],
       "historyMissing": [
@@ -8931,88 +9274,10 @@
     }
   ],
   "matchBasis": {
-    "key": 306,
+    "key": 302,
+    "domain": 4,
     "name": 1
   },
   "namesCheck": null,
-  "seed": [
-    {
-      "name": "OneBrief",
-      "domain": "onebrief.com",
-      "series": "",
-      "stage": "Pipeline",
-      "key": "onebrief",
-      "inAttio": false,
-      "inHub": false,
-      "attioStage": null,
-      "hubStage": null,
-      "matchedName": null,
-      "isHolding": false
-    },
-    {
-      "name": "Replit",
-      "domain": "replit.com",
-      "series": "",
-      "stage": "Invested",
-      "key": "replit",
-      "inAttio": false,
-      "inHub": false,
-      "attioStage": null,
-      "hubStage": null,
-      "matchedName": null,
-      "isHolding": true
-    },
-    {
-      "name": "Together AI",
-      "domain": "together.ai",
-      "series": "",
-      "stage": "Invested",
-      "key": "together",
-      "inAttio": false,
-      "inHub": false,
-      "attioStage": null,
-      "hubStage": null,
-      "matchedName": null,
-      "isHolding": true
-    },
-    {
-      "name": "Wonderful AI",
-      "domain": "wonderful.ai",
-      "series": "",
-      "stage": "Pipeline",
-      "key": "wonderful",
-      "inAttio": false,
-      "inHub": false,
-      "attioStage": null,
-      "hubStage": null,
-      "matchedName": null,
-      "isHolding": false
-    },
-    {
-      "name": "Raindrop",
-      "domain": "raindrop.ai",
-      "series": "",
-      "stage": "Pipeline",
-      "key": "raindrop",
-      "inAttio": false,
-      "inHub": false,
-      "attioStage": null,
-      "hubStage": null,
-      "matchedName": null,
-      "isHolding": false
-    },
-    {
-      "name": "Warp",
-      "domain": "warp.dev",
-      "series": "",
-      "stage": "Pipeline",
-      "key": "warp",
-      "inAttio": true,
-      "inHub": true,
-      "attioStage": "Qualified",
-      "hubStage": null,
-      "matchedName": "Warp (Business/Productivity Software)",
-      "isHolding": false
-    }
-  ]
+  "seed": null
 }

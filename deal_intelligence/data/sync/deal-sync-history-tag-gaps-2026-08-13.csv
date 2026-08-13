@@ -22,10 +22,10 @@ Norm Ai,Qualified,Qualified,,,qualified,qualified,norm
 nous research,Pipeline,Pipeline,,,pipeline,pipeline,nousresearch
 Ollama,Watchlist,"Radar, Watchlist",radar,pipeline,"radar, watchlist",watchlist,ollama
 Ollin,Qualified,Qualified,,,qualified,qualified,ollin
-Pi Security,Qualified,"Pipeline, Qualified",qualified,,"pipeline, qualified",pipeline,pi
 Rogo (Business/Productivity Software),Watchlist,"Qualified, Watchlist",watchlist,,"qualified, watchlist",qualified,rogo
-Simile,Radar,"Pipeline, Radar",pipeline,,"pipeline, radar",radar,simile
 Temporal,Qualified,"Pipeline, Qualified",qualified,,"pipeline, qualified",pipeline,temporal
 Profound,Qualified,"Pipeline, Qualified",qualified,,"pipeline, qualified",pipeline,tryprofound
-Warp,Qualified,"Passed, Qualified",,,"passed, pipeline, qualified","passed, pipeline, qualified",warp
 Sable AI,Radar,Radar,qualified,,radar,radar,withsable
+Pi Security,Pipeline,Pipeline,qualified,,pipeline,pipeline,pi
+Simile,Radar,Radar,pipeline,,radar,radar,simile
+Warp,Qualified,Qualified,,,qualified,qualified,warp

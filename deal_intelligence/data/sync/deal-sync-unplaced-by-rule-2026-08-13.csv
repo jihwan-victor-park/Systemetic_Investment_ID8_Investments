@@ -79,13 +79,13 @@ Glimpse,Series B,b,Qualified,qualified,Series B with a Tier 1 (33) but no Top 10
 Upcodes,Series B,b,Pipeline,pipeline,Series B with no Tier 1 (33) or Top 10 investor,up
 Vapi,,unknown,Qualified,qualified,series unknown -- cannot place from the rule,vapi
 Walden Robotics,Seed,below_b,Pipeline,pipeline,below Series B with no Top 10 investor,waldenrobotics
-Warp,Series B,b,Qualified,,Series B with a Tier 1 (33) but no Top 10 investor,warp
 Wealth.com,,unknown,Pipeline,pipeline,series unknown -- cannot place from the rule,wealth
 WindBorne Systems,Series B,b,Qualified,qualified,Series B with a Tier 1 (33) but no Top 10 investor,windbornesystems
 Pulley,Series B,b,Pipeline,pipeline,Series B with no Tier 1 (33) or Top 10 investor,withpulley
 Sable AI,,unknown,Radar,qualified,series unknown -- cannot place from the rule,withsable
 Sunbeam,Series B,b,Pipeline,pipeline,Series B with no Tier 1 (33) or Top 10 investor,withsunbeam
 Xbow,Series B,b,Target,new,Series B with no Tier 1 (33) or Top 10 investor,xbow
+Warp,Series B,b,Qualified,,Series B with a Tier 1 (33) but no Top 10 investor,warp
 Akido,Series C,above_b,Target,new,above Series B but no Tier 1 (33) investor on the cap table,akidolabs
 Aspora,Series C,above_b,Pipeline,pipeline,above Series B but no Tier 1 (33) investor on the cap table,aspora
 Clay,Series D,above_b,Pipeline,pipeline,above Series B but no Tier 1 (33) investor on the cap table,clay

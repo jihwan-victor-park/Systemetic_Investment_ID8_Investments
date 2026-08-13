@@ -1,3 +1,9 @@
-name,domain,series,stage,expectedHubStage,expectedWhy,record_id
-Cathedral,,,Radar,,series unknown -- cannot place from the rule,a9855760-84ee-4a05-81c2-18423a97dcbd
-Impulse Space,impulsespace.com,Series D,Pipeline,Qualified,above Series B with a Tier 1 (33) investor,7fc83393-62b4-4dba-a3e0-bcc411148c8c
+name,domain,series,stage,hubCreateStage,hubCreateTags,expectedHubStage,expectedWhy,record_id
+Cathedral,,,Radar,radar,,,series unknown -- cannot place from the rule,a9855760-84ee-4a05-81c2-18423a97dcbd
+Impulse Space,impulsespace.com,Series D,Pipeline,qualified,pipeline,Qualified,above Series B with a Tier 1 (33) investor,7fc83393-62b4-4dba-a3e0-bcc411148c8c
+OneBrief,onebrief.com,,Pipeline,pipeline,,,series unknown -- cannot place from the rule,52fd92b4-e99f-4069-8c6c-24f9be0e9775
+Physical Intelligence,pi.website,Series B,Qualified,qualified,radar,Qualified,"Series B with a Top 10 investor (in mandate at B+, and just raised)",c57f28d0-5274-4aa3-a6df-081faee60766
+Raindrop,raindrop.ai,,Pipeline,pipeline,,,series unknown -- cannot place from the rule,133f56eb-91f2-4a87-ad7e-fde8275d8cce
+Replit,replit.com,,Invested,invested,,,series unknown -- cannot place from the rule,4fba980b-825f-4442-a429-c09b194d82dc
+Together AI,together.ai,,Invested,invested,,,series unknown -- cannot place from the rule,650055f1-7ae5-46b9-8ec8-176864587bca
+Wonderful AI,wonderful.ai,,Pipeline,pipeline,,,series unknown -- cannot place from the rule,d065c96a-c8d4-45c8-8ebc-cfc0ca0731a0
