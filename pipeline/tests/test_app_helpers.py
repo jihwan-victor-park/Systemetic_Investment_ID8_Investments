@@ -141,3 +141,49 @@ class TestHubEditableDealFields:
         from app import HUB_EDITABLE_DEAL_FIELDS
         assert di_config.READ_SLUGS["round"] in HUB_EDITABLE_DEAL_FIELDS
         assert di_config.READ_SLUGS["round_date"] in HUB_EDITABLE_DEAL_FIELDS
+
+
+class TestAttioWebhookAuth:
+    """/attio-deal-created is the one route a third party calls directly, on a
+    service that answers the open internet, so its gate is the only thing
+    standing between an Attio workflow URL and anyone who finds it."""
+
+    def _auth(self, headers, env, monkeypatch):
+        import app as app_module
+        for key in ("ATTIO_WEBHOOK_SECRET", "INTERNAL_API_SECRET"):
+            monkeypatch.delenv(key, raising=False)
+        for key, value in env.items():
+            monkeypatch.setenv(key, value)
+        with app_module.app.test_request_context("/attio-deal-created", headers=headers):
+            return app_module._require_attio_webhook_auth()
+
+    def test_correct_webhook_secret_passes(self, monkeypatch):
+        assert self._auth({"X-Attio-Webhook-Secret": "s3cret"},
+                          {"ATTIO_WEBHOOK_SECRET": "s3cret"}, monkeypatch)
+
+    def test_the_other_header_spelling_also_passes(self, monkeypatch):
+        # Attio's action UI is a free-text header field; matching only one
+        # spelling would turn a typo into a silent 403 on every deal created.
+        assert self._auth({"X-Webhook-Secret": "s3cret"},
+                          {"ATTIO_WEBHOOK_SECRET": "s3cret"}, monkeypatch)
+
+    def test_wrong_secret_is_rejected(self, monkeypatch):
+        assert not self._auth({"X-Attio-Webhook-Secret": "nope"},
+                              {"ATTIO_WEBHOOK_SECRET": "s3cret"}, monkeypatch)
+
+    def test_missing_header_is_rejected_even_with_no_internal_secret(self, monkeypatch):
+        # The regression that matters: _require_internal_secret returns True
+        # when INTERNAL_API_SECRET is unset (which is its live state), so any
+        # fallback to it would leave this route wide open on a public service.
+        assert not self._auth({}, {"ATTIO_WEBHOOK_SECRET": "s3cret"}, monkeypatch)
+
+    def test_hub_next_proxy_still_authenticates_with_the_internal_secret(self, monkeypatch):
+        assert self._auth({"X-Internal-Secret": "internal"},
+                          {"ATTIO_WEBHOOK_SECRET": "s3cret",
+                           "INTERNAL_API_SECRET": "internal"}, monkeypatch)
+
+    def test_falls_back_to_the_old_gate_when_no_webhook_secret_is_configured(self, monkeypatch):
+        # Pre-deploy state: nothing configured, nothing blocked -- unchanged
+        # behaviour, so shipping the code and setting the env var can be two
+        # separate steps without a window where the route 403s hub-next.
+        assert self._auth({}, {}, monkeypatch)

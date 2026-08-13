@@ -1801,15 +1801,17 @@ def attio_deal_created():
     and the response's `created` flag says which happened. That makes this
     endpoint safe to fire on every creation, and safe for Attio to retry.
 
-    Authenticated by the same X-Internal-Secret every other write route here
-    uses -- Attio doesn't call this directly, it calls hub-next's public
-    /api/attio/deal-created, which checks its OWN webhook secret and then
-    proxies here. hub-next is the public front door (this service is
-    IAM-private, and this org's policy blocks making it otherwise -- see
-    cc-attio-sync/gateway/openapi.yaml), and hub-next has no Attio credential
-    of its own, so the credential stays here and the public surface stays there.
+    Called by Attio directly, on ATTIO_WEBHOOK_SECRET -- see
+    _require_attio_webhook_auth. The original design routed Attio through
+    hub-next's /api/attio/deal-created because this service was believed to be
+    IAM-private and hub-next public. Checked 2026-08-13 and both halves are
+    backwards: hub-next now sits behind Cloud IAP, which 302s any request
+    without a Google-signed OIDC token (so Attio can never reach it), while
+    THIS service answers the open internet unauthenticated. The hub-next proxy
+    is left in place and still works -- it authenticates with X-Internal-Secret
+    as before -- but it is no longer the path Attio takes.
     """
-    if not _require_internal_secret():
+    if not _require_attio_webhook_auth():
         return jsonify({"error": "forbidden"}), 403
     body = request.get_json(silent=True) or {}
     record_id = _extract_attio_record_id(body)
@@ -2170,6 +2172,39 @@ def _require_internal_secret():
     if not expected:
         return True
     return request.headers.get("X-Internal-Secret") == expected
+
+
+def _require_attio_webhook_auth():
+    """Auth for the one route a third party (Attio) calls directly.
+
+    Verified 2026-08-13: this service answers unauthenticated requests from the
+    open internet, and INTERNAL_API_SECRET is not set on it -- so
+    _require_internal_secret alone is a no-op and every route here, this one
+    included, is currently open. That was survivable while only n8n and hub-next
+    knew the URL; it is not once an Attio workflow is pointed at it, because the
+    URL then lives in a third-party UI.
+
+    So this route gets its OWN secret rather than borrowing the internal one:
+    the value pasted into Attio's header field should not also be the credential
+    that unlocks /update-deal-stage and friends. Once ATTIO_WEBHOOK_SECRET is
+    set the gate is strict -- an absent or wrong header is a 403, with no
+    fallback to the permissive _require_internal_secret path.
+
+    Both header spellings are accepted for the same reason hub-next's proxy
+    accepts both (Attio's action UI is a free-text header field, and
+    X-Attio-Webhook-Secret / X-Webhook-Secret are trivially confusable).
+    hub-next's proxy still authenticates the way it always did, via
+    X-Internal-Secret, so the older path keeps working unchanged.
+    """
+    expected = os.environ.get("ATTIO_WEBHOOK_SECRET")
+    if not expected:
+        return _require_internal_secret()
+    provided = (request.headers.get("X-Attio-Webhook-Secret")
+                or request.headers.get("X-Webhook-Secret"))
+    if provided == expected:
+        return True
+    internal = os.environ.get("INTERNAL_API_SECRET")
+    return bool(internal) and request.headers.get("X-Internal-Secret") == internal
 
 
 def _run_chat_stage1(job_id: str, deal: "di_schemas.DealInput"):

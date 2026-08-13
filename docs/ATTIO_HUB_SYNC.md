@@ -6,9 +6,9 @@ stage dropdown.
 
 ```
                     NEW DEAL CREATED IN ATTIO
-Attio workflow  ──POST──▶  hub-next /api/attio/deal-created  ──▶  pipeline /attio-deal-created
-(native, "Send                (public, X-Attio-Webhook-           (re-reads the deal from Attio,
- HTTP request")                Secret, no session)                 upserts the hub company doc)
+Attio workflow  ──────────POST, X-Attio-Webhook-Secret──────────▶  pipeline /attio-deal-created
+(native, "Send                                                    (re-reads the deal from Attio,
+ HTTP request")                                                    upserts the hub company doc)
 
                     EDIT MADE IN THE HUB
 hub-next table  ──PATCH──▶  /api/companies/[slug]/{stage,round,deal-date}
@@ -26,7 +26,7 @@ everything else is re-read server-side from Attio, so the body is one field.
 2. **Trigger:** *Record created* → object **Deals**.
 3. **Action:** *Send HTTP request*
    - Method: `POST`
-   - URL: `https://<hub-next-url>/api/attio/deal-created`
+   - URL: `https://id8-137750788450.us-east4.run.app/attio-deal-created`
    - Header: `X-Attio-Webhook-Secret: <the ATTIO_WEBHOOK_SECRET value>`
    - Header: `Content-Type: application/json`
    - Body:
@@ -52,19 +52,40 @@ other import path uses, so re-firing on an existing deal refreshes it instead of
 duplicating it. The response's `created` flag says which happened. Safe to fire
 on every creation, and safe for Attio to retry.
 
-**Secrets.** `ATTIO_WEBHOOK_SECRET` on the hub-next Cloud Run service (via Secret
-Manager, same as its other secrets — strip trailing newlines, see project
-memory), plus the existing `PIPELINE_BASE_URL` / `PIPELINE_INTERNAL_SECRET`.
-Generate with `openssl rand -hex 32`.
+**Secrets.** `ATTIO_WEBHOOK_SECRET` on the **`id8` pipeline** Cloud Run service
+(us-east4), via Secret Manager — strip trailing newlines, see project memory.
+Generate with `openssl rand -hex 32`. Nothing needs to change on hub-next.
 
-**Why it routes through hub-next.** The pipeline service holds the Attio
-credential and the import logic, but it's IAM-private and this org's Domain
-Restricted Sharing policy blocks making any Cloud Run service public (see
-[cc-attio-sync/gateway/openapi.yaml](../cc-attio-sync/gateway/openapi.yaml) for
-the API Gateway workaround that exists for the same reason). hub-next is already
-public, so it provides the URL and forwards; the credential never moves. The
-route is excluded from the session gate in `hub-next/src/middleware.js` — the
-full path only, so the browser-triggered `/api/attio/import` stays gated.
+**Why Attio calls the pipeline service directly.** The original design routed
+Attio through hub-next's `/api/attio/deal-created`, on the belief that the
+pipeline service was IAM-private and hub-next was the public front door.
+Verified 2026-08-13 and both halves are backwards:
+
+- **hub-next is behind Cloud IAP.** Any request without a Google-signed OIDC
+  token gets a 302 to `accounts.google.com` and `Invalid IAP credentials: empty
+  token`. Attio's "Send HTTP request" can only send static headers, so it can
+  never reach that route.
+- **The pipeline service answers the open internet, unauthenticated.**
+  `curl https://id8-137750788450.us-east4.run.app/health` returns 200 from
+  anywhere, and `INTERNAL_API_SECRET` is not set on it, so
+  `_require_internal_secret` is a no-op on every route that calls it.
+
+So the proxy hop bought nothing and blocked the flow. Attio now posts straight
+to the pipeline route, authenticated by its own `ATTIO_WEBHOOK_SECRET` (see
+`_require_attio_webhook_auth` — strict once the env var is set, and deliberately
+a *different* secret from `INTERNAL_API_SECRET` so the value pasted into a
+third-party UI doesn't also unlock `/update-deal-stage`). The hub-next proxy
+route is left in place and still works over `X-Internal-Secret`; it's just no
+longer on the path.
+
+**This does not fix the wider gap.** Every other route on that service —
+`/process*`, `/screen-deals`, `/screen`, `/sync-apollo`, `/publish-hub`,
+`/backfill-*` — is still callable by anyone who knows the URL. See
+`project_pipeline_app_auth_gap` and `docs/SYSTEM_AUDIT_2026-08-12.md`; closing
+it means setting `INTERNAL_API_SECRET` here **and** adding
+`PIPELINE_INTERNAL_SECRET` to hub-next's `cloudbuild.yaml` in the same change,
+since nine hub-next routes send that header only when it's configured, and n8n's
+`/process*` calls send no header at all.
 
 ## hub → Attio: what mirrors, and what deliberately doesn't
 
