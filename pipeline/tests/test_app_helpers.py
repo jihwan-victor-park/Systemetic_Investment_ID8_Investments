@@ -127,6 +127,22 @@ class TestExtractAttioRecordId:
         from app import _extract_attio_record_id
         assert _extract_attio_record_id({"record_id": "   "}) is None
 
+    def test_an_unrendered_template_is_rejected(self):
+        # The real first-run failure, 2026-08-13: Attio's JSON body editor
+        # types properties as literal Strings by default, so this arrived
+        # verbatim and was forwarded to Attio, which 400'd on a URL-encoded
+        # /records/%7B%7B%20record.id.record_id%20%7D%7D -- surfacing as a 502
+        # that reads like an Attio outage instead of a mis-wired chip.
+        from app import _extract_attio_record_id
+        assert _extract_attio_record_id({"record_id": "{{ record.id.record_id }}"}) is None
+        assert _extract_attio_record_id({"recordId": "{{record.id.record_id}}"}) is None
+
+    def test_a_real_id_is_still_accepted(self):
+        from app import _extract_attio_record_id
+        assert _extract_attio_record_id(
+            {"record_id": "0d5b4a1e-1f2c-4c9a-9c3e-1a2b3c4d5e6f"}
+        ) == "0d5b4a1e-1f2c-4c9a-9c3e-1a2b3c4d5e6f"
+
 
 class TestHubEditableDealFields:
     def test_maps_the_two_fields_the_hub_can_edit_to_their_attio_types(self):

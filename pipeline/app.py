@@ -1751,12 +1751,23 @@ def _extract_attio_record_id(body):
     every shape that has ever plausibly arrived is accepted rather than 400ing
     on a body that clearly identifies a record. In order: the flat key, Attio's
     `data.id.record_id` record shape, and its webhook `events[].id.record_id`.
+
+    An UNRENDERED template is rejected rather than passed through. Attio's JSON
+    body editor types each property as a literal String by default, so a value
+    typed by hand arrives as the eight characters `{{ record.id.record_id }}`
+    instead of an id -- which is what the first live run did on 2026-08-13.
+    Forwarded blindly, that produced a 502 quoting a URL-encoded
+    `/records/%7B%7B%20record.id.record_id%20%7D%7D`, which reads like an Attio
+    API outage rather than a mis-wired chip. Caught here it's a 400 naming the
+    real problem, which is the difference between a five-minute fix and an hour.
     """
     if not isinstance(body, dict):
         return None
     for key in ("record_id", "recordId", "id"):
         val = body.get(key)
         if isinstance(val, str) and val.strip():
+            if "{{" in val or "}}" in val:
+                return None
             return val.strip()
         if isinstance(val, dict) and isinstance(val.get("record_id"), str):
             return val["record_id"].strip()
@@ -1816,10 +1827,21 @@ def attio_deal_created():
     body = request.get_json(silent=True) or {}
     record_id = _extract_attio_record_id(body)
     if not record_id:
+        # `sent` echoes the raw value back, truncated. When the cause is an
+        # unrendered chip, seeing your own "{{ record.id.record_id }}" quoted
+        # in the response is what makes the problem obvious -- received_keys
+        # alone looks correct in exactly that case, because the KEY is right
+        # and only the value is wrong.
+        raw = body.get("record_id") if isinstance(body, dict) else None
         return jsonify({
             "error": "could not find a Deal record id in the request body",
             "expected": '{"record_id": "<attio deal record id>"}',
             "received_keys": sorted(body.keys())[:20] if isinstance(body, dict) else None,
+            "sent": raw[:80] if isinstance(raw, str) else None,
+            "hint": ("the value looks like an unrendered Attio template -- in the workflow's "
+                     "JSON body editor, use the {x} button on that property to insert the "
+                     "record id as a variable instead of typing it as a String")
+                    if isinstance(raw, str) and "{{" in raw else None,
         }), 400
 
     try:
