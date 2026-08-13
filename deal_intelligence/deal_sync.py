@@ -525,6 +525,26 @@ def reconcile(hub, attio, series_b_mode="dual", names=None, seed=None):
         row["expectedHubStage"] = stage
         row["expectedHubTags"] = tags
         row["expectedWhy"] = why
+        # A deal that exists in Attio belongs in the hub FULL STOP -- whether
+        # the series rule can place it is a separate question from whether it
+        # should be there at all. Gating creation on the rule meant a deal with
+        # no Series on file was created in Attio and then permanently skipped by
+        # --apply-hub: exactly what happened to the five seeded on 2026-08-13,
+        # which have no Series and would have stayed invisible in the hub.
+        #
+        # Falls back to Attio's own stage, then to 'new' -- hub-next's triage
+        # bucket, which surfaces in the Admin page's "Needs Triage" table rather
+        # than blending into a real tab. Same convention (and same last resort)
+        # firestore_push.push_company_from_attio already uses.
+        row["hubCreateStage"] = (
+            (stage.lower() if stage else None)
+            or config.ATTIO_STAGE_MAP.get(str(row["stage"] or "").strip().lower())
+            or "new")
+        row["hubCreateTags"] = sorted(
+            {t for t in tags}
+            | {t for st in (row.get("allStages") or [row["stage"]])
+               for t in attio_stage_tags(st)}
+            - {row["hubCreateStage"]})
 
     for row in hub_only:
         stage, tags, why = _expected(row, series_b_mode)
@@ -867,15 +887,18 @@ def render_markdown(report, run_date):
                   "before applying, or drop them.", ""]
 
     L += ["## In Attio, missing from the hub", "",
-          f"{c['attioOnly']} companies. `Should be` is where the rule puts them; "
-          "a blank means the rule places them nowhere (below mandate, or no "
-          "Tier 1 backer) -- those need a human call, not an automatic push.", "",
+          f"{c['attioOnly']} companies. All of them get created by `--apply-hub`: a deal "
+          "that exists in Attio belongs in the hub regardless of whether the series rule "
+          "can place it. `Created as` is the rule's placement when it has one, else "
+          "Attio's own stage, else `new` (hub-next's triage bucket, which surfaces in the "
+          "Admin page's Needs Triage table rather than blending into a real tab).", "",
           _table(sorted(report["attioOnly"], key=lambda r: (r["expectedHubStage"] or "zzz", r["name"])), [
               ("Company", lambda r: r["name"]),
               ("Domain", lambda r: r["domain"]),
               ("Series", lambda r: r["series"]),
               ("Attio stage", lambda r: r["stage"]),
-              ("Should be", lambda r: " + ".join([r["expectedHubStage"] or "--"] + r["expectedHubTags"])),
+              ("Created as", lambda r: " + ".join([r["hubCreateStage"]] + r["hubCreateTags"])),
+              ("Rule says", lambda r: r["expectedHubStage"] or f"nothing -- {r['expectedWhy']}"),
               ("Top 10 / Tier 1 (33)", lambda r: ", ".join(r["top10"] or r["tier1_33"][:3])),
           ]), ""]
 
@@ -1003,7 +1026,8 @@ def write_csvs(report, out_dir, run_date):
     paths = []
     specs = [
         ("attio-not-in-hub", report["attioOnly"],
-         ["name", "domain", "series", "stage", "expectedHubStage", "expectedWhy", "record_id"]),
+         ["name", "domain", "series", "stage", "hubCreateStage", "hubCreateTags",
+          "expectedHubStage", "expectedWhy", "record_id"]),
         ("hub-not-in-attio", report["hubOnly"],
          ["name", "domain", "series", "stage", "expectedAttioStage", "expectedWhy", "originSource", "key"]),
         ("placement-mismatches", report["mismatches"],
@@ -1046,15 +1070,16 @@ def apply_hub(report, yes=False):
     stage can be a deliberate hand edit."""
     from google.cloud import firestore
 
-    creates = [r for r in report["attioOnly"] if r["expectedHubStage"]]
+    creates = report["attioOnly"]
     stage_sets = [r for r in report["mismatches"] if r.get("hubSetStage")]
     tag_adds = [r for r in report["mismatches"] if r.get("hubAddTags")]
     history_adds = report["historyGaps"]
     print(f"{'DRY RUN -- ' if not yes else ''}hub: {len(creates)} docs to create, "
           f"{len(stage_sets)} unplaced docs to give a stage, {len(tag_adds)} to tag")
     for r in creates:
-        print(f"  create {r['key']:<28} {r['name']:<30} stage={r['expectedHubStage'].lower()} "
-              f"tags={r['expectedHubTags']}")
+        print(f"  create {r['key']:<28} {r['name']:<30} stage={r['hubCreateStage']} "
+              f"tags={r['hubCreateTags']}"
+              + ("" if r["expectedHubStage"] else f"   [rule: {r['expectedWhy']}]"))
     for r in stage_sets:
         print(f"  stage  {r['key']:<28} {r['name']:<30} {r['hubStage']!r} -> {r['hubSetStage']}"
               + (f" +tags {r['hubAddTags']}" if r["hubAddTags"] else ""))
@@ -1073,7 +1098,7 @@ def apply_hub(report, yes=False):
         payload = {
             "name": r["name"], "website": r["domain"] or None,
             "round": r["series"] or None,
-            "stage": r["expectedHubStage"].lower(),
+            "stage": r["hubCreateStage"],
             "latestScreen": None,   # see import_attio_deals_csv -- avoids listCompanies()'s N+1 fallback
             "investors": r["investors"] or None,
             "investorDomains": r["investorDomains"] or None,
@@ -1085,8 +1110,8 @@ def apply_hub(report, yes=False):
             payload["top10VC"] = True
         if r["tier1_33"]:
             payload["tier1_33Investors"] = r["tier1_33"]
-        if r["expectedHubTags"]:
-            payload["tags"] = firestore.ArrayUnion(r["expectedHubTags"])
+        if r["hubCreateTags"]:
+            payload["tags"] = firestore.ArrayUnion(r["hubCreateTags"])
         db.collection("companies").document(r["key"]).set(
             {k: v for k, v in payload.items() if v is not None or k == "latestScreen"}, merge=True)
     for r in stage_sets:

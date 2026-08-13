@@ -268,6 +268,45 @@ def test_one_sided_rows_carry_their_expected_placement():
     assert rep["attioOnly"][0]["expectedHubStage"] == "Qualified"
 
 
+def test_attio_only_company_with_no_series_still_gets_created():
+    """A deal in Attio belongs in the hub whether or not the rule can place it.
+    Gating creation on the rule left the five seeded on 2026-08-13 -- none of
+    which has a Series -- created in Attio and permanently absent from the hub."""
+    rep = ds.reconcile({}, {"a": _attio("a", "OneBrief", domain="onebrief.com",
+                                        series="", stage="Pipeline")})
+    row = rep["attioOnly"][0]
+    assert row["expectedHubStage"] is None      # the rule genuinely places it nowhere
+    assert row["hubCreateStage"] == "pipeline"  # ...but Attio's own stage does
+
+
+def test_attio_only_falls_back_to_triage_when_even_attio_has_no_usable_stage():
+    rep = ds.reconcile({}, {"a": _attio("a", "A", series="", stage="Target")})
+    assert rep["attioOnly"][0]["hubCreateStage"] == "new"
+
+
+def test_rule_placement_wins_over_the_attio_stage_fallback():
+    rep = ds.reconcile({}, {"a": _attio("a", "A", domain="a.com", series="Series C",
+                                        stage="Watchlist", investors=["Sequoia Capital"])})
+    assert rep["attioOnly"][0]["hubCreateStage"] == "qualified"
+
+
+def test_create_tags_never_duplicate_the_primary_stage():
+    """hub-next expects the primary stage NOT to be repeated inside tags."""
+    rep = ds.reconcile({}, {"a": _attio("a", "A", series="", stage="Pipeline",
+                                        allStages=["Pipeline"])})
+    row = rep["attioOnly"][0]
+    assert row["hubCreateStage"] == "pipeline"
+    assert "pipeline" not in row["hubCreateTags"]
+
+
+def test_passed_history_rides_along_on_a_created_company():
+    rep = ds.reconcile({}, {"a": _attio("a", "A", series="", stage="Qualified",
+                                        allStages=["Passed", "Qualified"])})
+    row = rep["attioOnly"][0]
+    assert row["hubCreateStage"] == "qualified"
+    assert row["hubCreateTags"] == ["passed", "pipeline"]
+
+
 # ── Attio deal history (pipeline / passed / invested) ────────────────────────
 
 def test_passed_always_brings_pipeline_with_it():
