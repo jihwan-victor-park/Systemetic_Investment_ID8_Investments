@@ -666,7 +666,7 @@ def reconcile(hub, attio, series_b_mode="dual", names=None, seed=None):
         row["expectedWhy"] = why
 
     mismatches, agreed, unplaced_above_b, human_filed, unplaced = [], [], [], [], []
-    history_gaps, date_gaps = [], []
+    history_gaps, date_gaps, series_conflicts = [], [], []
     for hub_row, attio_row, basis in matched:
         # The cap table is the union of what each side knows -- either side can
         # be the one carrying the investor list for a given company.
@@ -723,12 +723,40 @@ def reconcile(hub, attio, series_b_mode="dual", names=None, seed=None):
         # because push_company_from_attio's existing-company branch skips it.
         record["roundMissing"] = bool(attio_row.get("series")) and not hub_row.get("displayedRound")
         record["attioSeries"] = attio_row.get("series") or ""
-        record["roundDateMissing"] = bool(attio_row.get("deal_date")) and not hub_row.get("displayedRoundDate")
-        record["roundSizeMissing"] = bool(attio_row.get("deal_size")) and not hub_row.get("displayedRoundSize")
+        # roundDate/roundSize are REFRESHED, not just filled. Nothing in
+        # hub-next edits either one -- they are external truth off Attio, the
+        # same category as `description`/`investorDomains`, which
+        # push_company_from_attio already refreshes on every push. Fill-only
+        # left stale values in place forever: AMCA showed 2026-05-08 in the hub
+        # while Attio had 2026-08-12, because an older import wrote the date of
+        # a round that has since been superseded. 11 dates and 4 sizes were
+        # stale on 2026-08-13.
+        hub_date = str(hub_row.get("displayedRoundDate") or "")[:10]
+        attio_date = str(attio_row.get("deal_date") or "")[:10]
+        record["roundDateMissing"] = bool(attio_date) and hub_date != attio_date
+        record["roundDateStale"] = bool(attio_date) and bool(hub_date) and hub_date != attio_date
+        hub_size = str(hub_row.get("displayedRoundSize") or "")
+        attio_size = str(attio_row.get("deal_size") or "")
+        record["roundSizeMissing"] = bool(attio_size) and hub_size != attio_size
+        record["roundSizeStale"] = bool(attio_size) and bool(hub_size) and hub_size != attio_size
+        # `round` is DIFFERENT and deliberately not auto-corrected: it IS
+        # hand-editable in the hub (RoundInput/updateCompanyRound), and
+        # firestore_push documents that the top-level copy is never overwritten
+        # once set. The 12 disagreements on 2026-08-13 ran in BOTH directions --
+        # some hub values ahead of Attio (Castelion C vs B, Chai Discovery D vs
+        # C), some behind (Hadrian B vs D, Whatnot F vs G) -- so overwriting
+        # wholesale would destroy real research as often as it fixed staleness.
+        # Reported for a human call; --overwrite-series applies Attio's value.
+        record["seriesConflict"] = (bool(attio_row.get("series"))
+                                    and bool(hub_row.get("displayedRound"))
+                                    and hub_row["displayedRound"] != attio_row["series"])
+        record["hubSeries"] = hub_row.get("displayedRound") or ""
         record["attioDealDate"] = attio_row.get("deal_date") or ""
         record["attioDealSize"] = attio_row.get("deal_size") or ""
         if record["roundMissing"] or record["roundDateMissing"] or record["roundSizeMissing"]:
             date_gaps.append(record)
+        if record["seriesConflict"]:
+            series_conflicts.append(record)
         if record["historyMissing"]:
             # Tracked in its own list because these cut ACROSS the five
             # placement buckets -- a Passed deal, an agreeing Qualified one and
@@ -789,6 +817,7 @@ def reconcile(hub, attio, series_b_mode="dual", names=None, seed=None):
             "testFixtures": len(test_fixtures),
             "historyGaps": len(history_gaps),
             "dateGaps": len(date_gaps),
+            "seriesConflicts": len(series_conflicts),
             "keyCollisions": len(collisions),
             "attioDuplicateRecords": len(attio_dup_records),
         },
@@ -796,6 +825,7 @@ def reconcile(hub, attio, series_b_mode="dual", names=None, seed=None):
         "attioDuplicateRecords": attio_dup_records,
         "historyGaps": history_gaps,
         "dateGaps": date_gaps,
+        "seriesConflicts": series_conflicts,
         "hubDuplicates": duplicates,
         "testFixtures": test_fixtures,
         "seriesBMode": series_b_mode,
@@ -1121,7 +1151,21 @@ def render_markdown(report, run_date):
               ("Why", lambda r: r["expectedWhy"]),
           ]), ""]
 
-    L += ["## Missing Series / Deal Date / Deal Size", "",
+    L += ["## Series disagreements (not auto-corrected)", "",
+          f"{c['seriesConflicts']} companies where the hub and Attio hold a different "
+          "Series. **Not written by --apply-hub.** `round` is hand-editable in the hub "
+          "(RoundInput/updateCompanyRound) and the disagreements run in both directions "
+          "-- some hub values are ahead of Attio, some behind -- so overwriting wholesale "
+          "would destroy real research as often as it fixed staleness. Pass "
+          "`--overwrite-series` to take Attio's value for all of them.", "",
+          _table(sorted(report["seriesConflicts"], key=lambda r: r["name"]), [
+              ("Company", lambda r: r["name"]),
+              ("Hub says", lambda r: r["hubSeries"]),
+              ("Attio says", lambda r: r["attioSeries"]),
+              ("Attio stage", lambda r: r["attioStage"]),
+          ]), ""]
+
+    L += ["## Missing or stale Series / Deal Date / Deal Size", "",
           f"{c['dateGaps']} companies where Attio has the round's close date (or size) "
           "and the hub doesn't. The hub renders these as its Deal Date column and the "
           "`closed <date>` line on the company page, so a company missing them shows a "
@@ -1131,8 +1175,10 @@ def render_markdown(report, run_date):
               ("Company", lambda r: r["name"]),
               ("Attio stage", lambda r: r["attioStage"]),
               ("Series to write", lambda r: r["attioSeries"] if r["roundMissing"] else "-"),
-              ("Deal Date to write", lambda r: r["attioDealDate"] if r["roundDateMissing"] else "-"),
-              ("Deal Size to write", lambda r: r["attioDealSize"] if r["roundSizeMissing"] else "-"),
+              ("Deal Date to write", lambda r: (r["attioDealDate"] + (" (was stale)" if r["roundDateStale"] else ""))
+                                               if r["roundDateMissing"] else "-"),
+              ("Deal Size to write", lambda r: (r["attioDealSize"] + (" (was stale)" if r["roundSizeStale"] else ""))
+                                               if r["roundSizeMissing"] else "-"),
           ]), ""]
 
     L += ["## Missing deal history (pipeline / passed / invested)", "",
@@ -1238,7 +1284,7 @@ def write_csvs(report, out_dir, run_date):
 
 # ── apply (both directions, dry-run unless --yes) ────────────────────────────
 
-def apply_hub(report, yes=False):
+def apply_hub(report, yes=False, overwrite_series=False):
     """Creates the hub company docs for deals the rule places but the hub is
     missing, and adds the missing additive tags on placement mismatches. Only
     ever ADDS -- never rewrites an existing `stage`, same don't-clobber rule
@@ -1251,6 +1297,7 @@ def apply_hub(report, yes=False):
     tag_adds = [r for r in report["mismatches"] if r.get("hubAddTags")]
     history_adds = report["historyGaps"]
     date_fills = report.get("dateGaps") or []
+    series_overwrites = (report.get("seriesConflicts") or []) if overwrite_series else []
     print(f"{'DRY RUN -- ' if not yes else ''}hub: {len(creates)} docs to create, "
           f"{len(stage_sets)} unplaced docs to give a stage, {len(tag_adds)} to tag")
     for r in creates:
@@ -1264,6 +1311,11 @@ def apply_hub(report, yes=False):
         print(f"  tag    {r['key']:<28} {r['name']:<30} += {r['hubAddTags']}")
     print(f"{'DRY RUN -- ' if not yes else ''}hub: {len(date_fills)} to get their Series / "
           f"Deal Date / Deal Size")
+    if series_overwrites:
+        print(f"{'DRY RUN -- ' if not yes else ''}hub: {len(series_overwrites)} Series to "
+              f"OVERWRITE with Attio's value (--overwrite-series)")
+        for r in series_overwrites:
+            print(f"  series {r['key']:<28} {r['name']:<30} {r['hubSeries']} -> {r['attioSeries']}")
     for r in date_fills:
         print(f"  facts  {r['key']:<28} {r['name']:<30} "
               f"series={r['attioSeries'] if r['roundMissing'] else '-'} "
@@ -1322,6 +1374,8 @@ def apply_hub(report, yes=False):
             payload["roundSize"] = r["attioDealSize"]
         if payload:
             db.collection("companies").document(r["key"]).set(payload, merge=True)
+    for r in series_overwrites:
+        db.collection("companies").document(r["key"]).set({"round": r["attioSeries"]}, merge=True)
     for r in history_adds:
         # Purely additive: this records what Attio says happened to the deal and
         # can never remove or overwrite a placement already on the doc.
@@ -1415,7 +1469,7 @@ def apply_attio(report, yes=False):
 def run(attio_csv=None, attio_snapshot=None, hub_snapshot=DEFAULT_HUB_SNAPSHOT,
         refresh=False, out_dir=DEFAULT_OUT_DIR, series_b_mode="dual",
         names_file=None, seed_file=None, run_date=None, apply_hub_side=False,
-        apply_attio_side=False, yes=False):
+        apply_attio_side=False, yes=False, overwrite_series=False):
     os.makedirs(out_dir, exist_ok=True)
     run_date = run_date or __import__("datetime").date.today().isoformat()
 
@@ -1468,7 +1522,7 @@ def run(attio_csv=None, attio_snapshot=None, hub_snapshot=DEFAULT_HUB_SNAPSHOT,
         print(f"      {p}")
 
     if apply_hub_side:
-        apply_hub(report, yes=yes)
+        apply_hub(report, yes=yes, overwrite_series=overwrite_series)
     if apply_attio_side:
         apply_attio(report, yes=yes)
     return report
@@ -1490,11 +1544,13 @@ def main():
     ap.add_argument("--date", help="date stamp for the output filenames (default: today)")
     ap.add_argument("--apply-hub", action="store_true", help="create/tag the missing hub docs")
     ap.add_argument("--apply-attio", action="store_true", help="create the missing Attio deals")
+    ap.add_argument("--overwrite-series", action="store_true",
+                    help="take Attio's Series even where the hub disagrees (hand edits lose)")
     ap.add_argument("--yes", action="store_true", help="actually write (both --apply-* are dry-run without it)")
     a = ap.parse_args()
     run(attio_csv=a.attio_csv, attio_snapshot=a.attio_snapshot, hub_snapshot=a.hub_snapshot,
         refresh=a.refresh, out_dir=a.out, series_b_mode=a.series_b_mode, names_file=a.names,
-        seed_file=a.seed, run_date=a.date, apply_hub_side=a.apply_hub, apply_attio_side=a.apply_attio, yes=a.yes)
+        seed_file=a.seed, run_date=a.date, apply_hub_side=a.apply_hub, apply_attio_side=a.apply_attio, yes=a.yes, overwrite_series=a.overwrite_series)
 
 
 if __name__ == "__main__":

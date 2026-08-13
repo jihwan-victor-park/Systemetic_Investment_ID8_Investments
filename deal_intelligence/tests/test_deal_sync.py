@@ -384,14 +384,37 @@ def test_missing_deal_date_is_reported():
     assert (gap["roundSizeMissing"], gap["attioDealSize"]) == (True, "550000000")
 
 
-def test_existing_round_facts_are_never_reported_so_never_overwritten():
-    """Fill-when-missing: apply_hub writes only what the report lists, so a
-    value already on the doc can't be clobbered."""
+def test_matching_round_facts_are_not_reported():
     hub = {"a": _hub("a", "A", stage="qualified", series="Series C",
-                     roundDate="2025-01-01", roundSize="100")}
+                     roundDate="2026-07-30", roundSize="550000000")}
     attio = {"a": _attio("a", "A", series="Series C", stage="Qualified",
                          deal_date="2026-07-30", deal_size="550000000")}
     assert ds.reconcile(hub, attio)["counts"]["dateGaps"] == 0
+
+
+def test_a_stale_deal_date_is_refreshed_not_left_alone():
+    """AMCA held 2026-05-08 while Attio had 2026-08-12, because an older import
+    wrote the date of a round since superseded. Nothing in hub-next edits
+    roundDate, so Attio is simply the truth and fill-only preserved the lie."""
+    hub = {"a": _hub("a", "A", stage="qualified", series="Series B",
+                     roundDate="2026-05-08")}
+    attio = {"a": _attio("a", "A", series="Series B", stage="Pipeline",
+                         deal_date="2026-08-12")}
+    gap = ds.reconcile(hub, attio)["dateGaps"][0]
+    assert (gap["roundDateStale"], gap["attioDealDate"]) == (True, "2026-08-12")
+
+
+def test_a_differing_series_is_reported_but_never_written():
+    """`round` IS hand-editable, and the real disagreements ran in both
+    directions -- overwriting wholesale would destroy research as often as it
+    fixed staleness."""
+    hub = {"a": _hub("a", "A", stage="qualified", series="Series C")}
+    attio = {"a": _attio("a", "A", series="Series B", stage="Qualified")}
+    rep = ds.reconcile(hub, attio)
+    assert rep["counts"]["seriesConflicts"] == 1
+    assert rep["seriesConflicts"][0]["hubSeries"] == "Series C"
+    # Reported, but never part of the fill set that apply_hub writes.
+    assert all(not r["roundMissing"] for r in rep["dateGaps"])
 
 
 def test_no_gap_when_attio_has_nothing_to_give():
@@ -401,12 +424,23 @@ def test_no_gap_when_attio_has_nothing_to_give():
 
 
 def test_date_and_size_are_reported_independently():
-    hub = {"a": _hub("a", "A", stage="qualified", roundDate="2025-01-01")}
+    hub = {"a": _hub("a", "A", stage="qualified", series="Series C",
+                     roundDate="2026-07-30")}
     attio = {"a": _attio("a", "A", series="Series C", stage="Qualified",
                          deal_date="2026-07-30", deal_size="550000000")}
     gap = ds.reconcile(hub, attio)["dateGaps"][0]
-    assert gap["roundDateMissing"] is False
-    assert gap["roundSizeMissing"] is True
+    assert gap["roundDateMissing"] is False   # already matches
+    assert gap["roundSizeMissing"] is True    # absent
+
+
+def test_timestamped_and_plain_dates_compare_equal():
+    """Attio can hand back an ISO timestamp where the hub stores a plain date;
+    comparing the raw strings would report every one of them as stale forever."""
+    hub = {"a": _hub("a", "A", stage="qualified", series="Series C",
+                     roundDate="2026-07-30T00:00:00Z")}
+    attio = {"a": _attio("a", "A", series="Series C", stage="Qualified",
+                         deal_date="2026-07-30")}
+    assert ds.reconcile(hub, attio)["counts"]["dateGaps"] == 0
 
 
 def test_hub_round_date_falls_back_to_origin():

@@ -116,28 +116,56 @@ Matched on both sides, but at least one side isn't where the rule says it should
 | Synthetix | Series C | Watchlist | watchlist | Qualified | +tag qualified | stage -> Qualified | above Series B with a Tier 1 (33) investor |
 | Trajectory | Series A | Pipeline | pipeline | Radar | +tag radar | stage -> Radar | below Series B with a Top 10 investor |
 
-## Missing Series / Deal Date / Deal Size
+## Series disagreements (not auto-corrected)
 
-17 companies where Attio has the round's close date (or size) and the hub doesn't. The hub renders these as its Deal Date column and the `closed <date>` line on the company page, so a company missing them shows a bare em-dash and sinks to the bottom of any date sort -- present, but effectively invisible. Filled only when missing, never overwritten.
+12 companies where the hub and Attio hold a different Series. **Not written by --apply-hub.** `round` is hand-editable in the hub (RoundInput/updateCompanyRound) and the disagreements run in both directions -- some hub values are ahead of Attio, some behind -- so overwriting wholesale would destroy real research as often as it fixed staleness. Pass `--overwrite-series` to take Attio's value for all of them.
+
+| Company | Hub says | Attio says | Attio stage |
+|---|---|---|---|
+| Castelion | Series C | Series B | Qualified |
+| Chai Discovery | Series D | Series C | Radar |
+| ClickHouse | Series C | Series D | Qualified |
+| Fireworks AI | Series C | Series D | Qualified |
+| Hadrian | Series B | Series D | Qualified |
+| Iceye | Series E | Series F | Qualified |
+| Lovable | Series B | Series C | Pipeline |
+| MicroOne | Series B | Pre-B SAFE | Pipeline |
+| Onyx | Series A | Series B | Radar |
+| Ramp | Series E3 | Series F | Qualified |
+| Simile | Series A | Series B | Radar |
+| Whatnot | Series F | Series G | Qualified |
+
+## Missing or stale Series / Deal Date / Deal Size
+
+26 companies where Attio has the round's close date (or size) and the hub doesn't. The hub renders these as its Deal Date column and the `closed <date>` line on the company page, so a company missing them shows a bare em-dash and sinks to the bottom of any date sort -- present, but effectively invisible. Filled only when missing, never overwritten.
 
 | Company | Attio stage | Series to write | Deal Date to write | Deal Size to write |
 |---|---|---|---|---|
+| Advanced Manufacturing Company of America | Pipeline | - | 2026-08-12 (was stale) | - |
 | Antora Energy | Qualified | - | 2026-07-30 | 550000000 |
 | Base Power | Qualified | Series D | 2026-08-03 | 1000000000 |
 | Braintrust (Software Development Applications) | Watchlist | Series B | 2026-02-17 | 80000000 |
 | Castelion | Qualified | - | 2025-12-05 | 350000000 |
+| ClickHouse | Qualified | - | 2026-01-16 (was stale) | 400000000 (was stale) |
 | Console | Pipeline | - | 2026-08-03 | 22999996 |
 | Convex | Qualified | Series B | 2026-08-04 | 57000000 |
 | DataBahn | Radar | - | 2026-07-30 | 40000000 |
-| Hadrian | Qualified | - | - | 1370000000 |
+| Hadrian | Qualified | - | 2026-08-06 (was stale) | 1370000000 |
+| Iceye | Qualified | - | 2026-06-09 (was stale) | 1163110000 (was stale) |
 | Inforcer | Qualified | - | 2026-07-30 | 48940000 |
-| Jump | Qualified | - | - | 80000000 |
+| Jump | Qualified | - | 2026-02-23 (was stale) | 80000000 |
 | K2 Space | Qualified | - | 2026-07-30 | 500000000 |
+| Lovable | Pipeline | - | 2026-07-06 (was stale) | - |
 | Lumilens | Qualified | Series C | 2026-08-06 | 700000000 |
+| Mach Industries | Pipeline | - | 2026-08-12 (was stale) | - |
 | Mariana Minerals | Qualified | Series B | 2026-08-03 | 310000000 |
+| MicroOne | Pipeline | - | 2026-06-11 (was stale) | - |
+| Ollama | Watchlist | - | 2026-07-14 (was stale) | - |
 | Onyx | Radar | - | 2026-07-29 | 113000000 |
+| Ramp | Qualified | - | 2026-06-04 (was stale) | 750000000 (was stale) |
 | Simile | Radar | - | 2026-07-30 | 200000000 |
 | Valar Atomics | Qualified | Series B | 2026-08-03 | 1200000000 |
+| Whatnot | Qualified | - | 2026-08-07 (was stale) | 545000000 (was stale) |
 | WindBorne Systems | Qualified | Series B | 2026-08-05 | 37000000 |
 
 ## Missing deal history (pipeline / passed / invested)
