@@ -1,41 +1,49 @@
 import Link from 'next/link';
-import { computeDealStats, SERIES_OTHER, SERIES_UNKNOWN } from '@/lib/dealStats';
-import { STAGE_BASEPATH, STAGE_LABELS } from '@/lib/stages';
+import { computeDealStats, SERIES_UNKNOWN } from '@/lib/dealStats';
+import { STAGE_BASEPATH } from '@/lib/stages';
 import styles from './DealStatsDashboard.module.css';
 
-// Live summary statistics for the whole deal universe (Oscar, 2026-08-13:
-// "numbers of deals of each stage, total, number per series, and ratios such as
-// number of pipeline deals which are as well qualified (ie how much percentage
-// of access we have to our mandate), as well number of pipeline/qualified
-// overall. Everything very stripe looking professionally and of course that it
-// automatically updates (not hard coded numbers)").
+// The live version of the LP deck's "Demonstrated Success In Deal Sourcing"
+// slide (Oscar, 2026-08-13, pointing at it: "the stat should be something more
+// like this, this is what we are trying to demonstrate").
+//
+// The story is two numbers, in Oscar's own framing: "qualified have our
+// mandate, pipeline are the ones we get access to." The mandate says how much
+// of the market ID8 should be able to play in; the access rate says how much of
+// it ID8 actually reaches. Every chart here cuts one of those two -- by stage,
+// or by round. See lib/dealStats.js's mandateStats for the denominator, which
+// is the one part of this that needed real care.
 //
 // Nothing here holds a literal figure: every number comes from computeDealStats
 // over the live `companies` collection, on a force-dynamic page. Add a deal in
-// Attio and it moves on the next load.
+// Attio and it moves on the next load -- unlike the deck slide, which is a
+// hand-built snapshot.
+//
+// No explanatory paragraph under any title (Oscar, same day: "delete this stupid
+// subtitles"). Titles, column headers, axis labels and hover tooltips carry it.
 //
 // A Server Component -- no client JS, no chart library (none is installed, and
 // the repo's existing charts are hand-rolled inline SVG; see QualityFunnel.jsx).
 // The hover layer is native SVG <title> plus CSS :hover, which gives a real
 // tooltip and a highlight without shipping a byte of JS.
 //
-// COLOR. One sequential ramp off ID8's accent blue, plus one neutral gray.
-// That's deliberate rather than a fallback for having no categorical palette:
-// every breakdown on this page is ORDINAL (Seed -> Series H; both-buckets ->
-// one-bucket -> neither), and a sequential single-hue ramp is the correct
-// encoding for ordered magnitude -- a rainbow would imply these categories are
-// unrelated. Gray is reserved for "not recorded" / "not active": absence is not
-// a point on the magnitude scale (the same missing-is-not-zero rule
-// lib/dealStats.js applies to the counts themselves). Steps are monotonic in
-// lightness, and every adjacent pair clears normal-vision ΔE 17+ / CVD ΔE 16+.
-// The palest step is below 3:1 against white, so every mark that uses it also
-// carries a visible value label and a legend entry -- identity never rests on
-// the fill alone.
+// COLOR. Two steps off ID8's accent blue, plus one neutral gray -- deliberately
+// not a categorical palette. Nothing on this page encodes unrelated categories:
+// every chart is one measure (deals) with at most a part-to-whole split inside
+// it, so a rainbow would invent distinctions that aren't in the data. `strong`
+// always means "sourced"/"the count"; `pale` is only ever the whole it sits
+// inside; gray is reserved for absence -- "not recorded", "tracked only",
+// "other rounds" -- because absence isn't a point on the magnitude scale (the
+// same missing-is-not-zero rule lib/dealStats.js applies to the counts).
+//
+// strong/pale sit adjacent by construction in the nested series bars, so they're
+// spaced far apart (normal-vision ΔE well past the 15 floor) rather than one
+// ramp step apart. `pale` is below 3:1 against white, so every mark using it
+// also carries a visible value label -- identity never rests on the fill alone.
 const RAMP = {
   strong: '#112ED4',   // --id8-accent
-  mid: '#4F6BEA',
-  soft: '#93A3F0',
-  none: '#B5AFA3',     // warm gray, --id8-hair family: "not recorded"/"not active"
+  pale: '#CFD7F9',
+  none: '#B5AFA3',     // warm gray, --id8-hair family
 };
 
 const pct = (n) => (n == null ? '—' : `${Math.round(n)}%`);
@@ -142,78 +150,56 @@ function StageColumns({ rows, total }) {
 
 const DONUT = { size: 168, r: 62, stroke: 20 };
 
-// Access within the mandate universe (Pipeline union Qualified) -- a true
-// three-way partition of that population, so a part-to-whole ring is honest
-// here (unlike the stage counts above, which deliberately overlap and would sum
-// past 100%). Three segments, well inside the six-segment ceiling a ring can be
-// read at a glance.
-//
-// "Not recorded" is its own gray segment rather than folded into "No access":
-// nobody has assessed those deals, which is a different fact from having tried
-// and been shut out, and it's the majority of the population -- hiding it would
-// make the ring imply a precision the data doesn't have.
-function CoverageDonut({ mandateAccess }) {
-  const segments = [
-    { key: 'access', label: 'Access', count: mandateAccess.access, fill: RAMP.strong,
-      note: 'we have a route into this round' },
-    { key: 'noAccess', label: 'No access', count: mandateAccess.noAccess, fill: RAMP.soft,
-      note: 'assessed, no route in' },
-    { key: 'unrecorded', label: 'Not assessed', count: mandateAccess.unrecorded, fill: RAMP.none,
-      note: 'no Access value in Attio yet' },
-  ];
-  const total = mandateAccess.population;
+// A METER, not a part-to-whole ring: one arc showing the pipeline share of the
+// mandate against a full-circle track. A meter claims "this fraction of that",
+// which is exactly the ratio; a two-segment pie of qualified-vs-pipeline would
+// instead claim the two partition something, and they don't -- see
+// mandateStats. The track is the mandate; the arc is the part we reach.
+function AccessMeter({ mandate }) {
   const circumference = 2 * Math.PI * DONUT.r;
-  // 2px surface gap between touching segments, the house spacer. Dropped
-  // entirely when a segment is too thin to survive it -- a gap wider than the
-  // arc would erase the segment rather than separate it.
-  const gap = segments.filter((s) => s.count > 0).length > 1 ? 2 : 0;
-  let offset = 0;
+  const frac = mandate.pct == null ? 0 : Math.min(1, mandate.pct / 100);
+  const dash = frac * circumference;
 
   return (
     <div className={styles.donutRow}>
       <svg className={styles.donut} viewBox={`0 0 ${DONUT.size} ${DONUT.size}`} role="img"
-           aria-label={`Pipeline coverage of ${num(total)} tracked deals. ${segments.map((s) => `${s.label}: ${s.count}`).join('. ')}.`}>
+           aria-label={`Access rate: ${num(mandate.pipelineCount)} deals in pipeline out of ${num(mandate.mandateTotal)} in our mandate.`}>
         <g transform={`translate(${DONUT.size / 2} ${DONUT.size / 2}) rotate(-90)`}>
-          <circle className={styles.donutTrack} r={DONUT.r} fill="none" strokeWidth={DONUT.stroke} />
-          {segments.map((s) => {
-            const len = total ? (s.count / total) * circumference : 0;
-            const dash = Math.max(0, len - gap);
-            const el = s.count > 0 && (
-              <circle key={s.key} className={styles.donutSeg} r={DONUT.r} fill="none" stroke={s.fill}
-                      strokeWidth={DONUT.stroke} strokeDasharray={`${dash} ${circumference - dash}`}
-                      strokeDashoffset={-offset}>
-                <title>{`${s.label}: ${num(s.count)} of ${num(total)} (${Math.round((s.count / total) * 100)}%)`}</title>
-              </circle>
-            );
-            offset += len;
-            return el;
-          })}
+          {/* Unfilled track is a lighter step of the same hue, so the meter
+              reads as one object across its whole circumference. */}
+          <circle r={DONUT.r} fill="none" stroke={RAMP.pale} strokeWidth={DONUT.stroke} />
+          {dash > 0 && (
+            <circle className={styles.donutSeg} r={DONUT.r} fill="none" stroke={RAMP.strong}
+                    strokeWidth={DONUT.stroke} strokeLinecap="butt"
+                    strokeDasharray={`${dash} ${circumference - dash}`}>
+              <title>{`${num(mandate.pipelineCount)} of ${num(mandate.mandateTotal)} mandate deals reached pipeline`}</title>
+            </circle>
+          )}
         </g>
-        {/* The ring's own headline sits in the hole: the ratio the whole card is
-            about, so the eye doesn't have to reconstruct it from arcs. It's the
-            rate among ASSESSED deals, which is deliberately not the same as the
-            blue arc's share of the ring -- the caption below says so. */}
         <text className={styles.donutCenterValue} x={DONUT.size / 2} y={DONUT.size / 2 - 2} textAnchor="middle">
-          {pct(mandateAccess.pct)}
+          {pct(mandate.pct)}
         </text>
         <text className={styles.donutCenterLabel} x={DONUT.size / 2} y={DONUT.size / 2 + 16} textAnchor="middle">
-          of assessed
+          access
         </text>
       </svg>
       <ul className={styles.legend}>
-        {segments.map((s) => (
-          <li key={s.key} className={styles.legendItem}>
-            <span className={styles.legendDot} style={{ background: s.fill }} aria-hidden="true" />
-            <span className={styles.legendLabel}>
-              {s.label}
-              <span className={styles.legendNote}>{s.note}</span>
-            </span>
-            <span className={styles.legendValue}>
-              {num(s.count)}
-              <span className={styles.legendPct}>{total ? `${Math.round((s.count / total) * 100)}%` : '—'}</span>
-            </span>
-          </li>
-        ))}
+        <li className={styles.legendItem}>
+          <span className={styles.legendDot} style={{ background: RAMP.pale }} aria-hidden="true" />
+          <span className={styles.legendLabel}>
+            Our mandate
+            <span className={styles.legendNote}>qualified, incl. those now in pipeline</span>
+          </span>
+          <span className={styles.legendValue}>{num(mandate.mandateTotal)}</span>
+        </li>
+        <li className={styles.legendItem}>
+          <span className={styles.legendDot} style={{ background: RAMP.strong }} aria-hidden="true" />
+          <span className={styles.legendLabel}>
+            Pipeline
+            <span className={styles.legendNote}>the ones we get access to</span>
+          </span>
+          <span className={styles.legendValue}>{num(mandate.pipelineCount)}</span>
+        </li>
       </ul>
     </div>
   );
@@ -221,35 +207,44 @@ function CoverageDonut({ mandateAccess }) {
 
 // Ranked bar rows rather than a second ring: there are more series buckets than
 // a ring can carry legibly (past ~6 segments adjacent arcs blur), and series is
-// ORDERED -- kept in round progression, not sorted by count, because the
-// question this answers is "where does our book sit in the round spectrum."
+// ORDERED -- kept in round progression, not sorted by count.
+//
+// Each row is a nested bar: the pale bar is that round's mandate (qualified +
+// pipeline, scaled against the biggest round), and the solid portion inside it
+// is the share we got into. So the bar's LENGTH says how much mandate the round
+// carries and its FILL says how much of it we reach -- the two questions the LP
+// slide is about, in one row.
 function SeriesBars({ rows, total }) {
-  const max = Math.max(...rows.map((r) => r.count), 1);
+  const max = Math.max(...rows.map((r) => r.mandate), 1);
   return (
     <ul className={styles.seriesList}>
       {rows.map((r) => {
         // "Other rounds" names its members on hover, so a mis-imported Series
         // (an investor name in the Series field, a PitchBook "Later Stage VC"
         // placeholder) is discoverable rather than swallowed by the fold.
-        const detail = `${r.label}: ${num(r.count)} of ${num(total)} deals (${Math.round(r.pct)}%)`;
+        const detail = `${r.label}: ${num(r.pipeline)} in pipeline of ${num(r.mandate)} in our mandate`
+          + ` (${num(r.qualified)} still at Qualified) · ${num(r.count)} tracked,`
+          + ` ${Math.round(r.pct)}% of the ${num(total)} book`;
+        const isNeutral = r.label === SERIES_UNKNOWN || !!r.members;
         return (
           <li key={r.label} className={styles.seriesRow}
               title={r.members ? `${detail}\n${r.members.join(', ')}` : detail}>
             <span className={styles.seriesLabel}>{r.label}</span>
             <span className={styles.seriesTrack}>
-              <span
-                className={styles.seriesFill}
-                style={{
-                  width: `${(r.count / max) * 100}%`,
-                  // Gray for both non-magnitude rows: "not recorded" is absent
-                  // data, "other rounds" is a mixed bag, and neither is a point
-                  // on the round ladder the blue ramp encodes.
-                  background: r.label === SERIES_UNKNOWN || r.members ? RAMP.none : RAMP.strong,
-                }}
-              />
+              {/* Outer: this round's mandate, relative to the biggest round. */}
+              <span className={styles.seriesFill}
+                    style={{ width: `${(r.mandate / max) * 100}%`, background: RAMP.pale }}>
+                {/* Inner: the pipeline share of THIS round's mandate, so its
+                    width reads as an access rate within the bar it sits in. */}
+                <span className={styles.seriesSourced}
+                      style={{
+                        width: `${r.accessPct ?? 0}%`,
+                        background: isNeutral ? RAMP.none : RAMP.strong,
+                      }} />
+              </span>
             </span>
-            <span className={styles.seriesValue}>{num(r.count)}</span>
-            <span className={styles.seriesPct}>{Math.round(r.pct)}%</span>
+            <span className={styles.seriesValue}>{num(r.mandate)}</span>
+            <span className={styles.seriesPct}>{r.accessPct == null ? '—' : `${Math.round(r.accessPct)}%`}</span>
           </li>
         );
       })}
@@ -258,48 +253,38 @@ function SeriesBars({ rows, total }) {
 }
 
 export default function DealStatsDashboard({ companies }) {
-  const { total, byStage, bySeries, ratios } = computeDealStats(companies);
-  const recordedSeries = bySeries.filter((r) => r.label !== SERIES_UNKNOWN).reduce((s, r) => s + r.count, 0);
-  const otherRounds = bySeries.find((r) => r.label === SERIES_OTHER);
+  const { total, byStage, bySeries, mandate } = computeDealStats(companies);
 
+  // No explanatory paragraph under any card title (Oscar, 2026-08-13) -- the
+  // titles, the axis labels and the hover tooltips carry it. Anything that
+  // genuinely needs stating rides in a column header or a tooltip instead of a
+  // paragraph of prose above the chart.
   return (
     <section className={styles.wrap}>
-      {/* Title only -- no "Live / recomputed every load" badge (Oscar,
-          2026-08-13). The numbers being current is the baseline expectation,
-          not a feature to advertise on the page. */}
       <div className={styles.head}>
         <h1 className={styles.title}>Dashboard</h1>
       </div>
 
+      {/* Qualified (the mandate) -> Pipeline (what we get into) -> the rate
+          between them, reading left to right in that order. */}
       <div className={styles.tiles}>
-        <StatTile hero label="Deals tracked" value={num(total)}
-                  sub={`${num(recordedSeries)} with a Series on file`} />
-        <StatTile label="In pipeline" value={num(ratios.pipelineCount)} href={STAGE_BASEPATH.pipeline}
-                  sub={`${pct(total ? (ratios.pipelineCount / total) * 100 : null)} of everything tracked`} />
-        <StatTile label="Qualified" value={num(ratios.qualifiedCount)} href={STAGE_BASEPATH.qualified}
-                  sub={`${pct(total ? (ratios.qualifiedCount / total) * 100 : null)} of everything tracked`} />
-        <StatTile label="Mandate access" value={pct(ratios.mandateAccess.pct)}
-                  sub={`${num(ratios.mandateAccess.access)} of ${num(ratios.mandateAccess.recorded)} assessed mandate deals`} />
-        <StatTile label="Active share" value={pct(ratios.activeShare.pct)}
-                  sub={`${num(ratios.activeShare.numerator)} in pipeline or qualified`} />
+        <StatTile hero label="Qualified" value={num(mandate.qualifiedCount)} href={STAGE_BASEPATH.qualified} />
+        <StatTile label="In pipeline" value={num(mandate.pipelineCount)} href={STAGE_BASEPATH.pipeline} />
+        <StatTile label="Access rate" value={pct(mandate.pct)}
+                  sub={`${num(mandate.pipelineCount)} of ${num(mandate.mandateTotal)} in our mandate`} />
+        <StatTile label="Invested" value={num(mandate.investedCount)} href={STAGE_BASEPATH.invested} />
+        <StatTile label="Deals tracked" value={num(total)} />
       </div>
 
       <div className={styles.card}>
         <div className={styles.cardHead}>
           <h2 className={styles.cardTitle}>Deals by stage</h2>
-          {/* Stated, not buried: these bars intentionally sum past the total,
-              because stage membership is additive (a deal can be in Pipeline
-              and Qualified at once). Without this the reader does the addition,
-              gets a bigger number than "Deals tracked", and stops trusting the
-              page. */}
-          <p className={styles.cardNote}>
-            A deal can sit in more than one stage at once, so these add up to more than the {num(total)} tracked.
-            Percentages are of the {num(total)}.
-            {ratios.needsTriageCount > 0 && (
-              <> {num(ratios.needsTriageCount)} more are untriaged and appear in no bar —
-                they have no stage recorded in Attio.</>
-            )}
-          </p>
+          {/* Untriaged deals belong to no public stage, so they appear in no bar.
+              A count in the header (not a paragraph) keeps the chart honest
+              without explaining itself at length. */}
+          {mandate.needsTriageCount > 0 && (
+            <span className={styles.cardMeta}>{num(mandate.needsTriageCount)} untriaged, not shown</span>
+          )}
         </div>
         <StageColumns rows={byStage} total={total} />
       </div>
@@ -307,37 +292,22 @@ export default function DealStatsDashboard({ companies }) {
       <div className={styles.twoUp}>
         <div className={styles.card}>
           <div className={styles.cardHead}>
-            <h2 className={styles.cardTitle}>Access to the mandate</h2>
-            <p className={styles.cardNote}>
-              Attio&apos;s Access field across the {num(ratios.mandateCount)} deals in Pipeline or Qualified.
-              The headline rate is of the {num(ratios.mandateAccess.recorded)} that have actually been
-              assessed — an unassessed deal isn&apos;t a <strong>no</strong>.
-            </p>
+            <h2 className={styles.cardTitle}>Access to our mandate</h2>
           </div>
-          <CoverageDonut mandateAccess={ratios.mandateAccess} />
-          {/* The blended rate hides a real split, so both halves are stated. */}
-          <ul className={styles.splitList}>
-            {ratios.accessByStage.map((s) => (
-              <li key={s.stage} className={styles.splitRow}>
-                <span className={styles.splitLabel}>{STAGE_LABELS[s.stage]}</span>
-                <span className={styles.splitValue}>{pct(s.pct)}</span>
-                <span className={styles.splitSub}>
-                  {s.recorded ? `${num(s.access)} of ${num(s.recorded)} assessed` : 'none assessed yet'}
-                </span>
-              </li>
-            ))}
-          </ul>
+          <AccessMeter mandate={mandate} />
         </div>
 
         <div className={styles.card}>
           <div className={styles.cardHead}>
-            <h2 className={styles.cardTitle}>Deals by series</h2>
-            <p className={styles.cardNote}>
-              In round order, not by size. Bars are relative to the largest bucket; percentages are of
-              the {num(total)} tracked.
-              {otherRounds && <> Hover <strong>Other rounds</strong> to see the {otherRounds.count} deals
-                on non-standard labels — SAFEs, secondaries, and a few bad Series imports.</>}
-            </p>
+            <h2 className={styles.cardTitle}>Access by series</h2>
+          </div>
+          {/* Column headers do the work the removed paragraph used to: they name
+              what each number is, in place, without a preamble. */}
+          <div className={styles.seriesHead}>
+            <span />
+            <span />
+            <span className={styles.seriesHeadCell}>Mandate</span>
+            <span className={styles.seriesHeadCell}>Access</span>
           </div>
           <SeriesBars rows={bySeries} total={total} />
         </div>

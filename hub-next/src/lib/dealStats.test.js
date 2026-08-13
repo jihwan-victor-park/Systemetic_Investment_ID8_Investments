@@ -1,11 +1,10 @@
 import { describe, it, expect } from 'vitest';
 import {
-  bySeries, byStage, computeDealStats, coverageRatios, inStage, normalizeSeries,
+  bySeries, byStage, computeDealStats, inStage, mandateStats, normalizeSeries,
   SERIES_OTHER, SERIES_UNKNOWN,
 } from './dealStats';
 
-const co = (slug, { stage = 'watchlist', tags = [], round = null, access = null } = {}) =>
-  ({ slug, stage, tags, round, access });
+const co = (slug, { stage = 'watchlist', tags = [], round = null } = {}) => ({ slug, stage, tags, round });
 
 describe('inStage', () => {
   it('matches the primary stage', () => {
@@ -13,7 +12,8 @@ describe('inStage', () => {
   });
 
   it('matches an additive tag on a company whose primary stage is something else', () => {
-    // The whole reason the pipeline-AND-qualified intersection is meaningful.
+    // How a Passed deal records the pipeline access it actually had -- see
+    // isSourced below, which depends entirely on this.
     expect(inStage(co('a', { stage: 'pipeline', tags: ['qualified'] }), 'qualified')).toBe(true);
   });
 
@@ -109,88 +109,89 @@ describe('byStage', () => {
   });
 });
 
-describe('coverageRatios', () => {
+describe('mandateStats', () => {
+  // Oscar's own definition, 2026-08-13: "qualified have our mandate, pipeline
+  // are the ones we get access to." So the rate is pipeline / qualified.
   const companies = [
-    co('a', { stage: 'pipeline', tags: ['qualified'] }),  // pipeline AND qualified
-    co('b', { stage: 'pipeline' }),                       // pipeline only
-    co('c', { stage: 'qualified' }),                      // qualified only
-    co('d', { stage: 'watchlist' }),                      // neither
+    co('a', { stage: 'qualified' }),
+    co('b', { stage: 'qualified' }),
+    co('c', { stage: 'qualified' }),
+    co('d', { stage: 'qualified' }),
+    co('e', { stage: 'pipeline' }),
+    co('f', { stage: 'pipeline' }),
+    co('g', { stage: 'watchlist' }),
+    co('h', { stage: 'new' }),
   ];
 
-  it('active share is the UNION over the whole universe, never a sum', () => {
-    // Summing pipeline (2) + qualified (2) would report 4 of 4 -- double
-    // counting company 'a', which is exactly the deal the first ratio is about.
-    const { activeShare } = coverageRatios(companies);
-    expect(activeShare).toEqual({ numerator: 3, denominator: 4, pct: 75 });
+  it('rates pipeline against the whole mandate', () => {
+    const m = mandateStats(companies);
+    expect(m.qualifiedCount).toBe(4);
+    expect(m.pipelineCount).toBe(2);
+    expect(m.mandateTotal).toBe(6);   // qualified UNION pipeline
+    expect(m.pct).toBeCloseTo(33.33, 1);   // 2/6
   });
 
-  it('surfaces both directions of the gap between the two buckets', () => {
-    const r = coverageRatios(companies);
-    expect(r.qualifiedNotInPipeline).toBe(1);
-    expect(r.pipelineNotQualified).toBe(1);
-    expect(r.bothCount).toBe(1);
+  it('cannot exceed 100% when more deals have advanced than remain qualified', () => {
+    // The bug this denominator exists to prevent: qualified and pipeline are
+    // disjoint (stage is one funnel position), so pipeline / qualified read
+    // 533% for Series A on real 2026-08-13 data. A percentage that can exceed
+    // 100% is not a percentage.
+    const lopsided = [
+      co('a', { stage: 'qualified' }),
+      ...Array.from({ length: 9 }, (_, i) => co(`p${i}`, { stage: 'pipeline' })),
+    ];
+    const m = mandateStats(lopsided);
+    expect(m.pct).toBe(90);   // 9/10, not 900%
+    expect(m.pct).toBeLessThanOrEqual(100);
+  });
+
+  it('counts a stage carried as an additive tag', () => {
+    // A deal filed elsewhere in Attio but tagged into pipeline still counts as
+    // access -- that is how the CSV import records a passed deal we got into.
+    const m = mandateStats([co('a', { stage: 'qualified' }), co('b', { stage: 'passed', tags: ['pipeline'] })]);
+    expect(m.pipelineCount).toBe(1);
+    expect(m.qualifiedCount).toBe(1);
+    expect(m.mandateTotal).toBe(2);
+    expect(m.pct).toBe(50);
+  });
+
+  it('reports a null rate rather than dividing by zero', () => {
+    const m = mandateStats([co('a', { stage: 'watchlist' })]);
+    expect(m.pct).toBeNull();
+    expect(m.qualifiedCount).toBe(0);
   });
 
   it('counts untriaged deals, which no public stage bar can show', () => {
-    const r = coverageRatios([...companies, co('e', { stage: 'new' })]);
-    expect(r.needsTriageCount).toBe(1);
-  });
-
-  it('handles an empty universe', () => {
-    const r = coverageRatios([]);
-    expect(r.activeShare.pct).toBeNull();
-    expect(r.pipelineCount).toBe(0);
+    expect(mandateStats(companies).needsTriageCount).toBe(1);
   });
 });
 
-describe('coverageRatios: mandate access', () => {
-  // Access lives on Attio's own Access field, not on the pipeline-AND-qualified
-  // intersection -- that intersection is 0 of 336 on real data because nothing
-  // writes the 'qualified' tag, so a ratio built on it would report a storage
-  // artifact. See the function's own comment.
+describe('bySeries: mandate and access per round', () => {
   const companies = [
-    co('a', { stage: 'pipeline', access: 'access' }),
-    co('b', { stage: 'pipeline', access: 'no_access' }),
-    co('c', { stage: 'qualified', access: 'access' }),
-    co('d', { stage: 'qualified', access: 'no_access' }),
-    co('e', { stage: 'qualified', access: 'no_access' }),
-    co('f', { stage: 'qualified' }),               // in the mandate, not assessed
-    co('g', { stage: 'watchlist', access: 'access' }), // outside the mandate entirely
+    co('a', { round: 'Series B', stage: 'qualified' }),
+    co('b', { round: 'Series B', stage: 'qualified' }),
+    co('c', { round: 'Series B', stage: 'pipeline' }),
+    co('d', { round: 'Series C', stage: 'qualified' }),
+    co('e', { round: 'Series C', stage: 'watchlist' }),
   ];
 
-  it('rates access over ASSESSED mandate deals, never over the whole population', () => {
-    const { mandateAccess } = coverageRatios(companies);
-    expect(mandateAccess.population).toBe(6);  // 'g' is not in the mandate
-    expect(mandateAccess.recorded).toBe(5);    // 'f' is unassessed
-    expect(mandateAccess.access).toBe(2);
-    expect(mandateAccess.pct).toBe(40);        // 2/5, NOT 2/6
+  it('carries qualified, pipeline and mandate counts per round', () => {
+    const b = bySeries(companies).find((r) => r.label === 'Series B');
+    expect(b.qualified).toBe(2);
+    expect(b.pipeline).toBe(1);
+    expect(b.mandate).toBe(3);   // qualified UNION pipeline
+    expect(b.count).toBe(3);     // every tracked deal at that round
   });
 
-  it('keeps unassessed deals visible instead of scoring them as a no', () => {
-    // Treating unset as no_access would report 33% here (2/6) and quietly
-    // invent a negative answer for every deal nobody has looked at.
-    expect(coverageRatios(companies).mandateAccess.unrecorded).toBe(1);
+  it('rates access within the round, against that round\'s mandate', () => {
+    const rows = bySeries(companies);
+    expect(rows.find((r) => r.label === 'Series B').accessPct).toBeCloseTo(33.33, 1);   // 1/3
+    expect(rows.find((r) => r.label === 'Series C').accessPct).toBe(0);                 // 0/1
   });
 
-  it('splits the rate by stage, because the two run very differently', () => {
-    const { accessByStage } = coverageRatios(companies);
-    const byKey = Object.fromEntries(accessByStage.map((s) => [s.stage, s]));
-    expect(byKey.pipeline.pct).toBe(50);                     // 1 access of 2 assessed
-    expect(byKey.qualified.pct).toBeCloseTo(33.33, 1);       // 1 access of 3 assessed ('f' unassessed)
-    expect(byKey.qualified.recorded).toBe(3);
-  });
-
-  it('reports a null percentage rather than dividing by zero', () => {
-    const r = coverageRatios([co('a', { stage: 'pipeline' })]);
-    expect(r.mandateAccess.pct).toBeNull();
-    expect(r.mandateAccess.recorded).toBe(0);
-    expect(r.mandateAccess.population).toBe(1);
-  });
-
-  it('ignores an unrecognized access value rather than counting it either way', () => {
-    const r = coverageRatios([co('a', { stage: 'pipeline', access: 'maybe' })]);
-    expect(r.mandateAccess.recorded).toBe(0);
-    expect(r.mandateAccess.access).toBe(0);
+  it('is null, not zero, for a round with nothing in the mandate to rate', () => {
+    const rows = bySeries([co('a', { round: 'Seed', stage: 'watchlist' })]);
+    expect(rows[0].accessPct).toBeNull();
   });
 });
 

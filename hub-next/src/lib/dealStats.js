@@ -77,23 +77,40 @@ function seriesSortKey(label) {
 // Folded, NOT dropped: the count still lands in the total, the row is visible,
 // and its members are named on hover -- so a mis-imported Series is something a
 // reader can notice and go fix, rather than something this function hides.
+// Each row carries the same mandate/access pair as mandateStats, per round:
+// `qualified` (deals at that round meeting our mandate) and `pipeline` (the ones
+// we got into), plus the rate between them. So the breakdown answers "which
+// rounds can we actually get into" -- the question the LP slide is about, and
+// invisible from a plain count. `count` is every tracked deal at that round,
+// which is what the row's share of the book is measured on.
 export function bySeries(companies, { fold = true } = {}) {
-  const counts = new Map();
+  const buckets = new Map();
   for (const c of companies) {
     const label = normalizeSeries(c.round);
-    counts.set(label, (counts.get(label) || 0) + 1);
+    const b = buckets.get(label) || { count: 0, qualified: 0, pipeline: 0, mandate: 0 };
+    b.count += 1;
+    if (inStage(c, 'qualified')) b.qualified += 1;
+    if (inStage(c, 'pipeline')) b.pipeline += 1;
+    // Same qualified-union-pipeline denominator mandateStats uses -- see the
+    // comment there for why a bare `qualified` denominator produces a 533%.
+    if (inStage(c, 'qualified') || inStage(c, 'pipeline')) b.mandate += 1;
+    buckets.set(label, b);
   }
 
-  let rows = [...counts.entries()].map(([label, count]) => ({ label, count }));
+  let rows = [...buckets.entries()].map(([label, b]) => ({ label, ...b }));
   if (fold) {
     const canonical = rows.filter((r) => SERIES_ORDER.includes(r.label) || r.label === SERIES_UNKNOWN);
     const other = rows.filter((r) => !SERIES_ORDER.includes(r.label) && r.label !== SERIES_UNKNOWN);
     // One stray round is its own row -- folding a single bucket into "Other
     // rounds" renames it for no gain and hides which round it was.
     if (other.length > 1) {
+      const sum = (k) => other.reduce((s, r) => s + r[k], 0);
       rows = [...canonical, {
         label: SERIES_OTHER,
-        count: other.reduce((s, r) => s + r.count, 0),
+        count: sum('count'),
+        qualified: sum('qualified'),
+        pipeline: sum('pipeline'),
+        mandate: sum('mandate'),
         members: other.sort((a, b) => b.count - a.count || a.label.localeCompare(b.label))
           .map((r) => `${r.label} (${r.count})`),
       }];
@@ -102,7 +119,13 @@ export function bySeries(companies, { fold = true } = {}) {
 
   const total = companies.length;
   return rows
-    .map((r) => ({ ...r, pct: total ? (r.count / total) * 100 : 0 }))
+    .map((r) => ({
+      ...r,
+      pct: total ? (r.count / total) * 100 : 0,
+      // Access rate within THIS round -- "we get into 84% of the Series A that
+      // fit our mandate" is the finding; that same row's share of the book isn't.
+      accessPct: r.mandate ? (r.pipeline / r.mandate) * 100 : null,
+    }))
     .sort((a, b) => {
       const [ax, ay] = seriesSortKey(a.label);
       const [bx, by] = seriesSortKey(b.label);
@@ -126,81 +149,46 @@ function ratio(numerator, denominator) {
   return { numerator, denominator, pct: denominator ? (numerator / denominator) * 100 : null };
 }
 
-// The ratios Oscar asked for (2026-08-13), and one correction to how the first
-// one has to be measured.
+// The one ratio the dashboard exists to show, in Oscar's own words (2026-08-13):
+// "qualified have our mandate, pipeline are the ones we get access to."
 //
-//   activeShare -- "number of pipeline/qualified overall": how much of the
-//   entire tracked universe is in Pipeline OR Qualified at all, i.e. how much of
-//   what we've ever looked at is live rather than parked in Watchlist/Radar or
-//   already passed. UNION, not a sum: adding the two counts double-counts
-//   anything in both.
+//   QUALIFIED = the mandate. Deals that clear ID8's screen -- the market we
+//   should be able to play in.
+//   PIPELINE  = access. The ones ID8 actually got into.
+//   rate      = pipeline / qualified.
 //
-//   mandateAccess -- "how much percentage of access we have to our mandate."
-//   Measured as the access rate WITHIN the mandate universe (Pipeline union
-//   Qualified), off Attio's own "Access" attribute -- imported onto
-//   `company.access` as 'access'/'no_access' by
-//   deal_intelligence/import_attio_deals_csv.py, added 2026-08-06 for exactly
-//   this page ("deals qualified/pipeline (the ones we get access to) -- a real
-//   dimension for the stats page").
+// This is the live version of the LP sourcing slide's "Deal Count = 117
+// Sourced = 25 (21%)". `sourced` is the same idea as that slide's word, kept as
+// an alias so the page and the deck use one vocabulary.
 //
-//   NOT the literal "pipeline deals which are also qualified": that reads 0 of
-//   336 on the 2026-08-13 data, because nothing ever writes the 'qualified'
-//   tag (only the `stage`), so `stage` behaves as one funnel POSITION rather
-//   than two orthogonal axes -- a deal is filed at qualified or at pipeline,
-//   never recorded as both. A headline tile off that intersection would report
-//   a storage artifact, not ID8's access. `bothCount` is still returned so the
-//   integrity gap stays visible as a count.
+// THE DENOMINATOR. `stage` is a single funnel POSITION, so a deal that moved
+// Qualified -> Pipeline is counted in pipeline and no longer in qualified: the
+// two sets are disjoint, not nested. That makes a literal pipeline / qualified
+// unsafe as a rate -- a round where more deals advanced than are still sitting
+// at Qualified goes over 100% (Series A reads 533% on the 2026-08-13 data: 16
+// in pipeline, 3 still qualified). A percentage that can exceed 100% isn't a
+// percentage.
 //
-//   The access field is SPARSE -- 67 of the 273 mandate deals carry a value --
-//   so the denominator is recorded deals only, and `recorded`/`unrecorded` come
-//   back with it so the page states its own coverage rather than implying that
-//   206 unrecorded deals are a "no". Unknown is not no, the same
-//   missing-is-not-zero rule as everywhere else here.
-export function coverageRatios(companies) {
-  const total = companies.length;
-  const pipeline = companies.filter((c) => inStage(c, 'pipeline'));
+// So the mandate is qualified UNION pipeline -- every deal that met the screen,
+// whether or not it has already advanced -- and access is the pipeline share of
+// it. That's the same question ("of our mandate, how much do we get access
+// to"), just with a denominator that holds: always <= 100%, and it stops
+// swinging every time a deal moves from one stage to the other. On 2026-08-13
+// it reads 100 of 293 = 34%.
+export function mandateStats(companies) {
   const qualified = companies.filter((c) => inStage(c, 'qualified'));
-  const both = pipeline.filter((c) => inStage(c, 'qualified'));
-  const mandate = companies.filter((c) => inStage(c, 'pipeline') || inStage(c, 'qualified'));
+  const pipeline = companies.filter((c) => inStage(c, 'pipeline'));
+  const mandate = companies.filter((c) => inStage(c, 'qualified') || inStage(c, 'pipeline'));
   return {
-    activeShare: ratio(mandate.length, total),
-    mandateAccess: accessRate(mandate),
-    // Same rate for each half on its own -- the two run very differently (67%
-    // of recorded pipeline deals vs 17% of recorded qualified ones on
-    // 2026-08-13), and that gap IS the finding: we get into most of what we
-    // actively work, and into few of the deals that merely fit the mandate.
-    // One blended number hides it.
-    accessByStage: [
-      { stage: 'pipeline', ...accessRate(pipeline) },
-      { stage: 'qualified', ...accessRate(qualified) },
-    ],
-    pipelineCount: pipeline.length,
+    ...ratio(pipeline.length, mandate.length),
     qualifiedCount: qualified.length,
-    mandateCount: mandate.length,
-    bothCount: both.length,
-    qualifiedNotInPipeline: qualified.filter((c) => !inStage(c, 'pipeline')).length,
-    pipelineNotQualified: pipeline.length - both.length,
+    pipelineCount: pipeline.length,
+    investedCount: companies.filter((c) => inStage(c, 'invested')).length,
+    mandateTotal: mandate.length,
     // Every doc the public stage bars CAN'T show: 'new' is the untriaged holding
     // bucket, deliberately absent from PUBLIC_STAGES (lib/stages.js), so without
     // this the chart quietly omits real deals and the reader has no way to tell.
     needsTriageCount: companies.filter((c) => c.stage === 'new').length,
-  };
-}
-
-// Attio's Access attribute over an arbitrary population. `pct` is of RECORDED
-// deals, never of the whole population -- treating 'unset' as 'no_access' would
-// invent a negative answer for every deal nobody has assessed yet.
-function accessRate(population) {
-  const access = population.filter((c) => c.access === 'access').length;
-  const noAccess = population.filter((c) => c.access === 'no_access').length;
-  const recorded = access + noAccess;
-  return {
-    ...ratio(access, recorded),
-    access,
-    noAccess,
-    recorded,
-    unrecorded: population.length - recorded,
-    population: population.length,
   };
 }
 
@@ -209,6 +197,6 @@ export function computeDealStats(companies) {
     total: companies.length,
     byStage: byStage(companies),
     bySeries: bySeries(companies),
-    ratios: coverageRatios(companies),
+    mandate: mandateStats(companies),
   };
 }

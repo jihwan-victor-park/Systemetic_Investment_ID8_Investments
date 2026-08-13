@@ -116,6 +116,21 @@
 
 .cardHead {
   margin-bottom: 14px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+/* The one thing a card is allowed to say beyond its title -- a short factual
+   qualifier ("16 untriaged, not shown"), sitting on the title's own line rather
+   than as a paragraph beneath it. */
+.cardMeta {
+  font-family: 'Sora', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--id8-grey);
+  white-space: nowrap;
 }
 
 .cardTitle {
@@ -127,20 +142,6 @@
   margin: 0;
   padding: 0;
   border: none;
-}
-
-.cardNote {
-  font-family: 'Roboto Serif', Georgia, serif;
-  font-size: 0.78rem;
-  line-height: 1.5;
-  color: var(--id8-grey);
-  margin: 5px 0 0;
-  max-width: 62ch;
-}
-
-.cardNote strong {
-  color: var(--id8-soft);
-  font-weight: 600;
 }
 
 .twoUp {
@@ -329,48 +330,29 @@
   text-align: right;
 }
 
-/* Pipeline-vs-Qualified access split, under the ring. Two rows, so a plain
-   bordered list beats a second chart. */
-.splitList {
-  list-style: none;
-  margin: 14px 0 0;
-  padding: 12px 0 0;
-  border-top: 1px solid var(--id8-hair);
-  display: flex;
-  gap: 26px;
-  flex-wrap: wrap;
-}
-
-.splitRow {
-  display: grid;
-  grid-template-columns: auto;
-  gap: 1px;
-  min-width: 0;
-}
-
-.splitLabel {
-  font-family: 'Sora', sans-serif;
-  font-size: 0.72rem;
-  font-weight: 500;
-  color: var(--id8-grey);
-}
-
-.splitValue {
-  font-family: 'Sora', sans-serif;
-  font-size: 1.15rem;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  color: var(--id8-ink);
-  font-variant-numeric: tabular-nums;
-}
-
-.splitSub {
-  font-family: 'Roboto Serif', Georgia, serif;
-  font-size: 0.72rem;
-  color: var(--id8-grey);
-}
-
 /* ── series bar list ───────────────────────────────────────────────────── */
+
+/* Column headers carry what a paragraph above the chart used to say -- naming
+   each number in place. Same grid as .seriesRow so they line up exactly. */
+.seriesHead {
+  display: grid;
+  grid-template-columns: 100px minmax(0, 1fr) 34px 46px;
+  align-items: baseline;
+  gap: 10px;
+  padding-bottom: 6px;
+  margin-bottom: 2px;
+  border-bottom: 1px solid var(--id8-hair);
+}
+
+.seriesHeadCell {
+  font-family: 'Sora', sans-serif;
+  font-size: 0.66rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--id8-grey);
+  text-align: right;
+}
 
 .seriesList {
   list-style: none;
@@ -382,10 +364,10 @@
 
 /* 100px on the label, not 82: "Not recorded" is the widest real label and was
    rendering as "Not record…". A truncated axis label is worse than a narrower
-   bar. */
+   bar. Must stay in lockstep with .seriesHead's columns. */
 .seriesRow {
   display: grid;
-  grid-template-columns: 100px minmax(0, 1fr) 34px 34px;
+  grid-template-columns: 100px minmax(0, 1fr) 34px 46px;
   align-items: center;
   gap: 10px;
   padding: 5px 0;
@@ -411,11 +393,24 @@
   overflow: hidden;
 }
 
+/* Outer bar: every deal at this round. Positioned so the sourced portion can
+   sit inside it and read as a share OF this bar, not of the track. */
 .seriesFill {
   display: block;
   height: 100%;
   border-radius: 4px;
   min-width: 3px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Inner bar: the sourced share of this round. Left-anchored inside its parent,
+   so the two together are one nested part-to-whole rather than two bars the eye
+   has to compare across rows. */
+.seriesSourced {
+  display: block;
+  height: 100%;
+  border-radius: 4px 0 0 4px;
 }
 
 .seriesValue {
@@ -437,7 +432,7 @@
 }
 
 @media (max-width: 560px) {
-  .seriesRow { grid-template-columns: 84px minmax(0, 1fr) 30px 32px; gap: 8px; }
+  .seriesRow, .seriesHead { grid-template-columns: 84px minmax(0, 1fr) 30px 42px; gap: 8px; }
   .tileValueHero { font-size: 2.1rem; }
   .donutRow { gap: 16px; }
 }
