@@ -54,8 +54,8 @@ from collections import Counter, defaultdict
 
 from . import config, tier1_firms
 from .fit_note import normalize_domain, slugify
-from .import_attio_deals_csv import (authoritative_row, company_key_of,
-                                     group_by_company, read_rows)
+from .import_attio_deals_csv import (PASSED_STAGE, PASSED_TAG, authoritative_row,
+                                     company_key_of, group_by_company, read_rows)
 from .placement import (BAND_ABOVE_B, BAND_B, BAND_BELOW_B, BAND_UNKNOWN,
                         expected_placement, series_band)
 
@@ -135,6 +135,14 @@ def _attio_companies_from_rows(rows):
             "top10": tier1_firms.match_top10(investor_domains=domains, investor_names=names),
             "tier1_33": tier1_firms.match_tier1_33(investor_names=names),
             "rounds": sorted({r["series"] for r in group if r["series"]}),
+            # EVERY deal's stage, not just the authoritative row's. Placement
+            # compares against the current stage, but history is cumulative:
+            # a company with a Passed deal in May and a Qualified one in June
+            # WAS passed on, and the hub is supposed to keep that. Reading only
+            # the latest row silently dropped the `passed` tag for exactly the
+            # companies that have been round the loop more than once (Warp,
+            # Anthropic, Legora, Jump AI in the 2026-08-13 export).
+            "allStages": sorted({r["stage"] for r in group if r["stage"]}),
             "dealCount": len(group),
         }
     return out
@@ -455,6 +463,34 @@ def _expected(row, series_b_mode):
                               series_b_mode=series_b_mode)
 
 
+def attio_stage_tags(attio_stage):
+    """The hub tags implied by Attio's OWN stage, independent of the series rule.
+
+    Two different questions get answered by two different mechanisms, and this
+    is the second one. `expected_placement` asks "where does the rule say this
+    belongs?" and yields qualified/radar. This asks "what has actually happened
+    to this deal?" and yields pipeline/passed/invested/watchlist -- history, not
+    mandate. A deal can be Qualified by the rule and Passed in fact; the hub
+    holds both because its membership is additive, which is the whole reason
+    Oscar wants the double tag (2026-08-13: "the ones we've passed used to be in
+    pipeline in attio, but in the hub we can double tag them as both pipeline
+    and passed").
+
+    `passed` implies `pipeline` -- passing on a deal means it was actually
+    evaluated, so it belongs in Pipeline's history too. Same rule
+    import_attio_deals_csv already applies; shared here so the one-shot CSV
+    import and the ongoing reconciler cannot drift apart on it.
+
+    Returns [] for an Attio stage that maps to no hub bucket, rather than
+    guessing."""
+    stage = str(attio_stage or "").strip().lower()
+    mapped = config.ATTIO_STAGE_MAP.get(stage)
+    if stage == PASSED_STAGE:
+        # 'passed' is not in ATTIO_STAGE_MAP -- it is a hub tag, not a stage.
+        return [PASSED_TAG, "pipeline"]
+    return [mapped] if mapped else []
+
+
 def _hub_buckets(hub_row):
     """Every tab a hub company shows up in: hub-next models membership as
     {stage} u tags, so a Qualified company tagged `radar` is in both."""
@@ -496,6 +532,7 @@ def reconcile(hub, attio, series_b_mode="dual", names=None):
         row["expectedWhy"] = why
 
     mismatches, agreed, unplaced_above_b, human_filed, unplaced = [], [], [], [], []
+    history_gaps = []
     for hub_row, attio_row, basis in matched:
         # The cap table is the union of what each side knows -- either side can
         # be the one carrying the investor list for a given company.
@@ -521,10 +558,28 @@ def reconcile(hub, attio, series_b_mode="dual", names=None):
             "expectedTags": tags, "expectedWhy": why,
             "top10": merged["top10"], "tier1_33": merged["tier1_33"],
             "attioRecordId": attio_row.get("record_id") or hub_row.get("attioRecordId") or "",
+            "attioAllStages": attio_row.get("allStages") or [],
         }
 
+        # Attio's stage is DEAL HISTORY and applies to every matched company,
+        # including the Passed/Invested ones the series rule must not touch --
+        # in fact especially those, since "was in pipeline, then passed" is
+        # exactly the history the hub is supposed to keep. Computed before the
+        # terminal-stage branch below so it isn't skipped for them.
+        history = sorted({t for st in (attio_row.get("allStages") or [attio_row["stage"]])
+                          for t in attio_stage_tags(st)})
+        record["attioHistoryTags"] = history
+        record["historyMissing"] = sorted(set(history) - buckets)
+        if record["historyMissing"]:
+            # Tracked in its own list because these cut ACROSS the five
+            # placement buckets -- a Passed deal, an agreeing Qualified one and
+            # an unplaced one can each be missing its history tag.
+            history_gaps.append(record)
+
         if attio_stage in TERMINAL_ATTIO_STAGES:
-            # Filed by hand and settled. Reported for completeness only.
+            # Filed by hand and settled -- the series rule is not applied. The
+            # history tags above still are: those record what happened, not
+            # where the rule thinks it belongs.
             human_filed.append(record)
             continue
         if stage is None:
@@ -573,7 +628,9 @@ def reconcile(hub, attio, series_b_mode="dual", names=None):
             "hubDuplicateDocs": len(dup_keys),
             "hubDuplicatesShownAsHubOnly": len(hub_dupes_only),
             "testFixtures": len(test_fixtures),
+            "historyGaps": len(history_gaps),
         },
+        "historyGaps": history_gaps,
         "hubDuplicates": duplicates,
         "testFixtures": test_fixtures,
         "seriesBMode": series_b_mode,
@@ -668,6 +725,8 @@ def render_markdown(report, run_date):
         f"- Placement disagreements among matched deals: **{c['placementMismatches']}** "
         f"(agreed: {c['placementAgreed']})",
         f"- Matched but filed by hand in Attio (Passed/Invested -- rule not applied): {c['humanFiled']}",
+        f"- **Missing their Attio deal history in the hub (pipeline/passed/invested tags): "
+        f"{c['historyGaps']}**",
         f"- Matched but the rule places them nowhere: {c['unplacedByRule'] + c['aboveBNoTier33']} "
         f"({c['aboveBNoTier33']} above B with no Tier 1 (33), {c['unplacedByRule']} below/unknown series)",
         "",
@@ -763,6 +822,20 @@ def render_markdown(report, run_date):
               ("Why", lambda r: r["expectedWhy"]),
           ]), ""]
 
+    L += ["## Missing deal history (pipeline / passed / invested)", "",
+          f"{c['historyGaps']} companies whose Attio stage implies a hub bucket the hub "
+          "isn't carrying. This is separate from the placement rule above: the rule says "
+          "where a deal *belongs* (qualified/radar), this says what actually *happened* to "
+          "it. Both are additive in the hub, so a deal can be Qualified by the rule and "
+          "Passed in fact. `passed` always brings `pipeline` with it -- passing on a deal "
+          "means it was evaluated, so it belongs in Pipeline's history too.", "",
+          _table(sorted(report["historyGaps"], key=lambda r: r["name"]), [
+              ("Company", lambda r: r["name"]),
+              ("Attio stage(s)", lambda r: ", ".join(r["attioAllStages"]) or r["attioStage"]),
+              ("Hub now", lambda r: _hub_display(r)),
+              ("Missing tags", lambda r: ", ".join(r["historyMissing"])),
+          ]), ""]
+
     L += ["## Above Series B, no Tier 1 (33) investor", "",
           f"{c['aboveBNoTier33']} matched companies clear the B+ mandate but have no "
           "Tier 1 (33) firm on the cap table, so the Qualified clause of the rule "
@@ -825,6 +898,9 @@ def write_csvs(report, out_dir, run_date):
           "attioRecordId", "key"]),
         ("unplaced-by-rule", report["unplacedByRule"] + report["aboveBNoTier33"],
          ["name", "series", "band", "attioStage", "hubStage", "expectedWhy", "key"]),
+        ("history-tag-gaps", report["historyGaps"],
+         ["name", "attioStage", "attioAllStages", "hubStage", "hubTags",
+          "attioHistoryTags", "historyMissing", "key"]),
         ("hub-duplicate-docs",
          [{"company": g["name"], "primaryKey": g["primaryKey"], "primaryStage": g["primaryStage"],
            "duplicateKey": d["key"], "stranded": d["stranded"],
@@ -859,6 +935,7 @@ def apply_hub(report, yes=False):
     creates = [r for r in report["attioOnly"] if r["expectedHubStage"]]
     stage_sets = [r for r in report["mismatches"] if r.get("hubSetStage")]
     tag_adds = [r for r in report["mismatches"] if r.get("hubAddTags")]
+    history_adds = report["historyGaps"]
     print(f"{'DRY RUN -- ' if not yes else ''}hub: {len(creates)} docs to create, "
           f"{len(stage_sets)} unplaced docs to give a stage, {len(tag_adds)} to tag")
     for r in creates:
@@ -869,8 +946,13 @@ def apply_hub(report, yes=False):
               + (f" +tags {r['hubAddTags']}" if r["hubAddTags"] else ""))
     for r in tag_adds:
         print(f"  tag    {r['key']:<28} {r['name']:<30} += {r['hubAddTags']}")
+    print(f"{'DRY RUN -- ' if not yes else ''}hub: {len(history_adds)} to get their Attio "
+          f"deal history (pipeline/passed/invested)")
+    for r in history_adds:
+        print(f"  hist   {r['key']:<28} {r['name']:<30} += {r['historyMissing']} "
+              f"(Attio: {r['attioStage']})")
     if not yes:
-        return {"created": 0, "staged": 0, "tagged": 0, "dryRun": True}
+        return {"created": 0, "staged": 0, "tagged": 0, "history": 0, "dryRun": True}
 
     db = firestore.Client(project=config.GCP_PROJECT_ID)
     for r in creates:
@@ -903,9 +985,15 @@ def apply_hub(report, yes=False):
     for r in tag_adds:
         db.collection("companies").document(r["key"]).set(
             {"tags": firestore.ArrayUnion(r["hubAddTags"])}, merge=True)
-    print(f"hub: created {len(creates)}, staged {len(stage_sets)}, tagged {len(tag_adds)}")
-    return {"created": len(creates), "staged": len(stage_sets),
-            "tagged": len(tag_adds), "dryRun": False}
+    for r in history_adds:
+        # Purely additive: this records what Attio says happened to the deal and
+        # can never remove or overwrite a placement already on the doc.
+        db.collection("companies").document(r["key"]).set(
+            {"tags": firestore.ArrayUnion(r["historyMissing"])}, merge=True)
+    print(f"hub: created {len(creates)}, staged {len(stage_sets)}, "
+          f"tagged {len(tag_adds)}, history {len(history_adds)}")
+    return {"created": len(creates), "staged": len(stage_sets), "tagged": len(tag_adds),
+            "history": len(history_adds), "dryRun": False}
 
 
 def apply_attio(report, yes=False):

@@ -7,6 +7,7 @@
 - **In the hub, missing from Attio: 1** (after setting aside 5 duplicate hub docs and 2 test fixtures)
 - Placement disagreements among matched deals: **41** (agreed: 128)
 - Matched but filed by hand in Attio (Passed/Invested -- rule not applied): 34
+- **Missing their Attio deal history in the hub (pipeline/passed/invested tags): 30**
 - Matched but the rule places them nowhere: 104 (17 above B with no Tier 1 (33), 87 below/unknown series)
 
 Those five buckets partition the 307 matched companies (41 + 128 + 34 + 17 + 87 = 307), so no matched deal is missing from the report.
@@ -95,6 +96,43 @@ Matched on both sides, but at least one side isn't where the rule says it should
 | Supabase | Series F | Pipeline | pipeline | Qualified | +tag qualified | stage -> Qualified | above Series B with a Tier 1 (33) investor |
 | Synthetix | Series C | Watchlist | watchlist | Qualified | +tag qualified | stage -> Qualified | above Series B with a Tier 1 (33) investor |
 | Trajectory | Series A | Pipeline | pipeline | Radar | +tag radar | stage -> Radar | below Series B with a Top 10 investor |
+
+## Missing deal history (pipeline / passed / invested)
+
+30 companies whose Attio stage implies a hub bucket the hub isn't carrying. This is separate from the placement rule above: the rule says where a deal *belongs* (qualified/radar), this says what actually *happened* to it. Both are additive in the hub, so a deal can be Qualified by the rule and Passed in fact. `passed` always brings `pipeline` with it -- passing on a deal means it was evaluated, so it belongs in Pipeline's history too.
+
+| Company | Attio stage(s) | Hub now | Missing tags |
+|---|---|---|---|
+| AdvanCell | Radar | None | radar |
+| Advanced Manufacturing Company of America | Pipeline, Qualified | qualified +radar | pipeline |
+| Anthropic | Passed, Qualified | None | passed, pipeline, qualified |
+| Castelion | Pipeline, Qualified | pipeline | qualified |
+| Chai Discovery | Qualified, Radar | qualified | radar |
+| Cloaked | Invested | passed +pipeline | invested |
+| Commure | Invested | passed +pipeline | invested |
+| DataBahn | Radar | qualified | radar |
+| Databento | Qualified | None | qualified |
+| Glow | Qualified | radar | qualified |
+| Hadrian | Pipeline, Qualified | pipeline | qualified |
+| Helsing | Qualified | None | qualified |
+| Higharc | Qualified | None | qualified |
+| Jump | Passed, Qualified | new | passed, pipeline, qualified |
+| Kalshi | Pipeline, Qualified | qualified | pipeline |
+| Legora | Passed, Qualified | qualified | passed, pipeline |
+| Lovable | Pipeline, Qualified | qualified | pipeline |
+| Mach Industries | Pipeline, Qualified | qualified | pipeline |
+| Norm Ai | Qualified | None | qualified |
+| Ollama | Radar, Watchlist | radar +pipeline | watchlist |
+| Ollin | Qualified | None | qualified |
+| Pi Security | Pipeline, Qualified | qualified | pipeline |
+| Pocket | Radar | None | radar |
+| Profound | Pipeline, Qualified | qualified | pipeline |
+| Rogo (Business/Productivity Software) | Qualified, Watchlist | watchlist | qualified |
+| Sable AI | Radar | qualified | radar |
+| Simile | Pipeline, Radar | pipeline | radar |
+| Temporal | Pipeline, Qualified | qualified | pipeline |
+| Warp | Passed, Qualified | None | passed, pipeline, qualified |
+| nous research | Pipeline | None | pipeline |
 
 ## Above Series B, no Tier 1 (33) investor
 

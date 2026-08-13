@@ -268,6 +268,59 @@ def test_one_sided_rows_carry_their_expected_placement():
     assert rep["attioOnly"][0]["expectedHubStage"] == "Qualified"
 
 
+# ── Attio deal history (pipeline / passed / invested) ────────────────────────
+
+def test_passed_always_brings_pipeline_with_it():
+    assert sorted(ds.attio_stage_tags("Passed")) == ["passed", "pipeline"]
+
+
+@pytest.mark.parametrize("stage,tags", [
+    ("Pipeline", ["pipeline"]), ("Qualified", ["qualified"]),
+    ("Invested", ["invested"]), ("Watchlist", ["watchlist"]), ("Radar", ["radar"]),
+])
+def test_attio_stage_maps_to_its_hub_bucket(stage, tags):
+    assert ds.attio_stage_tags(stage) == tags
+
+
+@pytest.mark.parametrize("stage", ["Target", "", None, "Some New Stage"])
+def test_unmapped_attio_stage_yields_nothing_rather_than_a_guess(stage):
+    assert ds.attio_stage_tags(stage) == []
+
+
+def test_history_is_cumulative_across_every_deal_for_the_company():
+    """A company passed on in May and re-opened as Qualified in June was still
+    passed on. Reading only the latest deal dropped that."""
+    hub = {"warp": _hub("warp", "Warp", stage="qualified")}
+    attio = {"warp": _attio("warp", "Warp", series="Series B", stage="Qualified",
+                            allStages=["Passed", "Qualified"])}
+    rep = ds.reconcile(hub, attio)
+    assert rep["historyGaps"][0]["historyMissing"] == ["passed", "pipeline"]
+
+
+def test_history_is_recorded_for_passed_deals_the_rule_will_not_touch():
+    """The terminal-stage branch skips placement, but history still applies --
+    these are precisely the deals whose history matters most."""
+    hub = {"a": _hub("a", "A", stage="qualified")}
+    attio = {"a": _attio("a", "A", series="Series C", stage="Passed",
+                         allStages=["Passed"], investors=["Sequoia Capital"])}
+    rep = ds.reconcile(hub, attio)
+    assert rep["counts"]["humanFiled"] == 1
+    assert rep["historyGaps"][0]["historyMissing"] == ["passed", "pipeline"]
+
+
+def test_no_history_gap_when_the_hub_already_carries_the_tags():
+    hub = {"a": _hub("a", "A", stage="qualified", tags=["passed", "pipeline"])}
+    attio = {"a": _attio("a", "A", series="Series C", stage="Passed",
+                         allStages=["Passed"], investors=["Sequoia Capital"])}
+    assert ds.reconcile(hub, attio)["counts"]["historyGaps"] == 0
+
+
+def test_history_falls_back_to_the_single_stage_when_no_deal_list_is_present():
+    hub = {"a": _hub("a", "A", stage="qualified")}
+    attio = {"a": _attio("a", "A", series="Series C", stage="Pipeline")}
+    assert ds.reconcile(hub, attio)["historyGaps"][0]["historyMissing"] == ["pipeline"]
+
+
 # ── duplicate hub docs ───────────────────────────────────────────────────────
 
 def _dup_snapshot():

@@ -1,0 +1,31 @@
+name,attioStage,attioAllStages,hubStage,hubTags,attioHistoryTags,historyMissing,key
+AdvanCell,Radar,Radar,,,radar,radar,advancell
+Advanced Manufacturing Company of America,Pipeline,"Pipeline, Qualified",qualified,radar,"pipeline, qualified",pipeline,amca
+Anthropic,Qualified,"Passed, Qualified",,,"passed, pipeline, qualified","passed, pipeline, qualified",anthropic
+Castelion,Qualified,"Pipeline, Qualified",pipeline,,"pipeline, qualified",qualified,castelion
+Chai Discovery,Radar,"Qualified, Radar",qualified,,"qualified, radar",radar,chaidiscovery
+Cloaked,Invested,Invested,passed,"passed, pipeline",invested,invested,cloaked
+Commure,Invested,Invested,passed,"passed, pipeline",invested,invested,commure
+DataBahn,Radar,Radar,qualified,,radar,radar,databahn
+Databento,Qualified,Qualified,,,qualified,qualified,databento
+Glow,Qualified,Qualified,radar,radar,qualified,qualified,glow
+Hadrian,Qualified,"Pipeline, Qualified",pipeline,,"pipeline, qualified",qualified,hadrian
+Helsing,Qualified,Qualified,,,qualified,qualified,helsing
+Pocket,Radar,Radar,,,radar,radar,heypocket
+Higharc,Qualified,Qualified,,,qualified,qualified,higharc
+Jump,Qualified,"Passed, Qualified",new,,"passed, pipeline, qualified","passed, pipeline, qualified",jump
+Kalshi,Qualified,"Pipeline, Qualified",qualified,,"pipeline, qualified",pipeline,kalshi
+Legora,Qualified,"Passed, Qualified",qualified,,"passed, pipeline, qualified","passed, pipeline",legora
+Lovable,Pipeline,"Pipeline, Qualified",qualified,,"pipeline, qualified",pipeline,lovable
+Mach Industries,Pipeline,"Pipeline, Qualified",qualified,,"pipeline, qualified",pipeline,machindustries
+Norm Ai,Qualified,Qualified,,,qualified,qualified,norm
+nous research,Pipeline,Pipeline,,,pipeline,pipeline,nousresearch
+Ollama,Watchlist,"Radar, Watchlist",radar,pipeline,"radar, watchlist",watchlist,ollama
+Ollin,Qualified,Qualified,,,qualified,qualified,ollin
+Pi Security,Qualified,"Pipeline, Qualified",qualified,,"pipeline, qualified",pipeline,pi
+Rogo (Business/Productivity Software),Watchlist,"Qualified, Watchlist",watchlist,,"qualified, watchlist",qualified,rogo
+Simile,Radar,"Pipeline, Radar",pipeline,,"pipeline, radar",radar,simile
+Temporal,Qualified,"Pipeline, Qualified",qualified,,"pipeline, qualified",pipeline,temporal
+Profound,Qualified,"Pipeline, Qualified",qualified,,"pipeline, qualified",pipeline,tryprofound
+Warp,Qualified,"Passed, Qualified",,,"passed, pipeline, qualified","passed, pipeline, qualified",warp
+Sable AI,Radar,Radar,qualified,,radar,radar,withsable
