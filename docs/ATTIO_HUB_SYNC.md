@@ -37,6 +37,23 @@ everything else is re-read server-side from Attio, so the body is one field.
    in the hub (in the tab matching its Attio stage, or Admin → Needs Triage if it
    has no stage yet), then delete the test deal.
 
+**Live since 2026-08-13**, confirmed end to end on a Deals record (Decart AI →
+`200 {"ok":true,"slug":"decart","attio_stage":"Pipeline","created":false}`).
+
+Two gotchas cost the first two attempts, both in Attio rather than in the code:
+
+- **The body property must be a variable, not a String.** Attio's JSON body
+  editor stores each property as a literal by default, so a hand-typed
+  `{{ record.id.record_id }}` is transmitted as those 25 characters. Use the
+  `{x}` button on the property to insert the record id; it's right when the
+  value renders as a blue `{ Record created › … › Record ID }` chip rather than
+  black text. The endpoint now rejects an unrendered template with a 400 that
+  quotes the value back (see `_extract_attio_record_id`), instead of forwarding
+  it to Attio and surfacing a 502 that looks like an API outage.
+- **Retry replays the config that run was pinned to.** After fixing the block,
+  Retry keeps reproducing the original failure — publish, then trigger a genuinely
+  new run.
+
 **If the reference chip breaks.** Attio's chips are easy to mis-wire — see the
 List-Entry-vs-Record mismatch documented in
 [cc-attio-sync/README.md](../cc-attio-sync/README.md). The endpoint accepts
