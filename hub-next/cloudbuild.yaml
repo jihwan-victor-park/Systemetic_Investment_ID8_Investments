@@ -54,7 +54,17 @@ steps:
       - --min-instances=1
 
       - --set-env-vars=GCP_PROJECT_ID=$PROJECT_ID,ALLOWED_HD=id8investments.com,AUTH_GOOGLE_ID=${_AUTH_GOOGLE_ID},AUTH_URL=${_AUTH_URL},PIPELINE_BASE_URL=${_PIPELINE_BASE_URL},MARKET_MAP_BUCKET=${_MARKET_MAP_BUCKET}
-      - --set-secrets=AUTH_SECRET=hub-next-auth-secret:latest,AUTH_GOOGLE_SECRET=hub-next-google-secret:latest,MARKET_MAP_ADMIN_SECRET=hub-next-market-map-admin-secret:latest
+      # ATTIO_WEBHOOK_SECRET gates /api/attio/deal-created, the public front
+      # door Attio's native "deal created" workflow posts to (see
+      # docs/ATTIO_HUB_SYNC.md). That route 500s with
+      # `attio-webhook-secret-not-configured` until the secret exists, so
+      # create it BEFORE the first deploy that includes this line:
+      #   printf '%s' "$(openssl rand -hex 32)" | gcloud secrets create hub-next-attio-webhook-secret --data-file=- --project molten-crowbar-498920-q8
+      # (printf, not echo -- a trailing newline in the secret makes the header
+      # comparison fail; same gotcha as the other hub-next secrets.) The Cloud
+      # Run runtime service account also needs roles/secretmanager.secretAccessor
+      # on it, exactly as it has for the three secrets already listed here.
+      - --set-secrets=AUTH_SECRET=hub-next-auth-secret:latest,AUTH_GOOGLE_SECRET=hub-next-google-secret:latest,MARKET_MAP_ADMIN_SECRET=hub-next-market-map-admin-secret:latest,ATTIO_WEBHOOK_SECRET=hub-next-attio-webhook-secret:latest
 images:
   - '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_SERVICE}:$BUILD_ID'
 substitutions:
