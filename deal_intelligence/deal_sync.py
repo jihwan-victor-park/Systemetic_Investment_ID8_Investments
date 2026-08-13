@@ -983,6 +983,13 @@ def run(attio_csv=None, attio_snapshot=None, hub_snapshot=DEFAULT_HUB_SNAPSHOT,
         attio = _attio_companies_from_rows(rows)
         hub = hub_companies_from_snapshot(dump_hub_snapshot(hub_snapshot))
     else:
+        # Snapshot-first when no source is named: after one --refresh the JSON
+        # snapshot is the freshest Attio data on disk, while the committed CSV
+        # export can be weeks old. Defaulting to the CSV meant a plain re-run
+        # silently reported against stale data and looked like it had worked.
+        if not attio_snapshot and not attio_csv and os.path.exists(DEFAULT_ATTIO_SNAPSHOT):
+            attio_snapshot = DEFAULT_ATTIO_SNAPSHOT
+            print(f"Using {DEFAULT_ATTIO_SNAPSHOT} (pass --attio-csv to read an export instead)")
         if attio_snapshot:
             with open(attio_snapshot, encoding="utf-8") as f:
                 attio = _attio_companies_from_rows(json.load(f))
