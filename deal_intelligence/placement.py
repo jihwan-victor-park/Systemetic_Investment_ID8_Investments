@@ -138,3 +138,96 @@ def determine_placement(series, default_stage, top10_firms=None):
     # default and add no tags.
     return default_stage, []
 
+
+# ── Reconciliation view (deal_sync.py) ───────────────────────────────────────
+# Everything below answers a DIFFERENT question from determine_placement.
+# determine_placement asks "an intake file just handed me this row -- where do I
+# file it?", and its answer depends on the caller's own destination
+# (`default_stage`: Qualified for the deal-flow drop, Watchlist for the
+# watchlist drop). The reconciler has no caller destination: it is looking at a
+# deal that already exists on one or both sides and asking "given only the
+# series and the cap table, where SHOULD this live?". So the in-mandate bucket
+# has to be derived rather than passed in, which is what expected_placement
+# does -- and deriving it is what surfaces the extra condition Oscar stated
+# 2026-08-13: Qualified requires a **Tier 1 (33)** firm in the round, which
+# determine_placement never checks because its caller had already decided.
+#
+# These are deliberately NOT merged into determine_placement. Doing so would
+# change live intake: every above-B deal without a Tier 1 (33) match would stop
+# resolving to Qualified and start resolving to nothing, silently dropping deals
+# the pipeline files today. The reconciler only reports, so it can hold the
+# stricter rule without that blast radius.
+
+BAND_BELOW_B = 'below_b'
+BAND_B = 'b'
+BAND_ABOVE_B = 'above_b'
+BAND_UNKNOWN = 'unknown'
+
+
+def series_band(series):
+    """Which of the four series bands a raw Attio/PitchBook Series value falls
+    in. Shares the exact regexes determine_placement matches on, so the
+    reconciler can never disagree with intake about what 'Series B1' or
+    'Pre-Seed' means -- the two paths differ on the RULE, never on the parse."""
+    s = str(series or '')
+    if _SERIES_B_RE.match(s):
+        return BAND_B
+    if _BELOW_MANDATE_SERIES_RE.match(s):
+        return BAND_BELOW_B
+    if s.strip() and s.strip().lower() not in ('nan', 'none'):
+        return BAND_ABOVE_B
+    return BAND_UNKNOWN
+
+
+def expected_placement(series, top10_firms=None, tier1_33_firms=None,
+                       series_b_mode='dual'):
+    """Where a deal SHOULD live given only its series and its cap table, as a
+    (stage, hub_tags, reason) triple. `stage` is None for "no automatic home"
+    -- which here means "the rule doesn't place it", not "delete it": a deal
+    already filed by hand in Attio (Invested, Passed, a Target someone is
+    working) legitimately has no rule-derived home, and the reconciler reports
+    those separately rather than proposing to move them.
+
+    Oscar's rule, 2026-08-13:
+      - a Tier 1 (33) firm in the round AND above Series B  -> Qualified
+      - Series B or below AND a Top 10 firm in the round    -> Radar
+
+    `series_b_mode` exists because exactly-Series-B is the one band those two
+    clauses disagree on, and the shipped code already took a side:
+      - 'dual' (default, = what determine_placement does today): a Top 10-backed
+        Series B is Qualified in Attio AND carries the additive `radar` tag in
+        the hub. It clears the B+ mandate and it just raised, so it is honestly
+        both, and Attio's single-select stage can only hold the actionable one.
+      - 'radar': reads "Series B or less -> Radar" literally, so a Top 10-backed
+        Series B is Radar only, never Qualified.
+    deal_sync reports the population affected by this choice under its own
+    heading so the difference is a decision Oscar makes on real numbers rather
+    than one buried in a default.
+    """
+    band = series_band(series)
+    has_top10 = bool(top10_firms)
+    has_tier1_33 = bool(tier1_33_firms) or has_top10   # TOP10 is a subset of the 33
+
+    if band == BAND_ABOVE_B:
+        if has_tier1_33:
+            return QUALIFIED_STAGE, [], 'above Series B with a Tier 1 (33) investor'
+        return None, [], 'above Series B but no Tier 1 (33) investor on the cap table'
+
+    if band == BAND_B:
+        if has_top10:
+            if series_b_mode == 'radar':
+                return 'Radar', [], 'Series B with a Top 10 investor (series-b-mode=radar)'
+            return QUALIFIED_STAGE, ['radar'], 'Series B with a Top 10 investor (in mandate at B+, and just raised)'
+        if has_tier1_33:
+            # Not above B, so the Qualified clause does not fire on its own;
+            # not Top 10-backed, so the Radar gate does not either.
+            return None, [], 'Series B with a Tier 1 (33) but no Top 10 investor'
+        return None, [], 'Series B with no Tier 1 (33) or Top 10 investor'
+
+    if band == BAND_BELOW_B:
+        if has_top10:
+            return 'Radar', [], 'below Series B with a Top 10 investor'
+        return None, [], 'below Series B with no Top 10 investor'
+
+    return None, [], 'series unknown -- cannot place from the rule'
+

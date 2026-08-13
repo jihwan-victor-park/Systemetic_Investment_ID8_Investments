@@ -136,6 +136,11 @@ def read_rows(csv_path):
                 + parse_comma_list(row.get("Investors > Name"))
             )
             yield {
+                # Attio's own Deal record id, carried through so deal_sync.py can
+                # link a reconciler finding back to the exact CRM record (and so a
+                # hub doc's origin.attioRecordId can be matched against it). This
+                # importer itself doesn't use it -- it keys on the company.
+                "record_id": (row.get("Record ID") or "").strip(),
                 "name": (row.get("Record") or "").strip(),
                 "domain": domain,
                 "stage": (row.get("Deal stage") or "").strip(),
