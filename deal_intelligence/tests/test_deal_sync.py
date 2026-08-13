@@ -369,6 +369,44 @@ def test_history_falls_back_to_the_single_stage_when_no_deal_list_is_present():
     assert ds.reconcile(hub, attio)["historyGaps"][0]["historyMissing"] == ["pipeline"]
 
 
+# ── stage-less docs ──────────────────────────────────────────────────────────
+
+def test_a_stageless_doc_is_given_attios_stage():
+    """lib/companies.js resolves a missing stage as 'qualified', so a stage-less
+    doc renders in Qualified Deals no matter what Attio says. Pocket and
+    AdvanCell are Radar in Attio and were sitting in Qualified by default."""
+    hub = {"a": _hub("a", "Pocket", stage=None)}
+    attio = {"a": _attio("a", "Pocket", series="Series B", stage="Radar")}
+    rep = ds.reconcile(hub, attio)
+    assert rep["stagelessDocs"][0]["stagelessFix"] == "radar"
+
+
+def test_a_doc_with_a_real_stage_is_left_alone():
+    hub = {"a": _hub("a", "A", stage="pipeline")}
+    attio = {"a": _attio("a", "A", series="Series B", stage="Radar")}
+    assert ds.reconcile(hub, attio)["counts"]["stagelessDocs"] == 0
+
+
+def test_stageless_fix_does_not_fight_the_placement_rule(capsys):
+    """When the rule already has an opinion (hubSetStage), it wins -- the two
+    must never write a different stage to the same doc in one run."""
+    hub = {"a": _hub("a", "A", stage="new")}
+    attio = {"a": _attio("a", "A", series="Series C", stage="Watchlist",
+                         investors=["Sequoia Capital"])}
+    rep = ds.reconcile(hub, attio)
+    assert rep["mismatches"][0]["hubSetStage"] == "qualified"
+    ds.apply_hub(rep, yes=False)
+    out = capsys.readouterr().out
+    assert "0 stage-less docs" in out
+
+
+def test_an_unmapped_attio_stage_leaves_the_doc_alone():
+    """'Target' maps to no hub bucket -- better the silent default than a guess."""
+    hub = {"a": _hub("a", "A", stage=None)}
+    attio = {"a": _attio("a", "A", series="Series B", stage="Target")}
+    assert ds.reconcile(hub, attio)["counts"]["stagelessDocs"] == 0
+
+
 # ── Deal Date / Deal Size ────────────────────────────────────────────────────
 
 def test_missing_deal_date_is_reported():

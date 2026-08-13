@@ -666,7 +666,7 @@ def reconcile(hub, attio, series_b_mode="dual", names=None, seed=None):
         row["expectedWhy"] = why
 
     mismatches, agreed, unplaced_above_b, human_filed, unplaced = [], [], [], [], []
-    history_gaps, date_gaps, series_conflicts = [], [], []
+    history_gaps, date_gaps, series_conflicts, stageless = [], [], [], []
     for hub_row, attio_row, basis in matched:
         # The cap table is the union of what each side knows -- either side can
         # be the one carrying the investor list for a given company.
@@ -700,6 +700,20 @@ def reconcile(hub, attio, series_b_mode="dual", names=None, seed=None):
         # in fact especially those, since "was in pipeline, then passed" is
         # exactly the history the hub is supposed to keep. Computed before the
         # terminal-stage branch below so it isn't skipped for them.
+        # A hub doc with NO stage is not neutral -- lib/companies.js resolves
+        # it as `STAGES.includes(data.stage) ? data.stage : 'qualified'`, so a
+        # stage-less doc RENDERS AS QUALIFIED no matter what Attio says. 20 docs
+        # were in that state on 2026-08-13: Pocket and AdvanCell (Radar in
+        # Attio), Warp (Passed), Databento, Ollin and others were all sitting in
+        # the Qualified Deals tab by default rather than by decision. Giving
+        # them Attio's own stage is strictly better than the silent default, and
+        # cannot clobber a human choice because there is no choice recorded.
+        # Skipped when the placement rule already has an opinion (hubSetStage),
+        # so the two never fight over the same doc.
+        attio_primary = attio_stage_tags(attio_row["stage"])
+        record["stagelessFix"] = (
+            attio_primary[0] if (str(hub_row.get("stage") or "").lower() in ("", "new")
+                                 and attio_primary) else None)
         history = sorted({t for st in (attio_row.get("allStages") or [attio_row["stage"]])
                           for t in attio_stage_tags(st)})
         record["attioHistoryTags"] = history
@@ -757,6 +771,8 @@ def reconcile(hub, attio, series_b_mode="dual", names=None, seed=None):
             date_gaps.append(record)
         if record["seriesConflict"]:
             series_conflicts.append(record)
+        if record["stagelessFix"]:
+            stageless.append(record)
         if record["historyMissing"]:
             # Tracked in its own list because these cut ACROSS the five
             # placement buckets -- a Passed deal, an agreeing Qualified one and
@@ -818,6 +834,7 @@ def reconcile(hub, attio, series_b_mode="dual", names=None, seed=None):
             "historyGaps": len(history_gaps),
             "dateGaps": len(date_gaps),
             "seriesConflicts": len(series_conflicts),
+            "stagelessDocs": len(stageless),
             "keyCollisions": len(collisions),
             "attioDuplicateRecords": len(attio_dup_records),
         },
@@ -826,6 +843,7 @@ def reconcile(hub, attio, series_b_mode="dual", names=None, seed=None):
         "historyGaps": history_gaps,
         "dateGaps": date_gaps,
         "seriesConflicts": series_conflicts,
+        "stagelessDocs": stageless,
         "hubDuplicates": duplicates,
         "testFixtures": test_fixtures,
         "seriesBMode": series_b_mode,
@@ -1298,6 +1316,8 @@ def apply_hub(report, yes=False, overwrite_series=False):
     history_adds = report["historyGaps"]
     date_fills = report.get("dateGaps") or []
     series_overwrites = (report.get("seriesConflicts") or []) if overwrite_series else []
+    # Don't fight the placement rule over the same doc -- hubSetStage wins.
+    stageless_fixes = [r for r in (report.get("stagelessDocs") or []) if not r.get("hubSetStage")]
     print(f"{'DRY RUN -- ' if not yes else ''}hub: {len(creates)} docs to create, "
           f"{len(stage_sets)} unplaced docs to give a stage, {len(tag_adds)} to tag")
     for r in creates:
@@ -1311,6 +1331,11 @@ def apply_hub(report, yes=False, overwrite_series=False):
         print(f"  tag    {r['key']:<28} {r['name']:<30} += {r['hubAddTags']}")
     print(f"{'DRY RUN -- ' if not yes else ''}hub: {len(date_fills)} to get their Series / "
           f"Deal Date / Deal Size")
+    print(f"{'DRY RUN -- ' if not yes else ''}hub: {len(stageless_fixes)} stage-less docs "
+          f"(silently rendering as Qualified) to get Attio's stage")
+    for r in stageless_fixes:
+        print(f"  stagefix {r['key']:<26} {r['name']:<30} (none) -> {r['stagelessFix']} "
+              f"(Attio: {r['attioStage']})")
     if series_overwrites:
         print(f"{'DRY RUN -- ' if not yes else ''}hub: {len(series_overwrites)} Series to "
               f"OVERWRITE with Attio's value (--overwrite-series)")
@@ -1374,6 +1399,8 @@ def apply_hub(report, yes=False, overwrite_series=False):
             payload["roundSize"] = r["attioDealSize"]
         if payload:
             db.collection("companies").document(r["key"]).set(payload, merge=True)
+    for r in stageless_fixes:
+        db.collection("companies").document(r["key"]).set({"stage": r["stagelessFix"]}, merge=True)
     for r in series_overwrites:
         db.collection("companies").document(r["key"]).set({"round": r["attioSeries"]}, merge=True)
     for r in history_adds:
