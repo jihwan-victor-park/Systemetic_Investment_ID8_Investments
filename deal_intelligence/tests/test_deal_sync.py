@@ -360,6 +360,29 @@ def test_history_falls_back_to_the_single_stage_when_no_deal_list_is_present():
     assert ds.reconcile(hub, attio)["historyGaps"][0]["historyMissing"] == ["pipeline"]
 
 
+# ── Attio API value parsing ──────────────────────────────────────────────────
+
+def test_active_from_is_read_off_the_value_cell():
+    """authoritative_row's Deal Date tiebreak runs on this. Hardcoding it to ""
+    killed the tiebreak for the whole --refresh path, and 46 of 339 deals have
+    no Deal Date at all."""
+    assert ds._active_from([{"status": {"title": "Qualified"},
+                             "active_from": "2026-08-03T19:22:47Z"}]) == "2026-08-03T19:22:47Z"
+
+
+@pytest.mark.parametrize("cell", [None, [], [{"status": {"title": "Qualified"}}], "notalist"])
+def test_active_from_is_none_when_attio_does_not_supply_it(cell):
+    assert ds._active_from(cell) is None
+
+
+def test_authoritative_row_uses_the_tiebreak_when_deal_dates_are_missing():
+    from deal_intelligence.import_attio_deals_csv import authoritative_row
+    rows = [{"deal_date": "", "stage_changed_at": "2026-05-01", "stage": "Passed"},
+            {"deal_date": "", "stage_changed_at": "2026-06-25", "stage": "Qualified"}]
+    assert authoritative_row(rows)["stage"] == "Qualified"
+    assert authoritative_row(list(reversed(rows)))["stage"] == "Qualified"
+
+
 # ── colliding company keys ───────────────────────────────────────────────────
 
 def _rows(*specs):

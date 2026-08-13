@@ -258,7 +258,15 @@ def dump_attio_snapshot(out_path):
             "name": _scalar(vals.get(s["name"])) or company.get("name") or "(unnamed deal)",
             "domain": company.get("domain") or "",
             "stage": _scalar(vals.get(config.STAGE_SLUG)) or "",
-            "stage_changed_at": "",
+            # authoritative_row breaks a Deal Date tie on this, and hardcoding
+            # it to "" killed that tiebreak for the whole --refresh path: 46 of
+            # 339 deals have no Deal Date, so for any multi-deal company among
+            # them `max` fell through to whichever row the API happened to
+            # return first, and THAT row supplies the stage and series the
+            # placement rule runs on. Attio stamps every value cell with
+            # `active_from` -- when the current stage was set -- which is
+            # exactly what the CSV export's '"Deal stage" Changed At' column is.
+            "stage_changed_at": _active_from(vals.get(config.STAGE_SLUG)) or "",
             "deal_date": _scalar(vals.get(s["round_date"])) or "",
             "series": _scalar(vals.get(s["round"])) or "",
             "description": _scalar(vals.get(s["description"])) or "",
@@ -290,6 +298,16 @@ def _scalar(cell_list):
             inner = cell[k]
             return inner.get("title") if isinstance(inner, dict) else inner
     return None
+
+
+def _active_from(cell_list):
+    """When the current value of an Attio attribute was set. Attio versions
+    every value, and the active one carries `active_from`; the CSV export
+    surfaces the same thing as a '"<attr>" Changed At' column."""
+    if not cell_list:
+        return None
+    cell = cell_list[0] if isinstance(cell_list, list) else cell_list
+    return cell.get("active_from") if isinstance(cell, dict) else None
 
 
 def _ref_id(cell_list):
