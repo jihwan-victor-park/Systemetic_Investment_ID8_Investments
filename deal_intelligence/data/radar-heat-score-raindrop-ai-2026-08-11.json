@@ -1,0 +1,172 @@
+{
+  "id": "raindrop-ai",
+  "company": {
+    "name": "Raindrop AI",
+    "website": "raindrop.ai",
+    "legalName": "Invisible Tools, Inc."
+  },
+  "mandate": {
+    "pass": true,
+    "geoPass": true,
+    "nextRoundInMandate": true,
+    "tier1OnCapTable": true,
+    "tier1Firms": [
+      "Lightspeed Venture Partners"
+    ],
+    "top10VCFlag": false,
+    "notBridgeOrFlat": true,
+    "newTier1LeadLikely": "medium",
+    "insiderRoundRisk": "medium",
+    "reasoning": "San Francisco, CA (NA) \u00b7 current round Seed -> next round in mandate: yes \u00b7 Tier 1 on cap table: Lightspeed Venture Partners \u00b7 not a bridge/flat round",
+    "failReason": null
+  },
+  "clock": {
+    "roundSize": 15000000,
+    "roundDate": "2025-09-26",
+    "headcount": null,
+    "headcountCheckedAt": null,
+    "costPerHead": 240000,
+    "capitalIntensity": "medium",
+    "estMonthlyBurn": null,
+    "monthsSinceRound": 10.5,
+    "estCashOutDate": null,
+    "runwayMonths": null,
+    "predictedWindowOpen": "2027-04-26",
+    "contactByDate": "2027-01-26",
+    "alertAtDate": "2026-12-15",
+    "growthTier": null,
+    "windowBasis": "cadence",
+    "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+  },
+  "marketHeat": {
+    "signals": {
+      "raiseProbability": {
+        "computed": true,
+        "raw": 0.0,
+        "weight": 15,
+        "contribution": 0.0,
+        "band": "low",
+        "evidence": "Deterministic base rate: low. 10mo since last round, still short of the 18-24mo pre-series-c cadence. This is a starting point from timing alone -- adjust up or down for qualitative signal."
+      },
+      "momEmployeeGrowth": {
+        "computed": false,
+        "raw": null,
+        "weight": 2.5,
+        "contribution": null,
+        "momRate": null,
+        "evidence": "No Apollo/ATS access from this chat."
+      },
+      "jobPostingVelocity": {
+        "computed": false,
+        "raw": null,
+        "weight": 2.5,
+        "contribution": null,
+        "momRate": null,
+        "evidence": "No Apollo/ATS access from this chat."
+      },
+      "tier1InvestorCount": {
+        "computed": true,
+        "raw": 4.0,
+        "weight": 10,
+        "contribution": 4.0,
+        "count": 1,
+        "evidence": "1 Tier 1+ firm on cap table: Lightspeed Venture Partners (per deal_intelligence/tier1_firms.py's Tier 1+ list) -- first-time position (new money), not a re-up."
+      },
+      "industryGrowth": {
+        "computed": false,
+        "raw": null,
+        "weight": 10,
+        "contribution": null,
+        "evidence": "Not researched via live Google Trends this pass -- left computed:false rather than guessed."
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "weight": 10,
+        "contribution": null,
+        "evidence": "Not researched via live Google Trends this pass -- left computed:false rather than guessed."
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 5.0,
+        "weight": 10,
+        "contribution": 5.0,
+        "evidence": "Coverage clustered around two events: the $15M seed announcement (Dec 1, 2025 -- PRNewswire, Ventureburn, Pulse2, Technews180) and the open-source Workshop debugger launch (May 2026 -- VentureBeat). No fresh coverage of the AI-observability company found in the last ~75 days as of Aug 11, 2026 (a same-named but unrelated procurement company, raindrop.com, has its own Aug 2026 Gartner Hype Cycle news -- excluded).",
+        "source": "https://venturebeat.com/technology/developers-can-now-debug-and-evaluate-ai-agents-locally-with-raindrops-open-source-tool-workshop"
+      },
+      "stepUp": {
+        "computed": true,
+        "raw": 8.0,
+        "weight": 5,
+        "contribution": 4.0,
+        "evidence": "YC pre-seed (Apr 2024) was ~$10.5M post; this seed (Sept 2025 close / Dec 2025 announce) is $97.5M post -- an actual ~9.3x step-up, well above the categorical 'up' band this function scores (8/10); flagged as understating the real multiple.",
+        "source": "Raindrop AI Investment Research Report (provided PDF), Funding history section"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "weight": 5,
+        "contribution": null,
+        "evidence": "No public SimilarWeb-style traffic report found."
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 5.0,
+        "weight": 5,
+        "contribution": 2.5,
+        "proxyNote": "Perplexity public-momentum research -- not Crunchbase's own proprietary score",
+        "evidence": "Moderate public momentum: Raindrop 2.0 self-healing-agent launch and the open-source Workshop debugger launch (May 2026, VentureBeat coverage) are real product/press momentum, but no funding rumors, notable hires, or partnership news found in the trailing ~90 days.",
+        "source": "https://venturebeat.com/technology/developers-can-now-debug-and-evaluate-ai-agents-locally-with-raindrops-open-source-tool-workshop"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 5.0,
+        "weight": 10,
+        "contribution": 5.0,
+        "proxyNote": "Perplexity public-momentum research -- not Crunchbase's own proprietary score",
+        "evidence": "Moderate public momentum: Raindrop 2.0 self-healing-agent launch and the open-source Workshop debugger launch (May 2026, VentureBeat coverage) are real product/press momentum, but no funding rumors, notable hires, or partnership news found in the trailing ~90 days.",
+        "source": "https://venturebeat.com/technology/developers-can-now-debug-and-evaluate-ai-agents-locally-with-raindrops-open-source-tool-workshop"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 5.0,
+        "weight": 5,
+        "contribution": 2.5,
+        "proxyNote": "Perplexity public-momentum research -- not Crunchbase's own proprietary score",
+        "evidence": "Moderate public momentum: Raindrop 2.0 self-healing-agent launch and the open-source Workshop debugger launch (May 2026, VentureBeat coverage) are real product/press momentum, but no funding rumors, notable hires, or partnership news found in the trailing ~90 days.",
+        "source": "https://venturebeat.com/technology/developers-can-now-debug-and-evaluate-ai-agents-locally-with-raindrops-open-source-tool-workshop"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "weight": 5,
+        "contribution": null,
+        "evidence": "No revenue/ARR publicly disclosed anywhere; treat as unknown, not zero growth."
+      },
+      "redditActivity": {
+        "computed": false,
+        "raw": null,
+        "weight": 5,
+        "contribution": null,
+        "evidence": "No Reddit discussion surfaced via web search (site:reddit.com query returned no Reddit results at all -- treated as inconclusive, not evidence of zero activity)."
+      }
+    },
+    "score": 24.0,
+    "normalizedScore": 40.0,
+    "pointsAvailable": 60,
+    "notComputed": [
+      "googleTrendsSearchInterest",
+      "industryGrowth",
+      "jobPostingVelocity",
+      "momEmployeeGrowth",
+      "redditActivity",
+      "websiteVisitsGrowth",
+      "yoyRevenueGrowth"
+    ],
+    "computedAt": "2026-08-11",
+    "timingUrgencyMultiplier": 1.0437,
+    "monthsUntilWindow": 8.5,
+    "roundAnnouncedFlag": false,
+    "source": "manual-chat-research-2026-08-11 (no Perplexity/Crunchbase/Trends-API/Apollo calls; own web search only)"
+  }
+}

@@ -268,6 +268,89 @@ def test_one_sided_rows_carry_their_expected_placement():
     assert rep["attioOnly"][0]["expectedHubStage"] == "Qualified"
 
 
+# ── duplicate hub docs ───────────────────────────────────────────────────────
+
+def _dup_snapshot():
+    """The real shape: one doc keyed by domain (from the Attio import) and its
+    twin keyed by the name slug (from a screening run that had no domain)."""
+    return [
+        {"id": "distyl", "name": "Distyl AI", "website": "distyl.ai", "stage": "qualified",
+         "origin": {"source": "attio"}},
+        {"id": "distyl-ai", "name": "Distyl AI",
+         "latestScreen": {"fitScore": 3.6, "gate": True}},
+    ]
+
+
+def test_duplicate_docs_are_clustered_by_name():
+    hub = ds.hub_companies_from_snapshot(_dup_snapshot())
+    dupes = ds.find_hub_duplicates(hub)
+    assert len(dupes) == 1
+    assert dupes[0]["primaryKey"] == "distyl"
+    assert [d["key"] for d in dupes[0]["duplicates"]] == ["distyl-ai"]
+
+
+def test_duplicate_report_names_the_stranded_data():
+    """The point of the section: the screen is on the twin, so the real company
+    shows no fit score."""
+    hub = ds.hub_companies_from_snapshot(_dup_snapshot())
+    dup = ds.find_hub_duplicates(hub)[0]["duplicates"][0]
+    assert "latestScreen" in dup["stranded"]
+    assert dup["latestScreen"]["fitScore"] == 3.6
+
+
+def test_the_doc_with_the_attio_origin_is_the_primary():
+    """Order in the snapshot must not decide which doc is real."""
+    hub = ds.hub_companies_from_snapshot(list(reversed(_dup_snapshot())))
+    assert ds.find_hub_duplicates(hub)[0]["primaryKey"] == "distyl"
+
+
+def test_docs_sharing_a_domain_cluster_even_with_different_names():
+    hub = ds.hub_companies_from_snapshot([
+        {"id": "launchfirestorm", "name": "Firestorm Labs", "website": "firestorm.com",
+         "stage": "passed", "origin": {"source": "attio"}},
+        {"id": "firestorm", "name": "Firestorm", "website": "firestorm.com"},
+    ])
+    assert len(ds.find_hub_duplicates(hub)) == 1
+
+
+def test_distinct_companies_are_not_reported_as_duplicates():
+    hub = ds.hub_companies_from_snapshot([
+        {"id": "acme", "name": "Acme", "website": "acme.com"},
+        {"id": "beta", "name": "Beta", "website": "beta.com"},
+    ])
+    assert ds.find_hub_duplicates(hub) == []
+
+
+def test_duplicates_of_a_matched_company_leave_the_hub_only_list():
+    """The bug this section fixes: the twin reported as 'missing from Attio'
+    when Attio has the company perfectly well under the other doc."""
+    hub = ds.hub_companies_from_snapshot(_dup_snapshot())
+    attio = {"distyl": _attio("distyl", "Distyl AI", domain="distyl.ai", series="Series B")}
+    rep = ds.reconcile(hub, attio)
+    assert rep["counts"]["hubOnly"] == 0
+    assert rep["counts"]["hubDuplicateDocs"] == 1
+
+
+def test_a_duplicate_cluster_that_never_reached_attio_stays_hub_only():
+    """Only a duplicate of a company that MATCHED is explained away -- otherwise
+    a genuinely missing company would be hidden by having a twin."""
+    hub = ds.hub_companies_from_snapshot([
+        {"id": "ghost", "name": "Ghost", "website": "ghost.com", "stage": "pipeline"},
+        {"id": "ghost-inc", "name": "Ghost Inc"},
+    ])
+    rep = ds.reconcile(hub, {})
+    assert {r["key"] for r in rep["hubOnly"]} == {"ghost", "ghost-inc"}
+
+
+def test_example_domain_fixtures_are_not_reported_as_missing_from_attio():
+    hub = ds.hub_companies_from_snapshot(
+        [{"id": "example-cascade", "name": "Cascade Analytics",
+          "website": "cascadeanalytics.example", "stage": "pipeline"}])
+    rep = ds.reconcile(hub, {})
+    assert rep["counts"]["hubOnly"] == 0
+    assert rep["counts"]["testFixtures"] == 1
+
+
 # ── the names list ───────────────────────────────────────────────────────────
 
 def test_check_names_reports_each_side_independently():

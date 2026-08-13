@@ -4,7 +4,7 @@
 - Hub companies (Firestore `companies`, round docs folded in): **314**
 - Matched on both sides: **307** (306 by key, 1 by name)
 - **In Attio, missing from the hub: 2**
-- **In the hub, missing from Attio: 7**
+- **In the hub, missing from Attio: 1** (after setting aside 5 duplicate hub docs and 2 test fixtures)
 - Placement disagreements among matched deals: **41** (agreed: 128)
 - Matched but filed by hand in Attio (Passed/Invested -- rule not applied): 34
 - Matched but the rule places them nowhere: 104 (17 above B with no Tier 1 (33), 87 below/unknown series)
@@ -22,19 +22,31 @@ Placement rule applied: **Tier 1 (33) investor + above Series B -> Qualified**; 
 | Impulse Space | impulsespace.com | Series D | Pipeline | Qualified | Founders Fund, Lux Capital |
 | Cathedral |  |  | Radar | -- | Sequoia Capital |
 
+## Duplicate hub docs
+
+5 companies hold 5 extra doc(s) between them -- one keyed by domain, its twin keyed by the name slug. `fit_note.company_id` prefers the domain and falls back to the name, and an Attio Deal carries no domain of its own, so a screening run that could not resolve it wrote a second doc. **`Stranded` is data sitting on the twin that the real company doc does not have** -- most importantly `latestScreen`, which is why these companies show no fit score in the hub despite having been screened. 4 of them would otherwise have reported as "missing from Attio", which they are not.
+
+| Company | Real doc | Duplicate doc | Stranded on the duplicate | Screen on duplicate |
+|---|---|---|---|---|
+| Distyl AI | distyl (qualified) | distyl-ai | latestScreen | 3.6 gate=True |
+| Firestorm | launchfirestorm (passed) | firestorm | - | - |
+| Nexthop AI | nexthop (qualified) | nexthop-ai | latestScreen | 3.5 gate=True |
+| Rogo (Business/Productivity Software) | rogo (watchlist) | rogo-business-productivity-software | latestScreen | 3.6 gate=True |
+| SambaNova Systems | sambanova (qualified) | sambanova-systems | latestScreen | 3.5 gate=True |
+
+## Test fixtures (not real deals)
+
+2 hub companies on `.example` domains, left over from the screen-deals Firestore test backfill. Excluded from the hub-only list below -- Attio is right not to have them.
+
+Brightline Health (`example-brightline-health`), Cascade Analytics (`example-cascade-analytics`)
+
 ## In the hub, missing from Attio
 
-7 companies.
+1 companies, after excluding the duplicate docs and test fixtures above.
 
 | Company | Domain | Series | Hub stage | Hub tags | Origin | Should be in Attio |
 |---|---|---|---|---|---|---|
-| Distyl AI |  |  |  |  |  | -- |
-| Nexthop AI |  |  |  |  |  | -- |
-| Rogo (Business/Productivity Software) |  |  |  |  |  | -- |
-| SambaNova Systems |  |  |  |  |  | -- |
 | lassie | lassie.ai |  |  |  |  | -- |
-| Cascade Analytics | cascadeanalytics.example |  | pipeline |  |  | -- |
-| Brightline Health | brightlinehealth.example |  | watchlist |  |  | -- |
 
 ## Placement disagreements
 

@@ -3,15 +3,181 @@
     "hubCompanies": 314,
     "attioCompanies": 309,
     "matched": 307,
-    "hubOnly": 7,
+    "hubOnly": 1,
     "attioOnly": 2,
     "placementMismatches": 41,
     "placementAgreed": 128,
     "humanFiled": 34,
     "aboveBNoTier33": 17,
     "unplacedByRule": 87,
-    "seriesBTop10": 59
+    "seriesBTop10": 59,
+    "hubDuplicateCompanies": 5,
+    "hubDuplicateDocs": 5,
+    "hubDuplicatesShownAsHubOnly": 4,
+    "testFixtures": 2
   },
+  "hubDuplicates": [
+    {
+      "primaryKey": "distyl",
+      "name": "Distyl AI",
+      "primaryStage": "qualified",
+      "duplicates": [
+        {
+          "key": "distyl-ai",
+          "name": "Distyl AI",
+          "stage": null,
+          "stranded": [
+            "latestScreen"
+          ],
+          "latestScreen": {
+            "fitScore": 3.6,
+            "roundStage": null,
+            "gate": true,
+            "date": "2026-07-09"
+          }
+        }
+      ]
+    },
+    {
+      "primaryKey": "launchfirestorm",
+      "name": "Firestorm",
+      "primaryStage": "passed",
+      "duplicates": [
+        {
+          "key": "firestorm",
+          "name": "Firestorm",
+          "stage": "watchlist",
+          "stranded": [],
+          "latestScreen": null
+        }
+      ]
+    },
+    {
+      "primaryKey": "nexthop",
+      "name": "Nexthop AI",
+      "primaryStage": "qualified",
+      "duplicates": [
+        {
+          "key": "nexthop-ai",
+          "name": "Nexthop AI",
+          "stage": null,
+          "stranded": [
+            "latestScreen"
+          ],
+          "latestScreen": {
+            "fitScore": 3.5,
+            "roundStage": null,
+            "gate": true,
+            "date": "2026-07-09"
+          }
+        }
+      ]
+    },
+    {
+      "primaryKey": "rogo",
+      "name": "Rogo (Business/Productivity Software)",
+      "primaryStage": "watchlist",
+      "duplicates": [
+        {
+          "key": "rogo-business-productivity-software",
+          "name": "Rogo (Business/Productivity Software)",
+          "stage": null,
+          "stranded": [
+            "latestScreen"
+          ],
+          "latestScreen": {
+            "fitScore": 3.6,
+            "roundStage": null,
+            "gate": true,
+            "date": "2026-07-09"
+          }
+        }
+      ]
+    },
+    {
+      "primaryKey": "sambanova",
+      "name": "SambaNova Systems",
+      "primaryStage": "qualified",
+      "duplicates": [
+        {
+          "key": "sambanova-systems",
+          "name": "SambaNova Systems",
+          "stage": null,
+          "stranded": [
+            "latestScreen"
+          ],
+          "latestScreen": {
+            "fitScore": 3.5,
+            "roundStage": null,
+            "gate": true,
+            "date": "2026-07-09"
+          }
+        }
+      ]
+    }
+  ],
+  "testFixtures": [
+    {
+      "key": "example-brightline-health",
+      "name": "Brightline Health",
+      "domain": "brightlinehealth.example",
+      "series": "",
+      "stage": "watchlist",
+      "tags": [],
+      "attioRecordId": "",
+      "attioStage": "",
+      "originSource": "",
+      "investors": [],
+      "investorDomains": [],
+      "top10": [],
+      "tier1_33": [],
+      "storedTop10VC": false,
+      "extraRoundDocs": 0,
+      "latestScreen": {
+        "fitScore": 2.4,
+        "roundStage": null,
+        "gate": false,
+        "date": "2026-07-20"
+      },
+      "presentFields": [
+        "id",
+        "latestScreen",
+        "name",
+        "stage",
+        "website"
+      ]
+    },
+    {
+      "key": "example-cascade-analytics",
+      "name": "Cascade Analytics",
+      "domain": "cascadeanalytics.example",
+      "series": "",
+      "stage": "pipeline",
+      "tags": [],
+      "attioRecordId": "",
+      "attioStage": "",
+      "originSource": "",
+      "investors": [],
+      "investorDomains": [],
+      "top10": [],
+      "tier1_33": [],
+      "storedTop10VC": false,
+      "extraRoundDocs": 0,
+      "latestScreen": {
+        "fitScore": 1.8,
+        "roundStage": null,
+        "gate": false,
+        "date": "2026-07-20"
+      },
+      "presentFields": [
+        "id",
+        "latestScreen",
+        "name",
+        "stage",
+        "website"
+      ]
+    }
+  ],
   "seriesBMode": "dual",
   "attioOnly": [
     {
@@ -186,63 +352,6 @@
   ],
   "hubOnly": [
     {
-      "key": "distyl-ai",
-      "name": "Distyl AI",
-      "domain": "",
-      "series": "",
-      "stage": null,
-      "tags": [],
-      "attioRecordId": "",
-      "attioStage": "",
-      "originSource": "",
-      "investors": [],
-      "investorDomains": [],
-      "top10": [],
-      "tier1_33": [],
-      "storedTop10VC": true,
-      "extraRoundDocs": 0,
-      "expectedAttioStage": null,
-      "expectedWhy": "series unknown -- cannot place from the rule"
-    },
-    {
-      "key": "example-brightline-health",
-      "name": "Brightline Health",
-      "domain": "brightlinehealth.example",
-      "series": "",
-      "stage": "watchlist",
-      "tags": [],
-      "attioRecordId": "",
-      "attioStage": "",
-      "originSource": "",
-      "investors": [],
-      "investorDomains": [],
-      "top10": [],
-      "tier1_33": [],
-      "storedTop10VC": false,
-      "extraRoundDocs": 0,
-      "expectedAttioStage": null,
-      "expectedWhy": "series unknown -- cannot place from the rule"
-    },
-    {
-      "key": "example-cascade-analytics",
-      "name": "Cascade Analytics",
-      "domain": "cascadeanalytics.example",
-      "series": "",
-      "stage": "pipeline",
-      "tags": [],
-      "attioRecordId": "",
-      "attioStage": "",
-      "originSource": "",
-      "investors": [],
-      "investorDomains": [],
-      "top10": [],
-      "tier1_33": [],
-      "storedTop10VC": false,
-      "extraRoundDocs": 0,
-      "expectedAttioStage": null,
-      "expectedWhy": "series unknown -- cannot place from the rule"
-    },
-    {
       "key": "lassie",
       "name": "lassie",
       "domain": "lassie.ai",
@@ -258,63 +367,18 @@
       "tier1_33": [],
       "storedTop10VC": false,
       "extraRoundDocs": 0,
-      "expectedAttioStage": null,
-      "expectedWhy": "series unknown -- cannot place from the rule"
-    },
-    {
-      "key": "nexthop-ai",
-      "name": "Nexthop AI",
-      "domain": "",
-      "series": "",
-      "stage": null,
-      "tags": [],
-      "attioRecordId": "",
-      "attioStage": "",
-      "originSource": "",
-      "investors": [],
-      "investorDomains": [],
-      "top10": [],
-      "tier1_33": [],
-      "storedTop10VC": true,
-      "extraRoundDocs": 0,
-      "expectedAttioStage": null,
-      "expectedWhy": "series unknown -- cannot place from the rule"
-    },
-    {
-      "key": "rogo-business-productivity-software",
-      "name": "Rogo (Business/Productivity Software)",
-      "domain": "",
-      "series": "",
-      "stage": null,
-      "tags": [],
-      "attioRecordId": "",
-      "attioStage": "",
-      "originSource": "",
-      "investors": [],
-      "investorDomains": [],
-      "top10": [],
-      "tier1_33": [],
-      "storedTop10VC": true,
-      "extraRoundDocs": 0,
-      "expectedAttioStage": null,
-      "expectedWhy": "series unknown -- cannot place from the rule"
-    },
-    {
-      "key": "sambanova-systems",
-      "name": "SambaNova Systems",
-      "domain": "",
-      "series": "",
-      "stage": null,
-      "tags": [],
-      "attioRecordId": "",
-      "attioStage": "",
-      "originSource": "",
-      "investors": [],
-      "investorDomains": [],
-      "top10": [],
-      "tier1_33": [],
-      "storedTop10VC": false,
-      "extraRoundDocs": 0,
+      "latestScreen": {
+        "fitScore": 3,
+        "roundStage": null,
+        "gate": false,
+        "date": "2026-07-14"
+      },
+      "presentFields": [
+        "id",
+        "latestScreen",
+        "name",
+        "website"
+      ],
       "expectedAttioStage": null,
       "expectedWhy": "series unknown -- cannot place from the rule"
     }

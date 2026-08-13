@@ -285,6 +285,11 @@ def hub_companies_from_snapshot(snapshot):
             "tier1_33": tier1_firms.match_tier1_33(investor_names=investors),
             "storedTop10VC": bool(doc.get("top10VC")),
             "extraRoundDocs": len(rounds),
+            "latestScreen": doc.get("latestScreen"),
+            # Which keys the doc actually carries a value for -- what
+            # find_hub_duplicates diffs to report data stranded on an orphan.
+            "presentFields": sorted(k for k, v in doc.items()
+                                    if v not in (None, "", [], {})),
         }
     for orphan_key, docs in extras.items():
         if orphan_key in out:
@@ -299,8 +304,86 @@ def hub_companies_from_snapshot(snapshot):
             "attioRecordId": "", "attioStage": "", "originSource": "orphan-round-doc",
             "investors": [], "investorDomains": [], "top10": [], "tier1_33": [],
             "storedTop10VC": bool(doc.get("top10VC")), "extraRoundDocs": len(docs),
+            "latestScreen": doc.get("latestScreen"),
+            "presentFields": sorted(k for k, v in doc.items() if v not in (None, "", [], {})),
         }
     return out
+
+
+# Fields whose absence from a duplicate says nothing -- every doc has them, so
+# diffing them just adds noise to the stranded-data report.
+_UNINTERESTING_FIELDS = {"id", "name", "website", "companyKey"}
+
+# The screen-deals Firestore test backfill left fixture companies behind on
+# `.example` domains. They are not real deals and must not read as "in the hub,
+# missing from Attio" -- Attio is right not to have them.
+TEST_DOMAIN_SUFFIX = ".example"
+
+
+def find_hub_duplicates(hub):
+    """Two hub docs for one company, clustered by normalized name and by domain.
+
+    This is a hub-vs-hub problem, not an Attio one, but it surfaces HERE because
+    it masquerades as a sync gap: the domain-keyed doc matches its Attio deal and
+    the name-keyed twin is left over, so it reports as "in the hub, missing from
+    Attio" when Attio is not missing anything.
+
+    The cause is `fit_note.company_id`'s domain-first, name-slug-fallback rule.
+    An Attio Deal carries no `domain` attribute of its own (it hangs off the
+    linked Company record -- see attio_io._company_domain), so a screening run
+    that could not resolve it fell back to the name slug and wrote a SECOND doc.
+    The screen result then lands on the twin while the real company shows no
+    score at all, which is why `stranded` is reported per pair: it is the
+    difference that is actually lost, not just a tidiness issue.
+
+    Returns [{primary, duplicates: [{key, stranded}]}], primary being the doc
+    with the real placement (an Attio origin, then a stage, then most fields)."""
+    parent = {k: k for k in hub}
+
+    def find(k):
+        while parent[k] != k:
+            parent[k] = parent[parent[k]]
+            k = parent[k]
+        return k
+
+    def union(a, b):
+        ra, rb = find(a), find(b)
+        if ra != rb:
+            parent[rb] = ra
+
+    for attr in ("name", "domain"):
+        buckets = defaultdict(list)
+        for key, row in hub.items():
+            val = norm_name(row["name"]) if attr == "name" else row["domain"]
+            if val:
+                buckets[val].append(key)
+        for keys in buckets.values():
+            for other in keys[1:]:
+                union(keys[0], other)
+
+    clusters = defaultdict(list)
+    for key in hub:
+        clusters[find(key)].append(key)
+
+    def substance(key):
+        row = hub[key]
+        return (row["originSource"] == "attio", bool(row["stage"]), len(row["presentFields"]))
+
+    out = []
+    for keys in clusters.values():
+        if len(keys) < 2:
+            continue
+        keys = sorted(keys, key=substance, reverse=True)
+        primary, dups = hub[keys[0]], []
+        for k in keys[1:]:
+            row = hub[k]
+            stranded = sorted(set(row["presentFields"]) - set(primary["presentFields"])
+                              - _UNINTERESTING_FIELDS)
+            dups.append({"key": k, "name": row["name"], "stage": row["stage"],
+                         "stranded": stranded, "latestScreen": row["latestScreen"]})
+        out.append({"primaryKey": keys[0], "name": primary["name"],
+                    "primaryStage": primary["stage"], "duplicates": dups})
+    return sorted(out, key=lambda d: d["name"])
 
 
 def dump_hub_snapshot(out_path):
@@ -382,6 +465,24 @@ def _hub_buckets(hub_row):
 def reconcile(hub, attio, series_b_mode="dual", names=None):
     """Pure diff over the two already-normalized sides. No I/O."""
     matched, hub_only, attio_only = link(hub, attio)
+
+    # Three things get pulled out of hub_only before it is reported, because
+    # none of them means "Attio is missing this deal":
+    #   - a duplicate of a hub company that DID match (see find_hub_duplicates)
+    #   - a `.example` test fixture from the screen-deals Firestore backfill
+    # What survives is the real answer to "in the hub, not in Attio".
+    duplicates = find_hub_duplicates(hub)
+    dup_keys = {d["key"] for group in duplicates for d in group["duplicates"]}
+    matched_keys = {h["key"] for h, _, _ in matched}
+    # Only a duplicate of a company that actually matched is explained away; a
+    # cluster where NO doc reached Attio is still a genuine hub-only company.
+    explained = {k for group in duplicates if group["primaryKey"] in matched_keys
+                 for k in [d["key"] for d in group["duplicates"]]}
+    test_fixtures = [r for r in hub_only if r["domain"].endswith(TEST_DOMAIN_SUFFIX)]
+    fixture_keys = {r["key"] for r in test_fixtures}
+    hub_dupes_only = [r for r in hub_only if r["key"] in explained and r["key"] not in fixture_keys]
+    hub_only = [r for r in hub_only
+                if r["key"] not in explained and r["key"] not in fixture_keys]
 
     for row in attio_only:
         stage, tags, why = _expected(row, series_b_mode)
@@ -468,7 +569,13 @@ def reconcile(hub, attio, series_b_mode="dual", names=None):
             "placementMismatches": len(mismatches), "placementAgreed": len(agreed),
             "humanFiled": len(human_filed), "aboveBNoTier33": len(unplaced_above_b),
             "unplacedByRule": len(unplaced), "seriesBTop10": len(b_top10),
+            "hubDuplicateCompanies": len(duplicates),
+            "hubDuplicateDocs": len(dup_keys),
+            "hubDuplicatesShownAsHubOnly": len(hub_dupes_only),
+            "testFixtures": len(test_fixtures),
         },
+        "hubDuplicates": duplicates,
+        "testFixtures": test_fixtures,
         "seriesBMode": series_b_mode,
         "attioOnly": attio_only,
         "hubOnly": hub_only,
@@ -555,7 +662,9 @@ def render_markdown(report, run_date):
         f"- Matched on both sides: **{c['matched']}** "
         f"({', '.join(f'{n} by {b}' for b, n in report['matchBasis'].most_common())})",
         f"- **In Attio, missing from the hub: {c['attioOnly']}**",
-        f"- **In the hub, missing from Attio: {c['hubOnly']}**",
+        f"- **In the hub, missing from Attio: {c['hubOnly']}** "
+        f"(after setting aside {c['hubDuplicateDocs']} duplicate hub docs and "
+        f"{c['testFixtures']} test fixtures)",
         f"- Placement disagreements among matched deals: **{c['placementMismatches']}** "
         f"(agreed: {c['placementAgreed']})",
         f"- Matched but filed by hand in Attio (Passed/Invested -- rule not applied): {c['humanFiled']}",
@@ -597,8 +706,38 @@ def render_markdown(report, run_date):
               ("Top 10 / Tier 1 (33)", lambda r: ", ".join(r["top10"] or r["tier1_33"][:3])),
           ]), ""]
 
+    L += ["## Duplicate hub docs", "",
+          f"{c['hubDuplicateCompanies']} companies hold {c['hubDuplicateDocs']} extra doc(s) "
+          "between them -- one keyed by domain, its twin keyed by the name slug. "
+          "`fit_note.company_id` prefers the domain and falls back to the name, and an "
+          "Attio Deal carries no domain of its own, so a screening run that could not "
+          "resolve it wrote a second doc. **`Stranded` is data sitting on the twin that "
+          "the real company doc does not have** -- most importantly `latestScreen`, which "
+          "is why these companies show no fit score in the hub despite having been "
+          f"screened. {c['hubDuplicatesShownAsHubOnly']} of them would otherwise have "
+          "reported as \"missing from Attio\", which they are not.", "",
+          _table([{**d, "primary": g["primaryKey"], "pname": g["name"],
+                   "pstage": g["primaryStage"]}
+                  for g in report["hubDuplicates"] for d in g["duplicates"]], [
+              ("Company", lambda r: r["pname"]),
+              ("Real doc", lambda r: f"{r['primary']} ({r['pstage'] or 'no stage'})"),
+              ("Duplicate doc", lambda r: r["key"]),
+              ("Stranded on the duplicate", lambda r: ", ".join(r["stranded"]) or "-"),
+              ("Screen on duplicate", lambda r: (f"{r['latestScreen'].get('fitScore')} "
+                                                 f"gate={r['latestScreen'].get('gate')}")
+                                                if r["latestScreen"] else "-"),
+          ]), ""]
+
+    if report["testFixtures"]:
+        L += ["## Test fixtures (not real deals)", "",
+              f"{c['testFixtures']} hub companies on `{TEST_DOMAIN_SUFFIX}` domains, left over "
+              "from the screen-deals Firestore test backfill. Excluded from the hub-only list "
+              "below -- Attio is right not to have them.", "",
+              ", ".join(f"{r['name']} (`{r['key']}`)" for r in report["testFixtures"]), ""]
+
     L += ["## In the hub, missing from Attio", "",
-          f"{c['hubOnly']} companies.", "",
+          f"{c['hubOnly']} companies, after excluding the duplicate docs and test "
+          "fixtures above.", "",
           _table(sorted(report["hubOnly"], key=lambda r: (str(r["stage"]), r["name"])), [
               ("Company", lambda r: r["name"]),
               ("Domain", lambda r: r["domain"]),
@@ -686,6 +825,14 @@ def write_csvs(report, out_dir, run_date):
           "attioRecordId", "key"]),
         ("unplaced-by-rule", report["unplacedByRule"] + report["aboveBNoTier33"],
          ["name", "series", "band", "attioStage", "hubStage", "expectedWhy", "key"]),
+        ("hub-duplicate-docs",
+         [{"company": g["name"], "primaryKey": g["primaryKey"], "primaryStage": g["primaryStage"],
+           "duplicateKey": d["key"], "stranded": d["stranded"],
+           "duplicateScreen": (d["latestScreen"] or {}).get("fitScore"),
+           "duplicateScreenGate": (d["latestScreen"] or {}).get("gate")}
+          for g in report["hubDuplicates"] for d in g["duplicates"]],
+         ["company", "primaryKey", "primaryStage", "duplicateKey", "stranded",
+          "duplicateScreen", "duplicateScreenGate"]),
     ]
     for label, rows, cols in specs:
         path = os.path.join(out_dir, f"deal-sync-{label}-{run_date}.csv")
