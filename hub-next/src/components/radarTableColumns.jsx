@@ -77,14 +77,28 @@ export function radarCompanyToRow(c, opts) {
   // 80+ (Oscar, 2026-08-06 screenshots).
   const marketHeat = c.radar?.marketHeat;
   const hasMarketHeat = typeof marketHeat?.normalizedScore === 'number';
+  // `scoreSummary`: the Signal Framework's headline number + how many of the
+  // rubric's 100 points actually got scored, rendered by RadarHeatPopover as
+  // its own bold line above the itemized per-signal rows (Oscar, 2026-08-14:
+  // wants the popover to read like the named rubric rows -- "Raise
+  // Probability", "Industry Growth", etc. -- from the full breakdown page,
+  // not one flattened "Signal Framework 88.8 (...)" sentence). The per-signal
+  // rows themselves come straight off `marketHeat.signals` -- passed through
+  // as-is below, same object RadarHeatBreakdown.jsx renders on the company
+  // page, so there's only one place (SIGNAL_LABELS, lib/radarSignalLabels.js)
+  // that maps a signal key to its display name.
+  const scoreSummary = hasMarketHeat
+    ? {
+        score: marketHeat.normalizedScore,
+        pointsAvailable: marketHeat.pointsAvailable,
+        roundAnnouncedFlag: marketHeat.roundAnnouncedFlag,
+      }
+    : null;
+
   // `heatLines`: an array, one entry per popover line (RadarHeatPopover),
   // rather than one `·`-joined string -- replaces the old native `title`
   // tooltip (Oscar, 2026-08-06: "hover it and you see the full explanation
   // of the score, and it doesn't go off unless you press it").
-  const signalFrameworkLine = hasMarketHeat
-    ? `Signal Framework ${marketHeat.normalizedScore} (${marketHeat.pointsAvailable}/100 pts scored)${marketHeat.roundAnnouncedFlag ? ' · round already announced, suppressed' : ''}`
-    : null;
-
   let score, hot, heatLines;
   if (hasMarketHeat) {
     const access = c.radar?.access;
@@ -94,7 +108,7 @@ export function radarCompanyToRow(c, opts) {
     const accessKnown = typeof access?.accessPass === 'boolean';
     score = marketHeat.normalizedScore;
     hot = score >= radarConfig.hotThreshold && (!accessKnown || access.accessPass);
-    heatLines = [signalFrameworkLine];
+    heatLines = [];
     if (hasPersistedHazard) {
       const { p90, p180, confidence, familiesActive, dataCoverage } = c.radar.hazard;
       // Confidence + data coverage sit right next to the score itself, not
@@ -162,6 +176,8 @@ export function radarCompanyToRow(c, opts) {
         <RadarHeatPopover
           score={score}
           hot={hot}
+          signals={hasMarketHeat ? marketHeat.signals : null}
+          scoreSummary={scoreSummary}
           lines={heatLines}
           nextScanDate={c.radar?.schedule?.nextScanAt ? formatNextScan(c) : null}
           nextScanReason={scanReason}

@@ -11,17 +11,26 @@
   outline-offset: 2px;
 }
 
+/* Oscar, 2026-08-14: this card must read as fully opaque, never
+   see-through to the table row behind it -- background is a solid,
+   explicit color (not inherited), and `opacity: 1` is set directly on the
+   card rather than assumed, so nothing an ancestor does (e.g. the hot
+   badge's now-removed pulse animation, which used to bleed its own
+   opacity dip through into this panel) can make it translucent again. */
 .panel {
   position: fixed;
   z-index: 40;
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  width: 320px;
+  gap: 6px;
+  width: 340px;
   max-width: calc(100vw - 24px);
+  max-height: min(480px, calc(100vh - 24px));
+  overflow-y: auto;
   padding: 12px 14px;
   margin-top: 4px;
   background: var(--id8-card);
+  opacity: 1;
   border: 1px solid var(--id8-hair);
   border-radius: 4px;
   box-shadow: var(--id8-shadow-hover);
@@ -34,6 +43,50 @@
 @keyframes panelIn {
   from { opacity: 0; transform: translateY(-2px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+.scoreLine {
+  font-weight: 600;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--id8-hair);
+}
+
+.signalList {
+  display: flex;
+  flex-direction: column;
+}
+
+.signalRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 3px 0;
+  white-space: nowrap;
+}
+.signalRow > span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.signalScore {
+  font-variant-numeric: tabular-nums;
+  color: var(--id8-ink);
+  flex-shrink: 0;
+}
+
+.muted {
+  color: var(--id8-soft);
+  flex-shrink: 0;
+}
+
+.linesBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding-top: 6px;
+  border-top: 1px solid var(--id8-hair);
 }
 
 .line { white-space: normal; }
