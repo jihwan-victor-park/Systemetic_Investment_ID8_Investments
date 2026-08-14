@@ -1,0 +1,112 @@
+{
+  "deal": {
+    "record_id": "manual-k2space",
+    "name": "K2 Space",
+    "domain": "k2space.com",
+    "round": "Series D",
+    "lead_investors": "Kleiner Perkins, ICONIQ",
+    "hq": "Torrance, California, USA",
+    "round_date": "2026-07-30",
+    "deal_size": 500000000
+  },
+  "model_output": {
+    "params": [
+      {
+        "key": "lead_round_dynamics",
+        "subcategories": [
+          {"label": "Lead tier", "score": 4, "finding": "Kleiner Perkins + ICONIQ co-lead $500M round, Tier 1 firms."},
+          {"label": "New vs re-up", "score": 4, "finding": "Neither KP nor ICONIQ appeared in prior K2 rounds (new money)."},
+          {"label": "Stage fit", "score": 4, "finding": "Clean primary Series D, $500M at $6.8B post-money valuation."},
+          {"label": "Domain-strategic", "score": 2, "finding": "KP/ICONIQ are traditional multi-stage VCs, not domain-strategic operators."},
+          {"label": "Lead conviction", "score": 3, "finding": "ICONIQ GP Tengbo Li quoted; KP rep is principal-level only."},
+          {"label": "Institutional momentum", "score": 4, "finding": "Lightspeed, Altimeter, T. Rowe Price all re-upped from Series C."},
+          {"label": "Existing Tier 1", "score": 4, "finding": "Redpoint and Lightspeed (Tier 1) confirmed on pre-Series D cap table."},
+          {"label": "Timing/motivation", "score": 4, "finding": "Valuation more than doubled in 7 months post-launch, backlog to $1B."}
+        ],
+        "evidence": "Genuine new-money Tier 1 co-lead with strong existing-investor follow-on and opportunistic timing, though domain-strategic asymmetry and lead-partner conviction only moderate."
+      },
+      {
+        "key": "founder_team_quality",
+        "subcategories": [
+          {"label": "Prior exit", "score": 3, "finding": "First-time K2 founder; led Text IQ revenue to 9-figure exit."},
+          {"label": "Domain authority", "score": 4, "finding": "CTO Neel Kunjur: 5.5yrs SpaceX Dragon avionics, Mission Director pre-founding."},
+          {"label": "Team complement", "score": 4, "finding": "CEO commercial/AI background pairs with CTO deep aerospace engineering."},
+          {"label": "Recruiting power (as in team growth)", "score": 3, "finding": "135 open roles per Glassdoor; steady hiring, no attrition data found."},
+          {"label": "Public presence", "score": 4, "finding": "CEO speaks at Space Symposium, MilSat Show, LA500-honored, Payload podcast."},
+          {"label": "Integrity", "score": 3, "finding": "No red flags across multiple sources; not exhaustively background-checked."}
+        ],
+        "evidence": "Strong complementary founding team - commercial/AI operator CEO plus SpaceX-veteran CTO - with a real (non-founder) prior exit and solid public track record."
+      },
+      {
+        "key": "ai_score",
+        "subcategories": [
+          {"label": "Ownership of models", "score": 1, "finding": "Hardware satellite manufacturer; no proprietary AI model or fine-tune found."},
+          {"label": "Data flywheel / Recurssion", "score": 1, "finding": "No evidence of usage data compounding product; AI-in-space is future-only."}
+        ],
+        "evidence": "AI is aspirational, not structural - 'AI data centers in space' explicitly framed as years-away and unproven, not a current moat."
+      },
+      {
+        "key": "terms",
+        "subcategories": [
+          {"label": "Just assume they are good (unless there's something public)", "score": 3, "finding": "No public evidence on this round's access terms; assume standard 0/0/10."}
+        ],
+        "evidence": "No adverse public signal on syndication/SPV terms for this round; standard terms assumed absent evidence."
+      },
+      {
+        "key": "fundamentals",
+        "subcategories": [
+          {"label": "Revenue/growth", "score": 2, "finding": "No disclosed revenue; no usable ARR triangulation (backlog is not revenue)."},
+          {"label": "NDR", "score": 2, "finding": "Not applicable/disclosed - discrete government/commercial contracts, not subscription."},
+          {"label": "Margins/unit econ", "score": 2, "finding": "LTV/CAC not disclosed or estimable for govcon hardware manufacturer."},
+          {"label": "Burn/runway", "score": 2, "finding": "Burn not disclosed; capital-intensive 180k sq ft factory build underway."},
+          {"label": "Customer concentration", "score": 2, "finding": "Only 3 named customers (SES, Anduril, Space Force) disclosed; % unknown."},
+          {"label": "Pref stack", "score": 2, "finding": "Cap structure/liquidation preference terms not publicly disclosed."},
+          {"label": "Moat durability", "score": 3, "finding": "85% vertical integration, $15M/unit cost vs primes; real but unproven at scale."},
+          {"label": "Market/TAM", "score": 3, "finding": "National-security/commercial satellite market venture-scale; AI-data-center expansion still aspirational."},
+          {"label": "Valuation vs comps", "score": 2, "finding": "[ESTIMATED] $6.8B/~$1B backlog premium to Astranis ($2.8B) and Apex ($2.3B)."},
+          {"label": "Sector risk", "score": 3, "finding": "Defense-budget dependency (Golden Dome, Space Force) is a tailwind, not near-term risk."}
+        ],
+        "evidence": "Fundamentals are largely undisclosed (typical for private hardware primes); backlog and contract wins are strong, but valuation looks rich versus closest comps."
+      },
+      {
+        "key": "return_potential",
+        "subcategories": [
+          {"label": "Entry multiple", "score": 3, "finding": "Valuation justified by 2x backlog/valuation growth in 7 months, not cheap."},
+          {"label": "Base-case MOIC", "score": 2, "finding": "Entry at $6.8B late-stage mark caps realistic base-case MOIC upside."},
+          {"label": "Exit path", "score": 3, "finding": "Active Forge secondary trading plus defense-primes IPO precedent (Rocket Lab public)."},
+          {"label": "Dilution", "score": 2, "finding": "Not modeled in this manual research pass; no future-round assumptions run."},
+          {"label": "Time to liquidity", "score": 2, "finding": "No confirmed IPO timeline found; unmodeled hold period."},
+          {"label": "Downside protection", "score": 2, "finding": "Deal-specific liq pref/pro-rata terms not publicly disclosed."},
+          {"label": "Exit multiples", "score": 2, "finding": "No fully comparable public exit precedent (Rocket Lab differs: launch vs bus)."},
+          {"label": "Secondary demand", "score": 4, "finding": "Forge lists active K2 Space secondary trading at $6.8B valuation."}
+        ],
+        "evidence": "Return case rests on strong backlog momentum and visible secondary demand, but entry valuation is already late-stage-rich, capping realistic base-case MOIC."
+      }
+    ],
+    "rationale": "Genuine new-money Tier 1 lead (KP/ICONIQ) with strong follow-on and opportunistic timing aligns with ID8's core screen, but AI is purely aspirational, not structural - breaking the AI-mandate leg despite a rich, well-backed hardware business.",
+    "confidence": "medium",
+    "hard_auto_pass": false,
+    "hard_auto_pass_reason": "",
+    "watch_list": false
+  },
+  "citations": [
+    "https://www.prnewswire.com/news-releases/k2-space-raises-500m-series-d-at-6-8b-valuation-to-scale-large-high-power-satellites-302838793.html",
+    "https://www.prnewswire.com/news-releases/k2-space-raises-250m-at-3b-valuation-to-roll-out-a-new-class-of-high-capability-satellites-302638936.html",
+    "https://payloadspace.com/k2-space-raises-250m-series-c/",
+    "https://payloadspace.com/k2-space-raises-110m-series-b/",
+    "https://www.cnbc.com/2024/02/13/startup-k2-space-raises-50-million.html",
+    "https://www.cnbc.com/2023/03/10/k2-space-startup-building-massive-spacecraft.html",
+    "https://labusinessjournal.com/la500-2026/manufacturing-2026/la500-2026-karan-kunjur/",
+    "https://www.geekwire.com/2026/k2-space-satellite-engineering-office-seattle-area/",
+    "https://thenextweb.com/news/k2-space-500-million-series-d-6-8-billion-large-satellites",
+    "https://www.bloomberg.com/news/articles/2026-07-30/iconiq-backs-satellite-startup-k2-space-at-6-8-billion-value",
+    "https://techfundingnews.com/two-brothers-behind-k2-space-grab-500m-at-6-8b-valuation-to-challenge-spacex/",
+    "https://www.govconwire.com/articles/k2-space-500-million-series-d-funding-round",
+    "https://www.satellitetoday.com/finance/2026/07/31/k2-space-secures-series-d-funding-after-hitting-1-billion-contract-value-milestone/",
+    "https://spacenews.com/satellite-maker-apexs-valuation-rises-to-2-3-billion-after-latest-200-million-raise/",
+    "https://matthewbernard776320.substack.com/p/astranis-28-billion-bet",
+    "https://forgeglobal.com/k2-space_stock/",
+    "https://www.crunchbase.com/organization/text-iq",
+    "https://www.firstround.com/companies/k2space"
+  ]
+}

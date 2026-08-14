@@ -1,0 +1,107 @@
+{
+  "deal": {
+    "record_id": "manual-windbornesystems",
+    "name": "WindBorne Systems",
+    "domain": "windbornesystems.com",
+    "round": "Series B",
+    "lead_investors": "Khosla Ventures (co-lead, re-up), Galvanize Climate Solutions (co-lead, new)",
+    "hq": "Redwood City, California, USA",
+    "round_date": "2026-08-05",
+    "deal_size": 37000000
+  },
+  "model_output": {
+    "params": [
+      {
+        "key": "lead_round_dynamics",
+        "subcategories": [
+          {"label": "Lead tier", "score": 4, "finding": "Khosla Ventures co-leads; Tier 1+ VC, verified via press."},
+          {"label": "New vs re-up", "score": 3, "finding": "Khosla re-up (Series A lead); Galvanize new-money co-lead."},
+          {"label": "Stage fit", "score": 4, "finding": "Clean primary Series B, $37M, Aug 2026, no bridge."},
+          {"label": "Domain-strategic", "score": 3, "finding": "Galvanize is $1B+ climate-focused fund, adjacent not core business."},
+          {"label": "Lead conviction", "score": 4, "finding": "Khosla doubled down, holding board seat since Series A."},
+          {"label": "Institutional momentum", "score": 3, "finding": "Unnamed existing investors (Footwork/Pear/Convective) confirmed following on."},
+          {"label": "Existing Tier 1", "score": 3, "finding": "Khosla Ventures confirmed on pre-round cap table since 2024."},
+          {"label": "Timing/motivation", "score": 3, "finding": "Revenue tripled pre-raise; opportunistic growth raise, not defensive."}
+        ],
+        "evidence": "Tier 1 Khosla re-ups and co-leads with new climate-focused Galvanize on a clean, opportunistic Series B primary round."
+      },
+      {
+        "key": "founder_team_quality",
+        "subcategories": [
+          {"label": "Prior exit", "score": 3, "finding": "First-time founder; Stanford EE, ex-SpaceX/Lyft engineer, no exit yet."},
+          {"label": "Domain authority", "score": 3, "finding": "Founded via Stanford Space Initiative balloon project pre-company."},
+          {"label": "Team complement", "score": 3, "finding": "CEO Dean, CTO Sushko, CPO Marshland cover tech/product functions."},
+          {"label": "Recruiting power (as in team growth)", "score": 3, "finding": "11-50 staff, 23 open roles; active hiring, retention unverified."},
+          {"label": "Public presence", "score": 4, "finding": "Forbes 30U30, IEEE Spectrum bylines, podcast/Forbes Council appearances."},
+          {"label": "Integrity", "score": 3, "finding": "No litigation/controversy found; limited public scrutiny of private co."}
+        ],
+        "evidence": "Elite-pedigree first-time founding team with a genuine domain origin story and strong press presence; no red flags found."
+      },
+      {
+        "key": "ai_score",
+        "subcategories": [
+          {"label": "Ownership of models", "score": 4, "finding": "Proprietary WeatherMesh-6 model reportedly beat DeepMind's GraphCast publicly."},
+          {"label": "Data flywheel / Recurssion", "score": 4, "finding": "Proprietary balloon sensor data feeds iterative WeatherMesh retraining cycles."}
+        ],
+        "evidence": "Genuinely proprietary AI stack: owned forecasting architecture plus a hardware-fed data flywheel, publicly benchmarked as best-in-class."
+      },
+      {
+        "key": "terms",
+        "subcategories": [
+          {"label": "Just assume they are good (unless there's something public)", "score": 3, "finding": "No public evidence either way; assume standard 0/0/10."}
+        ],
+        "evidence": "No public disclosure on this round's access terms; default to standard assumption absent adverse signal."
+      },
+      {
+        "key": "fundamentals",
+        "subcategories": [
+          {"label": "Revenue/growth", "score": 3, "finding": "[ESTIMATED] ~$25M ARR (tripled from $8.5M ARR, Apr 2025)."},
+          {"label": "NDR", "score": 2, "finding": "Not disclosed; no usable estimate found."},
+          {"label": "Margins/unit econ", "score": 2, "finding": "Not disclosed; no usable estimate found."},
+          {"label": "Burn/runway", "score": 2, "finding": "Not disclosed; no usable estimate found."},
+          {"label": "Customer concentration", "score": 2, "finding": "NWS/Air Force/Navy/trading firms named; no revenue breakdown disclosed."},
+          {"label": "Pref stack", "score": 2, "finding": "Not disclosed; cannot estimate."},
+          {"label": "Moat durability", "score": 4, "finding": "Proprietary sensor+AI moat; NOAA integrates data into forecast backbone."},
+          {"label": "Market/TAM", "score": 4, "finding": "Weather-data TAM venture-scale; commercial trading expansion already in motion."},
+          {"label": "Valuation vs comps", "score": 3, "finding": "[ESTIMATED] ~10x ARR vs Tomorrow.io's $1B valuation/$425M raised comp."},
+          {"label": "Sector risk", "score": 3, "finding": "Some competitive exposure (Tomorrow.io, Spire) but not acute/near-term."}
+        ],
+        "evidence": "Fast-growing, well-differentiated data business with strong moat and TAM, but most unit-economics and balance-sheet metrics remain undisclosed."
+      },
+      {
+        "key": "return_potential",
+        "subcategories": [
+          {"label": "Entry multiple", "score": 3, "finding": "[ESTIMATED] ~10x ARR defensible given tripling growth trajectory."},
+          {"label": "Base-case MOIC", "score": 3, "finding": "Not modeled; sector comp (Tomorrow.io) suggests credible upside path."},
+          {"label": "Exit path", "score": 3, "finding": "Precedent: Spire (public), Tomorrow.io (unicorn); real IPO/M&A comps."},
+          {"label": "Dilution", "score": 2, "finding": "Not modeled in this manual pass; no cap table access."},
+          {"label": "Time to liquidity", "score": 2, "finding": "Not modeled; no hold-period assumptions available."},
+          {"label": "Downside protection", "score": 2, "finding": "Deal-specific liq pref/pro-rata terms undisclosed."},
+          {"label": "Exit multiples", "score": 3, "finding": "Anchored to Tomorrow.io/Spire as comparable weather-intelligence precedent set."},
+          {"label": "Secondary demand", "score": 2, "finding": "No Forge/Caplight/Setter 30 signal found."}
+        ],
+        "evidence": "Credible but unmodeled return case; a comparable-precedent exit path exists via Tomorrow.io and Spire, though dilution and downside protection are unassessed."
+      }
+    ],
+    "rationale": "Aligns with thesis: Tier-1 Khosla re-ups alongside new-money, domain-adjacent Galvanize on a clean opportunistic Series B, with genuinely proprietary AI (WeatherMesh) and hardware-data moat. Re-up dilutes 'new money' purity; fundamentals mostly undisclosed, revenue estimated.",
+    "confidence": "medium",
+    "hard_auto_pass": false,
+    "hard_auto_pass_reason": "",
+    "watch_list": false
+  },
+  "citations": [
+    "https://techcrunch.com/2026/08/05/ai-makes-weather-prediction-better-can-windborne-make-it-lucrative/",
+    "https://windbornesystems.com/blog/windborne-systems-raises-37-million-to-build-the-worlds-weather-intelligence-infrastructure",
+    "https://www.finsmes.com/2026/08/windborne-systems-raises-37m-in-series-b-funding.html",
+    "https://windbornesystems.com/blog/windborne-raises-15-million-to-scale-its-balloon-constellation-and-bring-ai-weather-modeling-to-the-fight-against-climate-change",
+    "https://www.cnbc.com/2024/06/03/khosla-ventures-backs-wineborne-a-startup-using-ai-to-upend-forecasts.html",
+    "https://www.axios.com/pro/climate-deals/2024/05/30/windborne-15m-khosla",
+    "https://fintech.global/2023/09/18/galvanize-secures-1bn-in-one-of-the-biggest-climate-venture-fundings-yet/",
+    "https://councils.forbes.com/profile/John-Dean-CEO-Cofounder-WindBorne-Systems/b7c08e0a-847f-4200-883e-da0916d35883",
+    "https://www.frontlines.io/podcasts/john-dean/",
+    "https://getlatka.com/companies/windborne-systems",
+    "https://ir.spire.com/news-events/press-releases/detail/298/spire-global-announces-first-quarter-2026-results",
+    "https://www.calcalistech.com/ctechnews/article/rj67r5yvze",
+    "https://wellfound.com/company/windborne-systems/jobs"
+  ]
+}

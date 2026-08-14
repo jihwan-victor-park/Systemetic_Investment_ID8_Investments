@@ -30,7 +30,7 @@ sys.path.insert(0, __file__.rsplit("/scripts/", 1)[0])
 
 from deal_intelligence import rubric
 from deal_intelligence.schemas import DealInput, DealFit, ParamScore, SubFinding
-from deal_intelligence.stage1_fit import _truthy, _tier
+from deal_intelligence.stage1_fit import _truthy, _tier, _dimension_hard_gate
 from deal_intelligence.fit_note import PARAM_LABELS, _badge_text, _linkify_md, company_id
 from deal_intelligence.firestore_push import _SUB_ANCHORS
 
@@ -64,6 +64,11 @@ def parse_model_output(parsed: dict):
     raw_avg = rubric.raw_score(param_scores)
     hard_auto_pass = _truthy(parsed.get("hard_auto_pass", False))
     hard_auto_pass_reason = parsed.get("hard_auto_pass_reason", "") or ""
+    if not hard_auto_pass:
+        gate_reason = _dimension_hard_gate(param_scores)
+        if gate_reason:
+            hard_auto_pass = True
+            hard_auto_pass_reason = gate_reason
     watch_list = _truthy(parsed.get("watch_list", False))
     tier, gate = _tier(fit_score, hard_auto_pass, watch_list)
     return params, fit_score, raw_avg, hard_auto_pass, hard_auto_pass_reason, watch_list, tier, gate
@@ -89,6 +94,7 @@ def build_screen_doc(fit: DealFit, deal: DealInput) -> dict:
         "fitScore": fit.fit_score,
         "rawScore": fit.raw_score,
         "verdict": _badge_text(fit).lower(),
+        "gate": fit.gate,
         "hardAutoPassNote": (
             f"Hard auto-pass: {_linkify_md(fit.hard_auto_pass_reason, cites)}"
             if (fit.hard_auto_pass and fit.hard_auto_pass_reason) else None

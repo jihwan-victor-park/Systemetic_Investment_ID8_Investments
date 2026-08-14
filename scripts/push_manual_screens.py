@@ -22,12 +22,14 @@ PROJECT_ID = "molten-crowbar-498920-q8"
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--apply", action="store_true", help="actually write; default is dry-run")
+    ap.add_argument("--dir", default="scripts/manual_stage1_outputs",
+                     help="directory of manual_stage1_score.py outputs to push (default: scripts/manual_stage1_outputs)")
     args = ap.parse_args()
 
     db = firestore.Client(project=PROJECT_ID)
-    files = sorted(glob.glob("scripts/manual_stage1_outputs/*.json"))
+    files = sorted(glob.glob(f"{args.dir}/*.json"))
     if not files:
-        print("No files found in scripts/manual_stage1_outputs/ -- nothing to do.")
+        print(f"No files found in {args.dir}/ -- nothing to do.")
         return
 
     for path in files:
@@ -41,7 +43,21 @@ def main():
               f"-> companies/{slug}/screens/{screen['date']}")
         if args.apply:
             company_ref = db.collection("companies").document(slug)
-            company_ref.set(data["company"], merge=True)
+            # Mirror deal_intelligence/firestore_push.py's push_company_screen_firestore:
+            # denormalize the headline screen fields onto the company doc (so
+            # hub-next's listCompanies() Screened column / Run Analysis-vs-Start
+            # Stage 2 toggle don't need a screens-subcollection fallback query),
+            # and ArrayUnion the "qualified" tag when this screen clears the gate.
+            company_payload = dict(data["company"])
+            company_payload["latestScreen"] = {
+                "date": screen["date"],
+                "roundStage": screen["roundStage"],
+                "fitScore": computed["fit_score"],
+                "gate": computed["gate"],
+            }
+            if computed["gate"]:
+                company_payload["tags"] = firestore.ArrayUnion(["qualified"])
+            company_ref.set(company_payload, merge=True)
             company_ref.collection("screens").document(screen["date"]).set(screen, merge=True)
 
     verb = "Wrote" if args.apply else "Would write"

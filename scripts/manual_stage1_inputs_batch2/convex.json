@@ -1,0 +1,110 @@
+{
+  "deal": {
+    "record_id": "manual-convex",
+    "name": "Convex",
+    "domain": "convex.dev",
+    "round": "Series B",
+    "lead_investors": "Insight Partners",
+    "hq": "San Francisco, United States",
+    "round_date": "2026-08-04",
+    "deal_size": 57000000
+  },
+  "model_output": {
+    "params": [
+      {
+        "key": "lead_round_dynamics",
+        "subcategories": [
+          {"label": "Lead tier", "score": 4, "finding": "Insight Partners, $90B+ AUM Tier-1 growth investor, led round"},
+          {"label": "New vs re-up", "score": 4, "finding": "Insight Partners new to cap table; first-time lead investor"},
+          {"label": "Stage fit", "score": 4, "finding": "Clean primary Series B, $57M, closed August 4 2026"},
+          {"label": "Domain-strategic", "score": 2, "finding": "Insight is a traditional financial growth VC, not domain-strategic"},
+          {"label": "Lead conviction", "score": 4, "finding": "Named MD Teddie Wardi; prior wins Wiz, SentinelOne, Hinge Health"},
+          {"label": "Institutional momentum", "score": 4, "finding": "Existing a16z and Spark Capital confirmed following on round"},
+          {"label": "Existing Tier 1", "score": 3, "finding": "a16z (Tier 1) on cap table since 2022 Series A"},
+          {"label": "Timing/motivation", "score": 3, "finding": "Growth-inflection raise (10x growth, Enterprise launch); no term-sheet contest confirmed"}
+        ],
+        "evidence": "New-money Tier-1 lead (Insight Partners) at a clean Series B, with existing a16z/Spark following on — textbook fit for ID8's core screen."
+      },
+      {
+        "key": "founder_team_quality",
+        "subcategories": [
+          {"label": "Prior exit", "score": 3, "finding": "First-time founders, elite Dropbox pedigree, no prior $100M+ exit"},
+          {"label": "Domain authority", "score": 4, "finding": "Built Dropbox's exabyte-scale storage/sync/database systems pre-founding, MIT PhD"},
+          {"label": "Team complement", "score": 3, "finding": "CEO/CTO/Chief Scientist all engineering-heavy; no named GTM exec found"},
+          {"label": "Recruiting power (as in team growth)", "score": 2, "finding": "Headcount data stale/conflicting (~36-55); growth trend unverifiable from LinkedIn"},
+          {"label": "Public presence", "score": 4, "finding": "Active technical blog, podcast appearances, open-source project, press coverage"},
+          {"label": "Integrity", "score": 3, "finding": "No red flags found; independent verification depth still limited"}
+        ],
+        "evidence": "Elite domain-expert technical founding team from Dropbox's core infra org, strong public presence, no red flags; GTM depth and headcount trend unverified."
+      },
+      {
+        "key": "ai_score",
+        "subcategories": [
+          {"label": "Ownership of models", "score": 1, "finding": "No proprietary model; Agent component wraps third-party LLMs only"},
+          {"label": "Data flywheel / Recurssion", "score": 1, "finding": "No evidence usage data retrains or compounds any proprietary model"}
+        ],
+        "evidence": "AI is market positioning, not structural moat — no proprietary model, no data flywheel; product is a reliability-focused database, not an AI company."
+      },
+      {
+        "key": "terms",
+        "subcategories": [
+          {"label": "Just assume they are good (unless there's something public)", "score": 3, "finding": "No public evidence either way; assume standard 0/0/10"}
+        ],
+        "evidence": "No public information found on how access to this specific round is being sold; assumed standard 0% fee / 10% carry terms."
+      },
+      {
+        "key": "fundamentals",
+        "subcategories": [
+          {"label": "Revenue/growth", "score": 3, "finding": "[ESTIMATED] ~$25-35M ARR; self-reported 10x growth in 9 months"},
+          {"label": "NDR", "score": 2, "finding": "Not disclosed; no usable peer estimate found"},
+          {"label": "Margins/unit econ", "score": 2, "finding": "Not disclosed; no LTV/CAC data or estimate found"},
+          {"label": "Burn/runway", "score": 2, "finding": "Not disclosed; burn/revenue ratio unavailable publicly"},
+          {"label": "Customer concentration", "score": 4, "finding": "500K+ developers, 2M app instances; broad PLG base"},
+          {"label": "Pref stack", "score": 2, "finding": "Not disclosed; cap table pref structure unavailable publicly"},
+          {"label": "Moat durability", "score": 3, "finding": "Deterministic ACID architecture cuts AI-code corruption 90%→0% in testing"},
+          {"label": "Market/TAM", "score": 4, "finding": "Large BaaS market + in-motion AI-agent-infra expansion (Agent, vector search)"},
+          {"label": "Valuation vs comps", "score": 2, "finding": "[NOT PUBLIC] round valuation undisclosed; no multiple computable"},
+          {"label": "Sector risk", "score": 3, "finding": "Some foundational-model-creep exposure; reliability moat partially offsets, not acute"}
+        ],
+        "evidence": "Estimated $25-35M ARR growing fast with broad diversified developer base and real technical moat, but most unit-economics metrics and valuation remain undisclosed."
+      },
+      {
+        "key": "return_potential",
+        "subcategories": [
+          {"label": "Entry multiple", "score": 2, "finding": "Cannot assess; round valuation not publicly disclosed"},
+          {"label": "Base-case MOIC", "score": 2, "finding": "Cannot assess; insufficient valuation/financial data available publicly"},
+          {"label": "Exit path", "score": 3, "finding": "Comps: Supabase $10.5B trajectory, MongoDB IPO, PlanetScale/Neon acquisitions"},
+          {"label": "Dilution", "score": 2, "finding": "Not modeled; no valuation basis to model against"},
+          {"label": "Time to liquidity", "score": 2, "finding": "Unmodeled; no valuation or timeline data available"},
+          {"label": "Downside protection", "score": 2, "finding": "Undisclosed; ID8-specific terms not yet negotiated/public"},
+          {"label": "Exit multiples", "score": 3, "finding": "Anchored to MongoDB/Supabase/PlanetScale-Neon reasonably comparable precedent set"},
+          {"label": "Secondary demand", "score": 2, "finding": "No Forge/Caplight/Setter listing found; could not be assessed"}
+        ],
+        "evidence": "Return case largely unmodelable given undisclosed entry valuation, though category comps (Supabase, MongoDB, PlanetScale/Neon) support a credible growth-market exit path."
+      }
+    ],
+    "rationale": "New-money Tier-1 lead (Insight Partners) at a clean Series B, with a16z/Spark following and a strong domain-expert team — textbook fit. But AI is positioning, not structural moat: no proprietary model, no flywheel, misaligned with ID8's AI mandate.",
+    "confidence": "medium",
+    "hard_auto_pass": false,
+    "hard_auto_pass_reason": "",
+    "watch_list": false
+  },
+  "citations": [
+    "https://www.prnewswire.com/news-releases/convex-raises-57m-series-b-led-by-insight-partners-to-scale-the-reliable-backend-for-the-ai-era-302841686.html",
+    "https://news.convex.dev/convex-raises-57m/",
+    "https://news.convex.dev/series-a/",
+    "https://news.convex.dev/convex-raises-24m/",
+    "https://www.forbes.com/sites/kenrickcai/2022/04/27/convex-series-a-26-million-developers-dump-databases/",
+    "https://www.linkedin.com/in/jcowling/",
+    "https://www.linkedin.com/in/jamwt/",
+    "https://www.convex.dev/podcasts/databased/chief-scientist-sujay-jayakar-on-local-first-and-its-implications-in-async-technologies",
+    "https://www.convex.dev/components/agent",
+    "https://docs.convex.dev/agents/overview",
+    "https://www.convex.dev/compare/supabase",
+    "https://www.cnbc.com/2026/06/04/database-startup-supabase-raises-500-million-10point5-billion-valuation.html",
+    "https://sacra.com/research/supabase-at-70m-arr-growing-250-yoy/",
+    "https://growthcapadvisory.com/investors/teddie-wardi/",
+    "https://en.wikipedia.org/wiki/Insight_Partners",
+    "https://www.opensourceceo.com/p/jamie-turner-interview"
+  ]
+}

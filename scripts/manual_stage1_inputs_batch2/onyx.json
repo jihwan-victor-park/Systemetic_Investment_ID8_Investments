@@ -1,0 +1,111 @@
+{
+  "deal": {
+    "record_id": "manual-onyx",
+    "name": "Onyx",
+    "domain": "onyx.security",
+    "round": "Series B",
+    "lead_investors": "Bessemer Venture Partners (partner Amit Karp)",
+    "hq": "New York, NY, USA / Tel Aviv, Israel (dual HQ)",
+    "round_date": "2026-07-29",
+    "deal_size": 113000000
+  },
+  "model_output": {
+    "params": [
+      {
+        "key": "lead_round_dynamics",
+        "subcategories": [
+          {"label": "Lead tier", "score": 4, "finding": "Bessemer Venture Partners led $113M round; Tier 1 firm."},
+          {"label": "New vs re-up", "score": 4, "finding": "Bessemer new to cap table; seed=Cyberstarts, A=Conviction."},
+          {"label": "Stage fit", "score": 4, "finding": "Clean primary Series B, no bridge/extension signals found."},
+          {"label": "Domain-strategic", "score": 2, "finding": "Bessemer is a generalist financial VC, not domain-strategic."},
+          {"label": "Lead conviction", "score": 4, "finding": "Amit Karp: cyber-focused GP, Axonius/Torq/Sentra, Forbes Midas Europe."},
+          {"label": "Institutional momentum", "score": 4, "finding": "Cyberstarts and Conviction (prior leads) both followed on."},
+          {"label": "Existing Tier 1", "score": 4, "finding": "Cyberstarts (Wiz seed investor) + Conviction pre-round."},
+          {"label": "Timing/motivation", "score": 3, "finding": "Raised 4mo post-launch after quadrupling revenue; opportunistic."}
+        ],
+        "evidence": "New-money Tier 1 (Bessemer/Karp) led a clean Series B four months post-launch, with both prior Tier-1 leads following on."
+      },
+      {
+        "key": "founder_team_quality",
+        "subcategories": [
+          {"label": "Prior exit", "score": 3, "finding": "First-time founders; elite pedigree (Unit 8200, ex-Nvidia AI)."},
+          {"label": "Domain authority", "score": 3, "finding": "CEO ex-cyber-intel (Unit 8200)+Mixtiles; CAIO ex-Nvidia AI, adjacent."},
+          {"label": "Team complement", "score": 4, "finding": "CEO/CAIO plus VP Sales, Marketing, R&D, Solutions, Chief of Staff."},
+          {"label": "Recruiting power (as in team growth)", "score": 3, "finding": "Grew to ~70 by stealth launch; added senior GTM hires by Aug 2026."},
+          {"label": "Public presence", "score": 4, "finding": "Heavy press (SecurityWeek, Times of Israel), Gartner Guardian Agents rep."},
+          {"label": "Integrity", "score": 3, "finding": "No red flags found; search limited to press/LinkedIn coverage."}
+        ],
+        "evidence": "Elite technical/AI pedigree first-time founders with strong complementary GTM hires and heavy press/analyst coverage; no red flags found."
+      },
+      {
+        "key": "ai_score",
+        "subcategories": [
+          {"label": "Ownership of models", "score": 4, "finding": "Proprietary mesh of purpose-trained models + \"Guardian Agents\", not a wrapper."},
+          {"label": "Data flywheel / Recurssion", "score": 3, "finding": "Models learn from 66M+ inspected sessions/1.1M agents; retraining cadence unstated."}
+        ],
+        "evidence": "Genuinely proprietary, purpose-built model architecture with a real usage-data feedback loop — AI is structural, not a foundation-model wrapper."
+      },
+      {
+        "key": "terms",
+        "subcategories": [
+          {"label": "Just assume they are good (unless there's something public)", "score": 3, "finding": "No public evidence either way; assume standard 0/0/10."}
+        ],
+        "evidence": "No public information on SPV/access terms for this round; assume standard institutional terms absent adverse signal."
+      },
+      {
+        "key": "fundamentals",
+        "subcategories": [
+          {"label": "Revenue/growth", "score": 2, "finding": "[ESTIMATED] ~$10-20M ARR (30-50x on $640M val); revenue 4x'd in 4mo."},
+          {"label": "NDR", "score": 2, "finding": "Not disclosed, no usable estimate."},
+          {"label": "Margins/unit econ", "score": 2, "finding": "Not disclosed, no usable estimate."},
+          {"label": "Burn/runway", "score": 2, "finding": "Not disclosed, no usable estimate."},
+          {"label": "Customer concentration", "score": 3, "finding": "Fortune 500 customers across banking, tech, insurance, energy."},
+          {"label": "Pref stack", "score": 2, "finding": "Not disclosed, cannot estimate."},
+          {"label": "Moat durability", "score": 3, "finding": "Proprietary detection mesh beat \"best-funded\" rivals per Bessemer blog."},
+          {"label": "Market/TAM", "score": 4, "finding": "~$240B cyber market; agent security framed as next Palo Alto/Wiz-scale."},
+          {"label": "Valuation vs comps", "score": 3, "finding": "[ESTIMATED] ~30-50x ARR vs ~11x AI-cyber median; defensible given hypergrowth."},
+          {"label": "Sector risk", "score": 2, "finding": "Microsoft, Palo Alto, CrowdStrike already ship competing native features."}
+        ],
+        "evidence": "[ESTIMATED] sub-$25M ARR but hypergrowth in a large, durable market; unresolved disclosure gaps and real hyperscaler competitive risk."
+      },
+      {
+        "key": "return_potential",
+        "subcategories": [
+          {"label": "Entry multiple", "score": 3, "finding": "Elevated [ESTIMATED] ARR multiple justified by hypergrowth, not cheap."},
+          {"label": "Base-case MOIC", "score": 3, "finding": "Fits ID8's Series-B new-money Tier-1 cohort (14.3x avg); competitive risk tempers."},
+          {"label": "Exit path", "score": 4, "finding": "Direct precedent: Wiz $32B/Google, Cyera ~$12B in adjacent security."},
+          {"label": "Dilution", "score": 2, "finding": "Not modeled; no company-specific dilution data available."},
+          {"label": "Time to liquidity", "score": 2, "finding": "Unmodeled."},
+          {"label": "Downside protection", "score": 2, "finding": "Round-specific terms undisclosed."},
+          {"label": "Exit multiples", "score": 3, "finding": "Anchored to reasonably comparable precedent set (Wiz, Cyera, Island)."},
+          {"label": "Secondary demand", "score": 2, "finding": "Too early-stage for secondary market signal; none found."}
+        ],
+        "evidence": "Thesis-consistent return case (new-money Tier-1 Series B) with strong adjacent-category exit precedent, but dilution/downside specifics remain unmodeled."
+      }
+    ],
+    "rationale": "Onyx fits ID8's thesis tightly: verified new-money Tier-1 lead (Bessemer/Karp) at a clean Series B with genuinely structural, proprietary AI. Key risks: estimated-only fundamentals, dual Israel/NY HQ, and hyperscaler competitive encroachment.",
+    "confidence": "medium",
+    "hard_auto_pass": false,
+    "hard_auto_pass_reason": "",
+    "watch_list": false
+  },
+  "citations": [
+    "https://www.calcalistech.com/ctechnews/article/b1fsjydszg",
+    "https://www.securityweek.com/onyx-security-raises-113-million-to-control-ai-agents-in-the-enterprise/",
+    "https://www.onyx.security/blog/onyx-113m-series-b-keeping-humans-in-control-as-ai-becomes-smarter",
+    "https://www.onyx.security/about",
+    "https://www.bvp.com/news/onyx-security-defining-cybersecurity-in-the-agentic-era",
+    "https://www.timesofisrael.com/israeli-cyber-startup-raises-113m-to-secure-and-control-autonomous-ai-agents/",
+    "https://www.businesswire.com/news/home/20260311837993/en/Onyx-Security-Launches-with-$40M-in-Funding-to-Build-the-Secure-AI-Control-Plane-for-the-Agentic-Era",
+    "https://www.calcalistech.com/ctechnews/article/hjmra11x911g",
+    "https://enterprisedna.co/resources/ai-pulse/ai-pulse-2026-08-08-onyx-security-quadruples-revenue-in-four-months-raises-113m/",
+    "https://techcrunch.com/2026/06/02/cyera-eyes-12b-valuation-at-80x-arr-multiple-despite-operating-losses/",
+    "https://www.onyx.security/integrations/anthropic",
+    "https://ventureburn.com/onyx-security-raises-113-million-series-b-ai-agent-governance/",
+    "https://www.vcsheet.com/who/amit-karp",
+    "https://www.linkedin.com/in/maximkogan/",
+    "https://www.businesswire.com/news/home/20250929834391/en/Cyberstarts-Closes-Second-%24380M-Opportunity-Fund-to-Back-the-Next-Stage-of-Cybersecurity-Breakouts",
+    "https://finance.yahoo.com/technology/ai/articles/onyx-security-raises-113m-series-210500945.html",
+    "https://www.axios.com/pro/enterprise-software-deals/2026/07/29/onyx-security-bessemer-enterprise-agents"
+  ]
+}
