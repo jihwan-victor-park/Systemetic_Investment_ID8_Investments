@@ -96,4 +96,14 @@
   padding-top: 6px;
   border-top: 1px solid var(--id8-hair);
   color: var(--id8-soft);
+  display: flex;
+  gap: 4px;
+  overflow: hidden;
+}
+
+.nextScanReason {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
 }

@@ -109,7 +109,8 @@ export default function RadarHeatPopover({ score, hot, signals, scoreSummary, li
           )}
           {nextScanDate && (
             <span className={styles.nextScan}>
-              Next scan: <strong>{nextScanDate}</strong>{nextScanReason && ` — ${nextScanReason}`}
+              <span>Next scan: <strong>{nextScanDate}</strong></span>
+              {nextScanReason && <span className={styles.nextScanReason}>— {nextScanReason}</span>}
             </span>
           )}
         </span>

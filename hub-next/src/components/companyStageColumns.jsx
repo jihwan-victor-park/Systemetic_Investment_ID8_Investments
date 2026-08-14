@@ -167,7 +167,11 @@ export function companyToRow(c, { basePath, canEdit, investorIndex = {}, domainI
         : <StageMultiSelect slug={c.slug} stage={c.stage} tags={c.tags} canEdit={canEdit} />,
       passed: <PassedCheckbox slug={c.slug} tags={c.tags} canEdit={canEdit} />,
       date: c.latestScreen ? c.latestScreen.date.slice(0, 10) : '—',
-      report: <Link href={`${resolvedBasePath}/${c.slug}`}>View screen →</Link>,
+      report: (
+        <Link href={`${resolvedBasePath}/${c.slug}`}>
+          {c.latestScreen == null ? 'View profile →' : 'View screen →'}
+        </Link>
+      ),
       actions: canEdit ? (
         <span className={styles.actions}>
           {/* Run Analysis (Stage 1) only while there's no screen yet -- once
