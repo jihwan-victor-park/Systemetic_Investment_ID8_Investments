@@ -39,7 +39,7 @@ export default function RadarHeatBreakdown({ radar }) {
     : [];
 
   return (
-    <div>
+    <div id="radar-heat">
       <H2>Radar — Heat Score Signal Framework</H2>
       {marketHeat && (
         <>

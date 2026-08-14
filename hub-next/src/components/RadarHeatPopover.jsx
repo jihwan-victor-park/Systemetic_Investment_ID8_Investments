@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
 import styles from './RadarHeatPopover.module.css';
 import { SIGNAL_LABELS } from '@/lib/radarSignalLabels';
 
@@ -25,7 +26,7 @@ import { SIGNAL_LABELS } from '@/lib/radarSignalLabels';
 // instance just opened.
 const OPEN_EVENT = 'radar-heat-popover-open';
 
-export default function RadarHeatPopover({ score, hot, signals, scoreSummary, lines, nextScanDate, nextScanReason }) {
+export default function RadarHeatPopover({ score, hot, signals, scoreSummary, predictedWindow, nextScanDate, nextScanReason, rationaleHref }) {
   const triggerRef = useRef(null);
   const panelRef = useRef(null);
   const [open, setOpen] = useState(false);
@@ -102,9 +103,9 @@ export default function RadarHeatPopover({ score, hot, signals, scoreSummary, li
               ))}
             </span>
           )}
-          {lines.length > 0 && (
+          {predictedWindow && (
             <span className={styles.linesBlock}>
-              {lines.map((line, i) => <span key={i} className={styles.line}>{line}</span>)}
+              <span className={styles.line}>Expected next raise: <strong>{predictedWindow}</strong></span>
             </span>
           )}
           {nextScanDate && (
@@ -112,6 +113,9 @@ export default function RadarHeatPopover({ score, hot, signals, scoreSummary, li
               <span>Next scan: <strong>{nextScanDate}</strong></span>
               {nextScanReason && <span className={styles.nextScanReason}>— {nextScanReason}</span>}
             </span>
+          )}
+          {rationaleHref && (
+            <Link href={rationaleHref} className={styles.rationaleLink}>Full rationale →</Link>
           )}
         </span>
       )}

@@ -2,6 +2,7 @@ import { companyToRow, STAGE_TABLE_COLUMNS } from './companyStageColumns';
 import { radarHeatBreakdown, bestFitScore, radarHotnessFromScore } from '@/lib/radarHeatScore';
 import { formatPredictedWindow, formatNextScan, nextScanReason } from '@/lib/radar';
 import { matchedKeywords } from '@/lib/radarRuleMatch';
+import { STAGE_BASEPATH } from '@/lib/stages';
 import RadarHeatPopover from './RadarHeatPopover';
 
 // Radar's table is now the SAME shape every other stage table uses
@@ -95,11 +96,15 @@ export function radarCompanyToRow(c, opts) {
       }
     : null;
 
-  // `heatLines`: an array, one entry per popover line (RadarHeatPopover),
-  // rather than one `·`-joined string -- replaces the old native `title`
-  // tooltip (Oscar, 2026-08-06: "hover it and you see the full explanation
-  // of the score, and it doesn't go off unless you press it").
-  let score, hot, heatLines;
+  // The popover used to spell out Hazard model / P180 / P90 / Access /
+  // Classified HOT-COLD as its own text lines below the rubric rows (Oscar,
+  // 2026-08-06). Dropped entirely (Oscar, 2026-08-14: "I don't really care
+  // about those scores so just eliminate any of that and just keep the
+  // rubric") -- `hot`/`score` still drive the badge itself, just no longer
+  // narrated in the popover. In their place: the predicted next-raise window
+  // (below) and a link to the full breakdown (RadarHeatBreakdown, on the
+  // company page) for anyone who does want the hazard/access detail.
+  let score, hot;
   if (hasMarketHeat) {
     const access = c.radar?.access;
     // Access hasn't been assessed at all for a marketHeat-only company (see
@@ -108,55 +113,21 @@ export function radarCompanyToRow(c, opts) {
     const accessKnown = typeof access?.accessPass === 'boolean';
     score = marketHeat.normalizedScore;
     hot = score >= radarConfig.hotThreshold && (!accessKnown || access.accessPass);
-    heatLines = [];
-    if (hasPersistedHazard) {
-      const { p90, p180, confidence, familiesActive, dataCoverage } = c.radar.hazard;
-      // Confidence + data coverage sit right next to the score itself, not
-      // buried after families/access (Isabella, 2026-07-30: "Heat Score: 81
-      // / Confidence: Medium / Data coverage: 68%") -- a partner glancing
-      // at this popover should see, before anything else, how much to
-      // trust the number they just read. `dataCoverage` may be absent on a
-      // company scanned before this field existed (radar_hazard.compute()
-      // didn't emit it pre-2026-07-30) -- omitted rather than shown as
-      // "0%", since that company's coverage was never unmeasured-and-zero,
-      // just unmeasured.
-      const coveragePct = typeof dataCoverage === 'number' ? Math.round(dataCoverage * 100) : null;
-      const confidenceLabel = confidence ? confidence[0].toUpperCase() + confidence.slice(1) : 'Unknown';
-      heatLines.push(
-        `Hazard model ${persistedHeat} · Confidence ${confidenceLabel}${coveragePct != null ? ` · Data coverage ${coveragePct}%` : ''}`,
-        `P180 ${Math.round(p180 * 100)}% · P90 ${Math.round(p90 * 100)}%`,
-        `Families: ${familiesActive?.length ? familiesActive.join(', ') : 'none'}`,
-      );
-    }
-    heatLines.push(
-      `Access: ${access?.level || (accessKnown ? 'unknown' : 'not yet assessed')}`,
-      `Classified ${hot ? 'HOT' : 'COLD'} (needs ${radarConfig.hotThreshold}+${accessKnown ? ' AND syndicate access' : ''})`,
-    );
-    heatLines = heatLines.filter(Boolean);
   } else if (hasPersistedHazard) {
     // No marketHeat at all yet, but a real hazard scan exists -- same
     // "INTERSECTION of two deliberately separate gates" hot/cold logic
     // this whole function has always used for the hazard-only case.
-    const { p90, p180, confidence, familiesActive, dataCoverage } = c.radar.hazard;
     const access = c.radar?.access;
     score = persistedHeat;
     hot = persistedHeat >= radarConfig.hotThreshold && !!access?.accessPass;
-    const coveragePct = typeof dataCoverage === 'number' ? Math.round(dataCoverage * 100) : null;
-    const confidenceLabel = confidence ? confidence[0].toUpperCase() + confidence.slice(1) : 'Unknown';
-    heatLines = [
-      `Hazard model ${persistedHeat} · Confidence ${confidenceLabel}${coveragePct != null ? ` · Data coverage ${coveragePct}%` : ''}`,
-      `P180 ${Math.round(p180 * 100)}% · P90 ${Math.round(p90 * 100)}%`,
-      `Families: ${familiesActive?.length ? familiesActive.join(', ') : 'none'}`,
-      `Access: ${access?.level || 'unknown'}`,
-      `Classified ${hot ? 'HOT' : 'COLD'} (needs ${radarConfig.hotThreshold}+ AND syndicate access)`,
-    ];
   } else {
     const fitScore = bestFitScore(c, base.meta?.bestInvestorFitScore);
     const breakdown = radarHeatBreakdown(c, radarConfig, fitScore);
     score = breakdown.total;
     hot = radarHotnessFromScore(score, radarConfig) === 'hot';
-    heatLines = [`Timing ${breakdown.timing} + Fit ${breakdown.fit} = ${score} (hot at ${radarConfig.hotThreshold}+, no hazard scan yet)`];
   }
+
+  const resolvedBasePath = STAGE_BASEPATH[c.stage] || STAGE_BASEPATH.qualified;
 
   return {
     ...base,
@@ -178,9 +149,10 @@ export function radarCompanyToRow(c, opts) {
           hot={hot}
           signals={hasMarketHeat ? marketHeat.signals : null}
           scoreSummary={scoreSummary}
-          lines={heatLines}
+          predictedWindow={formatPredictedWindow(c)}
           nextScanDate={c.radar?.schedule?.nextScanAt ? formatNextScan(c) : null}
           nextScanReason={scanReason}
+          rationaleHref={`${resolvedBasePath}/${c.slug}#radar-heat`}
         />
       ),
     },

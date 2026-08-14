@@ -107,3 +107,16 @@
   white-space: nowrap;
   min-width: 0;
 }
+
+.rationaleLink {
+  margin-top: 4px;
+  padding-top: 6px;
+  border-top: 1px solid var(--id8-hair);
+  color: var(--id8-accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.rationaleLink:hover {
+  text-decoration: underline;
+}
