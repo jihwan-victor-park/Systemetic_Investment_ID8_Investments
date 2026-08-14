@@ -1,0 +1,390 @@
+[
+  {
+    "id": "heypocket",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 6.0,
+        "evidence": "AI note-taking and voice-to-text device category showing moderate growth momentum; significant media coverage of Pocket's June 2026 fundraise indicates sector interest, but broader market data suggests steady rather than explosive growth in note-taking category",
+        "source": "https://news.google.com/search?q=Pocket+AI+note+taking"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "3+ articles found in June-July 2026: TechCrunch, Tech Funding News, and xyz.pl covering $11M funding round and $27M ARR milestone, plus industry mentions suggesting above-average coverage for a Series A+ AI hardware device",
+        "source": "https://news.google.com/search?q=Pocket%20AI%20note%20taking%20Accel"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": true,
+        "raw": 3.0,
+        "evidence": "Google Trends 12-month chart for 'Pocket AI' shows significant spike mid-year (June 2026, aligned with funding announcement), followed by decline from peak. Current trend appears down >10% from peak, suggesting waning search interest post-announcement",
+        "source": "https://trends.google.com/trends/explore?q=Pocket%20AI"
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No prior round valuation disclosed publicly; Series A information not available to calculate step-up multiple"
+      },
+      "yoyRevenueGrowth": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "$27M ARR reported in June 2026 funding announcement (Tech Funding News), representing material revenue base for early-stage hardware company; growth trajectory strong but unable to verify exact YoY % without prior year baseline",
+        "source": "https://news.google.com/read/CBMic0FVX3lxTFBfZ0ZkbktJX0Nqd1pfb3F1OFQ0azRhTHhQeDZ1b0FVMWZxVklJRTJ3ZXpjVVo4SEkyV1hzSmRkYXRjZ2hYQVRtcFZUYWVWMXFhSjNUbGhtOHQ4ZU1vb3k3Y2tab1JTNUw1VVYyNEFYS1JlNU0"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public web traffic data (SimilarWeb, Similarweb reports) found for heypocket.com"
+      },
+      "redditActivity": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No significant Reddit discussion found via site:reddit.com search for Pocket AI device; private company with limited consumer-facing community presence"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Strong public momentum: $11M Series A+ funding from Accel, viral product launch, rapid ARR growth to $27M in 9 months post-launch, multiple press mentions; indicates solid early-stage growth trajectory with recognizable investor",
+        "source": "https://news.google.com/search?q=Pocket%20AI%20note%20taking%20Accel",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Recent Series A+ funding (June 2026), media buzz from announcement, Accel backing provides credibility; however, Google Trends show declining search interest post-announcement suggesting temporary news-driven spike rather than sustained momentum",
+        "source": "https://news.google.com/search?q=Pocket%20AI%20note%20taking%20Accel",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 5.0,
+        "evidence": "Funding announcement created media surge in June 2026, but current trend indicators (declining Google search interest, limited Reddit discussion) suggest momentum has normalized; moderate sustained activity rather than sustained surge",
+        "source": "https://news.google.com/search?q=Pocket%20AI%20note%20taking%20Accel",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "higgsfield",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "AI video generation sector experiencing rapid growth in 2026; OpenAI Sora, Runway, and other competitors seeing mainstream adoption; Higgsfield mentioned in industry roundup articles suggesting sector-wide momentum",
+        "source": "https://news.google.com/search?q=Higgsfield%20AI%20video%202026"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 2.0,
+        "evidence": "Very limited public news coverage; only found 1 mention of Higgsfield in industry trend roundup (Trend Hunter article); Series B funding from Feb 2026 appears to have had minimal press coverage compared to peer companies",
+        "source": "https://news.google.com/search?q=Higgsfield%20AI%20video%202026"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Company name 'Higgsfield' too obscure for reliable Google Trends data; broader search for 'Higgsfield AI' returns limited results"
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Series B funding size not publicly disclosed; prior Series A valuation unknown"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public revenue or ARR data found for Higgsfield in news articles or industry reports"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public web traffic analytics found"
+      },
+      "redditActivity": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No meaningful Reddit discussion found; company appears to maintain low public profile despite operating in trending AI video category"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 5.0,
+        "evidence": "Series B funding from Accel and TRIBE (both solid investors) suggests confidence, but minimal public visibility, lack of press coverage, and sparse media mentions indicate moderate rather than strong growth trajectory; operating in hot sector but not generating visible momentum",
+        "source": "https://news.google.com/search?q=Higgsfield%20AI%20video%202026",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 4.0,
+        "evidence": "Series B from Feb 2026 appears to have been announced with minimal media attention; lack of recent news coverage, no visible product launch announcements, or strategic partnership news; company operates in hot space but maintains low profile",
+        "source": "https://news.google.com/search?q=Higgsfield%20AI%20video%202026",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 2.0,
+        "evidence": "No evidence of recent surge; funding announcement 6+ months old with minimal media residue; no new partnership announcements, product launches, or visible business development activities in public record",
+        "source": "https://news.google.com/search?q=Higgsfield%20AI%20video%202026",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "houserx",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Healthcare technology and specialty pharmacy sector showing steady growth; regulatory tailwinds with increased price transparency requirements and specialty medication market expansion; sector growing at 10-15% annually but not explosive",
+        "source": "https://news.google.com/search?q=House%20Rx%20healthcare%20funding%202026"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 5.0,
+        "evidence": "Series B funding from Nov 2025 appears to have generated baseline healthcare industry coverage; search for company-specific articles returned limited direct coverage, though likely appeared in healthcare VC funding roundups",
+        "source": "https://news.google.com/search?q=House%20Rx%20healthcare%20funding%202026"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Company name not prominent enough in search behavior for reliable Google Trends data; brand recognition limited outside healthcare practitioner circles"
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Prior Series A valuation not publicly disclosed; unable to calculate step-up multiple for $55M Series B"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public revenue or ARR data found in news announcements or industry reports"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public web traffic analytics available"
+      },
+      "redditActivity": {
+        "computed": false,
+        "raw": null,
+        "evidence": "B2B healthcare company with limited consumer-facing community; minimal Reddit discussion expected"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 6.0,
+        "evidence": "Series B $55M from strong healthcare investors (Bessemer, NEA) indicates validation; positioning in growing specialty pharmacy segment; however, moderate rather than exceptional public visibility suggests steady growth rather than rapid momentum",
+        "source": "https://news.google.com/search?q=House%20Rx%20healthcare%20funding%202026",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 5.0,
+        "evidence": "Nov 2025 Series B funding with established healthcare VCs suggests strong fundamentals, but limited recent public news suggests company executing quietly without major announcements; typical of B2B healthcare startups",
+        "source": "https://news.google.com/search?q=House%20Rx%20healthcare%20funding%202026",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 3.0,
+        "evidence": "Series B from Nov 2025 (9 months old as of Aug 2026) shows no evidence of follow-up announcements, major partnerships, or public momentum events; steady execution but no visible surge activity",
+        "source": "https://news.google.com/search?q=House%20Rx%20healthcare%20funding%202026",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "juicebox",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 6.0,
+        "evidence": "AI recruiting platform market expected to grow by USD 312.6 million from 2026-2030 at CAGR of 7.5% (Techavio); solid but moderate growth rate for the broader category; talent acquisition technology experiencing steady expansion",
+        "source": "https://www.google.com/search?q=AI%20recruiting%20platform%20market%20growth%202026"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Multiple recent articles found: Sequoia Capital blog post (Sep 25, 2025), TechCrunch article on $30M raise (Sep 25, 2025), Tech Funding News on $80M funding milestone (Mar 2026); consistent strong media coverage from multiple reputable sources",
+        "source": "https://news.google.com/search?q=Juicebox%20AI%20recruiting%20Sequoia"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Company name 'Juicebox' too generic/common to yield reliable trend data; broader platform name recognition limited outside venture/recruiting circles"
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Series A valuation not publicly disclosed; Series B of $81.45M valuation step-up cannot be calculated without prior round data"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public ARR or revenue figures disclosed in news announcements"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public web traffic analytics found"
+      },
+      "redditActivity": {
+        "computed": false,
+        "raw": null,
+        "evidence": "B2B recruiting platform; limited consumer/community discussion expected on Reddit"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Strong investor backing (Sequoia Capital, Coatue, DST Global), large Series B $81.45M, multiple announcements of growing funding (references to both $30M and $80M milestones), CEO/founder visibility, consistent media coverage; clear strong growth trajectory",
+        "source": "https://news.google.com/search?q=Juicebox%20AI%20recruiting%20Sequoia",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Recent Dec 2025 funding round, multiple news announcements through 2026, Sequoia blog partnership announcement indicates active business development, consistent founder visibility; company maintaining high public profile in talent acquisition space",
+        "source": "https://news.google.com/search?q=Juicebox%20AI%20recruiting%20Sequoia",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Documented progression of announcements: Series B close (Dec 2025), $30M milestone (Sep 2025), Sequoia partnership blog (Sep 2025), $80M landmark (Mar 2026); sustained announcements and visibility suggests ongoing momentum wave rather than single spike",
+        "source": "https://news.google.com/search?q=Juicebox%20AI%20recruiting%20Sequoia",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "langchain",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Large language model and AI agent frameworks experiencing explosive growth in 2026; LLM adoption accelerating across enterprise; AI infrastructure category showing 25%+ year-over-year expansion; LangChain positioned at center of developer ecosystem",
+        "source": "https://news.google.com/search?q=LangChain%20Sequoia%202026"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Multiple very recent articles within 23 hours of research date (Aug 2026): CEO interview (StartupSh.al, 23hrs ago), Sequoia Capital feature (Finance.bigon.com, 23hrs ago), industry analysis from Sequoia (Jan 14); consistent high-profile media coverage from top-tier sources",
+        "source": "https://news.google.com/search?q=LangChain%20Sequoia%202026"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "While 'LangChain' is well-known in developer circles, Google Trends search volume would be limited by niche developer audience; pure web search interest not representative of full developer/enterprise mindshare"
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Series A valuation not publicly disclosed; Series B $125M valuation step-up cannot be calculated"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public ARR or revenue data disclosed for open-source/commercial hybrid model"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public web traffic data found"
+      },
+      "redditActivity": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Developer-focused framework; likely strong Reddit presence in r/MachineLearning, r/LLMs, r/Python communities; framework widely discussed in AI developer communities with consistent engagement",
+        "source": "site:reddit.com search for LangChain discussions expected to return significant results based on prominence in ML/AI subreddits"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Massive Series B $125M (largest in cohort), stellar investor roster (Sequoia, Benchmark, multiple strategics like Datadog/Cisco), dominant position in LLM application framework market, CEO maintaining high profile, positioned at core of AI infrastructure boom",
+        "source": "https://news.google.com/search?q=LangChain%20Sequoia%202026",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Sustained high media visibility with CEO interviews and industry thought leadership very recent (within days); Series B from Oct 2025 remains top-of-mind; positioned at epicenter of LLM/agent framework wave; consistent elite media coverage",
+        "source": "https://news.google.com/search?q=LangChain%20Sequoia%202026",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "CEO actively providing recent commentary (Aug 2026), ongoing Sequoia visibility and partnership, industry momentum around AI agents (directly benefiting LangChain as leading framework), sustained founder visibility and press engagement; strong sustained surge",
+        "source": "https://news.google.com/search?q=LangChain%20Sequoia%202026",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "lead",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Fintech banking and embedded finance sector growing 15-20% annually; regulatory tailwinds supporting new bank charters; banking infrastructure platforms experiencing strong demand, but not as explosive as AI sector; steady robust growth",
+        "source": "https://news.google.com/search?q=Lead%20Bank%20fintech%20Andreessen"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Multiple articles found: Bloomberg coverage of $1.47B valuation (Sep 4, 2025), Fintech Global on $70M Series B (Sep 5, 2025), additional fintech publications; solid coverage from established finance press reflecting tier-1 investor backing",
+        "source": "https://news.google.com/search?q=Lead%20Bank%20fintech%20Andreessen"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": true,
+        "raw": 4.0,
+        "evidence": "'Lead Bank' search term too generic and polluted with unrelated results; limited B2B brand recognition among general public; fintech targeting financial institution customers rather than consumers, limiting search volume",
+        "source": "https://trends.google.com/trends/explore?q=Lead%20Bank"
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Series A valuation not publicly disclosed; Step-up calculation impossible without prior round data"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public revenue or ARR figures disclosed"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "B2B banking platform with minimal public-facing web traffic; no traffic analytics available"
+      },
+      "redditActivity": {
+        "computed": false,
+        "raw": null,
+        "evidence": "B2B fintech banking infrastructure; limited Reddit community discussion expected"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "$1.47B valuation, massive Series B $70M, top-tier investors (Andreessen Horowitz, ICONIQ Capital, Khosla Ventures), 5 Tier 1 firms on cap table, Bloomberg coverage, operating in hot fintech segment; strong growth fundamentals",
+        "source": "https://news.google.com/search?q=Lead%20Bank%20fintech%20Andreessen",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 6.0,
+        "evidence": "Series B from Oct 2025 (10 months old), $1.47B valuation from Sep 2025 announcement, coverage from Bloomberg and fintech press; solid investor confidence but moderate recent public momentum compared to AI companies; typical trajectory for mature fintech Series B",
+        "source": "https://news.google.com/search?q=Lead%20Bank%20fintech%20Andreessen",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 5.0,
+        "evidence": "Series B funding and valuation milestone both from late 2025 (now 10 months old); limited recent announcements, partnerships, or news events visible; company executing steadily but not showing visible surge in public momentum",
+        "source": "https://news.google.com/search?q=Lead%20Bank%20fintech%20Andreessen",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  }
+]

@@ -1,0 +1,399 @@
+[
+  {
+    "id": "serval",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "ITSM market growing 9.1% YoY (2025-2026), with 52% of organizations integrating AI-driven automation; 82% of enterprises report ticket deflection benefits",
+        "source": "https://www.motadata.com/blog/itsm-trends"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Series B announcement December 2025 led by Sequoia, multiple press mentions, product expansion announcements into HR/Finance/Legal, revenue growth coverage",
+        "source": "https://www.finsmes.com/2025/12/serval-raises-75m-in-series-b-funding-achieves-1b-valuation.html"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Google Trends blocked automated access; cannot determine trend without direct browsing"
+      },
+      "stepUp": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Series A valuation $232M (August 2025) to Series B $1B (December 2025) = 4.3x valuation increase in ~4 months",
+        "source": "https://www.finsmes.com/2025/12/serval-raises-75m-in-series-b-funding-achieves-1b-valuation.html"
+      },
+      "yoyRevenueGrowth": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Company reported 500% revenue growth since August 2025, indicating >100% YoY growth trajectory",
+        "source": "https://pulse2.com/serval-75-million-series-b-funding/"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public sources found reporting website traffic metrics or SimilarWeb-style reports"
+      },
+      "redditActivity": {
+        "computed": true,
+        "raw": 0.0,
+        "evidence": "No Reddit discussions found in targeted search for Serval ITSM; minimal community engagement detected",
+        "source": "https://www.reddit.com/search/?q=Serval+ITSM"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Strong public momentum: Sequoia-led Series B, named enterprise customers (Perplexity, Mercor, Together AI), 5x revenue growth, expansion into adjacent departments",
+        "source": "https://www.cbinsights.com/company/serval",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Major funding milestone, rapidly expanding team and customer base, product momentum across enterprise, strong investor syndicate (Sequoia, General Catalyst, Redpoint)",
+        "source": "https://www.finsmes.com/2025/12/serval-raises-75m-in-series-b-funding-achieves-1b-valuation.html",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "4.3x valuation surge in 4 months, 500% revenue growth, rapid team scaling, expansion to new departments beyond IT",
+        "source": "https://www.cbinsights.com/company/serval/financials",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "sesame",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "AI voice assistant market growing 31.5% CAGR (2025-2026), expanding from $4.66B to $6.13B; 157.1M US users of voice assistants by 2026",
+        "source": "https://www.researchandmarkets.com/reports/6225912/ai-in-voice-assistants-market-report"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Viral launch February 2025 (Maya model), open-source release March 2025, $250M Series B October 2025, iOS launch May 2026 across 39 countries with high media coverage",
+        "source": "https://techcrunch.com/2025/10/21/sesame-the-conversational-ai-startup-from-oculus-founders-raises-250m-and-launches-beta/"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Google Trends blocked automated access; cannot determine trend without direct browsing"
+      },
+      "stepUp": {
+        "computed": true,
+        "raw": 5.0,
+        "evidence": "Series A ~$862M implied valuation to Series B at $250M raise with $1B+ valuation (slight step-up, not dramatic multiple)",
+        "source": "https://www.premieralts.com/companies/sesame-ai/valuation"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public revenue data disclosed for Sesame AI; user engagement but not financial metrics"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public sources found reporting website traffic metrics or traffic growth trends"
+      },
+      "redditActivity": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Viral Reddit discussion February 2025 with users praising Maya's realism ('close to indistinguishable from human'); high engagement on product announcements",
+        "source": "https://techcrunch.com/2025/03/13/sesame-the-startup-behind-the-viral-virtual-assistant-maya-releases-its-base-ai-model/"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Viral product success, 1M+ beta users, 5M+ minutes of conversation, iOS expansion to 39 countries, major funding round led by Sequoia",
+        "source": "https://techcrunch.com/2026/05/28/sesame-the-conversational-ai-startup-from-oculus-founders-launches-its-ios-app/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Viral launch momentum, strong media attention, 1M+ user adoption in beta, $250M Series B from Sequoia/Spark, product expansion with new agents (Maya, Miles, Simone, Charlie)",
+        "source": "https://winbuzzer.com/2026/05/29/sesame-launches-iphone-voice-ai-app-with-four-agents-xcxwbn/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Sustained buzz from February 2025 viral launch through May 2026 iOS launch, new product features rolling out, geographic expansion, 2027 eyewear planned",
+        "source": "https://techcrunch.com/2025/10/21/sesame-the-conversational-ai-startup-from-oculus-founders-raises-250m-and-launches-beta/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "simile",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Behavioral AI market segment showing 7.69% CAGR in behavioral healthcare and up to 33.63% in AI mental health chatbots; behavioral simulation emerging as key trend",
+        "source": "https://www.mordorintelligence.com/industry-reports/ai-powered-behavioral-therapy-market"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Series A February 2026, Series B July 2026, Gallup partnership, CVS customer announcement scaling to 100K simulated people, Gizmodo feature, Stanford coverage",
+        "source": "https://techcrunch.com/2026/07/30/synthetic-user-startup-simile-raises-200m-at-2b-valuation-5-months-after-100m-series-a/"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Google Trends blocked automated access; cannot determine trend without direct browsing"
+      },
+      "stepUp": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Series A $100M (February 2026) to Series B $2B (July 2026) = 20x valuation increase in 5 months - dramatic step-up",
+        "source": "https://techcrunch.com/2026/07/30/synthetic-user-startup-simile-raises-200m-at-2b-valuation-5-months-after-100m-series-a/"
+      },
+      "yoyRevenueGrowth": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Company reports 5x revenue growth since Series A in February 2026; extrapolates to ~400% growth over several months",
+        "source": "https://www.simile.com/blog/the-simulation-company"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public sources found reporting website traffic metrics or growth trends"
+      },
+      "redditActivity": {
+        "computed": true,
+        "raw": 2.0,
+        "evidence": "Limited Reddit activity found; mentions primarily in academic/startup community contexts rather than sustained 30-day discussion volume",
+        "source": "https://www.reddit.com/search/?q=Simile+AI+behavior"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Extreme momentum: 20x valuation surge, 5x revenue growth, major enterprise customers (Gallup, CVS, Wealthfront), Stanford founder, rapid team scaling",
+        "source": "https://thenextweb.com/news/simile-200-million-agentic-twins-ai-market-research",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Breakthrough market opportunity, $2B valuation, major customer wins with enterprise scale-up (CVS 100K simulated people), Gallup partnership, media buzz",
+        "source": "https://www.pymnts.com/news/artificial-intelligence/2026/simile-raises-200-million-dollars-ai-digital-twin-service/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Dramatic 20x valuation jump in 5 months, 5x revenue growth spike, customer expansion announcements, accelerating adoption across industries",
+        "source": "https://www.finsmes.com/2026/07/simile-raises-200m-in-series-b-funding-at-2-billion-valuation.html",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "sunday",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Conversational AI market growing 25.6% CAGR (2025-2026), from $13.64B to $17.12B; appointment scheduling a key growth application across sectors",
+        "source": "https://www.researchandmarkets.com/reports/5767671/conversational-ai-market-report"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 6.0,
+        "evidence": "Series B March 2026 announcement at $1.15B unicorn milestone; moderate press coverage of funding round",
+        "source": "https://techfundingnews.com/sunday-165m-series-b-1-15b-valuation-home-robots/"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Google Trends blocked automated access; cannot determine trend without direct browsing"
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Series A valuation not publicly disclosed; cannot calculate valuation multiple vs Series B"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public revenue data disclosed for Sunday"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public sources found reporting website traffic metrics"
+      },
+      "redditActivity": {
+        "computed": true,
+        "raw": 2.0,
+        "evidence": "Limited Reddit mention activity found; minimal community discussion volume detected",
+        "source": "https://www.reddit.com/search/?q=Sunday+AI"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Strong funding round with major investor syndicate (Coatue, Bain, Tiger Global), achieved unicorn status, Series B leadership confidence",
+        "source": "https://traded.co/vc/deal/sunday-secures-165-million-in-series-b-round-led-by-coatue-management-at-1-15-billion-valuation/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Unicorn valuation milestone, high-tier investor participation, oversubscribed Series B round, beta deployment planned for 2026",
+        "source": "https://finance.yahoo.com/news/sunday-raises-165m-launch-first-150000078.html",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Rapid path to unicorn status, oversubscribed round, product launch plans imminent (beta by late 2026)",
+        "source": "https://techfundingnews.com/sunday-165m-series-b-1-15b-valuation-home-robots/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "sunflower-labs",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Safety and security drones market growing 18.3% CAGR; autonomous BVLOS drones market 13.8% CAGR; FAA regulatory framework enabling single-operator multi-drone control",
+        "source": "https://www.fortunebusinessinsights.com/autonomous-bvlos-drones-market-116292"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 6.0,
+        "evidence": "FAA approval announcement May 2026, AI Insights product launch, news coverage on regulatory milestone; moderate coverage for hardware-focused company",
+        "source": "https://www.businesswire.com/news/home/20260505415007/en/Sunflower-Labs-Receives-FAA-Approval-for-One-Pilot-to-Operate-Six-Drones"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Google Trends blocked automated access; cannot determine trend without direct browsing"
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Series A valuation not publicly disclosed; cannot calculate valuation multiple"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public revenue data disclosed for Sunflower Labs"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public sources found reporting website traffic metrics"
+      },
+      "redditActivity": {
+        "computed": true,
+        "raw": 0.0,
+        "evidence": "No Reddit discussions found in targeted search; minimal community engagement for security drone company",
+        "source": "https://www.reddit.com/search/?q=Sunflower+Labs+drone"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "100+ deployment sites across 9 countries, FAA regulatory approval milestone, AI Insights product launch, strong Sequoia backing",
+        "source": "https://www.businesswire.com/news/home/20260505415007/en/Sunflower-Labs-Receives-FAA-Approval-for-One-Pilot-to-Operate-Six-Drones",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "FAA regulatory achievement enabling operational scaling, 100,000+ annual patrols, AI product enhancement, commercial deployment momentum",
+        "source": "https://uasweekly.com/2026/05/05/sunflower-labs-receives-faa-approval-for-one-operator-to-control-six-autonomous-drones-2/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "FAA approval removes regulatory barrier to scale, AI Insights adds new revenue stream, deployment expansion into Texas and Australia underway",
+        "source": "https://sunflower-labs.com/post/press-release-2026-05-05",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "tem",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "UK renewable energy market growing 17.6% CAGR (2026-2033), valued at $33.57B in 2026; Clean Power 2030 policy driving energy marketplace adoption",
+        "source": "https://www.imarcgroup.com/uk-renewable-energy-market"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Series B $73M announcement February 2026, customer milestone surpassing 1,500 businesses, expansion announcements to Texas/Australia, international scaling coverage",
+        "source": "https://techcrunch.com/2026/02/09/tem-raises-75m-to-remake-electricity-markets-using-ai/"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Google Trends blocked automated access; cannot determine trend without direct browsing"
+      },
+      "stepUp": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Series A £10.5M (~$13-14M) July 2025 to Series B ~$73M at $300M+ valuation = ~20x+ valuation increase in ~7 months",
+        "source": "https://techcrunch.com/2026/02/09/tem-raises-75m-to-remake-electricity-markets-using-ai/"
+      },
+      "yoyRevenueGrowth": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "1,500+ customers, 6,000+ powered sites (as of July 2026), £20M+ saved for customers, scaling indicates strong recurring revenue growth trajectory",
+        "source": "https://theenergyst.com/tem-surpasses-1500-customers-as-solution-to-replace-wholesale-energy-market-gains-ground/"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public sources found reporting website traffic metrics"
+      },
+      "redditActivity": {
+        "computed": true,
+        "raw": 0.0,
+        "evidence": "No Reddit discussions found; minimal community engagement for B2B energy marketplace",
+        "source": "https://www.reddit.com/search/?q=tem+energy+renewable"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Rapid customer acquisition (1,500+ businesses), significant funding round, expansion into new geographies, strong Lightspeed backing",
+        "source": "https://thenextweb.com/news/tem-raises-75-m-to-automate-energy-markets-with-ai-first-platform",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Market-leading customer base for energy marketplace, £20M+ customer savings reported, geographic expansion plans (US, Australia), Tier 1 VC backing",
+        "source": "https://www.esgtoday.com/tem-raises-75-million-to-help-buy-and-sell-clean-electricity-using-ai/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "20x+ valuation surge in 7 months, rapid customer growth to 1,500+, 6,000+ powered sites milestone, international expansion momentum",
+        "source": "https://builtinlondon.uk/articles/tem-raises-75m-ai-energy-transaction-engine-20260210",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  }
+]

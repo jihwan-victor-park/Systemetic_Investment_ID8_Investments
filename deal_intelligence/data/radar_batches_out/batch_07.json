@@ -1,0 +1,396 @@
+[
+  {
+    "id": "linx",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "IAM market growing 13.3% CAGR (2026-2032), positioned well with Tier 1 investor backing and strong Series B momentum",
+        "source": "https://www.grandviewresearch.com/industry-analysis/identity-and-access-management-iam"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "10+ articles from SecurityWeek, TechCrunch, VentureBeat, SiliconANGLE, CTech, Ventureburn in March-April 2026",
+        "source": "https://www.securityweek.com/linx-security-raises-50-million-for-identity-security-and-governance/"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Google Trends data not accessible via direct browsing; company name is niche security term with limited consumer search"
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Series A valuation ($27M) not publicly disclosed; cannot calculate step-up to Series B"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public revenue figures disclosed in search results"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public website traffic data found in news articles or reports"
+      },
+      "redditActivity": {
+        "computed": true,
+        "raw": 0.0,
+        "evidence": "No Reddit discussions found via site-specific search; niche B2B security product unlikely to have consumer Reddit engagement",
+        "source": "https://www.reddit.com"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Strong public momentum: $50M Series B led by Insight Partners (Feb 2026), Index Ventures participation, Tier 1 investor backing, multimillion-dollar enterprise contracts with Fortune 500 firms, 100-person team with rapid scaling",
+        "source": "https://techcrunch.com/2024/07/22/linx-emerges-from-stealth-with-33m-to-lock-down-the-new-security-perimeter-identity",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Strong public momentum: $50M Series B led by Insight Partners (Feb 2026), Index Ventures participation, Tier 1 investor backing, multimillion-dollar enterprise contracts with Fortune 500 firms, 100-person team with rapid scaling",
+        "source": "https://techcrunch.com/2024/07/22/linx-emerges-from-stealth-with-33m-to-lock-down-the-new-security-perimeter-identity",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Strong public momentum: $50M Series B led by Insight Partners (Feb 2026), Index Ventures participation, Tier 1 investor backing, multimillion-dollar enterprise contracts with Fortune 500 firms, 100-person team with rapid scaling",
+        "source": "https://techcrunch.com/2024/07/22/linx-emerges-from-stealth-with-33m-to-lock-down-the-new-security-perimeter-identity",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "listenlabs",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Customer research AI market growing at 25.8% CAGR; AI-moderated interview platforms captured bulk of new spend with 4.2x growth YoY; panel spend down 34% YoY but shifted to AI conversation tooling",
+        "source": "https://getperspective.ai/blog/state-of-ai-customer-research-2026-adoption-spend-survey-replacement"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "10+ articles from Forbes, eWeek, VentureBeat, Yahoo Finance, AIRA spanning Jan 2026 including viral billboard marketing campaign",
+        "source": "https://www.forbes.com/sites/iainmartin/2026/01/14/this-500-million-ai-startup-runs-customer-interviews-for-microsoft-and-sweetgreen/"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Google Trends data not accessible via direct browsing; however viral billboard campaign in Jan 2026 suggests elevated brand awareness"
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Series A/Seed valuation ($27M combined) not publicly disclosed; Series B valued at $500M but cannot calculate step-up without prior round valuation"
+      },
+      "yoyRevenueGrowth": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "15x annualized revenue growth achieved in 9 months since launch; reached 8-figure revenue run rate; over 1M people interviewed",
+        "source": "https://finance.yahoo.com/news/listen-labs-raises-69-million-150000650.html"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public website traffic data found in news articles or reports"
+      },
+      "redditActivity": {
+        "computed": true,
+        "raw": 0.0,
+        "evidence": "No Reddit discussions found via site-specific search; B2B research platform with limited consumer audience",
+        "source": "https://www.reddit.com"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Strong public momentum: $69M Series B led by Ribbit Capital (Jan 2026), Sequoia Capital participation, viral marketing campaign, customers include Microsoft, Sweetgreen, Perplexity, Robinhood, 15x revenue growth in 9 months",
+        "source": "https://venturebeat.com/technology/listen-labs-raises-usd69m-after-viral-billboard-hiring-stunt-to-scale-ai",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Strong public momentum: $69M Series B led by Ribbit Capital (Jan 2026), Sequoia Capital participation, viral marketing campaign, customers include Microsoft, Sweetgreen, Perplexity, Robinhood, 15x revenue growth in 9 months",
+        "source": "https://venturebeat.com/technology/listen-labs-raises-usd69m-after-viral-billboard-hiring-stunt-to-scale-ai",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Strong public momentum: $69M Series B led by Ribbit Capital (Jan 2026), Sequoia Capital participation, viral marketing campaign, customers include Microsoft, Sweetgreen, Perplexity, Robinhood, 15x revenue growth in 9 months",
+        "source": "https://venturebeat.com/technology/listen-labs-raises-usd69m-after-viral-billboard-hiring-stunt-to-scale-ai",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "marianaminerals",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Critical minerals and AI-driven mining at strategic turning point per IEA; net profit margins down from 24% to 10% driving tech adoption; AI transforming exploration, processing, and operations efficiency",
+        "source": "https://www.iea.org/reports/global-critical-minerals-outlook-2026"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "10+ articles from discovery alert, Cooley, PRNewswire, Mining Magazine, The AI Insider, AIJournal in August 2026; very recent Series B announcement with high media coverage",
+        "source": "https://www.prnewswire.com/news-releases/mariana-minerals-raises-310-million-series-b-led-by-khosla-ventures-to-accelerate-critical-minerals-production-302840889.html"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Google Trends data not accessible; company is niche B2B mining technology with limited consumer search interest"
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No prior round valuation publicly disclosed; cannot calculate step-up from previous round"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public revenue figures disclosed in search results"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public website traffic data found in news articles or reports"
+      },
+      "redditActivity": {
+        "computed": true,
+        "raw": 0.0,
+        "evidence": "No Reddit discussions found via site-specific search; B2B mining tech with specialized industry audience",
+        "source": "https://www.reddit.com"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Exceptional public momentum: $310M Series B (Aug 2026) just closed, led by Khosla Ventures; unicorn valuation (~$1.5B); strong investor syndicate including a16z, Breakthrough Energy Ventures, Greenoaks, strategic corporate investors (BHP, Mitsubishi, IQT); building MarianaOS AI platform",
+        "source": "https://www.prnewswire.com/news-releases/mariana-minerals-raises-310-million-series-b-led-by-khosla-ventures-to-accelerate-critical-minerals-production-302840889.html",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Exceptional public momentum: $310M Series B (Aug 2026) just closed, led by Khosla Ventures; unicorn valuation (~$1.5B); strong investor syndicate including a16z, Breakthrough Energy Ventures, Greenoaks, strategic corporate investors (BHP, Mitsubishi, IQT); building MarianaOS AI platform",
+        "source": "https://www.prnewswire.com/news-releases/mariana-minerals-raises-310-million-series-b-led-by-khosla-ventures-to-accelerate-critical-minerals-production-302840889.html",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Exceptional public momentum: $310M Series B (Aug 2026) just closed, led by Khosla Ventures; unicorn valuation (~$1.5B); strong investor syndicate including a16z, Breakthrough Energy Ventures, Greenoaks, strategic corporate investors (BHP, Mitsubishi, IQT); building MarianaOS AI platform",
+        "source": "https://www.prnewswire.com/news-releases/mariana-minerals-raises-310-million-series-b-led-by-khosla-ventures-to-accelerate-critical-minerals-production-302840889.html",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "mindrobotics",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "AI-powered industrial robot market growing 16.8% CAGR; software segment fastest-growing at 33% CAGR (2026-2033); Industry 4.0 and smart factory modernization driving adoption",
+        "source": "https://www.gminsights.com/industry-analysis/ai-powered-industrial-robot-market"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "8+ articles from TechCrunch, BusinessWire, RoboticsTomorrow, The Robot Report, eWeek covering funding announcements through May 2026",
+        "source": "https://techcrunch.com/2026/03/11/rivian-mind-robotics-series-a-500m-fund-raise-industrial-ai-powered-robots/"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Google Trends data not accessible; company is B2B robotics with limited consumer search interest"
+      },
+      "stepUp": {
+        "computed": true,
+        "raw": 4.3,
+        "evidence": "Seed financing $115M (late 2025) to Series A $500M (March 2026) = 4.3x step-up; additional $400M (May 2026) shows sustained momentum",
+        "source": "https://techcrunch.com/2026/03/11/rivian-mind-robotics-series-a-500m-fund-raise-industrial-ai-powered-robots/"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public revenue figures disclosed; company appears pre-revenue or early-stage with revenue not publicly reported"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public website traffic data found in news articles or reports"
+      },
+      "redditActivity": {
+        "computed": true,
+        "raw": 0.0,
+        "evidence": "No Reddit discussions found via site-specific search; B2B robotics company with niche industrial audience",
+        "source": "https://www.reddit.com"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Strong momentum: founded 2025 by Rivian founder RJ Scaringe; raised $1B+ total ($115M seed + $500M Series A + $400M follow-on); $3.4B valuation; Tier 1 investors (a16z, Bessemer, Kleiner Perkins, Bain Capital); deploying robots at Rivian Illinois factory",
+        "source": "https://www.businesswire.com/news/home/20260311414783/en/Mind-Robotics-Announces-%24500M-Financing-to-Support-Deployment-of-AI-Powered-Robots-at-Industrial-Scale",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Strong momentum: founded 2025 by Rivian founder RJ Scaringe; raised $1B+ total ($115M seed + $500M Series A + $400M follow-on); $3.4B valuation; Tier 1 investors (a16z, Bessemer, Kleiner Perkins, Bain Capital); deploying robots at Rivian Illinois factory",
+        "source": "https://www.businesswire.com/news/home/20260311414783/en/Mind-Robotics-Announces-%24500M-Financing-to-Support-Deployment-of-AI-Powered-Robots-at-Industrial-Scale",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Strong momentum: founded 2025 by Rivian founder RJ Scaringe; raised $1B+ total ($115M seed + $500M Series A + $400M follow-on); $3.4B valuation; Tier 1 investors (a16z, Bessemer, Kleiner Perkins, Bain Capital); deploying robots at Rivian Illinois factory",
+        "source": "https://www.businesswire.com/news/home/20260311414783/en/Mind-Robotics-Announces-%24500M-Financing-to-Support-Deployment-of-AI-Powered-Robots-at-Industrial-Scale",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "mintlify",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "AI documentation generators market valued at $725M (2025), projected $1023M by 2032 (5.3% CAGR); AI usage for documentation jumped 60% to 76% YoY; developer AI adoption accelerating",
+        "source": "https://document360.com/blog/ai-documentation-trends/"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 6.0,
+        "evidence": "5-6 articles from Mintlify blog, tech review sites, automation platforms in 2026; relatively lower coverage compared to other companies in this batch",
+        "source": "https://www.mintlify.com/blog/series-b"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Google Trends data not accessible; developer/documentation tool with niche B2D audience"
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Series A valuation ($18M) not publicly disclosed; Series B at $500M but cannot calculate step-up without Series A post-money valuation"
+      },
+      "yoyRevenueGrowth": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "10x YoY revenue growth: $1M ARR end of 2024 to $10M ARR end of 2025; customer count grew from ~1,000 (late 2023) to 10,000+ (2025)",
+        "source": "https://getlatka.com/companies/mintlify.com"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public website traffic data found in news articles or reports"
+      },
+      "redditActivity": {
+        "computed": true,
+        "raw": 0.0,
+        "evidence": "No Reddit discussions found via site-specific search; developer tool with limited consumer/general audience engagement",
+        "source": "https://www.reddit.com"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Strong momentum: $45M Series B (2026) at $500M valuation led by Andreessen Horowitz and Salesforce Ventures; 10x revenue growth 2024-2025; 10x customer growth; strong developer adoption; product innovation with Workflows auto-update feature",
+        "source": "https://www.mintlify.com/blog/series-b",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Strong momentum: $45M Series B (2026) at $500M valuation led by Andreessen Horowitz and Salesforce Ventures; 10x revenue growth 2024-2025; 10x customer growth; strong developer adoption; product innovation with Workflows auto-update feature",
+        "source": "https://www.mintlify.com/blog/series-b",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Strong momentum: $45M Series B (2026) at $500M valuation led by Andreessen Horowitz and Salesforce Ventures; 10x revenue growth 2024-2025; 10x customer growth; strong developer adoption; product innovation with Workflows auto-update feature",
+        "source": "https://www.mintlify.com/blog/series-b",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "monaco",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "AI-in-sales market hit $8.8B in 2025, projected $63.5B by 2032 (32.6% CAGR); revenue intelligence market at $3.8B (2024) growing 34.6% YoY; major consolidation activity (Clari + Salesloft merger)",
+        "source": "https://www.warmly.ai/p/blog/revenue-ai-market-landscape-2026"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "8+ articles from MarketBetter, TAMradar, Signalbase, Yahoo Finance covering Series A launch (Feb 2026) and Series B (May 2026)",
+        "source": "https://finance.yahoo.com/sectors/technology/articles/monaco-secures-50-million-series-150000811.html"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Google Trends data not accessible; sales platform with B2B audience; potential confusion with Monaco (country/city) in generic searches"
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Series A pre-money/post-money valuation not publicly disclosed; Series B ($50M) valuation also not disclosed; cannot calculate step-up"
+      },
+      "yoyRevenueGrowth": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Launched Feb 2026 with zero revenue; achieved 7-figure monthly ARR by end of April 2026 (4 months to >$1M MRR run rate); rare hyper-growth trajectory for new launch",
+        "source": "https://theaiinsider.tech/2026/02/12/monaco-emerges-from-stealth-with-35m-for-ai-native-sales-platform/"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public website traffic data found in news articles or reports"
+      },
+      "redditActivity": {
+        "computed": true,
+        "raw": 0.0,
+        "evidence": "No Reddit discussions found via site-specific search; B2B sales platform with limited consumer audience; potential brand name confusion with Monaco country",
+        "source": "https://www.reddit.com"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Exceptional momentum: founded Feb 2026; $35M Series A (Founders Fund) + $50M Series B (Benchmark) in 4 months; 7-figure monthly ARR within 4 months of launch; customers in Stripe ecosystem; replaces multiple legacy enterprise tools",
+        "source": "https://theaiinsider.tech/2026/02/12/monaco-emerges-from-stealth-with-35m-for-ai-native-sales-platform/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Exceptional momentum: founded Feb 2026; $35M Series A (Founders Fund) + $50M Series B (Benchmark) in 4 months; 7-figure monthly ARR within 4 months of launch; customers in Stripe ecosystem; replaces multiple legacy enterprise tools",
+        "source": "https://theaiinsider.tech/2026/02/12/monaco-emerges-from-stealth-with-35m-for-ai-native-sales-platform/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Exceptional momentum: founded Feb 2026; $35M Series A (Founders Fund) + $50M Series B (Benchmark) in 4 months; 7-figure monthly ARR within 4 months of launch; customers in Stripe ecosystem; replaces multiple legacy enterprise tools",
+        "source": "https://theaiinsider.tech/2026/02/12/monaco-emerges-from-stealth-with-35m-for-ai-native-sales-platform/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  }
+]

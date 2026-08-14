@@ -1,0 +1,397 @@
+[
+  {
+    "id": "trajectory",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "AI infrastructure market growing at 30.4% CAGR (2024-2030); continual learning identified as key 2026 trend.",
+        "source": "https://www.grandviewresearch.com/industry-analysis/ai-infrastructure-market-report"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Multiple articles May-Aug 2026: Runloop partnership, red-teaming work with Anthropic/Meta, Series A $40M Sequoia funding announcement.",
+        "source": "https://aiweekly.co/node/9785"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Google Trends interactive search requires live authentication; cannot access trend data directly."
+      },
+      "stepUp": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Series A: $40M at $300M valuation (2026); prior seed: $15M at $115M (May 2026). Valuation 2.6x from seed to Series A.",
+        "source": "https://cryptobriefing.com/trajectory-sequoia-funding-300m-valuation/"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public revenue figures disclosed for Trajectory."
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public website traffic reports (SimilarWeb, etc.) found for Trajectory."
+      },
+      "redditActivity": {
+        "computed": true,
+        "raw": 1.0,
+        "evidence": "Searched site:reddit.com; minimal specific company mentions found; continual learning as topic discussed but not company-specific.",
+        "source": "https://reddit.com"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Production deployments announced (Clay, Harvey, Decagon, Mercor, Rogo); 10,000+ concurrent workloads on Runloop; strong product-market traction.",
+        "source": "https://www.welcome.ai/content/trajectory-secures-15m-to-advance-continuous-learning-in-ai",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Sequoia-led Series A 2 months after seed; 3x valuation growth in 2 months; founded by ex-Google/Apple/OpenAI/Meta researchers; high-profile backer.",
+        "source": "https://cryptobriefing.com/trajectory-sequoia-funding-300m-valuation/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Fresh funding announcement in Aug 2026; partnerships with established AI companies ramping; red-teaming contributions to major labs (Anthropic, Meta).",
+        "source": "https://aiweekly.co/node/9785",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "trianabio",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Molecular glues market $2.65B (2025), projected $11.59B by 2035 (15.9% CAGR); 80+ companies in pipeline; major 2026 focus on target protein degradation.",
+        "source": "https://www.credenceresearch.com/report/molecular-glues-market"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 6.0,
+        "evidence": "Jun 2026: BIO International Convention participation; Jul 2026: regulatory leader hire; oversubscribed $120M Series B coverage; May 2026: COO appointment.",
+        "source": "https://www.biospace.com/press-releases/triana-biomedicines-announces-oversubscribed-120m-series-b-financing-to-advance-its-molecular-glue-degrader-pipeline"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Google Trends interactive search requires live authentication; cannot access trend data directly."
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Series A $110M (Apr 2022) prior valuation not disclosed; Series B $120M valuation not disclosed. Cannot compute step-up without both valuations."
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public revenue figures disclosed for TRIANA Biomedicines."
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public website traffic reports found for TRIANA Biomedicines."
+      },
+      "redditActivity": {
+        "computed": true,
+        "raw": 0.0,
+        "evidence": "Searched site:reddit.com; no Reddit discussions found for TRIANA Biomedicines.",
+        "source": "https://reddit.com"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 5.0,
+        "evidence": "Oversubscribed Series B; Phase 1/2 trial dosing reported (Mar 2026); clinical-stage biotech trajectory typical vs. venture biotechs; strong VC backing.",
+        "source": "https://www.biospace.com/press-releases/triana-biomedicines-announces-first-patient-dosed-in-a-phase-1-2-trial-evaluating-tri-611-for-the-treatment-of-alk-positive-non-small-cell-lung-cancer",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 5.0,
+        "evidence": "Oversubscribed Series B indicates solid investor interest; molecular glues hot sector; clinical progress steady but biotech is iterative vs. explosive momentum.",
+        "source": "https://www.businesswire.com/news/home/20251203469130/en/TRIANA-Biomedicines-Announces-Oversubscribed-%24120M-Series-B-Financing-to-Advance-its-Molecular-Glue-Degrader-Pipeline",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 5.0,
+        "evidence": "Clinical milestone (Phase 1/2 dosing); regulatory hiring (Jul 2026); Series B funding (Nov 2025). Steady progress typical for clinical-stage biotech.",
+        "source": "https://www.businesswire.com/news/home/20260319697266/en/TRIANA-Biomedicines-Announces-First-Patient-Dosed-in-a-Phase-12-Trial-Evaluating-TRI-611-for-the-Treatment-of-ALK-Positive-Non-small-Cell-Lung-Cancer",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "twenty",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Cyber Warfare Market $40.13B (2026), growing 5.43% CAGR to $52.27B (2031); AI in Modern Warfare $18.6B (2026) → $63.1B (2036) at 13% CAGR.",
+        "source": "https://www.marketresearchfuture.com/reports/cyber-warfare-market-12523"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Extensive coverage: Forbes Pentagon usage article (Jul 2026), Series B $100M announcement (Jun 2026), additional $30M Khosla funding (Jul 2026), press releases via PRNewswire, Axios exclusive.",
+        "source": "https://www.forbes.com/sites/thomasbrewster/2026/07/21/the-pentagon-is-using-this-12-billion-startups-ai-to-automate-cyberwarfare/"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Google Trends interactive search requires live authentication; cannot access trend data directly."
+      },
+      "stepUp": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Series A $38M (Nov 2025), Series B $100M at $1B valuation (Jun 2026). Implied ~2.6x valuation growth; additional $30M at $1.2B (Jul 2026).",
+        "source": "https://www.prnewswire.com/news-releases/americas-first-vc-backed-cyber-warfare-startup-raises-100m-series-b-at-1b-valuation-302802401.html"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public revenue figures disclosed; government contracts mentioned ($12.6M with Cyber Command) but insufficient for YoY growth calculation."
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public website traffic reports found for Twenty."
+      },
+      "redditActivity": {
+        "computed": true,
+        "raw": 2.0,
+        "evidence": "Searched site:reddit.com; minimal Reddit discussion found despite high press coverage; tech/defense communities not heavily engaged.",
+        "source": "https://reddit.com"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "$12.6M+ Cyber Command contracts; AI-driven real-time cyber operations; Pentagon adoption; rapid deployment capability; 4-company founding.",
+        "source": "https://www.prnewswire.com/news-releases/americas-first-vc-backed-cyber-warfare-startup-raises-100m-series-b-at-1b-valuation-302802401.html",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Forbes feature article (Jul 2026); unicorn status in 18 months; Pentagon/US Gov customer; major VCs (Accel, Point72, In-Q-Tel); rapid valuation >2x.",
+        "source": "https://www.forbes.com/sites/thomasbrewster/2026/07/21/the-pentagon-is-using-this-12-billion-startups-ai-to-automate-cyberwarfare/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Additional $30M funding (Jul 2026) after Series B (Jun 2026); $1.2B valuation reached in 2 months; continuous investor interest; government momentum.",
+        "source": "https://finance.yahoo.com/technology/ai/articles/americas-first-vc-backed-cyber-183000555.html",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "valaratomics",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "SMR market 48.72% CAGR through 2033; $300B projected by 2046; Big Tech (Meta, Microsoft, Amazon, Google) committed >$50B to nuclear power for AI data centers.",
+        "source": "https://www.idtechex.com/en/research-article/data-centers-go-nuclear-why-ai-giants-are-investing-in-smrs/34846"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "President's Accelerated Nuclear Program selection; Nvidia partnership announcement (30MW AI facility Utah); $1B Series B with $200M credit facility (Aug 2026); multiple major outlets.",
+        "source": "https://techcrunch.com/2026/08/03/sequoias-shaun-maguire-leads-1b-round-for-nuclear-startup-valar-atomics/"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Google Trends interactive search requires live authentication; cannot access trend data directly."
+      },
+      "stepUp": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Prior round (Mar 2026): $450M total ($340M equity + $110M debt) at $2B valuation. Series B (Aug 2026): $1B at $6B valuation. Step-up: 3x.",
+        "source": "https://www.bloomberg.com/news/articles/2026-08-03/sequoia-leads-1-billion-funding-round-for-nuclear-startup-valar"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public revenue figures disclosed; power generation milestone achieved (criticality) but revenue not quantified."
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public website traffic reports found for Valar Atomics."
+      },
+      "redditActivity": {
+        "computed": true,
+        "raw": 0.0,
+        "evidence": "Searched site:reddit.com; no Reddit discussions found for Valar Atomics.",
+        "source": "https://reddit.com"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Criticality achieved (2025, sustained 2026); President's Accelerated Nuclear Program selection; $1B Series B (2nd largest of 2026); Nvidia partnership.",
+        "source": "https://www.valaratomics.com/docs/Valar-Atomics-Selected-for-the-Presidents-Accelerated-Nuclear-Program",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Sequoia-led $1B Series B; $6B post-money valuation; government backing; Nvidia partnership; transformational nuclear + AI infrastructure play.",
+        "source": "https://www.bloomberg.com/news/articles/2026-08-03/sequoia-leads-1-billion-funding-round-for-nuclear-startup-valar",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Aug 2026: $1B Series B funding; Nvidia 30MW facility announced; media coverage across TechCrunch, Bloomberg, Forbes; sustained momentum from criticality milestone.",
+        "source": "https://techcrunch.com/2026/08/03/sequoias-shaun-maguire-leads-1b-round-for-nuclear-startup-valar-atomics/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "weaviate",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Vector database market $3.2B (2026) → $17.91B (2034), CAGR 24%; driving LLM/RAG adoption; Agentic AI and generative AI boom fueling segment.",
+        "source": "https://www.gminsights.com/industry-analysis/vector-database-market"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 5.0,
+        "evidence": "Jun 2026: Engram memory layer launch; Ricoh investment announcement; Jul 2026: query profiling feature; steady product updates but moderate news cadence.",
+        "source": "https://techbullion.com/new-ai-launch-june-2026-weaviate-launches-engram-a-powerful-memory-layer-for-ai-agents/"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Google Trends interactive search requires live authentication; cannot access trend data directly."
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Series A (2022) valuation not disclosed; Series B $50M at $200M valuation (2023). Cannot compute step-up without Series A valuation."
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public revenue figures disclosed; adoption metrics (5M+ downloads, 2000+ customers, 74 employees) indicate growth but revenue not quantified."
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public website traffic reports (SimilarWeb-style) found for Weaviate."
+      },
+      "redditActivity": {
+        "computed": true,
+        "raw": 2.0,
+        "evidence": "Developer community presence on Reddit but minimal trending discussions; technical interest exists but not mainstream Reddit engagement.",
+        "source": "https://reddit.com"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 6.0,
+        "evidence": "Ongoing product launches (Engram, Agent Skills); 14k GitHub stars, 5M+ downloads; 2000+ companies in production; ecosystem integration expanding.",
+        "source": "https://weaviate.io/blog",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 6.0,
+        "evidence": "Growing adoption at enterprise scale; Ricoh investment (Jun 2026); established tier-1 investor base (NEA, Index, Battery); but less explosive than earlier-stage competitors.",
+        "source": "https://www.ricoh.com/release/2026/0616_1",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 6.0,
+        "evidence": "Recent product innovation (Engram Jun 2026, Agent Skills launching); growing ecosystem partnerships; sustained investor interest (Ricoh); market positioning solid.",
+        "source": "https://uk.finance.yahoo.com/news/weaviate-launches-agent-skills-empower-182200254.html",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "windbornesystems",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Weather forecasting market baseline 6.75% CAGR; AI-based weather modeling 21.3% CAGR (2026-2036); emerging hyperlocal/climate risk focus.",
+        "source": "https://straitsresearch.com/report/weather-forecasting-services-market"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Aug 5: Series B $37M announcement; WeatherMesh-6 model launch (Jun 2026); NWS atmospheric data partnership (Aug 2026); recent TechCrunch coverage.",
+        "source": "https://techcrunch.com/2026/08/05/ai-makes-weather-prediction-better-can-windborne-make-it-lucrative/"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Google Trends interactive search requires live authentication; cannot access trend data directly."
+      },
+      "stepUp": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Series A (May 2024): $15M at $85M post-money valuation. Series B (Aug 2026): $37M at $250M post-money valuation. Step-up: 2.94x.",
+        "source": "https://www.axios.com/pro/climate-deals/2024/05/30/windborne-15m-khosla"
+      },
+      "yoyRevenueGrowth": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Tripled revenue in past 12 months (stated in Series B announcement); tripled size of balloon constellation to 600+ simultaneous balloons.",
+        "source": "https://windbornesystems.com/blog/windborne-systems-raises-37-million-to-build-the-worlds-weather-intelligence-infrastructure"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public website traffic reports (SimilarWeb, Alexa-style data) found for WindBorne Systems."
+      },
+      "redditActivity": {
+        "computed": true,
+        "raw": 0.0,
+        "evidence": "Searched site:reddit.com; no Reddit discussions found for WindBorne Systems.",
+        "source": "https://reddit.com"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "3x revenue growth YoY; tripled sensing network; WeatherMesh-6 benchmarked as world's most accurate; NWS partnership expanding reach.",
+        "source": "https://windbornesystems.com/blog/windborne-systems-raises-37-million-to-build-the-worlds-weather-intelligence-infrastructure",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Oversubscribed Series B (Khosla Ventures, Galvanize co-lead); $250M valuation; leading weather forecasting model; government partnership (NWS).",
+        "source": "https://www.citybiz.co/article/884438/windborne-systems-raises-37-million-series-b-to-expand-ai-weather-intelligence-platform/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Aug 2026: Series B funding oversubscribed; WeatherMesh-6 competitive advantage demonstrated (Jun 2026); NWS partnership activated; market expansion.",
+        "source": "https://techcrunch.com/2026/08/05/ai-makes-weather-prediction-better-can-windborne-make-it-lucrative/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  }
+]

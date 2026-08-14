@@ -1,0 +1,384 @@
+[
+  {
+    "id": "conduct",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Enterprise AI software market growing at 37.6% CAGR through 2030 (2025-2030), with strong momentum in SAP/ERP modernization and enterprise system analysis. July-Aug 2026 showed continued strong enterprise AI adoption announcements.",
+        "source": "https://www.grandviewresearch.com/industry-analysis/enterprise-artificial-intelligence-market-report"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Multiple high-profile news mentions from June-Aug 2026: Series A announcement (June 17), coverage by EU-Startups, Tech.eu, best startup publications. Ex-Palantir founders and SAP investment drove significant press.",
+        "source": "https://www.eu-startups.com/2026/06/ex-palantir-team-behind-conduct-raises-e51-million-to-make-enterprise-systems-ai-ready/"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Google Trends access blocked (HTTP 429 rate limit). Cannot verify search interest trend."
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Prior seed round valuation not publicly disclosed. Series A round size ($60M) known but not post-money valuation, preventing step-up calculation."
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public revenue/ARR data available for this private company. Detailed financial metrics not disclosed in public sources."
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public source disclosed website traffic trends or growth data for Conduct."
+      },
+      "redditActivity": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No Reddit discussion activity found via public search."
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Strong momentum: $60M Series A from Tier 1 investors (Index Ventures, ICONIQ), ex-Palantir founding team, strategic SAP partnership, named enterprise customers (Daimler Truck, Heidelberg Materials, DHL, Fraport). Recently announced at industry peak interest in enterprise AI infrastructure.",
+        "source": "https://tech.eu/2026/06/17/former-palantir-employees-raise-60m-for-ai-enterprise-startup-conduct/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Sustained momentum: Series A within last 2 months, active customer deployments at Fortune 500 / major European industrial companies, SAP strategic investment signals enterprise AI demand surge. ERP/enterprise system modernization is top 2026 IT priority.",
+        "source": "https://tech.eu/2026/06/17/former-palantir-employees-raise-60m-for-ai-enterprise-startup-conduct/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Notable surge signals: top-tier VC backing (Index Ventures is consistent Series A backer), ex-Palantir team (repeatable founder signal), SAP as strategic investor (not just financial), customer wins at multinational enterprises within 2-month period of close.",
+        "source": "https://tech.eu/2026/06/17/former-palantir-employees-raise-60m-for-ai-enterprise-startup-conduct/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "console",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "AI enterprise automation and ITSM market growing at 31.4% CAGR (2026-2033). IT helpdesk automation specifically seeing strong 2026 adoption as enterprises shift from reactive ticketing to AI-driven service orchestration.",
+        "source": "https://www.grandviewresearch.com/industry-analysis/ai-automation-market-report"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Strong news activity: Series A announcement (Aug 2026), recent publication of 'The State of IT 2026' report, coverage by TechCrunch and upstarts media. Active in thought leadership and IT automation discourse.",
+        "source": "https://www.console.com/reports/the-state-of-it-2026"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Google Trends access blocked (HTTP 429 rate limit). Cannot verify search interest trend."
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Seed round ($6.2M) and Series A ($23M) valuations not publicly disclosed. Cannot calculate step-up without post-money valuations."
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public revenue/ARR data available. Private company financial metrics not disclosed."
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public source disclosed website traffic trends for Console."
+      },
+      "redditActivity": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No Reddit discussion activity found via public search."
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Very recent Series A ($23M Aug 2026) from tier-1 investors (DST Global, Thrive Capital). Named customer wins (Ramp, Flock Safety, Scale AI). Product claim: auto-resolves 50%+ of IT tickets. Active in thought leadership with State of IT 2026 report.",
+        "source": "https://www.upstartsmedia.com/p/console-ai-for-it-raises-series-a",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Sustained momentum: just closed Series A, customer traction visible (3 named enterprise customers), positioning as solution to universal IT pain (helpdesk automation). 2026 is peak year for IT automation RFPs post-AI maturity.",
+        "source": "https://www.upstartsmedia.com/p/console-ai-for-it-raises-series-a",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Founder-backed by strong early investors (SV Angel, Abstract, Ramp co-founders). Tier-1 VCs on new round (DST, Thrive). Customer concentration in innovative/forward-thinking enterprises (Ramp is fintech, Scale AI is AI/ML infrastructure).",
+        "source": "https://www.upstartsmedia.com/p/console-ai-for-it-raises-series-a",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "convex",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "AI-native backend/infrastructure market in early explosive growth phase. Enterprise agentic AI adoption ramping aggressively in 2026, with AI agents paired with reliable backends as critical dependency. Search interest and funding for AI infrastructure surging substantially.",
+        "source": "https://www.unite.ai/convex-raises-57m-series-b-to-build-the-backend-for-agent-written-software/"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Extremely high news volume: Series B announcement on Aug 4, 2026 featured in 15+ publications including PR Newswire, TechCrunch, SiliconAngle, AIWeekly. Significant coverage from both tech and generalist media.",
+        "source": "https://www.prnewswire.com/news-releases/convex-raises-57m-series-b-led-by-insight-partners-to-scale-the-reliable-backend-for-the-ai-era-302841686.html"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Google Trends access blocked (HTTP 429 rate limit). Cannot verify search interest trend."
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Series A valuation (2022, $128M) to Series B valuation not publicly disclosed. Cannot calculate step-up without Series B post-money valuation."
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public revenue/ARR data available for this private company."
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public source disclosed website traffic trends for Convex."
+      },
+      "redditActivity": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No Reddit discussion activity found via public search."
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Exceptional momentum: $57M Series B just closed (Aug 4, 2026), 2 million applications using platform, 500K developers, named customers (OpenAI, Zapier, Tripadvisor, Solana), 1.2M weekly npm downloads. Positioned at the center of AI agent infrastructure wave.",
+        "source": "https://news.convex.dev/convex-raises-57m/"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Exceptional surge timing: Series B funded exactly as enterprise AI agents become real (Aug 2026). OpenAI as customer validates product-market fit. Developer traction (500K) shows organic adoption. ACID transactions + TypeScript as strategic differentiation for agent safety.",
+        "source": "https://news.convex.dev/convex-raises-57m/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Multiple momentum signals converging: major funding round, mission-critical product for emerging AI agent category, large existing user base (500K devs, 2M apps), strategic customers (OpenAI signals category validation), 4-year growth trajectory visible (started 2021, now at scale).",
+        "source": "https://news.convex.dev/convex-raises-57m/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "cowboyspace",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Orbital data center / space computing market tracking toward $39B by 2035 at 67.4% CAGR, one of fastest-growing infrastructure categories. 8+ organizations launched/filed/committed in last 90 days. Space race for AI infrastructure is major 2026 narrative.",
+        "source": "https://introl.com/blog/orbital-data-centers-space-computing-race-2026"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Massive coverage: Series B announcement (May 2026) featured in 12+ publications including TechCrunch, SpaceNews, BusinessWire, Via Satellite. Rebrand from Aetherflux added to news cycle. Consistent coverage in space tech, venture, and mainstream media.",
+        "source": "https://www.businesswire.com/news/home/20260508036993/en/Cowboy-Space-Corporation-Raises-$275M-Series-B-For-Vertically-Integrated-Orbital-Data-Centers-and-Rockets"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Google Trends access blocked (HTTP 429 rate limit). Cannot verify search interest trend."
+      },
+      "stepUp": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Series A (~$50M Apr 2025) to Series B ($305M May 2026) represents 6.1x capital increase. Valuation step-up: Series A estimated ~$1.2B to Series B $2B = 1.67x valuation step-up. Strong validation in short timeframe.",
+        "source": "https://www.businesswire.com/news/home/20260508036993/en/Cowboy-Space-Corporation-Raises-$275M-Series-B-For-Vertically-Integrated-Orbital-Data-Centers-and-Rockets"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public revenue data available. Pre-revenue or early revenue space infrastructure company, typical for hardware-heavy startups."
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public source disclosed website traffic trends for Cowboy Space."
+      },
+      "redditActivity": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No Reddit discussion activity found via public search."
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Exceptional momentum: $305M Series B (largest in batch), $2B valuation (second highest after Distyl AI's $1.8B), founder is Robinhood co-founder (Baiju Bhatt), Tier-1 investor backing (a16z, Index Ventures, IVP). Rebranding + massive raise + founder credibility = exceptional surge.",
+        "source": "https://www.businesswire.com/news/home/20260508036993/en/Cowboy-Space-Corporation-Raises-$275M-Series-B-For-Vertically-Integrated-Orbital-Data-Centers-and-Rockets"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Exceptional heat from category tailwinds: space computing is hottest 2026 infrastructure narrative post-AI scaling limits. Series B just 3 months old, confirms product traction. Vertically integrated (launch + datacenters) is rare/defensible. Market cap per capital raised is highest validation signal.",
+        "source": "https://www.businesswire.com/news/home/20260508036993/en/Cowboy-Space-Corporation-Raises-$275M-Series-B-For-Vertically-Integrated-Orbital-Data-Centers-and-Rockets",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Multiple surge indicators: founder pedigree (Robinhood co-founder), largest single raise in batch ($305M), category growth (67% CAGR), timing (peak 2026 space-AI narrative), investor concentration (top-tier VCs + strategic), venture timing (6.1x increase in 12mo validates category)",
+        "source": "https://www.businesswire.com/news/home/20260508036993/en/Cowboy-Space-Corporation-Raises-$275M-Series-B-For-Vertically-Integrated-Orbital-Data-Centers-and-Rockets",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "databahn",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Enterprise data pipeline market growing at 16.8% CAGR (2026-2035) with data management in Europe growing at 11%+ CAGR. Security-focused data pipelines are accelerating as enterprises prioritize compliance + AI readiness simultaneously.",
+        "source": "https://www.grandviewresearch.com/industry-analysis/enterprise-data-management-market"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Strong recent coverage: Series B announcement (July 30, 2026), Black Hat USA product launch (Aug 4, 2026 - Federated Search & Orchestration), SaaS Awards finalist nomination, coverage in SecurityWeek, PRNewswire, HPC Wire, SiliconAngle.",
+        "source": "https://www.databahn.ai/press-releases/databahn-launches-federated-search-and-orchestration"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Google Trends access blocked (HTTP 429 rate limit). Cannot verify search interest trend."
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Series A (June 26, 2025, $17M) valuation not disclosed. Series B ($40M July 2026) valuation not disclosed. Cannot calculate step-up without post-money valuations for both rounds."
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public revenue/ARR data available. Private company financials not disclosed."
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public source disclosed website traffic trends for DataBahn."
+      },
+      "redditActivity": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No Reddit discussion activity found via public search."
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Strong momentum: $40M Series B from Tier-1 investor (Insight Partners), product launch at major security event (Black Hat USA Aug 2026), 40-70% data reduction claims, 600+ integrations. Category momentum strong as enterprises embed AI agents.",
+        "source": "https://www.databahn.ai/press-releases/databahn-launches-federated-search-and-orchestration"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Sustained momentum: 2x funding increase in 13 months ($17M Series A to $40M Series B), strategic product launch timing at Black Hat (peak security buying season), SaaS Awards recognition, '40-70% data reduction' performance claim validates product differentiation.",
+        "source": "https://www.databahn.ai/press-releases/databahn-raises-40-million-series-b-led-by-insight-partners",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Moderate-to-strong surge signals: 2.35x funding step increase (Series A to B), strategic event launch timing, investor strength (Insight Partners is consistent Series B backer), agentic data control plane is emerging 2026 category (not yet proven at scale).",
+        "source": "https://www.databahn.ai/press-releases/databahn-raises-40-million-series-b-led-by-insight-partners",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "distyl",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Generative AI enterprise automation market growing at 28-32% CAGR (2026-2033), with cloud automation reaching 32.5% CAGR. Enterprise-specific AI platform category is one of fastest-growing segments within broader AI market (37.6% enterprise AI CAGR).",
+        "source": "https://www.grandviewresearch.com/industry-analysis/ai-automation-market-report"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Strong coverage from Series B round (Sep 2025): multiple publications including PRNewswire, Channel Dive, Crunchbase News. Recent momentum through partnerships (OpenAI alliance 2023), but Series B is 11 months old (older than other batch companies' recent announcements).",
+        "source": "https://www.prnewswire.com/news-releases/distyl-ai-raises-175-million-at-1-8-billion-valuation-to-help-global-enterprises-become-ai-native-302564270.html"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Google Trends access blocked (HTTP 429 rate limit). Cannot verify search interest trend."
+      },
+      "stepUp": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Series A ($20M Nov 2024, $200M valuation) to Series B ($175M Sep 2025, $1.8B valuation) = 9.0x valuation step-up. Exceptional upside validation, highest step-up in batch indicating strong traction/market timing.",
+        "source": "https://www.prnewswire.com/news-releases/distyl-ai-raises-175-million-at-1-8-billion-valuation-to-help-global-enterprises-become-ai-native-302564270.html"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public revenue/ARR data available. Private company financials not disclosed."
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public source disclosed website traffic trends for Distyl AI."
+      },
+      "redditActivity": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No Reddit discussion activity found via public search."
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Very strong momentum: $175M Series B at $1.8B unicorn valuation, 120M+ end users deployed, 100% production record, Fortune 500 customer base (healthcare, telecom, insurance, manufacturing), outcome-based pricing model signals revenue confidence.",
+        "source": "https://www.prnewswire.com/news-releases/distyl-ai-raises-175-million-at-1-8-billion-valuation-to-help-global-enterprises-become-ai-native-302564270.html"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Sustained strong momentum despite 11-month-old Series B: 120M end users in production is massive scale signal, outcome-based pricing (not traditional SaaS seats) indicates defensible category position, generative AI enterprise automation category remains at peak investor interest.",
+        "source": "https://www.prnewswire.com/news-releases/distyl-ai-raises-175-million-at-1-8-billion-valuation-to-help-global-enterprises-become-ai-native-302564270.html",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Exceptional surge indicators: 9.0x valuation step-up between rounds (highest in batch), 120M deployed end users validates scale, $175M Series B at unicorn valuation, multi-industry customer concentration (not one-customer-dependent), outcome pricing model is rare/valuable differentiator.",
+        "source": "https://www.prnewswire.com/news-releases/distyl-ai-raises-175-million-at-1-8-billion-valuation-to-help-global-enterprises-become-ai-native-302564270.html",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  }
+]

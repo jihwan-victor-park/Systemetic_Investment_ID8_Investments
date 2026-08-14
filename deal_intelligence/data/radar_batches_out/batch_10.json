@@ -1,0 +1,395 @@
+[
+  {
+    "id": "premai",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Generative AI enterprise market growing 30%+ CAGR in 2026; Sovereign AI Infrastructure 19.54% CAGR",
+        "source": "https://www.grandviewresearch.com/industry-analysis/generative-ai-market-report"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Series A announcement, Fluso launch (Jun 2026), multiple product announcements (Confidential APIs, Cortex, Guardrail Model, Enclave) in 2026",
+        "source": "https://www.bloomberg.com/news/articles/2026-06-18/swiss-ai-startup-prem-is-raising-100-million-series-a-round"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Unable to access trends.google.com directly; no public search interest data found for company name"
+      },
+      "stepUp": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "$6.1M bridge at $200M valuation → Series A at $500M+ = 2.5x step-up (falls in 1.5-2.0x range, scored at 8)",
+        "source": "https://ng.investing.com/news/stock-market-news/prem-ai-raises-100-million-series-a-at-500-million-valuation--bloomberg-93CH-2565222"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public revenue figures disclosed for Prem AI"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public traffic data or published SimilarWeb-style reports found"
+      },
+      "redditActivity": {
+        "computed": true,
+        "raw": 0.0,
+        "evidence": "No Reddit discussion threads found for Prem AI in 30-day search window",
+        "source": "https://www.reddit.com"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Recent $100M Series A, multiple product launches (Fluso, Enclave, Confidential APIs), strong sovereign AI market tailwinds from export restrictions, backed by Sequoia China",
+        "source": "https://www.premai.io/blog/introducing-fluso-a-secure-ai-workspace-to-flow-through-work/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Recent $100M Series A, multiple product launches (Fluso, Enclave, Confidential APIs), strong sovereign AI market tailwinds from export restrictions, backed by Sequoia China",
+        "source": "https://www.premai.io/blog/introducing-fluso-a-secure-ai-workspace-to-flow-through-work/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Recent $100M Series A, multiple product launches (Fluso, Enclave, Confidential APIs), strong sovereign AI market tailwinds from export restrictions, backed by Sequoia China",
+        "source": "https://www.premai.io/blog/introducing-fluso-a-secure-ai-workspace-to-flow-through-work/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "quilter",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 5.0,
+        "evidence": "EDA/PCB design market growing 8-10% CAGR in 2026, with AI integration accelerating but broader market modest",
+        "source": "https://www.mordorintelligence.com/industry-reports/electronic-design-automation-eda-tools-market"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Series B $25M announcement (Oct 2025), Project Speedrun demonstration with functional computer design (843-component PCB), multiple 2026 blog posts on AI PCB design trends",
+        "source": "https://www.businesswire.com/news/home/20251007165399/en/Quilter-Secures-$25M-Series-B-to-Eliminate-Manual-PCB-Design-with-Physics-Driven-AI"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Unable to access trends.google.com directly; no public search interest data found"
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "$10M Series A (Feb 2024) → $25M Series B at $140M (Oct 2025), but Series A valuation not publicly disclosed"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public revenue figures disclosed for Allegro Labs/Quilter"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public traffic data or published SimilarWeb-style reports found"
+      },
+      "redditActivity": {
+        "computed": true,
+        "raw": 1.0,
+        "evidence": "Minimal Reddit discussion found for Quilter/Allegro Labs despite technical audience; mostly blog and technical coverage",
+        "source": "https://www.reddit.com"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Project Speedrun milestone (functional computer design in 1 week), expanding product documentation, Series B close, strong EDA market integration (Altium, Cadence, Siemens, KiCad compatibility)",
+        "source": "https://www.electronics-lab.com/engineer-designs-a-computer-in-one-week-with-quilters-physics-driven-ai/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Project Speedrun milestone (functional computer design in 1 week), expanding product documentation, Series B close, strong EDA market integration (Altium, Cadence, Siemens, KiCad compatibility)",
+        "source": "https://www.electronics-lab.com/engineer-designs-a-computer-in-one-week-with-quilters-physics-driven-ai/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Project Speedrun milestone (functional computer design in 1 week), expanding product documentation, Series B close, strong EDA market integration (Altium, Cadence, Siemens, KiCad compatibility)",
+        "source": "https://www.electronics-lab.com/engineer-designs-a-computer-in-one-week-with-quilters-physics-driven-ai/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "reducto",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "RAG market 42.7% CAGR, Intelligent Document Processing 26.2% CAGR, Document AI 13.5% CAGR - all well above 25% threshold",
+        "source": "https://www.nextmsc.com/report/retrieval-augmented-generation-rag-market-ic3918"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Series B $75M announcement (Oct 2025), customer wins (Wayfair, Harvey, Vanta, JLL, Scale AI), Opennote acquisition (May 2026), Split v2 launch, Classification endpoint announcement",
+        "source": "https://www.prnewswire.com/news-releases/reducto-raises-75m-series-b-to-define-the-future-of-ai-document-intelligence-302581462.html"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Unable to access trends.google.com directly; no public search interest data found"
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "$8.4M seed (Oct 2024) → $24.5M Series A (Apr 2025) → $75M Series B (Oct 2025), but neither seed nor Series A valuation publicly disclosed"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public revenue figures or growth rates disclosed for Reducto"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public traffic data or published SimilarWeb-style reports found"
+      },
+      "redditActivity": {
+        "computed": true,
+        "raw": 1.0,
+        "evidence": "Minimal Reddit discussion found despite ML/AI developer audience; mostly TechCrunch, PR Newswire coverage",
+        "source": "https://www.reddit.com"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Strong industry momentum (42.7% RAG CAGR), multiple named customers (Scale AI, Harvey, Vanta, JLL), recent acquisitions (Opennote), multiple product launches (Split v2, Classification), Series B fundraise",
+        "source": "https://www.prnewswire.com/news-releases/reducto-raises-75m-series-b-to-define-the-future-of-ai-document-intelligence-302581462.html",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Strong industry momentum (42.7% RAG CAGR), multiple named customers (Scale AI, Harvey, Vanta, JLL), recent acquisitions (Opennote), multiple product launches (Split v2, Classification), Series B fundraise",
+        "source": "https://www.prnewswire.com/news-releases/reducto-raises-75m-series-b-to-define-the-future-of-ai-document-intelligence-302581462.html",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Strong industry momentum (42.7% RAG CAGR), multiple named customers (Scale AI, Harvey, Vanta, JLL), recent acquisitions (Opennote), multiple product launches (Split v2, Classification), Series B fundraise",
+        "source": "https://www.prnewswire.com/news-releases/reducto-raises-75m-series-b-to-define-the-future-of-ai-document-intelligence-302581462.html",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "revel",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 5.0,
+        "evidence": "Aerospace & Defense software market growing 8.4% CAGR, modest growth relative to broader AI/software markets",
+        "source": "https://www.verifiedmarketreports.com/product/aerospace-defense-business-software-and-services-market/"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Series B $150M announcement (Feb 2026), multiple customer case studies (Impulse Space, Radiant Nuclear, Gravitics, Orbital Operations, Astro Mechanica), unicorn status coverage (15-month milestone)",
+        "source": "https://www.businesswire.com/news/home/20260226807932/en/Revel-Raises-$150M-Series-B-to-Modernize-the-Software-Layer-Behind-Hardware-Test-and-Control"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Unable to access trends.google.com directly; no public search interest data found"
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Prior round valuations not publicly disclosed; Series B funding amount $150M known but post-money valuation not stated"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public revenue figures disclosed for Revel"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public traffic data or published SimilarWeb-style reports found"
+      },
+      "redditActivity": {
+        "computed": true,
+        "raw": 1.0,
+        "evidence": "Minimal Reddit discussion found; aerospace/defense niche audience with limited social media engagement",
+        "source": "https://www.reddit.com"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Unicorn status (15 months), major Series B funding, multiple named customers, quantified impact (Impulse Space: 4x testing frequency improvement, 14 days → 8 hours), founder pedigree (SpaceX/Palantir/Anduril)",
+        "source": "https://www.businesswire.com/news/home/20260226807932/en/Revel-Raises-$150M-Series-B-to-Modernize-the-Software-Layer-Behind-Hardware-Test-and-Control",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Unicorn status (15 months), major Series B funding, multiple named customers, quantified impact (Impulse Space: 4x testing frequency improvement, 14 days → 8 hours), founder pedigree (SpaceX/Palantir/Anduril)",
+        "source": "https://www.businesswire.com/news/home/20260226807932/en/Revel-Raises-$150M-Series-B-to-Modernize-the-Software-Layer-Behind-Hardware-Test-and-Control",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Unicorn status (15 months), major Series B funding, multiple named customers, quantified impact (Impulse Space: 4x testing frequency improvement, 14 days → 8 hours), founder pedigree (SpaceX/Palantir/Anduril)",
+        "source": "https://www.businesswire.com/news/home/20260226807932/en/Revel-Raises-$150M-Series-B-to-Modernize-the-Software-Layer-Behind-Hardware-Test-and-Control",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "ricursive",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "AI in semiconductors 14.45% CAGR; Generative AI in chip design 31.9% CAGR; overall semiconductor market up 30%+ in 2026 driven by AI",
+        "source": "https://www.globenewswire.com/news-release/2026/07/08/3323917/0/en/Generative-AI-in-Chip-Design-Market-Report-2026.html"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Series A $300M announcement (Jan 2026), major AWS partnership $410M (Jul 2026), founder interviews (Anna Goldie/Azalia Mirhoseini), AlphaChip legacy media coverage, multiple funding announcements",
+        "source": "https://www.prnewswire.com/news-releases/ricursive-intelligence-raises-300-million-series-a-at-4-billion-valuation-to-accelerate-ai-driven-semiconductor-design-302670061.html"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Unable to access trends.google.com directly; no public search interest data found"
+      },
+      "stepUp": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "$35M seed at $750M (Dec 2025) → $300M Series A at $4B (Jan 2026) = 5.3x step-up (well above 2.0x threshold)",
+        "source": "https://finance.yahoo.com/news/ricursive-intelligence-raises-300m-funding-224518210.html"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Company <1 year old (launched late 2025); no YoY revenue metrics available"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public traffic data or published SimilarWeb-style reports found"
+      },
+      "redditActivity": {
+        "computed": true,
+        "raw": 2.0,
+        "evidence": "Minimal Reddit discussion; primarily tech news and ML community coverage; niche semiconductor focus limits social engagement",
+        "source": "https://www.reddit.com"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Record-setting funding velocity ($335M in 4 months), unicorn status at launch, major AWS partnership ($410M multi-year), AlphaChip track record, founder pedigree (OpenAI/DeepMind/Meta AI), booming semiconductor/AI market tailwind",
+        "source": "https://techcrunch.com/2026/07/28/recursive-superintelligence-signs-400-compute-deal-with-amazon/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Record-setting funding velocity ($335M in 4 months), unicorn status at launch, major AWS partnership ($410M multi-year), AlphaChip track record, founder pedigree (OpenAI/DeepMind/Meta AI), booming semiconductor/AI market tailwind",
+        "source": "https://techcrunch.com/2026/07/28/recursive-superintelligence-signs-400-compute-deal-with-amazon/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Record-setting funding velocity ($335M in 4 months), unicorn status at launch, major AWS partnership ($410M multi-year), AlphaChip track record, founder pedigree (OpenAI/DeepMind/Meta AI), booming semiconductor/AI market tailwind",
+        "source": "https://techcrunch.com/2026/07/28/recursive-superintelligence-signs-400-compute-deal-with-amazon/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "sandstone",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Legal tech AI market 22-31% CAGR (22.3%-31.4% depending on source); broader legal tech 13.22% CAGR - strong but below generative AI",
+        "source": "https://www.globenewswire.com/news-release/2026/05/21/3299533/28124/en/AI-in-Legal-Global-Market-Analysis-Report-2026-$12.49-Bn-Opportunities-Trends-Competitive-Landscape-Strategies-and-Forecasts-2020-2025-2025-2030F-2035F"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Seed announcement (Jan 2026), Series A $30M (Jun 2026), multiple customer wins (Wayfair, Grindr, Mercury, Cox Media, ElevenLabs, MasterClass, Hypertherm), office lease announcement (Jul 2026, 13.8K sqft)",
+        "source": "https://techcrunch.com/2026/06/09/sandstone-raises-30m-to-bring-ai-to-in-house-legal-teams/"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Unable to access trends.google.com directly; no public search interest data found"
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "$10M seed (Jan 2026) → $30M Series A (Jun 2026), but neither seed nor Series A valuations publicly disclosed"
+      },
+      "yoyRevenueGrowth": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Reported 40x revenue growth in 90 days preceding Series A announcement (Jun 2026) = annualized 4000%+ growth, exceeds 100% YoY threshold significantly",
+        "source": "https://techcrunch.com/2026/06/09/sandstone-raises-30m-to-bring-ai-to-in-house-legal-teams/"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public traffic data or published SimilarWeb-style reports found"
+      },
+      "redditActivity": {
+        "computed": true,
+        "raw": 1.0,
+        "evidence": "Minimal Reddit discussion found despite B2B legal tech focus; mostly traditional press coverage (Bloomberg Law, TechCrunch, Artificial Lawyer)",
+        "source": "https://www.reddit.com"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "40x revenue growth in 90 days, multiple high-profile customer wins across sectors (e-commerce, media, fintech), Series A funding rapid (Jan→Jun), physical office expansion, dual Tier-1 investor backing (Sequoia seed, Lightspeed Series A)",
+        "source": "https://techcrunch.com/2026/06/09/sandstone-raises-30m-to-bring-ai-to-in-house-legal-teams/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "40x revenue growth in 90 days, multiple high-profile customer wins across sectors (e-commerce, media, fintech), Series A funding rapid (Jan→Jun), physical office expansion, dual Tier-1 investor backing (Sequoia seed, Lightspeed Series A)",
+        "source": "https://techcrunch.com/2026/06/09/sandstone-raises-30m-to-bring-ai-to-in-house-legal-teams/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "40x revenue growth in 90 days, multiple high-profile customer wins across sectors (e-commerce, media, fintech), Series A funding rapid (Jan→Jun), physical office expansion, dual Tier-1 investor backing (Sequoia seed, Lightspeed Series A)",
+        "source": "https://techcrunch.com/2026/06/09/sandstone-raises-30m-to-bring-ai-to-in-house-legal-teams/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  }
+]

@@ -1,0 +1,391 @@
+[
+  {
+    "id": "actively",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Sales automation market growing 11.3% CAGR in 2026; AI-driven sales automation specifically growing 33% YoY through 2026.",
+        "source": "https://www.globenewswire.com/news-release/2026/03/04/3249110/28124/en/Sales-Process-Automation-Software-Business-Report-2026-A-$19.5-Billion-Industry-by-2030-Surge-in-Adoption-in-Healthcare-for-Consultative-and-Solution-Selling-Expands-Market-Opportun.html"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 6.0,
+        "evidence": "Series B funding announcement (April 2026, $45M), Forbes feature article, multiple tech press releases covering company as Salesforce challenger.",
+        "source": "https://www.forbes.com/sites/sofiachierchio/2026/04/28/meet-the-250-million-startup-challenging-salesforce-with-ai-agents"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No publicly available Google Trends data found for company name search interest."
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Series A funding details exist but valuations not publicly disclosed; Series B amount ($45M) known but pre-money valuation not disclosed."
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Private company with no public revenue reporting or YoY growth figures available."
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public sources explicitly stating website traffic trends or SimilarWeb-style reports for this company."
+      },
+      "redditActivity": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No Reddit posts or discussions found for company or product name in trailing 30-day period."
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Strong momentum: $45M Series B (April 2026) from top VCs (TCV, First Harmonic, Bain Capital Ventures), Forbes coverage positioning as Salesforce challenger, AI agent narrative gaining traction in market.",
+        "source": "https://www.forbes.com/sites/sofiachierchio/2026/04/28/meet-the-250-million-startup-challenging-salesforce-with-ai-agents",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Strong momentum: $45M Series B (April 2026) from top VCs (TCV, First Harmonic, Bain Capital Ventures), Forbes coverage positioning as Salesforce challenger, AI agent narrative gaining traction in market.",
+        "source": "https://www.forbes.com/sites/sofiachierchio/2026/04/28/meet-the-250-million-startup-challenging-salesforce-with-ai-agents",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Strong momentum: $45M Series B (April 2026) from top VCs (TCV, First Harmonic, Bain Capital Ventures), Forbes coverage positioning as Salesforce challenger, AI agent narrative gaining traction in market.",
+        "source": "https://www.forbes.com/sites/sofiachierchio/2026/04/28/meet-the-250-million-startup-challenging-salesforce-with-ai-agents",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "advancell",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Targeted alpha-therapy market growing at 17.2% CAGR (2025-2026); broader radiopharmaceuticals market at 17% CAGR through 2030.",
+        "source": "https://www.researchandmarkets.com/reports/6178175/targeted-alpha-therapy-market-report"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Multiple major announcements June-July 2026: $315M Series D (July 15), US HQ establishment in Andover MA (June 22), Lilly strategic collaboration (Feb), Phase 2 expansion announced, ESMO Congress presentation scheduled (Oct 2026).",
+        "source": "https://www.fiercebiotech.com/biotech/advancell-flush-315m-raise-ready-put-radiotherapy-pedal-metal"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No publicly available Google Trends data found for company name."
+      },
+      "stepUp": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Series C: $112M (Feb 2025); Series D: $315M (July 2026). Step-up ratio: 2.8x, well above 2.0x threshold.",
+        "source": "https://www.advancell.com.au/news/advancell-closes-us-315-million-oversubscribed-series-d-financing-to-advance-targeted-alpha-therapies-and-expand-clinical-and-commercial-manufacturing-infrastructure/"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Clinical-stage company with no approved products; no revenue reporting or growth figures available."
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public sources explicitly stating website traffic or SimilarWeb-style reports for this company."
+      },
+      "redditActivity": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No Reddit posts or discussions found for company in trailing 30-day period."
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Strong momentum: $315M oversubscribed Series D (July 2026), strategic collaboration with Eli Lilly, Phase 2 expansion trial initiated, US headquarters/manufacturing facility established, major pharma backing.",
+        "source": "https://www.advancell.com.au/news/advancell-enters-into-strategic-collaboration-with-lilly-to-advance-novel-targeted-alpha-therapies-for-the-treatment-of-cancer/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Strong momentum: $315M oversubscribed Series D (July 2026), strategic collaboration with Eli Lilly, Phase 2 expansion trial initiated, US headquarters/manufacturing facility established, major pharma backing.",
+        "source": "https://www.advancell.com.au/news/advancell-enters-into-strategic-collaboration-with-lilly-to-advance-novel-targeted-alpha-therapies-for-the-treatment-of-cancer/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Strong momentum: $315M oversubscribed Series D (July 2026), strategic collaboration with Eli Lilly, Phase 2 expansion trial initiated, US headquarters/manufacturing facility established, major pharma backing.",
+        "source": "https://www.advancell.com.au/news/advancell-enters-into-strategic-collaboration-with-lilly-to-advance-novel-targeted-alpha-therapies-for-the-treatment-of-cancer/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "altaclaro",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 6.0,
+        "evidence": "Legal technology market growing at 9.2% CAGR in 2026, with software segment projected at 64.92% share; moderate growth relative to broader SaaS.",
+        "source": "https://www.precedenceresearch.com/legal-technology-market"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 5.0,
+        "evidence": "DepoSim launch with Verbit (Feb 2026), Legalweek 2026 finalist recognition in Best Tech Training Program category, panel discussion at Legalweek 2026, multiple press releases; steady baseline coverage for legal tech niche.",
+        "source": "https://legaltechnology.com/2026/02/18/altoclaro-and-verbit-launch-deposim-for-simulated-deposition-training/"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No publicly available Google Trends data found for company name."
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Series B $28M (Jan 2026) known, but Series A valuation not publicly disclosed; cannot compare two consecutive rounds with disclosed valuations."
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Private company with no public revenue reporting or YoY growth figures available."
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public sources explicitly stating website traffic trends or SimilarWeb-style reports for this company."
+      },
+      "redditActivity": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No Reddit posts or discussions found for company in trailing 30-day period."
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 5.0,
+        "evidence": "Moderate momentum: Series B raise ($28M) shows growth, DepoSim product expansion via Verbit partnership, but legal training remains niche market with incremental product feature adoption rather than viral momentum.",
+        "source": "https://legaltechnology.com/2026/02/18/altoclaro-and-verbit-launch-deposim-for-simulated-deposition-training/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 5.0,
+        "evidence": "Moderate momentum: Series B raise ($28M) shows growth, DepoSim product expansion via Verbit partnership, but legal training remains niche market with incremental product feature adoption rather than viral momentum.",
+        "source": "https://legaltechnology.com/2026/02/18/altoclaro-and-verbit-launch-deposim-for-simulated-deposition-training/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 5.0,
+        "evidence": "Moderate momentum: Series B raise ($28M) shows growth, DepoSim product expansion via Verbit partnership, but legal training remains niche market with incremental product feature adoption rather than viral momentum.",
+        "source": "https://legaltechnology.com/2026/02/18/altoclaro-and-verbit-launch-deposim-for-simulated-deposition-training/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "amca",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 6.0,
+        "evidence": "Aerospace and defense market growing at 8.4% CAGR through 2033; US-specific market growing at 5.67% CAGR. Moderate growth driven by military modernization and space commercialization.",
+        "source": "https://www.coherentmarketinsights.com/industry-reports/aerospace-and-defense-market"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Series B $300M announcement (May 2026), multiple press releases on factory expansion, Boeing/Lockheed/Northrop supplier relationships, Manufacturing Dive coverage, significant capital event for aerospace supply chain.",
+        "source": "https://www.manufacturingdive.com/news/boeing-lockheed-supplier-amca-jai-malik-series-b-300m-factories-ai-deploy/820650/"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No publicly available Google Trends data found for company name."
+      },
+      "stepUp": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Series A: $76.5M at ~$350M valuation (April 2025); Series B: $300M at >$1B valuation (May 2026). Step-up ratio: ~3x, well above 2.0x threshold.",
+        "source": "https://www.prnewswire.com/news-releases/amca-closes-300m-series-b-at-1b-valuation-to-strengthen-americas-critical-component-supply-chain-302776943.html"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Private company with no public revenue reporting or YoY growth figures available."
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public sources explicitly stating website traffic trends or SimilarWeb-style reports for this company."
+      },
+      "redditActivity": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No Reddit posts or discussions found for company in trailing 30-day period."
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Strong momentum: $300M Series B bringing $1B+ valuation (3x from Series A), major aerospace suppliers (Boeing, Lockheed, Northrop, Honeywell) as customers, AI-powered manufacturing platform deployment, national factory expansion plan.",
+        "source": "https://www.manufacturingdive.com/news/boeing-lockheed-supplier-amca-jai-malik-series-b-300m-factories-ai-deploy/820650/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Strong momentum: $300M Series B bringing $1B+ valuation (3x from Series A), major aerospace suppliers (Boeing, Lockheed, Northrop, Honeywell) as customers, AI-powered manufacturing platform deployment, national factory expansion plan.",
+        "source": "https://www.manufacturingdive.com/news/boeing-lockheed-supplier-amca-jai-malik-series-b-300m-factories-ai-deploy/820650/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Strong momentum: $300M Series B bringing $1B+ valuation (3x from Series A), major aerospace suppliers (Boeing, Lockheed, Northrop, Honeywell) as customers, AI-powered manufacturing platform deployment, national factory expansion plan.",
+        "source": "https://www.manufacturingdive.com/news/boeing-lockheed-supplier-amca-jai-malik-series-b-300m-factories-ai-deploy/820650/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "arcawealth",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Wealth management platform market growing at 11.63% CAGR; AI-powered wealth management segment growing at 12.7% CAGR through 2036. Strong growth driven by fintech adoption and fee-based advisory shift.",
+        "source": "https://www.mordorintelligence.com/industry-reports/wealth-management-platform-market"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Exited stealth June 25, 2026 with $64M funding announcement, Sandbox Financial Partners acquisition (May 2026, $682M AUM), multiple fintech press releases, coverage in Wealthmanagement.com, FinExtra, and broader fintech publications.",
+        "source": "https://www.wealthmanagement.com/ria-news/ai-native-wealth-manager-arca-raises-64m"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No publicly available Google Trends data found for company name."
+      },
+      "stepUp": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Seed round: $15.5M; Series A: $48.5M (June 2026). Step-up ratio: ~3.1x, in the 1.5-2.0x+ range.",
+        "source": "https://www.businesswire.com/news/home/20260624333055/en/Arca-Raises-$64-Million-to-Revolutionize-and-Humanize-Wealth-Management-at-Scale"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Manages $1.3B in AUM but no explicit annual revenue or YoY revenue growth figures publicly disclosed (AUM ≠ revenue in wealth management)."
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public sources explicitly stating website traffic trends or SimilarWeb-style reports for this company."
+      },
+      "redditActivity": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No Reddit posts or discussions found for company in trailing 30-day period."
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Strong momentum: $64M raise from top-tier VCs (General Catalyst lead, Index Ventures, Venrock), strategic acquisition of Sandbox Financial Partners ($682M AUM), stealthy launch to public announcement, AI-native positioning in hot market.",
+        "source": "https://www.wealthmanagement.com/ria-news/ai-native-wealth-manager-arca-raises-64m",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Strong momentum: $64M raise from top-tier VCs (General Catalyst lead, Index Ventures, Venrock), strategic acquisition of Sandbox Financial Partners ($682M AUM), stealthy launch to public announcement, AI-native positioning in hot market.",
+        "source": "https://www.wealthmanagement.com/ria-news/ai-native-wealth-manager-arca-raises-64m",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Strong momentum: $64M raise from top-tier VCs (General Catalyst lead, Index Ventures, Venrock), strategic acquisition of Sandbox Financial Partners ($682M AUM), stealthy launch to public announcement, AI-native positioning in hot market.",
+        "source": "https://www.wealthmanagement.com/ria-news/ai-native-wealth-manager-arca-raises-64m",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "archy",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 6.0,
+        "evidence": "Dental practice management software market growing at 9.6-10.9% CAGR through 2033-2035. Moderate growth driven by cloud adoption and digitalization of dental practices.",
+        "source": "https://www.precedenceresearch.com/dental-software-market"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Multiple 2026 product launches: native mobile app (Jan 29), Archy Scribe AI clinical documentation (May 4), Archy Revenue insurance automation (July 16). Series B announcement (Oct 2025, $20M), consistent product release cadence.",
+        "source": "https://www.prnewswire.com/news-releases/archy-launches-native-ai-scribe-inside-its-dental-pms-302760729.html"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No publicly available Google Trends data found for company name."
+      },
+      "stepUp": {
+        "computed": true,
+        "raw": 4.0,
+        "evidence": "Series A: $15M (Oct 2024); Series B: $20M (Oct 2025). Step-up ratio: 1.33x, approximately flat (1.0x per scoring rubric for ~1.0x-1.5x).",
+        "source": "https://www.prnewswire.com/news-releases/archy-raises-15-million-series-a-round-to-transform-dental-practices-with-automated-cloud-based-platform-underpinned-by-ai-302286180.html"
+      },
+      "yoyRevenueGrowth": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Company growing 300% year-over-year (YoY growth metric disclosed); processes $100M+ in payments annually, indicating strong customer adoption and transaction scale.",
+        "source": "https://news.crunchbase.com/venture/dental-saas-provider-archy-raises-seriesb/"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public sources explicitly stating website traffic trends or SimilarWeb-style reports for this company."
+      },
+      "redditActivity": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No Reddit posts or discussions found for company in trailing 30-day period."
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Strong momentum: 300% YoY revenue growth, multiple AI product launches in 2026 (Scribe, Revenue, native mobile), $20M Series B raise, strong backing from Bessemer Venture Partners and TCV, processes $100M+ in payments annually.",
+        "source": "https://news.crunchbase.com/venture/dental-saas-provider-archy-raises-seriesb/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Strong momentum: 300% YoY revenue growth, multiple AI product launches in 2026 (Scribe, Revenue, native mobile), $20M Series B raise, strong backing from Bessemer Venture Partners and TCV, processes $100M+ in payments annually.",
+        "source": "https://news.crunchbase.com/venture/dental-saas-provider-archy-raises-seriesb/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Strong momentum: 300% YoY revenue growth, multiple AI product launches in 2026 (Scribe, Revenue, native mobile), $20M Series B raise, strong backing from Bessemer Venture Partners and TCV, processes $100M+ in payments annually.",
+        "source": "https://news.crunchbase.com/venture/dental-saas-provider-archy-raises-seriesb/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  }
+]

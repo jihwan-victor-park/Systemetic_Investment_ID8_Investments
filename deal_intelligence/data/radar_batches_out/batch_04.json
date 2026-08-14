@@ -1,0 +1,397 @@
+[
+  {
+    "id": "e2b",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "AI infrastructure market growing 14.89% CAGR 2026-2031; Fortune 100 adoption signals strong industry tailwinds",
+        "source": "https://www.grandviewresearch.com/industry-analysis/ai-infrastructure-market-report"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Moderate-to-good coverage: OpenAI Agents SDK integration (April 2026), Series A funding announcement, multiple infrastructure/fintech publications",
+        "source": "https://e2b.dev/blog/e2b-is-now-in-agents-sdk"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public Google Trends data available for 'E2B' specifically"
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No post-money valuations publicly disclosed for seed or Series A rounds; cannot compute round-over-round step-up"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No revenue data disclosed publicly"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public source explicitly disclosing website traffic trends"
+      },
+      "redditActivity": {
+        "computed": true,
+        "raw": 0.0,
+        "evidence": "No Reddit mentions or discussion activity found via site:reddit.com search",
+        "source": "https://www.reddit.com/"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Strong momentum: OpenAI Agents SDK integration (April 2026), 94% Fortune 100 adoption claimed, Series A from Insight Partners; sustained growth but not hypergrowth",
+        "source": "https://jimmysong.io/blog/e2b-browserbase-report/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Strong momentum: OpenAI Agents SDK integration (April 2026), 94% Fortune 100 adoption claimed, Series A from Insight Partners; sustained growth but not hypergrowth",
+        "source": "https://jimmysong.io/blog/e2b-browserbase-report/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Strong momentum: OpenAI Agents SDK integration (April 2026), 94% Fortune 100 adoption claimed, Series A from Insight Partners; sustained growth but not hypergrowth",
+        "source": "https://jimmysong.io/blog/e2b-browserbase-report/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "emergent",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Autonomous coding agent market growing 44-46% CAGR through 2030; $10.9-12.06B market in 2026 with 80% enterprise adoption of AI agents",
+        "source": "https://svitla.com/blog/agentic-ai-market-trends-2026/"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Extensive coverage: Wingman product launch (April 2026), Series A/B/C announcements, multiple major outlets (TechCrunch, Yahoo Finance, Business Wire, Medium, SiliconANGLE)",
+        "source": "https://techcrunch.com/2026/04/15/indias-vibe-coding-startup-emergent-enters-openclaw-like-ai-agent-space/"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public Google Trends data available for 'Emergent' specifically"
+      },
+      "stepUp": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Series B $70M (Jan 2026) valued at $300M vs Series A $23M; 3.0x+ valuation increase; Series C $1.5B (July 2026) is 5.0x from Series B",
+        "source": "https://techcrunch.com/2026/01/20/indian-vibe-coding-startup-emergent-raises-70m-at-300m-valuation-from-softbank-khosla-ventures/"
+      },
+      "yoyRevenueGrowth": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "ARR grew from $100K to $50M in 7 months (2025); represents >50,000% YoY growth and exceeds 100% threshold by far",
+        "source": "https://techstartups.com/2026/01/20/emergent-raises-70m-series-b-led-by-khosla-and-softbank-as-ai-vibe-coding-startup-hits-50m-arr-in-just-7-months/"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public source explicitly disclosing website traffic trends for Emergent"
+      },
+      "redditActivity": {
+        "computed": true,
+        "raw": 0.0,
+        "evidence": "No Reddit discussion activity found via site:reddit.com search",
+        "source": "https://www.reddit.com/"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Strong momentum: $50M ARR, 5M+ users, Wingman product launch (April 2026), 3 major funding rounds in 7 months, Series C unicorn status ($1.5B), strong investor backing (Khosla, SoftBank, Lightspeed, YC)",
+        "source": "https://finance.yahoo.com/news/meet-wingman-emergents-autonomous-agent-130000126.html",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Strong momentum: $50M ARR, 5M+ users, Wingman product launch (April 2026), 3 major funding rounds in 7 months, Series C unicorn status ($1.5B), strong investor backing (Khosla, SoftBank, Lightspeed, YC)",
+        "source": "https://finance.yahoo.com/news/meet-wingman-emergents-autonomous-agent-130000126.html",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Strong momentum: $50M ARR, 5M+ users, Wingman product launch (April 2026), 3 major funding rounds in 7 months, Series C unicorn status ($1.5B), strong investor backing (Khosla, SoftBank, Lightspeed, YC)",
+        "source": "https://finance.yahoo.com/news/meet-wingman-emergents-autonomous-agent-130000126.html",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "evervault",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Payment security market growing 16.95% CAGR 2026-2031; AI-enabled fraud detection expanding at 20.4% CAGR",
+        "source": "https://www.mordorintelligence.com/industry-reports/payment-security-market"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 6.0,
+        "evidence": "Baseline-to-good coverage: Series B funding announcement (March 2026), multiple fintech/security outlets (SecurityWeek, Fintech Global, BusinessWire)",
+        "source": "https://www.securityweek.com/data-security-firm-evervault-raises-25-million-in-series-b-funding/"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public Google Trends data available for 'Evervault' specifically"
+      },
+      "stepUp": {
+        "computed": true,
+        "raw": 6.0,
+        "evidence": "Series A May 2020: $16.4M; Series B March 2026: $25M; 1.52x funding step-up over 6-year gap (treating as 1.0-1.5x range)",
+        "source": "https://www.indexventures.com/perspectives/evervault-raises-16m-series-ensure-everyone-has-data-privacy/"
+      },
+      "yoyRevenueGrowth": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "4x year-over-year revenue growth reported; processed $5B+ transaction volume; 100M+ encrypted tokens monthly",
+        "source": "https://evervault.com/blog/series-b"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public source explicitly disclosing website traffic trends"
+      },
+      "redditActivity": {
+        "computed": true,
+        "raw": 0.0,
+        "evidence": "No Reddit discussion activity found via site:reddit.com search",
+        "source": "https://www.reddit.com/"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Moderate-to-strong momentum: 4x YoY revenue growth, $5B+ transaction volume, payments platform expansion, strong customer base (CarTrawler, Ramp, Rippling, Overwolf, Uniswap)",
+        "source": "https://evervault.com/blog/series-b",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Moderate-to-strong momentum: 4x YoY revenue growth, $5B+ transaction volume, payments platform expansion, strong customer base (CarTrawler, Ramp, Rippling, Overwolf, Uniswap)",
+        "source": "https://evervault.com/blog/series-b",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Moderate-to-strong momentum: 4x YoY revenue growth, $5B+ transaction volume, payments platform expansion, strong customer base (CarTrawler, Ramp, Rippling, Overwolf, Uniswap)",
+        "source": "https://evervault.com/blog/series-b",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "exuglobal",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Cryptocurrency VC market saw $8.5B surge in Q4 2025 (3-year high); crypto exchange platform market benefiting from broader fintech/crypto infrastructure growth",
+        "source": "https://bitrss.com/crypto-vc-explodes-in-q4-2025-8-5b-floods-later-stage-startups-181574"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 3.0,
+        "evidence": "Limited recent news coverage; Series B funding announcement found but minimal press coverage compared to other companies in batch",
+        "source": "https://www.issuewire.com/exuglobal-announced-the-completion-of-its-series-b-funding-round-surpassing-1-million-registered-users-worldwide-1847822792670200"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public Google Trends data available for 'EXUGlobal' specifically"
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Series B (Nov 2025) is only disclosed round; no prior round valuation found to compute step-up"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No revenue or ARR data disclosed publicly"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public source explicitly disclosing website traffic trends"
+      },
+      "redditActivity": {
+        "computed": true,
+        "raw": 0.0,
+        "evidence": "No Reddit discussion activity found via site:reddit.com search",
+        "source": "https://www.reddit.com/"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 5.0,
+        "evidence": "Moderate momentum: 1M+ registered users, Series B funding ($120M), AI-driven signal trading system, institutional-grade platform; however limited public announcements or press coverage",
+        "source": "https://www.issuewire.com/exuglobal-announced-the-completion-of-its-series-b-funding-round-surpassing-1-million-registered-users-worldwide-1847822792670200",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 5.0,
+        "evidence": "Moderate momentum: 1M+ registered users, Series B funding ($120M), AI-driven signal trading system, institutional-grade platform; however limited public announcements or press coverage",
+        "source": "https://www.issuewire.com/exuglobal-announced-the-completion-of-its-series-b-funding-round-surpassing-1-million-registered-users-worldwide-1847822792670200",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 5.0,
+        "evidence": "Moderate momentum: 1M+ registered users, Series B funding ($120M), AI-driven signal trading system, institutional-grade platform; however limited public announcements or press coverage",
+        "source": "https://www.issuewire.com/exuglobal-announced-the-completion-of-its-series-b-funding-round-surpassing-1-million-registered-users-worldwide-1847822792670200",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "float",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 5.0,
+        "evidence": "AI-in-fintech market growing ~15% (AI in fintech CAGR); derivatives/OTC fintech is niche segment with moderate growth",
+        "source": "https://www.technavio.com/report/ai-in-fintech-market-industry-analysis"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 2.0,
+        "evidence": "Limited coverage found; Tracxn profile, company website, and few articles on derivatives/AI trading trends, but no major press announcements or media coverage",
+        "source": "https://tracxn.com/d/companies/float/__jUKAOKF6IzywlDKWWmyZo31oKLL5XWI37UwggJpH_bw"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public Google Trends data available for 'Float.tech' or 'Float Technologies' derivatives platform"
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Series A (June 2026) is first disclosed round; no prior round valuation found to compute step-up"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No revenue or ARR data disclosed publicly"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public source explicitly disclosing website traffic trends"
+      },
+      "redditActivity": {
+        "computed": true,
+        "raw": 0.0,
+        "evidence": "No Reddit discussion activity found via site:reddit.com search",
+        "source": "https://www.reddit.com/"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 3.0,
+        "evidence": "Weak-to-moderate momentum: Early-stage (founded 2024), Series A funding from tier-1 investors (Lightspeed, Point72), but very limited public profile and product announcements",
+        "source": "https://www.float.tech/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 3.0,
+        "evidence": "Weak-to-moderate momentum: Early-stage (founded 2024), Series A funding from tier-1 investors (Lightspeed, Point72), but very limited public profile and product announcements",
+        "source": "https://www.float.tech/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 3.0,
+        "evidence": "Weak-to-moderate momentum: Early-stage (founded 2024), Series A funding from tier-1 investors (Lightspeed, Point72), but very limited public profile and product announcements",
+        "source": "https://www.float.tech/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "forus",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Healthcare AI market growing 32.6% CAGR 2025-2026; AI in healthcare expanding with government subsidies and provider adoption acceleration",
+        "source": "https://www.thebusinessresearchcompany.com/report/artificial-intelligence-in-healthcare-global-market-report"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Excellent coverage: Forbes feature (May 2026), multiple healthcare/fintech outlets, Business Wire official announcement, Dealroom, Yahoo Finance, Wolters Kluwer",
+        "source": "https://www.forbes.com/sites/amyfeldman/2026/05/12/billions-in-prescriptions-go-unfilled-this-startup-is-using-ai-to-fix-that/"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public Google Trends data available for 'Forus' specifically"
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Series B (May 2026) at $1B valuation; no Series A post-money valuation disclosed, cannot compute round-over-round step-up"
+      },
+      "yoyRevenueGrowth": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Annualized revenue surpassed $10M at end of 2025; roughly quintupled in 2026 to ~$50M annualized; represents 400%+ YoY growth exceeding 100% threshold significantly",
+        "source": "https://app.dealroom.co/news/note/forus-raises-160m-at-1b-valuation-to-fix-america-s-prescription-fill-rate-problem"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public source explicitly disclosing website traffic trends"
+      },
+      "redditActivity": {
+        "computed": true,
+        "raw": 0.0,
+        "evidence": "No Reddit discussion activity found via site:reddit.com search",
+        "source": "https://www.reddit.com/"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Strong momentum: 400%+ YoY revenue growth, tenfold adoption increase over 2 years, word-of-mouth driven adoption, unicorn status ($1B valuation), strong investor backing (Thrive, General Catalyst, Accel, Bain)",
+        "source": "https://www.businesswire.com/news/home/20260512458472/en/Forus-Raises-$160M-to-Build-the-Foundation-for-Modern-Medicine",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Strong momentum: 400%+ YoY revenue growth, tenfold adoption increase over 2 years, word-of-mouth driven adoption, unicorn status ($1B valuation), strong investor backing (Thrive, General Catalyst, Accel, Bain)",
+        "source": "https://www.businesswire.com/news/home/20260512458472/en/Forus-Raises-$160M-to-Build-the-Foundation-for-Modern-Medicine",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Strong momentum: 400%+ YoY revenue growth, tenfold adoption increase over 2 years, word-of-mouth driven adoption, unicorn status ($1B valuation), strong investor backing (Thrive, General Catalyst, Accel, Bain)",
+        "source": "https://www.businesswire.com/news/home/20260512458472/en/Forus-Raises-$160M-to-Build-the-Foundation-for-Modern-Medicine",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  }
+]

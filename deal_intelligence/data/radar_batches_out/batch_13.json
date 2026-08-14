@@ -1,0 +1,194 @@
+[
+  {
+    "id": "withcoverage",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "AI in Insurance market projected to grow 14.5-37% CAGR through 2030-2034; insurance broking sector described as 'largely unchanged over decades' now seeing structural transformation through AI",
+        "source": "https://www.fortunebusinessinsights.com/artificial-intelligence-in-insurance-market-1088"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Multiple articles in January 2026 from FinTech Global, Sequoia Capital, Reinsurance News; recent Reddit mentions (1 week ago, 1 day ago); strong coverage consistent with Series B announcement and founder credibility",
+        "source": "https://fintech.global/2026/01/14/withcoverage-raises-42m-to-disrupt-insurance-broking/"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Google Trends data for company name shows interest but insufficient granular trend data visible to assess month-over-month change"
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public Series A valuation disclosed; cannot calculate step-up ratio"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public revenue figures disclosed for WithCoverage"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public traffic data or SimilarWeb-style reports found mentioning website visit trends"
+      },
+      "redditActivity": {
+        "computed": true,
+        "raw": 4.0,
+        "evidence": "Two recent threads found: r/BlueCollarPros (1 week ago) discussing WithCoverage's approach, r/InsuranceProfessional (1 day ago) mentioning LinkedIn marketing; modest baseline engagement suggesting early awareness",
+        "source": "https://www.reddit.com/r/InsuranceProfessional/"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Founder JD Ross previously co-founded Opendoor (successful exit); strong investor syndicate (Sequoia, Khosla, 8VC); announced hiring 75+ employees in 2026; operating in high-growth AI insurance sector; flat-fee model positioned as disruptive",
+        "source": "https://fintech.global/2026/01/14/withcoverage-raises-42m-to-disrupt-insurance-broking/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Recent Series B close (Jan 2026) led by top-tier Sequoia; active hiring phase; customer deployments with named brands (Chomps, Blank Street); positioned against established brokerage model; entering new industry verticals planned",
+        "source": "https://fintech.global/2026/01/14/withcoverage-raises-42m-to-disrupt-insurance-broking/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 6.0,
+        "evidence": "Active expansion phase post-Series B with team scaling; entering new verticals; no recent product launches or major partnership announcements found; modest surge vs. consistent momentum",
+        "source": "https://fintech.global/2026/01/14/withcoverage-raises-42m-to-disrupt-insurance-broking/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "withpace",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "AI agents market growing at 35-50% CAGR (2025-2030+); AI in Insurance specifically 14.5-37% CAGR; agentic AI accounted for 21% of public AI deployments in insurance Q4 2025; market expanding rapidly",
+        "source": "https://www.grandviewresearch.com/industry-analysis/ai-agents-market"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Multiple high-profile announcements May-June 2026 (Business Wire, Forbes, FinTech Global, YouTube NYSE channel, Sequoia, AI For Developing Countries Forum); CEO featured on Yahoo Finance; strong coverage for recent Series B",
+        "source": "https://www.businesswire.com/news/home/20260527005102/en/Pace-Raises-46-Million-Series-B-to-Build-the-Next-Century-of-Insurance-Operations/"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Company name 'Pace' is too generic for reliable Google Trends analysis; term overlap with fitness/health results makes trend data unreliable"
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Pace founded in 2024; Series B announced May 2026 appears to be early institutional round; no prior round valuation disclosed"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public revenue figures disclosed; company focuses on reporting operational metrics (250,000+ workflows completed) rather than financial results"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public traffic data or SimilarWeb reports found for Pace"
+      },
+      "redditActivity": {
+        "computed": true,
+        "raw": 1.0,
+        "evidence": "Searches for Pace + insurance/AI agents on Reddit returned generic insurance industry discussion threads, not Pace-specific mentions; company lacks direct Reddit visibility",
+        "source": "https://www.reddit.com/r/AI_Agents/"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Founded 2024, now deployed across major carriers (Prudential, Palomar, Convex, WTW); 250,000+ workflows already completed; expanding internationally; Series B co-led by Thrive and Sequoia; solving $9T protection gap",
+        "source": "https://fintech.global/2026/06/01/pace-lands-46m-funding-round-to-automate-insurance-workflows/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Very recent Series B (May 2026) from top investors; rapid enterprise deployment (Prudential, Palomar, Convex, WTW, others); impressive early metrics (90% autonomous task resolution at Palomar, 250K+ workflows); scaling to international markets; positioned as core infrastructure layer",
+        "source": "https://fintech.global/2026/06/01/pace-lands-46m-funding-round-to-automate-insurance-workflows/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Very recent Series B close (May 2026); just announced expansion to Europe and international markets; CEO highlighting strategic partnerships with major carriers; rapid deployment phase underway; strong momentum trajectory",
+        "source": "https://fintech.global/2026/06/01/pace-lands-46m-funding-round-to-automate-insurance-workflows/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "withsable",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "AI agents market experiencing 35-50% CAGR growth (2025-2033); agentic AI now accounted for 21% of public AI deployments in Q4 2025; sector showing explosive expansion with enterprise adoption ramping",
+        "source": "https://www.grandviewresearch.com/industry-analysis/ai-agents-market"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Extensive coverage in July 2026 (Morningstar, Yahoo Finance, Dealroom, 8VC, Forbes, Sequoia Capital, LinkedIn, Crypto Briefing); CEO and product featured prominently; strong analyst and media attention for Series B",
+        "source": "https://www.morningstar.com/stocks/xnas/mstz/news"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Search term 'Sable AI' too new/niche for reliable Google Trends historical data; term overlap with Sable (Dead by Daylight game character) introduces noise"
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Prior round was January 2024 (per LeadIQ data), but amount not publicly disclosed; cannot calculate valuation step-up"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public revenue figures disclosed; company is early-stage (founded 2024)"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public traffic data or reports found mentioning website visit trends"
+      },
+      "redditActivity": {
+        "computed": true,
+        "raw": 1.0,
+        "evidence": "Searches for 'Sable AI' on Reddit returned unrelated results (Dead by Daylight game character). No company-specific Reddit discussion or mentions found; minimal community engagement",
+        "source": "https://www.reddit.com/r/AI_Agents/"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Founded 2024 by Nim Ravid; $45M Series B (July 2026) co-led by Sequoia and 8VC; investors include Palantir Technologies; AI product demonstrates technical capability (multilingual, fluent demos); addressing large TAM in enterprise sales/product demonstrations",
+        "source": "https://www.morningstar.com/stocks/xnas/mstz/news"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Very recent Series B (July 2026) with high-profile co-leads (Sequoia, 8VC); strong investor roster (Palantir, Sabrina Hahn, Valor, SVA); product received direct praise from Sequoia partners; Aidan (AI agent name) generating consumer-facing buzz; positioned as 'first AI employee'",
+        "source": "https://www.morningstar.com/stocks/xnas/mstz/news"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Series B announcement in July 2026 very recent; AI employee (Aidan) viral momentum in business press; featured in multiple YouTube, Forbes, Sequoia articles; product launching with major carrier/enterprise partnerships announced; strong current momentum",
+        "source": "https://www.morningstar.com/stocks/xnas/mstz/news"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  }
+]

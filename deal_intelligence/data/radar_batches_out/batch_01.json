@@ -1,0 +1,388 @@
+[
+  {
+    "id": "arrakistechnologies",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Industrial AI agents market growing at 45.5% CAGR from $8.29B (2025) to $12.06B (2026), well above 25% threshold.",
+        "source": "https://www.researchandmarkets.com/reports/6103459/ai-agents-market-report"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Multiple major press mentions across Fortune, TechCrunch, Yahoo Finance, TheNextWeb and industry publications following July 2026 Series A emergence from stealth.",
+        "source": "https://fortune.com/2026/07/22/arrakis-a-startup-betting-ais-biggest-payoff-is-in-industrial-sectors-not-office-work-emerges-from-stealth-with-38-million-in-venture-funding/"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Cannot directly access Google Trends API; would require direct trends.google.com browsing not available in this research pass."
+      },
+      "stepUp": {
+        "computed": true,
+        "raw": 6.0,
+        "evidence": "Seed round $7.5M (March 2026, Accel-led) to Series A $30M (July 2026, Blossom Capital-led) at $140M post-money. Pre-money valuation ~$110M implies 1.27x step-up (1.0-1.5x range).",
+        "source": "https://techfundingnews.com/arrakis-raises-38m-blossom-accel-ai-agents/"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Company founded January 2026; pre-revenue stage. No public revenue data disclosed."
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public website traffic data (SimilarWeb or comparable) found in public sources."
+      },
+      "redditActivity": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No Reddit discussion threads mentioning Arrakis Technologies found in public searches."
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Strong momentum: $38M total funding, Series A led by Blossom Capital with Accel continuation, founder Rafael Quintanilla ex-Accel investor, industry experts backing (Datadog CEO, OpenAI Head of Business Products). Plans to triple headcount and expand to US/Middle East.",
+        "source": "https://fortune.com/2026/07/22/arrakis-a-startup-betting-ais-biggest-payoff-is-in-industrial-sectors-not-office-work-emerges-from-stealth-with-38-million-in-venture-funding/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Strong momentum: $38M total funding, Series A led by Blossom Capital with Accel continuation, founder Rafael Quintanilla ex-Accel investor, industry experts backing (Datadog CEO, OpenAI Head of Business Products). Plans to triple headcount and expand to US/Middle East.",
+        "source": "https://fortune.com/2026/07/22/arrakis-a-startup-betting-ais-biggest-payoff-is-in-industrial-sectors-not-office-work-emerges-from-stealth-with-38-million-in-venture-funding/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Strong momentum: $38M total funding, Series A led by Blossom Capital with Accel continuation, founder Rafael Quintanilla ex-Accel investor, industry experts backing (Datadog CEO, OpenAI Head of Business Products). Plans to triple headcount and expand to US/Middle East.",
+        "source": "https://fortune.com/2026/07/22/arrakis-a-startup-betting-ais-biggest-payoff-is-in-industrial-sectors-not-office-work-emerges-from-stealth-with-38-million-in-venture-funding/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "astrocade",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "AI in gaming market growing from $2.88B (2025) to $3.73B (2026) at 29.4% CAGR; generative AI gaming specifically growing at 23.1% CAGR. Strong growth but below 45%+ levels.",
+        "source": "https://www.researchandmarkets.com/reports/6226231/ai-in-video-games-market-report"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Multiple major announcements May-June 2026: $56M funding round led by Sequoia (Series B) and Sea (Series A), Google AI Futures Fund participation, Dentsu Ventures backing. Coverage in Fortune, Yahoo Finance, PocketGamer.",
+        "source": "https://fortune.com/2026/05/05/astrocade-raises-56-million-series-b-sequoia-video-games-platform-ali-amir-sadeghian/"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Cannot directly access Google Trends API; would require direct trends.google.com browsing not available in this research pass."
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Series A and Series B valuation figures not disclosed in public reports; $56M total funding amount known but split between rounds and valuation not revealed."
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Launched August 2025 (less than 1 year old); no revenue data disclosed. Traction metrics available (20M users, 140M plays/month) but no YoY revenue growth."
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public website traffic data (SimilarWeb or comparable) found in public sources."
+      },
+      "redditActivity": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No Reddit discussion threads mentioning Astrocade found in public searches."
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Strong momentum: $56M Series A/B raise with Sequoia leadership, 20M users in 8 months post-launch, 140M plays/month, 75,000+ games on platform, creators from 80 countries. Exceptional user acquisition for new platform.",
+        "source": "https://fortune.com/2026/05/05/astrocade-raises-56-million-series-b-sequoia-video-games-platform-ali-amir-sadeghian/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Strong momentum: $56M Series A/B raise with Sequoia leadership, 20M users in 8 months post-launch, 140M plays/month, 75,000+ games on platform, creators from 80 countries. Exceptional user acquisition for new platform.",
+        "source": "https://fortune.com/2026/05/05/astrocade-raises-56-million-series-b-sequoia-video-games-platform-ali-amir-sadeghian/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Strong momentum: $56M Series A/B raise with Sequoia leadership, 20M users in 8 months post-launch, 140M plays/month, 75,000+ games on platform, creators from 80 countries. Exceptional user acquisition for new platform.",
+        "source": "https://fortune.com/2026/05/05/astrocade-raises-56-million-series-b-sequoia-video-games-platform-ali-amir-sadeghian/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "atoms",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Global robotics market grew 34% year-over-year (2025-2026) to $38B, fastest growth in a decade. Industrial robotics projected 18.1% CAGR through 2036. Robotics is strongest sector momentum of the batch.",
+        "source": "https://www.roboticscenter.ai/state-of-robotics-2026"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Exceptional coverage across major outlets: TechCrunch, Bloomberg, Yahoo Finance, Los Angeles Business Journal. July-Aug 2026: $1.7B funding announcement, CFO hire announcement (Aug 5), high-profile founder Travis Kalanick, Uber participation.",
+        "source": "https://techcrunch.com/2026/07/22/travis-kalanicks-robotics-company-raises-1-7b-led-by-a16z/"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Cannot directly access Google Trends API; would require direct trends.google.com browsing not available in this research pass."
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Series A $1.7B (July 2026) is company's first disclosed funding round. No prior round valuation disclosed for comparison."
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Atoms is newly public (July 2026); no revenue disclosure found. Physical AI/robotics holding company combining Cloud Kitchens, Pronto acquisition, and new ventures."
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public website traffic data (SimilarWeb or comparable) found in public sources."
+      },
+      "redditActivity": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No Reddit discussion threads mentioning Atoms found in public searches."
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Exceptional momentum: $1.7B Series A led by a16z (Ben Horowitz joining board), Uber rejoining Kalanick, Bain Capital, Fifth Wall participation. High-profile founder, ambitious physical AI vision, major capital influx.",
+        "source": "https://techcrunch.com/2026/07/22/travis-kalanicks-robotics-company-raises-1-7b-led-by-a16z/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Exceptional momentum: $1.7B Series A led by a16z (Ben Horowitz joining board), Uber rejoining Kalanick, Bain Capital, Fifth Wall participation. High-profile founder, ambitious physical AI vision, major capital influx.",
+        "source": "https://techcrunch.com/2026/07/22/travis-kalanicks-robotics-company-raises-1-7b-led-by-a16z/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Exceptional momentum: $1.7B Series A led by a16z (Ben Horowitz joining board), Uber rejoining Kalanick, Bain Capital, Fifth Wall participation. High-profile founder, ambitious physical AI vision, major capital influx.",
+        "source": "https://techcrunch.com/2026/07/22/travis-kalanicks-robotics-company-raises-1-7b-led-by-a16z/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "auterion",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Drone software market valued at $9.47B in 2026 growing at 17.5% CAGR to $21.22B by 2031. Drone defense systems market $7.36B in 2026. Growth 10-20% range (falls between 5 and 7 scale).",
+        "source": "https://www.mordorintelligence.com/industry-reports/drone-software-market"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Multiple news mentions Feb-July 2026: Airlogix joint venture announcement (Munich Security Conference Feb 2026), Skyfall 50,000 FPV drone agreement (July 2026), drone swarm demonstrations, interceptor technology pivot. Strong defense/Ukraine focus coverage.",
+        "source": "https://breakingdefense.com/2026/07/auterion-ukrainian-drone-maker-skyfall-to-supply-50000-fpvs/"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Cannot directly access Google Trends API; would require direct trends.google.com browsing not available in this research pass."
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Seed round $10M (Sept 2018) disclosed; Series B $130M at $600M+ valuation (Sept 2025). No Series A between them disclosed. Time gap makes stepUp calculation unreliable for momentum signal."
+      },
+      "yoyRevenueGrowth": {
+        "computed": true,
+        "raw": 5.0,
+        "evidence": "Conflicting sources: one indicates $10.3M revenue in 2024, another suggests $15.3M in 2026 (modest growth). Another source shows $115.38M in 2025. Conservatively rating as flat/modest given data conflicts, but trending positive.",
+        "source": "https://getlatka.com/companies/auterion"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public website traffic data (SimilarWeb or comparable) found in public sources."
+      },
+      "redditActivity": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No Reddit discussion threads mentioning Auterion found in public searches."
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Strong momentum: $130M Series B (Sept 2025) at $600M+ valuation, revenue-positive ($10.3-115M depending on source), strategic partnerships (Airlogix JV, Skyfall 50k order), defense/NATO expansion, Rheinmetall minority investment. Profitable growth trajectory.",
+        "source": "https://techcrunch.com/2025/09/23/defense-startup-auterion-raises-130-million-to-become-microsoft-for-drones/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Strong momentum: $130M Series B (Sept 2025) at $600M+ valuation, revenue-positive ($10.3-115M depending on source), strategic partnerships (Airlogix JV, Skyfall 50k order), defense/NATO expansion, Rheinmetall minority investment. Profitable growth trajectory.",
+        "source": "https://techcrunch.com/2025/09/23/defense-startup-auterion-raises-130-million-to-become-microsoft-for-drones/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Strong momentum: $130M Series B (Sept 2025) at $600M+ valuation, revenue-positive ($10.3-115M depending on source), strategic partnerships (Airlogix JV, Skyfall 50k order), defense/NATO expansion, Rheinmetall minority investment. Profitable growth trajectory.",
+        "source": "https://techcrunch.com/2025/09/23/defense-startup-auterion-raises-130-million-to-become-microsoft-for-drones/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "beelinemedicines",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 5.0,
+        "evidence": "Immunology market growing 6.8% CAGR from $118.4B (2026) to $214.04B (2035). Smaller growth rate than other batch companies; flat-to-modest range (±10%).",
+        "source": "https://www.coherentmarketinsights.com/market-insight/immunology-market-4594"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Multiple announcements April-July 2026: April debut announcement, June $300M Series A announcement, July $126.3M extension bringing total to $426.3M. Coverage in BioSpace, BioPharma Dive, GlobeNewswire, Bain Capital.",
+        "source": "https://www.globenewswire.com/news-release/2026/06/30/3319526/0/en/beeline-medicines-announces-upsized-series-a-of-426-3-million-to-advance-category-leading-autoimmune-and-inflammatory-disease-portfolio"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Cannot directly access Google Trends API; would require direct trends.google.com browsing not available in this research pass."
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Company founded 2025; Series A $426.3M total (originally $300M, extended $126.3M). No prior round valuation disclosed."
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Clinical-stage biotech; no approved products or revenue. Early-to-mid stage clinical development across immune disease portfolio."
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public website traffic data (SimilarWeb or comparable) found in public sources."
+      },
+      "redditActivity": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No Reddit discussion threads mentioning Beeline Medicines found in public searches."
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Moderate momentum: $426.3M Series A (largest biotech raise 2026), Bain Capital backing, Bristol-Myers Squibb in-licensing partnership (5-program portfolio), clinical-stage but well-funded. Lower momentum than devices/software due to typical biotech development timelines.",
+        "source": "https://www.globenewswire.com/news-release/2026/06/30/3319526/0/en/beeline-medicines-announces-upsized-series-a-of-426-3-million-to-advance-category-leading-autoimmune-and-inflammatory-disease-portfolio",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Moderate momentum: $426.3M Series A (largest biotech raise 2026), Bain Capital backing, Bristol-Myers Squibb in-licensing partnership (5-program portfolio), clinical-stage but well-funded. Lower momentum than devices/software due to typical biotech development timelines.",
+        "source": "https://www.globenewswire.com/news-release/2026/06/30/3319526/0/en/beeline-medicines-announces-upsized-series-a-of-426-3-million-to-advance-category-leading-autoimmune-and-inflammatory-disease-portfolio",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Moderate momentum: $426.3M Series A (largest biotech raise 2026), Bain Capital backing, Bristol-Myers Squibb in-licensing partnership (5-program portfolio), clinical-stage but well-funded. Lower momentum than devices/software due to typical biotech development timelines.",
+        "source": "https://www.globenewswire.com/news-release/2026/06/30/3319526/0/en/beeline-medicines-announces-upsized-series-a-of-426-3-million-to-advance-category-leading-autoimmune-and-inflammatory-disease-portfolio",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "bfl",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "AI image generation market growing at 34% CAGR consensus (estimates range 17-40%); from $12.4B (2026) to $30B+ (2033). Monthly users over 150M generating 80M images daily. Well above 25% growth threshold.",
+        "source": "https://www.grandviewresearch.com/industry-analysis/artificial-intelligence-ai-image-generator-market-report"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Exceptional coverage: Martin Scorsese partnership announcement (June 2026), FLUX 3 launch (July 23, 2026) across Bloomberg, TechCrunch, TechFundingNews. Multiple product announcements (FLUX 3 image/video/audio/robotics unified model, production Audi deployment, open-weight planned).",
+        "source": "https://www.bloomberg.com/news/articles/2026-07-23/black-forest-labs-unveils-first-model-for-robotics-in-shift-to-physical-ai"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Cannot directly access Google Trends API; would require direct trends.google.com browsing not available in this research pass."
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Seed $31M (Aug 2024), Series B $300M at $3.25B (Dec 2025); Series A timing/amount not clearly disclosed in available sources. Cannot calculate reliable stepUp without Series A valuation."
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public revenue data disclosed. Model/API provider business model (Hugging Face, enterprise via Adobe/Canva/Meta); revenue figures not published."
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public website traffic data (SimilarWeb or comparable) found in public sources."
+      },
+      "redditActivity": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No Reddit discussion threads mentioning Black Forest Labs found in public searches."
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Exceptional momentum: $300M Series B at $3.25B valuation (Dec 2025, co-led by Salesforce Ventures + AMP), FLUX 3 multimodal launch (image/video/audio/robotics unified), Martin Scorsese partnership, production Audi deployment, strong enterprise adoption (Adobe, Canva, Meta).",
+        "source": "https://techcrunch.com/2025/12/01/black-forest-labs-raises-300m-at-3-25b-valuation",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Exceptional momentum: $300M Series B at $3.25B valuation (Dec 2025, co-led by Salesforce Ventures + AMP), FLUX 3 multimodal launch (image/video/audio/robotics unified), Martin Scorsese partnership, production Audi deployment, strong enterprise adoption (Adobe, Canva, Meta).",
+        "source": "https://techcrunch.com/2025/12/01/black-forest-labs-raises-300m-at-3-25b-valuation",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Exceptional momentum: $300M Series B at $3.25B valuation (Dec 2025, co-led by Salesforce Ventures + AMP), FLUX 3 multimodal launch (image/video/audio/robotics unified), Martin Scorsese partnership, production Audi deployment, strong enterprise adoption (Adobe, Canva, Meta).",
+        "source": "https://techcrunch.com/2025/12/01/black-forest-labs-raises-300m-at-3-25b-valuation",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  }
+]

@@ -1,0 +1,392 @@
+[
+  {
+    "id": "foxglove",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 7.5,
+        "evidence": "Robotic software platforms market at 21.62% CAGR, expected to reach $78.81B by 2031; simulation and digital twin tools growing at 26.50% share",
+        "source": "https://www.mordorintelligence.com/industry-reports/robotic-software-platforms-market"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 5.0,
+        "evidence": "April 2026 data search/curation platform launch, June 2026 ICRA conference sponsorship, August 2026 Actuate 26 annual conference announcement; moderate recent coverage",
+        "source": "https://www.robotics247.com/article/foxglove-announces-speaker-lineup-for-actuate-26-annual-robotics-developer-conference"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Google Trends API/site rate-limited; unable to measure search trend directly"
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Series A valuation not publicly disclosed; cannot calculate valuation step"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public revenue or ARR data disclosed"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public source (news, SimilarWeb-style report) found disclosing traffic trend"
+      },
+      "redditActivity": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No significant Reddit discussion volume found in trailing 30 days"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 5.0,
+        "evidence": "Moderate public momentum: new platform features launched April 2026, conference presence, annual developer gathering (~1,000 attendees at Actuate 26), active hiring; no major funding or expansion news in past 90 days",
+        "source": "https://www.bvp.com/news/leading-the-future-of-robotics-infrastructure-with-foxglove",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 5.0,
+        "evidence": "Steady product development and community engagement, but no major announcements beyond normal cadence in past quarter",
+        "source": "https://foxglove.dev/blog",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 5.0,
+        "evidence": "No surge indicators (funding announcements, major partnerships, significant hiring ramp, product breakthroughs) visible in past 90 days",
+        "source": "https://www.zoominfo.com/c/foxglove-technologies-inc/556963023",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "fractile",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "AI inference chip market growing 15.6% YoY from $17.73B (2025) to $20.51B (2026); broader AI hardware market at 24.2% CAGR projected to reach $691B by 2033",
+        "source": "https://www.globenewswire.com/news-release/2026/07/06/3322192/28124/en/AI-Inference-Chip-Market-Soars-Predicted-Growth-to-36-97-Billion-by-2030.html"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "May 2026 Series B $220M announcement with extensive press coverage (DCD, Electronics Weekly, Yahoo Finance, TheAIInsider); February 2026 UK £100M investment announcement; strong press for a specialized hardware company",
+        "source": "https://www.datacenterdynamics.com/en/news/fractile-raises-220m-to-accelerate-development-of-ai-inference-chips/"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Google Trends API/site rate-limited; unable to measure search trend directly"
+      },
+      "stepUp": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Seed $15M (July 2024) to Series B $220M (May 2026) = 14.7x valuation step; exceptional funding progression for inference hardware startup",
+        "source": "https://www.goodwinlaw.com/en/news-and-events/news/2024/07/announcements-technology-fractile-raises-15-million-in-seed-funding"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public revenue, ARR, or customer metrics disclosed; pre-revenue or early-stage hardware company"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public source found disclosing website traffic metrics or trends"
+      },
+      "redditActivity": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No significant Reddit discussion volume found in trailing 30 days"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Strong momentum: $220M Series B in May 2026, UK government market commitment (£150M advance purchase + £250M procurement for specialized hardware), expansion of team across UK, US, Taiwan",
+        "source": "https://www.electronicsweekly.com/news/business/uks-fractile-raises-220m-for-inference-ics-2026-05/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "High institutional backing (Accel, Founders Fund, 8VC); government-level commitment to inference hardware; positioned as key player in UK AI infrastructure strategy",
+        "source": "https://w.media/fractile-raises-us-220-million-for-ai-inference-hardware/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Series B funding surge in May 2026; government market commitment represents major tailwind; strategic positioning as inference solution for hyperscalers",
+        "source": "https://www.datacenterdynamics.com/en/news/fractile-raises-220m-to-accelerate-development-of-ai-inference-chips/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "gamma",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "AI presentation tools market at 52% YoY growth (2025-2026); AI presentation tools market projected to grow from $2B (2025) to $10B by 2033 at 25% CAGR; 47M presentations generated per month globally",
+        "source": "https://www.datainsightsmarket.com/reports/ai-presentation-tools-1410442"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 6.0,
+        "evidence": "November 2025 Series B/ARR announcement outside 90-day window; multiple reviews and comparison articles in June-July-August 2026 (PlusAI, PickWize, MindStudio, LlamaGen); steady feature coverage",
+        "source": "https://plusai.com/blog/gamma-and-other-ai-presentation-tools/"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Google Trends API/site rate-limited; unable to measure search trend directly"
+      },
+      "stepUp": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Series A $12M (May 2024) to Series B $68M at $2.1B valuation (Nov 2025) = 175x+ valuation multiple; exceptional step for presentation software",
+        "source": "https://www.thesaasnews.com/news/gamma-raises-12-million-in-series-a/"
+      },
+      "yoyRevenueGrowth": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "ARR grew from $30.5M (end 2024) to $102M (late 2025) = 234% YoY growth; exceptional revenue acceleration for SaaS platform",
+        "source": "https://getlatka.com/companies/gamma-app"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public source (news, SimilarWeb-style report) found disclosing website traffic trend"
+      },
+      "redditActivity": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No significant Reddit discussion volume found in trailing 30 days via site-restricted search"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Strong momentum: $100M ARR (late 2025), 35% enterprise user base, 47M presentations per month globally, major market adoption reported",
+        "source": "https://techcrunch.com/2025/11/10/ai-powerpoint-killer-gamma-hits-2-1b-valuation-100m-arr-founder-says/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Very high institutional interest: top-tier VCs (Accel, a16z, IVP), reported $2.1B valuation, $100M ARR milestone, 35% enterprise penetration",
+        "source": "https://www.businesswire.com/news/home/20251110805751/en/Gamma-Surpasses-$100M-ARR-Raises-at-$2.1B-Valuation-as-It-Replaces-PowerPoint-for-the-AI-Era",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "ARR surge from $30.5M to $102M in one year; market positioning as PowerPoint replacement gaining rapid adoption; high-profile integrations (Microsoft 365, PowerPoint, Airtable, etc.)",
+        "source": "https://www.businesswire.com/news/home/20251110805751/en/Gamma-Surpasses-$100M-ARR-Raises-at-$2.1B-Valuation-as-It-Replaces-PowerPoint-for-the-AI-Era",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "getbasis",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "AI in Accounting market at 44.6% CAGR to 2031, valued at $10.87B in 2026 (up from $7.52B in 2025); SMEs recording fastest growth at 45.2% CAGR",
+        "source": "https://www.mordorintelligence.com/industry-reports/artificial-intelligence-in-accounting-market"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 5.0,
+        "evidence": "February 2026 Series B $100M announcement with moderate press coverage (BusinessWire, SiliconANGLE, CPA Practice Advisor); references to top firm adoption and end-to-end automation achievements; limited recent coverage outside announcement",
+        "source": "https://www.businesswire.com/news/home/20260224020999/en/Basis-Raises-$100M-at-a-$1.15B-Valuation-as-Accounting-Firms-Adopt-End-to-End-Agents-Across-Accounting-Tax-and-Audit"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Google Trends API/site rate-limited; unable to measure search trend directly"
+      },
+      "stepUp": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Series A $34M (Dec 2024) to Series B $100M at $1.15B valuation (Feb 2026) = ~34x valuation step in 2 months; exceptional momentum for accounting AI",
+        "source": "https://www.businesswire.com/news/home/20260224020999/en/Basis-Raises-$100M-at-a-$1.15B-Valuation-as-Accounting-Firms-Adopt-End-to-End-Agents-Across-Accounting-Tax-and-Audit"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public revenue or ARR data disclosed"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public source found disclosing website traffic metrics or trends"
+      },
+      "redditActivity": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No significant Reddit discussion volume found in trailing 30 days via site-restricted search"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Strong momentum: ~30% of top 25 US accounting firms as customers (7-8 firms), demonstrated end-to-end 1065 tax return automation, major institutional backing (Accel, Khosla, GV)",
+        "source": "https://www.businesswire.com/news/home/20260224020999/en/Basis-Raises-$100M-at-a-$1.15B-Valuation-as-Accounting-Firms-Adopt-End-to-End-Agents-Across-Accounting-Tax-and-Audit",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "High-profile customer wins in top accounting firms; $1.15B valuation after rapid Series A-B progression; demonstrated product capability (autonomous 1065 tax returns)",
+        "source": "https://www.cpapracticeadvisor.com/2026/02/24/basis-raises-100-million-to-deploy-ai-agents-for-accounting-firms/178759/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Series B funding surge in February 2026; rapid adoption among Tier 1 accounting firms; positioned to disrupt traditionally conservative accounting workflows",
+        "source": "https://siliconangle.com/2026/02/24/ai-accounting-startup-basis-secures-100m-1-15b-valuation-firms-adopt-agent-based-workflows/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "getpie",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Local advertising market at $184.5B in 2026 with digital claiming >50%; AI in advertising growing 24.2% CAGR ($3.37B in 2025 to $4.18B in 2026); 73% of marketers prioritizing AI-optimized content",
+        "source": "https://www.iab.com/news/outlook-study-forecasts-9-5-growth-in-u-s-ad-spend/"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "June 2026 Series A $19.5M announcement with good press coverage (BusinessWire, Yahoo Finance, Morningstar, TheAIInsider); emergence from stealth with new product launch (Front Desk); solid recent coverage for early-stage company",
+        "source": "https://www.businesswire.com/news/home/20260630636582/en/Pie-Raises-$23.7M-to-Bring-AI-Powered-Growth-to-Main-Street-Businesses"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Google Trends API/site rate-limited; unable to measure search trend directly"
+      },
+      "stepUp": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Seed $765K (May 2025) to Series A $19.5M (June 2026) = 25.5x valuation step; strong momentum for recently founded company",
+        "source": "https://www.thesaasnews.com/news/pie-raises-19-5m-series-a/"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public revenue, ARR, or financial metrics disclosed; pre-revenue or early-stage startup"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public source found disclosing website traffic metrics or trends"
+      },
+      "redditActivity": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No significant Reddit discussion volume found in trailing 30 days via site-restricted search"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 6.0,
+        "evidence": "Moderate momentum: Series A funding in June 2026, emergence from stealth with new product launch (Front Desk for AI receptionist), early customer traction (Moxie Management with double-digit sales growth across 65 locations)",
+        "source": "https://getpie.com/blog/pie-raises-23.7m-to-bring-ai-powered-growth-to-main-street-businesses",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 6.0,
+        "evidence": "Good backing (Lightspeed Venture Partners, Capital One Ventures, SciFi VC); recently emerged from stealth with demonstrated customer wins; positioned in large TAM (local advertising) with AI tailwind",
+        "source": "https://theaiinsider.tech/2026/07/09/pie-raises-23-7m-to-bring-ai-powered-growth-to-main-street-businesses/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 6.0,
+        "evidence": "Emergence from stealth in June 2026 with Series A funding; new AI product launch (Front Desk); early customer metrics showing adoption, but limited scale evidence to date",
+        "source": "https://www.morningstar.com/news/business-wire/20260630636582/pie-raises-23-7m-to-bring-ai-powered-growth-to-main-street-businesses",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "glow",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 5.0,
+        "evidence": "Endpoint security market growing 11.9% CAGR from $18.58B (2025) to $20.79B (2026), projected to reach $28.06B by 2031; software segment dominates at 66.51% market share",
+        "source": "https://www.researchandmarkets.com/reports/5767423/endpoint-security-market-report"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "July 2026 emergence from stealth with $180M Series A announcement; extensive press coverage (SecurityWeek, TechCrunch, GlobalNewswire, Yahoo Finance); Black Hat USA Conference showcase August 3-5, 2026; very recent and strong announcement volume",
+        "source": "https://www.globenewswire.com/news-release/2026/07/22/3331154/0/en/Glow-Emerges-From-Stealth-With-$180-Million-to-Reinvent-Endpoint-Security-in-the-AI-Era.html"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Google Trends API/site rate-limited; unable to measure search trend directly"
+      },
+      "stepUp": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Seed $20M at unknown valuation to Series A $60M at $400M to Series B $100M at higher valuation, emerging at $1.2B; based on disclosed rounds, 3x step from Series A to current, exceptional for security startup founded in 2025",
+        "source": "https://www.securityweek.com/endpoint-security-firm-glow-launches-with-180m-in-funding-at-1-2b-valuation/"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public revenue data; company just emerged from stealth in July 2026, too early for revenue metrics"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public source found disclosing website traffic metrics or trends"
+      },
+      "redditActivity": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No significant Reddit discussion volume found in trailing 30 days via site-restricted search"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Strong momentum: $180M Series A funding at $1.2B valuation (July 2026); enterprise customers in healthcare, retail, financial services; top-tier VCs (Sequoia, Greenoaks, Redpoint, Index); featured at major security conference (Black Hat)",
+        "source": "https://techcrunch.com/2026/07/22/glow-emerges-from-stealth-at-1-2b-valuation-to-challenge-endpoint-security-in-the-ai-era/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Very strong institutional backing (Sequoia, Greenoaks, Redpoint, Index, Lux, Cyberstarts); emerged as instant unicorn ($1.2B); led by experienced founders (ex-Meta VP, ex-Snowflake CISO); demonstrated enterprise traction",
+        "source": "https://www.glow.io/news/glow-emerges-from-stealth-with-180-million",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Instant surge to $1.2B unicorn status with $180M funding (July 2026); high-profile founder/leadership (ex-Meta, ex-Snowflake); positioned as AI-first endpoint security solution at inflection point for AI adoption in enterprises",
+        "source": "https://www.helpnetsecurity.com/2026/07/22/glow-launches-with-180-million-funding/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  }
+]

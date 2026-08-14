@@ -1,0 +1,390 @@
+[
+  {
+    "id": "braintrust-software-development-applications",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "AI Observability Market projected at $20.52B by 2035 from ~$2.71B in 2025, representing 22.47% CAGR",
+        "source": "https://www.globenewswire.com/news-release/2026/08/05/3339416/0/en/AI-Observability-Market-Projected-to-Hit-20-52-Billion-by-2035-as-Enterprise-AI-Governance-and-MLOps-Adoption-Accelerate-Research-by-SNS-Insider.html"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 6.0,
+        "evidence": "Series B announcement Feb 17, 2026 covered across SiliconANGLE, FinSMEs, The SaaS News, Axios, multiple tech outlets in ~90 day window",
+        "source": "https://siliconangle.com/2026/02/17/braintrust-lands-80m-series-b-funding-round-become-observability-layer-ai/"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Google Trends direct access blocked; no public trend reports found for company name searches"
+      },
+      "stepUp": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Series B $800M valuation vs Series A $150M valuation = 5.33x step-up (>2.0x threshold)",
+        "source": "https://www.finsmes.com/2024/10/braintrust-raises-36m-in-series-a-funding.html"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public revenue disclosures found for private company"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public SimilarWeb or traffic growth reports available"
+      },
+      "redditActivity": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No significant Reddit discussion activity found in 30-day search"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Strong enterprise adoption (Notion, Stripe, Vercel, Zapier, Ramp), $800M valuation, strong investor backing (Iconiq, a16z, Greylock)",
+        "source": "https://www.braintrust.dev/blog/announcing-series-b",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Strong enterprise adoption (Notion, Stripe, Vercel, Zapier, Ramp), $800M valuation, strong investor backing (Iconiq, a16z, Greylock)",
+        "source": "https://www.braintrust.dev/blog/announcing-series-b",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Strong enterprise adoption (Notion, Stripe, Vercel, Zapier, Ramp), $800M valuation, strong investor backing (Iconiq, a16z, Greylock)",
+        "source": "https://www.braintrust.dev/blog/announcing-series-b",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "bunkerhillhealth",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Healthcare AI agents market growing from $1.2B in 2026 to $24.8B by 2036 (35.4% CAGR), or $1.14B to $33.66B (45.6% CAGR) by other estimates",
+        "source": "https://www.towardshealthcare.com/insights/agentic-ai-in-healthcare-market-sizing"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Series B announcement July 16-29, 2026 extensively covered: Fortune, BusinessWire, Beckers Hospital Review, TechCrunch, Sequoia blog, multiple outlets",
+        "source": "https://fortune.com/2026/07/16/bunkerhill-health-raises-55-million-ai-agents-work-inside-hospitals/"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Google Trends access blocked; no public trend reports available"
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Series A and Series B valuations not publicly disclosed; cannot compute with only raised amounts"
+      },
+      "yoyRevenueGrowth": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Series B announcement states company 'grew revenue 20-fold' over past year, representing >100% YoY growth",
+        "source": "https://www.businesswire.com/news/home/20260716806874/en/Bunkerhill-Health-Raises-$55-Million-to-Help-Health-Systems-Turn-Their-Best-Ideas-into-Reality"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public SimilarWeb or traffic analytics available"
+      },
+      "redditActivity": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No significant Reddit discussions found"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "20-fold YoY revenue growth, adoption at 15 major health systems (Cleveland Clinic, Mayo, Intermountain, UTMB), CMS reimbursement approval April 2026, FDA clearance announcements",
+        "source": "https://sequoiacap.com/article/partnering-with-bunkerhill-health-ai-agents-that-improve-patient-outcomes/"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "20-fold YoY revenue growth, adoption at 15 major health systems (Cleveland Clinic, Mayo, Intermountain, UTMB), CMS reimbursement approval April 2026, FDA clearance announcements",
+        "source": "https://sequoiacap.com/article/partnering-with-bunkerhill-health-ai-agents-that-improve-patient-outcomes/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "20-fold YoY revenue growth, adoption at 15 major health systems (Cleveland Clinic, Mayo, Intermountain, UTMB), CMS reimbursement approval April 2026, FDA clearance announcements",
+        "source": "https://sequoiacap.com/article/partnering-with-bunkerhill-health-ai-agents-that-improve-patient-outcomes/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "campfire",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 5.0,
+        "evidence": "Accounting software market growing from $19.68B in 2026 at 9.6% CAGR; broader ERP market at 8-13% CAGR. Moderate growth trajectory.",
+        "source": "https://www.precedenceresearch.com/accounting-software-market"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 6.0,
+        "evidence": "Series A announced June 2025, Series B announced October 2025. Covered in PRNewswire, The SaaS News, TechCrunch, fintech media outlets",
+        "source": "https://www.prnewswire.com/news-releases/campfire-raises-35-million-series-a-led-by-accel-to-build-the-next-generation-ai-driven-erp-302494153.html"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Google Trends access blocked; no public trend reports available"
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Series B post-money valuation of $375M disclosed, but Series A post-money valuation not publicly disclosed; cannot compute with precision"
+      },
+      "yoyRevenueGrowth": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Company reported '10x revenue growth' year-to-date by time of Series B announcement (Oct 2025, roughly 4-5 months into year)",
+        "source": "https://www.stocktitan.net/news/MFA/campfire-raises-65-million-series-b-to-redefine-how-finance-works-in-ldo69xgukntd.html"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public SimilarWeb or traffic analytics available"
+      },
+      "redditActivity": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No significant Reddit discussion activity found"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "10x revenue growth, $100M raised in 12 weeks (Feb-Oct 2025), adopted by PostHog/Decagon/Replit, strong investor backing (Accel, Ribbit)",
+        "source": "https://campfire.ai/blog/campfire-65-million-series-b-co-led-by-accel-and-ribbit",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "10x revenue growth, $100M raised in 12 weeks (Feb-Oct 2025), adopted by PostHog/Decagon/Replit, strong investor backing (Accel, Ribbit)",
+        "source": "https://campfire.ai/blog/campfire-65-million-series-b-co-led-by-accel-and-ribbit",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "10x revenue growth, $100M raised in 12 weeks (Feb-Oct 2025), adopted by PostHog/Decagon/Replit, strong investor backing (Accel, Ribbit)",
+        "source": "https://campfire.ai/blog/campfire-65-million-series-b-co-led-by-accel-and-ribbit",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "castelion",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 5.0,
+        "evidence": "Hypersonic weapons market growing from $7.82B in 2025 to $8.64B in 2026 (10.5% CAGR); defense systems specifically at 16.9% CAGR to 2030",
+        "source": "https://www.fortunebusinessinsights.com/hypersonic-weapons-market-115893"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Series B announced Dec 5, 2025; multiple 2026 updates including DoW framework agreement (May 2026), Navy contracts ($23.4M June, $105M undated). Coverage in SpaceNews, PRNewswire, GovConWire, aerospace media",
+        "source": "https://www.prnewswire.com/news-releases/castelion-closes-350-million-series-b-to-mass-produce-us-hypersonic-weapons-302633732.html"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Google Trends access blocked; no public trend reports available"
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Series B $350M raised at $2.8B valuation clear; Series A $70M raised but post-money valuation not disclosed publicly; cannot compute precisely"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Defense contractor, no revenue disclosed publicly"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public traffic analytics available"
+      },
+      "redditActivity": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No Reddit discussion activity found"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "$350M Series B, DoW framework agreement (min 500 missiles/year), Navy contracts ($23.4M+$105M), Project Ranger manufacturing facility groundbreaking, high-velocity government traction",
+        "source": "https://www.castelion.com/news/series-b/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "$350M Series B, DoW framework agreement (min 500 missiles/year), Navy contracts ($23.4M+$105M), Project Ranger manufacturing facility groundbreaking, high-velocity government traction",
+        "source": "https://www.castelion.com/news/series-b/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "$350M Series B, DoW framework agreement (min 500 missiles/year), Navy contracts ($23.4M+$105M), Project Ranger manufacturing facility groundbreaking, high-velocity government traction",
+        "source": "https://www.castelion.com/news/series-b/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "cathedral",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Military AI market growing at 16.7% CAGR ($11.6B in 2026 to $34.2B by 2033); defense cybersecurity at 11.2% CAGR",
+        "source": "https://www.openpr.com/news/4601823/ai-in-military-market-to-reach-us-34-2-billion-by-2033-growing"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Series A announced late July 2026. Covered across multiple outlets: Dealroom, The Next Web, Executive Biz, Vanity Fair report (June), mainstream business press",
+        "source": "https://thenextweb.com/news/cathedral-doge-alumni-military-cyber-startup-1-4-billion"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Google Trends access blocked; no public trend reports available; stealth startup may have minimal search volume"
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "First disclosed funding round; no prior valuation available"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Stealth startup, no revenue disclosed; company just launched"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Stealth mode, minimal public web presence; no traffic data available"
+      },
+      "redditActivity": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Stealth startup, minimal expected Reddit activity"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "$160M seed round at $1.4B valuation, backed by a16z & Sequoia, founders from Pentagon/DOGE/SpaceX (Kliger was DoD CDO, Farritor/Elez ex-SpaceX). Strong pedigree for emerging company.",
+        "source": "https://www.executivebiz.com/articles/cathedral-doge-cyber-startup-160m-funding-1-4b-valuation",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "$160M seed round at $1.4B valuation, backed by a16z & Sequoia, founders from Pentagon/DOGE/SpaceX (Kliger was DoD CDO, Farritor/Elez ex-SpaceX). Strong pedigree for emerging company.",
+        "source": "https://www.executivebiz.com/articles/cathedral-doge-cyber-startup-160m-funding-1-4b-valuation",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "$160M seed round at $1.4B valuation, backed by a16z & Sequoia, founders from Pentagon/DOGE/SpaceX (Kliger was DoD CDO, Farritor/Elez ex-SpaceX). Strong pedigree for emerging company.",
+        "source": "https://www.executivebiz.com/articles/cathedral-doge-cyber-startup-160m-funding-1-4b-valuation",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "chaidiscovery",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "AI drug discovery market estimated at $8.6B-$25B in 2026, growing to $25B by 2035 (12.6% CAGR) or higher in some models",
+        "source": "https://www.globenewswire.com/news-release/2026/08/13/3344697/28124/en/ai-in-drug-discovery-market-report-2026-3rd-edition-trends-and-forecast-to-2035.html"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Series C announced July 14, 2026; also Pfizer license deal (June 2026), Novartis partnership (July), Eli Lilly collaboration (Jan 2026). Covered extensively in biotech/pharma media: FierceBiotech, Pharmaletter, BusinessWire, multiple outlets",
+        "source": "https://www.businesswire.com/news/home/20260713849009/en/Chai-Discovery-Announces-$400M-Series-C-to-Advance-AI-Driven-Molecular-Design"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Google Trends access blocked; no public trend reports available"
+      },
+      "stepUp": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Series C $3.8B valuation vs Series B $1.3B valuation = 2.92x step-up (>2.0x threshold)",
+        "source": "https://endpoints.news/chai-discovery-gets-400m-tripling-valuation-from-seven-months-ago/"
+      },
+      "yoyRevenueGrowth": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Major pharma partnerships with mid-eight figure annual Eli Lilly license (Jan 2026), Pfizer license (June 2026), Novartis partnership (July 2026). Strong implicit revenue trajectory from multiple enterprise licensing deals.",
+        "source": "https://www.businesswire.com/news/home/20260108131261/en/Chai-Discovery-Announces-Collaboration-with-Eli-Lilly-and-Company-to-Accelerate-Biologics-Discovery"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public traffic analytics available"
+      },
+      "redditActivity": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No significant Reddit discussion activity found"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "$400M Series C at $3.8B valuation, partnerships with Eli Lilly/Pfizer/Novartis, elite investor backing (Index, Kleiner, Sequoia, Dimension), 2.92x valuation step-up from Series B",
+        "source": "https://www.fiercebiotech.com/biotech/chai-brews-400m-series-c-fuel-ai-used-lilly-novartis-and-pfizer",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "$400M Series C at $3.8B valuation, partnerships with Eli Lilly/Pfizer/Novartis, elite investor backing (Index, Kleiner, Sequoia, Dimension), 2.92x valuation step-up from Series B",
+        "source": "https://www.fiercebiotech.com/biotech/chai-brews-400m-series-c-fuel-ai-used-lilly-novartis-and-pfizer",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "$400M Series C at $3.8B valuation, partnerships with Eli Lilly/Pfizer/Novartis, elite investor backing (Index, Kleiner, Sequoia, Dimension), 2.92x valuation step-up from Series B",
+        "source": "https://www.fiercebiotech.com/biotech/chai-brews-400m-series-c-fuel-ai-used-lilly-novartis-and-pfizer",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  }
+]

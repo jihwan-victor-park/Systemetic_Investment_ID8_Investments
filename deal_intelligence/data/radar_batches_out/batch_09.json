@@ -1,0 +1,388 @@
+[
+  {
+    "id": "oratomic",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Quantum computing market growing 40.5% CAGR 2025-2026, with market projected to reach $5.09B in 2026",
+        "source": "https://thequantuminsider.com/2026/04/14/global-quantum-computing-market-to-double-by-2028-reaching-3-billion-in-revenue-qed-c-state-of-the-global-quantum-industry-2026-report-finds/"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Multiple news sources covering July 2026 funding: HPCwire, TechCrunch, The Quantum Insider, Quantum Computing Report, Wilson Sonsini, FinSMEs",
+        "source": "https://techcrunch.com/2026/07/10/oratomic-raises-300m-to-build-a-viable-quantum-computer-that-needs-only-20k-qubits/"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Google Trends data not accessible via direct query; would require real-time access to Trends interface"
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No prior round valuation disclosed; cannot calculate step-up ratio"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public revenue or YoY growth data disclosed for private company"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public source found stating website traffic trends"
+      },
+      "redditActivity": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No Reddit posts found for Oratomic in search results"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Strong public momentum: $300M Series A funding, major investor list (Bezos Expeditions, Khosla, Index Ventures), multiple technical partnership announcements (Caltech), and significant media coverage indicate strong sector momentum",
+        "source": "https://quantumcomputingreport.com/oratomic-secures-300m-series-a-to-build-fault-tolerant-quantum-computers-via-reconfigurable-neutral-atom-arrays/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Major Series A round at $1.5B valuation, strategic investor participation (Bezos Expeditions, Khosla), and emergence from relative stealth with immediate large funding validates market demand",
+        "source": "https://www.finsmes.com/2026/07/oratomic-raises-300m-in-series-a-funding.html",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Rapid market attention following July 2026 funding announcement; breakthrough claim (20K qubits vs 100K+ competitors assume) attracted research partnerships and consistent media momentum",
+        "source": "https://www.hpcwire.com/2026/07/21/oratomics-300m-bet-on-low-qubit-quantum-computing/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "paper",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 6.0,
+        "evidence": "AI-powered design tools market growing 22% in 2026 (from $6.74B to $8.22B), slower than quantum/AI agents but steady",
+        "source": "https://www.researchandmarkets.com/reports/5971142/ai-powered-design-tools-market-report"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Multiple news sources covering July 2026 Series A announcement: Axios, BusinessWire, Yahoo Finance, AIwire, TheSAASNews, TimesOfStartups, TradedVC, ValueAdd Pulse",
+        "source": "https://www.businesswire.com/news/home/20260723608438/en/Paper-Raises-$34-Million-Series-A-with-Accel-and-ICONIQ-to-Build-the-Design-Platform-for-the-Agentic-Era/"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Google Trends data not accessible via direct query"
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No prior round valuation disclosed; cannot calculate step-up ratio"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public revenue or YoY growth data disclosed for private company"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public source found stating website traffic trends"
+      },
+      "redditActivity": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No Reddit posts found for Paper design tools in search results"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 6.0,
+        "evidence": "Moderate momentum: $34M Series A with tier-1 investors (Accel, ICONIQ), targeting trending AI-native design workflow market, but smaller round size than peer quantum companies",
+        "source": "https://www.axios.com/pro/enterprise-software-deals/2026/07/23/paper-software-design-accel-iconiq",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 6.0,
+        "evidence": "Series A with top-tier design & AI investors; entering market at inflection point for agentic design workflows (22% market growth, multi-agent trend emerging)",
+        "source": "https://finance.yahoo.com/technology/ai/articles/paper-raises-34-million-series-130000344.html",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 6.0,
+        "evidence": "Moderate surge: Early-stage company riding AI design tools wave, with design ecosystem shifting toward AI-native tools in 2026",
+        "source": "https://designx.co/ai-design-tools-2026/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "parallel",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "AI agents market growing 49.6% CAGR 2026-2033; market size $10.9-12B in 2026; explosive growth driven by multi-agent systems and enterprise adoption",
+        "source": "https://www.grandviewresearch.com/industry-analysis/ai-agents-market-report"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Multiple press releases and news coverage of Series B raise; founder (Parag Agrawal, ex-Twitter CEO) attracts media attention; $2B valuation milestone noted in PRNewswire",
+        "source": "https://www.prnewswire.com/news-releases/parallel-raises-at-2-billion-valuation-to-scale-web-infrastructure-for-agents-302756350.html"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Google Trends data not accessible via direct query"
+      },
+      "stepUp": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Series B valuation $2B vs Series A valuation $740M (Nov 2025) = 2.7x step-up, indicating strong traction and investor conviction",
+        "source": "https://www.newcomer.co/p/exclusive-parag-agrawal-parallel"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public revenue or YoY growth data disclosed for private company"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public source found stating website traffic trends"
+      },
+      "redditActivity": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No specific Reddit posts found for Parallel AI web search in search results"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Strong growth signals: 2.7x valuation step-up in 6 months; $230M total raised; founder with major Twitter pedigree; positioned at intersection of three explosive trends (AI agents, web infrastructure, LLM adoption)",
+        "source": "https://aimagazine.com/magazines/parag-agrawals-parallel-web-systems-raises-100m-for-ai",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Exceptional heat: $2B valuation, unicorn status reached, Series B led by Sequoia, all prior investors increasing participation, solving core infrastructure problem for agentic AI boom",
+        "source": "https://siliconangle.com/2026/04/28/parag-agrawals-startup-raises-100m-build-parallel-web-ai-agents/",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Rapid surge: $2.7x valuation growth in 6 months, rapid investor interest, market tailwind from AI agents CAGR 49.6% growth rate",
+        "source": "https://www.prnewswire.com/news-releases/parallel-raises-at-2-billion-valuation-to-scale-web-infrastructure-for-agents-302756350.html",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "pi",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Robotics sector growing 34% YoY in 2026, fastest growth rate in decade; $18.8B raised in robotics startups in 2026 vs $15B in 2025",
+        "source": "https://news.crunchbase.com/robotics/startup-venture-funding-surges-2026-data/"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Significant media coverage of robotics AI funding sector in 2026; humanoid startups alone raised $8.6B; major announcements of Apptronik ($935M) and NEURA Robotics ($1.4B)",
+        "source": "https://www.roboticscenter.ai/en/state-of-robotics-2026"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Google Trends data not accessible via direct query; note: 'Pi' is ambiguous company name in search results"
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No prior round valuation disclosed for this company; cannot calculate step-up ratio"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public revenue or YoY growth data disclosed for private company"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public source found stating website traffic trends"
+      },
+      "redditActivity": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No Reddit posts found for Pi Security/Physical Intelligence in search results"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Strong momentum in robotics AI sector; $600M Series B funding with tier-1 investors (NVIDIA, Index Ventures, Lux Capital, Thrive Capital); sector growing 34% YoY with explosive humanoid/AI focus",
+        "source": "https://www.thelec.net/news/articleView.html?idxno=6214",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "High heat: Series B at $600M round size; NVIDIA participation signals strategic value; robotics AI sector at inflection point with 34% YoY growth and $200B long-term market",
+        "source": "https://nvidianews.nvidia.com/news/nvidia-us-manufacturing-robotics-physical-ai",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Sector surge: Robotics funding reached $18.8B in 2026 YTD vs $15B full year 2025; humanoid startups $8.6B in 2026; convergence of AI + robotics creating unprecedented funding momentum",
+        "source": "https://intellectia.ai/blog/best-robotic-stock-2026",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "pi-website",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Robotics sector growing 34% YoY in 2026, fastest growth rate in decade; $18.8B raised in robotics startups in 2026 vs $15B in 2025",
+        "source": "https://news.crunchbase.com/robotics/startup-venture-funding-surges-2026-data/"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Significant media coverage of robotics AI funding sector and physical AI acceleration in 2026; major announcements of humanoid/AI robots",
+        "source": "https://www.raisesummit.com/post/robotics-humanoids-physical-ai-leaders"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Google Trends data not accessible via direct query"
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No prior round valuation disclosed for this company; cannot calculate step-up ratio"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public revenue or YoY growth data disclosed for private company"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public source found stating website traffic trends"
+      },
+      "redditActivity": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No Reddit posts found for Physical Intelligence in search results"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Strong momentum: Series B $600M with tier-1 investors (Index Ventures, Lux Capital, Thrive Capital); robotics AI sector growing 34% YoY; positioned in high-growth physical AI/foundation models space",
+        "source": "https://www.thelec.net/news/articleView.html?idxno=6214",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "High heat: $600M Series B; foundation models + robotics at intersection of two mega-trends (AI + automation); market positioning in 34% YoY growth sector",
+        "source": "https://www.thelec.net/news/articleView.html?idxno=6214",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Sector surge: Robotics funding reached $18.8B in 2026 YTD; humanoid startups $8.6B; physical AI/foundation models emerging as dominant 2026 trend",
+        "source": "https://intellectia.ai/blog/best-robotic-stock-2026",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "pointfive",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Cloud cost optimization and AI infrastructure optimization are fastest-growing cost categories in 2026; organizations still waste 30-50% of cloud spending; AI/GPU workloads fastest-growing cost segment",
+        "source": "https://cloudsecurityalliance.org/blog/2026/06/12/top-cloud-cost-optimization-techniques-in-2026-for-maximum-roi"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 6.0,
+        "evidence": "Multiple sources covered June 2026 Series B announcement: VentureBurn, FinSMEs, YNetNews, Globes, Ctech, SiliconANGLE, company press release on pointfive.co",
+        "source": "https://ventureburn.com/pointfive-raises-60-million-expand-ai-efficiency-platform/"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Google Trends data not accessible via direct query"
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No prior round valuation disclosed; cannot calculate step-up ratio"
+      },
+      "yoyRevenueGrowth": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "6x ARR growth between 2024 and 2025 indicates exceptional revenue expansion (>500% YoY growth)",
+        "source": "https://www.pointfive.co/series-b"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No public source found stating website traffic trends"
+      },
+      "redditActivity": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No Reddit posts found for PointFive in search results"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Strong growth: 6x ARR growth 2024-2025; $60M Series B; tier-1 investors (Accel, Index Ventures, Salesforce Ventures); solving acute pain point (30-50% cloud waste, fastest-growing cost category)",
+        "source": "https://en.globes.co.il/en/article-israeli-ai-efficiency-co-pointfive-raises-60m-1001545301",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "High heat: 6x ARR growth demonstrates market pull; Series B led by tier-1 VC (Accel); cloud cost optimization urgency at all-time high with AI/GPU costs exploding",
+        "source": "https://www.calcalistech.com/ctechnews/article/sjpjbnnwzl",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Rapid surge: 6x ARR growth; market conditions intensifying with AI/GPU costs reaching critical levels; shift in enterprise measurement from cost-reduction % to cost-per-outcome driving urgent demand",
+        "source": "https://www.intellectt.com/insights/blog/cloud-cost-optimization-in-2026-how-ai-driven-finops-is-transforming-enterprise-it-spending",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  }
+]

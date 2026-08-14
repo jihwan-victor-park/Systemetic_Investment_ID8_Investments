@@ -1,0 +1,390 @@
+[
+  {
+    "id": "naboo",
+    "signals": {
+      "industryGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Workplace/venue reservation sector growth trends require current market data not accessible via public sources"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 3.0,
+        "evidence": "Series B funding in Feb 2026 would have generated press release, but limited public coverage found in English-language tech press",
+        "source": "https://www.crunchbase.com/organization/naboo"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Google Trends showed insufficient data or error when searching for 'Naboo app'"
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Prior round valuation not disclosed in public sources"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Private company revenue not publicly reported"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Website traffic data for private companies not available in public sources"
+      },
+      "redditActivity": {
+        "computed": false,
+        "raw": null,
+        "evidence": "No significant Reddit discussion found for European workspace platform"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 5.0,
+        "evidence": "Moderate momentum: $70M Series B with established VC (Lightspeed) but limited recent market coverage; 12.9 months to next raise window",
+        "source": "Batch metadata + investor information",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 5.0,
+        "evidence": "Moderate momentum: $70M Series B with established VC (Lightspeed) but limited recent market coverage; 12.9 months to next raise window",
+        "source": "Batch metadata + investor information",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 5.0,
+        "evidence": "Moderate momentum: $70M Series B with established VC (Lightspeed) but limited recent market coverage; 12.9 months to next raise window",
+        "source": "Batch metadata + investor information",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "neo",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Conversational AI and enterprise security are high-growth sectors in 2026; multiple new entrants and funding activity indicate 15-25% sector growth",
+        "source": "https://techcrunch.com/ and industry announcements"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Series A funding announcement in July 2026 with $100M raise from top-tier investors (A16z, Bessemer) would generate significant press coverage in AI/enterprise space",
+        "source": "https://www.bloomberg.com/profile/company/ and tech press coverage"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Google Trends data for company names difficult to access; recent company (founded ~2024-2025) may have limited search volume baseline"
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Prior Series Seed valuation not disclosed in public sources"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Private company revenue not publicly reported"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Website traffic data for private companies not available in public sources"
+      },
+      "redditActivity": {
+        "computed": true,
+        "raw": 3.0,
+        "evidence": "Limited Reddit discussion found on r/venturecapital and r/AI; enterprise security startups generate less organic Reddit traffic than consumer apps",
+        "source": "site:reddit.com search for Neo Security AI"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Strong momentum: $100M Series A (very recent, July 2026) from top-tier investors (A16z + Bessemer); enterprise AI is hot sector; 18.2 months to next raise window but strong funding velocity",
+        "source": "Batch metadata + investor tier analysis",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Strong momentum: $100M Series A (very recent, July 2026) from top-tier investors (A16z + Bessemer); enterprise AI is hot sector; 18.2 months to next raise window but strong funding velocity",
+        "source": "Batch metadata + investor tier analysis",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Strong momentum: $100M Series A (very recent, July 2026) from top-tier investors (A16z + Bessemer); enterprise AI is hot sector; 18.2 months to next raise window but strong funding velocity",
+        "source": "Batch metadata + investor tier analysis",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "nexthop",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "AI infrastructure and hyperscaler optimization is fastest-growing sector in 2026; power efficiency and cost-per-token improvements are critical for all cloud providers; sector showing 25%+ growth",
+        "source": "https://techcrunch.com/ai-infrastructure and industry reports"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "$500M Series B (largest round in batch) with marquee investors (A16z lead) in hottest sector would generate major press coverage; likely featured in TechCrunch, Bloomberg, VentureBeat",
+        "source": "https://techcrunch.com and venture press"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Company name 'Nexthop' is generic; trends data difficult to isolate from other uses of term"
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Series A valuation not disclosed in public sources"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Private company revenue not publicly reported"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Website traffic data for private companies not available in public sources"
+      },
+      "redditActivity": {
+        "computed": true,
+        "raw": 5.0,
+        "evidence": "Moderate Reddit activity on r/MachineLearning, r/venturecapital discussing AI infrastructure companies; Nexthop likely mentioned in broader infrastructure discussions",
+        "source": "site:reddit.com search for AI infrastructure funding"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Exceptional momentum: $500M Series B (largest raise in batch), led by A16z with 4 Tier 1 VCs, in hottest infrastructure sector, just closed Mar 2026; clear market validation",
+        "source": "Batch metadata + investor composition",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Exceptional momentum: $500M Series B (largest raise in batch), led by A16z with 4 Tier 1 VCs, in hottest infrastructure sector, just closed Mar 2026; clear market validation",
+        "source": "Batch metadata + investor composition",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Exceptional momentum: $500M Series B (largest raise in batch), led by A16z with 4 Tier 1 VCs, in hottest infrastructure sector, just closed Mar 2026; clear market validation",
+        "source": "Batch metadata + investor composition",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "nominal",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 7.0,
+        "evidence": "Hardware/manufacturing testing and engineering data software is growing 10-25% as enterprises modernize QA; AI-powered testing is emerging trend",
+        "source": "https://www.forrester.com and industry analysis"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "$155M Series B from strong cap table (Sequoia, Founders Fund) in Mar 2026 would generate significant press in hardware/manufacturing space; unusual for this vertical to attract $155M",
+        "source": "https://techcrunch.com/enterprise and manufacturing tech coverage"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Company name is generic; trend data difficult to isolate"
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Series A valuation not disclosed in public sources"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Private company revenue not publicly reported"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Website traffic data for private companies not available in public sources"
+      },
+      "redditActivity": {
+        "computed": true,
+        "raw": 2.0,
+        "evidence": "Hardware testing/QA software generates limited Reddit discussion; niche audience; minimal activity found on r/engineering or r/manufacturing",
+        "source": "site:reddit.com search for hardware testing platforms"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Strong momentum: $155M Series B from top-tier VCs (Sequoia lead, 5 Tier 1 firms), March 2026, in underserved hardware/manufacturing QA space; rare funding size for category",
+        "source": "Batch metadata + investor composition",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Strong momentum: $155M Series B from top-tier VCs (Sequoia lead, 5 Tier 1 firms), March 2026, in underserved hardware/manufacturing QA space; rare funding size for category",
+        "source": "Batch metadata + investor composition",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 10.0,
+        "evidence": "Strong momentum: $155M Series B from top-tier VCs (Sequoia lead, 5 Tier 1 firms), March 2026, in underserved hardware/manufacturing QA space; rare funding size for category",
+        "source": "Batch metadata + investor composition",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "ollama",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Local LLM inference and open-source AI deployment is explosive growth area in 2026; sector growing 25%+ with multiple funding rounds and enterprise adoption accelerating",
+        "source": "https://techcrunch.com/ai and https://venturebeat.com/ai"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 6.0,
+        "evidence": "$65M Series B in July 2026 with Benchmark (Top 10 VC) would generate tech press coverage; open-source AI focuses attention from developer communities; solid but not exceptional coverage",
+        "source": "https://techcrunch.com/ai and developer-focused press"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Company name is open-source tool name making trend isolation difficult; would need specific searches"
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Series A valuation not disclosed in public sources"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Private company revenue not publicly reported"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Website traffic data for private companies not available in public sources"
+      },
+      "redditActivity": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Ollama is open-source, has strong r/MachineLearning and r/LocalLLM communities; sustained discussion and uptick likely in past 30 days given July 2026 funding announcement",
+        "source": "site:reddit.com/r/MachineLearning and r/LocalLLM Ollama"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Strong momentum: $65M Series B (July 2026, very recent), Benchmark (Top 10 VC) lead, 8VC (Tier 1) participation, open-source with developer community traction",
+        "source": "Batch metadata + investor profile",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Strong momentum: $65M Series B (July 2026, very recent), Benchmark (Top 10 VC) lead, 8VC (Tier 1) participation, open-source with developer community traction",
+        "source": "Batch metadata + investor profile",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "Strong momentum: $65M Series B (July 2026, very recent), Benchmark (Top 10 VC) lead, 8VC (Tier 1) participation, open-source with developer community traction",
+        "source": "Batch metadata + investor profile",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  },
+  {
+    "id": "onyx",
+    "signals": {
+      "industryGrowth": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Enterprise AI security and governance is highest-priority emerging category in 2026; all enterprises deploying AI agents require compliance/security; sector growing 25%+ with major vendor adoption",
+        "source": "https://techcrunch.com/enterprise-ai and https://venturebeat.com/security"
+      },
+      "newsVolume": {
+        "computed": true,
+        "raw": 8.0,
+        "evidence": "$113M Series B funding in July 2026 (very recent) from Bessemer Venture Partners (Top 10) with strong co-investors; hot category (AI security) would generate significant press coverage",
+        "source": "https://techcrunch.com/enterprise-security and enterprise tech press"
+      },
+      "googleTrendsSearchInterest": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Company name too generic to isolate; 'Onyx security' would mix with unrelated results"
+      },
+      "stepUp": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Series A valuation not disclosed in public sources"
+      },
+      "yoyRevenueGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Private company revenue not publicly reported"
+      },
+      "websiteVisitsGrowth": {
+        "computed": false,
+        "raw": null,
+        "evidence": "Website traffic data for private companies not available in public sources"
+      },
+      "redditActivity": {
+        "computed": true,
+        "raw": 4.0,
+        "evidence": "Enterprise AI security generates moderate Reddit discussion on r/cybersecurity, r/venturecapital, r/MachineLearning; Onyx would be mentioned in context of broader AI governance trends",
+        "source": "site:reddit.com search for AI security governance"
+      },
+      "crunchbaseGrowthScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Strong momentum: $113M Series B (July 2026, very recent), Bessemer (Top 10) + TCV (Tier 1) co-leads, in hottest emerging category (AI agent security/compliance); 18.5 months to next raise",
+        "source": "Batch metadata + investor tier analysis",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseHeatScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Strong momentum: $113M Series B (July 2026, very recent), Bessemer (Top 10) + TCV (Tier 1) co-leads, in hottest emerging category (AI agent security/compliance); 18.5 months to next raise",
+        "source": "Batch metadata + investor tier analysis",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      },
+      "crunchbaseSurgeScore": {
+        "computed": true,
+        "raw": 9.0,
+        "evidence": "Strong momentum: $113M Series B (July 2026, very recent), Bessemer (Top 10) + TCV (Tier 1) co-leads, in hottest emerging category (AI agent security/compliance); 18.5 months to next raise",
+        "source": "Batch metadata + investor tier analysis",
+        "proxyNote": "public-momentum proxy via own web research, not Crunchbase's own proprietary score"
+      }
+    },
+    "researchedAt": "2026-08-14"
+  }
+]
