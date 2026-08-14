@@ -56,10 +56,27 @@ def run(path=DEFAULT_FILE, dry_run=False):
         existing_radar = snap.to_dict().get("radar") or {}
 
         market_heat = dict(entry["marketHeat"])
-        market_heat["source"] = "manual-web-research-2026-08-06"
+        # `source` is dated per-run (assemble_radar_heat_scores.py stamps
+        # "manual-web-research-<as-of date>") -- previously hardcoded to
+        # 2026-08-06 here regardless of which file was actually passed in,
+        # so every later re-run silently mislabeled its own data with the
+        # wrong date. Only fall back to a generic label if the entry
+        # somehow doesn't carry one.
+        market_heat.setdefault("source", "manual-web-research")
         payload = {"marketHeat": market_heat}
 
-        if existing_radar.get("clock"):
+        # Only a clock built from REAL Apollo headcount data is protected
+        # from being overwritten (2026-08-14 fix -- the guard used to be
+        # "does any clock object exist at all", which also silently
+        # protected companies whose only "clock" was itself a generic
+        # cadence-only fallback estimate with no headcount, identical in
+        # substance to what this script is about to write anyway. This
+        # module's own docstring always said the intent was narrower: "8
+        # of the 61 companies already have a REAL clock/schedule ... real
+        # Apollo headcount" -- the code just never actually checked for
+        # that.
+        existing_clock = existing_radar.get("clock") or {}
+        if existing_clock.get("headcountCheckedAt"):
             kept_existing_clock.append(company_id)
         else:
             payload["clock"] = entry["clock"]

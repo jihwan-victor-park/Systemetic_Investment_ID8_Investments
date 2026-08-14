@@ -29,7 +29,7 @@ Usage:
 """
 import argparse
 import json
-from datetime import date
+from datetime import date, timedelta
 
 from . import capital_clock, radar_mandate, radar_schedule
 
@@ -106,17 +106,23 @@ def _active_radar_companies(companies):
 
 def _clock_fields(c, as_of):
     """(predictedWindowOpen, windowBasis, assumptions, source, new_clock,
-    new_schedule). `new_clock`/`new_schedule` are None when the company
-    already has a real radar.clock (radar_apply_heat_scores.py never
-    overwrites an existing one, so there's nothing to hand it) -- populated
-    only for a company that has never had one computed, using the exact
-    same fallback (capital_clock.compute(), headcount=None) and mandatory-
-    sweep schedule (radar_schedule.next_mandatory_sweep()) the real
-    pipeline itself uses for a company with no Apollo lookup / no scan
-    history yet."""
+    new_schedule). `new_clock`/`new_schedule` are None ONLY when the
+    company already has a clock built from REAL Apollo headcount data
+    (radar_apply_heat_scores.py protects exactly that case, and no other --
+    see that module's 2026-08-14 fix). Every other company -- no clock at
+    all, or a clock that's itself just the same generic cadence-only
+    fallback with no headcount -- gets a freshly computed one, using the
+    exact same fallback (capital_clock.compute(), headcount=None) and
+    mandatory-sweep schedule (radar_schedule.next_mandatory_sweep()) the
+    real pipeline itself uses for a company with no Apollo lookup / no scan
+    history yet. Note this is provably a no-op for the fallback-only case:
+    cadence_window_open() is a pure function of round_date + growth_tier,
+    not of `as_of`, so recomputing it today reproduces the exact same date
+    -- this isn't silently changing anything, just letting the apply
+    script actually write the (unchanged) value instead of skipping it."""
     clock = (c.get("radar") or {}).get("clock")
-    if clock and clock.get("predictedWindowOpen"):
-        return clock["predictedWindowOpen"], clock.get("windowBasis"), clock.get("assumptions"), "existing radar.clock", None, None
+    if clock and clock.get("headcountCheckedAt"):
+        return clock["predictedWindowOpen"], clock.get("windowBasis"), clock.get("assumptions"), "existing Apollo-verified radar.clock", None, None
 
     hq = (c.get("origin") or {}).get("hq")
     fields = {
@@ -127,6 +133,22 @@ def _clock_fields(c, as_of):
         "description": c.get("description"),
     }
     new_clock = capital_clock.compute(fields, headcount=None)
+    # Same seasonality shift radar_state.py itself applies after
+    # capital_clock.compute() (predictedWindowOpen shifts LATER out of a
+    # dead zone, contactByDate EARLIER, alertAtDate re-derived from the
+    # shifted contactByDate) -- skipping this step is what produced the one
+    # real mismatch found when cross-checking this rewrite against
+    # production (AltaClaro: this function alone gives 2027-08-01, which
+    # falls inside the Aug dead zone; the real pipeline had already shifted
+    # it to 2027-09-05, which is the value on file and the value this now
+    # reproduces).
+    if new_clock["predictedWindowOpen"]:
+        shifted_open = radar_schedule.shift_out_of_dead_zone(date.fromisoformat(new_clock["predictedWindowOpen"]), "later")
+        new_clock["predictedWindowOpen"] = shifted_open.isoformat()
+    if new_clock["contactByDate"]:
+        shifted_contact = radar_schedule.shift_out_of_dead_zone(date.fromisoformat(new_clock["contactByDate"]), "earlier")
+        new_clock["contactByDate"] = shifted_contact.isoformat()
+        new_clock["alertAtDate"] = (shifted_contact - timedelta(weeks=6)).isoformat()
     sweep = radar_schedule.next_mandatory_sweep(as_of)
     new_schedule = {
         "nextScanAt": sweep.isoformat(),
@@ -209,11 +231,11 @@ def run(snapshot_path=DEFAULT_SNAPSHOT, out_path=DEFAULT_OUT):
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(entries, f, indent=2, ensure_ascii=False)
 
-    carried = sum(1 for e in entries if e["predictedWindowOpenSource"] == "existing radar.clock")
+    carried = sum(1 for e in entries if e["predictedWindowOpenSource"] == "existing Apollo-verified radar.clock")
     fresh = len(entries) - carried
     print(f"{len(entries)} active Radar companies written to {out_path}")
-    print(f"  {carried} carried their predictedWindowOpen through from an existing radar.clock")
-    print(f"  {fresh} got a fresh cadence-only estimate (no radar.clock yet)")
+    print(f"  {carried} carried their predictedWindowOpen through from an existing Apollo-verified radar.clock (protected, not recomputed)")
+    print(f"  {fresh} got a freshly computed clock (either had none, or only a generic cadence-only fallback with no real headcount)")
     return entries
 
 

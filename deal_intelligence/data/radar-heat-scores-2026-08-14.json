@@ -14,8 +14,8 @@
       "estCashOutDate": null,
       "runwayMonths": null,
       "predictedWindowOpen": "2027-11-28",
-      "contactByDate": "2027-08-28",
-      "alertAtDate": "2027-07-17",
+      "contactByDate": "2027-07-15",
+      "alertAtDate": "2027-06-03",
       "growthTier": null,
       "windowBasis": "cadence",
       "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
@@ -316,8 +316,30 @@
   {
     "id": "altaclaro",
     "name": "AltaClaro",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 28000000,
+      "roundDate": "2026-01-01",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 240000,
+      "capitalIntensity": "medium",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 7.4,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2027-09-05",
+      "contactByDate": "2027-05-01",
+      "alertAtDate": "2027-03-20",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -451,8 +473,30 @@
   {
     "id": "amca",
     "name": "Advanced Manufacturing Company of America",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 300000000,
+      "roundDate": "2026-05-08",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 350000,
+      "capitalIntensity": "high",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 3.2,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2027-12-08",
+      "contactByDate": "2027-09-08",
+      "alertAtDate": "2027-07-28",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -721,8 +765,30 @@
   {
     "id": "archy",
     "name": "Archy",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 20000000,
+      "roundDate": "2025-10-30",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 240000,
+      "capitalIntensity": "medium",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 9.5,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2027-05-30",
+      "contactByDate": "2027-02-28",
+      "alertAtDate": "2027-01-17",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -856,8 +922,30 @@
   {
     "id": "arrakistechnologies",
     "name": "Arrakis Technologies (Business/Productivity Software)",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 30410000,
+      "roundDate": "2026-07-22",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 240000,
+      "capitalIntensity": "medium",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 0.8,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2028-02-22",
+      "contactByDate": "2027-11-22",
+      "alertAtDate": "2027-10-11",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -991,8 +1079,30 @@
   {
     "id": "astrocade",
     "name": "Astrocade",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 24000000,
+      "roundDate": "2026-05-05",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 240000,
+      "capitalIntensity": "medium",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 3.3,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2027-12-05",
+      "contactByDate": "2027-09-05",
+      "alertAtDate": "2027-07-25",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -1261,8 +1371,30 @@
   {
     "id": "auterion",
     "name": "Auterion",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 105000000,
+      "roundDate": "2025-09-13",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 240000,
+      "capitalIntensity": "low",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 11.0,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2027-04-13",
+      "contactByDate": "2027-01-13",
+      "alertAtDate": "2026-12-02",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -1396,8 +1528,30 @@
   {
     "id": "beelinemedicines",
     "name": "Beeline Medicines",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 426300000,
+      "roundDate": "2026-06-30",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 240000,
+      "capitalIntensity": "medium",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 1.5,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2028-01-30",
+      "contactByDate": "2027-10-30",
+      "alertAtDate": "2027-09-18",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -1531,8 +1685,30 @@
   {
     "id": "bfl",
     "name": "Black Forest Labs",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 307570000,
+      "roundDate": "2025-12-01",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 155000,
+      "capitalIntensity": "medium",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 8.4,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2027-07-01",
+      "contactByDate": "2027-04-01",
+      "alertAtDate": "2027-02-18",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -1823,8 +1999,30 @@
   {
     "id": "bunkerhillhealth",
     "name": "Bunkerhill Health",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 25000000,
+      "roundDate": "2026-03-16",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 240000,
+      "capitalIntensity": "medium",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 5.0,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2027-10-16",
+      "contactByDate": "2027-07-16",
+      "alertAtDate": "2027-06-04",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -1957,8 +2155,30 @@
   {
     "id": "campfire",
     "name": "Campfire (Financial Software)",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 64790000,
+      "roundDate": "2025-11-17",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 240000,
+      "capitalIntensity": "medium",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 8.9,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2027-06-17",
+      "contactByDate": "2027-03-17",
+      "alertAtDate": "2027-02-03",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -3011,8 +3231,30 @@
   {
     "id": "cowboyspace",
     "name": "Cowboy Space",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 305000000,
+      "roundDate": "2026-05-11",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 350000,
+      "capitalIntensity": "high",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 3.1,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2027-12-11",
+      "contactByDate": "2027-09-11",
+      "alertAtDate": "2027-07-31",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -3301,8 +3543,30 @@
   {
     "id": "distyl",
     "name": "Distyl AI",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 175000000,
+      "roundDate": "2025-09-22",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 240000,
+      "capitalIntensity": "medium",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 10.7,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2027-04-22",
+      "contactByDate": "2027-01-22",
+      "alertAtDate": "2026-12-11",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -3593,8 +3857,30 @@
   {
     "id": "emergent",
     "name": "Emergent (Software Development Applications)",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 70000000,
+      "roundDate": "2026-01-20",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 240000,
+      "capitalIntensity": "medium",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 6.8,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2027-09-05",
+      "contactByDate": "2027-05-20",
+      "alertAtDate": "2027-04-08",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -3728,8 +4014,30 @@
   {
     "id": "evervault",
     "name": "Evervault",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 25000000,
+      "roundDate": "2026-03-05",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 155000,
+      "capitalIntensity": "medium",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 5.3,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2027-10-05",
+      "contactByDate": "2027-07-05",
+      "alertAtDate": "2027-05-24",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -3863,8 +4171,30 @@
   {
     "id": "exuglobal",
     "name": "EXUGlobal",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 120000000,
+      "roundDate": "2025-11-03",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 240000,
+      "capitalIntensity": "medium",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 9.3,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2027-06-03",
+      "contactByDate": "2027-03-03",
+      "alertAtDate": "2027-01-20",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -3998,8 +4328,30 @@
   {
     "id": "float",
     "name": "Float.tech",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": null,
+      "roundDate": "2026-06-10",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 240000,
+      "capitalIntensity": "medium",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 2.1,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2028-01-10",
+      "contactByDate": "2027-10-10",
+      "alertAtDate": "2027-08-29",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, roundSize, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -4133,8 +4485,30 @@
   {
     "id": "forus",
     "name": "Forus (Healthcare Technology Systems)",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 160000000,
+      "roundDate": "2026-05-12",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 240000,
+      "capitalIntensity": "medium",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 3.1,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2027-12-12",
+      "contactByDate": "2027-09-12",
+      "alertAtDate": "2027-08-01",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -4268,8 +4642,30 @@
   {
     "id": "foxglove",
     "name": "Foxglove",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 40000000,
+      "roundDate": "2025-09-22",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 350000,
+      "capitalIntensity": "high",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 10.7,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2027-04-22",
+      "contactByDate": "2027-01-22",
+      "alertAtDate": "2026-12-11",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -4403,8 +4799,30 @@
   {
     "id": "fractile",
     "name": "Fractile",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 220000000,
+      "roundDate": "2026-05-05",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 350000,
+      "capitalIntensity": "high",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 3.3,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2027-12-05",
+      "contactByDate": "2027-09-05",
+      "alertAtDate": "2027-07-25",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -4538,8 +4956,30 @@
   {
     "id": "gamma",
     "name": "Gamma Tech.",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 68000000,
+      "roundDate": "2025-11-10",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 240000,
+      "capitalIntensity": "medium",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 9.1,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2027-06-10",
+      "contactByDate": "2027-03-10",
+      "alertAtDate": "2027-01-27",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -4673,8 +5113,30 @@
   {
     "id": "getbasis",
     "name": "Basis (Financial Software)",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 100000000,
+      "roundDate": "2026-02-24",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 240000,
+      "capitalIntensity": "medium",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 5.6,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2027-09-24",
+      "contactByDate": "2027-06-24",
+      "alertAtDate": "2027-05-13",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -4808,8 +5270,30 @@
   {
     "id": "getpie",
     "name": "PieTech",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 23700000,
+      "roundDate": "2026-06-30",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 240000,
+      "capitalIntensity": "medium",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 1.5,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2028-01-30",
+      "contactByDate": "2027-10-30",
+      "alertAtDate": "2027-09-18",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -4943,8 +5427,30 @@
   {
     "id": "glow",
     "name": "Glow",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 100000000,
+      "roundDate": "2026-07-22",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 240000,
+      "capitalIntensity": "medium",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 0.8,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2028-02-22",
+      "contactByDate": "2027-11-22",
+      "alertAtDate": "2027-10-11",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -5392,8 +5898,30 @@
   {
     "id": "houserx",
     "name": "House Rx",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 55000000,
+      "roundDate": "2025-11-12",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 240000,
+      "capitalIntensity": "medium",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 9.0,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2027-06-12",
+      "contactByDate": "2027-03-12",
+      "alertAtDate": "2027-01-29",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -5527,8 +6055,30 @@
   {
     "id": "juicebox",
     "name": "Juicebox",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 81450000,
+      "roundDate": "2025-12-15",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 240000,
+      "capitalIntensity": "medium",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 8.0,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2027-07-15",
+      "contactByDate": "2027-04-15",
+      "alertAtDate": "2027-03-04",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -5662,8 +6212,30 @@
   {
     "id": "langchain",
     "name": "LangChain",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 125000000,
+      "roundDate": "2025-10-20",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 240000,
+      "capitalIntensity": "medium",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 9.8,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2027-05-20",
+      "contactByDate": "2027-02-20",
+      "alertAtDate": "2027-01-09",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -5797,8 +6369,30 @@
   {
     "id": "lead",
     "name": "Lead Bank",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 70000000,
+      "roundDate": "2025-10-01",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 240000,
+      "capitalIntensity": "medium",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 10.4,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2027-05-01",
+      "contactByDate": "2027-02-01",
+      "alertAtDate": "2026-12-21",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -5932,8 +6526,30 @@
   {
     "id": "linx",
     "name": "Linx Security",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 50000000,
+      "roundDate": "2026-03-31",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 240000,
+      "capitalIntensity": "medium",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 4.5,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2027-10-31",
+      "contactByDate": "2027-07-15",
+      "alertAtDate": "2027-06-03",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -6067,8 +6683,30 @@
   {
     "id": "listenlabs",
     "name": "Listen Labs",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 69000000,
+      "roundDate": "2026-01-14",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 240000,
+      "capitalIntensity": "medium",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 7.0,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2027-09-05",
+      "contactByDate": "2027-05-14",
+      "alertAtDate": "2027-04-02",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -6529,8 +7167,8 @@
       "estCashOutDate": null,
       "runwayMonths": null,
       "predictedWindowOpen": "2027-11-14",
-      "contactByDate": "2027-08-14",
-      "alertAtDate": "2027-07-03",
+      "contactByDate": "2027-07-15",
+      "alertAtDate": "2027-06-03",
       "growthTier": null,
       "windowBasis": "cadence",
       "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
@@ -6674,8 +7312,30 @@
   {
     "id": "monaco",
     "name": "Monaco (Business/Productivity Software)",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 50000000,
+      "roundDate": "2026-05-13",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 240000,
+      "capitalIntensity": "medium",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 3.1,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2027-12-13",
+      "contactByDate": "2027-09-13",
+      "alertAtDate": "2027-08-02",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -6809,8 +7469,30 @@
   {
     "id": "naboo",
     "name": "Naboo",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 70000000,
+      "roundDate": "2026-02-10",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 155000,
+      "capitalIntensity": "medium",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 6.1,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2027-09-10",
+      "contactByDate": "2027-06-10",
+      "alertAtDate": "2027-04-29",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -6944,8 +7626,30 @@
   {
     "id": "neo",
     "name": "Neo Security",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 100000000,
+      "roundDate": "2026-07-20",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 240000,
+      "capitalIntensity": "medium",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 0.8,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2028-02-20",
+      "contactByDate": "2027-11-20",
+      "alertAtDate": "2027-10-09",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -7079,8 +7783,30 @@
   {
     "id": "nexthop",
     "name": "Nexthop AI",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 500000000,
+      "roundDate": "2026-03-10",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 240000,
+      "capitalIntensity": "medium",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 5.2,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2027-10-10",
+      "contactByDate": "2027-07-10",
+      "alertAtDate": "2027-05-29",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -7214,8 +7940,30 @@
   {
     "id": "nominal",
     "name": "Nominal",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 155000000,
+      "roundDate": "2026-03-05",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 350000,
+      "capitalIntensity": "high",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 5.3,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2027-10-05",
+      "contactByDate": "2027-07-05",
+      "alertAtDate": "2027-05-24",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -7349,8 +8097,30 @@
   {
     "id": "ollama",
     "name": "Ollama",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 65000000,
+      "roundDate": "2026-07-09",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 240000,
+      "capitalIntensity": "medium",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 1.2,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2028-02-09",
+      "contactByDate": "2027-11-09",
+      "alertAtDate": "2027-09-28",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -7641,8 +8411,30 @@
   {
     "id": "oratomic",
     "name": "Oratomic",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 300000000,
+      "roundDate": "2026-07-07",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 350000,
+      "capitalIntensity": "high",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 1.2,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2028-02-07",
+      "contactByDate": "2027-11-07",
+      "alertAtDate": "2027-09-26",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -8383,8 +9175,30 @@
   {
     "id": "pointfive",
     "name": "PointFive",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 60000000,
+      "roundDate": "2026-06-08",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 240000,
+      "capitalIntensity": "medium",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 2.2,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2028-01-08",
+      "contactByDate": "2027-10-08",
+      "alertAtDate": "2027-08-27",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -8653,8 +9467,30 @@
   {
     "id": "quilter",
     "name": "Allegro Labs",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 27000000,
+      "roundDate": "2025-10-07",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 350000,
+      "capitalIntensity": "high",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 10.2,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2027-05-07",
+      "contactByDate": "2027-02-07",
+      "alertAtDate": "2026-12-27",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -8788,8 +9624,30 @@
   {
     "id": "reducto",
     "name": "Reducto",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 75000000,
+      "roundDate": "2025-10-14",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 240000,
+      "capitalIntensity": "medium",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 10.0,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2027-05-14",
+      "contactByDate": "2027-02-14",
+      "alertAtDate": "2027-01-03",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -8923,8 +9781,30 @@
   {
     "id": "revel",
     "name": "Revel (Business/Productivity Software)",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 150000000,
+      "roundDate": "2026-02-25",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 350000,
+      "capitalIntensity": "high",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 5.6,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2027-09-25",
+      "contactByDate": "2027-06-25",
+      "alertAtDate": "2027-05-14",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -9058,8 +9938,30 @@
   {
     "id": "ricursive",
     "name": "Ricursive Intelligence",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 300000000,
+      "roundDate": "2026-01-26",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 350000,
+      "capitalIntensity": "high",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 6.6,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2027-09-05",
+      "contactByDate": "2027-05-26",
+      "alertAtDate": "2027-04-14",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -9193,8 +10095,30 @@
   {
     "id": "sandstone",
     "name": "Sandstone (Business/Productivity Software)",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 39550000,
+      "roundDate": "2026-06-09",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 240000,
+      "capitalIntensity": "medium",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 2.2,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2028-01-09",
+      "contactByDate": "2027-10-09",
+      "alertAtDate": "2027-08-28",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -9328,8 +10252,30 @@
   {
     "id": "serval",
     "name": "Serval",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 74820000,
+      "roundDate": "2025-12-11",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 240000,
+      "capitalIntensity": "medium",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 8.1,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2027-07-11",
+      "contactByDate": "2027-04-11",
+      "alertAtDate": "2027-02-28",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -9463,8 +10409,30 @@
   {
     "id": "sesame",
     "name": "Sesame AI",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 250000000,
+      "roundDate": "2025-10-21",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 240000,
+      "capitalIntensity": "medium",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 9.8,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2027-05-21",
+      "contactByDate": "2027-02-21",
+      "alertAtDate": "2027-01-10",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -9755,8 +10723,30 @@
   {
     "id": "sunday",
     "name": "Sunday (Hardware)",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 165000000,
+      "roundDate": "2026-02-13",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 240000,
+      "capitalIntensity": "medium",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 6.0,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2027-09-13",
+      "contactByDate": "2027-06-13",
+      "alertAtDate": "2027-05-02",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -9890,8 +10880,30 @@
   {
     "id": "sunflower-labs",
     "name": "Sunflower Labs",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 16000000,
+      "roundDate": "2025-11-04",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 240000,
+      "capitalIntensity": "medium",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 9.3,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2027-06-04",
+      "contactByDate": "2027-03-04",
+      "alertAtDate": "2027-01-21",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -10025,8 +11037,30 @@
   {
     "id": "tem",
     "name": "tem (Business/Productivity Software)",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 72950000,
+      "roundDate": "2025-12-15",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 155000,
+      "capitalIntensity": "medium",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 8.0,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2027-07-15",
+      "contactByDate": "2027-04-15",
+      "alertAtDate": "2027-03-04",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -10318,8 +11352,30 @@
   {
     "id": "trianabio",
     "name": "TRIANA Biomedicines",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 120060000,
+      "roundDate": "2025-11-26",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 240000,
+      "capitalIntensity": "medium",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 8.6,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2027-06-26",
+      "contactByDate": "2027-03-26",
+      "alertAtDate": "2027-02-12",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -10453,8 +11509,30 @@
   {
     "id": "twenty",
     "name": "Twenty (Network Management Software)",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 100000000,
+      "roundDate": "2026-06-17",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 350000,
+      "capitalIntensity": "high",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 1.9,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2028-01-17",
+      "contactByDate": "2027-10-17",
+      "alertAtDate": "2027-09-05",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -10745,8 +11823,30 @@
   {
     "id": "weaviate",
     "name": "Weaviate",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 50000000,
+      "roundDate": "2026-02-24",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 155000,
+      "capitalIntensity": "medium",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 5.6,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2027-09-24",
+      "contactByDate": "2027-06-24",
+      "alertAtDate": "2027-05-13",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -11037,8 +12137,30 @@
   {
     "id": "withcoverage",
     "name": "WithCoverage",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 42000000,
+      "roundDate": "2026-01-14",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 240000,
+      "capitalIntensity": "medium",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 7.0,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2027-09-05",
+      "contactByDate": "2027-05-14",
+      "alertAtDate": "2027-04-02",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
@@ -11172,8 +12294,30 @@
   {
     "id": "withpace",
     "name": "Pace",
-    "clock": null,
-    "schedule": null,
+    "clock": {
+      "roundSize": 46000000,
+      "roundDate": "2026-05-27",
+      "headcount": null,
+      "headcountCheckedAt": null,
+      "costPerHead": 240000,
+      "capitalIntensity": "medium",
+      "estMonthlyBurn": null,
+      "monthsSinceRound": 2.6,
+      "estCashOutDate": null,
+      "runwayMonths": null,
+      "predictedWindowOpen": "2028-01-12",
+      "contactByDate": "2027-09-27",
+      "alertAtDate": "2027-08-16",
+      "growthTier": null,
+      "windowBasis": "cadence",
+      "assumptions": "incomplete -- missing headcount, no burn estimate possible; window from round cadence alone (22mo typical for growth tier unknown)"
+    },
+    "schedule": {
+      "nextScanAt": "2026-09-05",
+      "nextScanReason": "mandatory sweep (2026-09-05)",
+      "scanCount": 1,
+      "lastScanAt": "2026-08-14"
+    },
     "marketHeat": {
       "roundAnnouncedFlag": false,
       "timingUrgencyMultiplier": 1.0,
