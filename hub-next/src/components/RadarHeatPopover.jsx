@@ -41,8 +41,19 @@ export default function RadarHeatPopover({ score, hot, signals, scoreSummary, pr
     ? Object.entries(signals).sort((a, b) => b[1].weight - a[1].weight)
     : [];
 
+  // `position: fixed` is viewport-relative, so it was computed once at open
+  // time and then just sat there while the table scrolled underneath it
+  // (Oscar, 2026-08-14: "look what happens if I scroll, the thing goes
+  // lower") -- it needs to track the trigger's real position on every
+  // scroll, not just the position it happened to be at on click. `true`
+  // (capture) on the scroll listener because SortableTable's own scroll
+  // wrapper fires a scroll event that doesn't bubble to window.
   useEffect(() => {
     if (!open) return undefined;
+    function reposition() {
+      const rect = triggerRef.current?.getBoundingClientRect();
+      if (rect) setCoords({ top: rect.bottom, left: Math.min(rect.left, window.innerWidth - 340 - 12) });
+    }
     function onDocClick(e) {
       if (triggerRef.current?.contains(e.target) || panelRef.current?.contains(e.target)) return;
       setOpen(false);
@@ -52,9 +63,13 @@ export default function RadarHeatPopover({ score, hot, signals, scoreSummary, pr
     }
     document.addEventListener('mousedown', onDocClick);
     document.addEventListener(OPEN_EVENT, onOtherOpen);
+    window.addEventListener('scroll', reposition, true);
+    window.addEventListener('resize', reposition);
     return () => {
       document.removeEventListener('mousedown', onDocClick);
       document.removeEventListener(OPEN_EVENT, onOtherOpen);
+      window.removeEventListener('scroll', reposition, true);
+      window.removeEventListener('resize', reposition);
     };
   }, [open]);
 

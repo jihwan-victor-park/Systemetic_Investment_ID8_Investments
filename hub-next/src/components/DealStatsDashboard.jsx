@@ -315,7 +315,7 @@ export default function DealStatsDashboard({ companies }) {
         </div>
         <ChartWithLegend
           keys={[
-            { label: 'Qualified', note: 'meets our mandate at this round', color: RAMP.pale, count: mandate.mandateTotal },
+            { label: 'Overall deals', note: 'meets our mandate at this round', color: RAMP.pale, count: mandate.mandateTotal },
             { label: 'In pipeline', note: 'the ones we got into', color: RAMP.strong, count: mandate.pipelineCount },
           ]}
         >
@@ -325,7 +325,7 @@ export default function DealStatsDashboard({ companies }) {
             share={false}
             backgroundKey="mandate"
             ariaLabel="Pipeline deals by series, against the mandate at each round"
-            tooltip={(r) => `${r.label}: ${num(r.count)} in pipeline of ${num(r.mandate)} qualified`
+            tooltip={(r) => `${r.label}: ${num(r.count)} in pipeline of ${num(r.mandate)} overall`
               + ` (${Math.round((r.count / r.mandate) * 100)}%)`}
           />
         </ChartWithLegend>
