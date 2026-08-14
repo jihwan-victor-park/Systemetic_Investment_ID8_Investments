@@ -278,13 +278,14 @@ export default function DealStatsDashboard({ companies }) {
 
       {/* No "Access rate" tile (Oscar, 2026-08-13: "delete the access rate
           card") -- the ring below carries that same ratio, and the tile row is
-          now purely counts, which is what makes it scannable. */}
+          now purely counts, which is what makes it scannable.
+          No "Invested" tile either (Oscar, 2026-08-14: "eliminate the
+          invested card on the dashboard") -- 4 tiles now. */}
       <div className={styles.tiles}>
         <StatTile hero label="Qualified" value={num(mandate.qualifiedCount)} href={STAGE_BASEPATH.qualified} />
         <StatTile label="In pipeline" value={num(mandate.pipelineCount)} href={STAGE_BASEPATH.pipeline} />
         <StatTile label="Qualified + pipeline" value={num(mandate.converted.both)}
                   sub={`${pct(mandate.converted.pct)} of qualified`} />
-        <StatTile label="Invested" value={num(mandate.investedCount)} href={STAGE_BASEPATH.invested} />
         <StatTile label="Deals tracked" value={num(total)} />
       </div>
 
