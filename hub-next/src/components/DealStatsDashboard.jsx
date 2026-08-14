@@ -334,13 +334,13 @@ export default function DealStatsDashboard({ companies }) {
       <div className={styles.twoUp}>
         <div className={styles.card}>
           <div className={styles.cardHead}>
-            <h2 className={styles.cardTitle}>Mandate reached</h2>
+            <h2 className={styles.cardTitle}>Pipeline rate</h2>
           </div>
           <Meter
             pct={mandate.pct}
             label="in pipeline"
-            title={`${num(mandate.pipelineCount)} of ${num(mandate.mandateTotal)} mandate deals reached pipeline`}
-            whole={{ label: 'Our mandate', note: 'qualified, incl. those now in pipeline', count: mandate.mandateTotal }}
+            title={`${num(mandate.pipelineCount)} of ${num(mandate.mandateTotal)} deals reached pipeline`}
+            whole={{ label: 'Overall deals', note: 'incl. those now in pipeline', count: mandate.mandateTotal }}
             part={{ label: 'Pipeline', note: 'the ones we got into', count: mandate.pipelineCount }}
           />
         </div>
