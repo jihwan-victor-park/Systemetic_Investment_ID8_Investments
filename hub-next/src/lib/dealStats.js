@@ -25,27 +25,43 @@ export function inStage(c, stage) {
   return c.stage === stage || !!c.tags?.includes(stage);
 }
 
-// Being filed in the Qualified stage/tag is necessary but no longer
-// sufficient for the dashboard's "Qualified" figure (Oscar, 2026-08-14): a
-// large share of the Qualified book now carries a real fit score from the
-// tier-1 manual scan. A company with no score at all (never screened) hasn't
-// cleared anything either, so it's excluded here too -- same "missing is not
-// zero" posture the rest of this file already takes.
-// Deliberately scoped to mandateStats' qualified-count math only: the
-// Qualified Deals working table (inStage alone) still shows every company
-// filed there so Oscar can triage/re-screen them, this just keeps the
-// dashboard's headline number honest about which of them actually clear
-// the bar today.
+// Being filed at the Qualified stage is necessary but no longer sufficient
+// for the dashboard's "Qualified" figure (Oscar, 2026-08-14): a large share
+// of the current Qualified book now carries a real fit score from the
+// tier-1 manual scan, and a company sitting there with no score, or a score
+// below the mandate cutoff, hasn't cleared the bar.
 //
-// Threshold lowered from 2.5 to 2.0 (Oscar, 2026-08-14, same day: the 2.5
-// cutoff -- deal_intelligence/config.py's MORE_DILIGENCE_THRESHOLD -- was
-// dropping too many deals out of qualified-union-pipeline). Inclusive (>=):
-// a deal scoring exactly 2.0 counts.
+// CRITICAL DISTINCTION, found 2026-08-14 after the first version of this
+// function wrongly zeroed out most of "Qualified + pipeline": `stage` and
+// the `qualified` TAG are not the same kind of fact. `stage === 'qualified'`
+// means a company is CURRENTLY sitting there -- exactly the population the
+// tier-1 scan covers, so it's fair to require a real score from it. The
+// `qualified` TAG, on the other hand, is written purely off Attio's
+// historical stage record (import_attio_deals_csv.stage_history_tags: "was
+// EVER at Qualified in Attio, across every round"), with zero relationship
+// to any deal_intelligence score -- it exists specifically so a company that
+// has already moved on (to Pipeline, Invested, even Passed) still counts
+// toward the mandate. Most of those companies were never in scope for the
+// score-based scan at all (their primary stage isn't 'qualified' any more),
+// so requiring a score from them doesn't distinguish weak deals from strong
+// ones, it just erases real, human-verified qualified-and-we-got-in deals --
+// exactly the "why did qualified+pipeline collapse" bug this comment exists
+// to explain. So: score-gate the CURRENT-stage population, count the
+// tag-only (already-advanced) population as before.
+//
+// Threshold 2.0, inclusive (Oscar, 2026-08-14, same day: lowered from the
+// 2.5 mandate cutoff in deal_intelligence/config.py's
+// MORE_DILIGENCE_THRESHOLD, which was dropping too many deals).
 export const MANDATE_FIT_THRESHOLD = 2.0;
 
 export function meetsQualifiedFit(c) {
-  return inStage(c, 'qualified')
-    && typeof c.latestScreen?.fitScore === 'number'
+  if (c.stage !== 'qualified') {
+    // Already advanced past Qualified -- membership rests on the tag alone,
+    // same as inStage's own OR-based rule, and same as every other stage
+    // this file counts (pipeline, invested, ...).
+    return !!c.tags?.includes('qualified');
+  }
+  return typeof c.latestScreen?.fitScore === 'number'
     && c.latestScreen.fitScore >= MANDATE_FIT_THRESHOLD;
 }
 

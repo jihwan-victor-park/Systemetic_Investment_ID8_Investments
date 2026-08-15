@@ -211,6 +211,32 @@ describe('meetsQualifiedFit: the mandate cutoff (Oscar, 2026-08-14, lowered from
     expect(inStage(companies[1], 'qualified')).toBe(true);
     expect(mandateStats(companies).qualifiedCount).toBe(1);
   });
+
+  // The bug found the same day: a company that has already advanced past
+  // Qualified (to Pipeline, Invested, even Passed) carries the `qualified`
+  // TAG off Attio's stage HISTORY (import_attio_deals_csv.stage_history_tags)
+  // -- a real, human-verified fact with zero relationship to any
+  // deal_intelligence score. Score-gating it the same way as a company
+  // currently AT Qualified wrongly erased almost all of "Qualified +
+  // pipeline", since most of that population was never in scope for the
+  // tier-1 scan (their primary stage isn't 'qualified' any more).
+  it('counts a company that already advanced past Qualified via the tag alone, no score required', () => {
+    const advanced = co('a', { stage: 'pipeline', tags: ['qualified'] });   // no fitScore at all
+    expect(meetsQualifiedFit(advanced)).toBe(true);
+  });
+
+  it('the tag-based path ignores score entirely, even a very low one', () => {
+    const advanced = co('a', { stage: 'invested', tags: ['qualified'], fitScore: 0 });
+    expect(meetsQualifiedFit(advanced)).toBe(true);
+  });
+
+  it('only a company CURRENTLY at Qualified needs its own score to clear the bar', () => {
+    const companies = [
+      co('a', { stage: 'pipeline', tags: ['qualified'] }),        // advanced, no score -- counts
+      co('b', { stage: 'qualified' }),                            // still there, no score -- doesn't
+    ];
+    expect(mandateStats(companies).qualifiedCount).toBe(1);
+  });
 });
 
 describe('bySeries: mandate and access per round', () => {
