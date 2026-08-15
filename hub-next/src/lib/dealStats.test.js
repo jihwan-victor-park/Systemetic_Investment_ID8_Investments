@@ -7,7 +7,7 @@ import {
 const co = (slug, { stage = 'watchlist', tags = [], round = null, fitScore } = {}) => ({
   slug, stage, tags, round,
   // Every mandateStats fixture below that's meant to count as "qualified"
-  // sets fitScore explicitly above MANDATE_FIT_THRESHOLD (2.5) -- as of
+  // sets fitScore explicitly at/above MANDATE_FIT_THRESHOLD (2.0) -- as of
   // 2026-08-14 stage/tag membership alone no longer clears the mandate, see
   // meetsQualifiedFit. Omit to get a company with no screen on file.
   ...(fitScore !== undefined ? { latestScreen: { fitScore } } : {}),
@@ -119,7 +119,7 @@ describe('byStage', () => {
 describe('mandateStats', () => {
   // Oscar's own definition, 2026-08-13: "qualified have our mandate, pipeline
   // are the ones we get access to." So the rate is pipeline / qualified.
-  // fitScore: 3 on every intended-qualified fixture -- above the 2.5 mandate
+  // fitScore: 3 on every intended-qualified fixture -- above the mandate
   // cutoff (see meetsQualifiedFit) so stage alone isn't accidentally doing
   // the work these tests mean to exercise.
   const companies = [
@@ -179,19 +179,19 @@ describe('mandateStats', () => {
   });
 });
 
-describe('meetsQualifiedFit: the 2.5 mandate cutoff (Oscar, 2026-08-14)', () => {
-  it('excludes a Qualified-stage company scored at or below 2.5', () => {
-    expect(meetsQualifiedFit(co('a', { stage: 'qualified', fitScore: 2.5 }))).toBe(false);
+describe('meetsQualifiedFit: the mandate cutoff (Oscar, 2026-08-14, lowered from 2.5 to 2.0 same day)', () => {
+  it('excludes a Qualified-stage company scored below 2.0', () => {
+    expect(meetsQualifiedFit(co('a', { stage: 'qualified', fitScore: 1.99 }))).toBe(false);
     expect(meetsQualifiedFit(co('a', { stage: 'qualified', fitScore: 1 }))).toBe(false);
   });
 
   it('excludes a Qualified-stage company with no screen on file at all', () => {
-    // Missing is not zero, and it isn't "surpassed 2.5" either.
+    // Missing is not zero, and it isn't "met the cutoff" either.
     expect(meetsQualifiedFit(co('a', { stage: 'qualified' }))).toBe(false);
   });
 
-  it('includes a Qualified-stage company scored above 2.5', () => {
-    expect(meetsQualifiedFit(co('a', { stage: 'qualified', fitScore: 2.51 }))).toBe(true);
+  it('includes a Qualified-stage company scored at or above 2.0 (inclusive)', () => {
+    expect(meetsQualifiedFit(co('a', { stage: 'qualified', fitScore: 2.0 }))).toBe(true);
     expect(meetsQualifiedFit(co('a', { stage: 'qualified', fitScore: 4 }))).toBe(true);
   });
 
@@ -205,7 +205,7 @@ describe('meetsQualifiedFit: the 2.5 mandate cutoff (Oscar, 2026-08-14)', () => 
     // headline count changes.
     const companies = [
       co('a', { stage: 'qualified', fitScore: 3 }),
-      co('b', { stage: 'qualified', fitScore: 2.5 }),   // disregarded per the mandate rule
+      co('b', { stage: 'qualified', fitScore: 1.5 }),   // disregarded per the mandate rule
       co('c', { stage: 'qualified' }),                  // never screened
     ];
     expect(inStage(companies[1], 'qualified')).toBe(true);
@@ -241,13 +241,13 @@ describe('bySeries: mandate and access per round', () => {
     expect(rows[0].accessPct).toBeNull();
   });
 
-  it('applies the same 2.5 mandate-fit gate as mandateStats, so the two never disagree', () => {
+  it('applies the same mandate-fit gate as mandateStats, so the two never disagree', () => {
     // The exact bug preview-stats.jsx's cross-check exists to catch: this row's
     // `qualified` used to be pure inStage(qualified), which would read 2 here
     // even though only one of the two actually clears the mandate.
     const rows = bySeries([
       co('a', { round: 'Series B', stage: 'qualified', fitScore: 3 }),
-      co('b', { round: 'Series B', stage: 'qualified', fitScore: 2 }),   // disregarded
+      co('b', { round: 'Series B', stage: 'qualified', fitScore: 1.5 }),   // disregarded
     ]);
     const b = rows.find((r) => r.label === 'Series B');
     expect(b.count).toBe(2);

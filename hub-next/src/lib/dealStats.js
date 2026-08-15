@@ -28,23 +28,25 @@ export function inStage(c, stage) {
 // Being filed in the Qualified stage/tag is necessary but no longer
 // sufficient for the dashboard's "Qualified" figure (Oscar, 2026-08-14): a
 // large share of the Qualified book now carries a real fit score from the
-// tier-1 manual scan, and some of those scores sit at or below the mandate
-// cutoff (deal_intelligence/config.py's MORE_DILIGENCE_THRESHOLD, 2.5) --
-// those are deals ID8 has decided to disregard, not ones that met the
-// mandate. A company with no score at all (never screened) hasn't
-// "surpassed" anything either, so it's excluded here too -- same
-// "missing is not zero" posture the rest of this file already takes.
+// tier-1 manual scan. A company with no score at all (never screened) hasn't
+// cleared anything either, so it's excluded here too -- same "missing is not
+// zero" posture the rest of this file already takes.
 // Deliberately scoped to mandateStats' qualified-count math only: the
 // Qualified Deals working table (inStage alone) still shows every company
 // filed there so Oscar can triage/re-screen them, this just keeps the
 // dashboard's headline number honest about which of them actually clear
 // the bar today.
-export const MANDATE_FIT_THRESHOLD = 2.5;
+//
+// Threshold lowered from 2.5 to 2.0 (Oscar, 2026-08-14, same day: the 2.5
+// cutoff -- deal_intelligence/config.py's MORE_DILIGENCE_THRESHOLD -- was
+// dropping too many deals out of qualified-union-pipeline). Inclusive (>=):
+// a deal scoring exactly 2.0 counts.
+export const MANDATE_FIT_THRESHOLD = 2.0;
 
 export function meetsQualifiedFit(c) {
   return inStage(c, 'qualified')
     && typeof c.latestScreen?.fitScore === 'number'
-    && c.latestScreen.fitScore > MANDATE_FIT_THRESHOLD;
+    && c.latestScreen.fitScore >= MANDATE_FIT_THRESHOLD;
 }
 
 // Canonical display order. Anything unrecognized sorts after these, ahead of
@@ -111,7 +113,7 @@ export function bySeries(companies, { fold = true } = {}) {
     const label = normalizeSeries(c.round);
     const b = buckets.get(label) || { count: 0, qualified: 0, pipeline: 0, mandate: 0 };
     b.count += 1;
-    // meetsQualifiedFit, not bare inStage -- same 2.5 mandate-fit gate
+    // meetsQualifiedFit, not bare inStage -- same mandate-fit gate
     // mandateStats uses (2026-08-14), so this row's `qualified`/`mandate`
     // sum to the same headline totals the dashboard tiles show. Leaving
     // this on the old stage-only definition while mandateStats moved to the
@@ -182,8 +184,9 @@ function ratio(numerator, denominator) {
 //
 //   QUALIFIED = the mandate. Deals that clear ID8's screen -- the market we
 //   should be able to play in. As of 2026-08-14 this means filed in the
-//   Qualified stage/tag AND scored above the 2.5 mandate cutoff on its own
-//   screen (see meetsQualifiedFit) -- being filed there is no longer enough
+//   Qualified stage/tag AND scored at or above the mandate cutoff
+//   (MANDATE_FIT_THRESHOLD, 2.0) on its own screen (see meetsQualifiedFit) --
+//   being filed there is no longer enough
 //   on its own, now that most of the book carries a real score and some of
 //   those scores are below the bar.
 //   PIPELINE  = access. The ones ID8 actually got into.
