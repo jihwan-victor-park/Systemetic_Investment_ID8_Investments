@@ -25,6 +25,28 @@ export function inStage(c, stage) {
   return c.stage === stage || !!c.tags?.includes(stage);
 }
 
+// Being filed in the Qualified stage/tag is necessary but no longer
+// sufficient for the dashboard's "Qualified" figure (Oscar, 2026-08-14): a
+// large share of the Qualified book now carries a real fit score from the
+// tier-1 manual scan, and some of those scores sit at or below the mandate
+// cutoff (deal_intelligence/config.py's MORE_DILIGENCE_THRESHOLD, 2.5) --
+// those are deals ID8 has decided to disregard, not ones that met the
+// mandate. A company with no score at all (never screened) hasn't
+// "surpassed" anything either, so it's excluded here too -- same
+// "missing is not zero" posture the rest of this file already takes.
+// Deliberately scoped to mandateStats' qualified-count math only: the
+// Qualified Deals working table (inStage alone) still shows every company
+// filed there so Oscar can triage/re-screen them, this just keeps the
+// dashboard's headline number honest about which of them actually clear
+// the bar today.
+export const MANDATE_FIT_THRESHOLD = 2.5;
+
+export function meetsQualifiedFit(c) {
+  return inStage(c, 'qualified')
+    && typeof c.latestScreen?.fitScore === 'number'
+    && c.latestScreen.fitScore > MANDATE_FIT_THRESHOLD;
+}
+
 // Canonical display order. Anything unrecognized sorts after these, ahead of
 // the explicit not-recorded bucket, alphabetically among itself -- so a new
 // round label ("Series G", "Growth II") shows up in a sensible place without
@@ -89,11 +111,17 @@ export function bySeries(companies, { fold = true } = {}) {
     const label = normalizeSeries(c.round);
     const b = buckets.get(label) || { count: 0, qualified: 0, pipeline: 0, mandate: 0 };
     b.count += 1;
-    if (inStage(c, 'qualified')) b.qualified += 1;
+    // meetsQualifiedFit, not bare inStage -- same 2.5 mandate-fit gate
+    // mandateStats uses (2026-08-14), so this row's `qualified`/`mandate`
+    // sum to the same headline totals the dashboard tiles show. Leaving
+    // this on the old stage-only definition while mandateStats moved to the
+    // score-gated one was exactly the "why don't these numbers match"
+    // inconsistency preview-stats.jsx's cross-check exists to catch.
+    if (meetsQualifiedFit(c)) b.qualified += 1;
     if (inStage(c, 'pipeline')) b.pipeline += 1;
     // Same qualified-union-pipeline denominator mandateStats uses -- see the
     // comment there for why a bare `qualified` denominator produces a 533%.
-    if (inStage(c, 'qualified') || inStage(c, 'pipeline')) b.mandate += 1;
+    if (meetsQualifiedFit(c) || inStage(c, 'pipeline')) b.mandate += 1;
     buckets.set(label, b);
   }
 
@@ -153,7 +181,11 @@ function ratio(numerator, denominator) {
 // "qualified have our mandate, pipeline are the ones we get access to."
 //
 //   QUALIFIED = the mandate. Deals that clear ID8's screen -- the market we
-//   should be able to play in.
+//   should be able to play in. As of 2026-08-14 this means filed in the
+//   Qualified stage/tag AND scored above the 2.5 mandate cutoff on its own
+//   screen (see meetsQualifiedFit) -- being filed there is no longer enough
+//   on its own, now that most of the book carries a real score and some of
+//   those scores are below the bar.
 //   PIPELINE  = access. The ones ID8 actually got into.
 //   rate      = pipeline / qualified.
 //
@@ -176,9 +208,9 @@ function ratio(numerator, denominator) {
 // swinging every time a deal moves from one stage to the other. On 2026-08-13
 // it reads 100 of 293 = 34%.
 export function mandateStats(companies) {
-  const qualified = companies.filter((c) => inStage(c, 'qualified'));
+  const qualified = companies.filter(meetsQualifiedFit);
   const pipeline = companies.filter((c) => inStage(c, 'pipeline'));
-  const mandate = companies.filter((c) => inStage(c, 'qualified') || inStage(c, 'pipeline'));
+  const mandate = companies.filter((c) => meetsQualifiedFit(c) || inStage(c, 'pipeline'));
   // BOTH qualified and in pipeline -- Oscar, 2026-08-13: "the ones [that] are
   // both pipeline and qualified / qualified, so that's the real number." The
   // strictest read of access: not just deals we got into, but deals we got into
@@ -190,7 +222,7 @@ export function mandateStats(companies) {
   // stops counting as qualified the moment it advances, and this intersection
   // measured 0 of 336 across the entire book. With history folded in, a deal
   // that was Qualified and is now Pipeline carries both.
-  const both = mandate.filter((c) => inStage(c, 'qualified') && inStage(c, 'pipeline'));
+  const both = mandate.filter((c) => meetsQualifiedFit(c) && inStage(c, 'pipeline'));
   return {
     ...ratio(pipeline.length, mandate.length),
     qualifiedCount: qualified.length,

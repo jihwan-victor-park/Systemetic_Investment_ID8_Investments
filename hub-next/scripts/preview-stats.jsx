@@ -26,6 +26,10 @@ it('reports and cross-checks the dashboard figures', async () => {
     stage: STAGES.includes(d.stage) ? d.stage : 'qualified',
     tags: Array.isArray(d.tags) ? d.tags : [],
     round: d.round ?? null,
+    // Without this, meetsQualifiedFit (dealStats.js, 2026-08-14) never sees a
+    // score and qualifiedCount silently reads 0 for every snapshot -- carry
+    // it through exactly as listCompanies() shapes it.
+    latestScreen: d.latestScreen ?? null,
   }));
 
   const { total, byStage, bySeries, mandate } = computeDealStats(companies);

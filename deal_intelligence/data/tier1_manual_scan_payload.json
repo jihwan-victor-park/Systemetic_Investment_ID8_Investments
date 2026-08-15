@@ -1,0 +1,1552 @@
+[
+  {
+    "slug": "actively",
+    "name": "Actively AI",
+    "fitScore": 2.48,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$45M Series B, $250M val, co-led TCV+Bain Capital Ventures (both Tier1). Founders Mihir/Anshul Gupta, no elite pedigree found. Named enterprise traction (Ramp, Verkada) but no disclosed revenue. AI-native sales agent product but not clearly proprietary-model depth.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "advancell",
+    "name": "AdvanCell",
+    "fitScore": 1.0,
+    "gate": false,
+    "roundStage": "Series D",
+    "rationale": "$315M Series D radiopharmaceutical cancer therapy company. Zero AI component -- outside ID8's AI mandate entirely. Massive institutional backing (Lilly, Sanofi, Fidelity) but off-thesis by category.",
+    "hardGate": "no_ai",
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "amca",
+    "name": "Advanced Manufacturing Company of America",
+    "fitScore": 2.63,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$300M Series B, $1B+ val, led by a16z(Top10)+Lightspeed+Lux(Tier1). Blue-chip defense/aerospace customers (Boeing, Lockheed, Raytheon). Some AI/automation angle but core business is physical manufacturing, not AI-native.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "aikido",
+    "name": "Aikido Security",
+    "fitScore": 2.75,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$60M Series B at $1B val, led by DST Global(Tier1). Founder Willem Delbare is a repeat founder (Teamleader CRM). 5x revenue growth, 3x customer growth, blue-chip logos (Premier League, Revolut).",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "quilter",
+    "name": "Allegro Labs (Quilter)",
+    "fitScore": 2.79,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$25M Series B led by Index Ventures(Top10)+Benchmark(Top10). Founder Sergiy Nesterenko ex-SpaceX avionics engineer, genuine technical pedigree. Physics-driven generative AI for PCB design -- real technical depth. No revenue disclosed.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "altaclaro",
+    "name": "AltaClaro",
+    "fitScore": 1.8,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "Legal training platform, tiny revenue ($100K-5M per Owler). Not AI-core. Doesn't fit growth-stage/Tier1 mandate regardless of the label issue.",
+    "hardGate": null,
+    "dataQualityFlag": "Firestore/Attio record says Series B, but public records show only a $2.5M Seed round (2022), no Series B found anywhere. Likely a stale or misclassified deal record -- worth Oscar's attention separately from the scoring itself."
+  },
+  {
+    "slug": "anduril",
+    "name": "Anduril Industries",
+    "fitScore": 3.58,
+    "gate": true,
+    "roundStage": "Series H",
+    "rationale": "$5B Series H at $61B val (doubled from $30.5B in <1yr), co-led Thrive+a16z (both Top10). Founder Palmer Luckey, major prior exit (Oculus). $2.2B 2025 revenue, more than doubled YoY. Genuinely AI/autonomy-native defense platform.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "anthropic--series-g",
+    "name": "Anthropic (Series G)",
+    "fitScore": 3.67,
+    "gate": true,
+    "roundStage": "Series G",
+    "rationale": "$30B Series G at $380B val (later $65B Series H at $965B), Sequoia/ICONIQ/Lightspeed (all Top10) participating. $47B ARR run-rate by May 2026, elite founder team (ex-OpenAI). Consistent with the existing 'Anthropic' screen on file (fitScore 3.6, 2026-07-09) -- good cross-check on this methodology.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "arch",
+    "name": "Arch",
+    "fitScore": 1.0,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$52M Series B wealthtech/private-markets data platform. No AI component in any public description -- data aggregation/dashboarding, not AI-native. Off-thesis by category despite decent scale ($250B in assets on platform).",
+    "hardGate": "no_ai",
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "archy",
+    "name": "Archy",
+    "fitScore": 2.88,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$20M Series B led by TCV(Tier1)+Bessemer(Top10). Founders ex-Uber/Meta product leaders. $100M+ annual payments processed, 300% YoY growth. Genuine AI-driven dental practice automation.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "astrocade",
+    "name": "Astrocade",
+    "fitScore": 2.94,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$56M combined A+B, Series B led by Sequoia(Top10). Founding team includes Fei-Fei Li as Chief Scientific Officer -- exceptional AI pedigree. Genuinely AI-native generative gaming platform. 5M MAU, no disclosed revenue.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "attentive",
+    "name": "Attentive.ai",
+    "fitScore": 2.47,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$30.5M Series B led by Insight Partners(Tier1). AI construction takeoff platform, 1,200+ contractors. No elite founder pedigree found, no revenue disclosed.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "auterion",
+    "name": "Auterion",
+    "fitScore": 3.19,
+    "gate": true,
+    "roundStage": "Series B",
+    "rationale": "$130M Series B led by Bessemer(Top10), $600M+ val. ~$100M annual revenue (real). Founder Lorenz Meier (PX4 open-source drone project). Genuinely AI-native defense drone software, operationally deployed in Ukraine.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "avoca",
+    "name": "Avoca AI",
+    "fitScore": 2.54,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$125M+ Series B at $1B val, Meritech+General Catalyst(Tier1)+Kleiner Perkins(Tier1). >$10M ARR (8-figure, below the $25M bar). Founders no notable pedigree found. AI voice agents for home services -- functional but wrapper-ish.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "ayarlabs",
+    "name": "Ayar Labs",
+    "fitScore": 2.67,
+    "gate": false,
+    "roundStage": "Series E",
+    "rationale": "$500M Series E at $3.75B val, Sequoia Global Equities+Neuberger Berman+Qatar Investment Authority. Elite academic/technical founding team (MIT/Berkeley). AI-infra-critical (optical interconnects for AI chip scale-up) but not itself an AI model company. No revenue disclosed.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "bnto",
+    "name": "BNTO",
+    "fitScore": 2.2,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "AI-powered fashion subscription platform. Notable Capital(Tier1) led the confirmed Series A. Thin/unreliable public data.",
+    "hardGate": null,
+    "dataQualityFlag": "Firestore says Series B; only a $15M Series A (2025) confirmed in public records. Revenue estimates wildly conflicting across sources ($1M vs $25-50M) -- low confidence."
+  },
+  {
+    "slug": "baseten",
+    "name": "Baseten",
+    "fitScore": 3.35,
+    "gate": true,
+    "roundStage": "Series E",
+    "rationale": "$300M Series E (Jan 2026, $5B val) then $1.5B Series F (June 2026, $13B val), Nvidia strategic investor. $600M annualized revenue, up ~1900% YoY -- exceptional. Elite AI inference infrastructure company. No Top10/Tier1-listed lead by name, but fundamentals carry it comfortably.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "getbasis",
+    "name": "Basis",
+    "fitScore": 2.63,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$100M Series B at $1.15B val, led Accel(Top10)+Google Ventures+Khosla(Tier1). Genuine agentic AI for accounting/tax/audit, real enterprise adoption. No revenue disclosed, no elite founder pedigree found.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "bfl",
+    "name": "Black Forest Labs",
+    "fitScore": 3.1,
+    "gate": true,
+    "roundStage": "Series B",
+    "rationale": "$300M Series B at $3.25B val, led a16z(Top10). Founders are the ex-Stability AI researchers who created Stable Diffusion -- elite AI research pedigree. Core proprietary generative-model builder. No revenue disclosed.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "bunkerhillhealth",
+    "name": "Bunkerhill Health",
+    "fitScore": 2.88,
+    "gate": false,
+    "roundStage": "Series B1",
+    "rationale": "$25M Series B1 (of $55M total), Khosla(Tier1) led, Sequoia(Top10)+Felicis+Optum Ventures+YC participated. 20x YoY revenue growth. Real hospital deployments (Cleveland Clinic, UTMB, Intermountain). No elite founder pedigree found.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "campfire",
+    "name": "Campfire",
+    "fitScore": 3.29,
+    "gate": true,
+    "roundStage": "Series B",
+    "rationale": "$65M Series B co-led Accel(Top10)+Ribbit(Tier1), $100M raised in 12 weeks. Founder John Glasgow, prior exit (Invoice2go, acquired by Bill.com for $600M+). 10x YTD revenue growth. Genuine AI-native ERP/accounting automation, real customers (PostHog, Decagon).",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "cape",
+    "name": "Cape",
+    "fitScore": 1.0,
+    "gate": false,
+    "roundStage": "Series C",
+    "rationale": "$100M Series C at $900M val, Bain Capital Ventures(Top10)+IVP(Tier1). Founder John Doyle ex-Palantir, real revenue growth ($4.5M->$37M). But privacy-focused mobile carrier (MVNO) has no AI component at all -- off-thesis by category despite otherwise strong signals.",
+    "hardGate": "no_ai",
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "celero",
+    "name": "Celero",
+    "fitScore": 2.63,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$140M total ($100M Series B led CapitalG/Alphabet). Founders are ex-Marvell/Inphi/Broadcom senior semiconductor execs -- elite technical pedigree. AI-infra-critical (DSP/optical interconnect for AI data centers) but not itself an AI model. No revenue disclosed, no Top10/Tier1-listed lead.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "cerby",
+    "name": "Cerby",
+    "fitScore": 2.46,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$40-54M Series B led DTCP (not Top10/Tier1). Identity security automation, 10x ARR growth in 20mo, real enterprise logos (L'Oreal, Fox, Allstate). No Tier1/Top10 backing, no elite founder pedigree confirmed, functional automation more than deep AI/ML.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "cerebras",
+    "name": "Cerebras Systems",
+    "fitScore": 3.4,
+    "gate": true,
+    "roundStage": "Series G",
+    "rationale": "$1.1B Series G at $8.1B val (Sept 2025); IPO'd May 2026 at $66B market cap. $510M revenue, profitable, 76% YoY growth. Serial founders (ex-SeaMicro, acquired by AMD). Core AI compute hardware (OpenAI deal). NOTE: now a public company post-IPO -- this Series G deal record is effectively moot for co-investment purposes, worth flagging to Oscar separately from the score itself.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "chaidiscovery--series-b",
+    "name": "Chai Discovery",
+    "fitScore": 2.75,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$130M Series B at $1.3B val, co-led Oak HC/FT+General Catalyst(Tier1). AI foundation models for molecular/antibody discovery -- genuinely core AI/ML. Pre-revenue biotech-AI stage. Valuation stepped from $550M to $1.3B in ~4 months.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "askchapter",
+    "name": "Chapter Medicare",
+    "fitScore": 2.83,
+    "gate": false,
+    "roundStage": "Series E",
+    "rationale": "$100M Series E at $3B val, 8VC+Addition(both Tier1) among backers. Revenue tripled in 2025, past $100M ARR. AI-assisted Medicare guidance, but core model is a licensed insurance-commission advisory business -- AI-adjacent more than AI-native.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "chemify",
+    "name": "Chemify",
+    "fitScore": 2.72,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$50M+ Series B co-led Wing VC+Insight Partners(Tier1). Founder Lee Cronin, University of Glasgow chemistry professor -- elite academic pedigree. Genuine AI+robotics for chemistry/drug discovery. Commercial partnerships with 6 of top-20 pharma. No revenue disclosed.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "clickhouse",
+    "name": "ClickHouse",
+    "fitScore": 3.21,
+    "gate": true,
+    "roundStage": "Series C",
+    "rationale": "$350M Series C (extended, May-Oct 2025) then $400M Series D (Jan 2026), $15B val. Exceptionally Top10-heavy cap table (Index, Lightspeed, Bessemer, Benchmark all Top10) plus Khosla(Tier1). 2,000+ customers, ARR quadrupled YoY. AI-adjacent infra (analytics DB), not itself an AI model.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "clickhouse--series-c",
+    "name": "ClickHouse (dup. record)",
+    "fitScore": 3.21,
+    "gate": true,
+    "roundStage": "Series C",
+    "rationale": "Duplicate Attio record for the same company as 'clickhouse' -- same score/rationale applied. Worth deduping in Attio/hub separately from this scan.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "cognition",
+    "name": "Cognition (Devin AI)",
+    "fitScore": 3.52,
+    "gate": true,
+    "roundStage": "Series D",
+    "rationale": "$1B Series D at $26B val, led Lux Capital+General Catalyst+8VC (all Tier1). Founder Scott Wu, elite competitive-programming pedigree. Devin autonomous coding agent writes 89% of Cognition's own code. $492M annualized revenue, 10x growth, blue-chip enterprise customers (Goldman Sachs).",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "complianceforge",
+    "name": "ComplianceForge",
+    "fitScore": 1.0,
+    "gate": false,
+    "roundStage": "Series C",
+    "rationale": "No AI component, and no credible evidence this company matches a real Series C-stage venture deal.",
+    "hardGate": "no_ai",
+    "dataQualityFlag": "The real ComplianceForge (founded 2005, cybersecurity policy-template business) appears to be a tiny ~3-employee bootstrapped shop per ZoomInfo -- no evidence of any venture Series C round. Likely a misidentified/stale Attio record."
+  },
+  {
+    "slug": "courierhealth",
+    "name": "Courier Health",
+    "fitScore": 2.31,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$50M Series B led Oak HC/FT (not Top10/Tier1). AI-assisted biopharma patient engagement, no hard revenue disclosed, no elite founder pedigree found, no Tier1/Top10 backing. Mediocre across the board.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "cowboyspace",
+    "name": "Cowboy Space",
+    "fitScore": 2.88,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$275M Series B at $2B val, led Index Ventures(Top10)+a16z(Top10). Founder Baiju Bhatt, Robinhood co-founder (major prior exit/IPO). Orbital AI-compute infrastructure -- AI-thesis-aligned infra, not itself AI-native. Pre-revenue.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "cursor",
+    "name": "Cursor (Anysphere)",
+    "fitScore": 3.5,
+    "gate": true,
+    "roundStage": "Series D",
+    "rationale": "$2.3B Series D at $29.3B val (Nov 2025), now $60B val on $4B ARR (2026). Elite MIT-founder team. Deeply AI-native flagship coding product. Category-defining hypergrowth.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "decagon",
+    "name": "Decagon",
+    "fitScore": 3.21,
+    "gate": true,
+    "roundStage": "Series D",
+    "rationale": "$250M Series D at $4.5B val (tripled), Coatue+Index(Top10)+a16z(Top10)+Accel(Top10)+Bain Capital Ventures(Top10) -- exceptionally Top10-dense cap table. $35M ARR growing 3x+ YoY. Genuine agentic AI customer support.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "deel",
+    "name": "Deel",
+    "fitScore": 1.0,
+    "gate": false,
+    "roundStage": "Series E",
+    "rationale": "$300M Series E at $17.3B val, a16z(Top10) co-led. $1.4B ARR, profitable 3 years running -- spectacular fundamentals. But core business is global payroll/EOR compliance, not AI-native -- fails the AI mandate gate despite otherwise excellent signals.",
+    "hardGate": "no_ai",
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "distyl",
+    "name": "Distyl AI",
+    "fitScore": 3.04,
+    "gate": true,
+    "roundStage": "Series B",
+    "rationale": "$175M Series B at $1.8B val (9x step-up), Khosla(Tier1)+Lightspeed(Top10)+Coatue+DST Global. Founders ex-Palantir. $31M ARR, 5x growth in 2024. Genuine enterprise-AI-native platform.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "doss",
+    "name": "Doss",
+    "fitScore": 2.47,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$55M Series B co-led Madrona+Premji Invest (neither Top10/Tier1), General Catalyst(Tier1) existing investor. AI-native ops/ERP copilot but no revenue disclosed, no elite founder pedigree, no Top10 lead.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "exuglobal",
+    "name": "EXUGlobal",
+    "fitScore": 2.17,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "Crypto/digital-asset trading platform claiming Sequoia+Goldman Sachs+Binance Labs backing -- an unusual combination worth independent verification. 'AI-driven signal trading' claim is thin/marketing-level. No confirmed revenue, minimal founder info. Crypto-trading category is typically off-thesis regardless.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "earendil",
+    "name": "Earendil Labs",
+    "fitScore": 3.0,
+    "gate": true,
+    "roundStage": "Series C",
+    "rationale": "$787M total financing for AI-driven biologics discovery, DST Global(Tier1)+Sanofi+Hillhouse. Founders have strong AI/computational-biology research pedigree. Genuinely AI-core drug discovery platform. Pre-revenue.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "emergent",
+    "name": "Emergent",
+    "fitScore": 3.375,
+    "gate": true,
+    "roundStage": "Series B",
+    "rationale": "$70M Series B led Khosla(Tier1)+SoftBank, Lightspeed(Top10) participated. ARR went $100K->$50M in 7 months, then $120M run-rate -- extraordinary hypergrowth. Genuine AI-native 'vibe coding' product. Young, unproven founders but exceptional execution speed.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "evervault",
+    "name": "Evervault",
+    "fitScore": 1.0,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$25M Series B, Ribbit(Tier1)+Index(Top10)+Sequoia(Top10)+Kleiner Perkins(Tier1) -- an exceptional cap table. Founder Shane Curran is a serial founder. But the product is payment-data encryption infrastructure with no AI component -- fails the AI mandate gate despite elite backing.",
+    "hardGate": "no_ai",
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "exa",
+    "name": "Exa",
+    "fitScore": 2.77,
+    "gate": false,
+    "roundStage": "Series C",
+    "rationale": "$250M Series C led a16z(Top10) at $2.2B val. Founders ex-Cresta (AI). Core AI infrastructure (search engine for AI agents), powers Cursor/Cognition/HubSpot. ~$10M revenue estimate (unconfirmed), rich multiple relative to scale.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "factory",
+    "name": "Factory",
+    "fitScore": 3.04,
+    "gate": true,
+    "roundStage": "Series C",
+    "rationale": "$150M Series C at $1.5B val, Khosla(Tier1) led, Sequoia(Top10)+Insight(Tier1) participated. Revenue doubling every month for 6 months -- extraordinary growth. Genuine AI coding agents ('Droids'), real enterprise adoption (Nvidia, Adobe, EY).",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "fal",
+    "name": "Fal",
+    "fitScore": 3.375,
+    "gate": true,
+    "roundStage": "Series D",
+    "rationale": "$140M Series D at $4.5B val, led Sequoia(Top10)+Kleiner Perkins(Tier1)+Nvidia. $400M ARR, up 1040% YoY. Core generative-media AI infrastructure. In talks for $8B valuation round.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "fireworks--series-c",
+    "name": "Fireworks AI",
+    "fitScore": 3.46,
+    "gate": true,
+    "roundStage": "Series C",
+    "rationale": "$250M Series C at $4B val, led Lightspeed(Top10)+Index(Top10)+Evantic, Sequoia(Top10) participated -- exceptionally Top10-dense. $1B+ ARR run-rate, 5x YoY. Core AI inference infrastructure. Later reached $17.5B valuation.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "foxglove",
+    "name": "Foxglove",
+    "fitScore": 2.6,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$40M Series B led Bessemer(Top10). Founders ex-Cruise. Data/visualization infra for robotics ('Physical AI'), real enterprise adoption (Nvidia, Amazon, Anduril). No revenue disclosed.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "fractile",
+    "name": "Fractile",
+    "fitScore": 2.79,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$220M Series B at $1B val, Accel(Top10)+Founders Fund(Tier1). Founder Walter Goodwin, Oxford engineer. AI inference chip startup; Anthropic reportedly in discussions to procure. Pre-revenue.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "functionhealth",
+    "name": "Function Health",
+    "fitScore": 2.65,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$298M Series B at $2.5B val, a16z(Top10) participated. Founder Jonathan Swerdlin (serial founder) + Dr. Mark Hyman (well-known functional medicine physician). Consumer diagnostics subscription with an added 'AI medical intelligence' layer -- AI-adjacent more than AI-native. No hard revenue disclosed.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "gamma",
+    "name": "Gamma",
+    "fitScore": 3.125,
+    "gate": true,
+    "roundStage": "Series B",
+    "rationale": "$68M Series B at $2.1B val, led a16z(Top10)+Accel(Top10). $100M+ ARR, profitable 2+ years, 600K+ paying users -- excellent efficiency. Genuine AI-powered content-creation product.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "garnerhealth",
+    "name": "Garner Health (Series E)",
+    "fitScore": 3.02,
+    "gate": true,
+    "roundStage": "Series E",
+    "rationale": "$100M Series E at $2.74B val, exceptionally Top10-dense (Index, Thrive, Sequoia all Top10) plus Kleiner+Founders Fund(Tier1). ~$200M ARR, doubled 5 years straight -- exceptional sustained growth. Care-navigation/insurance-quality platform, AI-adjacent branding more than AI-native core.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "garnerhealth--series-d",
+    "name": "Garner Health (Series D, dup.)",
+    "fitScore": 3.02,
+    "gate": true,
+    "roundStage": "Series D",
+    "rationale": "Earlier round for the same company as 'garnerhealth' -- same score/rationale applied. Worth deduping in Attio/hub separately from this scan.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "genlogs",
+    "name": "GenLogs",
+    "fitScore": 2.4,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$60M Series B led Battery Ventures(Tier1)+IVP(Tier1), no Top10. AI-assisted freight/logistics sensor intelligence. Founder is ex-CIA officer (unusual but not a startup-scaling pedigree signal). No revenue disclosed, modest round size.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "generalintuition",
+    "name": "General Intuition",
+    "fitScore": 3.0,
+    "gate": true,
+    "roundStage": "Series B",
+    "rationale": "Founder Pim de Witte (Medal, built the underlying 2B-gameplay-clip dataset) -- strong founder-market fit. Genuine AI/ML research (training agents on gameplay data). ~$40M 2025 revenue from early-access deals. Backed by Bezos, Eric Schmidt, Khosla(Tier1), General Catalyst(Tier1).",
+    "hardGate": null,
+    "dataQualityFlag": "The $320M round found is described in most sources as Series A, not Series B as Firestore has it -- company was reportedly still 'working on a Series B' as of the article date. Possible stage-label lag."
+  },
+  {
+    "slug": "generalistai",
+    "name": "Generalist AI",
+    "fitScore": 3.19,
+    "gate": true,
+    "roundStage": "Series B",
+    "rationale": "$400M Series B at $2B val, 8VC(Tier1)+USV(Tier1)+Nvidia NVentures+Bezos Expeditions. Founder Pete Florence is ex-DeepMind, created RT-2/PaLM-E -- exceptional robotics/AI research pedigree; co-founder ex-Boston Dynamics. Deeply core AI/robotics research. Pre-revenue.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "gitguardian",
+    "name": "GitGuardian",
+    "fitScore": 2.3,
+    "gate": false,
+    "roundStage": "Series C",
+    "rationale": "$50M Series C led Insight Partners(Tier1), no Top10. Cybersecurity tool addressing AI-agent credential security -- AI-security-adjacent, not AI-native itself. No revenue disclosed, modest round.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "glean",
+    "name": "Glean",
+    "fitScore": 3.44,
+    "gate": true,
+    "roundStage": "Series F",
+    "rationale": "$150M Series F at $7.2B val, exceptionally dense cap table (ICONIQ, Lightspeed, Sequoia all Top10, plus Khosla/Coatue/DST/GC/IVP/Kleiner/Sapphire Tier1). Founder Arvind Jain has strong prior technical pedigree. $300M ARR, +89% YoY, doubled in 9 months. Genuinely AI-native enterprise search/agent platform.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "tryglimpse",
+    "name": "Glimpse",
+    "fitScore": 2.23,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "a16z(Top10) led the actual Series A. Functional AI application, not deeply differentiated. No revenue disclosed.",
+    "hardGate": null,
+    "dataQualityFlag": "Firestore says Series B; the real confirmed max round is a $35M 'Series A' (the company itself is re-labeling a prior $10M round as seed). Business pivoted from Airbnb product placement to CPG deduction management in 2024 -- very early/thin track record."
+  },
+  {
+    "slug": "gradial",
+    "name": "Gradial",
+    "fitScore": 3.0,
+    "gate": true,
+    "roundStage": "Series C",
+    "rationale": "$65M Series C led Insight Partners(Tier1). Founders ex-SpaceX Starlink + ex-Microsoft AI/Point72. ARR grew 10x in the past year. Genuine agentic AI marketing platform, real blue-chip customers (T-Mobile, AWS, Prudential).",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "granola",
+    "name": "Granola",
+    "fitScore": 3.29,
+    "gate": true,
+    "roundStage": "Series C",
+    "rationale": "$125M Series C at $1.5B val (6x step-up in <1yr), led Index Ventures(Top10)+Kleiner Perkins(Tier1). Founder Chris Pedregal has a real prior exit (Socratic, sold to Google 2018). Revenue grew 250% in one quarter. Genuine AI-native note-taking/enterprise app.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "greenlite",
+    "name": "GreenLite Technologies",
+    "fitScore": 2.5,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$49.5M Series B led Insight Partners(Tier1), no Top10. Founders ex-Gopuff execs. AI-powered construction permitting, ~100 Fortune 500 customers but no hard revenue disclosed.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "growtherapy",
+    "name": "Grow Therapy",
+    "fitScore": 2.96,
+    "gate": false,
+    "roundStage": "Series D",
+    "rationale": "$150M Series D at $3B val, TCV(Tier1)+Sequoia(Top10)+Menlo(Tier1). >$1B annual revenue -- exceptional real scale (7M visits, 220M insured covered). AI-assisted notes/handoffs, but core business is an insurance-network mental-health marketplace -- AI-adjacent more than AI-native.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "harvey",
+    "name": "Harvey",
+    "fitScore": 3.52,
+    "gate": true,
+    "roundStage": "Series F",
+    "rationale": "$200M growth round at $11B val (March 2026, GIC+Sequoia(Top10) co-led), in talks for $500M at $15.5B. Founders Winston Weinberg (ex-lawyer) + Gabe Pereyra (ex-DeepMind) -- strong domain+technical pedigree. $300M ARR, 1,500+ customers incl 50% of AmLaw 100. Deeply AI-native legal platform.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "helionenergy",
+    "name": "Helion Energy",
+    "fitScore": 1.0,
+    "gate": false,
+    "roundStage": "Series G",
+    "rationale": "$465M Series G at $15.5B val, Thrive Capital(Top10) led. Founders have deep fusion-physics pedigree, Sam Altman-backed, Microsoft power-purchase deal. But zero AI component -- this is a nuclear fusion energy company, off-thesis by category despite spectacular backing.",
+    "hardGate": "no_ai",
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "heronpower",
+    "name": "Heron Power",
+    "fitScore": 1.0,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$140M Series B co-led a16z(Top10)+Breakthrough Energy Ventures. Founder Drew Baglino, ex-Tesla powertrain/energy lead -- exceptional pedigree. But this is a power-electronics/grid hardware company (solid-state transformers) with no AI component at all -- off-thesis by category.",
+    "hardGate": "no_ai",
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "hightouch",
+    "name": "Hightouch",
+    "fitScore": 2.875,
+    "gate": false,
+    "roundStage": "Series D",
+    "rationale": "$150M Series D at $2.75B val, Bain Capital Ventures(Top10)+ICONIQ(Top10). $100M ARR. Genuine agentic AI marketing/CDP platform.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "houserx",
+    "name": "House Rx",
+    "fitScore": 1.0,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$55M Series B, NEA(Tier1)+Bessemer(Top10). Founders ex-Flatiron Health execs -- solid healthtech pedigree. But this is a clinic-embedded specialty pharmacy dispensing/logistics operation with no AI component -- off-thesis by category.",
+    "hardGate": "no_ai",
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "iceye",
+    "name": "Iceye",
+    "fitScore": 2.98,
+    "gate": false,
+    "roundStage": "Series E",
+    "rationale": "\u20ac150M Series E at \u20ac2.4B val, General Catalyst(Tier1) led; later \u20ac450M Series F at >\u20ac10B val. \u20ac250M+ 2025 revenue, \u20ac100M+ EBITDA -- profitable, exceptional. SAR satellite imagery for sovereign intelligence. Some AI-assisted analytics but core value is the satellite hardware/data, not an AI product per se.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "iceye--series-e",
+    "name": "Iceye (dup. record)",
+    "fitScore": 2.98,
+    "gate": false,
+    "roundStage": "Series E",
+    "rationale": "Duplicate Attio record for the same company as 'iceye' -- same score/rationale applied. Worth deduping in Attio/hub separately from this scan.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "integralneuro",
+    "name": "Integral",
+    "fitScore": 2.42,
+    "gate": false,
+    "roundStage": "Series 1",
+    "rationale": "Founder Philip Sabes is ex-Neuralink/ex-UCSF/ex-Starfish Neuroscience -- exceptional neurotech pedigree. But no confirmed funding-round size, investors, or revenue found publicly for this 'Series 1' round. Deep-brain interface hardware/medical device, not primarily an AI/software product. Score is low-confidence given the data gap -- worth a second look if Oscar has more context.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "juicebox",
+    "name": "Juicebox",
+    "fitScore": 2.79,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$80M Series B at $850M val, DST Global(Tier1) led, Sequoia(Top10) participated. Very young founders (22/19 at start). Tripled ARR since Series A, 5,000 customers incl Fortune 100. Genuine AI recruiting-agent platform.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "kalshi",
+    "name": "Kalshi",
+    "fitScore": 1.0,
+    "gate": false,
+    "roundStage": "Series F",
+    "rationale": "$1B Series F at $22B val, Coatue(Tier1)+Sequoia(Top10)+a16z(Top10). Revenue went $25M->$4B annualized in 18 months -- the most extraordinary growth in this entire scan. But this is a regulated prediction-markets exchange with no AI component -- fails the AI mandate gate regardless of the numbers.",
+    "hardGate": "no_ai",
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "kalshi--series-d",
+    "name": "Kalshi (dup. record)",
+    "fitScore": 1.0,
+    "gate": false,
+    "roundStage": "Series D",
+    "rationale": "Duplicate Attio record for the same company as 'kalshi' -- same disposition applied.",
+    "hardGate": "no_ai",
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "livekindred",
+    "name": "Kindred",
+    "fitScore": 1.0,
+    "gate": false,
+    "roundStage": "Series C",
+    "rationale": "$125M total ($85M Series C led Index Ventures(Top10)). Founders ex-Opendoor. Home-swap travel marketplace (300K+ homes) -- no AI component, off-thesis by category.",
+    "hardGate": "no_ai",
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "usekojo",
+    "name": "Kojo",
+    "fitScore": 2.23,
+    "gate": false,
+    "roundStage": "Series C",
+    "rationale": "Battery Ventures(Tier1) led. Construction materials procurement SaaS, no clear AI component. Small total raise ($84M) for the implied stage.",
+    "hardGate": null,
+    "dataQualityFlag": "Confirmed max round is a $39M Series C from 2022 plus a $10M extension in 2025 -- a dated, modest raise relative to what a fresh 2026 Qualified-stage Series C deal would imply."
+  },
+  {
+    "slug": "kraken",
+    "name": "Kraken",
+    "fitScore": 1.0,
+    "gate": false,
+    "roundStage": "Series C",
+    "rationale": "$800M raise at $20B val, institutional investors (Jane Street, Citadel Securities) not traditional Tier1/Top10 VCs. $1.5B revenue. Major crypto exchange, filing for IPO -- no AI component, off-thesis by category.",
+    "hardGate": "no_ai",
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "langchain",
+    "name": "LangChain",
+    "fitScore": 3.01,
+    "gate": true,
+    "roundStage": "Series B",
+    "rationale": "$125M Series B at $1.25B val, IVP(Tier1) led, Sequoia(Top10)+Benchmark(Top10) participated. Founder Harrison Chase created the foundational LangChain framework -- major reputation/influence in the AI dev-tools ecosystem. $16M ARR (rich multiple relative to scale). Deeply core AI/LLM developer tooling.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "lead",
+    "name": "Lead Bank",
+    "fitScore": 1.0,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$70M Series B at $1.47B val, ICONIQ(Top10)+a16z(Top10). CEO Jackie Reses, ex-Square/Block exec -- strong fintech pedigree. $108M revenue, real growth. But banking-as-a-service infrastructure has no AI component -- off-thesis by category.",
+    "hardGate": "no_ai",
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "legora",
+    "name": "Legora",
+    "fitScore": 3.375,
+    "gate": true,
+    "roundStage": "Series D",
+    "rationale": "$550M Series D at $5.55B val (tripled), exceptionally Top10-dense (Accel, Benchmark, Bessemer, ICONIQ all Top10). Young founders, no major prior exit but very fast execution. $100M+ ARR, among the fastest-growing enterprise software companies ever. Deeply AI-native legal platform (Harvey competitor).",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "legora--series-c",
+    "name": "Legora (Series C, dup.)",
+    "fitScore": 3.375,
+    "gate": true,
+    "roundStage": "Series C",
+    "rationale": "Earlier round for the same company as 'legora' -- same score/rationale applied. Worth deduping in Attio/hub separately from this scan.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "liberateinc",
+    "name": "Liberate Innovations",
+    "fitScore": 2.55,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$50M Series B at $300M val, Battery Ventures(Tier1) led, no Top10. Founders ex-Metromile/Twitter/Google/Verily. Genuine AI-native reasoning agents for insurance workflows. No revenue disclosed.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "lighter",
+    "name": "Lighter",
+    "fitScore": 1.0,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$68M at $1.5B val, Founders Fund(Tier1)+Ribbit(Tier1)+Robinhood. Founder Vladimir Novakovski (Olympiad champion, ex-Citadel, prior AI startup) -- strong pedigree, but the product itself is a crypto perpetual-futures DEX with no AI component -- off-thesis by category.",
+    "hardGate": "no_ai",
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "linx",
+    "name": "Linx Security",
+    "fitScore": 2.79,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$50M Series B led Insight Partners(Tier1), Index Ventures(Top10) participated. Founders ex-Check Point/Microsoft/Transmit -- strong cybersecurity pedigree. Genuine AI-native identity-governance platform addressing agentic-identity risk. No revenue disclosed.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "listenlabs",
+    "name": "Listen Labs",
+    "fitScore": 3.04,
+    "gate": true,
+    "roundStage": "Series B",
+    "rationale": "$69M Series B at $500M val, Ribbit(Tier1) led, Sequoia(Top10) participated. Revenue grew 15x in 9 months to 8-figure ARR -- excellent. Genuine AI-first customer-research platform, real enterprise customers (Microsoft, Robinhood).",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "lovable--series-b",
+    "name": "Lovable (Series B, dup.)",
+    "fitScore": 3.46,
+    "gate": true,
+    "roundStage": "Series B",
+    "rationale": "$330M Series B at $6.6B val (June 2026), CapitalG+Menlo led, Accel(Top10) returning. Later Series C at $13.3B (Aug 2026). $500M ARR -- exceptional. Same company as the existing 'Lovable' screen on file (fitScore 3.5, 2026-07-09) -- good cross-check, this is an earlier/duplicate round record.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "machindustries",
+    "name": "Mach Industries",
+    "fitScore": 2.875,
+    "gate": false,
+    "roundStage": "Series C",
+    "rationale": "$300M Series C at $1.8B val (4x in a year), Ribbit(Tier1)+Sequoia(Top10)+Khosla(Tier1). Founder Ethan Thornton, 22yo MIT dropout -- notable but young/unproven. Genuine AI-native autonomous defense systems. Real govt+commercial revenue mix, no hard figure disclosed.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "magnusmedical",
+    "name": "Magnus Medical",
+    "fitScore": 2.4,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "Small $23.68M raise (part of $88.99M-$114M total), Khosla(Tier1) among backers, no Top10. Founders have real clinical/academic neurostimulation pedigree. Medical device (deep-brain stimulation protocol for depression), not AI-native. Revenue estimate <$1M (dated) -- pre-commercial.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "mercury",
+    "name": "Mercury",
+    "fitScore": 1.0,
+    "gate": false,
+    "roundStage": "Series D",
+    "rationale": "$200M Series D at $5.2B val, a16z(Top10)+Sequoia(Top10)+TCV(Tier1). Founder Immad Akhund, repeat founder. $650M revenue, 4 years GAAP+EBITDA profitable -- exceptional. But this is a banking/fintech platform, not AI-native -- fails the mandate gate ('AI fuels startup surge' referred to Mercury's customers, not Mercury itself).",
+    "hardGate": "no_ai",
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "mews",
+    "name": "Mews Systems",
+    "fitScore": 2.5,
+    "gate": false,
+    "roundStage": "Series D",
+    "rationale": "$300M Series D at $2.5B val, EQT Ventures led (not Top10/Tier1), Battery Ventures(Tier1) present from an earlier round. Real scale (15,000 properties, 132K monthly active hoteliers) but no revenue figure disclosed. 'AI future of hospitality' branding is more AI-adjacent than AI-native (core is hotel PMS/operations software).",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "mintlify",
+    "name": "Mintlify",
+    "fitScore": 2.53,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$45M Series B at $500M val, a16z(Top10)+Salesforce Ventures+Bain Capital Ventures(Tier1). Young founders, no major pedigree. 20,000+ companies use the platform (good adoption signal) but no revenue disclosed. AI-assisted doc generation, functional more than deeply AI-core.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "modal",
+    "name": "Modal Labs",
+    "fitScore": 3.375,
+    "gate": true,
+    "roundStage": "Series C",
+    "rationale": "$355M Series C at $4.65B val (4x from Series B in 8mo), General Catalyst(Tier1) led, Bain Capital Ventures(Top10)+Accel(Top10) new investors. Founder Erik Bernhardsson, well-known ML infra figure (ex-Spotify). $300M ARR, up 5x from $119M. Core serverless AI/GPU compute infrastructure.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "modal--series-b",
+    "name": "Modal Labs (Series B, dup.)",
+    "fitScore": 3.375,
+    "gate": true,
+    "roundStage": "Series B",
+    "rationale": "Earlier round for the same company as 'modal' -- same score/rationale applied. Worth deduping in Attio/hub separately from this scan.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "mythic",
+    "name": "Mythic",
+    "fitScore": 2.33,
+    "gate": false,
+    "roundStage": "Series D",
+    "rationale": "$125M Series D, NEA(Tier1) among backers (DCVC led). Founded 2012, had a public near-collapse/restart in 2023. Only $6.4M 2025 revenue -- small relative to $125M raised. Real AI chip technology (analog compute-in-memory) but weak fundamentals and a checkered history.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "naboo",
+    "name": "Naboo",
+    "fitScore": 2.35,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$70M Series B led Lightspeed(Top10). Founders ex-Oliver Wyman consultants. AI-assisted event/venue procurement -- functional, not deeply AI-core. No revenue disclosed (targets tripling revenue in 2026, forward-looking).",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "neara",
+    "name": "Neara",
+    "fitScore": 2.5,
+    "gate": false,
+    "roundStage": "Series D",
+    "rationale": "$90M Series D at A$1.1B val (unicorn), TCV(Tier1) led. Physics-enabled digital-twin AI for grid infrastructure -- genuine applied AI. Only revenue data found is stale (2022, $558K); current figure unknown.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "newlimit",
+    "name": "NewLimit",
+    "fitScore": 1.0,
+    "gate": false,
+    "roundStage": "Series C",
+    "rationale": "$435M Series C at $3.1B val (tripled), Founders Fund(Tier1)+Thrive Capital(Top10)+Kleiner Perkins(Tier1). Co-founded by Brian Armstrong (Coinbase CEO) -- exceptional founder pedigree. But this is epigenetic-reprogramming longevity biotech, not AI-native -- fails the mandate gate despite the founder and funding quality.",
+    "hardGate": "no_ai",
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "nexthop",
+    "name": "Nexthop AI",
+    "fitScore": 2.96,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$500M Series B at $4.2B val, Lightspeed(Top10)+a16z(Top10). Founder Anshul Sadana, ex-Arista Networks COO who scaled sales $0->$5B+ -- exceptional operational pedigree. AI-optimized networking hardware for AI data centers -- AI-infra-critical but hardware-focused, not itself an AI model. No revenue disclosed.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "ninjaone",
+    "name": "NinjaOne",
+    "fitScore": 3.125,
+    "gate": true,
+    "roundStage": "Series C",
+    "rationale": "$400M+ Series C extension at $12.3B val (doubled in a year), Sequoia(Top10)+ICONIQ(Top10)+NEA(Tier1). Founder-led, debt-free. $600M+ ARR, 70% YoY growth, profitable. IT operations/endpoint management platform -- functional AI features, not deeply AI-native, but fundamentals carry it.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "nominal",
+    "name": "Nominal",
+    "fitScore": 2.925,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$75M Series B + $80M Series B-2 at $1B val (unicorn in 10mo), Sequoia(Top10)+Founders Fund(Tier1)+Lightspeed(Top10). Founder Cameron McCord, ex-Navy submarine officer + ex-Anduril. 7x YoY revenue growth, landed 4 of 5 largest defense contractors. Hardware-testing data platform -- some AI/analytics but not deeply AI-native.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "norm",
+    "name": "Norm Ai",
+    "fitScore": 2.96,
+    "gate": false,
+    "roundStage": "Series C",
+    "rationale": "$120M Series C at $1.2B val (unicorn), Khosla(Tier1) led, Bain Capital Ventures(Top10)+Coatue participated. Founder John Nay, Stanford AI+law research background. Genuinely AI-native legal/compliance platform, serves institutions with $30T AUM. No revenue disclosed.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "notch",
+    "name": "Notch",
+    "fitScore": 2.53,
+    "gate": false,
+    "roundStage": "Series 2",
+    "rationale": "Founders pivoted the company from an insurance MGA to an AI platform for regulated industries -- real domain expertise, genuine AI-native pivot. No revenue disclosed, modest scale.",
+    "hardGate": null,
+    "dataQualityFlag": "Firestore says 'Series 2' (unusual label); the only confirmed round is a $30M Series A (March 2026, $45M total raised) led by Headline with Lightspeed(Top10) participating -- likely a stage-label mismatch."
+  },
+  {
+    "slug": "nourish",
+    "name": "Nourish",
+    "fitScore": 2.96,
+    "gate": false,
+    "roundStage": "Series C",
+    "rationale": "$100M Series C at $1.75B val, Thrive Capital(Top10)+Index Ventures(Top10). Profitable, revenue tripled in the past year -- excellent combination. AI-assisted dietitian-led metabolic health clinic -- AI augments a human-delivered service more than being fully AI-native.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "omnea",
+    "name": "Omnea",
+    "fitScore": 2.6875,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$50M Series B, Insight Partners(Tier1)+Khosla(Tier1). Founders ex-Tessian. Revenue grew 5x, blue-chip customers (Spotify, MongoDB). Genuine AI-native procurement platform.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "openevidence",
+    "name": "OpenEvidence",
+    "fitScore": 3.625,
+    "gate": true,
+    "roundStage": "Series D",
+    "rationale": "$250M Series D at $12B val (doubled), Thrive Capital(Top10)+DST Global(Tier1) co-led. Founder Daniel Nadler has a major prior exit (Kensho, acquired by S&P for ~$700M). $150M ARR, up 1803% YoY, 90% gross margins. Deeply AI-native ('ChatGPT for doctors').",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "orbem",
+    "name": "Orbem",
+    "fitScore": 2.55,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "\u20ac55.5M Series B, General Catalyst(Tier1) existing investor. Founder Pedro G\u00f3mez, PhD biomedical imaging. Genuine novel applied-AI imaging tech (AI-supported MRI for eggs/food/health). No revenue disclosed, niche market.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "osmo",
+    "name": "Osmo Labs",
+    "fitScore": 2.675,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$70M Series B ($130M total), Two Sigma Ventures led (not Top10/Tier1). Founder Alex Wiltschko, Harvard PhD olfactory neuroscientist, ex-Google Research. Genuinely novel AI application (digital scent/'Scent Teleportation'). No revenue disclosed.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "ouraring",
+    "name": "Oura Health",
+    "fitScore": 2.97,
+    "gate": false,
+    "roundStage": "Series E",
+    "rationale": "$900M Series E at $11B val, ICONIQ(Top10) participated. Filing confidentially for IPO. ~$2B projected 2026 revenue, 5M+ paid members, 4x+ revenue growth over 2 years -- exceptional real scale. Smart-ring hardware+data platform -- AI-adjacent, not deeply AI-native as the core differentiator.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "withpace",
+    "name": "Pace",
+    "fitScore": 2.675,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$46M Series B, Thrive Capital(Top10)+Sequoia(Top10) co-led -- exceptional dual-Top10 signal for a very young company (founded 2025, second raise in <6mo). Founder Jamie Cuffe has real insurance-industry family background. Genuine AI-native insurance operations agents. No revenue disclosed.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "pallet",
+    "name": "Pallet",
+    "fitScore": 2.0,
+    "gate": false,
+    "roundStage": "Series C",
+    "rationale": "Scored conservatively given the identification uncertainty.",
+    "hardGate": null,
+    "dataQualityFlag": "Name collision between two unrelated companies: a logistics/TMS 'Pallet' ($27M Series B from Bain Capital Ventures(Top10)+General Catalyst(Tier1), no Series C found) and a small community-hiring 'Pallet' (tiny seed round). Neither matches Firestore's 'Series C' label -- could not confidently identify which company this record refers to."
+  },
+  {
+    "slug": "pennylane",
+    "name": "Pennylane",
+    "fitScore": 2.78,
+    "gate": false,
+    "roundStage": "Series E",
+    "rationale": "$205M Series E at $4.25B val (up from $2.2B), TCV(Tier1) led. $115M+ ARR, profitable -- excellent. Accounting/fintech SaaS for French SMBs/accountants -- not clearly AI-native (traditional software category).",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "pi-website",
+    "name": "Physical Intelligence",
+    "fitScore": 3.29,
+    "gate": true,
+    "roundStage": "Series B",
+    "rationale": "$600M Series B, Lux Capital(Tier1)+Sequoia(Top10) among backers; in talks at $11B val. Founding team includes Sergey Levine (UC Berkeley) and Chelsea Finn (Stanford) -- among the most respected names in robot learning research. Deeply core AI (robot foundation models, \u03c00). Pre-revenue.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "pi",
+    "name": "Pi Security",
+    "fitScore": 2.42,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "Founder Guy Arazi, ex-Microsoft Defender/MSRC security researcher -- strong technical pedigree. Genuine AI-native agentic product-security automation, but very early stage and no revenue disclosed.",
+    "hardGate": null,
+    "dataQualityFlag": "Firestore says Series B; the only confirmed round is a $25M Series A ($35M total raised) from Third Point Ventures/Brightmind Partners -- neither Top10 nor Tier1."
+  },
+  {
+    "slug": "pointonenav",
+    "name": "Point One Navigation",
+    "fitScore": 2.17,
+    "gate": false,
+    "roundStage": "Series C",
+    "rationale": "$35M Series C at $230M val, Khosla(Tier1) led. Precise-location/GPS hardware infrastructure for 'Physical AI' -- AI-adjacent, not itself AI-native. Estimated revenue is small ($100K-5M per Owler).",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "pointfive",
+    "name": "PointFive",
+    "fitScore": 2.96,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$60M Series B at $500M val, Accel(Top10)+Index Ventures(Top10). Founders have a real prior exit (IntSights, acquired by Rapid7). 6x ARR growth 2024->2025, strong customer ROI metrics. Genuine applied-AI cloud/AI cost-optimization platform.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "tryprofound",
+    "name": "Profound",
+    "fitScore": 2.29,
+    "gate": false,
+    "roundStage": "Series C",
+    "rationale": "$96M Series C at $1B val, no Top10/Tier1 investor confirmed by name. ~$6.8M ARR (2025) -- thin revenue relative to a $1B valuation (~147x multiple). Genuine AI-native product (Answer Engine Optimization for AI search) but weak fundamentals for the hype.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "psiquantum",
+    "name": "PsiQuantum",
+    "fitScore": 1.0,
+    "gate": false,
+    "roundStage": "Series E",
+    "rationale": "$1B Series E at $7B val, later $1.5B round at $10.5B val, BlackRock+Nvidia NVentures. Founders have deep quantum-physics research pedigree. But this is photonic quantum-computing hardware, not an AI product -- fails the AI mandate gate despite elite backing.",
+    "hardGate": "no_ai",
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "rain",
+    "name": "Rain",
+    "fitScore": 1.0,
+    "gate": false,
+    "roundStage": "Series C",
+    "rationale": "$250M Series C at $1.95B val, ICONIQ(Top10)+Bessemer(Top10)+Lightspeed(Top10) -- dense Top10 cap table. 30x card-base growth, 38x payment-volume growth. But this is stablecoin-card payments infrastructure, not AI -- fails the mandate gate despite exceptional backing/growth.",
+    "hardGate": "no_ai",
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "ramp",
+    "name": "Ramp",
+    "fitScore": 3.19,
+    "gate": true,
+    "roundStage": "Series E3",
+    "rationale": "$300M Series E-III at $32B val (later $782M Series F at $44B), ICONIQ/Thrive/Bessemer(all Top10) on cap table. Founder Eric Glyman has a prior exit (Paribus, acquired by Capital One). $1.4B ARR, doubled YoY. AI-enhanced finance platform -- real AI features though core is corporate card/spend management.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "ramp--series-e3",
+    "name": "Ramp (dup. record)",
+    "fitScore": 3.19,
+    "gate": true,
+    "roundStage": "Series E3",
+    "rationale": "Duplicate Attio record for the same company as 'ramp' -- same score/rationale applied. Worth deduping in Attio/hub separately from this scan.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "reducto",
+    "name": "Reducto",
+    "fitScore": 2.79,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$75M Series B ($108M total in <1yr), a16z(Top10)+Benchmark(Top10) -- dense Top10. Young founders, no major pedigree. Deeply AI-native document intelligence (OCR+VLM). No revenue disclosed.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "redwoodmaterials",
+    "name": "Redwood Materials",
+    "fitScore": 1.0,
+    "gate": false,
+    "roundStage": "Series E",
+    "rationale": "$425M Series E at $6B val, Google/Alphabet participated. Founder JB Straubel, Tesla co-founder/CTO -- exceptional prior pedigree. But this is battery recycling/materials manufacturing, not AI -- fails the mandate gate despite the founder quality and DOE backing.",
+    "hardGate": "no_ai",
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "rocketlane",
+    "name": "Rocketlane",
+    "fitScore": 2.72,
+    "gate": false,
+    "roundStage": "Series C",
+    "rationale": "$60M Series C led Insight Partners(Tier1). Revenue more than doubled in the past year, 750+ customers incl Forbes Cloud 100 names (Intercom, Glean, Notion). Genuine AI-native pivot with its new 'Nitro' agentic execution platform.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "rogo--series-b",
+    "name": "Rogo",
+    "fitScore": 2.7375,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$50M Series B (April 2025) at $350M val, Thrive Capital(Top10) led. Genuinely AI-native 'Wall Street analyst' LLM product, real bank/boutique adoption (Moelis, Nomura, GTCR). No revenue disclosed. Round is somewhat dated for a fresh 2026 Series B record -- total funding now reportedly $314M across later rounds not individually detailed.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "sambanova",
+    "name": "SambaNova Systems",
+    "fitScore": 3.19,
+    "gate": true,
+    "roundStage": "Series E",
+    "rationale": "$350M Series E, later $1B Series F first close at $11B val. Founders include Stanford professor Christopher Re, highly influential in ML/AI research, plus Kunle Olukotun and ex-Oracle exec Rodrigo Liang -- elite academic AI pedigree. Core full-stack AI chip/infrastructure company, direct Nvidia competitor. No Top10/Tier1 investor confirmed by name; no hard revenue figure found.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "science",
+    "name": "Science",
+    "fitScore": 2.875,
+    "gate": false,
+    "roundStage": "Series C",
+    "rationale": "$230M Series C at $1.5B val, Lightspeed(Top10)+Khosla(Tier1). Founder Max Hodak, ex-Neuralink president/co-founder -- exceptional relevant pedigree. PRIMA retinal implant restored vision in blind patients in trials -- remarkable clinical progress. Neurotech hardware/medical device, AI-adjacent (neural signal processing) more than AI-native. Pre-commercial.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "semble",
+    "name": "Semble",
+    "fitScore": 2.125,
+    "gate": false,
+    "roundStage": "Series C",
+    "rationale": "\u00a330M Series C, Revaia led (not Top10/Tier1). Reached 10M patients via clinicians on the platform, but no revenue figure disclosed. Traditional healthcare practice-management/EHR software, not AI-native.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "serval",
+    "name": "Serval",
+    "fitScore": 3.125,
+    "gate": true,
+    "roundStage": "Series B",
+    "rationale": "$75M Series B at $1B val, Sequoia(Top10) led. Revenue grew 500% since August -- exceptional. Genuinely AI-native IT service automation with real technical depth (two-part AI agent system).",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "sesame",
+    "name": "Sesame AI",
+    "fitScore": 3.1,
+    "gate": true,
+    "roundStage": "Series B",
+    "rationale": "$250M Series B, Sequoia(Top10) led. Founders Brendan Iribe and Nate Mitchell are both Oculus co-founders -- exceptional prior exit pedigree ($2B+ Facebook acquisition). Deeply AI-native conversational voice AI + smart glasses hardware. Early consumer/beta stage, no revenue disclosed.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "slash",
+    "name": "Slash",
+    "fitScore": 1.0,
+    "gate": false,
+    "roundStage": "Series C",
+    "rationale": "$100M Series C at $1.4B val, Ribbit(Tier1)+Khosla(Tier1) co-led. $10M->$250M ARR in 24 months -- exceptional. But this is a business-banking/neobank fintech with no AI angle described anywhere -- fails the mandate gate despite spectacular growth.",
+    "hardGate": "no_ai",
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "slide",
+    "name": "Slide",
+    "fitScore": 1.0,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$70M Series B, General Catalyst(Tier1) led. Founder Austin McChord, Datto founder/CEO -- major prior exit (Datto later acquired by Kaseya for $6.2B). But this is data backup/disaster-recovery infrastructure for MSPs, not AI -- fails the mandate gate despite the elite founder pedigree.",
+    "hardGate": "no_ai",
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "socket",
+    "name": "Socket",
+    "fitScore": 2.79,
+    "gate": false,
+    "roundStage": "Series C",
+    "rationale": "$60M Series C at $1B val, Thrive Capital(Top10)+a16z(Top10) -- dual Top10. Founder Feross Aboukhadijeh, Stanford lecturer/respected OSS developer. Software supply-chain security specifically for AI-generated code risk. Blue-chip customers (Anthropic, xAI, Figma). No revenue disclosed.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "spade",
+    "name": "Spade Data",
+    "fitScore": 2.85,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$40M Series B, a16z(Top10) participated. 470% YoY revenue growth, massive real scale (1.9B transactions/day peak, 99.9% US/Canada merchant coverage). Genuine AI-driven financial data enrichment platform.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "solace",
+    "name": "Solace",
+    "fitScore": 2.33,
+    "gate": false,
+    "roundStage": "Series C",
+    "rationale": "$130M Series C at $1B+ val (unicorn), IVP(Tier1) led. 20,000+ monthly patients served but no revenue disclosed. Human-advocate healthcare marketplace model, not AI-native.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "sunday",
+    "name": "Sunday",
+    "fitScore": 1.0,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$21M Series B, DST Global(Tier1) contributed. Founders include the Big Mamma restaurant-group founders -- notable entrepreneurial pedigree, different industry. $4B+ processed annually, tripled in 24 months -- real scale. But this is restaurant payments/ordering software with no AI angle described -- fails the mandate gate.",
+    "hardGate": "no_ai",
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "sunflower-labs",
+    "name": "Sunflower Labs",
+    "fitScore": 2.6,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$16M Series B, Sequoia(Top10) led -- but a notably small round for a real Series B. Genuine AI/robotics application (autonomous security drones, FAA BVLOS approval). No revenue disclosed.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "suno",
+    "name": "Suno",
+    "fitScore": 3.375,
+    "gate": true,
+    "roundStage": "Series D",
+    "rationale": "$400M Series D at $5.4B val (doubled from $2.45B in ~7mo), Lightspeed(Top10)+Menlo(Tier1) existing. $300M ARR, 2M+ subscribers -- exceptional. Deeply AI-native, leading generative-music platform. Note: ongoing copyright litigation is a real business risk worth flagging separately from this score.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "suno--series-c",
+    "name": "Suno (Series C, dup.)",
+    "fitScore": 3.375,
+    "gate": true,
+    "roundStage": "Series C",
+    "rationale": "Earlier round for the same company as 'suno' -- same score/rationale applied. Worth deduping in Attio/hub separately from this scan.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "swap-commerce",
+    "name": "Swap",
+    "fitScore": 2.46,
+    "gate": false,
+    "roundStage": "Series C",
+    "rationale": "$100M Series C, DST Global(Tier1)+ICONIQ(Top10) co-led (ICONIQ doubled its stake -- strong conviction signal). Founders no major pedigree. E-commerce returns/cross-border/tax platform -- no AI angle described anywhere. No revenue disclosed.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "trianabio",
+    "name": "TRIANA Biomedicines",
+    "fitScore": 1.0,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$120M Series B, Bessemer(Top10)+Lightspeed(Top10) among backers, Pfizer-backed. Molecular-glue-degrader oncology drug discovery -- traditional biotech chemistry, not AI-driven. Fails the mandate gate.",
+    "hardGate": "no_ai",
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "temperobio",
+    "name": "Tempero Bio",
+    "fitScore": 1.0,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$70M Series B, 8VC(Tier1)+Khosla(Tier1). Traditional pharma clinical-stage drug development (substance use disorder) -- not AI-driven. Fails the mandate gate.",
+    "hardGate": "no_ai",
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "temporal",
+    "name": "Temporal",
+    "fitScore": 3.125,
+    "gate": true,
+    "roundStage": "Series D",
+    "rationale": "$300M Series D at $5B val -- exceptionally Top10-dense (a16z, Lightspeed, Sequoia, Index all Top10). Founders are respected distributed-systems engineers (creators of Uber's Cadence). 380%+ YoY revenue growth, massive usage scale. Workflow orchestration infra positioned for agentic-AI reliability -- AI-infra-critical, not itself an AI model.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "triomics",
+    "name": "Triomics",
+    "fitScore": 2.79,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$22M Series B, Battery Ventures(Tier1)+Lightspeed(Top10). Founders ex-MIT biotech researcher + ex-Adobe AI researcher. Genuine oncology AI with peer-reviewed validation in Nature Digital Medicine (67% less chart-review time, 40% more trial matches). Elite adoption (MSK, MD Anderson, Yale). Small round, no revenue disclosed.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "turquoise",
+    "name": "Turquoise Health",
+    "fitScore": 2.4375,
+    "gate": false,
+    "roundStage": "Series C",
+    "rationale": "$40M Series C, a16z(Top10) participated. Co-founder Adam Geitgey is a well-known ML educator, but the product itself (healthcare price transparency/contract intelligence) shows no strong AI angle. 280+ customers, no revenue disclosed. Modest round for a 5-year-old Series C company.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "twenty",
+    "name": "Twenty",
+    "fitScore": 1.0,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$100M Series B at $1B val (huge step from $5M seed). Young YC founders. Open-source CRM positioned as a Salesforce alternative -- no AI angle described. Fails the mandate gate.",
+    "hardGate": "no_ai",
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "vapi",
+    "name": "Vapi",
+    "fitScore": 2.8,
+    "gate": false,
+    "roundStage": null,
+    "rationale": "Peak XV Partners (Sequoia's India/SE Asia spinoff) led; Bessemer(Top10) led the earlier Series A. Deeply AI-native voice AI platform -- Amazon Ring chose it over 40 competitors, 1B+ calls made. $8M ARR (2025), modest relative to valuation but healthy 8-figure run-rate.",
+    "hardGate": null,
+    "dataQualityFlag": "Firestore lists round as 'None' -- likely a data gap rather than a real stage; the actual confirmed round is a $50M Series B at $500M val."
+  },
+  {
+    "slug": "vercel",
+    "name": "Vercel",
+    "fitScore": 3.25,
+    "gate": true,
+    "roundStage": "Series F",
+    "rationale": "$300M Series F at $9.3B val, Accel(Top10) co-led. Founder Guillermo Rauch, respected devtools creator (Next.js, Socket.io). $340M ARR, up from $144M (84% YoY) -- exceptional. AI-adjacent developer cloud infrastructure ('AI Cloud' positioning, v0 product), not itself an AI model.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "waymo",
+    "name": "Waymo",
+    "fitScore": 3.21,
+    "gate": true,
+    "roundStage": "Series D",
+    "rationale": "$16B Series D at $126B val, DST Global(Tier1)+Sequoia(Top10). $355M annualized revenue, up from $125M (2024). Deeply core AI (autonomous driving). Alphabet-backed; original technical founders no longer hold equity/operational roles.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "weaviate",
+    "name": "Weaviate",
+    "fitScore": 2.52,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "Index Ventures(Top10)+Battery Ventures(Tier1). Genuine AI-native vector database (RAG/agentic AI infra). No current revenue data available.",
+    "hardGate": null,
+    "dataQualityFlag": "The only confirmed funding data found is a $50M Series B from April 2023 -- more than 3 years stale relative to today. This Firestore record may be significantly outdated; worth a fresh check before trusting the score."
+  },
+  {
+    "slug": "withcoverage",
+    "name": "WithCoverage",
+    "fitScore": 3.04,
+    "gate": true,
+    "roundStage": "Series B",
+    "rationale": "$42M Series B, Sequoia(Top10)+Khosla(Tier1) co-led (notable 'PayPal mafia' reunion: Roelof Botha + Keith Rabois). Founder JD Ross, Opendoor co-founder ($7B peak valuation) -- strong prior pedigree. Profitable, 550+ companies switched from traditional brokers (GoPuff, Blank Street, Eight Sleep). Genuine AI-enabled risk management platform.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "xonaspace",
+    "name": "Xona",
+    "fitScore": 1.0,
+    "gate": false,
+    "roundStage": "Series C",
+    "rationale": "$170M Series C, ICONIQ(Top10) participated. CTO Tyler Reid holds a Stanford PhD in GNSS -- strong technical pedigree. But this is satellite positioning/navigation (LEO PNT) hardware infrastructure, not AI -- fails the mandate gate.",
+    "hardGate": "no_ai",
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "zafran",
+    "name": "Zafran",
+    "fitScore": 2.875,
+    "gate": false,
+    "roundStage": "Series C",
+    "rationale": "$60M Series C, Menlo Ventures(Tier1)+Sequoia(Top10). Founder Sanaz Yashar, ex-Unit 8200/FireEye/Mandiant -- exceptional security pedigree. Genuine AI-native exposure-management platform, Fortune 500 adoption. Note: reported Cisco acquisition talks 'at a steep discount' is a caution signal worth flagging separately -- could indicate a distressed situation rather than pure growth.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "n8n",
+    "name": "n8n",
+    "fitScore": 2.96,
+    "gate": false,
+    "roundStage": "Series C",
+    "rationale": "$180M Series C at $2.5B val (later $5.2B), Accel(Top10) led, Sequoia(Top10) follow-on. $40M ARR (2025), real and growing. Genuine AI-native workflow-orchestration platform.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "tem",
+    "name": "tem",
+    "fitScore": 2.85,
+    "gate": false,
+    "roundStage": "Series B",
+    "rationale": "$75M Series B (oversubscribed), Lightspeed(Top10) led. Founders previously scaled and exited Limejump, a prior EnergyTech company -- real relevant prior success. Genuine AI-driven clean-electricity trading platform ('Stripe of energy'). No revenue disclosed.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  },
+  {
+    "slug": "x",
+    "name": "xAI",
+    "fitScore": 3.19,
+    "gate": true,
+    "roundStage": "Series E",
+    "rationale": "$20B Series E, dominated by sovereign/strategic capital (Nvidia, Cisco, QIA, Fidelity) rather than a named Top10/Tier1 VC lead. Founder Elon Musk -- extraordinary prior track record (Tesla, SpaceX, PayPal). Deeply core frontier AI lab (Grok). Revenue not disclosed.",
+    "hardGate": null,
+    "dataQualityFlag": null
+  }
+]

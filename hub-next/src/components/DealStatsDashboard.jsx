@@ -259,13 +259,17 @@ function Meter({ pct: value, label, whole, part, title }) {
 export default function DealStatsDashboard({ companies }) {
   const { total, byStage, bySeries, mandate } = computeDealStats(companies);
 
-  // One bar per round, height = pipeline deals at that round. Rounds with no
-  // mandate at all are dropped: a bar of height 0 for a round ID8 has never
-  // qualified anything at is noise, not information. Rounds that DO have mandate
-  // but no pipeline stay, at zero -- that's a real and interesting gap.
+  // One bar per round, height = pipeline deals at that round, against a
+  // background of every deal tracked at that round regardless of stage --
+  // Oscar, 2026-08-14: "Deals tracked" and "Overall deals" should always be
+  // the same all-categories total, not the narrower qualified-or-pipeline
+  // "mandate" figure this used to show. `r.count` (bySeries' own "every
+  // tracked deal at that round" field) is what makes the per-round
+  // background bars sum to the same `total` the legend and the other card's
+  // meter now both show. No filter needed: every round bySeries returns
+  // already has count > 0 by construction.
   const seriesPipelineRows = bySeries
-    .filter((r) => r.mandate > 0)
-    .map((r) => ({ key: r.label, label: r.label, count: r.pipeline, mandate: r.mandate }));
+    .map((r) => ({ key: r.label, label: r.label, count: r.pipeline, overall: r.count }));
 
   // No explanatory paragraph under any card title (Oscar, 2026-08-13) -- the
   // titles, the axis labels and the hover tooltips carry it. Anything that
@@ -306,16 +310,17 @@ export default function DealStatsDashboard({ companies }) {
           bar chart, not like that one"), and titled for pipeline rather than
           access ("change the name to pipeline, not mentioning access"). Each bar
           is the number of PIPELINE deals at that round -- where ID8 actually
-          gets in, by stage of company. The mandate figure per round is still on
-          the hover tooltip, which is where the ratio belongs now that the
-          headline is a count. */}
+          gets in, by stage of company. The background/legend total is every
+          tracked deal at that round (see seriesPipelineRows above), not just
+          the ones that met the mandate -- so it lines up with "Deals tracked"
+          and the Pipeline rate card below (Oscar, 2026-08-14). */}
       <div className={styles.card}>
         <div className={styles.cardHead}>
           <h2 className={styles.cardTitle}>Pipeline by series</h2>
         </div>
         <ChartWithLegend
           keys={[
-            { label: 'Overall deals', note: 'meets our mandate at this round', color: RAMP.pale, count: mandate.mandateTotal },
+            { label: 'Overall deals', note: 'every deal tracked at this round', color: RAMP.pale, count: total },
             { label: 'In pipeline', note: 'the ones we got into', color: RAMP.strong, count: mandate.pipelineCount },
           ]}
         >
@@ -323,10 +328,10 @@ export default function DealStatsDashboard({ companies }) {
             rows={seriesPipelineRows}
             total={mandate.pipelineCount}
             share={false}
-            backgroundKey="mandate"
-            ariaLabel="Pipeline deals by series, against the mandate at each round"
-            tooltip={(r) => `${r.label}: ${num(r.count)} in pipeline of ${num(r.mandate)} overall`
-              + ` (${Math.round((r.count / r.mandate) * 100)}%)`}
+            backgroundKey="overall"
+            ariaLabel="Pipeline deals by series, against every deal tracked at each round"
+            tooltip={(r) => `${r.label}: ${num(r.count)} in pipeline of ${num(r.overall)} tracked`
+              + ` (${Math.round((r.count / r.overall) * 100)}%)`}
           />
         </ChartWithLegend>
       </div>
@@ -337,10 +342,10 @@ export default function DealStatsDashboard({ companies }) {
             <h2 className={styles.cardTitle}>Pipeline rate</h2>
           </div>
           <Meter
-            pct={mandate.pct}
+            pct={total ? (mandate.pipelineCount / total) * 100 : null}
             label="in pipeline"
-            title={`${num(mandate.pipelineCount)} of ${num(mandate.mandateTotal)} deals reached pipeline`}
-            whole={{ label: 'Overall deals', note: 'incl. those now in pipeline', count: mandate.mandateTotal }}
+            title={`${num(mandate.pipelineCount)} of ${num(total)} deals tracked reached pipeline`}
+            whole={{ label: 'Overall deals', note: 'every deal tracked, any stage', count: total }}
             part={{ label: 'Pipeline', note: 'the ones we got into', count: mandate.pipelineCount }}
           />
         </div>
