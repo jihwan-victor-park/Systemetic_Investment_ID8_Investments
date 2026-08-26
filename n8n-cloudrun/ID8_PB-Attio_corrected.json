@@ -1,0 +1,951 @@
+{
+  "name": "ID8 PB-Attio",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1424,
+        656
+      ],
+      "id": "ef711602-8060-4de6-8fe3-32760c062f78",
+      "name": "Download file",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "1sqtONL9SNMtMjsk",
+          "name": "Google Drive account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://id8-137750788450.us-east4.run.app/process",
+        "sendBody": true,
+        "contentType": "binaryData",
+        "inputDataFieldName": "data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1728,
+        656
+      ],
+      "id": "05ec1f15-8092-4129-9d53-f95822f1feb0",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "sendTo": "oscar@id8investments.com, isabella@id8investments.com, mussadiq@id8investments.com",
+        "subject": "={{ $('HTTP Request').item.json.email_subject }}",
+        "message": "={{ $('HTTP Request').item.json.email_html }}",
+        "options": {},
+        "emailType": "html"
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        2544,
+        656
+      ],
+      "id": "6fe97934-ff11-42b6-94e2-a37b5e83ddf7",
+      "name": "Send a message",
+      "webhookId": "94c77357-b918-4af5-91d1-cfa46316dee7",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "lARxw6Q8yVosXMxq",
+          "name": "Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "guard-has-deals",
+              "leftValue": "={{ $json.deals?.length || 0 }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            },
+            {
+              "id": "guard-has-email",
+              "leftValue": "={{ $json.email_html }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2320,
+        656
+      ],
+      "id": "58bd2380-1ef8-4de7-8635-475f5c885b47",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1216,
+        880
+      ],
+      "id": "d59f25c1-80b7-4827-8395-7b62b5d510b0",
+      "name": "Download file1",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "1sqtONL9SNMtMjsk",
+          "name": "Google Drive account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://id8-137750788450.us-east4.run.app/process-watchlist",
+        "sendBody": true,
+        "contentType": "binaryData",
+        "inputDataFieldName": "data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1440,
+        880
+      ],
+      "id": "1376bb2f-654c-4e98-ab9e-8bdf82b0ec1d",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "guard-has-deals",
+              "leftValue": "={{ $json.deals?.length || 0 }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            },
+            {
+              "id": "guard-has-email",
+              "leftValue": "={{ $json.email_html }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1888,
+        880
+      ],
+      "id": "5b749966-ead9-4d41-95b5-a4c316fc1f17",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "sendTo": "oscar@id8investments.com",
+        "subject": "={{ $('HTTP Request1').item.json.email_subject }}",
+        "message": "={{ $('HTTP Request1').item.json.email_html }}",
+        "options": {},
+        "emailType": "html"
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        2112,
+        880
+      ],
+      "id": "09403e87-a19f-4943-b75e-74280036f3ce",
+      "name": "Send a message1",
+      "webhookId": "94c77357-b918-4af5-91d1-cfa46316dee7",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "uiNTjYXza0hXXeVI",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "cadc7ed3-274f-4973-a2e3-9232210fff8c",
+              "leftValue": "={{ $json[\"Company\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1664,
+        1104
+      ],
+      "id": "12f37835-3637-445c-b852-3ae1bed216ba",
+      "name": "If2"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://id8-137750788450.us-east4.run.app/process-jesse",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "Company",
+              "value": "=\t{{ $json[\"Company\"] }}"
+            },
+            {
+              "name": "Company Website",
+              "value": "=\t{{ $json[\"Company Website\"] }}"
+            },
+            {
+              "name": "Description",
+              "value": "=\t{{ $json[\"Description\"] }}"
+            },
+            {
+              "name": "Round",
+              "value": "=\t{{ $json[\"Round\"] }}"
+            },
+            {
+              "name": "Deal Size",
+              "value": "={{ $json[\"Deal Size\"] }}"
+            },
+            {
+              "name": "Post Valuation",
+              "value": "={{ $json[\"Post Valuation\"] }}"
+            },
+            {
+              "name": "Revenue",
+              "value": "=\t{{ $json[\"Revenue\"] }}"
+            },
+            {
+              "name": "Date",
+              "value": "=\t{{ $json[\"Date\"] }}"
+            },
+            {
+              "name": "Lead Investor",
+              "value": "={{ $json[\"Lead Investor\"] }}"
+            },
+            {
+              "name": "New Investors",
+              "value": "=\t{{ $json[\"New Investors\"] }}"
+            },
+            {
+              "name": "Access",
+              "value": "=\t{{ $json[\"Access\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1888,
+        1104
+      ],
+      "id": "410f0c9a-2840-46cc-9b6a-edcec904b2d0",
+      "name": "HTTP Request2"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nconst newNames = items.filter(item => item.json.is_new).map(item => item.json.company);\n\nconst date = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });\nconst namesList = newNames.length\n  ? newNames.map(n => `<li style=\"margin:0 0 6px 0;font-size:14px;color:#333;\">${n}</li>`).join('')\n  : '<li style=\"margin:0;font-size:14px;color:#888;\">None</li>';\n\nconst html = `<!DOCTYPE html><html><body style=\"margin:0;padding:0;background:#fafafa;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;\">\n<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"background:#fafafa;padding:48px 0;\"><tr><td align=\"center\">\n<table width=\"600\" cellpadding=\"0\" cellspacing=\"0\" style=\"max-width:600px;width:100%;\"><tr><td>\n  <img src=\"https://id8-137750788450.us-east4.run.app/logo\" alt=\"ID8 Investments\" height=\"22\" style=\"display:block;margin:0 0 20px 0;\">\n  <h1 style=\"margin:0 0 6px 0;font-size:26px;font-weight:700;color:#111;letter-spacing:-0.03em;\">Jesse's Deals \u2014 Daily Update</h1>\n  <p style=\"margin:0 0 28px 0;font-size:14px;color:#888;\">${date} \u2014 the sheet was edited today</p>\n  <p style=\"margin:0 0 4px 0;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#aaa;\">New names added</p>\n  <ul style=\"margin:0 0 24px 0;padding-left:18px;\">${namesList}</ul>\n  <p style=\"margin:0;font-size:12px;color:#b0b0b0;\">ID8 Investments LLC | 169 Hudson Street, New York, NY</p>\n</td></tr></table></td></tr></table></body></html>`;\n\nconst subject = `Jesse Deals \u2014 ${date} (edited, ${newNames.length} new)`;\n\nreturn [{ json: { html, subject, newCount: newNames.length } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2112,
+        1104
+      ],
+      "id": "9709c854-882d-47ae-92bd-2abf8a24feda",
+      "name": "Code in JavaScript2"
+    },
+    {
+      "parameters": {
+        "sendTo": "oscar@id8investments.com",
+        "subject": "={{ $('Code in JavaScript2').item.json.subject }}",
+        "message": "={{ $('Code in JavaScript2').item.json.html }}",
+        "options": {},
+        "emailType": "html"
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        2560,
+        1104
+      ],
+      "id": "3cdf500e-6ac0-460b-baa7-2c6843eb756e",
+      "name": "Send a message2",
+      "webhookId": "94c77357-b918-4af5-91d1-cfa46316dee7",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "uiNTjYXza0hXXeVI",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1-ebci81-Y-31fI7wQKHXymCfOcPYlXuEm7p8s0ziiXA",
+          "mode": "list",
+          "cachedResultName": "ID8_Deal_Pipeline ",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-ebci81-Y-31fI7wQKHXymCfOcPYlXuEm7p8s0ziiXA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 848698303,
+          "mode": "list",
+          "cachedResultName": "Jesse's Deals",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-ebci81-Y-31fI7wQKHXymCfOcPYlXuEm7p8s0ziiXA/edit#gid=848698303"
+        },
+        "filtersUI": {
+          "values": []
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1216,
+        1104
+      ],
+      "id": "b0a2e940-67e3-49c6-8f67-9c223a7f8063",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "D2SjfmkC7lzmzCth",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1216,
+        1328
+      ],
+      "id": "aa8b7918-038e-4ea6-9b22-0297b75aa0ff",
+      "name": "Download file2",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "1sqtONL9SNMtMjsk",
+          "name": "Google Drive account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://id8-137750788450.us-east4.run.app/process-top10",
+        "sendBody": true,
+        "contentType": "binaryData",
+        "inputDataFieldName": "data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1440,
+        1328
+      ],
+      "id": "f649bbff-ad0e-4714-aebd-696009941473",
+      "name": "HTTP Request3"
+    },
+    {
+      "parameters": {
+        "sendTo": "oscar@id8investments.com, isabella@id8investments.com, mussadiq@id8investments.com",
+        "subject": "={{ $('HTTP Request3').item.json.email_subject }}",
+        "message": "={{ $('HTTP Request3').item.json.email_html }}",
+        "options": {},
+        "emailType": "html"
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        2112,
+        1328
+      ],
+      "id": "bb82c78a-2653-4784-8e5f-9f69f0b046ce",
+      "name": "Send a message3",
+      "webhookId": "94c77357-b918-4af5-91d1-cfa46316dee7",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "lARxw6Q8yVosXMxq",
+          "name": "Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "guard-has-deals",
+              "leftValue": "={{ $json.deals?.length || 0 }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            },
+            {
+              "id": "guard-has-email",
+              "leftValue": "={{ $json.email_html }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1888,
+        1328
+      ],
+      "id": "00ae0170-0cc1-43bf-b5e7-0614f5b19d33",
+      "name": "If4"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "triggerOn": "specificFolder",
+        "folderToWatch": {
+          "__rl": true,
+          "value": "1GVVMI-xX3toVtc-hiypb2TLemZ8uHX8S",
+          "mode": "list",
+          "cachedResultName": "PitchBook Weekly Drop",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1GVVMI-xX3toVtc-hiypb2TLemZ8uHX8S"
+        },
+        "event": "fileCreated",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        992,
+        656
+      ],
+      "id": "8684765d-fc90-48f6-b5b1-1a28096dfa41",
+      "name": "Google Drive Trigger4",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "1sqtONL9SNMtMjsk",
+          "name": "Google Drive account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "hour": 7
+            }
+          ]
+        },
+        "triggerOn": "specificFile",
+        "fileToWatch": {
+          "__rl": true,
+          "value": "1-ebci81-Y-31fI7wQKHXymCfOcPYlXuEm7p8s0ziiXA",
+          "mode": "list",
+          "cachedResultName": "ID8_Deal_Pipeline ",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-ebci81-Y-31fI7wQKHXymCfOcPYlXuEm7p8s0ziiXA/edit?usp=drivesdk"
+        }
+      },
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        992,
+        1104
+      ],
+      "id": "57e61caf-80d0-4a0a-98bc-070df48c9d5a",
+      "name": "Google Drive Trigger6",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "1sqtONL9SNMtMjsk",
+          "name": "Google Drive account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "triggerOn": "specificFolder",
+        "folderToWatch": {
+          "__rl": true,
+          "value": "1MnwePOMH44sMn1522ZC2vOVDVCWeMuDH",
+          "mode": "list",
+          "cachedResultName": "Top 10 VCs Deals",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1MnwePOMH44sMn1522ZC2vOVDVCWeMuDH"
+        },
+        "event": "fileCreated",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        992,
+        1328
+      ],
+      "id": "ff7347d3-18eb-4c2a-bf5a-ced104933f68",
+      "name": "Google Drive Trigger7",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "1sqtONL9SNMtMjsk",
+          "name": "Google Drive account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "triggerOn": "specificFolder",
+        "folderToWatch": {
+          "__rl": true,
+          "value": "1sdiMtR7RnM-J5zHVSV5_stykFUK7eyxU",
+          "mode": "list",
+          "cachedResultName": "Watchlist Drop",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1sdiMtR7RnM-J5zHVSV5_stykFUK7eyxU"
+        },
+        "event": "fileCreated",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        992,
+        880
+      ],
+      "id": "0bd017f6-8447-43e3-bba9-ce11aea24cbe",
+      "name": "Google Drive Trigger",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "1sqtONL9SNMtMjsk",
+          "name": "Google Drive account 2"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        992,
+        496
+      ],
+      "id": "c52cd427-43cf-4417-bb6b-03b4dad412ab",
+      "name": "Error Trigger"
+    },
+    {
+      "parameters": {
+        "sendTo": "oscar@id8investments.com",
+        "subject": "=ID8 pipeline FAILED - {{ $json.workflow?.name || 'unknown workflow' }} ({{ $json.execution?.lastNodeExecuted || 'unknown node' }})",
+        "message": "=<h2 style=\"font-family:Helvetica,Arial,sans-serif;\">ID8 pipeline execution failed</h2>\n<table cellpadding=\"4\" style=\"font-family:Helvetica,Arial,sans-serif;font-size:14px;\">\n<tr><td><b>Workflow</b></td><td>{{ $json.workflow?.name || 'unknown' }}</td></tr>\n<tr><td><b>Failed node</b></td><td>{{ $json.execution?.lastNodeExecuted || 'unknown' }}</td></tr>\n<tr><td><b>Execution</b></td><td>{{ $json.execution?.id || 'n/a' }}</td></tr>\n<tr><td><b>Mode</b></td><td>{{ $json.execution?.mode || 'n/a' }}</td></tr>\n<tr><td><b>Time</b></td><td>{{ $now.toISO() }}</td></tr>\n</table>\n<p style=\"font-family:Helvetica,Arial,sans-serif;font-size:14px;\"><b>Error</b><br>\n<code>{{ $json.execution?.error?.message || 'no message' }}</code></p>\n<p style=\"font-family:Helvetica,Arial,sans-serif;font-size:13px;\">\n<a href=\"{{ $json.execution?.url || '#' }}\">Open this execution in n8n</a></p>\n<p style=\"font-family:Helvetica,Arial,sans-serif;font-size:12px;color:#888;\">\nA Drive drop may not have reached Attio. Check the execution before re-dropping\nthe file &mdash; /process is not idempotent for Stage 1 cost, though Attio\ndedupes the deal itself on company+series.</p>",
+        "emailType": "html",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1200,
+        496
+      ],
+      "id": "ca5f499f-6e8d-4987-b488-d70c785a5cd2",
+      "name": "Send a message4",
+      "webhookId": "f93bef31-27e6-492e-ad45-59bdfb0f2d5c",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "uiNTjYXza0hXXeVI",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "jesse-has-new-names",
+              "leftValue": "={{ $json.newCount || 0 }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2336,
+        1104
+      ],
+      "id": "b1f3a0c2-7d55-4e21-9a08-6c2f4e1d9a37",
+      "name": "If3"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Download file": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request2": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript2": {
+      "main": [
+        [
+          {
+            "node": "If3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file2": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request3": {
+      "main": [
+        [
+          {
+            "node": "If4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If4": {
+      "main": [
+        [
+          {
+            "node": "Send a message3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive Trigger4": {
+      "main": [
+        [
+          {
+            "node": "Download file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive Trigger": {
+      "main": [
+        [
+          {
+            "node": "Download file1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        []
+      ]
+    },
+    "Google Drive Trigger6": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive Trigger7": {
+      "main": [
+        [
+          {
+            "node": "Download file2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Send a message4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If3": {
+      "main": [
+        [
+          {
+            "node": "Send a message2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": true
+  },
+  "versionId": "5a0760d1-8ed1-4491-b971-4c980693db00",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "9a039e9a27a056a229c3efb9fe70da7bcef08b53db5e6c7f790235e2f7c16b4f"
+  },
+  "nodeGroups": [],
+  "id": "I4w345eTBBMInnFs",
+  "tags": []
+}

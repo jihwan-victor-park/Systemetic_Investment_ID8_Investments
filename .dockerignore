@@ -1,0 +1,60 @@
+# Build context for the ROOT Dockerfile, which builds ONLY the Flask backend
+# (`gunicorn --chdir pipeline app:app`). Without this file the root `COPY . .`
+# put the ENTIRE monorepo into the backend image: 443 MB of git-tracked files
+# for a service whose runtime footprint is about 1 MB.
+#
+# The excluded directories are not "probably unused" -- each is either a
+# separate deployable with its own Dockerfile, or non-code. Verified 2026-08-26
+# by importing pipeline/app.py and listing sys.modules: the Flask app loads 33
+# deal_intelligence modules and none of them read anything outside
+# deal_intelligence/*.py and deal_intelligence/prompts/.
+#
+# deal_intelligence/data/ is deliberately NOT excluded. It is only 5.4 MB, and
+# the one-off Cloud Run Job scripts (backfill_deal_dates.py,
+# backfill_hub_deal_dates.py) read deal-date-corrections-2026-08-14.json out of
+# it. Those jobs run from this same image, so dropping the directory to save
+# 1.2% of the context would break them for no meaningful gain.
+
+# ── Separate deployables: each has its own Dockerfile + Cloud Run service ────
+hub-next/
+hub/
+cc-attio-sync/
+
+# ── Non-code: decks, brand assets, planning docs, one-off analysis ──────────
+higgsfield/
+design/
+docs/
+scripts/
+n8n-cloudrun/
+gmail-attio-scripts/
+lp-screener/
+takeover-notes/
+
+# ── Tests: run in CI / locally, never needed in the runtime image ───────────
+deal_intelligence/tests/
+pipeline/tests/
+pytest.ini
+requirements-dev.txt
+
+# ── Local I/O folders (contents are gitignored; the dirs hold only .gitkeep) ─
+pipeline/Documents/
+pipeline/attio_import/
+deal_intelligence/output/
+
+# ── VCS / tooling / local environments ──────────────────────────────────────
+.git/
+.github/
+.gitignore
+.claude/
+.venv/
+venv/
+node_modules/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.DS_Store
+*.swp
+.env
+.env.*
+README.md

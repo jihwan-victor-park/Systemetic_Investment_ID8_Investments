@@ -459,17 +459,34 @@ def find_or_create_company(company_name, domain, description=None):
         return None
     return resp.json().get("data", {}).get("id", {}).get("record_id")
 
-def _attio_post_retry(url, json_body, attempts=3, backoff=2.0):
-    """POST to Attio with retries on 5xx/network errors. Attio's create endpoint
+def _attio_write_retry(method, url, json_body, attempts=3, backoff=2.0):
+    """Write to Attio with retries on 5xx/network errors. Attio's create endpoint
     threw a one-off 500 in production (Chai Discovery, 2026-07-20) that silently
     dropped a brand-new deal from the whole run -- no retry, and nothing surfaced
     the failure anywhere the team would see it. A 4xx is a real validation
-    problem a retry won't fix, so only 5xx/network errors are retried."""
+    problem a retry won't fix, so only 5xx/network errors are retried.
+
+    Generalized from the POST-only version 2026-08-26. The original protected
+    `POST /records` and nothing else, but a create is not the only write whose
+    loss is silent: `upsert_deal`'s existing-deal branch PATCHes investor links,
+    the associated company and the Top 10 VC flag for every deal an intake run
+    re-sees, and /update-deal-stage + /update-deal-fields PATCH a partner's hand
+    edit made in hub-next. Each of those was a bare requests.patch, so the exact
+    transient 500 this helper exists for would drop them just as quietly -- and
+    for the hub edits, the human who made the change is told nothing beyond a
+    502 they cannot act on.
+
+    Exhaustion behaviour is unchanged from the POST version: when every attempt
+    came back 5xx the LAST RESPONSE IS RETURNED, not raised, so callers keep
+    their existing status-code branches and an Attio outage stays a handled
+    error rather than an unhandled traceback partway through a run. Only a total
+    network failure -- no response received at all -- raises."""
     resp = None
     last_exc = None
+    send = getattr(requests, method)
     for attempt in range(1, attempts + 1):
         try:
-            resp = requests.post(url, headers=attio_headers(), json=json_body)
+            resp = send(url, headers=attio_headers(), json=json_body)
         except requests.RequestException as exc:
             last_exc = exc
             resp = None
@@ -480,6 +497,16 @@ def _attio_post_retry(url, json_body, attempts=3, backoff=2.0):
     if resp is not None:
         return resp
     raise last_exc
+
+
+def _attio_post_retry(url, json_body, attempts=3, backoff=2.0):
+    """POST to Attio with retries. See _attio_write_retry."""
+    return _attio_write_retry("post", url, json_body, attempts, backoff)
+
+
+def _attio_patch_retry(url, json_body, attempts=3, backoff=2.0):
+    """PATCH to Attio with retries. See _attio_write_retry."""
+    return _attio_write_retry("patch", url, json_body, attempts, backoff)
 
 
 def find_deal(company_name, series):
@@ -644,13 +671,23 @@ def upsert_deal(row, company_record_id, stage="Watchlist", source=None, top10=Fa
             ensure_select_option('deals', top10_slug, 'Yes')
             patch_vals[top10_slug] = 'Yes'
         if patch_vals:
-            pr = requests.patch(
-                f"{ATTIO_API_BASE}/objects/deals/records/{existing_id}",
-                headers=attio_headers(),
-                json={"data": {"values": patch_vals}},
-            )
+            try:
+                pr = _attio_patch_retry(
+                    f"{ATTIO_API_BASE}/objects/deals/records/{existing_id}",
+                    {"data": {"values": patch_vals}},
+                )
+            except requests.RequestException as exc:
+                # Network failure after every retry. Reported as an error rather
+                # than swallowed: this branch carries the whole contribution of a
+                # re-seen deal (investor links, associated company, Top 10 flag),
+                # and losing it silently is the bug 2026-08-03 already fixed once
+                # at the routing level.
+                print(f"DEAL PATCH {company_name}: network error after retries: {exc}")
+                return f"error:network:{exc}"
             print(f"DEAL PATCH {company_name} top10={top10} keys={list(patch_vals)}: "
                   f"{pr.status_code} {pr.text[:200]}")
+            if pr.status_code not in (200, 201):
+                return f"error:{pr.status_code}:{pr.text[:300]}"
         return {"status": "existing", "record_id": existing_id,
                 "stage": stage, "hub_tags": hub_tags}
 
@@ -1657,11 +1694,13 @@ def update_deal_stage():
     if not title:
         return jsonify({"error": f"unknown stage {stage_key!r}, must be one of {sorted(HUB_STAGE_TO_ATTIO_TITLE)}"}), 400
 
-    resp = requests.patch(
-        f"{ATTIO_API_BASE}/objects/deals/records/{record_id}",
-        headers=attio_headers(),
-        json={"data": {"values": {"stage": [{"status": title}]}}},
-    )
+    try:
+        resp = _attio_patch_retry(
+            f"{ATTIO_API_BASE}/objects/deals/records/{record_id}",
+            {"data": {"values": {"stage": [{"status": title}]}}},
+        )
+    except requests.RequestException as exc:
+        return jsonify({"error": f"Attio unreachable after retries: {exc}"}), 502
     if resp.status_code not in (200, 201):
         return jsonify({"error": f"Attio PATCH failed: {resp.text[:300]}"}), 502
     return jsonify({"ok": True, "record_id": record_id, "stage": title})
@@ -1729,11 +1768,13 @@ def update_deal_fields():
     if not values:
         return jsonify({"error": f"nothing to write -- send at least one of {sorted(HUB_EDITABLE_DEAL_FIELDS)}"}), 400
 
-    resp = requests.patch(
-        f"{ATTIO_API_BASE}/objects/deals/records/{record_id}",
-        headers=attio_headers(),
-        json={"data": {"values": values}},
-    )
+    try:
+        resp = _attio_patch_retry(
+            f"{ATTIO_API_BASE}/objects/deals/records/{record_id}",
+            {"data": {"values": values}},
+        )
+    except requests.RequestException as exc:
+        return jsonify({"error": f"Attio unreachable after retries: {exc}"}), 502
     if resp.status_code not in (200, 201):
         return jsonify({"error": f"Attio PATCH failed: {resp.text[:300]}"}), 502
     return jsonify({"ok": True, "record_id": record_id, "written": written})
